@@ -1,0 +1,25 @@
+.modal-draft-done-btn-container {
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 50%);
+   display: flex;
+}
+
+.modal-draft-done-btn {
+   background-color: green;
+   cursor: pointer;
+}
+
+.modal-draft-done-btn-mln {
+   background-color: yellow;
+   color: #000;
+}
+
+.modal-draft-done-btn.disabled {
+   color: #555;
+}
+
+.modal-draft-done-btn-mln.disabled {
+   background-color: rgb(110, 110, 0);
+}

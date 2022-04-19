@@ -1,0 +1,55 @@
+@import url('./card-btn.css');
+@import url('./card-to-buy-mln.css');
+
+:root {
+   --big-ratio: 2.33;
+   --border-radius-small: calc(var(--default-size) * 0.5);
+   --border-radius-big: calc(var(--default-size) * 0.5 * 2.33);
+}
+
+.card-container {
+   position: absolute;
+   width: calc(var(--default-size) * 6);
+   height: calc(var(--default-size) * 9);
+   transform: translate(-50%, -50%);
+   border-radius: var(--border-radius-small);
+}
+
+.card {
+   position: absolute;
+   font-size: var(--default-size);
+   background-color: rgb(20, 31, 22);
+   border-radius: var(--border-radius-small);
+}
+
+.card-container.selected {
+   box-shadow: 0 0 calc(var(--default-size) * 1) 0 rgba(0, 255, 0, 0.2);
+}
+
+.card-container.big {
+   width: calc(var(--default-size) * 16);
+   height: calc(var(--default-size) * 24);
+   border-radius: var(--border-radius-big);
+}
+
+.card-container.big .card {
+   border-radius: var(--border-radius-big);
+   font-size: calc(var(--default-size) * 2.33);
+}
+
+.card.pointer {
+   cursor: pointer;
+}
+
+.card-selected {
+   background-color: rgb(35, 53, 38);
+}
+
+.card-disabled {
+   background-color: #000;
+   opacity: 0.5;
+   width: 100%;
+   height: 100%;
+   border-radius: var(--border-radius-small);
+   cursor: pointer;
+}

@@ -1,0 +1,8 @@
+.pass-btn {
+   position: absolute;
+   height: 100%;
+   width: 40%;
+   right: 0;
+   background-color: rgb(38, 56, 10);
+   cursor: pointer;
+}

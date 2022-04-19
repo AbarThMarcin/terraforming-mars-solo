@@ -1,0 +1,9 @@
+@import url('./pass-btn.css');
+@import url('./pass-corp-snap.css');
+
+.pass-container {
+   position: absolute;
+   height: 4%;
+   width: 10%;
+   top: 18%;
+}

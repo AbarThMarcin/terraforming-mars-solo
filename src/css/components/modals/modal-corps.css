@@ -1,0 +1,16 @@
+.modal-corps {
+   background-color: rgba(0, 0, 0, 0.85);
+   display: flex;
+   justify-content: space-evenly;
+   align-items: center;
+}
+
+.modal-corps-btn {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   bottom: 7%;
+   width: 5%;
+   height: 3%;
+   font-size: var(--default-size);
+}

@@ -1,0 +1,13 @@
+@import url('./modal-other-res.css');
+@import url('./modal-other-tags.css');
+@import url('./modal-other-vp.css');
+@import url('./modal-other-actions.css');
+@import url('./modal-other-effects.css');
+
+.modal-other-container {
+   background-color: rgba(0, 0, 0, 0.5);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 5%;
+}

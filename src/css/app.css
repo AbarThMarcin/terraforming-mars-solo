@@ -1,0 +1,86 @@
+@import url('./components/card/card.css');
+@import url('./components/corp.css');
+@import url('./components/menu-icon.css');
+@import url('./components/standard-projects-btn.css');
+@import url('./components/panel-state-game/panel-state-game.css');
+@import url('./components/panel-corp/panel-corp.css');
+@import url('./components/pass-container/pass-container.css');
+@import url('./components/board/board.css');
+@import url('./components/modals/modal-cards/modal-cards.css');
+@import url('./components/modals/modal-draft/modal-draft.css');
+@import url('./components/modals/modal-card/modal-card.css');
+@import url('./components/modals/modal-confirmation.css');
+@import url('./components/modals/modal-corp.css');
+@import url('./components/modals/modal-corps.css');
+@import url('./components/modals/modal-log.css');
+@import url('./components/modals/modal-menu.css');
+@import url('./components/modals/modal-settings.css');
+@import url('./components/modals/modal-rules.css');
+@import url('./components/modals/modal-other-sp.css');
+@import url('./components/modals/modal-other/modal-other-data.css');
+@import url('./components/modals/arrows.css');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap');
+
+:root {
+   --app-width: calc(100vmin * 16 / 9);
+   --app-height: 100vmin;
+   --default-size: calc(100vmin * (16 / 9) * 0.015);
+}
+
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   user-select: none;
+   font-family: 'Teko', sans-serif;
+}
+
+body {
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #000;
+}
+
+.game {
+   background-color: rgb(14, 14, 14);
+   height: var(--app-height);
+   width: var(--app-width);
+   color: #fff;
+   font-size: var(--default-size);
+   position: relative;
+}
+
+.game > * {
+   position: absolute;
+}
+
+@media (max-aspect-ratio: 16 / 9) {
+   .game {
+      --default-size: calc(100vw * 0.015);
+      --app-width: 100vw;
+      --app-height: calc(100vw / 16 * 9);
+   }
+}
+
+.center {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+}
+
+.full-size {
+   width: 100%;
+   height: 100%;
+}
+
+.hidden {
+   opacity: 0;
+}
+
+.disabled {
+   cursor: default;
+}

@@ -1,0 +1,10 @@
+.cards-in-hand-btn {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   bottom: 0;
+   width: 10%;
+   height: 130%;
+   background-color: red;
+   cursor: pointer;
+}

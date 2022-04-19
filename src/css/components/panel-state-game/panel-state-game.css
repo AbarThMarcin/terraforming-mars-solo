@@ -1,0 +1,8 @@
+.panel-state-game {
+   right: 1%;
+   top: 5%;
+   width: 8%;
+   height: 80%;
+   background-color: rgba(0, 255, 0, 0.3);
+   word-wrap: break-word;
+}

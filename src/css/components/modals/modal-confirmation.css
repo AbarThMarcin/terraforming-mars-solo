@@ -1,0 +1,26 @@
+.modal-confirmation-container {
+   position: absolute;
+   z-index: 2;
+   background-color: rgba(0, 0, 0, 0.85);
+   width: var(--app-width);
+   height: var(--app-height);
+}
+
+.modal-confirmation {
+   width: 45%;
+   height: 30%;
+   background-color: rgba(59, 59, 0, 0.85);
+   z-index: 1;
+}
+
+.modal-confirmation-btns {
+   top: 70% !important;
+   width: 10%;
+   height: 3%;
+}
+
+.modal-confirmation-btns button {
+   width: 50%;
+   height: 100%;
+   font-size: calc(var(--default-size) * 0.8);
+}

@@ -1,0 +1,10 @@
+.modal-card-container {
+   background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-card {
+   top: 48% !important;
+   position: absolute;
+   width: 60%;
+   height: 90%;
+}

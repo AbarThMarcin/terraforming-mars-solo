@@ -1,0 +1,114 @@
+.board-tharsis-field-container,
+.field-line,
+.field-line1,
+.field-line2,
+.field-line3,
+.field-line4,
+.field-line5,
+.field-line6 {
+   --field-width: calc(var(--default-size) * 2.7);
+   --field-height: calc(var(--field-width) * 0.5773502691);
+   --field-border-weight: 0.04;
+}
+
+.board-tharsis-field-container {
+   position: absolute;
+   width: var(--field-width);
+   height: var(--field-height);
+   top: calc(var(--field-height) * 1);
+}
+
+.field-line {
+   position: absolute;
+   width: calc(var(--field-width) / 1.7320508075);
+   height: calc(var(--field-width) * var(--field-border-weight));
+   background-color: rgb(94, 64, 0);
+   border-radius: calc(var(--default-size) * 0.2);
+}
+
+.field-line1 {
+   left: 0;
+   top: 0;
+   transform-origin: top left;
+   transform: rotate(-30deg);
+}
+.field-line2 {
+   right: 0;
+   top: 0;
+   transform-origin: top right;
+   transform: rotate(30deg);
+}
+.field-line3 {
+   width: calc(var(--field-width) * var(--field-border-weight));
+   height: calc(var(--field-width) / 1.7320508075);
+   top: 0;
+   right: 0;
+}
+.field-line4 {
+   right: 0;
+   bottom: 0;
+   transform-origin: bottom right;
+   transform: rotate(-30deg);
+}
+.field-line5 {
+   left: 0;
+   bottom: 0;
+   transform-origin: bottom left;
+   transform: rotate(30deg);
+}
+.field-line6 {
+   width: calc(var(--field-width) * var(--field-border-weight));
+   height: calc(var(--field-width) / 1.7320508075);
+   top: 0;
+   left: 0;
+}
+
+.field-data {
+   width: calc(160% * 0.5773502691);
+   height: 160%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.field-name {
+   font-size: calc(var(--default-size) * 0.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   line-height: 0.9;
+   opacity: 0.6;
+}
+
+.field-bonus-container {
+   height: 25%;
+   width: 25%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.field-bonus {
+   height: 100%;
+   margin-left: 15%;
+   margin-right: 15%;
+}
+
+.field-object {
+   position: absolute;
+   height: 120%;
+}
+
+.field-blue-color {
+   background-color: rgb(48, 50, 180);
+}
+
+.field-green-color {
+   background-color: rgb(39, 148, 30);
+}
+
+.field-transparent-border {
+   background-color: transparent;
+}

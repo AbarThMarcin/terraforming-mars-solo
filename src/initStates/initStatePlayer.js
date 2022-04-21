@@ -32,5 +32,9 @@ export const INIT_STATE_PLAYER = {
    // Steel / Titan / Greenery value
    valueSteel: 2,
    valueTitan: 3,
-   valueGreenery: 8
+   valueGreenery: 8,
+   // For helion only: Can pay with heat?
+   canPayWithHeat: false,
+   // Change global parameters requirements to -2 / +2
+   globParamReqModifier: 0,
 }

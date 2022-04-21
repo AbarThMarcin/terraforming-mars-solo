@@ -1,10 +1,10 @@
 export const ACTIONS_GAME = {
    // Generation
    INCREMENT_GEN: 'Move to next generation',
-   // Draft phase
-   SET_DRAFT_PHASE: 'Set draft phase',
-   // Corporation phase
-   SET_CORPORATION_PHASE: 'Set corporation phase',
+   // Phases
+   SET_PHASE_CORPORATION: 'Set corporation phase',
+   SET_PHASE_DRAFT: 'Set draft phase',
+   SET_PHASE_VIEWGAMESTATE: 'Set view game state phase',
    // Global Parameters
    INCREMENT_TEMPERATURE: 'Increase temperature by 2 degrees',
    INCREMENT_OXYGEN: 'Increase oxygen by 1 percent',
@@ -21,17 +21,21 @@ export const reducerGame = (state, action) => {
             ...state,
             generation: state.generation + 1,
          }
-      /* SET CORPORATION PHASE */
-      case ACTIONS_GAME.SET_CORPORATION_PHASE:
+      /* SET PHASES */
+      case ACTIONS_GAME.SET_PHASE_CORPORATION:
          return {
             ...state,
-            corporationPhase: action.payload,
+            phaseCorporation: action.payload,
          }
-      /* SET DRAFT PHASE */
-      case ACTIONS_GAME.SET_DRAFT_PHASE:
+      case ACTIONS_GAME.SET_PHASE_DRAFT:
          return {
             ...state,
-            draftPhase: action.payload,
+            phaseDraft: action.payload,
+         }
+      case ACTIONS_GAME.SET_PHASE_VIEWGAMESTATE:
+         return {
+            ...state,
+            phaseViewGameState: action.payload,
          }
       /* INCREASE GLOBAL PARAMETERS */
       case ACTIONS_GAME.INCREMENT_TEMPERATURE:

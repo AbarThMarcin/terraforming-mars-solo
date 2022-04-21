@@ -1,0 +1,30 @@
+@import url('./game-components/card/card.css');
+@import url('./game-components/corp.css');
+@import url('./game-components/menu-icon.css');
+@import url('./game-components/standard-projects-btn.css');
+@import url('./game-components/panel-state-game/panel-state-game.css');
+@import url('./game-components/panel-corp/panel-corp.css');
+@import url('./game-components/pass-container/pass-container.css');
+@import url('./game-components/board/board.css');
+@import url('./game-components/modals/modals.css');
+
+.game {
+   background-color: rgb(14, 14, 14);
+   height: var(--app-height);
+   width: var(--app-width);
+   color: #fff;
+   font-size: var(--default-size);
+   position: relative;
+}
+
+.game > * {
+   position: absolute;
+}
+
+@media (max-aspect-ratio: 16 / 9) {
+   .game {
+      --app-width: 100vw;
+      --app-height: calc(100vw / 16 * 9);
+      --default-size: calc(var(--app-width) * 0.015);
+   }
+}

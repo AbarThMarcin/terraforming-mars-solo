@@ -22,48 +22,48 @@ export const CORPORATIONS = [
    //       url: '',
    //    },
    // },
-   {
-      id: 2,
-      name: 'Ecoline',
-      description: 'Ecoline',
-      startingConditions: {
-         production: { mln: 0, steel: 0, titan: 0, plants: 2, power: 0, heat: 0 },
-         resources: { mln: 36, steel: 0, titan: 0, plants: 3, power: 0, heat: 0 },
-         actions: [],
-      },
-      actions: [],
-      effects: [
-         {
-            name: EFFECTS.ECOLINE_SEVEN_PLANTS_FOR_GREENERY,
-            snapUrl: '',
-         },
-      ],
-      tags: ['plant'],
-      logo: {
-         url: '',
-      },
-   },
-   {
-      id: 3,
-      name: 'Helion',
-      description: 'Helion',
-      startingConditions: {
-         production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 3 },
-         resources: { mln: 42, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
-         actions: [],
-      },
-      actions: [],
-      effects: [
-         {
-            name: EFFECTS.HELION_HEAT_INSTEAD_OF_MLN,
-            snapUrl: '',
-         },
-      ],
-      tags: [],
-      logo: {
-         url: '',
-      },
-   },
+   // {
+   //    id: 2,
+   //    name: 'Ecoline',
+   //    description: 'Ecoline',
+   //    startingConditions: {
+   //       production: { mln: 0, steel: 0, titan: 0, plants: 2, power: 0, heat: 0 },
+   //       resources: { mln: 36, steel: 0, titan: 0, plants: 3, power: 0, heat: 0 },
+   //       actions: [],
+   //    },
+   //    actions: [],
+   //    effects: [
+   //       {
+   //          name: EFFECTS.ECOLINE_SEVEN_PLANTS_FOR_GREENERY,
+   //          snapUrl: '',
+   //       },
+   //    ],
+   //    tags: ['plant'],
+   //    logo: {
+   //       url: '',
+   //    },
+   // },
+   // {
+   //    id: 3,
+   //    name: 'Helion',
+   //    description: 'Helion',
+   //    startingConditions: {
+   //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 3 },
+   //       resources: { mln: 42, steel: 0, titan: 0, plants: 0, power: 0, heat: 15 },
+   //       actions: [],
+   //    },
+   //    actions: [],
+   //    effects: [
+   //       {
+   //          name: EFFECTS.HELION_HEAT_INSTEAD_OF_MLN,
+   //          snapUrl: '',
+   //       },
+   //    ],
+   //    tags: [],
+   //    logo: {
+   //       url: '',
+   //    },
+   // },
    // {
    //    id: 4,
    //    name: 'Interplanetary Cinematics',
@@ -74,51 +74,61 @@ export const CORPORATIONS = [
    //       actions: [],
    //    },
    //    actions: [],
-   //    effects: [],
+   //    effects: [
+   //       {
+   //          name: EFFECTS.INTERPLANETARY_GAIN_2_RES_MLN,
+   //          snapUrl: '',
+   //       },
+   //    ],
    //    tags: [],
    //    logo: {
    //       url: '',
    //    },
    // },
-   // {
-   //    id: 5,
-   //    name: 'Inventrix',
-   //    description: 'Inventrix',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
-   //       resources: { mln: 45, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
-   //       actions: [],
-   //    },
-   //    actions: [],
-   //    effects: [],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 6,
-   //    name: 'Mining Guild',
-   //    description: 'Mining Guild',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 1, titan: 0, plants: 0, power: 0, heat: 0 },
-   //       resources: { mln: 30, steel: 5, titan: 0, plants: 0, power: 0, heat: 0 },
-   //       actions: [],
-   //    },
-   //    actions: [],
-   //    effects: [],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
+   {
+      id: 5,
+      name: 'Inventrix',
+      description: 'Inventrix',
+      startingConditions: {
+         production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
+         resources: { mln: 45, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
+         actions: [],
+      },
+      actions: [],
+      effects: [
+         {
+            name: EFFECTS.INVENTRIX_PARAMETERS_REQUIREMENTS,
+            snapUrl: '',
+         },
+      ],
+      tags: [],
+      logo: {
+         url: '',
+      },
+   },
+   {
+      id: 6,
+      name: 'Mining Guild',
+      description: 'Mining Guild',
+      startingConditions: {
+         production: { mln: 0, steel: 1, titan: 0, plants: 0, power: 0, heat: 0 },
+         resources: { mln: 30, steel: 5, titan: 0, plants: 0, power: 0, heat: 0 },
+         actions: [],
+      },
+      actions: [],
+      effects: [],
+      tags: [],
+      logo: {
+         url: '',
+      },
+   },
    // {
    //    id: 7,
    //    name: 'Phobolog',
    //    description: 'Phobolog',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
-   //       resources: { mln: 23, steel: 0, titan: 10, plants: 0, power: 0, heat: 0 },
+   //       resources: { mln: 23, steel: 2, titan: 10, plants: 0, power: 0, heat: 0 },
    //       actions: [],
    //    },
    //    actions: [],

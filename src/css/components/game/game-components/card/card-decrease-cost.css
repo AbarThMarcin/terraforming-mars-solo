@@ -1,0 +1,44 @@
+.card-decrease-cost-container {
+   position: absolute;
+   right: 0;
+   top: calc(var(--default-size) * 3);
+   transform: translateX(100%);
+   background-color: black;
+   width: calc(var(--default-size) * 5);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   border: calc(var(--default-size) * 0.1) solid #fff;
+}
+
+.card-decrease-cost-header,
+.card-decrease-cost span {
+   font-size: calc(var(--default-size) * 0.8);
+}
+
+.card-decrease-cost {
+   position: relative;
+   width: calc(100% - var(--default-size));
+   height: calc(var(--default-size) * 1.5);
+   background-color: #333;
+   margin-bottom: calc(var(--default-size) * 0.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.decrease-arrow {
+   position: absolute;
+   width: calc(var(--default-size) * 0.7);
+   height: 100%;
+   background-color: green;
+   top: 0;
+}
+
+.decrease-arrow-left {
+   left: 0;
+}
+
+.decrease-arrow-right {
+   right: 0;
+}

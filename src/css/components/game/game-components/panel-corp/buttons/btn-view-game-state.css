@@ -1,0 +1,12 @@
+.btn-view-game-state {
+   position: absolute;
+   left: 79%;
+   top: 0;
+   transform: translateY(-100%);
+   width: 10%;
+   font-size: var(--default-size);
+   background-color: green;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}

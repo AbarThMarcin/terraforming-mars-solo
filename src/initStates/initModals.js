@@ -4,6 +4,7 @@ export const INIT_MODALS = {
    cardViewOnly: false,
    cards: false,
    draft: false,
+   sellCards: false,
    corp: false,
    corps: true,
    log: false,

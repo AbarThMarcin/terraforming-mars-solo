@@ -38,7 +38,8 @@ const ModalStandardProjects = () => {
       switch (SP) {
          case 'POWER PLANT':
             resMln[1] = Math.max(stateGame.SPCosts.powerPlant.current - resHeat, 0)
-            if (resHeat > stateGame.SPCosts.powerPlant.current) resHeat = stateGame.SPCosts.powerPlant.current
+            if (resHeat > stateGame.SPCosts.powerPlant.current)
+               resHeat = stateGame.SPCosts.powerPlant.current
             break
          case 'ASTEROID':
             resMln[2] = Math.max(stateGame.SPCosts.asteroid - resHeat, 0)
@@ -93,7 +94,9 @@ const ModalStandardProjects = () => {
    return (
       <>
          <div
-            className={`modal-other-sp-container full-size ${modals.confirmation && 'hidden'}`}
+            className={`modal-other-sp-container full-size
+               ${(modals.confirmation || modals.sellCards) && 'display-none'}
+            `}
             onClick={() => setModals({ ...modals, standardProjects: false })}
          >
             <div className="modal-other-sp center" onClick={(e) => e.stopPropagation()}>

@@ -120,9 +120,9 @@ function Game({ setGameOn }) {
                   <CorpsContext.Provider value={corps}>
                      <CardsContext.Provider value={{ cards, setCards }}>
                         <ModalsContext.Provider value={{ modals, setModals }}>
-                           {!stateGame.phaseCorporation && !stateGame.phaseDraft && (
-                              <StandardProjects />
-                           )}
+                           {!stateGame.phaseCorporation &&
+                              !stateGame.phaseDraft &&
+                              !stateGame.phaseViewGameState && <StandardProjects />}
                            {!stateGame.phaseCorporation && <PanelStateGame />}
                            {!stateGame.phaseCorporation && <PanelCorp />}
                            {!stateGame.phaseCorporation && <PassContainer />}

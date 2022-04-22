@@ -1,6 +1,3 @@
-@import url('./card-btn.css');
-@import url('./card-decrease-cost.css');
-
 :root {
    --big-ratio: 2.33;
    --border-radius-small: calc(var(--default-size) * 0.5);

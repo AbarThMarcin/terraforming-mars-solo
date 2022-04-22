@@ -1,16 +1,28 @@
 import { useContext } from 'react'
 import { StatePlayerContext, ModalsContext } from '../../../Game'
 
-const ModalBtnAction = ({ text, buyCost, textDoneConfirmation, onYesFunc }) => {
+const ModalBtnAction = ({ text, mln, textConfirmation, onYesFunc }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
 
-   const handleClickDoneBtn = () => {
-      if (buyCost <= statePlayer.resources.mln)
+   const classContainer = `${
+      text === 'CANCEL' ? 'modal-btn-cancel-container' : 'modal-btn-action-container'
+   }`
+   const classBtnAction = `modal-btn ${isDisabled() ? 'disabled' : 'pointer'}`
+   const classBtnActionMln = `modal-mln ${isDisabled() && 'disabled'}`
+
+   const handleClickActionBtn = () => {
+      // If Button is CANCEL
+      if (text === 'CANCEL') {
+         setModals({ ...modals, sellCards: false })
+         return
+      }
+      // If Button is NOT CANCEL and NOT DISABLED
+      if (!isDisabled())
          setModals({
             ...modals,
             modalConfData: {
-               text: textDoneConfirmation,
+               text: textConfirmation,
                onYes: onYesFunc,
                onNo: () => setModals({ ...modals, confirmation: false }),
             },
@@ -18,23 +30,16 @@ const ModalBtnAction = ({ text, buyCost, textDoneConfirmation, onYesFunc }) => {
          })
    }
 
+   function isDisabled() {
+      return (text === 'DONE' && mln > statePlayer.resources.mln) || (text === 'SELL' && mln === 0)
+   }
+
    return (
-      <div className="modal-draft-done-btn-container">
-         <div
-            className={`modal-draft-done-btn pointer ${
-               buyCost > statePlayer.resources.mln && 'disabled'
-            }`}
-            onClick={handleClickDoneBtn}
-         >
+      <div className={classContainer}>
+         <div className={classBtnAction} onClick={handleClickActionBtn}>
             {text}
          </div>
-         <div
-            className={`modal-draft-done-btn-mln ${
-               buyCost > statePlayer.resources.mln && 'disabled'
-            }`}
-         >
-            {buyCost}
-         </div>
+         {text !== 'CANCEL' && <div className={classBtnActionMln}>{mln}</div>}
       </div>
    )
 }

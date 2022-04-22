@@ -1,3 +1,18 @@
+.modal-other-container {
+   background-color: rgba(0, 0, 0, 0.5);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 5%;
+}
+
+.modal-other-tags {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-auto-rows: 9%;
+   gap: calc(var(--default-size) * 0.6);
+}
+
 .modal-other-container-vp:hover {
    outline: #fff solid calc(var(--default-size) * 0.2)
 }

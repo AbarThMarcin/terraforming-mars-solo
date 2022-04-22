@@ -55,13 +55,7 @@ const ModalDraft = () => {
    }
 
    return (
-      <div
-         className={`
-         modal-draft center
-         ${modals.cards && 'hidden'}
-         ${stateGame.phaseViewGameState && 'display-none'}
-      `}
-      >
+      <>
          {/* HEADER */}
          <ModalHeader
             text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
@@ -75,9 +69,9 @@ const ModalDraft = () => {
 
          {/* ACTION BUTTON */}
          <ModalBtnAction
-            text='DONE'
-            buyCost={buyCost}
-            textDoneConfirmation={textDoneConfirmation}
+            text="DONE"
+            mln={buyCost}
+            textConfirmation={textDoneConfirmation}
             onYesFunc={onYesFunc}
          />
 
@@ -93,7 +87,7 @@ const ModalDraft = () => {
                <CardBtn btnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
             </div>
          ))}
-      </div>
+      </>
    )
 }
 

@@ -84,7 +84,9 @@ const ModalCardWithAction = () => {
             toBuySteel * statePlayer.valueSteel +
             toBuyTitan * statePlayer.valueTitan +
             toBuyHeat <
-            modals.modalCard.currentCost || !requirementsMet(modals.modalCard)
+            modals.modalCard.currentCost ||
+         !requirementsMet(modals.modalCard) ||
+         stateGame.phaseViewGameState
       )
    }
 
@@ -183,7 +185,7 @@ const ModalCardWithAction = () => {
    return (
       <>
          <div
-            className={`modal-card-container full-size ${modals.confirmation && 'hidden'}`}
+            className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}
             onClick={() => setModals({ ...modals, cardWithAction: false, modalCard: null })}
          >
             <div className="modal-card center">

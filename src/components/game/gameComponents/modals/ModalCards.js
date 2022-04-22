@@ -24,7 +24,7 @@ const ModalCards = () => {
 
    return (
       <div
-         className={`full-size ${modals.cardWithAction && 'hidden'}`}
+         className={`full-size ${modals.cardWithAction && 'display-none'}`}
          onClick={() => setModals({ ...modals, cards: false })}
       >
          {/* ARROWS */}

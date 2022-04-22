@@ -1,12 +1,12 @@
-@import url('./game-components/card/card.css');
+@import url('./game-components/board/board.css');
+@import url('./game-components/modals/modals.css');
+@import url('./game-components/panel-corp/panel-corp.css');
+@import url('./game-components/panel-state-game/panel-state-game.css');
+@import url('./game-components/pass-container/pass-container.css');
+@import url('./game-components/card.css');
 @import url('./game-components/corp.css');
 @import url('./game-components/menu-icon.css');
 @import url('./game-components/standard-projects-btn.css');
-@import url('./game-components/panel-state-game/panel-state-game.css');
-@import url('./game-components/panel-corp/panel-corp.css');
-@import url('./game-components/pass-container/pass-container.css');
-@import url('./game-components/board/board.css');
-@import url('./game-components/modals/modals.css');
 
 .game {
    background-color: rgb(14, 14, 14);

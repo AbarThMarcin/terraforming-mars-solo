@@ -18,8 +18,11 @@ const ModalSPaction = ({
    const handleClickBtn = () => {
       // No action if cost is higher than resources
       if (statePlayer.resources.mln < cost) return
-      // No action if View Game State Phase is on
-      if (stateGame.phaseViewGameState) return
+      // If clicked SELL PATENT
+      if (name === 'SELL PATENT') {
+         setModals({...modals, sellCards: true})
+         return
+      }
       // For Helion only: first click turns 'Decrease Cost with heat' minimodal,
       // second click turns confirmation modal
       if (statePlayer.canPayWithHeat && name !== 'SELL PATENT') {

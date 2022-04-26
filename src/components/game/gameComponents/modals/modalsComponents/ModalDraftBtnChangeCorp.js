@@ -1,5 +1,5 @@
-import { ACTIONS_GAME } from '../../../../../util/dispatchGame'
-import { ACTIONS_PLAYER } from '../../../../../util/dispatchPlayer'
+import { ACTIONS_GAME } from '../../../../../util/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
 import { ModalsContext } from '../../../Game'
 import { useContext } from 'react'
 

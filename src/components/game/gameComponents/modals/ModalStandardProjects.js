@@ -2,17 +2,19 @@
 
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/dispatchGame'
-import { ACTIONS_PLAYER } from '../../../../util/dispatchPlayer'
+import { ACTIONS } from '../../../../data/actions'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalSPaction from './modalsComponents/ModalSPaction'
 import CardDecreaseCostSP from './modalsComponents/CardDecreaseCostSP'
+import { INIT_ANIMATION_DATA } from '../../../../initStates/initModals'
 
 const ModalStandardProjects = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame } = useContext(StateGameContext)
+   const { stateGame, performAction, ANIMATION_SPEED } = useContext(StateGameContext)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [toBuyMln, setToBuyMln] = useState(initToBuyMln())
+   const [btnClickedId, setBtnClickedId] = useState(-1)
    const [actionClicked, setActionClicked] = useState(null)
 
    function initToBuyMln() {
@@ -65,30 +67,66 @@ const ModalStandardProjects = () => {
    }
 
    const handleUseSP = (name) => {
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-      switch (name) {
-         case 'POWER PLANT':
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_POWER, payload: 1 })
-            break
-         case 'ASTEROID':
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
-            if (stateGame.globalParameters.temperature < 8)
-               dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
-            break
-         case 'AQUIFER':
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[3] })
-            break
-         case 'GREENERY':
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[4] })
-            break
-         case 'CITY':
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[5] })
-            break
-         default:
-            break
+      // ------------------------ ANIMATIONS ------------------------
+      let animResPaidTypes = []
+      if (toBuyMln[btnClickedId] !== 0) animResPaidTypes.push(['mln', toBuyMln[btnClickedId]])
+      if (toBuyHeat) animResPaidTypes.push(['heat', toBuyHeat])
+      for (let i = 0; i < animResPaidTypes.length; i++) {
+         setTimeout(() => {
+            setModals({
+               ...modals,
+               confirmation: false,
+               standardProjects: false,
+               sellCards: false,
+               animationData: {
+                  ...modals.animationData,
+                  resourcesOut: {
+                     type: animResPaidTypes[i][0],
+                     value: animResPaidTypes[i][1],
+                  },
+               },
+               animation: true,
+            })
+         }, i * ANIMATION_SPEED)
       }
-      setModals({ ...modals, confirmation: false, standardProjects: false })
+      setTimeout(() => {
+         // Close modals
+         setModals({
+            ...modals,
+            confirmation: false,
+            standardProjects: false,
+            sellCards: false,
+            animationData: INIT_ANIMATION_DATA,
+            animation: false,
+         })
+         // Decrease heat (Helion only)
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
+         // Decrease corporation resources, perform actions and call effects
+         switch (name) {
+            case 'POWER PLANT':
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
+               performAction(ACTIONS.SP_POWER_PLANT)
+               break
+            case 'ASTEROID':
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
+               performAction(ACTIONS.SP_ASTEROID)
+               break
+            case 'AQUIFER':
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[3] })
+               performAction(ACTIONS.SP_AQUIFER)
+               break
+            case 'GREENERY':
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[4] })
+               performAction(ACTIONS.SP_GREENERY)
+               break
+            case 'CITY':
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[5] })
+               performAction(ACTIONS.SP_CITY)
+               break
+            default:
+               break
+         }
+      }, animResPaidTypes.length * ANIMATION_SPEED)
    }
 
    return (
@@ -111,13 +149,16 @@ const ModalStandardProjects = () => {
                </div>
                {/* ACTIONS */}
                <ModalSPaction
+                  id={0}
                   icon={{ url: '' }}
                   name="SELL PATENT"
                   cost={toBuyMln[0]}
                   textConfirmation=""
                   handleUseSP={handleUseSP}
+                  setBtnClickedId={setBtnClickedId}
                />
                <ModalSPaction
+                  id={1}
                   icon={{ url: '' }}
                   name="POWER PLANT"
                   cost={toBuyMln[1]}
@@ -126,8 +167,10 @@ const ModalStandardProjects = () => {
                   setActionClicked={setActionClicked}
                   changeSPcosts={changeSPcosts}
                   handleUseSP={handleUseSP}
+                  setBtnClickedId={setBtnClickedId}
                />
                <ModalSPaction
+                  id={2}
                   icon={{ url: '' }}
                   name="ASTEROID"
                   cost={toBuyMln[2]}
@@ -136,8 +179,10 @@ const ModalStandardProjects = () => {
                   setActionClicked={setActionClicked}
                   changeSPcosts={changeSPcosts}
                   handleUseSP={handleUseSP}
+                  setBtnClickedId={setBtnClickedId}
                />
                <ModalSPaction
+                  id={3}
                   icon={{ url: '' }}
                   name="AQUIFER"
                   cost={toBuyMln[3]}
@@ -146,8 +191,10 @@ const ModalStandardProjects = () => {
                   setActionClicked={setActionClicked}
                   changeSPcosts={changeSPcosts}
                   handleUseSP={handleUseSP}
+                  setBtnClickedId={setBtnClickedId}
                />
                <ModalSPaction
+                  id={4}
                   icon={{ url: '' }}
                   name="GREENERY"
                   cost={toBuyMln[4]}
@@ -156,8 +203,10 @@ const ModalStandardProjects = () => {
                   setActionClicked={setActionClicked}
                   changeSPcosts={changeSPcosts}
                   handleUseSP={handleUseSP}
+                  setBtnClickedId={setBtnClickedId}
                />
                <ModalSPaction
+                  id={5}
                   icon={{ url: '' }}
                   name="CITY"
                   cost={toBuyMln[5]}
@@ -166,6 +215,7 @@ const ModalStandardProjects = () => {
                   setActionClicked={setActionClicked}
                   changeSPcosts={changeSPcosts}
                   handleUseSP={handleUseSP}
+                  setBtnClickedId={setBtnClickedId}
                />
                {actionClicked !== null &&
                   statePlayer.resources.heat > 0 &&

@@ -2,8 +2,12 @@ import { useContext } from 'react'
 import PassBtn from './PassBtn'
 import PassCorpSnap from './PassCorpSnap'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { ACTIONS_PLAYER } from '../../../../util/dispatchPlayer'
-import { ACTIONS_GAME } from '../../../../util/dispatchGame'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import AnimResourcesOut from '../animations/AnimResourcesOut'
+import AnimResourcesIn from '../animations/AnimResourcesIn'
+import AnimProductionIn from '../animations/AnimProductionIn'
+import AnimProductionOut from '../animations/AnimProductionOut'
 
 const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -48,8 +52,16 @@ const PassContainer = () => {
    return (
       <>
          <div className="pass-container">
-            {!stateGame.phaseDraft && <PassBtn onYesFunc={onYesFunc} />}
+            {!stateGame.phaseDraft && !stateGame.phasePlaceTile && <PassBtn onYesFunc={onYesFunc} />}
             <PassCorpSnap />
+            {modals.animation && (
+               <>
+                  {modals.animationData.resourcesIn.type !== null && <AnimResourcesIn />}
+                  {modals.animationData.resourcesOut.type !== null && <AnimResourcesOut />}
+                  {modals.animationData.productionIn.type !== null && <AnimProductionIn />}
+                  {modals.animationData.productionOut.type !== null && <AnimProductionOut />}
+               </>
+            )}
          </div>
       </>
    )

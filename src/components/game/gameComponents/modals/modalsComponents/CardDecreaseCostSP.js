@@ -30,13 +30,13 @@ const CardDecreaseCostSP = ({ toBuyMln, toBuyHeat, changeSPcosts, actionClicked 
                <span>{toBuyHeat} HEAT</span>
                {toBuyHeat > 0 && (
                   <div
-                     className="decrease-arrow decrease-arrow-left"
+                     className="decrease-arrow pointer decrease-arrow-left"
                      onClick={() => changeSPcosts('decrement', actionClicked)}
                   ></div>
                )}
                {toBuyHeat < statePlayer.resources.heat && currentCost > 0 && (
                   <div
-                     className="decrease-arrow decrease-arrow-right"
+                     className="decrease-arrow pointer decrease-arrow-right"
                      onClick={() => changeSPcosts('increment', actionClicked)}
                   ></div>
                )}

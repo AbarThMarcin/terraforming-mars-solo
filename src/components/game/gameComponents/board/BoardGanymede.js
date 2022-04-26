@@ -1,7 +1,16 @@
+import { useContext } from 'react'
+import { StateBoardContext } from '../../Game'
+import Field from './field/Field'
+
 const BoardGanymede = () => {
-  return (
-    <div className='board-ganymede'></div>
-  )
+   const { stateBoard } = useContext(StateBoardContext)
+   const field = stateBoard.find((field) => field.name === 'GANYMEDE COLONY')
+   
+   return (
+      <div className="board-ganymede">
+         <Field field={field} />
+      </div>
+   )
 }
 
 export default BoardGanymede

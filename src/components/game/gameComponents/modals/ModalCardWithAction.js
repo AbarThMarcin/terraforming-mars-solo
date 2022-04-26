@@ -1,18 +1,18 @@
 /* Used to view one card for use only */
-
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/dispatchGame'
-import { ACTIONS_PLAYER } from '../../../../util/dispatchPlayer'
-import { EFFECTS } from '../../../../data/effects'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { performEffect } from '../../../../data/effects'
 import { hasTag } from '../../../../util/misc'
 import Card from '../Card'
 import CardBtn from './modalsComponents/CardBtn'
 import CardDecreaseCost from './modalsComponents/CardDecreaseCost'
+import { INIT_ANIMATION_DATA } from '../../../../initStates/initModals'
 
 const ModalCardWithAction = () => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame, dispatchGame, requirementsMet } = useContext(StateGameContext)
+   const { stateGame, performAction, requirementsMet, ANIMATION_SPEED } =
+      useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const [toBuyTitan, setToBuyTitan] = useState(getInitToBuyTitan())
    const [toBuySteel, setToBuySteel] = useState(getInitToBuySteel())
@@ -86,7 +86,8 @@ const ModalCardWithAction = () => {
             toBuyHeat <
             modals.modalCard.currentCost ||
          !requirementsMet(modals.modalCard) ||
-         stateGame.phaseViewGameState
+         stateGame.phaseViewGameState ||
+         stateGame.phasePlaceTile
       )
    }
 
@@ -105,81 +106,83 @@ const ModalCardWithAction = () => {
    }
 
    const handleUseAction = () => {
-      setModals({ ...modals, confirmation: false, cardWithAction: false, cards: false })
-      // Decrease Corporation Resources
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -toBuySteel })
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -toBuyTitan })
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-      // Remove this card from Cards In Hand
-      dispatchPlayer({
-         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id),
-      })
-      // Add this card to Cards Played
-      dispatchPlayer({
-         type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-         payload: [...statePlayer.cardsPlayed, modals.modalCard],
-      })
-      // Call Card Action
-      callCardAction(modals.modalCard.id)
-      // Call Effects
-      modals.modalCard.effectsToCall.forEach((effect) => {
-         if (statePlayer.effects.some((stateEffect) => stateEffect.name === effect))
-            callEffect(effect)
-      })
-      // Add tags to the corporation
-      dispatchPlayer({
-         type: ACTIONS_PLAYER.SET_TAGS,
-         payload: [...statePlayer.tags, ...modals.modalCard.tags],
-      })
-      // Add VPs to the corporation
-      if (modals.modalCard.vp !== 0)
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_VP,
-            payload: [...statePlayer.vp, modals.modalCard],
+      // ------------------------ ANIMATIONS ------------------------
+      let animResPaidTypes = []
+      if (toBuyMln) animResPaidTypes.push(['mln', toBuyMln])
+      if (toBuySteel) animResPaidTypes.push(['steel', toBuySteel])
+      if (toBuyTitan) animResPaidTypes.push(['titan', toBuyTitan])
+      if (toBuyHeat) animResPaidTypes.push(['heat', toBuyHeat])
+      for (let i = 0; i < animResPaidTypes.length; i++) {
+         setTimeout(() => {
+            setModals({
+               ...modals,
+               confirmation: false,
+               cardWithAction: false,
+               cards: false,
+               animationData: {
+                  ...modals.animationData,
+                  resourcesOut: {
+                     type: animResPaidTypes[i][0],
+                     value: animResPaidTypes[i][1],
+                  },
+               },
+               animation: true,
+            })
+         }, i * ANIMATION_SPEED)
+      }
+      setTimeout(() => {
+         setModals({
+            ...modals,
+            confirmation: false,
+            cardWithAction: false,
+            cards: false,
+            animationData: INIT_ANIMATION_DATA,
+            animation: false,
          })
-      // Add Actions to the corporation
-      dispatchPlayer({
-         type: ACTIONS_PLAYER.SET_ACTIONS,
-         payload: [...statePlayer.actions, ...modals.modalCard.actions],
-      })
-      // Add Effects to the corporation
-      dispatchPlayer({
-         type: ACTIONS_PLAYER.SET_EFFECTS,
-         payload: [...statePlayer.effects, ...modals.modalCard.effectsToAdd],
-      })
-   }
-
-   /* ================================ LIST OF ALL CARDS' ACTIONS =================================
-   This includes actions for ALL (non-corporate) cards in the game.
-   */
-   function callCardAction(id) {
-      switch (id) {
-         case 126:
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_POWER, payload: -1 })
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 4 })
-            break
-         default:
-            break
-      }
-   }
-
-   /* ==================================== LIST OF ALL EFFECTS ====================================
-   This includes all effects in game EXCEPT immediate effects from corporations, listed in the
-   ModalCorps component => callImmediateEffect function.
-   */
-   function callEffect(effect) {
-      switch (effect) {
-         case EFFECTS.CREDICOR_GAIN_4_RES_MLN:
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 4 })
-            break
-         case EFFECTS.INTERPLANETARY_GAIN_2_RES_MLN:
-            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 })
-            break
-         default:
-            break
-      }
+         // Decrease Corporation Resources
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -toBuySteel })
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -toBuyTitan })
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
+         // Remove this card from Cards In Hand
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+            payload: statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id),
+         })
+         // Add this card to Cards Played
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
+            payload: [...statePlayer.cardsPlayed, modals.modalCard],
+         })
+         // Call Card Action
+         performAction(modals.modalCard.id)
+         // Call Card Effects
+         modals.modalCard.effectsToCall.forEach((effect) => {
+            if (statePlayer.effects.some((stateEffect) => stateEffect.name === effect))
+               performEffect(effect, dispatchPlayer)
+         })
+         // Add tags to the corporation
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_TAGS,
+            payload: [...statePlayer.tags, ...modals.modalCard.tags],
+         })
+         // Add VPs to the corporation
+         if (modals.modalCard.vp !== 0)
+            dispatchPlayer({
+               type: ACTIONS_PLAYER.SET_VP,
+               payload: [...statePlayer.vp, modals.modalCard],
+            })
+         // Add Actions to the corporation
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_ACTIONS,
+            payload: [...statePlayer.actions, ...modals.modalCard.actions],
+         })
+         // Add Effects to the corporation
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_EFFECTS,
+            payload: [...statePlayer.effects, ...modals.modalCard.effectsToAdd],
+         })
+      }, animResPaidTypes.length * ANIMATION_SPEED)
    }
 
    return (

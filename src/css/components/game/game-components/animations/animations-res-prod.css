@@ -1,0 +1,54 @@
+.anim-res-prod {
+   position: absolute;
+   width: 50%;
+   height: 100%;
+   background-color: red;
+   animation-timing-function: ease-in-out;
+   animation-iteration-count: infinite;
+}
+.anim-resources-in,
+.anim-production-in {
+   animation-name: animate-res-prod-in
+}
+.anim-resources-out,
+.anim-production-out {
+   animation-name: animate-res-prod-out
+}
+
+@keyframes animate-res-prod-in {
+   0% {
+      opacity: 0;
+      right: -150%;
+   }
+   20% {
+      opacity: 1;
+      right: -100%;
+   }
+   80% {
+      opacity: 1;
+      right: -100%;
+   }
+   100% {
+      opacity: 0;
+      right: -50%;
+   }
+}
+
+@keyframes animate-res-prod-out {
+   0% {
+      opacity: 0;
+      right: -50%;
+   }
+   20% {
+      opacity: 1;
+      right: -100%;
+   }
+   80% {
+      opacity: 1;
+      right: -100%;
+   }
+   100% {
+      opacity: 0;
+      right: -150%;
+   }
+}

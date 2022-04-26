@@ -1,4 +1,5 @@
 @import url('./prod-res-snap.css');
+@import url('./panel-corp-action-btn.css');
 
 .prod-res-panel {
    position: absolute;

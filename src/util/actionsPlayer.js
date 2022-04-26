@@ -1,6 +1,3 @@
-import { INIT_STATE_PLAYER } from '../initStates/initStatePlayer'
-import { DUMMY_CORPORATION } from '../data/corporations'
-
 export const ACTIONS_PLAYER = {
    // Set corporation
    CHANGE_CORPORATION: 'Change corporation',
@@ -34,12 +31,12 @@ export const ACTIONS_PLAYER = {
    // Set CanPayWithHeat
    SET_CANPAYWITHHEAT: 'Set true or false to the possibility of paying with heat (for Helion only)',
    // Set globParamReqModifier
-   SET_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements to -2 / +2',
+   SET_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements',
 }
 
 export const reducerPlayer = (state, action) => {
    switch (action.type) {
-      /* CHANGE CORPORATION */
+      // CHANGE CORPORATION
       case ACTIONS_PLAYER.CHANGE_CORPORATION:
          if (Object.keys(action.payload).length === 0) {
             return {}
@@ -65,7 +62,7 @@ export const reducerPlayer = (state, action) => {
                },
             }
          }
-      /* SET PRODUCTIONS */
+      // SET PRODUCTIONS
       case ACTIONS_PLAYER.CHANGE_PROD_MLN:
          return {
             ...state,
@@ -114,7 +111,7 @@ export const reducerPlayer = (state, action) => {
                heat: state.production.heat + action.payload,
             },
          }
-      /* SET RESOURCES */
+      // SET RESOURCES
       case ACTIONS_PLAYER.CHANGE_RES_MLN:
          return {
             ...state,
@@ -163,7 +160,7 @@ export const reducerPlayer = (state, action) => {
                heat: state.resources.heat + action.payload,
             },
          }
-      /* SET CARDS IN HAND AND CARDS PLAYED */
+      // SET CARDS IN HAND AND CARDS PLAYED
       case ACTIONS_PLAYER.SET_CARDS_IN_HAND:
          return {
             ...state,
@@ -174,7 +171,7 @@ export const reducerPlayer = (state, action) => {
             ...state,
             cardsPlayed: action.payload,
          }
-      /* SET CARD RESOURCES, TAGS, VP, ACTIONS AND EFFECTS */
+      // SET CARD RESOURCES, TAGS, VP, ACTIONS AND EFFECTS
       case ACTIONS_PLAYER.SET_CARD_RESOURCES:
          return {
             ...state,
@@ -200,7 +197,7 @@ export const reducerPlayer = (state, action) => {
             ...state,
             effects: action.payload,
          }
-      /* SET VALUES OF STEEL, TITAN AND GREENERY */
+      // SET VALUES OF STEEL, TITAN AND GREENERY
       case ACTIONS_PLAYER.SET_VALUE_STEEL:
          return {
             ...state,
@@ -216,13 +213,13 @@ export const reducerPlayer = (state, action) => {
             ...state,
             valueGreenery: action.payload,
          }
-      /* CAN PAY WITH HEAT - HELION ONLY */
+      // CAN PAY WITH HEAT - HELION ONLY
       case ACTIONS_PLAYER.SET_CANPAYWITHHEAT:
          return {
             ...state,
             canPayWithHeat: action.payload,
          }
-      /* GLOBAL PARAMETERS REQUIREMENTS -2 / +2 */
+      // GLOBAL PARAMETERS REQUIREMENTS
       case ACTIONS_PLAYER.SET_PARAMETERS_REQUIREMENTS:
          return {
             ...state,

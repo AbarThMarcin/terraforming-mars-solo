@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 
 const ModalSPaction = ({
+   id,
    icon,
    name,
    cost,
@@ -10,6 +11,7 @@ const ModalSPaction = ({
    setActionClicked,
    changeSPcosts,
    handleUseSP,
+   setBtnClickedId,
 }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
@@ -17,15 +19,16 @@ const ModalSPaction = ({
 
    const handleClickBtn = () => {
       // No action if cost is higher than resources
-      if (statePlayer.resources.mln < cost) return
+      if (statePlayer.resources.mln < cost || stateGame.phasePlaceTile) return
       // If clicked SELL PATENT
       if (name === 'SELL PATENT') {
-         setModals({...modals, sellCards: true})
+         setModals({ ...modals, sellCards: true })
          return
       }
+      setBtnClickedId(id)
       // For Helion only: first click turns 'Decrease Cost with heat' minimodal,
       // second click turns confirmation modal
-      if (statePlayer.canPayWithHeat && name !== 'SELL PATENT') {
+      if (statePlayer.canPayWithHeat) {
          if (actionClicked === null || actionClicked !== name) {
             setActionClicked(name)
             changeSPcosts(undefined, name)
@@ -44,13 +47,17 @@ const ModalSPaction = ({
    }
 
    return (
-      <div className={`action ${statePlayer.resources.mln < cost && 'disabled'}`}>
+      <div
+         className={`action ${
+            (statePlayer.resources.mln < cost || stateGame.phasePlaceTile) && 'disabled'
+         }`}
+      >
          <div className="action-element action-icon">{icon.url}</div>
          <div className="action-element action-name">{name}</div>
          <div className="action-element action-cost">{cost}</div>
          <div
             className={`action-element action-btn ${
-               statePlayer.resources.mln >= cost && 'pointer'
+               (statePlayer.resources.mln >= cost && !stateGame.phasePlaceTile) && 'pointer'
             }`}
             onClick={handleClickBtn}
          >

@@ -16,6 +16,7 @@ import ModalOther from './modalOther/ModalOther'
 import ModalRules from './ModalRules'
 import ModalSettings from './ModalSettings'
 import ModalStandardProjects from './ModalStandardProjects'
+import ModalAnimation from './ModalAnimation'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const containerVariants = {
@@ -37,7 +38,6 @@ const Modals = ({ setGameOn }) => {
       <>
          {modals.sellCards && <ModalSellCards />}
          {modals.cards && <ModalCards />}
-         {modals.corp && <ModalCorp />}
          {modals.corps && <ModalCorps />}
          {modals.log && <ModalLog />}
          {modals.other && <ModalOther />}
@@ -52,7 +52,7 @@ const Modals = ({ setGameOn }) => {
                   exit="hidden"
                   transition={{ duration: 0.1, delay: 0.2 }}
                   className={`
-               modal-draft center
+                  modal-draft center
                ${(modals.cards || stateGame.phaseViewGameState) && 'display-none'}
             `}
                >
@@ -60,8 +60,10 @@ const Modals = ({ setGameOn }) => {
                </motion.div>
             )}
          </AnimatePresence>
+         {modals.corp && <ModalCorp />}
          {modals.cardWithAction && <ModalCardWithAction />}
          {modals.cardViewOnly && <ModalCardViewOnly />}
+         {modals.animation && <ModalAnimation />}
          {modals.menu && <ModalMenu setGameOn={setGameOn} />}
          {modals.settings && <ModalSettings />}
          {modals.rules && <ModalRules />}

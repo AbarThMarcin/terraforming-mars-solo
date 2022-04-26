@@ -2,9 +2,10 @@
 
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, CorpsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/dispatchGame'
-import { ACTIONS_PLAYER } from '../../../../util/dispatchPlayer'
+import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import Corp from '../Corp'
+import { performImmediateCorpEffect } from '../../../../data/effects'
 
 const ModalCorps = () => {
    const corps = useContext(CorpsContext)
@@ -32,36 +33,17 @@ const ModalCorps = () => {
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_TAGS, payload: corps[selectedCorp].tags })
       // Set actions
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_ACTIONS, payload: corps[selectedCorp].actions })
-      // Set effects
+      // Set effects and do immediate effects
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_EFFECTS, payload: corps[selectedCorp].effects })
-      callImmediateEffect(corps[selectedCorp])
+      performImmediateCorpEffect(corps[selectedCorp], dispatchPlayer)
       // Turn off corporation phase and turn on draft phase
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_CORPORATION, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
       setModals({ ...modals, corps: false, draft: true })
    }
 
-   /* ============================ LIST OF ALL IMMEDIATE CORP EFFECTS ===============================
-   This includes only few corporations. Changes to the states are made immediately right
-   after corp is selected. These effects are added to the data -> corporations -> effects only
-   to show them in the corp effects list. Changing name of the constants won't affect performing
-   the effect here.
-   */
-   function callImmediateEffect(corp) {
-      switch (corp.name) {
-         case 'Ecoline':
-            dispatchPlayer({ type: ACTIONS_PLAYER.SET_VALUE_GREENERY, payload: 7 })
-            break
-         case 'Helion':
-            dispatchPlayer({ type: ACTIONS_PLAYER.SET_CANPAYWITHHEAT, payload: true })
-            break
-         case 'Inventrix':
-            dispatchPlayer({ type: ACTIONS_PLAYER.SET_PARAMETERS_REQUIREMENTS, payload: 2 })
-            break
-         default:
-            break
-      }
-   }
+   
+   
 
    return (
       <>

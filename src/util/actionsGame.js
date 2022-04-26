@@ -5,6 +5,8 @@ export const ACTIONS_GAME = {
    SET_PHASE_CORPORATION: 'Set corporation phase',
    SET_PHASE_DRAFT: 'Set draft phase',
    SET_PHASE_VIEWGAMESTATE: 'Set view game state phase',
+   SET_PHASE_PLACETILE: 'Set phase where user places a tile on board',
+   SET_PHASE_PLACETILEDATA: 'Set tile name to be put when place tile phase is on',
    // Global Parameters
    INCREMENT_TEMPERATURE: 'Increase temperature by 2 degrees',
    INCREMENT_OXYGEN: 'Increase oxygen by 1 percent',
@@ -15,13 +17,13 @@ export const ACTIONS_GAME = {
 
 export const reducerGame = (state, action) => {
    switch (action.type) {
-      /* NEXT GENERATION */
+      // NEXT GENERATION
       case ACTIONS_GAME.INCREMENT_GEN:
          return {
             ...state,
             generation: state.generation + 1,
          }
-      /* SET PHASES */
+      // SET PHASES
       case ACTIONS_GAME.SET_PHASE_CORPORATION:
          return {
             ...state,
@@ -37,7 +39,17 @@ export const reducerGame = (state, action) => {
             ...state,
             phaseViewGameState: action.payload,
          }
-      /* INCREASE GLOBAL PARAMETERS */
+      case ACTIONS_GAME.SET_PHASE_PLACETILE:
+         return {
+            ...state,
+            phasePlaceTile: action.payload,
+         }
+      case ACTIONS_GAME.SET_PHASE_PLACETILEDATA:
+         return {
+            ...state,
+            phasePlaceTileData: action.payload,
+         }
+      // INCREASE GLOBAL PARAMETERS
       case ACTIONS_GAME.INCREMENT_TEMPERATURE:
          return {
             ...state,
@@ -62,7 +74,7 @@ export const reducerGame = (state, action) => {
                oceans: state.globalParameters.oceans + 1,
             },
          }
-      /* CHANGE TR */
+      // CHANGE TR
       case ACTIONS_GAME.CHANGE_TR:
          return {
             ...state,

@@ -1,8 +1,27 @@
+export const INIT_ANIMATION_DATA = {
+   resourcesIn: {
+      type: null,
+      value: 0,
+   },
+   resourcesOut: {
+      type: null,
+      value: 0,
+   },
+   productionIn: {
+      type: null,
+      value: 0,
+   },
+   productionOut: {
+      type: null,
+      value: 0,
+   },
+}
+
 export const INIT_MODALS = {
    // Which modal to show
    cardWithAction: false,
    cardViewOnly: false,
-   cards: false,
+   cards: false, // Cards In Hand or Cards Played
    draft: false,
    sellCards: false,
    corp: false,
@@ -14,6 +33,7 @@ export const INIT_MODALS = {
    other: false,
    standardProjects: false,
    confirmation: false,
+   animation: false,
    // Which cards to show in cards modal
    modalCard: null,
    modalCards: [],
@@ -25,4 +45,6 @@ export const INIT_MODALS = {
       onYes: null,
       onNo: null,
    },
+   // Data for animations
+   animationData: INIT_ANIMATION_DATA
 }

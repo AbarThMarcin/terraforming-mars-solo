@@ -1,9 +1,8 @@
 /* Used to show window with cards to sell */
 
 import { useContext, useState } from 'react'
-import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/dispatchGame'
-import { ACTIONS_PLAYER } from '../../../../util/dispatchPlayer'
+import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import ModalBtnAction from './modalsComponents/ModalBtnAction'
 import Card from '../Card'
@@ -11,9 +10,8 @@ import CardBtn from './modalsComponents/CardBtn'
 import { getPosition } from '../../../../util/misc'
 
 const ModalSellCards = () => {
-   const { stateGame, dispatchGame } = useContext(StateGameContext)
+   const { stateGame } = useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { cards, setCards } = useContext(CardsContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [mlnBack, setMlnBack] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])

@@ -1,3 +1,5 @@
+import { TILE_NAMES } from "../data/board";
+
 // Shuffles array
 export const shuffle = (array) => {
    let currentIndex = array.length,
@@ -93,7 +95,7 @@ export const getBoardWithNeutral = ([...initBoard]) => {
             ) {
                initBoard.forEach((field) => {
                   if (field.x === neighbors[greeneryId].x && field.y === neighbors[greeneryId].y)
-                     field.object = 'greenery'
+                     field.object = 'greenery-neutral'
                })
                greeneriesLeft--
             }
@@ -151,6 +153,6 @@ function getNeighbors(id, board) {
 
 function hasNeutralCityOrGreenery(neighbors) {
    return neighbors.some((neighbor) => {
-      return neighbor.object === 'city-neutral' || neighbor.object === 'greenery'
+      return neighbor.object === TILE_NAMES.CITY_NEUTRAL || neighbor.object === TILE_NAMES.GREENERY_NEUTRAL
    })
 }

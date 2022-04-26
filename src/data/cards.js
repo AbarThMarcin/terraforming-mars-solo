@@ -1,7 +1,7 @@
 import { EFFECTS } from './effects'
+import { EFFECTS_CORP } from './corporations'
 
-// effectsToAdd needs to include array of objects (name and snapUrl), while effectsToCall needs
-// to include array of only names.
+// effectsToAdd includes array of objects (name and snapUrl), while effectsToCall includes array of only names.
 export const CARDS = [
    {
       id: 1,
@@ -20,7 +20,7 @@ export const CARDS = [
       tags: ['jovian', 'building'],
       actions: [],
       effectsToAdd: [],
-      effectsToCall: [EFFECTS.SATURN_GAIN_1_PROD_MLN],
+      effectsToCall: [EFFECTS_CORP.SATURN_GAIN_1_PROD_MLN],
       immediateEffects: [],
       units: {
          microbes: 0,
@@ -153,7 +153,7 @@ export const CARDS = [
       tags: ['city', 'building'],
       actions: [],
       effectsToAdd: [],
-      effectsToCall: [EFFECTS.CREDICOR_GAIN_4_RES_MLN],
+      effectsToCall: [EFFECTS_CORP.CREDICOR_GAIN_4_RES_MLN],
       immediateEffects: [],
       units: {
          microbes: 0,

@@ -5,6 +5,8 @@ export const INIT_STATE_GAME = {
    phaseCorporation: true,
    phaseDraft: false,
    phaseViewGameState: false,
+   phasePlaceTile: false,
+   phasePlaceTileData: null,
    // Current Global Parameters
    globalParameters: {
       temperature: -30,

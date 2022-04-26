@@ -4,8 +4,8 @@ to any effect/action */
 
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/dispatchGame'
-import { ACTIONS_PLAYER } from '../../../../util/dispatchPlayer'
+import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import ModalDraftBtnChangeCorp from './modalsComponents/ModalDraftBtnChangeCorp'
 import ModalBtnAction from './modalsComponents/ModalBtnAction'
@@ -37,7 +37,9 @@ const ModalDraft = () => {
          payload: [...statePlayer.cardsInHand, ...selectedCards],
       })
       // Remove all 4 (10 if gen = 1) cards from the CardsContext
-      setCards(stateGame.generation === 1 ? cards.slice(10) : cards.slice(4))
+      setTimeout(() => {
+         setCards(stateGame.generation === 1 ? cards.slice(10) : cards.slice(4))
+      }, 2000)
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal

@@ -11,7 +11,7 @@ import { INIT_ANIMATION_DATA } from '../../../../initStates/initModals'
 const ModalStandardProjects = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, performAction, ANIMATION_SPEED } = useContext(StateGameContext)
+   const { stateGame, performActions, ANIMATION_SPEED } = useContext(StateGameContext)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [toBuyMln, setToBuyMln] = useState(initToBuyMln())
    const [btnClickedId, setBtnClickedId] = useState(-1)
@@ -105,23 +105,23 @@ const ModalStandardProjects = () => {
          switch (name) {
             case 'POWER PLANT':
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
-               performAction(ACTIONS.SP_POWER_PLANT)
+               performActions(ACTIONS.SP_POWER_PLANT)
                break
             case 'ASTEROID':
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
-               performAction(ACTIONS.SP_ASTEROID)
+               performActions(ACTIONS.SP_ASTEROID)
                break
             case 'AQUIFER':
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[3] })
-               performAction(ACTIONS.SP_AQUIFER)
+               performActions(ACTIONS.SP_AQUIFER)
                break
             case 'GREENERY':
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[4] })
-               performAction(ACTIONS.SP_GREENERY)
+               performActions(ACTIONS.SP_GREENERY)
                break
             case 'CITY':
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[5] })
-               performAction(ACTIONS.SP_CITY)
+               performActions(ACTIONS.SP_CITY)
                break
             default:
                break

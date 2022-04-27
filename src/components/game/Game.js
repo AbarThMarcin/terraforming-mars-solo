@@ -35,10 +35,9 @@ function Game({ setGameOn }) {
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
    const [modals, setModals] = useState(INIT_MODALS)
-   const [actionPart, setActionPart] = useState(0)
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1500)
 
-   function performAction(typeOrCardId) {
+   function performActions(typeOrCardId) {
       doAction(
          typeOrCardId,
          statePlayer,
@@ -49,8 +48,6 @@ function Game({ setGameOn }) {
          dispatchBoard,
          modals,
          setModals,
-         actionPart,
-         setActionPart,
          ANIMATION_SPEED
       )
    }
@@ -66,10 +63,10 @@ function Game({ setGameOn }) {
                value={{
                   stateGame,
                   dispatchGame,
-                  performAction,
+                  performActions,
                   requirementsMet,
                   ANIMATION_SPEED,
-                  setANIMATION_SPEED
+                  setANIMATION_SPEED,
                }}
             >
                <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>

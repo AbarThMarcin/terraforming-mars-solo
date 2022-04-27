@@ -1,33 +1,9 @@
-// import { EFFECTS } from './effects'
-export const CORPORATION_NAMES = {
-   CREDICOR: 'Credicor',
-   ECOLINE: 'Ecoline',
-   HELION: 'Helion',
-   INTERPLANETARY_CINEMATICS: 'Interplanetary Cinematics',
-   INVENTRIX: 'Inventrix',
-   MINING_GUILD: 'Mining Guild',
-   PHOBOLOG: 'Phobolog',
-   SATURN_SYSTEMS: 'Saturn Systems',
-   TERACTOR: 'Teractor',
-   THARSIS_REPUBLIC: 'Tharsis Republic',
-   THORGATE: 'Thorgate',
-   UNMI: 'UNMI',
-}
-
-export const EFFECTS_CORP = {
-   // Corporation Effects
-   CREDICOR_GAIN_4_RES_MLN: 'Gain 4M after playing card with 20+ mln base cost',
-   ECOLINE_7_PLANTS_FOR_GREENERY: 'Pay 7 plants, instead of 8, to place 1 greenery',
-   HELION_HEAT_INSTEAD_OF_MLN: 'Pay with heat instead of mln',
-   INTERPLANETARY_GAIN_2_RES_MLN: 'Gain 2M after playing event card',
-   INVENTRIX_PARAMETERS_REQUIREMENTS: 'Treat global parameters requirements as they are -2 or +2',
-   SATURN_GAIN_1_PROD_MLN: 'Gain 1 mln production',
-}
+import { EFFECTS_CORP } from './effects'
 
 export const CORPORATIONS = [
    {
       id: 1,
-      name: CORPORATION_NAMES.CREDICOR,
+      name: 'Credicor',
       description: 'Credicor',
       startingConditions: {
          production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -48,7 +24,7 @@ export const CORPORATIONS = [
    },
    {
       id: 2,
-      name: CORPORATION_NAMES.ECOLINE,
+      name: 'Ecoline',
       description: 'Ecoline',
       startingConditions: {
          production: { mln: 0, steel: 0, titan: 0, plants: 2, power: 0, heat: 0 },
@@ -69,7 +45,7 @@ export const CORPORATIONS = [
    },
    {
       id: 3,
-      name: CORPORATION_NAMES.HELION,
+      name: 'Helion',
       description: 'Helion',
       startingConditions: {
          production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 3 },
@@ -90,7 +66,7 @@ export const CORPORATIONS = [
    },
    // {
    //    id: 4,
-   //    name: CORPORATION_NAMES.INTERPLANETARY_CINEMATICS,
+   //    name: 'Interplanetary Cinematics',
    //    description: 'Interplanetary Cinematics',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -111,7 +87,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 5,
-   //    name: CORPORATION_NAMES.INVENTRIX,
+   //    name: 'Inventrix',
    //    description: 'Inventrix',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -132,7 +108,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 6,
-   //    name: CORPORATION_NAMES.MINING_GUILD,
+   //    name: 'Mining Guild'
    //    description: 'Mining Guild',
    //    startingConditions: {
    //       production: { mln: 0, steel: 1, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -148,7 +124,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 7,
-   //    name: CORPORATION_NAMES.PHOBOLOG,
+   //    name: 'Phobolog'
    //    description: 'Phobolog',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -164,7 +140,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 8,
-   //    name: CORPORATION_NAMES.SATURN_SYSTEMS,
+   //    name: 'Saturn Systems',
    //    description: 'Saturn Systems',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 1, plants: 0, power: 0, heat: 0 },
@@ -185,7 +161,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 9,
-   //    name: CORPORATION_NAMES.TERACTOR,
+   //    name: 'Teractor',
    //    description: 'Teractor',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -201,7 +177,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 10,
-   //    name: CORPORATION_NAMES.THARSIS_REPUBLIC,
+   //    name: 'Tharsis Republic',
    //    description: 'Tharsis Republic',
    //    startingConditions: {
    //       production: { mln: 2, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },
@@ -217,7 +193,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 11,
-   //    name: CORPORATION_NAMES.THORGATE,
+   //    name: 'Thorgate',
    //    description: 'Thorgate',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 1, heat: 0 },
@@ -233,7 +209,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 12,
-   //    name: CORPORATION_NAMES.UNMI,
+   //    name: 'UNMI',
    //    description: 'UNMI',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plants: 0, power: 0, heat: 0 },

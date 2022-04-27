@@ -27,4 +27,6 @@ export const INIT_STATE_GAME = {
       greenery: 23,
       city: 25,
    },
+   // Actions left
+   actionsLeft: [],
 }

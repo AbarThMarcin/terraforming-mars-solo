@@ -11,7 +11,7 @@ import { INIT_ANIMATION_DATA } from '../../../../initStates/initModals'
 
 const ModalCardWithAction = () => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame, performAction, requirementsMet, ANIMATION_SPEED } =
+   const { stateGame, getActions, performActions, requirementsMet, ANIMATION_SPEED } =
       useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const [toBuyTitan, setToBuyTitan] = useState(getInitToBuyTitan())
@@ -154,13 +154,16 @@ const ModalCardWithAction = () => {
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
             payload: [...statePlayer.cardsPlayed, modals.modalCard],
          })
-         // Call Card Action
-         performAction(modals.modalCard.id)
-         // Call Card Effects
+         // Call Card Action, as well as all effects
+         let actions = []
+         getActions(modals.modalCard.id).forEach((action) => actions.push(action))
          modals.modalCard.effectsToCall.forEach((effect) => {
             if (statePlayer.effects.some((stateEffect) => stateEffect.name === effect))
                performEffect(effect, dispatchPlayer)
          })
+         performActions(actions)
+
+         
          // Add tags to the corporation
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_TAGS,

@@ -1,5 +1,5 @@
 import { EFFECTS } from './effects'
-import { EFFECTS_CORP } from './corporations'
+import { EFFECTS_CORP } from './effects'
 
 // effectsToAdd includes array of objects (name and snapUrl), while effectsToCall includes array of only names.
 export const CARDS = [

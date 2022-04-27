@@ -25,8 +25,6 @@ export const doAction = (
    dispatchBoard,
    modals,
    setModals,
-   actionPart,
-   setActionPart,
    ANIMATION_SPEED
 ) => {
    let subActions = []
@@ -100,10 +98,3 @@ function performSubActions(subActions, ANIMATION_SPEED, modals, setModals) {
       }))
    }, subActions.length * ANIMATION_SPEED)
 }
-
-
-
-
-
-
-// zrobic kolejnosc subakcji z interakcją gracza. Da sie tak chyba tylko tworzac dodac jakis numer subakcji do stateGame czy cos...

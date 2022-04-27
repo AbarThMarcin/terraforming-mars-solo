@@ -8,7 +8,7 @@ import { INIT_ANIMATION_DATA } from '../../../../../initStates/initModals'
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { performAction, ANIMATION_SPEED } = useContext(StateGameContext)
+   const { performActions, ANIMATION_SPEED } = useContext(StateGameContext)
 
    const actionGreenery = () => {
       // ------------------------ ANIMATIONS ------------------------
@@ -34,7 +34,7 @@ const ProdResPanel = () => {
             type: ACTIONS_PLAYER.CHANGE_RES_PLANTS,
             payload: -statePlayer.valueGreenery,
          })
-         performAction(ACTIONS.CONVERT_PLANTS)
+         performActions(ACTIONS.CONVERT_PLANTS)
       }, ANIMATION_SPEED)
    }
 
@@ -59,7 +59,7 @@ const ProdResPanel = () => {
          })
          // Heat Action
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 })
-         performAction(ACTIONS.CONVERT_HEAT)
+         performActions(ACTIONS.CONVERT_HEAT)
       }, ANIMATION_SPEED)
    }
 

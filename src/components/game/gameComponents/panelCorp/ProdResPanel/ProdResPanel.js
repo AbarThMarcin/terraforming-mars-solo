@@ -1,65 +1,92 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import { ACTIONS } from '../../../../../data/actions'
+import { IMM_EFFECTS } from '../../../../../data/immEffects'
 import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
 import ProdResSnap from './ProdResSnap'
-import { INIT_ANIMATION_DATA } from '../../../../../initStates/initModals'
+import { ACTIONS_GAME } from '../../../../../util/actionsGame'
+import {
+   ANIMATIONS,
+   endAnimation,
+   setAnimation,
+   startAnimation,
+} from '../../../../../data/animations'
+import { RESOURCES } from '../../../../../data/resources'
+import { getSPeffectsToCall } from '../../../../../data/effects'
+import { TILES } from '../../../../../data/board'
 
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { modals, setModals } = useContext(ModalsContext)
-   const { performActions, ANIMATION_SPEED } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED } =
+      useContext(StateGameContext)
+   const { setModals } = useContext(ModalsContext)
 
    const actionGreenery = () => {
-      // ------------------------ ANIMATIONS ------------------------
-      setModals({
-         ...modals,
-         animationData: {
-            ...modals.animationData,
-            resourcesOut: {
-               type: 'plants',
-               value: statePlayer.valueGreenery,
-            },
-         },
-         animation: true,
-      })
+      // Cost animation
+      startAnimation(setModals)
+      setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals)
+      // Proper convert plants to greenery action
       setTimeout(() => {
-         setModals({
-            ...modals,
-            animationData: INIT_ANIMATION_DATA,
-            animation: false,
-         })
-         // Greenery Action
+         endAnimation(setModals)
+         // Decrease plants
          dispatchPlayer({
-            type: ACTIONS_PLAYER.CHANGE_RES_PLANTS,
+            type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
             payload: -statePlayer.valueGreenery,
          })
-         performActions(ACTIONS.CONVERT_PLANTS)
+         // Proper action
+         let actions = getImmEffects(IMM_EFFECTS.GREENERY)
+         // Possible effects for placing greenery
+         let spEffects = getSPeffectsToCall(TILES.GREENERY)
+         spEffects.forEach((spEffect) => {
+            if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+               actions.push(getEffect(spEffect))
+            if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
+               actions.push(getEffect(spEffect))
+         })
+         // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, 8- oceans)
+         if (
+            stateGame.globalParameters.oxygen === 7 &&
+            stateGame.globalParameters.temperature === -2 &&
+            stateGame.globalParameters.oceans < 9
+         ) {
+            spEffects = getSPeffectsToCall(TILES.OCEAN)
+            spEffects.forEach((spEffect) => {
+               if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                  actions.push(getEffect(spEffect))
+               if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
+                  actions.push(getEffect(spEffect))
+            })
+         }
+         dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
+         performSubActions(actions)
       }, ANIMATION_SPEED)
    }
 
    const actionTemperature = () => {
-      // ------------------------ ANIMATIONS ------------------------
-      setModals({
-         ...modals,
-         animationData: {
-            ...modals.animationData,
-            resourcesOut: {
-               type: 'heat',
-               value: 8,
-            },
-         },
-         animation: true,
-      })
+      // Cost animation
+      startAnimation(setModals)
+      setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals)
+      // Proper convert heat to temperature action
       setTimeout(() => {
-         setModals({
-            ...modals,
-            animationData: INIT_ANIMATION_DATA,
-            animation: false,
-         })
-         // Heat Action
+         endAnimation(setModals)
+         // Decrease heat
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 })
-         performActions(ACTIONS.CONVERT_HEAT)
+         // Proper action
+         let actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
+         // Possible effects for placing ocean, if increasing temp gets the ocean bonus
+         if (
+            stateGame.globalParameters.temperature === -2 &&
+            stateGame.globalParameters.oceans < 9
+         ) {
+            let spEffects = getSPeffectsToCall(TILES.OCEAN)
+            spEffects.forEach((spEffect) => {
+               if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                  actions.push(getEffect(spEffect))
+               if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
+                  actions.push(getEffect(spEffect))
+            })
+         }
+         dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
+         performSubActions(actions)
       }, ANIMATION_SPEED)
    }
 
@@ -84,14 +111,14 @@ const ProdResPanel = () => {
             action={{ func: null, type: null }}
          />
          <ProdResSnap
-            prod={statePlayer.production.plants}
-            res={statePlayer.resources.plants}
+            prod={statePlayer.production.plant}
+            res={statePlayer.resources.plant}
             icon={null}
             action={{ func: actionGreenery, type: 'greenery' }}
          />
          <ProdResSnap
-            prod={statePlayer.production.power}
-            res={statePlayer.resources.power}
+            prod={statePlayer.production.energy}
+            res={statePlayer.resources.energy}
             icon={null}
             action={{ func: null, type: null }}
          />

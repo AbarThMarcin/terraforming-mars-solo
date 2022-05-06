@@ -1,0 +1,74 @@
+.anim-prod-res {
+   position: absolute;
+   width: calc(var(--default-size) * 2.3);
+   height: calc(var(--default-size) * 2.3);
+   animation-timing-function: ease-in-out;
+   animation-iteration-count: infinite;
+   top: 50%;
+   transform: translateY(-50%);
+}
+
+.anim-prod-res .img-prod {
+   position: absolute;
+   display: block;
+   justify-content: center;
+   align-items: center;
+}
+
+.anim-prod-res .img-res {
+   position: absolute;
+   display: block;
+   width: 65%;
+   height: 65%;
+}
+
+.anim-prod-res .value {
+   position: absolute;
+   font-size: var(--default-size);
+   color: #000;
+}
+
+.anim-prod-res-in {
+   animation-name: animate-prod-res-in
+}
+.anim-prod-res-out {
+   animation-name: animate-prod-res-out
+}
+
+@keyframes animate-prod-res-in {
+   0% {
+      opacity: 0;
+      right: -150%;
+   }
+   20% {
+      opacity: 1;
+      right: -100%;
+   }
+   80% {
+      opacity: 1;
+      right: -100%;
+   }
+   100% {
+      opacity: 0;
+      right: -50%;
+   }
+}
+
+@keyframes animate-prod-res-out {
+   0% {
+      opacity: 0;
+      right: -50%;
+   }
+   20% {
+      opacity: 1;
+      right: -100%;
+   }
+   80% {
+      opacity: 1;
+      right: -100%;
+   }
+   100% {
+      opacity: 0;
+      right: -150%;
+   }
+}

@@ -1,16 +1,37 @@
 import { useContext } from 'react'
-import { StateGameContext, StateBoardContext } from '../../../Game'
+import {
+   StatePlayerContext,
+   StateGameContext,
+   CardsContext,
+   StateBoardContext,
+   ModalsContext,
+} from '../../../Game'
 import city from '../../../../../assets/images/objects/city.png'
 import greenery from '../../../../../assets/images/objects/greenery.png'
+import ocean from '../../../../../assets/images/objects/ocean.png'
 import FieldBonus from './FieldBonus'
 import FieldLine from './FieldLine'
-import { TILE_NAMES } from '../../../../../data/board'
-import { ACTIONS_BOARD } from '../../../../../util/actionsBoard'
+import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
+import { ACTIONS_BOARD } from '../../../../../util/actionsBoard'
+import { TILES } from '../../../../../data/board'
+import {
+   ANIMATIONS,
+   endAnimation,
+   getAnimNameBasedOnBonus,
+   setAnimation,
+   startAnimation,
+} from '../../../../../data/animations'
+import { getNeighbors, modifiedCards } from '../../../../../util/misc'
+import { RESOURCES } from '../../../../../data/resources'
 
 const Field = ({ field }) => {
-   const { stateGame, dispatchGame } = useContext(StateGameContext)
-   const { dispatchBoard } = useContext(StateBoardContext)
+   const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
+   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
+      useContext(StateGameContext)
+   const { cards, setCards } = useContext(CardsContext)
+   const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
+   const { setModals } = useContext(ModalsContext)
    const styles = {
       left:
          field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
@@ -37,6 +58,79 @@ const Field = ({ field }) => {
       // Turn phasePlaceTile off
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: null })
+      // Receive tile bonus
+      let uniqBonuses = [...new Set(field.bonus)]
+      if (uniqBonuses.length > 0) {
+         // Start Animation
+         startAnimation(setModals)
+         for (let i = 0; i < uniqBonuses.length; i++) {
+            const countBonus = field.bonus.reduce(
+               (arr, value) => (value === uniqBonuses[i] ? arr + 1 : arr),
+               0
+            )
+            const animName = getAnimNameBasedOnBonus(uniqBonuses[i])
+            setTimeout(
+               () => setAnimation(animName, uniqBonuses[i], countBonus, setModals),
+               i * ANIMATION_SPEED
+            )
+            // Execute bonus action
+            setTimeout(() => {
+               switch (uniqBonuses[i]) {
+                  case RESOURCES.STEEL:
+                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: countBonus })
+                     break
+                  case RESOURCES.TITAN:
+                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: countBonus })
+                     break
+                  case RESOURCES.PLANT:
+                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
+                     break
+                  case RESOURCES.CARD:
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: [
+                           ...statePlayer.cardsInHand,
+                           ...modifiedCards(cards.slice(0, countBonus), statePlayer),
+                        ],
+                     })
+                     setCards(cards.slice(countBonus))
+                     break
+                  default:
+                     break
+               }
+            }, (i + 1) * ANIMATION_SPEED)
+            // End animation
+            if (i === uniqBonuses.length - 1)
+               setTimeout(() => endAnimation(setModals), uniqBonuses.length * ANIMATION_SPEED)
+         }
+      }
+      // Receive mln for ocean bonus
+      let bonusMln
+      const oceanNeighbors = getNeighbors(field.x, field.y, stateBoard).filter(
+         (nb) => nb.object === TILES.OCEAN
+      )
+      if (oceanNeighbors.length) {
+         bonusMln = oceanNeighbors.length * 2
+         setTimeout(() => {
+            startAnimation(setModals)
+            setAnimation(ANIMATIONS.RESOURCES_IN, RESOURCES.MLN, bonusMln, setModals)
+         }, uniqBonuses.length * ANIMATION_SPEED)
+         setTimeout(() => {
+            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: bonusMln })
+            endAnimation(setModals)
+         }, (uniqBonuses.length + 1) * ANIMATION_SPEED)
+      }
+      // Proper action
+      setTimeout(
+         () => {
+            // Continue performing actions/effects
+            startAnimation(setModals)
+            performSubActions(stateGame.actionsLeft)
+         },
+         bonusMln
+            ? (uniqBonuses.length + 1) * ANIMATION_SPEED
+            : uniqBonuses.length * ANIMATION_SPEED
+      )
    }
 
    return (
@@ -69,12 +163,14 @@ const Field = ({ field }) => {
                </div>
             )}
             {/* Field Object */}
-            {(field.object === TILE_NAMES.CITY || field.object === TILE_NAMES.CITY_NEUTRAL) && (
-               <img src={city} className="field-object" alt={TILE_NAMES.CITY}></img>
+            {(field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL) && (
+               <img src={city} className="field-object" alt={TILES.CITY}></img>
             )}
-            {(field.object === TILE_NAMES.GREENERY ||
-               field.object === TILE_NAMES.GREENERY_NEUTRAL) && (
-               <img src={greenery} className="field-object" alt={TILE_NAMES}></img>
+            {(field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL) && (
+               <img src={greenery} className="field-object" alt={TILES.GREENERY}></img>
+            )}
+            {field.object === TILES.OCEAN && (
+               <img src={ocean} className="field-object" alt={TILES.OCEAN}></img>
             )}
          </div>
          {/* Container Extensions */}

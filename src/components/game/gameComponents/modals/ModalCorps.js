@@ -29,21 +29,13 @@ const ModalCorps = () => {
    const handleCorpsClick = () => {
       // Assign choosen corporation to statePlayer.corporation
       dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_CORPORATION, payload: corps[selectedCorp] })
-      // Set tags
-      dispatchPlayer({ type: ACTIONS_PLAYER.SET_TAGS, payload: corps[selectedCorp].tags })
-      // Set actions
-      dispatchPlayer({ type: ACTIONS_PLAYER.SET_ACTIONS, payload: corps[selectedCorp].actions })
-      // Set effects and do immediate effects
-      dispatchPlayer({ type: ACTIONS_PLAYER.SET_EFFECTS, payload: corps[selectedCorp].effects })
-      performImmediateCorpEffect(corps[selectedCorp], dispatchPlayer)
+      // Perform immediate effects
+      performImmediateCorpEffect(corps[selectedCorp], dispatchPlayer, dispatchGame)
       // Turn off corporation phase and turn on draft phase
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_CORPORATION, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
       setModals({ ...modals, corps: false, draft: true })
    }
-
-   
-   
 
    return (
       <>

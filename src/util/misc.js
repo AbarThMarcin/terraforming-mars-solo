@@ -1,4 +1,9 @@
-import { TILE_NAMES } from "../data/board";
+import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
+import { TILES } from '../data/board'
+import { EFFECTS } from '../data/effects'
+import { TAGS } from '../data/tags'
+import { ACTIONS_GAME } from './actionsGame'
+import { ACTIONS_PLAYER } from './actionsPlayer'
 
 // Shuffles array
 export const shuffle = (array) => {
@@ -77,11 +82,13 @@ export const getBoardWithNeutral = ([...initBoard]) => {
 
    while (citiesLeft > 0) {
       let cityId = randomInteger(0, initBoard.length - 1)
-      let neighbors = getNeighbors(cityId, initBoard)
+      let neighbors = getNeighbors(initBoard[cityId].x, initBoard[cityId].y, initBoard)
       if (
          !initBoard[cityId].oceanOnly &&
          !initBoard[cityId].object &&
          initBoard[cityId].name !== 'NOCTIC CITY' &&
+         initBoard[cityId].name !== 'PHOBOS SPACE HAVEN' &&
+         initBoard[cityId].name !== 'GANYMEDE COLONY' &&
          !hasNeutralCityOrGreenery(neighbors)
       ) {
          initBoard[cityId].object = 'city-neutral'
@@ -111,41 +118,27 @@ function randomInteger(min, max) {
    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function getNeighbors(id, board) {
+export function getNeighbors(x, y, board) {
    let neighbors = []
-   let x = board[id].x
-   let y = board[id].y
    let neighbor
 
    // Top left neighbor
-   neighbor = board.find((field) => {
-      return field.x === x - 1 && field.y === y - 1
-   })
+   neighbor = board.find((field) => field.x === x - 1 && field.y === y - 1)
    if (neighbor !== undefined) neighbors.push(neighbor)
    // Top Right neighbor
-   neighbor = board.find((field) => {
-      return field.x === x - 1 && field.y === y + 1
-   })
+   neighbor = board.find((field) => field.x === x - 1 && field.y === y + 1)
    if (neighbor !== undefined) neighbors.push(neighbor)
    // Right neighbor
-   neighbor = board.find((field) => {
-      return field.x === x && field.y === y + 2
-   })
+   neighbor = board.find((field) => field.x === x && field.y === y + 2)
    if (neighbor !== undefined) neighbors.push(neighbor)
    // Bottom right neighbor
-   neighbor = board.find((field) => {
-      return field.x === x + 1 && field.y === y + 1
-   })
+   neighbor = board.find((field) => field.x === x + 1 && field.y === y + 1)
    if (neighbor !== undefined) neighbors.push(neighbor)
    // Bottom left neighbor
-   neighbor = board.find((field) => {
-      return field.x === x + 1 && field.y === y - 1
-   })
+   neighbor = board.find((field) => field.x === x + 1 && field.y === y - 1)
    if (neighbor !== undefined) neighbors.push(neighbor)
    // Left neighbor
-   neighbor = board.find((field) => {
-      return field.x === x && field.y === y - 2
-   })
+   neighbor = board.find((field) => field.x === x && field.y === y - 2)
    if (neighbor !== undefined) neighbors.push(neighbor)
 
    return neighbors
@@ -153,6 +146,197 @@ function getNeighbors(id, board) {
 
 function hasNeutralCityOrGreenery(neighbors) {
    return neighbors.some((neighbor) => {
-      return neighbor.object === TILE_NAMES.CITY_NEUTRAL || neighbor.object === TILE_NAMES.GREENERY_NEUTRAL
+      return neighbor.object === TILES.CITY_NEUTRAL || neighbor.object === TILES.GREENERY_NEUTRAL
    })
+}
+
+export function funcPerformSubActions(
+   subActions,
+   ANIMATION_SPEED,
+   setModals,
+   dispatchGame,
+   setUpdateVpTrigger
+) {
+   let iLast = subActions.length - 1
+   for (let i = 0; i <= subActions.length - 1; i++) {
+      if (subActions[i].name === ANIMATIONS.USER_INTERACTION) {
+         iLast = i
+         break
+      }
+   }
+   if (iLast === -1) {
+      endAnimation(setModals)
+      setUpdateVpTrigger((prevValue) => !prevValue)
+   }
+   // Loop through all subactions
+   for (let i = 0; i <= iLast; i++) {
+      if (subActions[i].name !== ANIMATIONS.USER_INTERACTION) {
+         // Execute Animation
+         setTimeout(() => {
+            startAnimation(setModals)
+            setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals)
+         }, i * ANIMATION_SPEED)
+         // Execute action
+         setTimeout(() => subActions[i].func(), (i + 1) * ANIMATION_SPEED)
+      } else {
+         // Execute action
+         setTimeout(() => subActions[i].func(), i * ANIMATION_SPEED)
+      }
+      if (i === iLast) {
+         // End animation and remove performed actions from stateGame.actionsLeft
+         setTimeout(
+            () => {
+               endAnimation(setModals)
+               dispatchGame({
+                  type: ACTIONS_GAME.SET_ACTIONSLEFT,
+                  payload: subActions.slice(iLast + 1),
+               })
+               if (subActions[i].name !== ANIMATIONS.USER_INTERACTION)
+                  setUpdateVpTrigger((prevValue) => !prevValue)
+            },
+            subActions[i].name !== ANIMATIONS.USER_INTERACTION
+               ? (i + 1) * ANIMATION_SPEED
+               : i * ANIMATION_SPEED
+         )
+      }
+   }
+}
+
+export function getAllResources(card, statePlayer) {
+   let resources = statePlayer.resources.mln
+   if (hasTag(card, TAGS.BUILDING))
+      resources += statePlayer.resources.steel * statePlayer.valueSteel
+   if (hasTag(card, TAGS.SPACE)) resources += statePlayer.resources.titan * statePlayer.valueTitan
+   if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+   return resources
+}
+
+// A function that decreases cost of the card based on current decreasing cost effects
+export function modifiedCards(cards, statePlayer) {
+   let currentEffects = [...statePlayer.corporation.effects]
+   statePlayer.cardsPlayed.forEach((card) => {
+      if (card.effect !== null) currentEffects.push(card.effect)
+   })
+   return cards.map((card) => {
+      let costLess = 0
+      if (card.tags.includes(TAGS.EARTH)) {
+         if (currentEffects.includes(EFFECTS.EFFECT_EARTH_OFFICE)) costLess += 3
+         if (currentEffects.includes(EFFECTS.EFFECT_TERACTOR)) costLess += 3
+      }
+      if (card.tags.includes(TAGS.POWER)) {
+         if (currentEffects.includes(EFFECTS.EFFECT_THORGATE)) costLess += 3
+      }
+      if (card.tags.includes(TAGS.SPACE)) {
+         if (currentEffects.includes(EFFECTS.EFFECT_SPACE_STATION)) costLess += 2
+         if (currentEffects.includes(EFFECTS.EFFECT_SHUTTLES)) costLess += 2
+         if (currentEffects.includes(EFFECTS.EFFECT_MASS_CONVERTER)) costLess += 2
+         if (currentEffects.includes(EFFECTS.EFFECT_QUANTUM_EXTRACTOR)) costLess += 2
+      }
+      if (currentEffects.includes(EFFECTS.EFFECT_RESEARCH_OUTPOST)) costLess += 1
+      if (currentEffects.includes(EFFECTS.EFFECT_EARTH_CATAPULT)) costLess += 2
+      if (currentEffects.includes(EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY)) costLess += 2
+      return { ...card, currentCost: card.currentCost - costLess }
+   })
+}
+
+export function updateVP(statePlayer, dispatchPlayer, stateBoard) {
+   statePlayer.cardsPlayed.forEach((card) =>
+      updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard)
+   )
+}
+
+function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
+   let newVp = card.vp
+   switch (card.id) {
+      case 5:
+         card.units.microbe > 0 ? (newVp = 3) : (newVp = 0)
+         break
+      case 8:
+         let capitalCity = stateBoard.find((field) => field.object === TILES.SPECIAL_CITY_CAPITAL)
+         let oceans = getNeighbors(capitalCity.x, capitalCity.y, stateBoard).filter(
+            (nbField) => nbField.object === TILES.OCEAN
+         )
+         newVp = oceans.length
+         break
+      case 12:
+         newVp = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.JOVIAN)).length
+         break
+      case 24:
+         newVp = card.units.animal
+         break
+      case 28:
+         newVp = card.units.fighter
+         break
+      case 35:
+         newVp = Math.floor(card.units.microbe / 2)
+         break
+      case 49:
+         newVp = Math.floor(card.units.microbe / 4)
+         break
+      case 52:
+         newVp = card.units.animal
+         break
+      case 54:
+         newVp = Math.floor(card.units.animal / 2)
+         break
+      case 72:
+         newVp = card.units.animal
+         break
+      case 81:
+         newVp = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.JOVIAN)).length
+         break
+      case 85:
+         let commercialDistrict = stateBoard.find(
+            (field) => field.object === TILES.SPECIAL_COMMERCIAL_DISTRICT
+         )
+         let cities = getNeighbors(commercialDistrict.x, commercialDistrict.y, stateBoard).filter(
+            (nbField) =>
+               nbField.object === TILES.CITY ||
+               nbField.object === TILES.CITY_NEUTRAL ||
+               nbField.object === TILES.SPECIAL_CITY_CAPITAL ||
+               nbField.object === TILES.SPECIAL_CITY_NOCTIS
+         )
+         newVp = cities.length
+         break
+      case 92:
+         newVp = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.JOVIAN)).length
+         break
+      case 95:
+         newVp = card.units.science * 2
+         break
+      case 128:
+         newVp = Math.floor(card.units.animal / 2)
+         break
+      case 131:
+         newVp = Math.floor(card.units.microbe / 3)
+         break
+      case 147:
+         newVp = Math.floor(card.units.animal / 2)
+         break
+      case 172:
+         newVp = Math.floor(card.units.animal / 2)
+         break
+      case 184:
+         newVp = card.units.animal
+         break
+      case 198:
+         let allCities = stateBoard.filter(
+            (field) =>
+               field.object === TILES.CITY ||
+               field.object === TILES.CITY_NEUTRAL ||
+               field.object === TILES.SPECIAL_CITY_CAPITAL ||
+               field.object === TILES.SPECIAL_CITY_NOCTIS ||
+               field.object === TILES.SPECIAL_CITY_GANYMEDE ||
+               field.object === TILES.SPECIAL_CITY_PHOBOS
+         )
+         newVp = Math.floor(allCities.length / 3)
+         break
+      default:
+         break
+   }
+   dispatchPlayer({ type: ACTIONS_PLAYER.UPDATE_VP, payload: { cardId: card.id, vp: newVp } })
+}
+
+export function scale(number, inMin, inMax, outMin, outMax) {
+   return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
 }

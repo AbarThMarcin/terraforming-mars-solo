@@ -8,9 +8,12 @@ import ModalBtnAction from './modalsComponents/ModalBtnAction'
 import Card from '../Card'
 import CardBtn from './modalsComponents/CardBtn'
 import { getPosition } from '../../../../util/misc'
+import { SP } from '../../../../data/StandardProjects'
+import { ANIMATIONS } from '../../../../data/animations'
+import { RESOURCES } from '../../../../data/resources'
 
 const ModalSellCards = () => {
-   const { stateGame } = useContext(StateGameContext)
+   const { stateGame, performSubActions } = useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [mlnBack, setMlnBack] = useState(0)
@@ -18,15 +21,29 @@ const ModalSellCards = () => {
    const textSellConfirmation = 'Are you sure you want to sell these project cards?'
 
    const onYesFunc = () => {
-      // Remove selected cards from Cards in Hand
-      dispatchPlayer({
-         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: statePlayer.cardsInHand.filter((c) => !selectedCards.includes(c)),
-      })
-      // Add mlns to player's mln resource
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: mlnBack })
+      let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals
       setModals({ ...modals, confirmation: false, sellCards: false, standardProjects: false })
+      // Add removal of selected cards to the subActions
+      subActions.push({
+         name: ANIMATIONS.CARD_OUT,
+         type: RESOURCES.CARD,
+         value: mlnBack,
+         func: () =>
+            dispatchPlayer({
+               type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+               payload: statePlayer.cardsInHand.filter((c) => !selectedCards.includes(c)),
+            }),
+      })
+      // Add mln addition to the subAction
+      subActions.push({
+         name: ANIMATIONS.RESOURCES_IN,
+         type: RESOURCES.MLN,
+         value: mlnBack,
+         func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: mlnBack }),
+      })
+      // Perform subActions
+      performSubActions(subActions)
    }
 
    const handleClickCardBtn = (card) => {
@@ -47,7 +64,7 @@ const ModalSellCards = () => {
          `}
       >
          {/* HEADER */}
-         <ModalHeader text="SELL PATENT" eachText="1 each" />
+         <ModalHeader text={SP.SELL_PATENT} eachText="1 each" />
 
          {/* ACTION BUTTON */}
          <ModalBtnAction

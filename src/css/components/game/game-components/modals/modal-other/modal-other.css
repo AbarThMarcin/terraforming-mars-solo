@@ -1,0 +1,38 @@
+@import url('./modal-other-data/modal-other-data.css');
+
+.modal-other-bg {
+   background-color: rgba(0, 0, 0, 0.8);
+   position: relative;
+}
+
+.modal-other-box {
+   width: 30%;
+   height: 70%;
+   background: rgb(42, 78, 102);
+   background: linear-gradient(
+      180deg,
+      rgba(42, 78, 102, 1) 0%,
+      rgb(62, 115, 151) 50%,
+      rgba(42, 78, 102, 1) 100%
+   );
+   padding: var(--default-size);
+}
+
+.modal-other-box-header {
+   position: absolute;
+   left: 0;
+   top: -5%;
+}
+
+.modal-other-box-close-btn {
+   position: absolute;
+   right: 0;
+   top: -5%;
+   width: calc(var(--default-size) * 1.5);
+   height: calc(var(--default-size) * 1.5);
+   border: calc(var(--default-size) * 0.15) solid #fff;
+}
+
+.modal-other-box-close-btn:hover {
+   background-color: #555;
+}

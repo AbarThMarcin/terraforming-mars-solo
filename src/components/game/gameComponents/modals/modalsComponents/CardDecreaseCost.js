@@ -1,6 +1,8 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 import { hasTag } from '../../../../../util/misc'
+import { RESOURCES } from '../../../../../data/resources'
+import { TAGS } from '../../../../../data/tags'
 
 const CardDecreaseCost = ({
    toBuyMln,
@@ -23,9 +25,17 @@ const CardDecreaseCost = ({
       let resTitan = toBuyTitan
       let resHeat = toBuyHeat
       if (operation === 'increment') {
-         resource === 'steel' ? resSteel++ : resource === 'titan' ? resTitan++ : resHeat++
+         resource === RESOURCES.STEEL
+            ? resSteel++
+            : resource === RESOURCES.TITAN
+            ? resTitan++
+            : resHeat++
       } else if (operation === 'decrement') {
-         resource === 'steel' ? resSteel-- : resource === 'titan' ? resTitan-- : resHeat--
+         resource === RESOURCES.STEEL
+            ? resSteel--
+            : resource === RESOURCES.TITAN
+            ? resTitan--
+            : resHeat--
       }
       resMln = Math.max(
          0,
@@ -63,36 +73,36 @@ const CardDecreaseCost = ({
    return (
       <div className="card-decrease-cost-container">
          <div className="card-decrease-cost-header">DECREASE COST</div>
-         {statePlayer.resources.steel > 0 && hasTag(modals.modalCard, 'building') && (
+         {statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING) && (
             <div className="card-decrease-cost">
                <span>{toBuySteel} STEEL</span>
                {toBuySteel > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"
-                     onClick={() => handleClickArrow('steel', 'decrement')}
+                     onClick={() => handleClickArrow(RESOURCES.STEEL, 'decrement')}
                   ></div>
                )}
                {toBuySteel < statePlayer.resources.steel && toBuyMln !== 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-right"
-                     onClick={() => handleClickArrow('steel', 'increment')}
+                     onClick={() => handleClickArrow(RESOURCES.STEEL, 'increment')}
                   ></div>
                )}
             </div>
          )}
-         {statePlayer.resources.titan > 0 && hasTag(modals.modalCard, 'space') && (
+         {statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE) && (
             <div className="card-decrease-cost">
                <span>{toBuyTitan} TITAN</span>
                {toBuyTitan > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"
-                     onClick={() => handleClickArrow('titan', 'decrement')}
+                     onClick={() => handleClickArrow(RESOURCES.TITAN, 'decrement')}
                   ></div>
                )}
                {toBuyTitan < statePlayer.resources.titan && toBuyMln !== 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-right"
-                     onClick={() => handleClickArrow('titan', 'increment')}
+                     onClick={() => handleClickArrow(RESOURCES.TITAN, 'increment')}
                   ></div>
                )}
             </div>
@@ -103,13 +113,13 @@ const CardDecreaseCost = ({
                {toBuyHeat > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"
-                     onClick={() => handleClickArrow('heat', 'decrement')}
+                     onClick={() => handleClickArrow(RESOURCES.HEAT, 'decrement')}
                   ></div>
                )}
                {toBuyHeat < statePlayer.resources.heat && toBuyMln !== 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-right"
-                     onClick={() => handleClickArrow('heat', 'increment')}
+                     onClick={() => handleClickArrow(RESOURCES.HEAT, 'increment')}
                   ></div>
                )}
             </div>

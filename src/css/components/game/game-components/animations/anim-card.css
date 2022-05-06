@@ -1,0 +1,51 @@
+.anim-card {
+   position: absolute;
+   width: calc(var(--default-size) * 3);
+   height: calc(var(--default-size) * 4.5);
+   animation-iteration-count: infinite;
+   top: -150%;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: -1;
+}
+
+.anim-card .value {
+   position: absolute;
+   font-size: calc(var(--default-size) * 1.8);
+   color: #fff;
+}
+
+.anim-card-in {
+   animation-name: animate-card-in;
+   animation-timing-function: ease-in;
+}
+.anim-card-out {
+   animation-name: animate-card-out;
+   animation-timing-function: ease-out;
+}
+
+@keyframes animate-card-in {
+   0% {
+      top: -150%;
+   }
+   50% {
+      top: -150%;
+   }
+   100% {
+      top: 0%;
+   }
+}
+
+@keyframes animate-card-out {
+   0% {
+      top: 0%;
+   }
+   50% {
+      top: -150%;
+      opacity: 1
+   }
+   100% {
+      top: -150%;
+      opacity: 0
+   }
+}

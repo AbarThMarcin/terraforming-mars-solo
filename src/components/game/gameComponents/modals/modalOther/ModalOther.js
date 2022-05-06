@@ -3,11 +3,11 @@
 import { useState, useContext } from 'react'
 import { ModalsContext } from '../../../Game'
 import Card from '../../Card'
-import ModalOtherData from './ModalOtherData'
+import ModalOtherData from './modalOtherData/ModalOtherData'
 
 const ModalOther = () => {
    const { modals, setModals } = useContext(ModalsContext)
-   const [cardSnapForVP, setCardSnapForVP] = useState(null)
+   const [cardSnap, setCardSnap] = useState(null)
 
    const getTextWhenNoData = (header) => {
       switch (header) {
@@ -29,33 +29,33 @@ const ModalOther = () => {
    return (
       <>
          <div
-            className="modal-other-sp-container full-size"
+            className={`modal-other-bg full-size ${modals.confirmation && 'display-none'}`}
             onClick={() => setModals({ ...modals, other: false })}
          >
-            <div className="modal-other-sp otherbg center" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-other-box center" onClick={(e) => e.stopPropagation()}>
                {/* HEADER */}
-               <div className="modal-other-sp-header">
+               <div className="modal-other-box-header">
                   {modals.modalOther.header} {modals.modalOther.amount}
                </div>
                {/* CLOSE BUTTON */}
                <div
-                  className="modal-other-sp-close-btn pointer"
+                  className="modal-other-box-close-btn pointer"
                   onClick={() => setModals({ ...modals, other: false })}
                >
                   X
                </div>
                {/* DATA */}
                {modals.modalOther.data.length === 0 ? (
-                  <div className="modal-other-sp-no-data">
+                  <div className="modal-other-box-no-data center">
                      {getTextWhenNoData(modals.modalOther.header)}
                   </div>
                ) : (
-                  <ModalOtherData setCardSnapForVP={setCardSnapForVP} />
+                  <ModalOtherData setCardSnap={setCardSnap} />
                )}
                {/* CARD SNAP FOR VP VIEW */}
-               {cardSnapForVP && (
-                  <div className="modal-other-vp-card">
-                     <Card card={cardSnapForVP} />
+               {cardSnap && (
+                  <div className="modal-other-card">
+                     <Card card={cardSnap} />
                   </div>
                )}
             </div>

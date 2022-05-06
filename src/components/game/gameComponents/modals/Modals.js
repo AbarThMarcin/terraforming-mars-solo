@@ -37,10 +37,8 @@ const Modals = ({ setGameOn }) => {
    return (
       <>
          {modals.sellCards && <ModalSellCards />}
-         {modals.cards && <ModalCards />}
          {modals.corps && <ModalCorps />}
          {modals.log && <ModalLog />}
-         {modals.other && <ModalOther />}
          {modals.standardProjects && <ModalStandardProjects />}
          <AnimatePresence>
             {modals.draft && (
@@ -52,14 +50,16 @@ const Modals = ({ setGameOn }) => {
                   exit="hidden"
                   transition={{ duration: 0.1, delay: 0.2 }}
                   className={`
-                  modal-draft center
+               modal-draft center
                ${(modals.cards || stateGame.phaseViewGameState) && 'display-none'}
-            `}
+               `}
                >
                   <ModalDraft />
                </motion.div>
             )}
          </AnimatePresence>
+         {modals.cards && <ModalCards />}
+         {modals.other && <ModalOther />}
          {modals.corp && <ModalCorp />}
          {modals.cardWithAction && <ModalCardWithAction />}
          {modals.cardViewOnly && <ModalCardViewOnly />}

@@ -1,15 +1,13 @@
-/* LIST OF ALL EFFECTS:                ModalCardWithAction Component
-This includes all effects in game EXCEPT immediate effects from corporations, listed in the
-ModalCorps component => callImmediateEffect function. */
-
-import { useReducer, createContext, useState } from 'react'
+import { useReducer, createContext, useState, useEffect } from 'react'
 import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
 import { INIT_STATE_GAME } from '../../initStates/initStateGame'
 import { INIT_MODALS } from '../../initStates/initModals'
 import { reducerGame } from '../../util/actionsGame'
 import { reducerPlayer } from '../../util/actionsPlayer'
 import { reducerBoard } from '../../util/actionsBoard'
-import { doAction } from '../../data/actions'
+import { funcPerformSubActions, updateVP } from '../../util/misc'
+import { funcGetImmEffects } from '../../data/immEffects'
+import { funcGetEffect } from '../../data/effects'
 import MenuIcon from './gameComponents/MenuIcon'
 import PanelCorp from './gameComponents/panelCorp/PanelCorp'
 import PanelStateGame from './gameComponents/PanelStateGame'
@@ -19,7 +17,8 @@ import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
 import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
 import '../../css/app.css'
-import { areRequirementsMet } from '../../data/requirements'
+import { funcRequirementsMet, funcActionRequirementsMet } from '../../data/requirements'
+import { funcGetCardActions } from '../../data/cardActions'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -31,14 +30,19 @@ export const ModalsContext = createContext()
 function Game({ setGameOn }) {
    const [statePlayer, dispatchPlayer] = useReducer(reducerPlayer, INIT_STATE_PLAYER)
    const [stateGame, dispatchGame] = useReducer(reducerGame, INIT_STATE_GAME)
+   const [modals, setModals] = useState(INIT_MODALS)
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
-   const [modals, setModals] = useState(INIT_MODALS)
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1500)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(5000)
+   const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
 
-   function performActions(typeOrCardId) {
-      doAction(
+   useEffect(() => {
+      updateVP(statePlayer, dispatchPlayer, stateBoard)
+   }, [updateVpTrigger])
+
+   function getImmEffects(typeOrCardId) {
+      return funcGetImmEffects(
          typeOrCardId,
          statePlayer,
          dispatchPlayer,
@@ -47,13 +51,39 @@ function Game({ setGameOn }) {
          stateBoard,
          dispatchBoard,
          modals,
-         setModals,
-         ANIMATION_SPEED
+         setModals
       )
    }
-
+   function getCardActions(cardId) {
+      return funcGetCardActions(
+         cardId,
+         statePlayer,
+         dispatchPlayer,
+         stateGame,
+         dispatchGame,
+         stateBoard,
+         dispatchBoard,
+         modals,
+         setModals
+      )
+   }
+   function getEffect(effect) {
+      return funcGetEffect(effect, dispatchPlayer)
+   }
+   function performSubActions(subActions) {
+      return funcPerformSubActions(
+         subActions,
+         ANIMATION_SPEED,
+         setModals,
+         dispatchGame,
+         setUpdateVpTrigger
+      )
+   }
    function requirementsMet(card) {
-      return areRequirementsMet(card, statePlayer, stateGame)
+      return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals)
+   }
+   function actionRequirementsMet(card) {
+      return funcActionRequirementsMet(card, statePlayer, stateGame, stateBoard, modals)
    }
 
    return (
@@ -63,8 +93,12 @@ function Game({ setGameOn }) {
                value={{
                   stateGame,
                   dispatchGame,
-                  performActions,
+                  getImmEffects,
+                  getCardActions,
+                  getEffect,
+                  performSubActions,
                   requirementsMet,
+                  actionRequirementsMet,
                   ANIMATION_SPEED,
                   setANIMATION_SPEED,
                }}
@@ -78,9 +112,9 @@ function Game({ setGameOn }) {
                               !stateGame.phaseDraft &&
                               !stateGame.phaseViewGameState && <StandardProjects />}
                            {!stateGame.phaseCorporation && <PanelStateGame />}
-                           {!stateGame.phaseCorporation && <PanelCorp />}
                            {!stateGame.phaseCorporation && <PassContainer />}
                            <Board />
+                           {!stateGame.phaseCorporation && <PanelCorp />}
                            <Modals setGameOn={setGameOn} />
                            <MenuIcon />
                            {/* ----------------------------------------------------- */}

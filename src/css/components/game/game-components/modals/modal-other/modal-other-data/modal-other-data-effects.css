@@ -1,0 +1,11 @@
+.modal-other-data-item .effect {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+   width: 100%;
+}
+
+.modal-other-data-item .effect img {
+   height: 100%;
+}

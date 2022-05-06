@@ -31,7 +31,7 @@ const ModalBtnAction = ({ text, mln, textConfirmation, onYesFunc }) => {
    }
 
    function isDisabled() {
-      return (text === 'DONE' && mln > statePlayer.resources.mln) || (text === 'SELL' && mln === 0)
+      return (text === 'DONE' && mln > statePlayer.resources.mln)
    }
 
    return (

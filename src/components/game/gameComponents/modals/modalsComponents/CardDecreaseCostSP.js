@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { SP } from '../../../../../data/StandardProjects'
 import { StatePlayerContext } from '../../../Game'
 
 const CardDecreaseCostSP = ({ toBuyMln, toBuyHeat, changeSPcosts, actionClicked }) => {
@@ -7,15 +8,15 @@ const CardDecreaseCostSP = ({ toBuyMln, toBuyHeat, changeSPcosts, actionClicked 
 
    function getCurrentCost() {
       switch (actionClicked) {
-         case 'POWER PLANT':
+         case SP.POWER_PLANT:
             return toBuyMln[1]
-         case 'ASTEROID':
+         case SP.ASTEROID:
             return toBuyMln[2]
-         case 'AQUIFER':
+         case SP.AQUIFER:
             return toBuyMln[3]
-         case 'GREENERY':
+         case SP.GREENERY:
             return toBuyMln[4]
-         case 'CITY':
+         case SP.CITY:
             return toBuyMln[5]
          default:
             break

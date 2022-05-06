@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { StatePlayerContext, ModalsContext } from '../../Game'
+import AnimCard from '../animations/AnimCard'
 
 const CardsInHandBtn = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -21,7 +22,15 @@ const CardsInHandBtn = () => {
          className={`cards-in-hand-btn ${statePlayer.cardsInHand.length > 0 ? 'pointer' : ''}`}
          onClick={handleClickBtnCardsInHand}
       >
-         {statePlayer.cardsInHand.length}
+         {modals.animation && (
+            <>
+               {modals.animationData.cardIn.type !== null && <AnimCard type="card-in" />}
+               {modals.animationData.cardOut.type !== null && <AnimCard type="card-out" />}
+            </>
+         )}
+         <div className="full-size" style={{ backgroundColor: 'red' }}>
+            {statePlayer.cardsInHand.length}
+         </div>
       </div>
    )
 }

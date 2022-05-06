@@ -13,6 +13,10 @@ export const ACTIONS_GAME = {
    INCREMENT_OCEANS: 'Increase number of oceans by 1',
    // Change TR
    CHANGE_TR: 'Change TR',
+   // Set Actions Left
+   SET_ACTIONSLEFT: 'Set actions left',
+   // Set cost of SP power plant
+   SET_POWERPLANT_COST: 'Decrease cost of power plant', // For Thorgate
 }
 
 export const reducerGame = (state, action) => {
@@ -79,6 +83,25 @@ export const reducerGame = (state, action) => {
          return {
             ...state,
             tr: state.tr + action.payload,
+         }
+      // SET ACTIONS LEFT
+      case ACTIONS_GAME.SET_ACTIONSLEFT:
+         return {
+            ...state,
+            actionsLeft: action.payload,
+         }
+      // SET POWER PLANT CURRENT COST
+
+      case ACTIONS_GAME.SET_POWERPLANT_COST:
+         return {
+            ...state,
+            SPCosts: {
+               ...state.SPCosts,
+               powerPlant: {
+                  ...state.SPCosts.powerPlant,
+                  current: action.payload,
+               },
+            },
          }
       default:
          return state

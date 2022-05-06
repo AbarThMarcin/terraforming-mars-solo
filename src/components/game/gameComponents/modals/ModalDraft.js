@@ -11,7 +11,7 @@ import ModalDraftBtnChangeCorp from './modalsComponents/ModalDraftBtnChangeCorp'
 import ModalBtnAction from './modalsComponents/ModalBtnAction'
 import Card from '../Card'
 import CardBtn from './modalsComponents/CardBtn'
-import { getPosition } from '../../../../util/misc'
+import { getPosition, modifiedCards } from '../../../../util/misc'
 
 const ModalDraft = () => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)
@@ -20,7 +20,7 @@ const ModalDraft = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const [buyCost, setBuyCost] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
-   const cardsDraft = stateGame.generation === 1 ? cards.slice(0, 10) : cards.slice(0, 4)
+   const cardsDraft = stateGame.generation === 1 ? modifiedCards(cards.slice(0, 10), statePlayer) : modifiedCards(cards.slice(0, 4), statePlayer)
    const textDoneConfirmation =
       stateGame.generation === 1
          ? 'Are you sure you want to choose this corporation and these project cards?'
@@ -39,7 +39,7 @@ const ModalDraft = () => {
       // Remove all 4 (10 if gen = 1) cards from the CardsContext
       setTimeout(() => {
          setCards(stateGame.generation === 1 ? cards.slice(10) : cards.slice(4))
-      }, 2000)
+      }, 1000)
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal

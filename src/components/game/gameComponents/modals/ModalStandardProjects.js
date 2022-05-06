@@ -2,16 +2,22 @@
 
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { ACTIONS } from '../../../../data/actions'
+import { IMM_EFFECTS } from '../../../../data/immEffects'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalSPaction from './modalsComponents/ModalSPaction'
 import CardDecreaseCostSP from './modalsComponents/CardDecreaseCostSP'
-import { INIT_ANIMATION_DATA } from '../../../../initStates/initModals'
+import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
+import { RESOURCES } from '../../../../data/resources'
+import { getSPeffectsToCall } from '../../../../data/effects'
+import { TILES } from '../../../../data/board'
+import { SP } from '../../../../data/StandardProjects'
 
 const ModalStandardProjects = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, performActions, ANIMATION_SPEED } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED } =
+      useContext(StateGameContext)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [toBuyMln, setToBuyMln] = useState(initToBuyMln())
    const [btnClickedId, setBtnClickedId] = useState(-1)
@@ -28,7 +34,7 @@ const ModalStandardProjects = () => {
       ]
    }
 
-   const changeSPcosts = (operation, SP) => {
+   const changeSPcosts = (operation, Sp) => {
       let resHeat = toBuyHeat
       let resMln = toBuyMln
       if (operation === 'increment') {
@@ -37,25 +43,25 @@ const ModalStandardProjects = () => {
          resHeat--
       }
       resMln = initToBuyMln()
-      switch (SP) {
-         case 'POWER PLANT':
+      switch (Sp) {
+         case SP.POWER_PLANT:
             resMln[1] = Math.max(stateGame.SPCosts.powerPlant.current - resHeat, 0)
             if (resHeat > stateGame.SPCosts.powerPlant.current)
                resHeat = stateGame.SPCosts.powerPlant.current
             break
-         case 'ASTEROID':
+         case SP.ASTEROID:
             resMln[2] = Math.max(stateGame.SPCosts.asteroid - resHeat, 0)
             if (resHeat > stateGame.SPCosts.asteroid) resHeat = stateGame.SPCosts.asteroid
             break
-         case 'AQUIFER':
+         case SP.AQUIFER:
             resMln[3] = Math.max(stateGame.SPCosts.aquifer - resHeat, 0)
             if (resHeat > stateGame.SPCosts.aquifer) resHeat = stateGame.SPCosts.aquifer
             break
-         case 'GREENERY':
+         case SP.GREENERY:
             resMln[4] = Math.max(stateGame.SPCosts.greenery - resHeat, 0)
             if (resHeat > stateGame.SPCosts.greenery) resHeat = stateGame.SPCosts.greenery
             break
-         case 'CITY':
+         case SP.CITY:
             resMln[5] = Math.max(stateGame.SPCosts.city - resHeat, 0)
             if (resHeat > stateGame.SPCosts.city) resHeat = stateGame.SPCosts.city
             break
@@ -67,82 +73,155 @@ const ModalStandardProjects = () => {
    }
 
    const handleUseSP = (name) => {
-      // ------------------------ ANIMATIONS ------------------------
       let animResPaidTypes = []
-      if (toBuyMln[btnClickedId] !== 0) animResPaidTypes.push(['mln', toBuyMln[btnClickedId]])
-      if (toBuyHeat) animResPaidTypes.push(['heat', toBuyHeat])
+      if (toBuyMln[btnClickedId] !== 0)
+         animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])
+      if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
+      setModals((prevModals) => ({
+         ...prevModals,
+         confirmation: false,
+         standardProjects: false,
+         sellCards: false,
+      }))
+      // ------------------------ ANIMATIONS ------------------------
+      startAnimation(setModals)
       for (let i = 0; i < animResPaidTypes.length; i++) {
          setTimeout(() => {
-            setModals({
-               ...modals,
-               confirmation: false,
-               standardProjects: false,
-               sellCards: false,
-               animationData: {
-                  ...modals.animationData,
-                  resourcesOut: {
-                     type: animResPaidTypes[i][0],
-                     value: animResPaidTypes[i][1],
-                  },
-               },
-               animation: true,
-            })
+            setAnimation(
+               ANIMATIONS.RESOURCES_OUT,
+               animResPaidTypes[i][0],
+               animResPaidTypes[i][1],
+               setModals
+            )
          }, i * ANIMATION_SPEED)
       }
       setTimeout(() => {
-         // Close modals
-         setModals({
-            ...modals,
-            confirmation: false,
-            standardProjects: false,
-            sellCards: false,
-            animationData: INIT_ANIMATION_DATA,
-            animation: false,
-         })
+         endAnimation(setModals)
          // Decrease heat (Helion only)
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
          // Decrease corporation resources, perform actions and call effects
+         let actions = []
+         let spEffects = []
          switch (name) {
-            case 'POWER PLANT':
+            case SP.POWER_PLANT:
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
-               performActions(ACTIONS.SP_POWER_PLANT)
+               actions = getImmEffects(IMM_EFFECTS.POWER_PLANT)
                break
-            case 'ASTEROID':
+            case SP.ASTEROID:
+               // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
-               performActions(ACTIONS.SP_ASTEROID)
+               // Proper action
+               actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
+               // Possible effects for placing ocean, if increasing temp gets the ocean bonus
+               if (
+                  stateGame.globalParameters.temperature === -2 &&
+                  stateGame.globalParameters.oceans < 9
+               ) {
+                  spEffects = getSPeffectsToCall(TILES.OCEAN)
+                  spEffects.forEach((spEffect) => {
+                     if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                        actions.push(getEffect(spEffect))
+                     if (
+                        statePlayer.corporation.effects.some(
+                           (corpEffect) => corpEffect === spEffect
+                        )
+                     )
+                        actions.push(getEffect(spEffect))
+                  })
+               }
                break
-            case 'AQUIFER':
+            case SP.AQUIFER:
+               // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[3] })
-               performActions(ACTIONS.SP_AQUIFER)
+               // Proper action
+               actions = getImmEffects(IMM_EFFECTS.AQUIFER)
+               // Possible effects for placing ocean
+               spEffects = getSPeffectsToCall(TILES.OCEAN)
+               spEffects.forEach((spEffect) => {
+                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                     actions.push(getEffect(spEffect))
+                  if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
+                     actions.push(getEffect(spEffect))
+               })
                break
-            case 'GREENERY':
+            case SP.GREENERY:
+               // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[4] })
-               performActions(ACTIONS.SP_GREENERY)
+               // Proper action
+               actions = getImmEffects(IMM_EFFECTS.GREENERY)
+               // Possible effects for placing greenery
+               spEffects = getSPeffectsToCall(TILES.GREENERY)
+               spEffects.forEach((spEffect) => {
+                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                     actions.push(getEffect(spEffect))
+                  if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
+                     actions.push(getEffect(spEffect))
+               })
+               // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, 8- oceans)
+               if (
+                  stateGame.globalParameters.oxygen === 7 &&
+                  stateGame.globalParameters.temperature === -2 &&
+                  stateGame.globalParameters.oceans < 9
+               ) {
+                  spEffects = getSPeffectsToCall(TILES.OCEAN)
+                  spEffects.forEach((spEffect) => {
+                     if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                        actions.push(getEffect(spEffect))
+                     if (
+                        statePlayer.corporation.effects.some(
+                           (corpEffect) => corpEffect === spEffect
+                        )
+                     )
+                        actions.push(getEffect(spEffect))
+                  })
+               }
                break
-            case 'CITY':
+            case SP.CITY:
+               // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[5] })
-               performActions(ACTIONS.SP_CITY)
+               // Proper action No 1: 1 mln production
+               actions.push({
+                  name: ANIMATIONS.PRODUCTION_IN,
+                  type: RESOURCES.MLN,
+                  value: 1,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+               })
+               // Proper action No 2:
+               actions = [...actions, ...getImmEffects(IMM_EFFECTS.CITY)]
+               // Possible effects for placing city
+               spEffects = getSPeffectsToCall(TILES.CITY)
+               spEffects.forEach((spEffect) => {
+                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                     actions.push(getEffect(spEffect))
+                  if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
+                     actions.push(getEffect(spEffect))
+               })
                break
             default:
                break
          }
+         dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
+         performSubActions(actions)
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }
 
    return (
       <>
          <div
-            className={`modal-other-sp-container full-size
+            className={`modal-standard-projects-bg full-size
                ${(modals.confirmation || modals.sellCards) && 'display-none'}
             `}
             onClick={() => setModals({ ...modals, standardProjects: false })}
          >
-            <div className="modal-other-sp center" onClick={(e) => e.stopPropagation()}>
+            <div
+               className="modal-standard-projects-box center"
+               onClick={(e) => e.stopPropagation()}
+            >
                {/* HEADER */}
-               <div className="modal-other-sp-header">STANDARD PROJECTS</div>
+               <div className="modal-standard-projects-box-header">STANDARD PROJECTS</div>
                {/* CLOSE BUTTON */}
                <div
-                  className="modal-other-sp-close-btn pointer"
+                  className="modal-standard-projects-box-close-btn pointer"
                   onClick={() => setModals({ ...modals, standardProjects: false })}
                >
                   X
@@ -151,7 +230,7 @@ const ModalStandardProjects = () => {
                <ModalSPaction
                   id={0}
                   icon={{ url: '' }}
-                  name="SELL PATENT"
+                  name={SP.SELL_PATENT}
                   cost={toBuyMln[0]}
                   textConfirmation=""
                   handleUseSP={handleUseSP}
@@ -160,7 +239,7 @@ const ModalStandardProjects = () => {
                <ModalSPaction
                   id={1}
                   icon={{ url: '' }}
-                  name="POWER PLANT"
+                  name={SP.POWER_PLANT}
                   cost={toBuyMln[1]}
                   textConfirmation="Do you want to build a power plant?"
                   actionClicked={actionClicked}
@@ -172,7 +251,7 @@ const ModalStandardProjects = () => {
                <ModalSPaction
                   id={2}
                   icon={{ url: '' }}
-                  name="ASTEROID"
+                  name={SP.ASTEROID}
                   cost={toBuyMln[2]}
                   textConfirmation="Do you want to use the asteroid project?"
                   actionClicked={actionClicked}
@@ -184,7 +263,7 @@ const ModalStandardProjects = () => {
                <ModalSPaction
                   id={3}
                   icon={{ url: '' }}
-                  name="AQUIFER"
+                  name={SP.AQUIFER}
                   cost={toBuyMln[3]}
                   textConfirmation="Do you want to build an aquifer?"
                   actionClicked={actionClicked}
@@ -196,7 +275,7 @@ const ModalStandardProjects = () => {
                <ModalSPaction
                   id={4}
                   icon={{ url: '' }}
-                  name="GREENERY"
+                  name={SP.GREENERY}
                   cost={toBuyMln[4]}
                   textConfirmation="Do you want to build a greenery?"
                   actionClicked={actionClicked}
@@ -208,7 +287,7 @@ const ModalStandardProjects = () => {
                <ModalSPaction
                   id={5}
                   icon={{ url: '' }}
-                  name="CITY"
+                  name={SP.CITY}
                   cost={toBuyMln[5]}
                   textConfirmation="Do you want to build a city?"
                   actionClicked={actionClicked}

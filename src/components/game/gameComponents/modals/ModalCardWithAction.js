@@ -2,18 +2,27 @@
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
-import { performEffect } from '../../../../data/effects'
+import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { hasTag } from '../../../../util/misc'
 import Card from '../Card'
 import CardBtn from './modalsComponents/CardBtn'
 import CardDecreaseCost from './modalsComponents/CardDecreaseCost'
-import { INIT_ANIMATION_DATA } from '../../../../initStates/initModals'
+import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
+import { RESOURCES } from '../../../../data/resources'
+import { TAGS } from '../../../../data/tags'
 
 const ModalCardWithAction = () => {
-   const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame, getActions, performActions, requirementsMet, ANIMATION_SPEED } =
-      useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
+   const {
+      stateGame,
+      dispatchGame,
+      getImmEffects,
+      getEffect,
+      performSubActions,
+      requirementsMet,
+      ANIMATION_SPEED,
+   } = useContext(StateGameContext)
+   const { modals, setModals } = useContext(ModalsContext)
    const [toBuyTitan, setToBuyTitan] = useState(getInitToBuyTitan())
    const [toBuySteel, setToBuySteel] = useState(getInitToBuySteel())
    const [toBuyMln, setToBuyMln] = useState(getInitToBuyMln())
@@ -39,7 +48,7 @@ const ModalCardWithAction = () => {
       return Math.min(diff, statePlayer.resources.mln)
    }
    function getInitToBuySteel() {
-      if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, 'building')) {
+      if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
          const diff =
             modals.modalCard.currentCost -
             statePlayer.resources.mln -
@@ -55,11 +64,11 @@ const ModalCardWithAction = () => {
       }
    }
    function getInitToBuyTitan() {
-      if (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, 'space')) {
+      if (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) {
          const diff = modals.modalCard.currentCost - statePlayer.resources.mln
 
          if (diff > 0) {
-            if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, 'building')) {
+            if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
                return Math.min(
                   Math.floor(diff / statePlayer.valueTitan),
                   statePlayer.resources.titan
@@ -93,52 +102,45 @@ const ModalCardWithAction = () => {
 
    const showConfirmation = () => {
       if (!disabled) {
-         setModals({
-            ...modals,
+         setModals((prevModals) => ({
+            ...prevModals,
             modalConfData: {
                text: `Do you want to play: ${modals.modalCard.name}`,
                onYes: handleUseAction,
                onNo: () => setModals({ ...modals, confirmation: false }),
             },
             confirmation: true,
-         })
+         }))
       }
    }
 
    const handleUseAction = () => {
-      // ------------------------ ANIMATIONS ------------------------
+      // ANIMATIONS
       let animResPaidTypes = []
-      if (toBuyMln) animResPaidTypes.push(['mln', toBuyMln])
-      if (toBuySteel) animResPaidTypes.push(['steel', toBuySteel])
-      if (toBuyTitan) animResPaidTypes.push(['titan', toBuyTitan])
-      if (toBuyHeat) animResPaidTypes.push(['heat', toBuyHeat])
+      if (toBuyMln) animResPaidTypes.push([RESOURCES.MLN, toBuyMln])
+      if (toBuySteel) animResPaidTypes.push([RESOURCES.STEEL, toBuySteel])
+      if (toBuyTitan) animResPaidTypes.push([RESOURCES.TITAN, toBuyTitan])
+      if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
+      // Close all modals
+      setModals((prevModals) => ({
+         ...prevModals,
+         confirmation: false,
+         cardWithAction: false,
+         cards: false,
+      }))
+      startAnimation(setModals)
       for (let i = 0; i < animResPaidTypes.length; i++) {
          setTimeout(() => {
-            setModals({
-               ...modals,
-               confirmation: false,
-               cardWithAction: false,
-               cards: false,
-               animationData: {
-                  ...modals.animationData,
-                  resourcesOut: {
-                     type: animResPaidTypes[i][0],
-                     value: animResPaidTypes[i][1],
-                  },
-               },
-               animation: true,
-            })
+            setAnimation(
+               ANIMATIONS.RESOURCES_OUT,
+               animResPaidTypes[i][0],
+               animResPaidTypes[i][1],
+               setModals
+            )
          }, i * ANIMATION_SPEED)
       }
       setTimeout(() => {
-         setModals({
-            ...modals,
-            confirmation: false,
-            cardWithAction: false,
-            cards: false,
-            animationData: INIT_ANIMATION_DATA,
-            animation: false,
-         })
+         endAnimation(setModals)
          // Decrease Corporation Resources
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -toBuySteel })
@@ -154,37 +156,19 @@ const ModalCardWithAction = () => {
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
             payload: [...statePlayer.cardsPlayed, modals.modalCard],
          })
-         // Call Card Action, as well as all effects
-         let actions = []
-         getActions(modals.modalCard.id).forEach((action) => actions.push(action))
+         // ================== IMM_EFFECTS AND EFFECTS ================
+         // Add Card immediate actions to the subActions list
+         let actions = getImmEffects(modals.modalCard.id)
+         // Add Effects to call that are included in the cardsPlayed effects (and corporation effects) list to the subActions list
          modals.modalCard.effectsToCall.forEach((effect) => {
-            if (statePlayer.effects.some((stateEffect) => stateEffect.name === effect))
-               performEffect(effect, dispatchPlayer)
+            if (statePlayer.cardsPlayed.some((card) => card.effect === effect))
+               actions.push(getEffect(effect))
+            if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === effect))
+               actions.push(getEffect(effect))
          })
-         performActions(actions)
-
-         
-         // Add tags to the corporation
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_TAGS,
-            payload: [...statePlayer.tags, ...modals.modalCard.tags],
-         })
-         // Add VPs to the corporation
-         if (modals.modalCard.vp !== 0)
-            dispatchPlayer({
-               type: ACTIONS_PLAYER.SET_VP,
-               payload: [...statePlayer.vp, modals.modalCard],
-            })
-         // Add Actions to the corporation
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_ACTIONS,
-            payload: [...statePlayer.actions, ...modals.modalCard.actions],
-         })
-         // Add Effects to the corporation
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_EFFECTS,
-            payload: [...statePlayer.effects, ...modals.modalCard.effectsToAdd],
-         })
+         dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
+         performSubActions(actions)
+         // =======================================================
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }
 
@@ -199,8 +183,8 @@ const ModalCardWithAction = () => {
                   <Card card={modals.modalCard} />
                   <CardBtn btnText="USE" handleClick={showConfirmation} disabled={disabled} />
                   <div className={`card-to-buy-mln ${disabled && 'disabled'}`}>{toBuyMln}</div>
-                  {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, 'building')) ||
-                     (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, 'space')) ||
+                  {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
+                     (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
                      (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
                      modals.cardWithAction && (
                         <CardDecreaseCost

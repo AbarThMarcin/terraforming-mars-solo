@@ -1,10 +1,12 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../../../Game'
+import { StateGameContext, ModalsContext } from '../../../Game'
 
 const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
    const { modals, setModals } = useContext(ModalsContext)
+   const { stateGame } = useContext(StateGameContext)
 
    const handleClickCorpAction = () => {
+      if (stateGame.phasePlaceTile) return
       setModals({
          ...modals,
          modalConfData: {
@@ -19,7 +21,14 @@ const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
       })
    }
 
-   return <img src={bg} className="panel-corp-action-btn pointer" alt='' onClick={handleClickCorpAction} />
+   return (
+      <img
+         src={bg}
+         className={`panel-corp-action-btn ${!stateGame.phasePlaceTile && 'pointer'}`}
+         alt=""
+         onClick={handleClickCorpAction}
+      />
+   )
 }
 
 export default PanelCorpActionBtn

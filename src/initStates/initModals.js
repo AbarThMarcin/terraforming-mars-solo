@@ -15,6 +15,26 @@ export const INIT_ANIMATION_DATA = {
       type: null,
       value: 0,
    },
+   cardIn: {
+      type: null,
+      value: 0,
+   },
+   cardOut: {
+      type: null,
+      value: 0,
+   },
+   temperature: {
+      type: null,
+      value: 0,
+   },
+   oxygen: {
+      type: null,
+      value: 0,
+   },
+   oceans: {
+      type: null,
+      value: 0,
+   },
 }
 
 export const INIT_MODALS = {
@@ -37,11 +57,16 @@ export const INIT_MODALS = {
    // Which cards to show in cards modal
    modalCard: null,
    modalCards: [],
-   modalCardsType: '',
-   modalOther: null,
+   modalCardsType: null,
+   // Info for modal other
+   modalOther: {
+      header: null,
+      amount: 0,
+      data: [],
+   },
    // Data for confirmation modal
    modalConfData: {
-      text: '',
+      text: null,
       onYes: null,
       onNo: null,
    },

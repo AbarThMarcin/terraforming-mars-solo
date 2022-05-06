@@ -1,0 +1,36 @@
+.modal-standard-projects-bg {
+   background-color: rgba(0, 0, 0, 0.8);
+   position: relative;
+}
+
+.modal-standard-projects-box {
+   width: 30%;
+   height: 70%;
+   background: rgb(0, 133, 104);
+   background: linear-gradient(
+      180deg,
+      rgba(0, 133, 104, 1) 0%,
+      rgba(0, 200, 156, 1) 50%,
+      rgba(0, 133, 104, 1) 100%
+   );
+   padding: var(--default-size);
+}
+
+.modal-standard-projects-box-header {
+   position: absolute;
+   left: 0;
+   top: -5%;
+}
+
+.modal-standard-projects-box-close-btn {
+   position: absolute;
+   right: 0;
+   top: -5%;
+   width: calc(var(--default-size) * 1.5);
+   height: calc(var(--default-size) * 1.5);
+   border: calc(var(--default-size) * 0.15) solid #fff;
+}
+
+.modal-standard-projects-box-close-btn:hover {
+   background-color: #555;
+}

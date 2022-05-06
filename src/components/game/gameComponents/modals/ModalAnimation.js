@@ -1,5 +1,5 @@
 const ModalAnimation = () => {
-   return <div className="full-size" style={{ backgroundColor: 'rgba(255,0,0,0.3)' }}></div>
+   return <div className="full-size"></div>
 }
 
 export default ModalAnimation

@@ -1,0 +1,23 @@
+.modal-other-data-item .action {
+   display: flex;
+   justify-content: center;
+   height: 100%;
+   flex: 4;
+}
+
+.modal-other-data-item .action img {
+   height: 100%;
+}
+
+.modal-other-data-item button {
+   width: 20%;
+   flex: 1;
+   border: none;
+   color: white;
+   background-color: green;
+}
+
+.modal-other-data-item button.disabled {
+   background-color: rgb(27, 90, 27);
+   color: #ddd;
+}

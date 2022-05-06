@@ -9,8 +9,8 @@ export const INIT_STATE_GAME = {
    phasePlaceTileData: null,
    // Current Global Parameters
    globalParameters: {
-      temperature: -30,
-      oxygen: 0,
+      temperature: 2,
+      oxygen: 7,
       oceans: 0,
    },
    // TR

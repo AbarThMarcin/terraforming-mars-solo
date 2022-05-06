@@ -1,3 +1,5 @@
+import { RESOURCES } from '../data/resources'
+
 export const ACTIONS_PLAYER = {
    // Set corporation
    CHANGE_CORPORATION: 'Change corporation',
@@ -5,33 +7,32 @@ export const ACTIONS_PLAYER = {
    CHANGE_PROD_MLN: 'Increase production level of milions',
    CHANGE_PROD_STEEL: 'Increase production level of steel',
    CHANGE_PROD_TITAN: 'Increase production level of titan',
-   CHANGE_PROD_PLANTS: 'Increase production level of plants',
-   CHANGE_PROD_POWER: 'Increase production level of power',
+   CHANGE_PROD_PLANT: 'Increase production level of plants',
+   CHANGE_PROD_ENERGY: 'Increase production level of energy',
    CHANGE_PROD_HEAT: 'Increase production level of heat',
    // Set Resources
    CHANGE_RES_MLN: 'Increase amount of milions',
    CHANGE_RES_STEEL: 'Increase amount of steel',
    CHANGE_RES_TITAN: 'Increase amount of titan',
-   CHANGE_RES_PLANTS: 'Increase amount of plants',
-   CHANGE_RES_POWER: 'Increase amount of power',
+   CHANGE_RES_PLANT: 'Increase amount of plants',
+   CHANGE_RES_ENERGY: 'Increase amount of energy',
    CHANGE_RES_HEAT: 'Increase amount of heat',
-   // Set Cards in Hand and Cards Played
+   // Cards in Hand and Cards Played utils
    SET_CARDS_IN_HAND: 'Set cards in hand',
    SET_CARDS_PLAYED: 'Set cards played',
-   // Set card resources, tags, VP, actions and effects
-   SET_CARD_RESOURCES: 'Set card resources',
-   SET_TAGS: 'Set tags',
-   SET_VP: 'Set VP',
-   SET_ACTIONS: 'Set actions',
-   SET_EFFECTS: 'Set effects',
+   SET_ACTION_USED: 'Set actionUsed parameter for aspecific card in played cards',
+   ADD_BIO_RES: 'Add specific amount of specific bio resource to a specific card in played cards',
+   SET_TRRAISED: 'Set trRaised parameter for UNMI only',
    // Set values of steel, titan and greenery
-   SET_VALUE_STEEL: 'Set steel value',
-   SET_VALUE_TITAN: 'Set titan value',
-   SET_VALUE_GREENERY: 'Set greenery value',
+   SET_VALUE_STEEL: 'Set steel value', // For advanced alloys
+   SET_VALUE_TITAN: 'Set titan value', // For advanced alloys AND phobolog
+   SET_VALUE_GREENERY: 'Set greenery value', // For Ecoline
    // Set CanPayWithHeat
-   SET_CANPAYWITHHEAT: 'Set true or false to the possibility of paying with heat (for Helion only)',
+   SET_CANPAYWITHHEAT: 'Set true or false to the possibility of paying with heat (for Helion only)', // For Helion
    // Set globParamReqModifier
-   SET_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements',
+   SET_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements', // For Inventrix and two cards with the same effect
+   // Update VP
+   UPDATE_VP: 'Update VP for a specific card',
 }
 
 export const reducerPlayer = (state, action) => {
@@ -48,16 +49,16 @@ export const reducerPlayer = (state, action) => {
                   mln: action.payload.startingConditions.production.mln,
                   steel: action.payload.startingConditions.production.steel,
                   titan: action.payload.startingConditions.production.titan,
-                  plants: action.payload.startingConditions.production.plants,
-                  power: action.payload.startingConditions.production.power,
+                  plant: action.payload.startingConditions.production.plant,
+                  energy: action.payload.startingConditions.production.energy,
                   heat: action.payload.startingConditions.production.heat,
                },
                resources: {
                   mln: action.payload.startingConditions.resources.mln,
                   steel: action.payload.startingConditions.resources.steel,
                   titan: action.payload.startingConditions.resources.titan,
-                  plants: action.payload.startingConditions.resources.plants,
-                  power: action.payload.startingConditions.resources.power,
+                  plant: action.payload.startingConditions.resources.plant,
+                  energy: action.payload.startingConditions.resources.energy,
                   heat: action.payload.startingConditions.resources.heat,
                },
             }
@@ -87,20 +88,20 @@ export const reducerPlayer = (state, action) => {
                titan: state.production.titan + action.payload,
             },
          }
-      case ACTIONS_PLAYER.CHANGE_PROD_PLANTS:
+      case ACTIONS_PLAYER.CHANGE_PROD_PLANT:
          return {
             ...state,
             production: {
                ...state.production,
-               plants: state.production.plants + action.payload,
+               plant: state.production.plant + action.payload,
             },
          }
-      case ACTIONS_PLAYER.CHANGE_PROD_POWER:
+      case ACTIONS_PLAYER.CHANGE_PROD_ENERGY:
          return {
             ...state,
             production: {
                ...state.production,
-               power: state.production.power + action.payload,
+               energy: state.production.energy + action.payload,
             },
          }
       case ACTIONS_PLAYER.CHANGE_PROD_HEAT:
@@ -136,20 +137,20 @@ export const reducerPlayer = (state, action) => {
                titan: state.resources.titan + action.payload,
             },
          }
-      case ACTIONS_PLAYER.CHANGE_RES_PLANTS:
+      case ACTIONS_PLAYER.CHANGE_RES_PLANT:
          return {
             ...state,
             resources: {
                ...state.resources,
-               plants: state.resources.plants + action.payload,
+               plant: state.resources.plant + action.payload,
             },
          }
-      case ACTIONS_PLAYER.CHANGE_RES_POWER:
+      case ACTIONS_PLAYER.CHANGE_RES_ENERGY:
          return {
             ...state,
             resources: {
                ...state.resources,
-               power: state.resources.power + action.payload,
+               energy: state.resources.energy + action.payload,
             },
          }
       case ACTIONS_PLAYER.CHANGE_RES_HEAT:
@@ -171,31 +172,110 @@ export const reducerPlayer = (state, action) => {
             ...state,
             cardsPlayed: action.payload,
          }
-      // SET CARD RESOURCES, TAGS, VP, ACTIONS AND EFFECTS
-      case ACTIONS_PLAYER.SET_CARD_RESOURCES:
-         return {
-            ...state,
-            cardResources: action.payload,
+      case ACTIONS_PLAYER.SET_ACTION_USED:
+         // If payload.cardId === 'UNMI'
+         if (action.payload.cardId === 'UNMI') {
+            return {
+               ...state,
+               corporation: {
+                  ...state.corporation,
+                  actionUsed: action.payload.actionUsed,
+               },
+            }
+            // If payload.cardId is provided and it is not 'UNMI'
+         } else if (action.payload.cardId !== undefined) {
+            return {
+               ...state,
+               cardsPlayed: [
+                  ...state.cardsPlayed.map((card) => {
+                     if (card.id === action.payload.cardId) {
+                        return { ...card, actionUsed: action.payload.actionUsed }
+                     } else {
+                        return { ...card }
+                     }
+                  }),
+               ],
+            }
+            // If payload.cardId is not provided
+         } else if (action.payload.cardId === undefined) {
+            return {
+               ...state,
+               cardsPlayed: [
+                  ...state.cardsPlayed.map((card) => ({
+                     ...card,
+                     actionUsed: action.payload.actionUsed,
+                  })),
+               ],
+               corporation: {
+                  ...state.corporation,
+                  actionUsed: action.payload.actionUsed,
+               },
+            }
          }
-      case ACTIONS_PLAYER.SET_TAGS:
+         break
+      case ACTIONS_PLAYER.ADD_BIO_RES:
          return {
             ...state,
-            tags: action.payload,
+            cardsPlayed: state.cardsPlayed.map((card) => {
+               if (card.id === action.payload.cardId) {
+                  if (action.payload.resource === RESOURCES.MICROBE) {
+                     return {
+                        ...card,
+                        units: {
+                           microbe: card.units.microbe + action.payload.amount,
+                           animal: 0,
+                           science: 0,
+                           fighter: 0,
+                        },
+                     }
+                  } else if (action.payload.resource === RESOURCES.ANIMAL) {
+                     return {
+                        ...card,
+                        units: {
+                           microbe: 0,
+                           animal: card.units.animal + action.payload.amount,
+                           science: 0,
+                           fighter: 0,
+                        },
+                     }
+                  } else if (action.payload.resource === RESOURCES.SCIENCE) {
+                     return {
+                        ...card,
+                        units: {
+                           microbe: 0,
+                           animal: 0,
+                           science: card.units.science + action.payload.amount,
+                           fighter: 0,
+                        },
+                     }
+                  } else if (action.payload.resource === RESOURCES.FIGHTER) {
+                     return {
+                        ...card,
+                        units: {
+                           microbe: 0,
+                           animal: 0,
+                           science: 0,
+                           fighter: card.units.fighter + action.payload.amount,
+                        },
+                     }
+                  }
+               } else {
+                  return card
+               }
+               return card
+            }),
          }
-      case ACTIONS_PLAYER.SET_VP:
-         return {
-            ...state,
-            vp: action.payload,
-         }
-      case ACTIONS_PLAYER.SET_ACTIONS:
-         return {
-            ...state,
-            actions: action.payload,
-         }
-      case ACTIONS_PLAYER.SET_EFFECTS:
-         return {
-            ...state,
-            effects: action.payload,
+      case ACTIONS_PLAYER.SET_TRRAISED:
+         if (state.corporation.name === 'UNMI') {
+            return {
+               ...state,
+               corporation: {
+                  ...state.corporation,
+                  trRaised: action.payload,
+               },
+            }
+         } else {
+            return state
          }
       // SET VALUES OF STEEL, TITAN AND GREENERY
       case ACTIONS_PLAYER.SET_VALUE_STEEL:
@@ -225,7 +305,17 @@ export const reducerPlayer = (state, action) => {
             ...state,
             globParamReqModifier: action.payload,
          }
-
+      case ACTIONS_PLAYER.UPDATE_VP:
+         return {
+            ...state,
+            cardsPlayed: state.cardsPlayed.map((card) => {
+               if (card.id === action.payload.cardId) {
+                  return { ...card, vp: action.payload.vp }
+               } else {
+                  return card
+               }
+            }),
+         }
       default:
          return state
    }

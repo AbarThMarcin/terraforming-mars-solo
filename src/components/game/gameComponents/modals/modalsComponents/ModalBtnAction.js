@@ -21,7 +21,7 @@ const ModalBtnAction = ({ text, mln, textConfirmation, onYesFunc }) => {
       if (!isDisabled())
          setModals({
             ...modals,
-            modalConfData: {
+            modalConf: {
                text: textConfirmation,
                onYes: onYesFunc,
                onNo: () => setModals({ ...modals, confirmation: false }),
@@ -31,7 +31,7 @@ const ModalBtnAction = ({ text, mln, textConfirmation, onYesFunc }) => {
    }
 
    function isDisabled() {
-      return (text === 'DONE' && mln > statePlayer.resources.mln)
+      return text === 'DONE' && mln > statePlayer.resources.mln
    }
 
    return (

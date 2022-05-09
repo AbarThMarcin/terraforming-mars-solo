@@ -13,7 +13,7 @@ const ModalMenu = ({ setGameOn }) => {
    const handleClickForfeit = () => {
       setModals({
          ...modals,
-         modalConfData: {
+         modalConf: {
             text: 'Do you want to forfeit the game?',
             onYes: onYesFunc,
             onNo: () => setModals({ ...modals, confirmation: false }),
@@ -30,11 +30,19 @@ const ModalMenu = ({ setGameOn }) => {
          >
             <div className="modal-menu" onClick={(e) => e.stopPropagation()}>
                <ul>
-                  <li className='pointer' onClick={() => setModals({ ...modals, settings: !modals.settings })}>
+                  <li
+                     className="pointer"
+                     onClick={() => setModals({ ...modals, settings: !modals.settings })}
+                  >
                      SETTINGS
                   </li>
-                  <li className='pointer' onClick={handleClickForfeit}>FORFEIT</li>
-                  <li className='pointer' onClick={() => setModals({ ...modals, rules: true, settings: false })}>
+                  <li className="pointer" onClick={handleClickForfeit}>
+                     FORFEIT
+                  </li>
+                  <li
+                     className="pointer"
+                     onClick={() => setModals({ ...modals, rules: true, settings: false })}
+                  >
                      RULES
                   </li>
                </ul>

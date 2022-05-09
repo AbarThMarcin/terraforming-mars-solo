@@ -6,7 +6,8 @@ import { ACTIONS_PLAYER } from '../../../../../../../util/actionsPlayer'
 
 const ModalOtherDataActionsItem = ({ item, setCardSnap }) => {
    const { dispatchPlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } = useContext(StateGameContext)
+   const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } =
+      useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const isUnmi = item.name === 'UNMI'
    const isAvailable = actionRequirementsMet(item)
@@ -19,7 +20,7 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap }) => {
       if (!isAvailable) return
       setModals((prevModals) => ({
          ...prevModals,
-         modalConfData: {
+         modalConf: {
             text: 'Do you want to use this action?',
             onYes: () => handleUseAction(),
             onNo: () => setModals({ ...modals, confirmation: false }),

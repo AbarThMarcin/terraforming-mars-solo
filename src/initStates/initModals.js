@@ -23,18 +23,6 @@ export const INIT_ANIMATION_DATA = {
       type: null,
       value: 0,
    },
-   temperature: {
-      type: null,
-      value: 0,
-   },
-   oxygen: {
-      type: null,
-      value: 0,
-   },
-   oceans: {
-      type: null,
-      value: 0,
-   },
 }
 
 export const INIT_MODALS = {
@@ -53,23 +41,34 @@ export const INIT_MODALS = {
    other: false,
    standardProjects: false,
    confirmation: false,
+   resource: false,
+   selectOne: false,
    animation: false,
    // Which cards to show in cards modal
    modalCard: null,
    modalCards: [],
    modalCardsType: null,
+   // Which card to show in selectOne modal
+   modalSelectOne: {
+      card: null
+   },
    // Info for modal other
    modalOther: {
       header: null,
       amount: 0,
       data: [],
    },
-   // Data for confirmation modal
-   modalConfData: {
+   // Info for modal resource
+   modalResource: {
+      amount: 0,
+      data: [],
+   },
+   // Info for confirmation modal
+   modalConf: {
       text: null,
       onYes: null,
       onNo: null,
    },
-   // Data for animations
-   animationData: INIT_ANIMATION_DATA
+   // Info for animations
+   animationData: INIT_ANIMATION_DATA,
 }

@@ -33,7 +33,7 @@
    left: 58%;
    bottom: 16%;
    width: 38%;
-   transition: height 1s ease-in-out;
+   transition: height 1s ease;
 }
 
 .panel-state-game-ox-cont {
@@ -44,4 +44,5 @@
    left: 3%;
    bottom: 16%;
    width: 38%;
+   transition: height 1s ease;
 }

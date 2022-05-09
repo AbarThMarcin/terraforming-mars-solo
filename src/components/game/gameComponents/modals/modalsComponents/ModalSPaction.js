@@ -45,7 +45,7 @@ const ModalSPaction = ({
       }
       setModals({
          ...modals,
-         modalConfData: {
+         modalConf: {
             text: textConfirmation,
             onYes: () => handleUseSP(name),
             onNo: () => setModals({ ...modals, confirmation: false }),

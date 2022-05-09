@@ -39,8 +39,8 @@ export const funcGetImmEffects = (
       case IMM_EFFECTS.TEMPERATURE:
          if (stateGame.globalParameters.temperature < 8) {
             subActions.push({
-               name: ANIMATIONS.TEMPERATURE,
-               type: true,
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
@@ -96,7 +96,7 @@ export const funcGetImmEffects = (
             })
             // Increase oceans meter
             subActions.push({
-               name: ANIMATIONS.OCEAN,
+               name: ANIMATIONS.SHORT_ANIMATION,
                type: null,
                value: null,
                func: () => {
@@ -125,7 +125,7 @@ export const funcGetImmEffects = (
          // Increase oxygen
          if (stateGame.globalParameters.oxygen < 14) {
             subActions.push({
-               name: ANIMATIONS.OXYGEN,
+               name: ANIMATIONS.SHORT_ANIMATION,
                type: null,
                value: null,
                func: () => {
@@ -235,7 +235,10 @@ export const funcGetImmEffects = (
                   type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
                   payload: TILES.SPECIAL_CITY_CAPITAL,
                })
-               dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.SPECIAL_CITY_CAPITAL })
+               dispatchBoard({
+                  type: ACTIONS_BOARD.SET_AVAILABLE,
+                  payload: TILES.SPECIAL_CITY_CAPITAL,
+               })
             },
          })
          break

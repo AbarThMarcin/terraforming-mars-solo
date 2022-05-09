@@ -7,6 +7,9 @@ export const ACTIONS_GAME = {
    SET_PHASE_VIEWGAMESTATE: 'Set view game state phase',
    SET_PHASE_PLACETILE: 'Set phase where user places a tile on board',
    SET_PHASE_PLACETILEDATA: 'Set tile name to be put when place tile phase is on',
+   SET_PHASE_ADDREMOVERES:
+      'Set phase where user selects a card, a resource will be added / removed',
+   SET_PHASE_SELECTONE: 'Set phase where user selects one of available options for card action',
    // Global Parameters
    INCREMENT_TEMPERATURE: 'Increase temperature by 2 degrees',
    INCREMENT_OXYGEN: 'Increase oxygen by 1 percent',
@@ -53,6 +56,16 @@ export const reducerGame = (state, action) => {
             ...state,
             phasePlaceTileData: action.payload,
          }
+      case ACTIONS_GAME.SET_PHASE_ADDREMOVERES:
+         return {
+            ...state,
+            phaseAddRemoveRes: action.payload,
+         }
+      case ACTIONS_GAME.SET_PHASE_SELECTONE:
+         return {
+            ...state,
+            phaseSelectOne: action.payload,
+         }
       // INCREASE GLOBAL PARAMETERS
       case ACTIONS_GAME.INCREMENT_TEMPERATURE:
          return {
@@ -91,7 +104,6 @@ export const reducerGame = (state, action) => {
             actionsLeft: action.payload,
          }
       // SET POWER PLANT CURRENT COST
-
       case ACTIONS_GAME.SET_POWERPLANT_COST:
          return {
             ...state,

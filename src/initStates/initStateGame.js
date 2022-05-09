@@ -7,9 +7,11 @@ export const INIT_STATE_GAME = {
    phaseViewGameState: false,
    phasePlaceTile: false,
    phasePlaceTileData: null,
+   phaseAddRemoveRes: false,
+   phaseSelectOne: false,
    // Current Global Parameters
    globalParameters: {
-      temperature: 2,
+      temperature: -2,
       oxygen: 7,
       oceans: 0,
    },

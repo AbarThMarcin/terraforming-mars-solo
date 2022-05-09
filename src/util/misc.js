@@ -168,22 +168,33 @@ export function funcPerformSubActions(
       endAnimation(setModals)
       setUpdateVpTrigger((prevValue) => !prevValue)
    }
+
+   let longAnimCount = 0
+   let shortAnimCount = 0
    // Loop through all subactions
    for (let i = 0; i <= iLast; i++) {
+      // ============= Start animation and perform subactions
       if (subActions[i].name !== ANIMATIONS.USER_INTERACTION) {
-         // Execute Animation
+         // Subaction with normal animation
          setTimeout(() => {
             startAnimation(setModals)
             setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals)
-         }, i * ANIMATION_SPEED)
-         // Execute action
-         setTimeout(() => subActions[i].func(), (i + 1) * ANIMATION_SPEED)
+         }, longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000)
+         setTimeout(
+            () => subActions[i].func(),
+            subActions[i].name !== ANIMATIONS.SHORT_ANIMATION
+               ? (longAnimCount + 1) * ANIMATION_SPEED + shortAnimCount * 1000
+               : longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000
+         )
       } else {
-         // Execute action
-         setTimeout(() => subActions[i].func(), i * ANIMATION_SPEED)
+         // Subaction with user interaction
+         setTimeout(
+            () => subActions[i].func(),
+            longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000
+         )
       }
+      // ============= End animation and remove performed actions from stateGame.actionsLeft
       if (i === iLast) {
-         // End animation and remove performed actions from stateGame.actionsLeft
          setTimeout(
             () => {
                endAnimation(setModals)
@@ -195,9 +206,17 @@ export function funcPerformSubActions(
                   setUpdateVpTrigger((prevValue) => !prevValue)
             },
             subActions[i].name !== ANIMATIONS.USER_INTERACTION
-               ? (i + 1) * ANIMATION_SPEED
-               : i * ANIMATION_SPEED
+               ? subActions[i].name !== ANIMATIONS.SHORT_ANIMATION
+                  ? (longAnimCount + 1) * ANIMATION_SPEED + shortAnimCount * 1000
+                  : longAnimCount * ANIMATION_SPEED + (shortAnimCount + 1) * 1000
+               : longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000
          )
+      }
+      // ============= Increment animation speed counter
+      if (subActions[i].name !== ANIMATIONS.SHORT_ANIMATION) {
+         longAnimCount++
+      } else if (subActions[i].name === ANIMATIONS.SHORT_ANIMATION) {
+         shortAnimCount++
       }
    }
 }
@@ -339,4 +358,40 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
 
 export function scale(number, inMin, inMax, outMin, outMax) {
    return ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+}
+
+export function getCardsWithPossibleMicrobes(statePlayer) {
+   return statePlayer.cardsPlayed.filter(
+      (card) =>
+         card.id === 33 ||
+         card.id === 34 ||
+         card.id === 35 ||
+         card.id === 49 ||
+         card.id === 131 ||
+         card.id === 157
+   )
+}
+
+export function getCardsWithPossibleAnimals(statePlayer) {
+   return statePlayer.cardsPlayed.filter(
+      (card) =>
+         card.id === 24 ||
+         card.id === 52 ||
+         card.id === 54 ||
+         card.id === 72 ||
+         card.id === 128 ||
+         card.id === 147 ||
+         card.id === 172 ||
+         card.id === 184
+   )
+}
+
+export function getCardsWithPossibleScience(statePlayer) {
+   return statePlayer.cardsPlayed.filter(
+      (card) => card.id === 5 || card.id === 95 || card.id === 185
+   )
+}
+
+export function getCardsWithPossibleFighters(statePlayer) {
+   return statePlayer.cardsPlayed.filter((card) => card.id === 28)
 }

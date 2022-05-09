@@ -1,0 +1,25 @@
+.select-one-section {
+   left: 100%;
+   top: 5%;
+   width: 50%;
+   height: 60%;
+   background-color: #000;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.select-one-section .header {
+   height: calc(var(--default-size) * 2);
+   background-color: red;
+   color: #fff;
+}
+
+.select-one-section .option {
+   height: calc(var(--default-size) * 1.8);
+   background-color: green;
+}
+
+.select-one-section .option.selected {
+   outline: #fff solid calc(var(--default-size) * 0.2);
+}

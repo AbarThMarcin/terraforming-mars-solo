@@ -12,7 +12,7 @@ import {
 } from '../../../../../data/animations'
 import { RESOURCES } from '../../../../../data/resources'
 import { getSPeffectsToCall } from '../../../../../data/effects'
-import { TILES } from '../../../../../data/board'
+import { SP } from '../../../../../data/StandardProjects'
 
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -35,20 +35,20 @@ const ProdResPanel = () => {
          // Proper action
          let actions = getImmEffects(IMM_EFFECTS.GREENERY)
          // Possible effects for placing greenery
-         let spEffects = getSPeffectsToCall(TILES.GREENERY)
+         let spEffects = getSPeffectsToCall(SP.CONVERT_PLANTS)
          spEffects.forEach((spEffect) => {
             if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                actions.push(getEffect(spEffect))
             if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
                actions.push(getEffect(spEffect))
          })
-         // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, 8- oceans)
+         // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, <9 oceans)
          if (
             stateGame.globalParameters.oxygen === 7 &&
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            spEffects = getSPeffectsToCall(TILES.OCEAN)
+            spEffects = getSPeffectsToCall(SP.AQUIFER_BONUS)
             spEffects.forEach((spEffect) => {
                if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                   actions.push(getEffect(spEffect))
@@ -77,7 +77,7 @@ const ProdResPanel = () => {
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            let spEffects = getSPeffectsToCall(TILES.OCEAN)
+            let spEffects = getSPeffectsToCall(SP.AQUIFER_BONUS)
             spEffects.forEach((spEffect) => {
                if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                   actions.push(getEffect(spEffect))

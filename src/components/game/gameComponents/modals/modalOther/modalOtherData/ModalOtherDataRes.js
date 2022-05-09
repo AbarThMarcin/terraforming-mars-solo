@@ -1,18 +1,35 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../../../../Game'
+import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../Game'
 import { getResIcon, RESOURCES } from '../../../../../../data/resources'
+import {
+   getCardsWithPossibleAnimals,
+   getCardsWithPossibleFighters,
+   getCardsWithPossibleMicrobes,
+   getCardsWithPossibleScience,
+} from '../../../../../../util/misc'
 
-const ModalOtherDataRes = ({ setCardSnap }) => {
+const ModalOtherDataRes = ({ setCardSnap, selectedCardId, setSelectedCardId }) => {
+   const { statePlayer } = useContext(StatePlayerContext)
+   const { stateGame } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
+
+   const handleClickResCard = (id) => {
+      if (setSelectedCardId !== undefined) setSelectedCardId(id)
+   }
 
    return (
       <div className="modal-other-data center">
          {modals.modalOther.data.map((item, idx) => (
             <div
                key={idx}
-               className="modal-other-data-item"
+               className={`
+                  modal-other-data-item
+                  ${stateGame.phaseAddRemoveRes && 'pointer'}
+                  ${selectedCardId === item.id && 'selected'}
+               `}
                onMouseOver={() => setCardSnap(item)}
                onMouseLeave={() => setCardSnap(null)}
+               onClick={() => handleClickResCard(item.id)}
             >
                <div className="card-name">{item.name}</div>
                <div>
@@ -22,16 +39,32 @@ const ModalOtherDataRes = ({ setCardSnap }) => {
                         item.units.science +
                         item.units.fighter}{' '}
                   </span>
-                  {item.units.microbe !== 0 && (
+                  {(item.units.microbe !== 0 ||
+                     (stateGame.phaseAddRemoveRes &&
+                        getCardsWithPossibleMicrobes(statePlayer).some(
+                           (card) => card.id === item.id
+                        ))) && (
                      <img src={getResIcon(RESOURCES.MICROBE)} className="img-res" alt="microbe" />
                   )}
-                  {item.units.animal !== 0 && (
+                  {(item.units.animal !== 0 ||
+                     (stateGame.phaseAddRemoveRes &&
+                        getCardsWithPossibleAnimals(statePlayer).some(
+                           (card) => card.id === item.id
+                        ))) && (
                      <img src={getResIcon(RESOURCES.ANIMAL)} className="img-res" alt="animal" />
                   )}
-                  {item.units.science !== 0 && (
+                  {(item.units.science !== 0 ||
+                     (stateGame.phaseAddRemoveRes &&
+                        getCardsWithPossibleScience(statePlayer).some(
+                           (card) => card.id === item.id
+                        ))) && (
                      <img src={getResIcon(RESOURCES.SCIENCE)} className="img-res" alt="science" />
                   )}
-                  {item.units.fighter !== 0 && (
+                  {(item.units.fighter !== 0 ||
+                     (stateGame.phaseAddRemoveRes &&
+                        getCardsWithPossibleFighters(statePlayer).some(
+                           (card) => card.id === item.id
+                        ))) && (
                      <img src={getResIcon(RESOURCES.FIGHTER)} className="img-res" alt="fighter" />
                   )}
                </div>

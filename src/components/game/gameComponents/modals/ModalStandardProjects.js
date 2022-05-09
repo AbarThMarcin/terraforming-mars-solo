@@ -10,7 +10,6 @@ import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { getSPeffectsToCall } from '../../../../data/effects'
-import { TILES } from '../../../../data/board'
 import { SP } from '../../../../data/StandardProjects'
 
 const ModalStandardProjects = () => {
@@ -104,20 +103,34 @@ const ModalStandardProjects = () => {
          let spEffects = []
          switch (name) {
             case SP.POWER_PLANT:
+               // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
+               // Proper action
                actions = getImmEffects(IMM_EFFECTS.POWER_PLANT)
+               // Possible effects for asteroid
+               spEffects = getSPeffectsToCall(SP.POWER_PLANT)
+               spEffects.forEach((spEffect) => {
+                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                     actions.push(getEffect(spEffect))
+               })
                break
             case SP.ASTEROID:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
+               // Possible effects for asteroid
+               spEffects = getSPeffectsToCall(SP.ASTEROID)
+               spEffects.forEach((spEffect) => {
+                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
+                     actions.push(getEffect(spEffect))
+               })
                // Possible effects for placing ocean, if increasing temp gets the ocean bonus
                if (
                   stateGame.globalParameters.temperature === -2 &&
                   stateGame.globalParameters.oceans < 9
                ) {
-                  spEffects = getSPeffectsToCall(TILES.OCEAN)
+                  spEffects = getSPeffectsToCall(SP.AQUIFER_BONUS)
                   spEffects.forEach((spEffect) => {
                      if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                         actions.push(getEffect(spEffect))
@@ -136,7 +149,7 @@ const ModalStandardProjects = () => {
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.AQUIFER)
                // Possible effects for placing ocean
-               spEffects = getSPeffectsToCall(TILES.OCEAN)
+               spEffects = getSPeffectsToCall(SP.AQUIFER)
                spEffects.forEach((spEffect) => {
                   if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                      actions.push(getEffect(spEffect))
@@ -150,7 +163,7 @@ const ModalStandardProjects = () => {
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.GREENERY)
                // Possible effects for placing greenery
-               spEffects = getSPeffectsToCall(TILES.GREENERY)
+               spEffects = getSPeffectsToCall(SP.GREENERY)
                spEffects.forEach((spEffect) => {
                   if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                      actions.push(getEffect(spEffect))
@@ -163,7 +176,7 @@ const ModalStandardProjects = () => {
                   stateGame.globalParameters.temperature === -2 &&
                   stateGame.globalParameters.oceans < 9
                ) {
-                  spEffects = getSPeffectsToCall(TILES.OCEAN)
+                  spEffects = getSPeffectsToCall(SP.AQUIFER_BONUS)
                   spEffects.forEach((spEffect) => {
                      if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                         actions.push(getEffect(spEffect))
@@ -189,7 +202,7 @@ const ModalStandardProjects = () => {
                // Proper action No 2:
                actions = [...actions, ...getImmEffects(IMM_EFFECTS.CITY)]
                // Possible effects for placing city
-               spEffects = getSPeffectsToCall(TILES.CITY)
+               spEffects = getSPeffectsToCall(SP.CITY)
                spEffects.forEach((spEffect) => {
                   if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                      actions.push(getEffect(spEffect))

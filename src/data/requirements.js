@@ -1,4 +1,4 @@
-import { getAllResources } from '../util/misc'
+import { getAllResources, getCardsWithPossibleMicrobes } from '../util/misc'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from './board'
 import { RESOURCES } from './resources'
 
@@ -267,6 +267,8 @@ export const funcRequirementsMet = (card, statePlayer, stateGame, stateBoard, mo
 }
 
 export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals) => {
+   console.log(item)
+   let reqMet = true
    // If already used, return false
    if (item.actionUsed) return false
    // If inappropiate state of the game is on
@@ -282,13 +284,20 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals) 
       if (!item.trRaised) return false
    } else {
       // Check specific card requirements
-      switch (item) {
-         case 1:
-            return false
+      let cards = []
+      switch (item.id) {
+         case 133:
+            cards = getCardsWithPossibleMicrobes(statePlayer)
+            if (cards.length === 0) reqMet = false
+            break
+         // case 134:
+         //    cards = getCardsWithPossibleMicrobes(statePlayer)
+         //    if (cards.length === 0) reqMet = false
+         //    break
          default:
             break
       }
    }
 
-   return true
+   return reqMet
 }

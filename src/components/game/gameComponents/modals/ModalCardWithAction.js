@@ -104,7 +104,7 @@ const ModalCardWithAction = () => {
       if (!disabled) {
          setModals((prevModals) => ({
             ...prevModals,
-            modalConfData: {
+            modalConf: {
                text: `Do you want to play: ${modals.modalCard.name}`,
                onYes: handleUseAction,
                onNo: () => setModals({ ...modals, confirmation: false }),
@@ -173,36 +173,34 @@ const ModalCardWithAction = () => {
    }
 
    return (
-      <>
-         <div
-            className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}
-            onClick={() => setModals({ ...modals, cardWithAction: false, modalCard: null })}
-         >
-            <div className="modal-card center">
-               <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
-                  <Card card={modals.modalCard} />
-                  <CardBtn btnText="USE" handleClick={showConfirmation} disabled={disabled} />
-                  <div className={`card-to-buy-mln ${disabled && 'disabled'}`}>{toBuyMln}</div>
-                  {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
-                     (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
-                     (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
-                     modals.cardWithAction && (
-                        <CardDecreaseCost
-                           toBuyMln={toBuyMln}
-                           setToBuyMln={setToBuyMln}
-                           toBuySteel={toBuySteel}
-                           setToBuySteel={setToBuySteel}
-                           toBuyTitan={toBuyTitan}
-                           setToBuyTitan={setToBuyTitan}
-                           toBuyHeat={toBuyHeat}
-                           setToBuyHeat={setToBuyHeat}
-                           setDisabled={setDisabled}
-                        />
-                     )}
-               </div>
+      <div
+         className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}
+         onClick={() => setModals({ ...modals, cardWithAction: false, modalCard: null })}
+      >
+         <div className="modal-card center">
+            <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
+               <Card card={modals.modalCard} />
+               <CardBtn btnText="USE" handleClick={showConfirmation} disabled={disabled} />
+               <div className={`card-to-buy-mln ${disabled && 'disabled'}`}>{toBuyMln}</div>
+               {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
+                  (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
+                  (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
+                  modals.cardWithAction && (
+                     <CardDecreaseCost
+                        toBuyMln={toBuyMln}
+                        setToBuyMln={setToBuyMln}
+                        toBuySteel={toBuySteel}
+                        setToBuySteel={setToBuySteel}
+                        toBuyTitan={toBuyTitan}
+                        setToBuyTitan={setToBuyTitan}
+                        toBuyHeat={toBuyHeat}
+                        setToBuyHeat={setToBuyHeat}
+                        setDisabled={setDisabled}
+                     />
+                  )}
             </div>
          </div>
-      </>
+      </div>
    )
 }
 

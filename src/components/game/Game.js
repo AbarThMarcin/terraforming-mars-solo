@@ -19,6 +19,8 @@ import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
 import '../../css/app.css'
 import { funcRequirementsMet, funcActionRequirementsMet } from '../../data/requirements'
 import { funcGetCardActions } from '../../data/cardActions'
+import ViewGameStateHeader from './gameComponents/ViewGameStateHeader'
+import { funcGetOptionsActions } from '../../data/selectOneOptions'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -34,7 +36,7 @@ function Game({ setGameOn }) {
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(5000)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(2000)
    const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
 
    useEffect(() => {
@@ -70,6 +72,16 @@ function Game({ setGameOn }) {
    function getEffect(effect) {
       return funcGetEffect(effect, dispatchPlayer)
    }
+   function getOptionsActions(option) {
+      return funcGetOptionsActions(
+         option,
+         statePlayer,
+         dispatchPlayer,
+         stateGame,
+         dispatchGame,
+         setModals
+      )
+   }
    function performSubActions(subActions) {
       return funcPerformSubActions(
          subActions,
@@ -96,6 +108,7 @@ function Game({ setGameOn }) {
                   getImmEffects,
                   getCardActions,
                   getEffect,
+                  getOptionsActions,
                   performSubActions,
                   requirementsMet,
                   actionRequirementsMet,
@@ -111,6 +124,7 @@ function Game({ setGameOn }) {
                            {!stateGame.phaseCorporation &&
                               !stateGame.phaseDraft &&
                               !stateGame.phaseViewGameState && <StandardProjects />}
+                           {stateGame.phaseViewGameState && <ViewGameStateHeader />}
                            {!stateGame.phaseCorporation && <PanelStateGame />}
                            {!stateGame.phaseCorporation && <PassContainer />}
                            <Board />

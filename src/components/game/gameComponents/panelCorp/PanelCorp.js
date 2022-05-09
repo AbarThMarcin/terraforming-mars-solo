@@ -24,7 +24,7 @@ const PanelCorp = () => {
                <BtnLog />
             </div>
          )}
-         {(stateGame.phaseDraft || modals.sellCards) && <BtnViewGameState />}
+         {(stateGame.phaseDraft || modals.sellCards|| stateGame.phaseAddRemoveRes) && <BtnViewGameState />}
       </div>
    )
 }

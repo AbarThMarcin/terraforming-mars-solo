@@ -9,11 +9,10 @@ export const ANIMATIONS = {
    PRODUCTION_OUT: 'Production Out',
    CARD_IN: 'Card In',
    CARD_OUT: 'Card Out',
-   TEMPERATURE: 'Temperature',
-   OXYGEN: 'Oxygen',
-   OCEANS: 'Ocean',
    // User Interaction
    USER_INTERACTION: 'User Interaction',
+   // Short animation for global parameters (only css transition)
+   SHORT_ANIMATION: 'Short Animation',
 }
 
 export function getAnimNameBasedOnBonus(bonus) {
@@ -116,45 +115,6 @@ export function setAnimation(name, type, value, setModals) {
             animationData: {
                ...INIT_ANIMATION_DATA,
                cardOut: {
-                  type: type,
-                  value: value,
-               },
-            },
-            animation: true,
-         }))
-         break
-      case ANIMATIONS.TEMPERATURE:
-         setModals((prevModals) => ({
-            ...prevModals,
-            animationData: {
-               ...INIT_ANIMATION_DATA,
-               temperature: {
-                  type: type,
-                  value: value,
-               },
-            },
-            animation: true,
-         }))
-         break
-      case ANIMATIONS.OXYGEN:
-         setModals((prevModals) => ({
-            ...prevModals,
-            animationData: {
-               ...INIT_ANIMATION_DATA,
-               oxygen: {
-                  type: type,
-                  value: value,
-               },
-            },
-            animation: true,
-         }))
-         break
-      case ANIMATIONS.OCEANS:
-         setModals((prevModals) => ({
-            ...prevModals,
-            animationData: {
-               ...INIT_ANIMATION_DATA,
-               oceans: {
                   type: type,
                   value: value,
                },

@@ -1,7 +1,6 @@
 /* A container of all possible modals */
-
 import { useContext } from 'react'
-import { StateGameContext, ModalsContext } from '../../Game'
+import { ModalsContext } from '../../Game'
 import ModalCards from './ModalCards'
 import ModalCardViewOnly from './ModalCardViewOnly'
 import ModalCardWithAction from './ModalCardWithAction'
@@ -16,22 +15,10 @@ import ModalOther from './modalOther/ModalOther'
 import ModalRules from './ModalRules'
 import ModalSettings from './ModalSettings'
 import ModalStandardProjects from './ModalStandardProjects'
-import ModalAnimation from './ModalAnimation'
-import { motion, AnimatePresence } from 'framer-motion'
-
-const containerVariants = {
-   hidden: {
-      opacity: 0,
-      transform: 'translate(-50%, -50%) scale(2)',
-   },
-   visible: {
-      opacity: 1,
-      transform: 'translate(-50%, -50%) scale(1)',
-   },
-}
+import ModalResource from './modalResources/ModalResource'
+import ModalSelectOne from './ModalSelectOne'
 
 const Modals = ({ setGameOn }) => {
-   const { stateGame } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
 
    return (
@@ -40,30 +27,15 @@ const Modals = ({ setGameOn }) => {
          {modals.corps && <ModalCorps />}
          {modals.log && <ModalLog />}
          {modals.standardProjects && <ModalStandardProjects />}
-         <AnimatePresence>
-            {modals.draft && (
-               <motion.div
-                  key="keyModalDraft"
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  transition={{ duration: 0.1, delay: 0.2 }}
-                  className={`
-               modal-draft center
-               ${(modals.cards || stateGame.phaseViewGameState) && 'display-none'}
-               `}
-               >
-                  <ModalDraft />
-               </motion.div>
-            )}
-         </AnimatePresence>
+         {modals.draft && <ModalDraft />}
          {modals.cards && <ModalCards />}
          {modals.other && <ModalOther />}
+         {modals.resource && <ModalResource />}
+         {modals.selectOne && <ModalSelectOne />}
          {modals.corp && <ModalCorp />}
          {modals.cardWithAction && <ModalCardWithAction />}
          {modals.cardViewOnly && <ModalCardViewOnly />}
-         {modals.animation && <ModalAnimation />}
+         {modals.animation && <div className="full-size"></div>}
          {modals.menu && <ModalMenu setGameOn={setGameOn} />}
          {modals.settings && <ModalSettings />}
          {modals.rules && <ModalRules />}

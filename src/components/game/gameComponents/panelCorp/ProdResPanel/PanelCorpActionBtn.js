@@ -9,7 +9,7 @@ const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
       if (stateGame.phasePlaceTile) return
       setModals({
          ...modals,
-         modalConfData: {
+         modalConf: {
             text: textConfirmation,
             onYes: () => {
                setModals({ ...modals, confirmation: false })

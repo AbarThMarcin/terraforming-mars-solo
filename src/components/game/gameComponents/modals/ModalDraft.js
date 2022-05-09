@@ -20,7 +20,10 @@ const ModalDraft = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const [buyCost, setBuyCost] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
-   const cardsDraft = stateGame.generation === 1 ? modifiedCards(cards.slice(0, 10), statePlayer) : modifiedCards(cards.slice(0, 4), statePlayer)
+   const cardsDraft =
+      stateGame.generation === 1
+         ? modifiedCards(cards.slice(0, 10), statePlayer)
+         : modifiedCards(cards.slice(0, 4), statePlayer)
    const textDoneConfirmation =
       stateGame.generation === 1
          ? 'Are you sure you want to choose this corporation and these project cards?'
@@ -57,18 +60,21 @@ const ModalDraft = () => {
    }
 
    return (
-      <>
+      <div
+         className={`
+            modal-draft center
+            ${(modals.cards || stateGame.phaseViewGameState) && 'display-none'}
+         `}
+      >
          {/* HEADER */}
          <ModalHeader
             text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
             eachText="3 each"
          />
-
          {/* CHANGE CORPORATION BUTTON */}
          {stateGame.generation === 1 && (
             <ModalDraftBtnChangeCorp dispatchGame={dispatchGame} dispatchPlayer={dispatchPlayer} />
          )}
-
          {/* ACTION BUTTON */}
          <ModalBtnAction
             text="DONE"
@@ -76,7 +82,6 @@ const ModalDraft = () => {
             textConfirmation={textDoneConfirmation}
             onYesFunc={onYesFunc}
          />
-
          {/* CARDS */}
          {cardsDraft.map((card, idx) => (
             <div
@@ -89,7 +94,7 @@ const ModalDraft = () => {
                <CardBtn btnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
             </div>
          ))}
-      </>
+      </div>
    )
 }
 

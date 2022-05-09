@@ -2,7 +2,7 @@ import { ACTIONS_GAME } from '../util/actionsGame'
 import { ACTIONS_PLAYER } from '../util/actionsPlayer'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
-import { TILES } from './board'
+import { SP } from './StandardProjects'
 // Corporation effects icons
 import credicor from '../assets/images/effects/credicor.png'
 import ecoline from '../assets/images/effects/ecoline.png'
@@ -22,6 +22,7 @@ import roverConstruction from '../assets/images/effects/roverConstruction.png'
 import immigrantCity from '../assets/images/effects/immigrantCity.png'
 import arcticAlgae from '../assets/images/effects/arcticAlgae.png'
 import pets from '../assets/images/effects/pets.png'
+import standardTechnology from '../assets/images/effects/standardTechnology.png'
 
 export const getEffectIcon = (effect) => {
    switch (effect) {
@@ -62,6 +63,8 @@ export const getEffectIcon = (effect) => {
          return arcticAlgae
       case EFFECTS.EFFECT_PETS:
          return pets
+      case EFFECTS.EFFECT_STANDARD_TECHNOLOGY:
+         return standardTechnology
       default:
          return
    }
@@ -97,6 +100,7 @@ export const EFFECTS = {
    EFFECT_ROVER_CONSTRUCTION: 'Gain 2M after placing a city',
    EFFECT_IMMIGRANT_CITY: 'Increase 1 mln production after placing a city',
    EFFECT_PETS: 'Add 1 animal to this card when a city is placed',
+   EFFECT_STANDARD_TECHNOLOGY: 'Gain 3M after standard project (excluding sell patents)',
 }
 
 // ============================= LIST OF CORPORATION IMMEDIATE EFFECTS =============================
@@ -238,19 +242,39 @@ export const funcGetEffect = (effectName, dispatchPlayer) => {
                }),
          }
          break
+      case EFFECTS.EFFECT_STANDARD_TECHNOLOGY:
+         effect = {
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.MLN,
+            value: 3,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+         }
+         break
       default:
          break
    }
    return effect
 }
 
-export const getSPeffectsToCall = (tile) => {
-   switch (tile) {
-      case TILES.OCEAN:
-         return [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_MINING_GUILD]
-      case TILES.GREENERY:
-         return [EFFECTS.EFFECT_MINING_GUILD, EFFECTS.EFFECT_HERBIVORES]
-      case TILES.CITY:
+export const getSPeffectsToCall = (SpOrConvertPlants) => {
+   switch (SpOrConvertPlants) {
+      case SP.POWER_PLANT:
+         return [EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
+      case SP.ASTEROID:
+         return [EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
+      case SP.AQUIFER:
+         return [
+            EFFECTS.EFFECT_ARCTIC_ALGAE,
+            EFFECTS.EFFECT_MINING_GUILD,
+            EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
+         ]
+      case SP.GREENERY:
+         return [
+            EFFECTS.EFFECT_MINING_GUILD,
+            EFFECTS.EFFECT_HERBIVORES,
+            EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
+         ]
+      case SP.CITY:
          return [
             EFFECTS.EFFECT_MINING_GUILD,
             EFFECTS.EFFECT_ROVER_CONSTRUCTION,
@@ -258,7 +282,12 @@ export const getSPeffectsToCall = (tile) => {
             EFFECTS.EFFECT_THARSIS_CITY,
             EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
             EFFECTS.EFFECT_PETS,
+            EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
          ]
+      case SP.CONVERT_PLANTS:
+         return [EFFECTS.EFFECT_MINING_GUILD, EFFECTS.EFFECT_HERBIVORES]
+      case SP.AQUIFER_BONUS:
+         return [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_MINING_GUILD]
       default:
          return []
    }

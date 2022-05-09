@@ -1,13 +1,13 @@
-import { useContext } from "react"
-import { ModalsContext } from "../../Game"
+import { useContext } from 'react'
+import { ModalsContext } from '../../Game'
 
 const PassBtn = ({ onYesFunc }) => {
    const { modals, setModals } = useContext(ModalsContext)
-   
+
    const handleClickPassBtn = () => {
       setModals({
          ...modals,
-         modalConfData: {
+         modalConf: {
             text: "Do you want to pass?\nIf you do so, you won't be able to play until the next generation.",
             onYes: onYesFunc,
             onNo: () => setModals({ ...modals, confirmation: false }),

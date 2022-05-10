@@ -33,9 +33,8 @@
 
 .modal-other-card {
    position: absolute;
-   top: 50%;
-   transform: translateY(-50%);
-   left: 100%;
+   top: 25%;
+   left: 104.5%;
    width: calc(var(--default-size) * 12);
    height: calc(var(--default-size) * 18);
 }

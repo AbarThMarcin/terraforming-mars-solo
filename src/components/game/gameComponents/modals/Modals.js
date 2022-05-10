@@ -17,6 +17,7 @@ import ModalSettings from './ModalSettings'
 import ModalStandardProjects from './ModalStandardProjects'
 import ModalResource from './modalResources/ModalResource'
 import ModalSelectOne from './ModalSelectOne'
+import ModalSelectCard from './ModalSelectCard'
 
 const Modals = ({ setGameOn }) => {
    const { modals } = useContext(ModalsContext)
@@ -32,6 +33,7 @@ const Modals = ({ setGameOn }) => {
          {modals.other && <ModalOther />}
          {modals.resource && <ModalResource />}
          {modals.selectOne && <ModalSelectOne />}
+         {modals.selectCard && <ModalSelectCard />}
          {modals.corp && <ModalCorp />}
          {modals.cardWithAction && <ModalCardWithAction />}
          {modals.cardViewOnly && <ModalCardViewOnly />}

@@ -43,14 +43,29 @@ export const INIT_MODALS = {
    confirmation: false,
    resource: false,
    selectOne: false,
+   selectCard: false,
    animation: false,
-   // Which cards to show in cards modal
+   // Info for cards modal
    modalCard: null,
    modalCards: [],
    modalCardsType: null,
-   // Which card to show in selectOne modal
+   // Info for paying with resources when using card action
+   modalResources: {
+      mln: null,
+      steel: null,
+      titan: null,
+      heat: null,
+   },
+   // Info for selectOne modal
    modalSelectOne: {
-      card: null
+      card: null,
+      options: [],
+   },
+   // Info for selectCard modal
+   modalSelectCard: {
+      cardIdAction: null,
+      card: null,
+      func: null,
    },
    // Info for modal other
    modalOther: {

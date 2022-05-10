@@ -1,11 +1,12 @@
 import { useContext, useState } from 'react'
+import { getOptions } from '../../../../data/selectOneOptions'
 import { ModalsContext } from '../../Game'
 import Card from '../Card'
 import SelectOneSection from './modalsComponents/SelectOneSection'
 
 const ModalSelectOne = () => {
    const { modals } = useContext(ModalsContext)
-   const [selectedOptionId, setSelectedOptionId] = useState(0)
+   const [selectedOption, setSelectedOption] = useState(getOptions(modals.modalSelectOne.card.id)[0])
 
    return (
       <div className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}>
@@ -13,8 +14,8 @@ const ModalSelectOne = () => {
             <div className="card-container big center">
                <Card card={modals.modalSelectOne.card} />
                <SelectOneSection
-                  selectedOptionId={selectedOptionId}
-                  setSelectedOptionId={setSelectedOptionId}
+                  selectedOption={selectedOption}
+                  setSelectedOption={setSelectedOption}
                />
             </div>
          </div>

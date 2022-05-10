@@ -14,10 +14,29 @@ const CardDecreaseCost = ({
    toBuyHeat,
    setToBuyHeat,
    setDisabled,
+   actionClicked,
 }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { requirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
+   const cost = modals.modalCard ? modals.modalCard.currentCost : getCost()
+
+   function getCost() {
+      let cost = 0
+      switch (actionClicked) {
+         // Water Import From Europa
+         case 12:
+            cost = 12
+            break
+         // Aquifer Pumping
+         case 187:
+            cost = 8
+            break
+         default:
+            break
+      }
+      return cost
+   }
 
    const handleClickArrow = (resource, operation) => {
       let resMln = toBuyMln
@@ -39,20 +58,15 @@ const CardDecreaseCost = ({
       }
       resMln = Math.max(
          0,
-         modals.modalCard.currentCost -
-            resSteel * statePlayer.valueSteel -
-            resTitan * statePlayer.valueTitan -
-            resHeat
+         cost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan - resHeat
       )
       if (
          resMln === 0 &&
-         resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan + resHeat >
-            modals.modalCard.currentCost &&
+         resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan + resHeat > cost &&
          resHeat > 0
       )
          resHeat = Math.max(
-            modals.modalCard.currentCost -
-               (resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan),
+            cost - (resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan),
             0
          )
 
@@ -61,52 +75,55 @@ const CardDecreaseCost = ({
       setToBuyTitan(resTitan)
       setToBuyHeat(resHeat)
 
-      setDisabled(
-         Math.min(resMln, statePlayer.resources.mln) +
-            resSteel * statePlayer.valueSteel +
-            resTitan * statePlayer.valueTitan +
-            resHeat <
-            modals.modalCard.currentCost || !requirementsMet(modals.modalCard)
-      )
+      if (setDisabled)
+         setDisabled(
+            Math.min(resMln, statePlayer.resources.mln) +
+               resSteel * statePlayer.valueSteel +
+               resTitan * statePlayer.valueTitan +
+               resHeat <
+               cost || !requirementsMet(modals.modalCard, cost)
+         )
    }
 
    return (
       <div className="card-decrease-cost-container">
          <div className="card-decrease-cost-header">DECREASE COST</div>
-         {statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING) && (
-            <div className="card-decrease-cost">
-               <span>{toBuySteel} STEEL</span>
-               {toBuySteel > 0 && (
-                  <div
-                     className="decrease-arrow pointer decrease-arrow-left"
-                     onClick={() => handleClickArrow(RESOURCES.STEEL, 'decrement')}
-                  ></div>
-               )}
-               {toBuySteel < statePlayer.resources.steel && toBuyMln !== 0 && (
-                  <div
-                     className="decrease-arrow pointer decrease-arrow-right"
-                     onClick={() => handleClickArrow(RESOURCES.STEEL, 'increment')}
-                  ></div>
-               )}
-            </div>
-         )}
-         {statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE) && (
-            <div className="card-decrease-cost">
-               <span>{toBuyTitan} TITAN</span>
-               {toBuyTitan > 0 && (
-                  <div
-                     className="decrease-arrow pointer decrease-arrow-left"
-                     onClick={() => handleClickArrow(RESOURCES.TITAN, 'decrement')}
-                  ></div>
-               )}
-               {toBuyTitan < statePlayer.resources.titan && toBuyMln !== 0 && (
-                  <div
-                     className="decrease-arrow pointer decrease-arrow-right"
-                     onClick={() => handleClickArrow(RESOURCES.TITAN, 'increment')}
-                  ></div>
-               )}
-            </div>
-         )}
+         {statePlayer.resources.steel > 0 &&
+            (hasTag(modals.modalCard, TAGS.BUILDING) || actionClicked === 187) && (
+               <div className="card-decrease-cost">
+                  <span>{toBuySteel} STEEL</span>
+                  {toBuySteel > 0 && (
+                     <div
+                        className="decrease-arrow pointer decrease-arrow-left"
+                        onClick={() => handleClickArrow(RESOURCES.STEEL, 'decrement')}
+                     ></div>
+                  )}
+                  {toBuySteel < statePlayer.resources.steel && toBuyMln !== 0 && (
+                     <div
+                        className="decrease-arrow pointer decrease-arrow-right"
+                        onClick={() => handleClickArrow(RESOURCES.STEEL, 'increment')}
+                     ></div>
+                  )}
+               </div>
+            )}
+         {statePlayer.resources.titan > 0 &&
+            (hasTag(modals.modalCard, TAGS.SPACE) || actionClicked === 12) && (
+               <div className="card-decrease-cost">
+                  <span>{toBuyTitan} TITAN</span>
+                  {toBuyTitan > 0 && (
+                     <div
+                        className="decrease-arrow pointer decrease-arrow-left"
+                        onClick={() => handleClickArrow(RESOURCES.TITAN, 'decrement')}
+                     ></div>
+                  )}
+                  {toBuyTitan < statePlayer.resources.titan && toBuyMln !== 0 && (
+                     <div
+                        className="decrease-arrow pointer decrease-arrow-right"
+                        onClick={() => handleClickArrow(RESOURCES.TITAN, 'increment')}
+                     ></div>
+                  )}
+               </div>
+            )}
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (
             <div className="card-decrease-cost">
                <span>{toBuyHeat} HEAT</span>

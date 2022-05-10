@@ -86,7 +86,7 @@ const ModalSellCards = () => {
                onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
             >
                <Card card={card} />
-               <CardBtn btnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+               <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
             </div>
          ))}
       </div>

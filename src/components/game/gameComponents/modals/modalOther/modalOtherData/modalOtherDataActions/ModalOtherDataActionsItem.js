@@ -4,13 +4,35 @@ import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActio
 import { ACTIONS_GAME } from '../../../../../../../util/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../util/actionsPlayer'
 
-const ModalOtherDataActionsItem = ({ item, setCardSnap }) => {
-   const { dispatchPlayer } = useContext(StatePlayerContext)
+const ModalOtherDataActionsItem = ({
+   item,
+   setCardSnap,
+   actionClicked,
+   setActionClicked,
+   toBuyMln,
+   toBuySteel,
+   toBuyTitan,
+   toBuyHeat,
+   changeCosts,
+}) => {
+   const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } =
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const isUnmi = item.name === 'UNMI'
-   const isAvailable = actionRequirementsMet(item)
+   const isAvailable = getAvailability()
+
+   function getAvailability() {
+      if (isUnmi) {
+         return actionRequirementsMet(item)
+      } else {
+         if ((item.id === 12 || item.id === 187) && actionClicked) {
+            return actionRequirementsMet(item) && toBuyMln <= statePlayer.resources.mln
+         } else {
+            return actionRequirementsMet(item)
+         }
+      }
+   }
 
    const handleMouseOverItem = (item) => {
       if (!isUnmi) setCardSnap(item)
@@ -18,6 +40,17 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap }) => {
 
    const handleClickAction = () => {
       if (!isAvailable) return
+      // Actions with resources to pay
+      if (!isUnmi) {
+         if (item.id === 12 || item.id === 187) {
+            if (actionClicked === null || actionClicked !== item.id) {
+               changeCosts(item.id)
+               return
+            }
+         }
+      }
+      // Other actions
+      if (item.id !== 12 && item.id !== 187) setActionClicked(null)
       setModals((prevModals) => ({
          ...prevModals,
          modalConf: {
@@ -62,18 +95,15 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap }) => {
             <img
                src={
                   isUnmi
-                     ? getActionIcon(ACTION_ICONS.RAISE1TR)
+                     ? getActionIcon(ACTION_ICONS.ACTION_UNMI)
                      : getActionIcon(item.iconNames.action)
                }
                alt={isUnmi ? 'UNMI_action' : item.iconNames.action}
             />
          </div>
+         {actionClicked === item.id && <div>{toBuyMln} </div>}
          <button
-            className={`
-               btn
-               ${isAvailable && 'pointer'}
-               ${!isAvailable && 'disabled'}
-            `}
+            className={`btn ${isAvailable ? 'pointer' : 'disabled'}`}
             onClick={handleClickAction}
          >
             USE

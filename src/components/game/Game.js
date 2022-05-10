@@ -17,7 +17,11 @@ import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
 import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
 import '../../css/app.css'
-import { funcRequirementsMet, funcActionRequirementsMet } from '../../data/requirements'
+import {
+   funcRequirementsMet,
+   funcActionRequirementsMet,
+   funcOptionRequirementsMet,
+} from '../../data/requirements'
 import { funcGetCardActions } from '../../data/cardActions'
 import ViewGameStateHeader from './gameComponents/ViewGameStateHeader'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
@@ -50,6 +54,7 @@ function Game({ setGameOn }) {
          dispatchPlayer,
          stateGame,
          dispatchGame,
+         getImmEffects,
          stateBoard,
          dispatchBoard,
          modals,
@@ -63,10 +68,15 @@ function Game({ setGameOn }) {
          dispatchPlayer,
          stateGame,
          dispatchGame,
+         performSubActions,
          stateBoard,
          dispatchBoard,
          modals,
-         setModals
+         setModals,
+         cards,
+         setCards,
+         getEffect,
+         getImmEffects
       )
    }
    function getEffect(effect) {
@@ -79,6 +89,7 @@ function Game({ setGameOn }) {
          dispatchPlayer,
          stateGame,
          dispatchGame,
+         getImmEffects,
          setModals
       )
    }
@@ -91,11 +102,14 @@ function Game({ setGameOn }) {
          setUpdateVpTrigger
       )
    }
-   function requirementsMet(card) {
-      return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals)
+   function requirementsMet(card, cost, actionClicked) {
+      return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals, cost, actionClicked)
    }
    function actionRequirementsMet(card) {
-      return funcActionRequirementsMet(card, statePlayer, stateGame, stateBoard, modals)
+      return funcActionRequirementsMet(card, statePlayer, stateGame, modals, stateBoard)
+   }
+   function optionRequirementsMet(card) {
+      return funcOptionRequirementsMet(card, statePlayer)
    }
 
    return (
@@ -112,6 +126,7 @@ function Game({ setGameOn }) {
                   performSubActions,
                   requirementsMet,
                   actionRequirementsMet,
+                  optionRequirementsMet,
                   ANIMATION_SPEED,
                   setANIMATION_SPEED,
                }}

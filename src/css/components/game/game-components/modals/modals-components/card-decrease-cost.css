@@ -1,7 +1,8 @@
 .card-decrease-cost-container {
    position: absolute;
    right: 0;
-   top: calc(var(--default-size) * 3);
+   top: 0;
+   right: calc(var(--default-size) * -1);
    transform: translateX(100%);
    background-color: black;
    width: calc(var(--default-size) * 5);

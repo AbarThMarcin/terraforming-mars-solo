@@ -6,7 +6,6 @@ const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
    const { stateGame } = useContext(StateGameContext)
 
    const handleClickCorpAction = () => {
-      if (stateGame.phasePlaceTile) return
       setModals({
          ...modals,
          modalConf: {
@@ -24,7 +23,7 @@ const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
    return (
       <img
          src={bg}
-         className={`panel-corp-action-btn ${!stateGame.phasePlaceTile && 'pointer'}`}
+         className="panel-corp-action-btn pointer"
          alt=""
          onClick={handleClickCorpAction}
       />

@@ -1,4 +1,5 @@
 .select-one-section {
+   position: absolute;
    left: 100%;
    top: 5%;
    width: 50%;
@@ -7,6 +8,7 @@
    display: flex;
    flex-direction: column;
    align-items: center;
+   gap: 5%;
 }
 
 .select-one-section .header {
@@ -16,8 +18,18 @@
 }
 
 .select-one-section .option {
+   position: relative;
    height: calc(var(--default-size) * 1.8);
    background-color: green;
+}
+
+.select-one-section .option img {
+   height: 100%;
+}
+.select-one-section .option .disabled {
+   position: absolute;
+   background-color: rgba(0, 0, 0, 0.6);
+   top: 0;
 }
 
 .select-one-section .option.selected {

@@ -50,7 +50,7 @@ const ModalDraft = () => {
    }
 
    const handleClickCardBtn = (card) => {
-      if (!selectedCards.includes(card)) {
+      if (selectedCards.filter(selCard => selCard.id === card.id).length === 0) {
          setBuyCost((v) => v + 3)
          setSelectedCards((cards) => [...cards, card])
       } else {
@@ -91,7 +91,7 @@ const ModalDraft = () => {
                onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
             >
                <Card card={card} />
-               <CardBtn btnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+               <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
             </div>
          ))}
       </div>

@@ -9,8 +9,10 @@ export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',
    TEMPERATURE: 'Increase temperature by 2 degrees',
    AQUIFER: 'Place an ocean',
-   GREENERY: 'Place greenery and increase oxygen by 1%',
+   GREENERY: 'Place greenery',
+   OXYGEN: 'Increase oxygen by 1%',
    CITY: 'Place a city',
+   TR: 'Increase TR level',
 }
 
 export const funcGetImmEffects = (
@@ -19,6 +21,7 @@ export const funcGetImmEffects = (
    dispatchPlayer,
    stateGame,
    dispatchGame,
+   getImmEffects,
    stateBoard,
    dispatchBoard,
    modals,
@@ -61,20 +64,7 @@ export const funcGetImmEffects = (
                })
                // Bonus ocean
             } else if (stateGame.globalParameters.temperature === -2) {
-               subActions = [
-                  ...subActions,
-                  ...funcGetImmEffects(
-                     IMM_EFFECTS.AQUIFER,
-                     statePlayer,
-                     dispatchPlayer,
-                     stateGame,
-                     dispatchGame,
-                     stateBoard,
-                     dispatchBoard,
-                     modals,
-                     setModals
-                  ),
-               ]
+               subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
             }
          }
          break
@@ -123,6 +113,10 @@ export const funcGetImmEffects = (
             },
          })
          // Increase oxygen
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
+         break
+      // =================== INCREASE OXYGEN ===================
+      case IMM_EFFECTS.OXYGEN:
          if (stateGame.globalParameters.oxygen < 14) {
             subActions.push({
                name: ANIMATIONS.SHORT_ANIMATION,
@@ -140,20 +134,7 @@ export const funcGetImmEffects = (
             stateGame.globalParameters.oxygen === 7 &&
             stateGame.globalParameters.temperature < 8
          ) {
-            subActions = [
-               ...subActions,
-               ...funcGetImmEffects(
-                  IMM_EFFECTS.TEMPERATURE,
-                  statePlayer,
-                  dispatchPlayer,
-                  stateGame,
-                  dispatchGame,
-                  stateBoard,
-                  dispatchBoard,
-                  modals,
-                  setModals
-               ),
-            ]
+            subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          }
          break
       // =================== PLACE CITY TILE ===================
@@ -170,6 +151,15 @@ export const funcGetImmEffects = (
                })
                dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.CITY })
             },
+         })
+         break
+      // =================== INCREASE TR ===================
+      case IMM_EFFECTS.TR:
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 }),
          })
          break
       // =================== CARD IMMEDIATE EFFECTS ==================
@@ -209,20 +199,7 @@ export const funcGetImmEffects = (
          break
       // Open City
       case 108:
-         subActions = [
-            ...subActions,
-            ...funcGetImmEffects(
-               IMM_EFFECTS.CITY,
-               statePlayer,
-               dispatchPlayer,
-               stateGame,
-               dispatchGame,
-               stateBoard,
-               dispatchBoard,
-               modals,
-               setModals
-            ),
-         ]
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.CITY)]
          break
       case 8:
          subActions.push({

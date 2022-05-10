@@ -179,13 +179,25 @@ const ModalCardWithAction = () => {
       >
          <div className="modal-card center">
             <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
+               {/* CARD */}
                <Card card={modals.modalCard} />
-               <CardBtn btnText="USE" handleClick={showConfirmation} disabled={disabled} />
-               <div className={`card-to-buy-mln ${disabled && 'disabled'}`}>{toBuyMln}</div>
+               {/* CARD BUTTON */}
+               {!modals.draft && (
+                  <>
+                     <CardBtn
+                        initBtnText="USE"
+                        handleClick={showConfirmation}
+                        disabled={disabled}
+                     />
+                     <div className="card-to-buy-mln">{toBuyMln}</div>
+                  </>
+               )}
+               {/* CARD DECREASE COST SECTION */}
                {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
                   (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
                   (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
-                  modals.cardWithAction && (
+                  modals.cardWithAction &&
+                  !modals.draft && (
                      <CardDecreaseCost
                         toBuyMln={toBuyMln}
                         setToBuyMln={setToBuyMln}

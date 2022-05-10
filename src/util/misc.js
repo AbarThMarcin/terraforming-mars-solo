@@ -73,6 +73,7 @@ export const getPosition = (length, id) => {
 
 // Checks if a card has given tag
 export const hasTag = (card, type) => {
+   if (!card) return false
    return card.tags.includes(type)
 }
 
@@ -177,6 +178,7 @@ export function funcPerformSubActions(
       if (subActions[i].name !== ANIMATIONS.USER_INTERACTION) {
          // Subaction with normal animation
          setTimeout(() => {
+            endAnimation(setModals)
             startAnimation(setModals)
             setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals)
          }, longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000)
@@ -226,6 +228,23 @@ export function getAllResources(card, statePlayer) {
    if (hasTag(card, TAGS.BUILDING))
       resources += statePlayer.resources.steel * statePlayer.valueSteel
    if (hasTag(card, TAGS.SPACE)) resources += statePlayer.resources.titan * statePlayer.valueTitan
+   if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+   return resources
+}
+export function getAllResourcesForAction(actionClicked, statePlayer) {
+   let resources = statePlayer.resources.mln
+   switch (actionClicked) {
+      // Water Import From Europa
+      case 12:
+         resources += statePlayer.resources.titan * statePlayer.valueTitan
+         break
+      // Aquifer Pumping
+      case 187:
+         resources += statePlayer.resources.steel * statePlayer.valueSteel
+         break
+      default:
+         break
+   }
    if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
    return resources
 }

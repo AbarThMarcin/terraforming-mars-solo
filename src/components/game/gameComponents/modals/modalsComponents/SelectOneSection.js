@@ -2,13 +2,14 @@ import { useContext } from 'react'
 import { getOptionIcon } from '../../../../../data/selectOneOptions'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StateGameContext, ModalsContext } from '../../../Game'
+import SelectOneOption from './SelectOneOption'
 
-const SelectOneSection = ({ selectedOptionId, setSelectedOptionId }) => {
+const SelectOneSection = ({ selectedOption, setSelectedOption }) => {
    const { modals, setModals } = useContext(ModalsContext)
    const { dispatchGame, getOptionsActions, performSubActions } = useContext(StateGameContext)
 
-   const handleClickOptionConfirm = (option) => {
-      let subActions = getOptionsActions(option)
+   const handleClickOptionConfirm = () => {
+      let subActions = getOptionsActions(selectedOption)
       setModals((prevModals) => ({ ...prevModals, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
@@ -21,22 +22,16 @@ const SelectOneSection = ({ selectedOptionId, setSelectedOptionId }) => {
          <div className="header">SELECT ONE</div>
          {/* OPTIONS */}
          {modals.modalSelectOne.options.map((option, idx) => (
-            <div
+            <SelectOneOption
                key={idx}
-               className={`option ${idx === selectedOptionId && 'selected'}`}
-               onClick={(idx) => setSelectedOptionId(idx)}
-            >
-               <img
-                  src={getOptionIcon(option)}
-                  alt={`${modals.modalSelectOne.card.name}_opt_${idx + 1}`}
-               />
-            </div>
+               idx={idx}
+               option={option}
+               selectedOption={selectedOption}
+               setSelectedOption={setSelectedOption}
+            />
          ))}
          {/* CONFIRM BUTTON */}
-         <div
-            className="modal-resource-confirm-btn pointer"
-            onClick={(option) => handleClickOptionConfirm(option)}
-         >
+         <div className="modal-resource-confirm-btn pointer" onClick={handleClickOptionConfirm}>
             CONFIRM
          </div>
       </div>

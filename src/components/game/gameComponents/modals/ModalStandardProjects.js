@@ -130,7 +130,7 @@ const ModalStandardProjects = () => {
                   stateGame.globalParameters.temperature === -2 &&
                   stateGame.globalParameters.oceans < 9
                ) {
-                  spEffects = getSPeffectsToCall(SP.AQUIFER_BONUS)
+                  spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
                   spEffects.forEach((spEffect) => {
                      if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                         actions.push(getEffect(spEffect))
@@ -176,7 +176,7 @@ const ModalStandardProjects = () => {
                   stateGame.globalParameters.temperature === -2 &&
                   stateGame.globalParameters.oceans < 9
                ) {
-                  spEffects = getSPeffectsToCall(SP.AQUIFER_BONUS)
+                  spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
                   spEffects.forEach((spEffect) => {
                      if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
                         actions.push(getEffect(spEffect))

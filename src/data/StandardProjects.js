@@ -9,5 +9,5 @@ export const SP = {
    // Convert plants action
    CONVERT_PLANTS: 'CONVERT PLANTS',
    // Bonus action (the same as aquifer but without Standard Technology card effect)
-   AQUIFER_BONUS: 'BONUS AQUIFER', 
+   AQUIFER_NO_SP: 'AQUIFER FROM OTHER SOURCE THAN SP',
 }

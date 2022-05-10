@@ -1,6 +1,12 @@
-import { getAllResources, getCardsWithPossibleMicrobes } from '../util/misc'
+import {
+   getAllResources,
+   getAllResourcesForAction,
+   getCardsWithPossibleAnimals,
+   getCardsWithPossibleMicrobes,
+} from '../util/misc'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from './board'
 import { RESOURCES } from './resources'
+import { OPTION_ICONS } from './selectOneOptions'
 
 export const REQUIREMENTS = {
    // Global parameters requirements
@@ -17,9 +23,22 @@ export const REQUIREMENTS = {
    BOARD: 'board',
 }
 
-export const funcRequirementsMet = (card, statePlayer, stateGame, stateBoard, modals) => {
+export const funcRequirementsMet = (
+   card,
+   statePlayer,
+   stateGame,
+   stateBoard,
+   modals,
+   cost,
+   actionClicked
+) => {
    // Cost requirement
-   if (getAllResources(card, statePlayer) < card.currentCost) return false
+   if (cost !== undefined) {
+      if (getAllResourcesForAction(actionClicked, statePlayer) < cost) return false
+      return true
+   } else {
+      if (getAllResources(card, statePlayer) < card.currentCost) return false
+   }
    // If inappropiate state of the game is on, return false
    if (
       stateGame.phaseDraft ||
@@ -266,12 +285,11 @@ export const funcRequirementsMet = (card, statePlayer, stateGame, stateBoard, mo
    return isAvailable
 }
 
-export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals) => {
-   console.log(item)
+export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, stateBoard) => {
    let reqMet = true
-   // If already used, return false
+   // ===================== If already used, return false =====================
    if (item.actionUsed) return false
-   // If inappropiate state of the game is on
+   // ==================If inappropiate state of the game is on ===============
    if (
       stateGame.phaseDraft ||
       stateGame.phaseViewGameState ||
@@ -283,21 +301,79 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals) 
    if (item.name === 'UNMI') {
       if (!item.trRaised) return false
    } else {
-      // Check specific card requirements
+      // ================= Check specific card requirements ===================
+      let value
       let cards = []
       switch (item.id) {
+         // Search For Life
+         case 5:
+            value = statePlayer.resources.mln
+            if (value < 1) reqMet = false
+            break
+         // Martian Rails
+         case 7:
+            value = statePlayer.resources.energy
+            if (value < 1) reqMet = false
+            break
+         // Water Import From Europa
+         case 12:
+            value = statePlayer.resources.mln + statePlayer.resources.titan * statePlayer.valueTitan
+            if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
+            if (value < 12 || stateGame.globalParameters.oceans === 9) reqMet = false
+            break
+         // Symbiotic Fungus
          case 133:
             cards = getCardsWithPossibleMicrobes(statePlayer)
             if (cards.length === 0) reqMet = false
             break
-         // case 134:
-         //    cards = getCardsWithPossibleMicrobes(statePlayer)
-         //    if (cards.length === 0) reqMet = false
-         //    break
+         // Aquifer Pumping
+         case 187:
+            value = statePlayer.resources.mln + statePlayer.resources.steel * statePlayer.valueSteel
+            if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
+            if (value < 8 || stateGame.globalParameters.oceans === 9) reqMet = false
+            break
          default:
             break
       }
    }
 
+   return reqMet
+}
+
+export const funcOptionRequirementsMet = (option, statePlayer) => {
+   let reqMet = true
+   let card = []
+   let cards = []
+   switch (option) {
+      case OPTION_ICONS.CARD33_OPTION2:
+         card = statePlayer.cardsPlayed.find((card) => card.id === 33)
+         if (card.units.microbe < 2) reqMet = false
+         break
+      case OPTION_ICONS.CARD34_OPTION2:
+         card = statePlayer.cardsPlayed.find((card) => card.id === 34)
+         if (card.units.microbe < 2) reqMet = false
+         break
+      case OPTION_ICONS.CARD69_OPTION1:
+         if (statePlayer.resources.plant === 0) reqMet = false
+         break
+      case OPTION_ICONS.CARD69_OPTION2:
+         if (statePlayer.resources.steel === 0) reqMet = false
+         break
+      case OPTION_ICONS.CARD134_OPTION2:
+         cards = getCardsWithPossibleMicrobes(statePlayer)
+         if (cards.length === 0) reqMet = false
+         break
+      case OPTION_ICONS.CARD143_OPTION2:
+      case OPTION_ICONS.CARD190_OPTION2:
+         cards = getCardsWithPossibleAnimals(statePlayer)
+         if (cards.length === 0) reqMet = false
+         break
+      case OPTION_ICONS.CARD157_OPTION2:
+         card = statePlayer.cardsPlayed.find((card) => card.id === 157)
+         if (card.units.microbe < 3) reqMet = false
+         break
+      default:
+         break
+   }
    return reqMet
 }

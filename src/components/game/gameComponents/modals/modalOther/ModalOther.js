@@ -58,6 +58,7 @@ const ModalOther = () => {
                      <Card card={cardSnap} />
                   </div>
                )}
+               
             </div>
          </div>
       </>

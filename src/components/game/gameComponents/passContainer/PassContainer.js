@@ -52,7 +52,7 @@ const PassContainer = () => {
    return (
       <>
          <div className="pass-container">
-            {!stateGame.phaseDraft && !stateGame.phasePlaceTile && (
+            {!stateGame.phaseDraft && !stateGame.phasePlaceTile && !stateGame.phaseViewGameState && (
                <PassBtn onYesFunc={onYesFunc} />
             )}
             <PassCorpSnap />

@@ -21,7 +21,7 @@ export const CARDS = [
          },
       ],
       vp: 2,
-      tags: [TAGS.JOVIAN, TAGS.BUILDING],
+      tags: [TAGS.JOVIAN, TAGS.BUILDING, TAGS.MICROBE],
       effect: null,
       effectsToCall: [EFFECTS.EFFECT_SATURN_SYSTEMS],
       units: {
@@ -50,7 +50,7 @@ export const CARDS = [
          },
       ],
       vp: 0,
-      tags: [TAGS.SCIENCE, TAGS.CITY],
+      tags: [TAGS.SCIENCE, TAGS.CITY, TAGS.MICROBE],
       effect: null,
       effectsToCall: [],
       units: {
@@ -79,7 +79,7 @@ export const CARDS = [
          },
       ],
       vp: 0,
-      tags: [TAGS.BUILDING, TAGS.EARTH],
+      tags: [TAGS.BUILDING, TAGS.EARTH, TAGS.MICROBE],
       effect: null,
       effectsToCall: [],
       units: {
@@ -102,7 +102,7 @@ export const CARDS = [
       currentCost: 12,
       requirements: [],
       vp: 0,
-      tags: [TAGS.SPACE, TAGS.BUILDING],
+      tags: [TAGS.SPACE, TAGS.BUILDING, TAGS.MICROBE],
       effect: null,
       effectsToCall: [],
       units: {
@@ -125,7 +125,7 @@ export const CARDS = [
       currentCost: 10,
       requirements: [],
       vp: 1,
-      tags: [RESOURCES.PLANT],
+      tags: [RESOURCES.PLANT, TAGS.MICROBE],
       effect: null,
       effectsToCall: [],
       units: {
@@ -148,7 +148,7 @@ export const CARDS = [
       currentCost: 5,
       requirements: [],
       vp: 0,
-      tags: [TAGS.BUILDING, TAGS.SPACE],
+      tags: [TAGS.BUILDING, TAGS.SPACE, TAGS.MICROBE],
       effect: null,
       effectsToCall: [],
       units: {

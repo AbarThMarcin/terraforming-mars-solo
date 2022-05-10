@@ -286,7 +286,7 @@ export const getSPeffectsToCall = (SpOrConvertPlants) => {
          ]
       case SP.CONVERT_PLANTS:
          return [EFFECTS.EFFECT_MINING_GUILD, EFFECTS.EFFECT_HERBIVORES]
-      case SP.AQUIFER_BONUS:
+      case SP.AQUIFER_NO_SP:
          return [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_MINING_GUILD]
       default:
          return []

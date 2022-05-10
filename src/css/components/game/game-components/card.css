@@ -57,7 +57,3 @@
    justify-content: center;
    align-items: center;
 }
-
-.card-to-buy-mln.disabled {
-   background-color: rgb(110, 110, 0);
-}

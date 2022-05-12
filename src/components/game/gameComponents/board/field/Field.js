@@ -6,9 +6,6 @@ import {
    StateBoardContext,
    ModalsContext,
 } from '../../../Game'
-import city from '../../../../../assets/images/objects/city.png'
-import greenery from '../../../../../assets/images/objects/greenery.png'
-import ocean from '../../../../../assets/images/objects/ocean.png'
 import FieldBonus from './FieldBonus'
 import FieldLine from './FieldLine'
 import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
@@ -24,6 +21,22 @@ import {
 } from '../../../../../data/animations'
 import { getNeighbors, modifiedCards } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
+
+import city from '../../../../../assets/images/objects/city.png'
+import cityNeutral from '../../../../../assets/images/objects/cityNeutral.png'
+import greenery from '../../../../../assets/images/objects/greenery.png'
+import greeneryNeutral from '../../../../../assets/images/objects/greeneryNeutral.png'
+import ocean from '../../../../../assets/images/objects/ocean.png'
+import cityCapital from '../../../../../assets/images/objects/cityCapital.png'
+import miningRightsArea from '../../../../../assets/images/objects/miningRightsArea.png'
+import ecologicalZone from '../../../../../assets/images/objects/ecologicalZone.png'
+import naturalPreserve from '../../../../../assets/images/objects/naturalPreserve.png'
+import moholeArea from '../../../../../assets/images/objects/moholeArea.png'
+import restrictedArea from '../../../../../assets/images/objects/restrictedArea.png'
+import commercialDistrict from '../../../../../assets/images/objects/commercialDistrict.png'
+import nuclearZone from '../../../../../assets/images/objects/nuclearZone.png'
+import industrialCenter from '../../../../../assets/images/objects/industrialCenter.png'
+import lavaFlows from '../../../../../assets/images/objects/lavaFlows.png'
 
 const Field = ({ field }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -104,6 +117,9 @@ const Field = ({ field }) => {
                setTimeout(() => endAnimation(setModals), uniqBonuses.length * ANIMATION_SPEED)
          }
       }
+
+      let delay = uniqBonuses.length * ANIMATION_SPEED
+
       // Receive mln for ocean bonus
       let bonusMln
       const oceanNeighbors = getNeighbors(field.x, field.y, stateBoard).filter(
@@ -114,23 +130,36 @@ const Field = ({ field }) => {
          setTimeout(() => {
             startAnimation(setModals)
             setAnimation(ANIMATIONS.RESOURCES_IN, RESOURCES.MLN, bonusMln, setModals)
-         }, uniqBonuses.length * ANIMATION_SPEED)
+         }, delay)
+         delay += ANIMATION_SPEED
          setTimeout(() => {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: bonusMln })
             endAnimation(setModals)
-         }, (uniqBonuses.length + 1) * ANIMATION_SPEED)
+         }, delay)
       }
-      // Proper action
-      setTimeout(
-         () => {
-            // Continue performing actions/effects
+
+      // Receive steel prod if Mining Guild and field has steel/titan bonus
+      if (
+         (field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) &&
+         statePlayer.corporation.name === 'Mining Guild'
+      ) {
+         setTimeout(() => {
             startAnimation(setModals)
-            performSubActions(stateGame.actionsLeft)
-         },
-         bonusMln
-            ? (uniqBonuses.length + 1) * ANIMATION_SPEED
-            : uniqBonuses.length * ANIMATION_SPEED
-      )
+            setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals)
+         }, delay)
+         delay += ANIMATION_SPEED
+         setTimeout(() => {
+            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+            endAnimation(setModals)
+         }, delay)
+      }
+
+      // Proper action
+      setTimeout(() => {
+         // Continue performing actions/effects
+         startAnimation(setModals)
+         performSubActions(stateGame.actionsLeft)
+      }, delay)
    }
 
    return (
@@ -163,14 +192,87 @@ const Field = ({ field }) => {
                </div>
             )}
             {/* Field Object */}
-            {(field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL) && (
+            {field.object === TILES.CITY && (
                <img src={city} className="field-object" alt={TILES.CITY}></img>
             )}
-            {(field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL) && (
+            {field.object === TILES.CITY_NEUTRAL && (
+               <img src={cityNeutral} className="field-object" alt={TILES.CITY_NEUTRAL}></img>
+            )}
+            {field.object === TILES.GREENERY && (
                <img src={greenery} className="field-object" alt={TILES.GREENERY}></img>
+            )}
+            {field.object === TILES.GREENERY_NEUTRAL && (
+               <img
+                  src={greeneryNeutral}
+                  className="field-object"
+                  alt={TILES.GREENERY_NEUTRAL}
+               ></img>
             )}
             {field.object === TILES.OCEAN && (
                <img src={ocean} className="field-object" alt={TILES.OCEAN}></img>
+            )}
+
+            {field.object === TILES.SPECIAL_CITY_CAPITAL && (
+               <img
+                  src={cityCapital}
+                  className="field-object"
+                  alt={TILES.SPECIAL_CITY_CAPITAL}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_MINING_RIGHTS && (
+               <img
+                  src={miningRightsArea}
+                  className="field-object"
+                  alt={TILES.SPECIAL_MINING_RIGHTS}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_MINING_AREA && (
+               <img
+                  src={miningRightsArea}
+                  className="field-object"
+                  alt={TILES.SPECIAL_MINING_AREA}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_ECOLOGICAL_ZONE && (
+               <img
+                  src={ecologicalZone}
+                  className="field-object"
+                  alt={TILES.SPECIAL_ECOLOGICAL_ZONE}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_NATURAL_PRESERVE && (
+               <img
+                  src={naturalPreserve}
+                  className="field-object"
+                  alt={TILES.SPECIAL_NATURAL_PRESERVE}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_MOHOLE_AREA && (
+               <img src={moholeArea} className="field-object" alt={TILES.SPECIAL_MOHOLE_AREA}></img>
+            )}
+            {field.object === TILES.SPECIAL_RESTRICTED_AREA && (
+               <img
+                  src={restrictedArea}
+                  className="field-object"
+                  alt={TILES.SPECIAL_RESTRICTED_AREA}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_COMMERCIAL_DISTRICT && (
+               <img
+                  src={commercialDistrict}
+                  className="field-object"
+                  alt={TILES.SPECIAL_COMMERCIAL_DISTRICT}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_NUCLEAR_ZONE && (
+               <img
+                  src={nuclearZone}
+                  className="field-object"
+                  alt={TILES.SPECIAL_NUCLEAR_ZONE}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_LAVA_FLOWS && (
+               <img src={lavaFlows} className="field-object" alt={TILES.SPECIAL_LAVA_FLOWS}></img>
             )}
          </div>
          {/* Container Extensions */}

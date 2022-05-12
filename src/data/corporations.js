@@ -39,13 +39,12 @@ export const CORPORATIONS = [
       description: 'Helion',
       startingConditions: {
          production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 3 },
-         resources: { mln: 5, steel: 2, titan: 2, plant: 7, energy: 0, heat: 2 },
+         resources: { mln: 25, steel: 2, titan: 2, plant: 7, energy: 4, heat: 2 },
          action: null,
       },
       effects: [
          EFFECTS.EFFECT_HELION,
          EFFECTS.EFFECT_ARCTIC_ALGAE,
-         EFFECTS.EFFECT_MINING_GUILD,
          EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
       ],
       tags: [TAGS.SPACE],
@@ -85,14 +84,14 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 6,
-   //    name: 'Mining Guild'
+   //    name: 'Mining Guild',
    //    description: 'Mining Guild',
    //    startingConditions: {
    //       production: { mln: 0, steel: 1, titan: 0, plant: 0, energy: 0, heat: 0 },
    //       resources: { mln: 30, steel: 5, titan: 0, plant: 0, energy: 0, heat: 0 },
    //       action: null,
    //    },
-   //    effects: [],
+   //    effects: [], // DO NOT PUT EFFECTS.EFFECT_MINING_GUILD HERE
    //    tags: [],
    //    logo: {
    //       url: '',
@@ -100,7 +99,7 @@ export const CORPORATIONS = [
    // },
    // {
    //    id: 7,
-   //    name: 'Phobolog'
+   //    name: 'Phobolog',
    //    description: 'Phobolog',
    //    startingConditions: {
    //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },

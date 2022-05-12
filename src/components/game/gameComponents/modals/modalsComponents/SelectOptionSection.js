@@ -1,15 +1,15 @@
 import { useContext } from 'react'
-import { getOptionIcon } from '../../../../../data/selectOneOptions'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StateGameContext, ModalsContext } from '../../../Game'
-import SelectOneOption from './SelectOneOption'
+import SelectOption from './SelectOption'
 
-const SelectOneSection = ({ selectedOption, setSelectedOption }) => {
+const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { dispatchGame, getOptionsActions, performSubActions } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, getOptionsActions, performSubActions } =
+      useContext(StateGameContext)
 
    const handleClickOptionConfirm = () => {
-      let subActions = getOptionsActions(selectedOption)
+      let subActions = [...getOptionsActions(selectedOption), ...stateGame.actionsLeft]
       setModals((prevModals) => ({ ...prevModals, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
@@ -22,7 +22,7 @@ const SelectOneSection = ({ selectedOption, setSelectedOption }) => {
          <div className="header">SELECT ONE</div>
          {/* OPTIONS */}
          {modals.modalSelectOne.options.map((option, idx) => (
-            <SelectOneOption
+            <SelectOption
                key={idx}
                idx={idx}
                option={option}
@@ -38,4 +38,4 @@ const SelectOneSection = ({ selectedOption, setSelectedOption }) => {
    )
 }
 
-export default SelectOneSection
+export default SelectOptionSection

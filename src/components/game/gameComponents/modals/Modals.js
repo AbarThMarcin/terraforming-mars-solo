@@ -16,7 +16,7 @@ import ModalRules from './ModalRules'
 import ModalSettings from './ModalSettings'
 import ModalStandardProjects from './ModalStandardProjects'
 import ModalResource from './modalResources/ModalResource'
-import ModalSelectOne from './ModalSelectOne'
+import ModalSelectOne from './ModalSelectOptions'
 import ModalSelectCard from './ModalSelectCard'
 
 const Modals = ({ setGameOn }) => {

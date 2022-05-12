@@ -3,6 +3,9 @@ import { ACTIONS_PLAYER } from '../util/actionsPlayer'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
 import { SP } from './StandardProjects'
+import { OPTION_ICONS } from './selectOneOptions'
+import { TAGS } from './tags'
+import { canCardHaveAnimals, canCardHaveMicrobes } from '../util/misc'
 // Corporation effects icons
 import credicor from '../assets/images/effects/credicor.png'
 import ecoline from '../assets/images/effects/ecoline.png'
@@ -16,6 +19,7 @@ import teractor from '../assets/images/effects/teractor.png'
 import tharsis from '../assets/images/effects/tharsis.png'
 import thorgate from '../assets/images/effects/thorgate.png'
 // Card effects icons
+import viralEnhancers from '../assets/images/effects/viralEnhancers.png'
 import mediaGroup from '../assets/images/effects/mediaGroup.png'
 import herbivores from '../assets/images/effects/herbivores.png'
 import roverConstruction from '../assets/images/effects/roverConstruction.png'
@@ -51,6 +55,9 @@ export const getEffectIcon = (effect) => {
          return tharsis
       case EFFECTS.EFFECT_THORGATE:
          return thorgate
+      // Card Effect Icons
+      case EFFECTS.EFFECT_VIRAL_ENHANCERS:
+         return viralEnhancers
       case EFFECTS.EFFECT_MEDIA_GROUP:
          return mediaGroup
       case EFFECTS.EFFECT_HERBIVORES:
@@ -77,7 +84,7 @@ export const EFFECTS = {
    EFFECT_HELION: 'You can pay with heat instead of mln.',
    EFFECT_INTERPLANETARY: 'Gain 2M after playing event card.',
    EFFECT_INVENTRIX: 'Treat global parameters requirements as they are -2 or +2.',
-   EFFECT_MINING_GUILD: 'Gain 1 steel prod after placing a tile on a steel/titan bonus field.',
+   EFFECT_MINING_GUILD: 'Gain 1 steel prod after placing a tile on a steel/titan bonus field.', // This effect is implemented directly in the Field component.
    EFFECT_PHOBOLOG: 'Titan value is increased by 1.',
    EFFECT_SATURN_SYSTEMS: 'Gain 1 mln production after playing a card with jovian.',
    EFFECT_TERACTOR: 'Card with earth tag costs 3M less.',
@@ -94,6 +101,7 @@ export const EFFECTS = {
    EFFECT_EARTH_CATAPULT: 'Cards cost 2M less (earth catapult)',
    EFFECT_RESEARCH_OUTPOST: 'Cards cost 1M less (research outpost)',
    // Card Effects
+   EFFECT_VIRAL_ENHANCERS: 'Gain 1 plant or add 1 resource to a played card',
    EFFECT_MEDIA_GROUP: 'Gain 3M after playing an event card',
    EFFECT_ARCTIC_ALGAE: 'Gain 2 plants after placing an ocean',
    EFFECT_HERBIVORES: 'Gain 1 animal after placing a greenery',
@@ -133,122 +141,235 @@ export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) =
 
 // ================================== LIST OF ALL CARD EFFECTS ====================================
 // This includes all card and corporation effects in game EXCEPT immediate effects from corporations
-export const funcGetEffect = (effectName, dispatchPlayer) => {
-   let effect = {}
+export const funcGetEffect = (
+   effectName,
+   statePlayer,
+   dispatchPlayer,
+   stateGame,
+   dispatchGame,
+   modals,
+   setModals
+) => {
+   let effect = []
    switch (effectName) {
       // ======================== CORPORATION EFFECTS ========================
       case EFFECTS.EFFECT_CREDICOR:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: 4,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 4 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: 4,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 4 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_INTERPLANETARY:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: 2,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 }),
-         }
-         break
-      case EFFECTS.EFFECT_MINING_GUILD:
-         effect = {
-            name: ANIMATIONS.PRODUCTION_IN,
-            type: RESOURCES.STEEL,
-            value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: 2,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_SATURN_SYSTEMS:
-         effect = {
-            name: ANIMATIONS.PRODUCTION_IN,
-            type: RESOURCES.MLN,
-            value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.PRODUCTION_IN,
+               type: RESOURCES.MLN,
+               value: 1,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_THARSIS_CITY:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: 3,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: 3,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_THARSIS_CITY_ONPLANET:
-         effect = {
-            name: ANIMATIONS.PRODUCTION_IN,
-            type: RESOURCES.MLN,
-            value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.PRODUCTION_IN,
+               type: RESOURCES.MLN,
+               value: 1,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+            },
+         ]
          break
       // ========================== CARD EFFECTS ==========================
-      case EFFECTS.EFFECT_MEDIA_GROUP:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: 3,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
-         }
-         break
-      case EFFECTS.EFFECT_ARCTIC_ALGAE:
-         effect = {
+      case EFFECTS.EFFECT_VIRAL_ENHANCERS:
+         let getPlantEffect = {
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
-            value: 2,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 1 }),
          }
+         modals.modalCard.tags.forEach((tag) => {
+            switch (tag) {
+               case TAGS.PLANT:
+                  if (canCardHaveAnimals(modals.modalCard.id)) {
+                     effect.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
+                           setModals((prevModals) => ({
+                              ...prevModals,
+                              modalSelectOne: {
+                                 card: statePlayer.cardsPlayed.find((card) => card.id === 74),
+                                 options: [
+                                    OPTION_ICONS.CARD74_OPTION1,
+                                    OPTION_ICONS.CARD74_OPTION3,
+                                 ],
+                              },
+                              selectOne: true,
+                           }))
+                        },
+                     })
+                  } else {
+                     effect.push(getPlantEffect)
+                  }
+                  break
+               case TAGS.MICROBE:
+                  if (canCardHaveMicrobes(modals.modalCard.id)) {
+                     effect.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
+                           setModals((prevModals) => ({
+                              ...prevModals,
+                              modalSelectOne: {
+                                 card: statePlayer.cardsPlayed.find((card) => card.id === 74),
+                                 options: [
+                                    OPTION_ICONS.CARD74_OPTION1,
+                                    OPTION_ICONS.CARD74_OPTION2,
+                                 ],
+                              },
+                              selectOne: true,
+                           }))
+                        },
+                     })
+                  } else {
+                     effect.push(getPlantEffect)
+                  }
+                  break
+               case TAGS.ANIMAL:
+                  if (canCardHaveAnimals(modals.modalCard.id)) {
+                     effect.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
+                           setModals((prevModals) => ({
+                              ...prevModals,
+                              modalSelectOne: {
+                                 card: statePlayer.cardsPlayed.find((card) => card.id === 74),
+                                 options: [
+                                    OPTION_ICONS.CARD74_OPTION1,
+                                    OPTION_ICONS.CARD74_OPTION3,
+                                 ],
+                              },
+                              selectOne: true,
+                           }))
+                        },
+                     })
+                  } else {
+                     effect.push(getPlantEffect)
+                  }
+                  break
+               default:
+                  break
+            }
+         })
+         break
+      case EFFECTS.EFFECT_MEDIA_GROUP:
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: 3,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+            },
+         ]
+         break
+      case EFFECTS.EFFECT_ARCTIC_ALGAE:
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.PLANT,
+               value: 2,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_HERBIVORES:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.ANIMAL,
-            value: 1,
-            func: () =>
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.ADD_BIO_RES,
-                  payload: { cardId: 147, resource: RESOURCES.ANIMAL, amount: 1 },
-               }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.ANIMAL,
+               value: 1,
+               func: () =>
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.ADD_BIO_RES,
+                     payload: { cardId: 147, resource: RESOURCES.ANIMAL, amount: 1 },
+                  }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_ROVER_CONSTRUCTION:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: 2,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: 2,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_IMMIGRANT_CITY:
-         effect = {
-            name: ANIMATIONS.PRODUCTION_IN,
-            type: RESOURCES.MLN,
-            value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.PRODUCTION_IN,
+               type: RESOURCES.MLN,
+               value: 1,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_PETS:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.ANIMAL,
-            value: 1,
-            func: () =>
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.ADD_BIO_RES,
-                  payload: { cardId: 172, resource: RESOURCES.ANIMAL, amount: 1 },
-               }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.ANIMAL,
+               value: 1,
+               func: () =>
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.ADD_BIO_RES,
+                     payload: { cardId: 172, resource: RESOURCES.ANIMAL, amount: 1 },
+                  }),
+            },
+         ]
          break
       case EFFECTS.EFFECT_STANDARD_TECHNOLOGY:
-         effect = {
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: 3,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
-         }
+         effect = [
+            {
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: 3,
+               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+            },
+         ]
          break
       default:
          break
@@ -263,20 +384,11 @@ export const getSPeffectsToCall = (SpOrConvertPlants) => {
       case SP.ASTEROID:
          return [EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
       case SP.AQUIFER:
-         return [
-            EFFECTS.EFFECT_ARCTIC_ALGAE,
-            EFFECTS.EFFECT_MINING_GUILD,
-            EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
-         ]
+         return [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
       case SP.GREENERY:
-         return [
-            EFFECTS.EFFECT_MINING_GUILD,
-            EFFECTS.EFFECT_HERBIVORES,
-            EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
-         ]
+         return [EFFECTS.EFFECT_HERBIVORES, EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
       case SP.CITY:
          return [
-            EFFECTS.EFFECT_MINING_GUILD,
             EFFECTS.EFFECT_ROVER_CONSTRUCTION,
             EFFECTS.EFFECT_IMMIGRANT_CITY,
             EFFECTS.EFFECT_THARSIS_CITY,
@@ -285,9 +397,9 @@ export const getSPeffectsToCall = (SpOrConvertPlants) => {
             EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
          ]
       case SP.CONVERT_PLANTS:
-         return [EFFECTS.EFFECT_MINING_GUILD, EFFECTS.EFFECT_HERBIVORES]
+         return [EFFECTS.EFFECT_HERBIVORES]
       case SP.AQUIFER_NO_SP:
-         return [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_MINING_GUILD]
+         return [EFFECTS.EFFECT_ARCTIC_ALGAE]
       default:
          return []
    }

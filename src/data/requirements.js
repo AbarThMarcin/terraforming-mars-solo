@@ -332,6 +332,10 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
             if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
             if (value < 8 || stateGame.globalParameters.oceans === 9) reqMet = false
             break
+         // Power Infrastructure
+         case 194:
+            if (statePlayer.resources.energy === 0) reqMet = false
+            break
          default:
             break
       }

@@ -3,6 +3,7 @@ import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../..
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions'
 import { ACTIONS_GAME } from '../../../../../../../util/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../util/actionsPlayer'
+import { getActionIdsWithCost } from '../../../../../../../util/misc'
 
 const ModalOtherDataActionsItem = ({
    item,
@@ -26,7 +27,7 @@ const ModalOtherDataActionsItem = ({
       if (isUnmi) {
          return actionRequirementsMet(item)
       } else {
-         if ((item.id === 12 || item.id === 187) && actionClicked) {
+         if (getActionIdsWithCost().includes(item.id) && actionClicked === item.id) {
             return actionRequirementsMet(item) && toBuyMln <= statePlayer.resources.mln
          } else {
             return actionRequirementsMet(item)
@@ -40,46 +41,51 @@ const ModalOtherDataActionsItem = ({
 
    const handleClickAction = () => {
       if (!isAvailable) return
-      // Actions with resources to pay
+      // Change all resources to buy
+      let toBuyResources =
+         actionClicked === item.id
+            ? [toBuyMln, toBuySteel, toBuyTitan, toBuyHeat]
+            : changeCosts(item.id)
+      // Set which action card id has been clicked
+      setActionClicked(() => item.id)
+      // Actions with resources to pay - first click
       if (!isUnmi) {
-         if (item.id === 12 || item.id === 187) {
+         if (
+            (item.id === 12 && statePlayer.resources.titan > 0) ||
+            (item.id === 187 && statePlayer.resources.steel > 0) ||
+            (getActionIdsWithCost().includes(item.id) &&
+               statePlayer.canPayWithHeat &&
+               statePlayer.resources.heat > 0)
+         ) {
             if (actionClicked === null || actionClicked !== item.id) {
-               changeCosts(item.id)
                return
             }
          }
       }
       // Other actions
-      if (item.id !== 12 && item.id !== 187) setActionClicked(null)
+      if (!getActionIdsWithCost().includes(item.id)) setActionClicked(null)
       setModals((prevModals) => ({
          ...prevModals,
          modalConf: {
             text: 'Do you want to use this action?',
-            onYes: () => handleUseAction(),
-            onNo: () => setModals({ ...modals, confirmation: false }),
+            onYes: () => handleUseAction(toBuyResources),
+            onNo: () => {
+               setModals({ ...modals, confirmation: false })
+               setActionClicked(null)
+            },
          },
          confirmation: true,
       }))
    }
 
-   const handleUseAction = () => {
-      if (isUnmi) {
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_ACTION_USED,
-            payload: { cardId: item.name, actionUsed: true },
-         })
-      } else {
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_ACTION_USED,
-            payload: { cardId: item.id, actionUsed: true },
-         })
-      }
+   const handleUseAction = (toBuyResources) => {
+      // Set action_used to true
+      dispatchPlayer({
+         type: ACTIONS_PLAYER.SET_ACTION_USED,
+         payload: { cardId: isUnmi ? item.name : item.id, actionUsed: true },
+      })
       let subActions
-      if (isUnmi) {
-         subActions = getCardActions(item.name)
-      } else {
-         subActions = getCardActions(item.id)
-      }
+      subActions = getCardActions(isUnmi ? item.name : item.id, toBuyResources)
       setModals({ ...modals, confirmation: false, other: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
       performSubActions(subActions)

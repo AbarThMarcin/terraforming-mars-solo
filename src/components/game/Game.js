@@ -61,7 +61,7 @@ function Game({ setGameOn }) {
          setModals
       )
    }
-   function getCardActions(cardId) {
+   function getCardActions(cardId, toBuyResources) {
       return funcGetCardActions(
          cardId,
          statePlayer,
@@ -76,13 +76,14 @@ function Game({ setGameOn }) {
          cards,
          setCards,
          getEffect,
-         getImmEffects
+         getImmEffects,
+         toBuyResources
       )
    }
    function getEffect(effect) {
-      return funcGetEffect(effect, dispatchPlayer)
+      return funcGetEffect(effect, statePlayer, dispatchPlayer, stateGame, dispatchGame, modals, setModals)
    }
-   function getOptionsActions(option) {
+   function getOptionsActions(option, energyAmount) {
       return funcGetOptionsActions(
          option,
          statePlayer,
@@ -90,7 +91,9 @@ function Game({ setGameOn }) {
          stateGame,
          dispatchGame,
          getImmEffects,
-         setModals
+         modals,
+         setModals,
+         energyAmount
       )
    }
    function performSubActions(subActions) {

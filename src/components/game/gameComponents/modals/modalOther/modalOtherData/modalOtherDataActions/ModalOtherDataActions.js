@@ -1,28 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
+import { getActionCost } from '../../../../../../../util/misc'
 import { ModalsContext, StatePlayerContext } from '../../../../../Game'
 import CardDecreaseCost from '../../../modalsComponents/CardDecreaseCost'
 import ModalOtherDataActionsItem from './ModalOtherDataActionsItem'
 
 const ModalOtherDataActions = ({ setCardSnap }) => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { modals, setModals } = useContext(ModalsContext)
+   const { modals } = useContext(ModalsContext)
    const [actionClicked, setActionClicked] = useState(null)
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuySteel, setToBuySteel] = useState(0)
    const [toBuyTitan, setToBuyTitan] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
-
-   useEffect(() => {
-      setModals((prevModals) => ({
-         ...prevModals,
-         modalResources: {
-            mln: toBuyMln,
-            steel: toBuySteel,
-            titan: toBuyTitan,
-            heat: toBuyHeat,
-         },
-      }))
-   }, [toBuyMln, toBuySteel, toBuyTitan, toBuyHeat])
 
    const changeCosts = (cardId) => {
       let resMln = 0
@@ -30,20 +19,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
       let resTitan = 0
       let resHeat = 0
       let diff
-      let cost
-
-      switch (cardId) {
-         // Water Import From Europa
-         case 12:
-            cost = 12
-            break
-         // Aquifer Pumping
-         case 187:
-            cost = 8
-            break
-         default:
-            break
-      }
+      let cost = getActionCost(cardId)
 
       if (statePlayer.resources.titan > 0 && cardId === 12) {
          diff = cost - statePlayer.resources.mln
@@ -72,7 +48,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
       setToBuyTitan(resTitan)
       setToBuyHeat(resHeat)
 
-      setActionClicked(() => cardId)
+      return [resMln, resSteel, resTitan, resHeat]
    }
 
    return (

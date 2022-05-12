@@ -158,6 +158,8 @@ export function funcPerformSubActions(
    dispatchGame,
    setUpdateVpTrigger
 ) {
+   console.log(subActions)
+   subActions = subActions.filter((subAction) => subAction.name !== undefined)
    let iLast = subActions.length - 1
    for (let i = 0; i <= subActions.length - 1; i++) {
       if (subActions[i].name === ANIMATIONS.USER_INTERACTION) {
@@ -413,4 +415,74 @@ export function getCardsWithPossibleScience(statePlayer) {
 
 export function getCardsWithPossibleFighters(statePlayer) {
    return statePlayer.cardsPlayed.filter((card) => card.id === 28)
+}
+
+export function canCardHaveMicrobes(cardId) {
+   return (
+      cardId === 33 ||
+      cardId === 34 ||
+      cardId === 35 ||
+      cardId === 49 ||
+      cardId === 131 ||
+      cardId === 157
+   )
+}
+
+export function canCardHaveAnimals(cardId) {
+   return (
+      cardId === 24 ||
+      cardId === 52 ||
+      cardId === 54 ||
+      cardId === 72 ||
+      cardId === 128 ||
+      cardId === 147 ||
+      cardId === 172 ||
+      cardId === 184
+   )
+}
+
+export function canCardHaveScience(cardId) {
+   return cardId === 5 || cardId === 95 || cardId === 185
+}
+
+export function canCardHaveFighters(cardId) {
+   return cardId === 28
+}
+
+export function getActionIdsWithCost() {
+   return [5, 12, 76, 123, 187, 199, 202]
+}
+
+export function getActionCost(cardId) {
+   let cost = 0
+   switch (cardId) {
+      // Search For Life
+      case 5:
+         cost = 1
+         break
+      // Water Import From Europa
+      case 12:
+         cost = 12
+         break
+      // Space Mirrors and Industrial Center
+      case 76:
+      case 123:
+         cost = 7
+         break
+      // Aquifer Pumping
+      case 187:
+         cost = 8
+         break
+      // Restricted Area
+      case 199:
+         cost = 2
+         break
+      // Underground Detonations
+      case 202:
+         cost = 10
+         break
+      default:
+         break
+   }
+   return cost
 }

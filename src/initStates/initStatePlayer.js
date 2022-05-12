@@ -1,5 +1,3 @@
-import { ACTION_ICONS } from '../data/cardActions'
-
 export const INIT_STATE_PLAYER = {
    // Choosen Corporation Details
    corporation: {},
@@ -24,77 +22,7 @@ export const INIT_STATE_PLAYER = {
    // Cards in Hand
    cardsInHand: [],
    // Cards Played
-   cardsPlayed: [
-      {
-         id: 12,
-         name: "Water Import From Europa",
-         description: "Water Import From Europa",
-         originalCost: 3,
-         currentCost: 3,
-         requirements: [],
-         vp: 0,
-         tags: ['jovian', 'space'],
-         effect: null,
-         effectsToCall: [],
-         units: {
-            microbe: 0,
-            animal: 0,
-            science: 0,
-            fighter: 0,
-         },
-         iconNames: {
-            vp: 'vp1per1jovian',
-            action: ACTION_ICONS.ACTION_WATERIMPORT,
-         },
-         actionUsed: false,
-      },
-      {
-         id: 187,
-         name: "Aquifer Pumping",
-         description: "Aquifer Pumping",
-         originalCost: 5,
-         currentCost: 5,
-         requirements: [],
-         vp: 0,
-         tags: ['building'],
-         effect: null,
-         effectsToCall: [],
-         units: {
-            microbe: 0,
-            animal: 0,
-            science: 0,
-            fighter: 0,
-         },
-         iconNames: {
-            vp: null,
-            action: ACTION_ICONS.ACTION_AQUIFERPUMPING,
-         },
-         actionUsed: false,
-      },
-      {
-         id: 5,
-         name: "ghtdfh",
-         description: "tghfhtf",
-         originalCost: 3,
-         currentCost: 3,
-         requirements: [],
-         vp: 0,
-         tags: ['jovian', 'space'],
-         effect: null,
-         effectsToCall: [],
-         units: {
-            microbe: 0,
-            animal: 0,
-            science: 0,
-            fighter: 0,
-         },
-         iconNames: {
-            vp: 'vp1per1jovian',
-            action: ACTION_ICONS.ACTION_SEARCHFORLIFE,
-         },
-         actionUsed: false,
-      }
-   ],
+   cardsPlayed: [],
    // Steel / Titan / Greenery value
    valueSteel: 2,
    valueTitan: 3,

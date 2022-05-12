@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import { hasTag } from '../../../../../util/misc'
+import { getActionCost, hasTag } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 
@@ -19,24 +19,7 @@ const CardDecreaseCost = ({
    const { statePlayer } = useContext(StatePlayerContext)
    const { requirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
-   const cost = modals.modalCard ? modals.modalCard.currentCost : getCost()
-
-   function getCost() {
-      let cost = 0
-      switch (actionClicked) {
-         // Water Import From Europa
-         case 12:
-            cost = 12
-            break
-         // Aquifer Pumping
-         case 187:
-            cost = 8
-            break
-         default:
-            break
-      }
-      return cost
-   }
+   const cost = modals.modalCard ? modals.modalCard.currentCost : getActionCost(actionClicked)
 
    const handleClickArrow = (resource, operation) => {
       let resMln = toBuyMln
@@ -81,7 +64,7 @@ const CardDecreaseCost = ({
                resSteel * statePlayer.valueSteel +
                resTitan * statePlayer.valueTitan +
                resHeat <
-               cost || !requirementsMet(modals.modalCard, cost)
+               cost || (modals.card && !requirementsMet(modals.modalCard, cost))
          )
    }
 

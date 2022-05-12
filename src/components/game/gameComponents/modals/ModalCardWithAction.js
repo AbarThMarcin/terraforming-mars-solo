@@ -161,10 +161,11 @@ const ModalCardWithAction = () => {
          let actions = getImmEffects(modals.modalCard.id)
          // Add Effects to call that are included in the cardsPlayed effects (and corporation effects) list to the subActions list
          modals.modalCard.effectsToCall.forEach((effect) => {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === effect))
-               actions.push(getEffect(effect))
-            if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === effect))
-               actions.push(getEffect(effect))
+            if (
+               statePlayer.cardsPlayed.some((card) => card.effect === effect) ||
+               statePlayer.corporation.effects.some((corpEffect) => corpEffect === effect)
+            )
+               actions = [...actions, ...getEffect(effect)]
          })
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(actions)

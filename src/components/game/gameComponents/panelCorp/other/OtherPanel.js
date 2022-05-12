@@ -23,7 +23,11 @@ const OtherPanel = () => {
          cards.length > 0
             ? cards.reduce(
                  (total, card) =>
-                    total + card.units.microbe + card.units.animal + card.units.science + card.units.fighter,
+                    total +
+                    card.units.microbe +
+                    card.units.animal +
+                    card.units.science +
+                    card.units.fighter,
                  0
               )
             : 0
@@ -44,7 +48,9 @@ const OtherPanel = () => {
    }
 
    function getActions() {
-      const cards = statePlayer.cardsPlayed.filter((card) => getCardActions(card.id).length > 0)
+      const cards = statePlayer.cardsPlayed.filter(
+         (card) => getCardActions(card.id, [0, 0, 0, 0]).length > 0
+      )
       const count = statePlayer.corporation.name === 'UNMI' ? cards.length + 1 : cards.length
       return [count, cards]
    }

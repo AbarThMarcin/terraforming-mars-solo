@@ -163,19 +163,23 @@ export const funcGetImmEffects = (
          })
          break
       // =================== CARD IMMEDIATE EFFECTS ==================
-      // GHG Factories
-      case 126:
+      // Capital
+      case 8:
          subActions.push({
-            name: ANIMATIONS.PRODUCTION_OUT,
-            type: RESOURCES.ENERGY,
-            value: -1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 }),
-         })
-         subActions.push({
-            name: ANIMATIONS.PRODUCTION_IN,
-            type: RESOURCES.HEAT,
-            value: 4,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 4 }),
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
+               dispatchGame({
+                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
+                  payload: TILES.SPECIAL_CITY_CAPITAL,
+               })
+               dispatchBoard({
+                  type: ACTIONS_BOARD.SET_AVAILABLE,
+                  payload: TILES.SPECIAL_CITY_CAPITAL,
+               })
+            },
          })
          break
       // Research Outpost
@@ -197,26 +201,32 @@ export const funcGetImmEffects = (
             },
          })
          break
+      // Viral Enhancers
+      case 74:
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.PLANT,
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 1 }),
+         })
+         break
       // Open City
       case 108:
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.CITY)]
          break
-      case 8:
+      // GHG Factories
+      case 126:
          subActions.push({
-            name: ANIMATIONS.USER_INTERACTION,
-            type: null,
-            value: null,
-            func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-               dispatchGame({
-                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                  payload: TILES.SPECIAL_CITY_CAPITAL,
-               })
-               dispatchBoard({
-                  type: ACTIONS_BOARD.SET_AVAILABLE,
-                  payload: TILES.SPECIAL_CITY_CAPITAL,
-               })
-            },
+            name: ANIMATIONS.PRODUCTION_OUT,
+            type: RESOURCES.ENERGY,
+            value: -1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 }),
+         })
+         subActions.push({
+            name: ANIMATIONS.PRODUCTION_IN,
+            type: RESOURCES.HEAT,
+            value: 4,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 4 }),
          })
          break
       default:

@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { getOptionIcon } from '../../../../../data/selectOneOptions'
 import { StateGameContext, ModalsContext } from '../../../Game'
 
-const SelectOneOption = ({ idx, option, selectedOption, setSelectedOption }) => {
+const SelectOption = ({ idx, option, selectedOption, setSelectedOption }) => {
    const { optionRequirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
    const isAvailable = optionRequirementsMet(option)
@@ -29,4 +29,4 @@ const SelectOneOption = ({ idx, option, selectedOption, setSelectedOption }) => 
    )
 }
 
-export default SelectOneOption
+export default SelectOption

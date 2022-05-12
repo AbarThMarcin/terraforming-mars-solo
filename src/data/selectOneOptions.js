@@ -9,6 +9,9 @@ import card34_option1 from '../assets/images/selectOne-options/card33_34_157_opt
 import card34_option2 from '../assets/images/selectOne-options/card34_option2.png'
 import card69_option1 from '../assets/images/selectOne-options/card69_option1.png'
 import card69_option2 from '../assets/images/selectOne-options/card69_option2.png'
+import card74_option1 from '../assets/images/selectOne-options/card74_option1.png'
+import card74_option2 from '../assets/images/selectOne-options/card74_option2.png'
+import card74_option3 from '../assets/images/selectOne-options/card74_option3.png'
 import card115_option1 from '../assets/images/selectOne-options/card115_option1.png'
 import card115_option2 from '../assets/images/selectOne-options/card115_option2.png'
 import card124_option1 from '../assets/images/selectOne-options/card124_option1.png'
@@ -30,6 +33,9 @@ export const OPTION_ICONS = {
    CARD34_OPTION2: 'card34_option2',
    CARD69_OPTION1: 'card69_option1',
    CARD69_OPTION2: 'card69_option2',
+   CARD74_OPTION1: 'card74_option1',
+   CARD74_OPTION2: 'card74_option2',
+   CARD74_OPTION3: 'card74_option3',
    CARD115_OPTION1: 'card115_option1',
    CARD115_OPTION2: 'card115_option2',
    CARD124_OPTION1: 'card124_option1',
@@ -42,6 +48,7 @@ export const OPTION_ICONS = {
    CARD157_OPTION2: 'card157_option2',
    CARD190_OPTION1: 'card190_option1',
    CARD190_OPTION2: 'card190_option2',
+   CARD194_OPTION1: 'card194_option1', // Power Infrastructure
 }
 
 export const getOptionIcon = (actionIconName) => {
@@ -58,6 +65,12 @@ export const getOptionIcon = (actionIconName) => {
          return card69_option1
       case OPTION_ICONS.CARD69_OPTION2:
          return card69_option2
+      case OPTION_ICONS.CARD74_OPTION1:
+         return card74_option1
+      case OPTION_ICONS.CARD74_OPTION2:
+         return card74_option2
+      case OPTION_ICONS.CARD74_OPTION3:
+         return card74_option3
       case OPTION_ICONS.CARD115_OPTION1:
          return card115_option1
       case OPTION_ICONS.CARD115_OPTION2:
@@ -99,6 +112,9 @@ export function getOptions(cardId) {
       case 69:
          options = [OPTION_ICONS.CARD69_OPTION1, OPTION_ICONS.CARD69_OPTION2]
          break
+      case 74:
+         options = [OPTION_ICONS.CARD74_OPTION1]
+         break
       case 115:
          options = [OPTION_ICONS.CARD115_OPTION1, OPTION_ICONS.CARD115_OPTION2]
          break
@@ -130,7 +146,9 @@ export function funcGetOptionsActions(
    stateGame,
    dispatchGame,
    getImmEffects,
-   setModals
+   modals,
+   setModals,
+   energyAmount
 ) {
    let subActions = []
    let value
@@ -239,6 +257,50 @@ export function funcGetOptionsActions(
             type: RESOURCES.MLN,
             value: value,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value }),
+         })
+         break
+      // Viral Enhancers
+      case OPTION_ICONS.CARD74_OPTION1:
+         value = 1
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.PLANT,
+            value: value,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+         })
+         break
+      case OPTION_ICONS.CARD74_OPTION2:
+         value = 1
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.MICROBE,
+            value: value,
+            func: () =>
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.ADD_BIO_RES,
+                  payload: {
+                     cardId: modals.modalCard.id,
+                     resource: RESOURCES.MICROBE,
+                     amount: value,
+                  },
+               }),
+         })
+         break
+      case OPTION_ICONS.CARD74_OPTION3:
+         value = 1
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.ANIMAL,
+            value: value,
+            func: () =>
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.ADD_BIO_RES,
+                  payload: {
+                     cardId: modals.modalCard.id,
+                     resource: RESOURCES.ANIMAL,
+                     amount: value,
+                  },
+               }),
          })
          break
       // Artificial Photosynthesis
@@ -410,6 +472,27 @@ export function funcGetOptionsActions(
                }))
             },
          })
+         break
+      case OPTION_ICONS.CARD194_OPTION1:
+         if (energyAmount) {
+            subActions.push({
+               name: ANIMATIONS.RESOURCES_OUT,
+               type: RESOURCES.ENERGY,
+               value: energyAmount,
+               func: () =>
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.CHANGE_RES_ENERGY,
+                     payload: -energyAmount,
+                  }),
+            })
+            subActions.push({
+               name: ANIMATIONS.RESOURCES_IN,
+               type: RESOURCES.MLN,
+               value: energyAmount,
+               func: () =>
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: energyAmount }),
+            })
+         }
          break
       default:
          break

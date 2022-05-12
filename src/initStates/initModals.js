@@ -49,13 +49,6 @@ export const INIT_MODALS = {
    modalCard: null,
    modalCards: [],
    modalCardsType: null,
-   // Info for paying with resources when using card action
-   modalResources: {
-      mln: null,
-      steel: null,
-      titan: null,
-      heat: null,
-   },
    // Info for selectOne modal
    modalSelectOne: {
       card: null,

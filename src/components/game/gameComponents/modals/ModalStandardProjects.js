@@ -111,7 +111,7 @@ const ModalStandardProjects = () => {
                spEffects = getSPeffectsToCall(SP.POWER_PLANT)
                spEffects.forEach((spEffect) => {
                   if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions.push(getEffect(spEffect))
+                     actions = [...actions, ...getEffect(spEffect)]
                })
                break
             case SP.ASTEROID:
@@ -123,7 +123,7 @@ const ModalStandardProjects = () => {
                spEffects = getSPeffectsToCall(SP.ASTEROID)
                spEffects.forEach((spEffect) => {
                   if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions.push(getEffect(spEffect))
+                     actions = [...actions, ...getEffect(spEffect)]
                })
                // Possible effects for placing ocean, if increasing temp gets the ocean bonus
                if (
@@ -132,14 +132,13 @@ const ModalStandardProjects = () => {
                ) {
                   spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
                   spEffects.forEach((spEffect) => {
-                     if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                        actions.push(getEffect(spEffect))
                      if (
+                        statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
                         statePlayer.corporation.effects.some(
                            (corpEffect) => corpEffect === spEffect
                         )
                      )
-                        actions.push(getEffect(spEffect))
+                        actions = [...actions, ...getEffect(spEffect)]
                   })
                }
                break
@@ -151,10 +150,11 @@ const ModalStandardProjects = () => {
                // Possible effects for placing ocean
                spEffects = getSPeffectsToCall(SP.AQUIFER)
                spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions.push(getEffect(spEffect))
-                  if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                     actions.push(getEffect(spEffect))
+                  if (
+                     statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
+                     statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
+                  )
+                     actions = [...actions, ...getEffect(spEffect)]
                })
                break
             case SP.GREENERY:
@@ -165,10 +165,11 @@ const ModalStandardProjects = () => {
                // Possible effects for placing greenery
                spEffects = getSPeffectsToCall(SP.GREENERY)
                spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions.push(getEffect(spEffect))
-                  if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                     actions.push(getEffect(spEffect))
+                  if (
+                     statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
+                     statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
+                  )
+                     actions = [...actions, ...getEffect(spEffect)]
                })
                // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, 8- oceans)
                if (
@@ -178,14 +179,13 @@ const ModalStandardProjects = () => {
                ) {
                   spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
                   spEffects.forEach((spEffect) => {
-                     if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                        actions.push(getEffect(spEffect))
                      if (
+                        statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
                         statePlayer.corporation.effects.some(
                            (corpEffect) => corpEffect === spEffect
                         )
                      )
-                        actions.push(getEffect(spEffect))
+                        actions = [...actions, ...getEffect(spEffect)]
                   })
                }
                break
@@ -204,10 +204,11 @@ const ModalStandardProjects = () => {
                // Possible effects for placing city
                spEffects = getSPeffectsToCall(SP.CITY)
                spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions.push(getEffect(spEffect))
-                  if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                     actions.push(getEffect(spEffect))
+                  if (
+                     statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
+                     statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
+                  )
+                     actions = [...actions, ...getEffect(spEffect)]
                })
                break
             default:

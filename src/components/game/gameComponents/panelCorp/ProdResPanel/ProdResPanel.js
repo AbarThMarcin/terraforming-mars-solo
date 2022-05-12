@@ -37,10 +37,11 @@ const ProdResPanel = () => {
          // Possible effects for placing greenery
          let spEffects = getSPeffectsToCall(SP.CONVERT_PLANTS)
          spEffects.forEach((spEffect) => {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-               actions.push(getEffect(spEffect))
-            if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-               actions.push(getEffect(spEffect))
+            if (
+               statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
+               statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
+            )
+               actions = [...actions, ...getEffect(spEffect)]
          })
          // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, <9 oceans)
          if (
@@ -50,10 +51,11 @@ const ProdResPanel = () => {
          ) {
             spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
             spEffects.forEach((spEffect) => {
-               if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                  actions.push(getEffect(spEffect))
-               if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                  actions.push(getEffect(spEffect))
+               if (
+                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
+                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
+               )
+                  actions = [...actions, ...getEffect(spEffect)]
             })
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
@@ -79,10 +81,11 @@ const ProdResPanel = () => {
          ) {
             let spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
             spEffects.forEach((spEffect) => {
-               if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                  actions.push(getEffect(spEffect))
-               if (statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                  actions.push(getEffect(spEffect))
+               if (
+                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
+                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
+               )
+                  actions = [...actions, ...getEffect(spEffect)]
             })
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })

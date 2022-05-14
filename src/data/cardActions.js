@@ -6,8 +6,7 @@ import { getCardsWithPossibleMicrobes, modifiedCards } from '../util/misc'
 import { getOptions } from './selectOneOptions'
 import { TILES } from './board'
 import { IMM_EFFECTS } from './immEffects'
-import { SP } from './StandardProjects'
-import { getSPeffectsToCall } from './effects'
+import { EFFECTS } from './effects'
 
 import action_unmi from '../assets/images/actions/action_unmi.png'
 import action_searchForLife from '../assets/images/actions/action_searchForLife.png'
@@ -42,37 +41,37 @@ import action_undergroundDet from '../assets/images/actions/action_undergroundDe
 import action_aiCentral from '../assets/images/actions/action_aiCentral.png'
 
 export const ACTION_ICONS = {
-   ACTION_UNMI: 'action_unmi',
-   ACTION_SEARCHFORLIFE: 'action_searchForLife',
-   CARDBUYORDISCARD: 'cardBuyOrDiscard',
-   ACTION_MARTIANRAILS: 'action_martianRails',
-   ACTION_WATERIMPORT: 'action_waterImport',
-   ACTION_SPACEELEVATOR: 'action_spaceElevator',
-   ACTION_DEVCENTER: 'action_devCenter',
-   ACTION_MAGNETIZER: 'action_magnetizer',
-   ADD1ANIMAL: 'add1animal',
-   ACTION_SECURITYFLEET: 'action_securityFleet',
-   ACTION_REGOLITHEATERS: 'action_regolithEaters',
-   ACTION_GHGBACTERIA: 'action_ghgBacteria',
-   ACTION_ANTS: 'action_ants',
-   ACTION_TARDIGRADES: 'action_tardigrades',
-   ACTION_ELECTROCATAPULT: 'action_electroCatapult',
-   ACTION_SPACEMIRRORS: 'action_spaceMirrors',
-   ACTION_PHYSICSCOMPLEX: 'action_physicsComplex',
-   ACTION_IRONWORKS: 'action_ironworks',
-   ACTION_STEELWORKS: 'action_steelworks',
-   ACTION_OREPROCESSOR: 'action_oreProcessor',
-   ACTION_INDUSTRIALCENTER: 'action_industrialCenter',
-   ACTION_SYMBIOTIC: 'action_symbiotic',
-   ACTION_EXTREMECOLD: 'action_extremeCold',
-   ACTION_CARETAKERCONTRACT: 'action_caretakerContract',
-   ACTION_NITRITEBACTERIA: 'action_nitriteBacteria',
-   ACTION_WATERSPLITTING: 'action_waterSplitting',
-   ACTION_AQUIFERPUMPING: 'action_aquiferPumping',
-   ACTION_POWERINFRA: 'action_powerInfra',
-   ACTION_RESTRICTEDAREA: 'action_restrictedArea',
-   ACTION_UNDERGROUNDDET: 'action_undergroundDet',
-   ACTION_AICENTRAL: 'action_aiCentral',
+   ACTION_UNMI: 'Action UNMI',
+   ACTION_SEARCHFORLIFE: 'Action Search For Life',
+   CARDBUYORDISCARD: 'Action Card Buy Or Discard',
+   ACTION_MARTIANRAILS: 'Action Martian Rails',
+   ACTION_WATERIMPORT: 'Action Water Import From Europa',
+   ACTION_SPACEELEVATOR: 'Action Space Elevator',
+   ACTION_DEVCENTER: 'Action Development Center',
+   ACTION_MAGNETIZER: 'Action Equatorial Magnetizer',
+   ADD1ANIMAL: 'Action Add 1 Animal',
+   ACTION_SECURITYFLEET: 'Action Security Fleet',
+   ACTION_REGOLITHEATERS: 'Action Regolith Eaters',
+   ACTION_GHGBACTERIA: 'Action GHG Reducing Bacteria',
+   ACTION_ANTS: 'Action Ants',
+   ACTION_TARDIGRADES: 'Action Tardigrades',
+   ACTION_ELECTROCATAPULT: 'Action Electro Catapult',
+   ACTION_SPACEMIRRORS: 'Action Space Mirrors',
+   ACTION_PHYSICSCOMPLEX: 'Action Physics Complex',
+   ACTION_IRONWORKS: 'Action Ironworks',
+   ACTION_STEELWORKS: 'Action Steelworks',
+   ACTION_OREPROCESSOR: 'Action Ore Processor',
+   ACTION_INDUSTRIALCENTER: 'Action Industrial Center',
+   ACTION_SYMBIOTIC: 'Action Symbiotic Fungus',
+   ACTION_EXTREMECOLD: 'Action Extreme-cold Fungus',
+   ACTION_CARETAKERCONTRACT: 'Action Caretaker Contract',
+   ACTION_NITRITEBACTERIA: 'Action Nitrite Reducing Bacteria',
+   ACTION_WATERSPLITTING: 'Action Water Splitting Plant',
+   ACTION_AQUIFERPUMPING: 'Action Aquifer Pumping',
+   ACTION_POWERINFRA: 'Action Power Infrastructure',
+   ACTION_RESTRICTEDAREA: 'Action Restricted Area',
+   ACTION_UNDERGROUNDDET: 'Action Underground Detonations',
+   ACTION_AICENTRAL: 'Action AI Central',
 }
 
 export const getActionIcon = (actionIconName) => {
@@ -164,7 +163,6 @@ export const funcGetCardActions = (
    let subCardActions = []
    let dataCards = []
    let value = 0
-   let spEffects = []
    switch (cardId) {
       // ===================== UNMI CORPORATION =====================
       case 'UNMI':
@@ -258,12 +256,6 @@ export const funcGetCardActions = (
          })
          break
       // Inventors' Guild and Business Network
-      //
-      //
-      // Jakos wymyslec, zeby tutaj zamiast platnosc -3 mln zeby bylo z tymi resourcesToBuy[0] i [3] dla heliona.
-      //
-      //
-      //
       case 6:
       case 110:
          subCardActions.push({
@@ -382,14 +374,8 @@ export const funcGetCardActions = (
                   }),
             })
          getImmEffects(IMM_EFFECTS.AQUIFER).forEach((immEffect) => subCardActions.push(immEffect))
-         spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-         spEffects.forEach((spEffect) => {
-            if (
-               statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-               statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-            )
-               subCardActions = [...subCardActions, ...getEffect(spEffect)]
-         })
+         if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+            subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          break
       // Space Elevator
       case 13:
@@ -405,6 +391,7 @@ export const funcGetCardActions = (
             value: 5,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 5 }),
          })
+         break
       // Development Center
       case 14:
          subCardActions.push({
@@ -428,6 +415,7 @@ export const funcGetCardActions = (
                setCards(cards.slice(1))
             },
          })
+         break
       // Equatorial Magnetizer
       case 15:
          subCardActions.push({
@@ -442,6 +430,7 @@ export const funcGetCardActions = (
             value: null,
             func: () => dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 }),
          })
+         break
       // Predators, Fish, Small Animals, Birds and Livestock
       case 24:
       case 52:
@@ -538,6 +527,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 1 }),
          })
+         break
       // Physics Complex
       case 95:
          subCardActions.push({
@@ -578,14 +568,8 @@ export const funcGetCardActions = (
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-            spEffects.forEach((spEffect) => {
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-               )
-                  subCardActions = [...subCardActions, ...getEffect(spEffect)]
-            })
+            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          break
       // Steelworks
@@ -609,14 +593,8 @@ export const funcGetCardActions = (
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-            spEffects.forEach((spEffect) => {
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-               )
-                  subCardActions = [...subCardActions, ...getEffect(spEffect)]
-            })
+            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          break
       // Ore Processor
@@ -640,14 +618,8 @@ export const funcGetCardActions = (
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-            spEffects.forEach((spEffect) => {
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-               )
-                  subCardActions = [...subCardActions, ...getEffect(spEffect)]
-            })
+            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          break
       // Industrial Center
@@ -680,6 +652,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 }),
          })
+         break
       // Symbiotic Fungus
       case 133:
          dataCards = getCardsWithPossibleMicrobes(statePlayer)
@@ -751,14 +724,8 @@ export const funcGetCardActions = (
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-            spEffects.forEach((spEffect) => {
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-               )
-                  subCardActions = [...subCardActions, ...getEffect(spEffect)]
-            })
+            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          break
       // Power Infrasctructure
@@ -819,6 +786,7 @@ export const funcGetCardActions = (
                setCards(cards.slice(1))
             },
          })
+         break
       // Underground Detonations
       case 202:
          if (toBuyResources[0])
@@ -849,6 +817,7 @@ export const funcGetCardActions = (
             value: 2,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 2 }),
          })
+         break
       // AI Central
       case 208:
          subCardActions.push({
@@ -866,6 +835,7 @@ export const funcGetCardActions = (
                setCards(cards.slice(2))
             },
          })
+         break
       default:
          break
    }

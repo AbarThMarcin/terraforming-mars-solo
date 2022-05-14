@@ -138,6 +138,34 @@ const Field = ({ field }) => {
          }, delay)
       }
 
+      // Receive steel / titan prod if stateGame.phasePlaceTileData is mining rights or mining area
+      if (
+         stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS ||
+         stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_AREA
+      ) {
+         if (field.bonus.includes(RESOURCES.STEEL)) {
+            setTimeout(() => {
+               startAnimation(setModals)
+               setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals)
+            }, delay)
+            delay += ANIMATION_SPEED
+            setTimeout(() => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+               endAnimation(setModals)
+            }, delay)
+         } else if (field.bonus.includes(RESOURCES.TITAN)) {
+            setTimeout(() => {
+               startAnimation(setModals)
+               setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.TITAN, 1, setModals)
+            }, delay)
+            delay += ANIMATION_SPEED
+            setTimeout(() => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
+               endAnimation(setModals)
+            }, delay)
+         }
+      }
+
       // Receive steel prod if Mining Guild and field has steel/titan bonus
       if (
          (field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) &&
@@ -269,6 +297,13 @@ const Field = ({ field }) => {
                   src={nuclearZone}
                   className="field-object"
                   alt={TILES.SPECIAL_NUCLEAR_ZONE}
+               ></img>
+            )}
+            {field.object === TILES.SPECIAL_INDUSTRIAL_CENTER && (
+               <img
+                  src={industrialCenter}
+                  className="field-object"
+                  alt={TILES.SPECIAL_INDUSTRIAL_CENTER}
                ></img>
             )}
             {field.object === TILES.SPECIAL_LAVA_FLOWS && (

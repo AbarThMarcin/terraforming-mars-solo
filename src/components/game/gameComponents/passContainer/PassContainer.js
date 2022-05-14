@@ -42,6 +42,9 @@ const PassContainer = () => {
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_ACTION_USED, payload: { actionUsed: false } })
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: false })
+      // Set special design and indentured workers effects to false
+      dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+      dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT, payload: false })
       // Move to next generation
       dispatchGame({ type: ACTIONS_GAME.INCREMENT_GEN })
       // Turn Phase Draft on

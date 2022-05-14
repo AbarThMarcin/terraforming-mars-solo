@@ -6,6 +6,15 @@ const ModalResourceData = ({ setCardSnap }) => {
    const { stateGame } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
 
+   function getResource(item) {
+      let res
+      if (item.units.microbe) res = RESOURCES.MICROBE
+      if (item.units.animal) res = RESOURCES.ANIMAL
+      if (item.units.science) res = RESOURCES.SCIENCE
+      if (item.units.fighter) res = RESOURCES.FIGHTER
+      return modals.modalResource.resType === null ? res : modals.modalResource.resType
+   }
+
    const handleClickResCard = (itemId) => {
       setModals((prevModals) => ({
          ...prevModals,
@@ -35,16 +44,16 @@ const ModalResourceData = ({ setCardSnap }) => {
                         item.units.science +
                         item.units.fighter}{' '}
                   </span>
-                  {modals.modalResource.resType === RESOURCES.MICROBE && (
+                  {getResource(item) === RESOURCES.MICROBE && (
                      <img src={getResIcon(RESOURCES.MICROBE)} className="img-res" alt="microbe" />
                   )}
-                  {modals.modalResource.resType === RESOURCES.ANIMAL && (
+                  {getResource(item) === RESOURCES.ANIMAL && (
                      <img src={getResIcon(RESOURCES.ANIMAL)} className="img-res" alt="animal" />
                   )}
-                  {modals.modalResource.resType === RESOURCES.SCIENCE && (
+                  {getResource(item) === RESOURCES.SCIENCE && (
                      <img src={getResIcon(RESOURCES.SCIENCE)} className="img-res" alt="science" />
                   )}
-                  {modals.modalResource.resType === RESOURCES.FIGHTER && (
+                  {getResource(item) === RESOURCES.FIGHTER && (
                      <img src={getResIcon(RESOURCES.FIGHTER)} className="img-res" alt="fighter" />
                   )}
                </div>

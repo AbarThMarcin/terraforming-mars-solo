@@ -12,6 +12,7 @@ import microbeTag from '../../../../../../assets/images/tags/microbe.jpg'
 import animalTag from '../../../../../../assets/images/tags/animal.jpg'
 import cityTag from '../../../../../../assets/images/tags/city.jpg'
 import eventTag from '../../../../../../assets/images/tags/event.jpg'
+import { hasTag } from '../../../../../../util/misc'
 
 const ModalOtherDataTags = () => {
    const { modals } = useContext(ModalsContext)
@@ -34,7 +35,7 @@ const ModalOtherDataTags = () => {
             if (item === targetTag) tagsCount++
          } else {
             item.tags.forEach((tag) => {
-               if (targetTag === tag) tagsCount++
+               if (targetTag === tag && !hasTag(item, TAGS.EVENT)) tagsCount++
             })
          }
       })

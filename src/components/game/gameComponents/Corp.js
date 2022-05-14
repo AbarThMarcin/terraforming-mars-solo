@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { getCorpLogo } from '../../../data/corporations'
 import { StateGameContext, ModalsContext } from '../Game'
 
 const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
@@ -21,6 +22,7 @@ const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
          `}
          onClick={handleCorpClick}
       >
+         <img src={getCorpLogo(corp.name)} alt={`${corp.name}_logo`} />
          <div className="corp-name">{corp.name}</div>
          <div className="corp-description">{corp.description}</div>
       </div>

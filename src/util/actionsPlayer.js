@@ -24,13 +24,16 @@ export const ACTIONS_PLAYER = {
    ADD_BIO_RES: 'Add specific amount of specific bio resource to a specific card in played cards',
    SET_TRRAISED: 'Set trRaised parameter for UNMI only',
    // Set values of steel, titan and greenery
-   SET_VALUE_STEEL: 'Set steel value', // For advanced alloys
-   SET_VALUE_TITAN: 'Set titan value', // For advanced alloys AND phobolog
+   CHANGE_VALUE_STEEL: 'Change steel value', // For advanced alloys
+   CHANGE_VALUE_TITAN: 'Change titan value', // For advanced alloys AND phobolog
    SET_VALUE_GREENERY: 'Set greenery value', // For Ecoline
    // Set CanPayWithHeat
    SET_CANPAYWITHHEAT: 'Set true or false to the possibility of paying with heat (for Helion only)', // For Helion
    // Set globParamReqModifier
-   SET_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements', // For Inventrix and two cards with the same effect
+   CHANGE_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements', // For Inventrix and two cards with the same effect
+   SET_SPECIAL_DESIGN_EFFECT: 'Set special design effect', // For Special Design card
+   // Indentured Workers
+   SET_INDENTURED_WORKERS_EFFECT: 'Set indentured workers effect', // For Indentured Workers card
    // Update VP
    UPDATE_VP: 'Update VP for a specific card',
 }
@@ -46,20 +49,20 @@ export const reducerPlayer = (state, action) => {
                ...state,
                corporation: action.payload,
                production: {
-                  mln: action.payload.startingConditions.production.mln,
-                  steel: action.payload.startingConditions.production.steel,
-                  titan: action.payload.startingConditions.production.titan,
-                  plant: action.payload.startingConditions.production.plant,
-                  energy: action.payload.startingConditions.production.energy,
-                  heat: action.payload.startingConditions.production.heat,
+                  mln: action.payload.production.mln,
+                  steel: action.payload.production.steel,
+                  titan: action.payload.production.titan,
+                  plant: action.payload.production.plant,
+                  energy: action.payload.production.energy,
+                  heat: action.payload.production.heat,
                },
                resources: {
-                  mln: action.payload.startingConditions.resources.mln,
-                  steel: action.payload.startingConditions.resources.steel,
-                  titan: action.payload.startingConditions.resources.titan,
-                  plant: action.payload.startingConditions.resources.plant,
-                  energy: action.payload.startingConditions.resources.energy,
-                  heat: action.payload.startingConditions.resources.heat,
+                  mln: action.payload.resources.mln,
+                  steel: action.payload.resources.steel,
+                  titan: action.payload.resources.titan,
+                  plant: action.payload.resources.plant,
+                  energy: action.payload.resources.energy,
+                  heat: action.payload.resources.heat,
                },
             }
          }
@@ -278,15 +281,15 @@ export const reducerPlayer = (state, action) => {
             return state
          }
       // SET VALUES OF STEEL, TITAN AND GREENERY
-      case ACTIONS_PLAYER.SET_VALUE_STEEL:
+      case ACTIONS_PLAYER.CHANGE_VALUE_STEEL:
          return {
             ...state,
-            valueSteel: action.payload,
+            valueSteel: state.valueSteel + action.payload,
          }
-      case ACTIONS_PLAYER.SET_VALUE_TITAN:
+      case ACTIONS_PLAYER.CHANGE_VALUE_TITAN:
          return {
             ...state,
-            valueTitan: action.payload,
+            valueTitan: state.valueSteel + action.payload,
          }
       case ACTIONS_PLAYER.SET_VALUE_GREENERY:
          return {
@@ -300,10 +303,21 @@ export const reducerPlayer = (state, action) => {
             canPayWithHeat: action.payload,
          }
       // GLOBAL PARAMETERS REQUIREMENTS
-      case ACTIONS_PLAYER.SET_PARAMETERS_REQUIREMENTS:
+      case ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS:
          return {
             ...state,
-            globParamReqModifier: action.payload,
+            globParamReqModifier: state.globParamReqModifier + action.payload,
+         }
+      case ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT:
+         return {
+            ...state,
+            specialDesignEffect: action.payload,
+         }
+      // FOR INDENTURED WORKERS ONLY
+      case ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT:
+         return {
+            ...state,
+            indenturedWorkersEffect: action.payload,
          }
       case ACTIONS_PLAYER.UPDATE_VP:
          return {

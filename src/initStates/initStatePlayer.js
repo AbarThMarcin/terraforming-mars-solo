@@ -31,4 +31,7 @@ export const INIT_STATE_PLAYER = {
    canPayWithHeat: false,
    // Change global parameters requirements to -2 / +2
    globParamReqModifier: 0,
+   specialDesignEffect: false,
+   // Indentured Workers
+   indenturedWorkersEffect: false,
 }

@@ -156,6 +156,9 @@ const ModalCardWithAction = () => {
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
             payload: [...statePlayer.cardsPlayed, modals.modalCard],
          })
+         // Set special design and indentured workers effects to false (if applicable)
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT, payload: false })
          // ================== IMM_EFFECTS AND EFFECTS ================
          // Add Card immediate actions to the subActions list
          let actions = getImmEffects(modals.modalCard.id)

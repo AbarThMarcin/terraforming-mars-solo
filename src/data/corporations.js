@@ -1,192 +1,160 @@
 import { EFFECTS } from './effects'
-import { RESOURCES } from './resources'
 import { TAGS } from './tags'
+import { CORP_NAMES } from './corpNames'
+import logoCredicor from '../assets/images/corporation-logos/logoCredicor.png'
+import logoEcoline from '../assets/images/corporation-logos/logoEcoline.png'
+import logoHelion from '../assets/images/corporation-logos/logoHelion.png'
+import logoInterplanetary from '../assets/images/corporation-logos/logoInterplanetary.png'
+import logoInventrix from '../assets/images/corporation-logos/logoInventrix.png'
+import logoMiningGuild from '../assets/images/corporation-logos/logoMiningGuild.png'
+import logoPhobolog from '../assets/images/corporation-logos/logoPhobolog.png'
+import logoSaturnSystems from '../assets/images/corporation-logos/logoSaturnSystems.png'
+import logoTeractor from '../assets/images/corporation-logos/logoTeractor.png'
+import logoTharsis from '../assets/images/corporation-logos/logoTharsis.png'
+import logoThorgate from '../assets/images/corporation-logos/logoThorgate.png'
+import logoUnmi from '../assets/images/corporation-logos/logoUnmi.png'
+
+// Corporation names
+export const getCorpLogo = (corporation) => {
+   switch (corporation) {
+      case CORP_NAMES.CREDICOR:
+         return logoCredicor
+      case CORP_NAMES.ECOLINE:
+         return logoEcoline
+      case CORP_NAMES.HELION:
+         return logoHelion
+      case CORP_NAMES.INTERPLANETARY:
+         return logoInterplanetary
+      case CORP_NAMES.INVENTRIX:
+         return logoInventrix
+      case CORP_NAMES.MINING_GUILD:
+         return logoMiningGuild
+      case CORP_NAMES.PHOBOLOG:
+         return logoPhobolog
+      case CORP_NAMES.SATURN_SYSTEMS:
+         return logoSaturnSystems
+      case CORP_NAMES.TERACTOR:
+         return logoTeractor
+      case CORP_NAMES.THARSIS_REPUBLIC:
+         return logoTharsis
+      case CORP_NAMES.THORGATE:
+         return logoThorgate
+      case CORP_NAMES.UNMI:
+         return logoUnmi
+      default:
+         return
+   }
+}
 
 export const CORPORATIONS = [
-   // {
-   //    id: 1,
-   //    name: 'Credicor',
-   //    description: 'Credicor',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 57, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [EFFECTS.EFFECT_CREDICOR],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 2,
-   //    name: 'Ecoline',
-   //    description: 'Ecoline',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 2, energy: 0, heat: 0 },
-   //       resources: { mln: 36, steel: 0, titan: 0, plant: 7, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [EFFECTS.EFFECT_ECOLINE, EFFECTS.EFFECT_RESEARCH_OUTPOST, EFFECTS.EFFECT_EARTH_OFFICE],
-   //    tags: [RESOURCES.PLANT],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
+   {
+      id: 1,
+      name: CORP_NAMES.CREDICOR,
+      description: 'Credicor',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 57, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_CREDICOR],
+      tags: [],
+   },
+   {
+      id: 2,
+      name: CORP_NAMES.ECOLINE,
+      description: 'Ecoline',
+      production: { mln: 0, steel: 0, titan: 0, plant: 2, energy: 0, heat: 0 },
+      resources: { mln: 36, steel: 0, titan: 0, plant: 3, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_ECOLINE],
+      tags: [TAGS.PLANT],
+   },
    {
       id: 3,
-      name: 'Helion',
+      name: CORP_NAMES.HELION,
       description: 'Helion',
-      startingConditions: {
-         production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 3 },
-         resources: { mln: 25, steel: 2, titan: 2, plant: 7, energy: 4, heat: 2 },
-         action: null,
-      },
-      effects: [
-         EFFECTS.EFFECT_HELION,
-         EFFECTS.EFFECT_ARCTIC_ALGAE,
-         EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
-      ],
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 3 },
+      resources: { mln: 42, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_HELION],
       tags: [TAGS.SPACE],
-      logo: {
-         url: '',
-      },
    },
-   // {
-   //    id: 4,
-   //    name: 'Interplanetary Cinematics',
-   //    description: 'Interplanetary Cinematics',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 30, steel: 20, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [EFFECTS.EFFECT_INTERPLANETARY],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 5,
-   //    name: 'Inventrix',
-   //    description: 'Inventrix',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 45, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [EFFECTS.EFFECT_INVENTRIX],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 6,
-   //    name: 'Mining Guild',
-   //    description: 'Mining Guild',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 1, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 30, steel: 5, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [], // DO NOT PUT EFFECTS.EFFECT_MINING_GUILD HERE
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 7,
-   //    name: 'Phobolog',
-   //    description: 'Phobolog',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 23, steel: 2, titan: 10, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [],
-   //    tags: [TAGS.SPACE],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
+   {
+      id: 4,
+      name: CORP_NAMES.INTERPLANETARY,
+      description: 'Interplanetary Cinematics',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 30, steel: 20, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_INTERPLANETARY],
+      tags: [TAGS.BUILDING],
+   },
+   {
+      id: 5,
+      name: CORP_NAMES.INVENTRIX,
+      description: 'Inventrix',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 45, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_INVENTRIX],
+      tags: [TAGS.SCIENCE],
+   },
+   {
+      id: 6,
+      name: CORP_NAMES.MINING_GUILD,
+      description: 'Mining Guild',
+      production: { mln: 0, steel: 1, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 30, steel: 5, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_MINING_GUILD],
+      tags: [TAGS.BUILDING, TAGS.BUILDING],
+   },
+   {
+      id: 7,
+      name: CORP_NAMES.PHOBOLOG,
+      description: 'Phobolog',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 23, steel: 0, titan: 10, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_PHOBOLOG],
+      tags: [TAGS.SPACE],
+   },
    {
       id: 8,
-      name: 'Saturn Systems',
+      name: CORP_NAMES.SATURN_SYSTEMS,
       description: 'Saturn Systems',
-      startingConditions: {
-         production: { mln: 1, steel: 0, titan: 1, plant: 0, energy: 1, heat: 0 },
-         resources: { mln: 42, steel: 0, titan: 3, plant: 0, energy: 0, heat: 0 },
-         action: null,
-      },
+      production: { mln: 1, steel: 0, titan: 1, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 42, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
       effects: [EFFECTS.EFFECT_SATURN_SYSTEMS],
       tags: [TAGS.JOVIAN],
-      logo: {
-         url: '',
-      },
    },
-   // {
-   //    id: 9,
-   //    name: 'Teractor',
-   //    description: 'Teractor',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 60, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 10,
-   //    name: 'Tharsis Republic',
-   //    description: 'Tharsis Republic',
-   //    startingConditions: {
-   //       production: { mln: 2, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 40, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 11,
-   //    name: 'Thorgate',
-   //    description: 'Thorgate',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 1, heat: 0 },
-   //       resources: { mln: 48, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   // },
-   // {
-   //    id: 12,
-   //    name: 'UNMI',
-   //    description: 'UNMI',
-   //    startingConditions: {
-   //       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       resources: { mln: 40, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //       action: null,
-   //    },
-   //    effects: [],
-   //    tags: [],
-   //    logo: {
-   //       url: '',
-   //    },
-   //    actionUsed: false,
-   //    trRaised: false
-   // },
+   {
+      id: 9,
+      name: CORP_NAMES.TERACTOR,
+      description: 'Teractor',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 60, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_TERACTOR],
+      tags: [TAGS.EARTH],
+   },
+   {
+      id: 10,
+      name: CORP_NAMES.THARSIS_REPUBLIC,
+      description: 'Tharsis Republic',
+      production: { mln: 2, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 40, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_THARSIS_CITY],
+      tags: [TAGS.BUILDING],
+   },
+   {
+      id: 11,
+      name: CORP_NAMES.THORGATE,
+      description: 'Thorgate',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 1, heat: 0 },
+      resources: { mln: 48, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [EFFECTS.EFFECT_THORGATE],
+      tags: [TAGS.POWER],
+   },
+   {
+      id: 12,
+      name: CORP_NAMES.UNMI,
+      description: 'UNMI',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 40, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      effects: [],
+      tags: [TAGS.EARTH],
+      actionUsed: false,
+      trRaised: false,
+   },
 ]

@@ -3,6 +3,9 @@ import { ACTIONS_PLAYER } from '../util/actionsPlayer'
 import { getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../util/misc'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
+import card19_option1 from '../assets/images/selectOne-options/card19_option1.png'
+import card19_option2 from '../assets/images/selectOne-options/card19_option2.png'
+import card19_option3 from '../assets/images/selectOne-options/card19_option3.png'
 import card33_option1 from '../assets/images/selectOne-options/card33_34_157_option1.png'
 import card33_option2 from '../assets/images/selectOne-options/card33_option2.png'
 import card34_option1 from '../assets/images/selectOne-options/card33_34_157_option1.png'
@@ -27,6 +30,9 @@ import card190_option2 from '../assets/images/selectOne-options/card190_option2.
 import { IMM_EFFECTS } from './immEffects'
 
 export const OPTION_ICONS = {
+   CARD19_OPTION1: 'card19_option1',
+   CARD19_OPTION2: 'card19_option2',
+   CARD19_OPTION3: 'card19_option3',
    CARD33_OPTION1: 'card33_option1',
    CARD33_OPTION2: 'card33_option2',
    CARD34_OPTION1: 'card34_option1',
@@ -53,6 +59,12 @@ export const OPTION_ICONS = {
 
 export const getOptionIcon = (actionIconName) => {
    switch (actionIconName) {
+      case OPTION_ICONS.CARD19_OPTION1:
+         return card19_option1
+      case OPTION_ICONS.CARD19_OPTION2:
+         return card19_option2
+      case OPTION_ICONS.CARD19_OPTION3:
+         return card19_option3
       case OPTION_ICONS.CARD33_OPTION1:
          return card33_option1
       case OPTION_ICONS.CARD33_OPTION2:
@@ -103,6 +115,13 @@ export const getOptionIcon = (actionIconName) => {
 export function getOptions(cardId) {
    let options = []
    switch (cardId) {
+      case 19:
+         options = [
+            OPTION_ICONS.CARD19_OPTION1,
+            OPTION_ICONS.CARD19_OPTION2,
+            OPTION_ICONS.CARD19_OPTION3,
+         ]
+         break
       case 33:
          options = [OPTION_ICONS.CARD33_OPTION1, OPTION_ICONS.CARD33_OPTION2]
          break
@@ -154,6 +173,60 @@ export function funcGetOptionsActions(
    let value
    let dataCards = []
    switch (option) {
+      // Imported Hydrogen
+      case OPTION_ICONS.CARD19_OPTION1:
+         value = 3
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.PLANT,
+            value: value,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+         })
+         break
+      case OPTION_ICONS.CARD19_OPTION2:
+         value = 3
+         dataCards = getCardsWithPossibleMicrobes(statePlayer)
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
+               setModals((prevModals) => ({
+                  ...prevModals,
+                  modalResource: {
+                     cardId: dataCards[0].id,
+                     amount: value,
+                     data: dataCards,
+                     resType: RESOURCES.MICROBE,
+                  },
+                  resource: true,
+               }))
+            },
+         })
+         break
+      case OPTION_ICONS.CARD19_OPTION3:
+         value = 2
+         dataCards = getCardsWithPossibleAnimals(statePlayer)
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
+               setModals((prevModals) => ({
+                  ...prevModals,
+                  modalResource: {
+                     cardId: dataCards[0].id,
+                     amount: value,
+                     data: dataCards,
+                     resType: RESOURCES.ANIMAL,
+                  },
+                  resource: true,
+               }))
+            },
+         })
+         break
       // Regolith Eaters
       case OPTION_ICONS.CARD33_OPTION1:
          value = 1

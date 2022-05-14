@@ -1,7 +1,6 @@
 /* Used to show window with cards to buy in the draft phase,
 window with cards to sell and window with cards to select due
 to any effect/action */
-
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
@@ -12,12 +11,18 @@ import ModalBtnAction from './modalsComponents/ModalBtnAction'
 import Card from '../Card'
 import CardBtn from './modalsComponents/CardBtn'
 import { getPosition, modifiedCards } from '../../../../util/misc'
+import { IMM_EFFECTS } from '../../../../data/immEffects'
+import { EFFECTS } from '../../../../data/effects'
+import { ANIMATIONS } from '../../../../data/animations'
+import { RESOURCES } from '../../../../data/resources'
+import { CORP_NAMES } from '../../../../data/corpNames'
 
 const ModalDraft = () => {
-   const { stateGame, dispatchGame } = useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { cards, setCards } = useContext(CardsContext)
+   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect } =
+      useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { cards, setCards } = useContext(CardsContext)
    const [buyCost, setBuyCost] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
    const cardsDraft =
@@ -40,17 +45,47 @@ const ModalDraft = () => {
          payload: [...statePlayer.cardsInHand, ...selectedCards],
       })
       // Remove all 4 (10 if gen = 1) cards from the CardsContext
-      setTimeout(() => {
-         setCards(stateGame.generation === 1 ? cards.slice(10) : cards.slice(4))
-      }, 1000)
+      let newCards = stateGame.generation === 1 ? cards.slice(10) : cards.slice(4)
+      setCards(newCards)
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
       setModals({ ...modals, confirmation: false, draft: false })
+      // Perform starting Tharsis / Inventrix actions in GEN 1
+      if (stateGame.generation === 1) {
+         let actions = []
+         if (statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC) {
+            actions = [
+               ...getImmEffects(IMM_EFFECTS.CITY),
+               ...getEffect(EFFECTS.EFFECT_THARSIS_CITY),
+               ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET),
+            ]
+            dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
+            performSubActions(actions)
+         }
+         if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX)
+            performSubActions([
+               {
+                  name: ANIMATIONS.CARD_IN,
+                  type: RESOURCES.CARD,
+                  value: 3,
+                  func: () => {
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: [
+                           ...selectedCards,
+                           ...modifiedCards(newCards.slice(0, 3), statePlayer),
+                        ],
+                     })
+                     setCards(newCards.slice(3))
+                  },
+               },
+            ])
+      }
    }
 
    const handleClickCardBtn = (card) => {
-      if (selectedCards.filter(selCard => selCard.id === card.id).length === 0) {
+      if (selectedCards.filter((selCard) => selCard.id === card.id).length === 0) {
          setBuyCost((v) => v + 3)
          setSelectedCards((cards) => [...cards, card])
       } else {
@@ -73,7 +108,11 @@ const ModalDraft = () => {
          />
          {/* CHANGE CORPORATION BUTTON */}
          {stateGame.generation === 1 && (
-            <ModalDraftBtnChangeCorp dispatchGame={dispatchGame} dispatchPlayer={dispatchPlayer} />
+            <ModalDraftBtnChangeCorp
+               dispatchGame={dispatchGame}
+               statePlayer={statePlayer}
+               dispatchPlayer={dispatchPlayer}
+            />
          )}
          {/* ACTION BUTTON */}
          <ModalBtnAction

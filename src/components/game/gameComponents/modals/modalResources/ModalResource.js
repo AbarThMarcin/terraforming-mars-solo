@@ -6,9 +6,10 @@ import Card from '../../Card'
 import { ANIMATIONS, endAnimation, setAnimation } from '../../../../../data/animations'
 import ModalResourceData from './ModalResourceData'
 import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
+import { RESOURCES } from '../../../../../data/resources'
 
 const ModalResource = () => {
-   const { dispatchPlayer } = useContext(StatePlayerContext)
+   const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, ANIMATION_SPEED } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
@@ -18,9 +19,15 @@ const ModalResource = () => {
       setModals({ ...modals, resource: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
       // Add Resource
+      let resource
+      let card = statePlayer.cardsPlayed.find((card) => card.id === modals.modalResource.cardId)
+      if (card.units.microbe) resource = RESOURCES.MICROBE
+      if (card.units.animal) resource = RESOURCES.ANIMAL
+      if (card.units.science) resource = RESOURCES.SCIENCE
+      if (card.units.fighter) resource = RESOURCES.FIGHTER
       setAnimation(
          ANIMATIONS.RESOURCES_IN,
-         modals.modalResource.resType,
+         modals.modalResource.resType === null ? resource : modals.modalResource.resType,
          modals.modalResource.amount,
          setModals
       )
@@ -29,7 +36,8 @@ const ModalResource = () => {
             type: ACTIONS_PLAYER.ADD_BIO_RES,
             payload: {
                cardId: modals.modalResource.cardId,
-               resource: modals.modalResource.resType,
+               resource:
+                  modals.modalResource.resType === null ? resource : modals.modalResource.resType,
                amount: modals.modalResource.amount,
             },
          })

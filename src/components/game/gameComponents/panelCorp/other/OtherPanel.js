@@ -1,4 +1,6 @@
 import { useContext } from 'react'
+import { TAGS } from '../../../../../data/tags'
+import { hasTag } from '../../../../../util/misc'
 import { StatePlayerContext, StateGameContext } from '../../../Game'
 import OtherBtn from './OtherBtn'
 
@@ -37,7 +39,11 @@ const OtherPanel = () => {
    function getTags() {
       const cards = statePlayer.cardsPlayed.filter((card) => card.tags.length > 0)
       let count = statePlayer.corporation.tags.length
-      if (cards.length > 0) count += cards.reduce((total, card) => total + card.tags.length, 0)
+      if (cards.length > 0)
+         count += cards.reduce(
+            (total, card) => (hasTag(card, TAGS.EVENT) ? total + 1 : total + card.tags.length),
+            0
+         )
       return [count, [...cards, ...statePlayer.corporation.tags]]
    }
 

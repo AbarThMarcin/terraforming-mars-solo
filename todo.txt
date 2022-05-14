@@ -1,0 +1,6 @@
+- Mozliwosc placenia cieplem przy graniu akcji Inventors' guild lub Business Network ORAZ przy drafcie
+- Mars University (w effects i w immEffects ale to bedzie to samo)
+- Robotic Workforce (w immEffects)
+- Business Contacts / Invention Contest (w immEffects)
+- Insulation (bedzie praktycznie to samo co power infrastructure)
+- Indentured Workers

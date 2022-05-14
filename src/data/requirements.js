@@ -3,10 +3,13 @@ import {
    getAllResourcesForAction,
    getCardsWithPossibleAnimals,
    getCardsWithPossibleMicrobes,
+   getNeighbors,
+   hasTag,
 } from '../util/misc'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from './board'
 import { RESOURCES } from './resources'
 import { OPTION_ICONS } from './selectOneOptions'
+import { TAGS } from './tags'
 
 export const REQUIREMENTS = {
    // Global parameters requirements
@@ -181,9 +184,9 @@ export const funcRequirementsMet = (
          }
          // Tags requirements
       } else if (type === REQUIREMENTS.TAGS) {
-         const countTags = statePlayer.tags.reduce(
-            (total, v) => (v === other ? total + 1 : total),
-            0
+         const countTags = statePlayer.cardsPlayed.reduce(
+            (total, card) => (hasTag(card, type) && !hasTag(card, TAGS.EVENT) ? total + 1 : total),
+            1
          )
          if (countTags < value) {
             isAvailable = false
@@ -215,6 +218,20 @@ export const funcRequirementsMet = (
                break
             case TILES.SPECIAL_CITY_GANYMEDE:
                tiles = board.filter((field) => field.name === 'GANYMEDE COLONY')
+               availFields = setAvailFieldsSpecific(board, tiles)
+               break
+            case TILES.SPECIAL_URBANIZED_AREA:
+               tiles = board.filter((field) => {
+                  let neighbors = getNeighbors(field.x, field.y, board)
+                  return (
+                     neighbors.filter(
+                        (nb) =>
+                           nb.object === TILES.CITY ||
+                           nb.object === TILES.CITY_NEUTRAL ||
+                           nb.object === TILES.SPECIAL_CITY_CAPITAL
+                     ).length >= 2
+                  )
+               })
                availFields = setAvailFieldsSpecific(board, tiles)
                break
             case TILES.SPECIAL_MINING_RIGHTS:

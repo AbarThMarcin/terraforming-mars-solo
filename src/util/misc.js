@@ -158,7 +158,6 @@ export function funcPerformSubActions(
    dispatchGame,
    setUpdateVpTrigger
 ) {
-   console.log(subActions)
    subActions = subActions.filter((subAction) => subAction.name !== undefined)
    let iLast = subActions.length - 1
    for (let i = 0; i <= subActions.length - 1; i++) {
@@ -275,7 +274,7 @@ export function modifiedCards(cards, statePlayer) {
       if (currentEffects.includes(EFFECTS.EFFECT_RESEARCH_OUTPOST)) costLess += 1
       if (currentEffects.includes(EFFECTS.EFFECT_EARTH_CATAPULT)) costLess += 2
       if (currentEffects.includes(EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY)) costLess += 2
-      return { ...card, currentCost: card.currentCost - costLess }
+      return { ...card, currentCost: Math.max(card.currentCost - costLess, 0) }
    })
 }
 
@@ -333,8 +332,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
             (nbField) =>
                nbField.object === TILES.CITY ||
                nbField.object === TILES.CITY_NEUTRAL ||
-               nbField.object === TILES.SPECIAL_CITY_CAPITAL ||
-               nbField.object === TILES.SPECIAL_CITY_NOCTIS
+               nbField.object === TILES.SPECIAL_CITY_CAPITAL
          )
          newVp = cities.length
          break
@@ -364,10 +362,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
             (field) =>
                field.object === TILES.CITY ||
                field.object === TILES.CITY_NEUTRAL ||
-               field.object === TILES.SPECIAL_CITY_CAPITAL ||
-               field.object === TILES.SPECIAL_CITY_NOCTIS ||
-               field.object === TILES.SPECIAL_CITY_GANYMEDE ||
-               field.object === TILES.SPECIAL_CITY_PHOBOS
+               field.object === TILES.SPECIAL_CITY_CAPITAL
          )
          newVp = Math.floor(allCities.length / 3)
          break

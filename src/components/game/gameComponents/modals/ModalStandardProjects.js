@@ -9,7 +9,7 @@ import CardDecreaseCostSP from './modalsComponents/CardDecreaseCostSP'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
-import { getSPeffectsToCall } from '../../../../data/effects'
+import { EFFECTS, getSPeffectsToCall } from '../../../../data/effects'
 import { SP } from '../../../../data/StandardProjects'
 
 const ModalStandardProjects = () => {
@@ -107,39 +107,37 @@ const ModalStandardProjects = () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.POWER_PLANT)
-               // Possible effects for asteroid
-               spEffects = getSPeffectsToCall(SP.POWER_PLANT)
-               spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions = [...actions, ...getEffect(spEffect)]
-               })
+               // Possible effect for SP Power Plant (standard technology)
+               if (
+                  statePlayer.cardsPlayed.some(
+                     (card) => card.effect === EFFECTS.EFFECT_STANDARD_TECHNOLOGY
+                  )
+               )
+                  actions = [...actions, ...getEffect(EFFECTS.EFFECT_STANDARD_TECHNOLOGY)]
                break
             case SP.ASTEROID:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
-               // Possible effects for asteroid
-               spEffects = getSPeffectsToCall(SP.ASTEROID)
-               spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect))
-                     actions = [...actions, ...getEffect(spEffect)]
-               })
+               // Possible effect for SP Asteroid (standard technology)
+               if (
+                  statePlayer.cardsPlayed.some(
+                     (card) => card.effect === EFFECTS.EFFECT_STANDARD_TECHNOLOGY
+                  )
+               )
+                  actions = [...actions, ...getEffect(EFFECTS.EFFECT_STANDARD_TECHNOLOGY)]
                // Possible effects for placing ocean, if increasing temp gets the ocean bonus
                if (
                   stateGame.globalParameters.temperature === -2 &&
                   stateGame.globalParameters.oceans < 9
                ) {
-                  spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-                  spEffects.forEach((spEffect) => {
-                     if (
-                        statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                        statePlayer.corporation.effects.some(
-                           (corpEffect) => corpEffect === spEffect
-                        )
+                  if (
+                     statePlayer.cardsPlayed.some(
+                        (card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE
                      )
-                        actions = [...actions, ...getEffect(spEffect)]
-                  })
+                  )
+                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
                }
                break
             case SP.AQUIFER:
@@ -177,16 +175,12 @@ const ModalStandardProjects = () => {
                   stateGame.globalParameters.temperature === -2 &&
                   stateGame.globalParameters.oceans < 9
                ) {
-                  spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-                  spEffects.forEach((spEffect) => {
-                     if (
-                        statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                        statePlayer.corporation.effects.some(
-                           (corpEffect) => corpEffect === spEffect
-                        )
+                  if (
+                     statePlayer.cardsPlayed.some(
+                        (card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE
                      )
-                        actions = [...actions, ...getEffect(spEffect)]
-                  })
+                  )
+                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
                }
                break
             case SP.CITY:

@@ -5,6 +5,7 @@ import {
    setAvailFieldsAdjacent,
 } from '../data/board'
 import { RESOURCES } from '../data/resources'
+import { getNeighbors } from './misc'
 
 export const ACTIONS_BOARD = {
    // Set available all fields based on the tile in payload
@@ -46,6 +47,19 @@ export const reducerBoard = (state, action) => {
                      field.object === TILES.SPECIAL_CITY_CAPITAL
                )
                return setAvailFieldsAdjacent(board, tiles, false)
+            case TILES.SPECIAL_URBANIZED_AREA:
+               tiles = board.filter((field) => {
+                  let neighbors = getNeighbors(field.x, field.y, board)
+                  return (
+                     neighbors.filter(
+                        (nb) =>
+                           nb.object === TILES.CITY ||
+                           nb.object === TILES.CITY_NEUTRAL ||
+                           nb.object === TILES.SPECIAL_CITY_CAPITAL
+                     ).length >= 2
+                  )
+               })
+               return setAvailFieldsSpecific(board, tiles)
             case TILES.SPECIAL_MINING_RIGHTS:
                tiles = board.filter(
                   (field) =>

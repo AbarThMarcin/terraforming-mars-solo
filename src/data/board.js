@@ -25,6 +25,7 @@ export const TILES = {
    SPECIAL_NUCLEAR_ZONE: 'special-nuclear-zone',
    SPECIAL_INDUSTRIAL_CENTER: 'special-industrial-center',
    SPECIAL_LAVA_FLOWS: 'special-lava-flows',
+   SPECIAL_URBANIZED_AREA: 'special-urbanized-area',
 }
 
 export const setAvailFieldsAny = (board) => {

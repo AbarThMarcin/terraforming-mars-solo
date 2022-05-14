@@ -11,8 +11,7 @@ import {
    startAnimation,
 } from '../../../../../data/animations'
 import { RESOURCES } from '../../../../../data/resources'
-import { getSPeffectsToCall } from '../../../../../data/effects'
-import { SP } from '../../../../../data/StandardProjects'
+import { EFFECTS } from '../../../../../data/effects'
 
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -34,29 +33,18 @@ const ProdResPanel = () => {
          })
          // Proper action
          let actions = getImmEffects(IMM_EFFECTS.GREENERY)
-         // Possible effects for placing greenery
-         let spEffects = getSPeffectsToCall(SP.CONVERT_PLANTS)
-         spEffects.forEach((spEffect) => {
-            if (
-               statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-               statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-            )
-               actions = [...actions, ...getEffect(spEffect)]
-         })
-         // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, <9 oceans)
+         // Possible effect for placing greenery (herbivores only)
+         if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES))
+            actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+         // Possible effect for placing ocean if placing greenery from converting plants gets the ocean bonus
+         // (7% ox, -2 temp, <9 oceans) (arctic algae only)
          if (
             stateGame.globalParameters.oxygen === 7 &&
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-            spEffects.forEach((spEffect) => {
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-               )
-                  actions = [...actions, ...getEffect(spEffect)]
-            })
+            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+               actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(actions)
@@ -79,14 +67,8 @@ const ProdResPanel = () => {
             stateGame.globalParameters.temperature === -2 &&
             stateGame.globalParameters.oceans < 9
          ) {
-            let spEffects = getSPeffectsToCall(SP.AQUIFER_NO_SP)
-            spEffects.forEach((spEffect) => {
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === spEffect) ||
-                  statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect)
-               )
-                  actions = [...actions, ...getEffect(spEffect)]
-            })
+            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
+               actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(actions)

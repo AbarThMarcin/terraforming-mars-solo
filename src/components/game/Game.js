@@ -58,7 +58,9 @@ function Game({ setGameOn }) {
          stateBoard,
          dispatchBoard,
          modals,
-         setModals
+         setModals,
+         cards,
+         setCards
       )
    }
    function getCardActions(cardId, toBuyResources) {
@@ -81,7 +83,16 @@ function Game({ setGameOn }) {
       )
    }
    function getEffect(effect) {
-      return funcGetEffect(effect, statePlayer, dispatchPlayer, stateGame, dispatchGame, modals, setModals)
+      return funcGetEffect(
+         effect,
+         statePlayer,
+         dispatchPlayer,
+         dispatchGame,
+         modals,
+         setModals,
+         cards,
+         setCards
+      )
    }
    function getOptionsActions(option, energyAmount) {
       return funcGetOptionsActions(
@@ -106,7 +117,15 @@ function Game({ setGameOn }) {
       )
    }
    function requirementsMet(card, cost, actionClicked) {
-      return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals, cost, actionClicked)
+      return funcRequirementsMet(
+         card,
+         statePlayer,
+         stateGame,
+         stateBoard,
+         modals,
+         cost,
+         actionClicked
+      )
    }
    function actionRequirementsMet(card) {
       return funcActionRequirementsMet(card, statePlayer, stateGame, modals, stateBoard)

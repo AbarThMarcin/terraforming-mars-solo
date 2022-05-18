@@ -1,6 +1,7 @@
 @import url('./components/game/game.css');
 @import url('./components/main-menu/main-menu.css');
-@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap'); */
 
 :root {
    --app-width: calc(100vmin * 16 / 9);
@@ -13,7 +14,8 @@
    margin: 0;
    padding: 0;
    user-select: none;
-   font-family: 'Teko', sans-serif;
+   font-family: 'Saira Condensed', sans-serif;
+   /* font-family: 'Teko', sans-serif; */
 }
 
 body {

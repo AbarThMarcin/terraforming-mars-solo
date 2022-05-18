@@ -4,12 +4,12 @@ import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { hasTag } from '../../../../util/misc'
-import Card from '../Card'
-import CardBtn from './modalsComponents/CardBtn'
-import CardDecreaseCost from './modalsComponents/CardDecreaseCost'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
+import Card from '../Card'
+import CardBtn from './modalsComponents/CardBtn'
+import CardDecreaseCost from './modalsComponents/CardDecreaseCost'
 
 const ModalCardWithAction = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -147,18 +147,18 @@ const ModalCardWithAction = () => {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -toBuyTitan })
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
          // Remove this card from Cards In Hand
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id),
-         })
+         let newCardsInHand = statePlayer.cardsInHand.filter(
+            (card) => card.id !== modals.modalCard.id
+         )
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
          // Add this card to Cards Played
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-            payload: [...statePlayer.cardsPlayed, modals.modalCard],
-         })
-         // Set special design and indentured workers effects to false (if applicable)
-         dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
-         dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT, payload: false })
+         let newCardsPlayed = [...statePlayer.cardsPlayed, modals.modalCard]
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCardsPlayed })
+         // Set special design effect to false (if applicable)
+         if (statePlayer.specialDesignEffect) {
+            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
+            dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+         }
          // ================== IMM_EFFECTS AND EFFECTS ================
          // Add Card immediate actions to the subActions list
          let actions = getImmEffects(modals.modalCard.id)
@@ -184,7 +184,7 @@ const ModalCardWithAction = () => {
          <div className="modal-card center">
             <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
                {/* CARD */}
-               <Card card={modals.modalCard} />
+               <Card card={modals.modalCard} isBig={true} />
                {/* CARD BUTTON */}
                {!modals.draft && (
                   <>

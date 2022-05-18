@@ -27,7 +27,7 @@ import card157_option1 from '../assets/images/selectOne-options/card33_34_157_op
 import card157_option2 from '../assets/images/selectOne-options/card157_option2.png'
 import card190_option1 from '../assets/images/selectOne-options/card190_option1.png'
 import card190_option2 from '../assets/images/selectOne-options/card190_option2.png'
-import { IMM_EFFECTS } from './immEffects'
+import { IMM_EFFECTS } from './immEffects/immEffects'
 
 export const OPTION_ICONS = {
    CARD19_OPTION1: 'card19_option1',
@@ -54,6 +54,7 @@ export const OPTION_ICONS = {
    CARD157_OPTION2: 'card157_option2',
    CARD190_OPTION1: 'card190_option1',
    CARD190_OPTION2: 'card190_option2',
+   CARD152_OPTION1: 'card52_option1', // Insulation
    CARD194_OPTION1: 'card194_option1', // Power Infrastructure
 }
 
@@ -167,7 +168,8 @@ export function funcGetOptionsActions(
    getImmEffects,
    modals,
    setModals,
-   energyAmount
+   energyAmount,
+   heatAmount
 ) {
    let subActions = []
    let value
@@ -545,6 +547,27 @@ export function funcGetOptionsActions(
                }))
             },
          })
+         break
+      case OPTION_ICONS.CARD152_OPTION1:
+         if (heatAmount) {
+            subActions.push({
+               name: ANIMATIONS.PRODUCTION_OUT,
+               type: RESOURCES.HEAT,
+               value: heatAmount,
+               func: () =>
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.CHANGE_PROD_HEAT,
+                     payload: -heatAmount,
+                  }),
+            })
+            subActions.push({
+               name: ANIMATIONS.PRODUCTION_IN,
+               type: RESOURCES.MLN,
+               value: heatAmount,
+               func: () =>
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: heatAmount }),
+            })
+         }
          break
       case OPTION_ICONS.CARD194_OPTION1:
          if (energyAmount) {

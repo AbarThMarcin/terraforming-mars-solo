@@ -251,29 +251,65 @@ export function getAllResourcesForAction(actionClicked, statePlayer) {
 }
 
 // A function that decreases cost of the card based on current decreasing cost effects
-export function modifiedCards(cards, statePlayer) {
+export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndenturedWorkersEffectOn) {
    let currentEffects = [...statePlayer.corporation.effects]
+   if (justPlayedEffect) currentEffects = [...currentEffects, justPlayedEffect]
    statePlayer.cardsPlayed.forEach((card) => {
       if (card.effect !== null) currentEffects.push(card.effect)
    })
-   return cards.map((card) => {
+   let newCards = cards.map((card) => {
       let costLess = 0
+      // All cards cost deduction
+      if (currentEffects.includes(EFFECTS.EFFECT_RESEARCH_OUTPOST)) costLess += 1
+      if (currentEffects.includes(EFFECTS.EFFECT_EARTH_CATAPULT)) costLess += 2
+      if (currentEffects.includes(EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY)) costLess += 2
+      if (isIndenturedWorkersEffectOn === undefined) {
+         if (statePlayer.indenturedWorkersEffect) costLess += 8
+      }
+      // Earth cards cost deduction
       if (card.tags.includes(TAGS.EARTH)) {
          if (currentEffects.includes(EFFECTS.EFFECT_EARTH_OFFICE)) costLess += 3
          if (currentEffects.includes(EFFECTS.EFFECT_TERACTOR)) costLess += 3
       }
+      // Power cards cost deduction
       if (card.tags.includes(TAGS.POWER)) {
          if (currentEffects.includes(EFFECTS.EFFECT_THORGATE)) costLess += 3
       }
+      // Space cards cost deduction
       if (card.tags.includes(TAGS.SPACE)) {
          if (currentEffects.includes(EFFECTS.EFFECT_SPACE_STATION)) costLess += 2
          if (currentEffects.includes(EFFECTS.EFFECT_SHUTTLES)) costLess += 2
          if (currentEffects.includes(EFFECTS.EFFECT_MASS_CONVERTER)) costLess += 2
          if (currentEffects.includes(EFFECTS.EFFECT_QUANTUM_EXTRACTOR)) costLess += 2
       }
-      if (currentEffects.includes(EFFECTS.EFFECT_RESEARCH_OUTPOST)) costLess += 1
-      if (currentEffects.includes(EFFECTS.EFFECT_EARTH_CATAPULT)) costLess += 2
-      if (currentEffects.includes(EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY)) costLess += 2
+      return { ...card, currentCost: Math.max(card.originalCost - costLess, 0) }
+   })
+   return newCards
+}
+
+export function modifiedCardsEffect(cards, effect) {
+   return cards.map((card) => {
+      let costLess = 0
+      switch (effect) {
+         case EFFECTS.EFFECT_EARTH_OFFICE:
+            if (card.tags.includes(TAGS.EARTH)) costLess += 3
+            break
+         case EFFECTS.EFFECT_SPACE_STATION:
+         case EFFECTS.EFFECT_SHUTTLES:
+         case EFFECTS.EFFECT_MASS_CONVERTER:
+         case EFFECTS.EFFECT_QUANTUM_EXTRACTOR:
+            if (card.tags.includes(TAGS.SPACE)) costLess += 2
+            break
+         case EFFECTS.EFFECT_RESEARCH_OUTPOST:
+            costLess += 1
+            break
+         case EFFECTS.EFFECT_EARTH_CATAPULT:
+         case EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY:
+            costLess += 2
+            break
+         default:
+            break
+      }
       return { ...card, currentCost: Math.max(card.currentCost - costLess, 0) }
    })
 }

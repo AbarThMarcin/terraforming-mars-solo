@@ -30,10 +30,11 @@ export const ACTIONS_PLAYER = {
    // Set CanPayWithHeat
    SET_CANPAYWITHHEAT: 'Set true or false to the possibility of paying with heat (for Helion only)', // For Helion
    // Set globParamReqModifier
-   CHANGE_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements', // For Inventrix and two cards with the same effect
+   CHANGE_PARAMETERS_REQUIREMENTS: 'Change global parameters requirements', // For Inventrix, Adaptation Technology and Special Design
    SET_SPECIAL_DESIGN_EFFECT: 'Set special design effect', // For Special Design card
    // Indentured Workers
-   SET_INDENTURED_WORKERS_EFFECT: 'Set indentured workers effect', // For Indentured Workers card
+   APPLY_INDENTURED_WORKERS_EFFECT: 'Decrease current cost of all cards by 8 (to a min of 0)',
+   SET_INDENTURED_WORKERS: 'Set statePlayer.indenturedWorkersEffect',
    // Update VP
    UPDATE_VP: 'Update VP for a specific card',
 }
@@ -313,12 +314,26 @@ export const reducerPlayer = (state, action) => {
             ...state,
             specialDesignEffect: action.payload,
          }
-      // FOR INDENTURED WORKERS ONLY
-      case ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT:
+      // INDENTURED WORKERS
+      case ACTIONS_PLAYER.APPLY_INDENTURED_WORKERS_EFFECT:
+         return {
+            ...state,
+            cardsInHand: state.cardsInHand.map((card) => ({
+               ...card,
+               currentCost: Math.max(0, card.currentCost - 8),
+            })),
+            cardsPlayed: state.cardsPlayed.map((card) => ({
+               ...card,
+               currentCost: Math.max(0, card.currentCost - 8),
+            })),
+            indenturedWorkersEffect: true,
+         }
+      case ACTIONS_PLAYER.SET_INDENTURED_WORKERS:
          return {
             ...state,
             indenturedWorkersEffect: action.payload,
          }
+      // UPDATE VP
       case ACTIONS_PLAYER.UPDATE_VP:
          return {
             ...state,

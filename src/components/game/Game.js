@@ -1,13 +1,24 @@
 import { useReducer, createContext, useState, useEffect } from 'react'
 import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
+import { ACTIONS_PLAYER } from '../../util/actionsPlayer'
 import { INIT_STATE_GAME } from '../../initStates/initStateGame'
 import { INIT_MODALS } from '../../initStates/initModals'
 import { reducerGame } from '../../util/actionsGame'
 import { reducerPlayer } from '../../util/actionsPlayer'
 import { reducerBoard } from '../../util/actionsBoard'
-import { funcPerformSubActions, updateVP } from '../../util/misc'
-import { funcGetImmEffects } from '../../data/immEffects'
+import { funcPerformSubActions, modifiedCards, updateVP } from '../../util/misc'
+import { funcGetImmEffects } from '../../data/immEffects/immEffects'
 import { funcGetEffect } from '../../data/effects'
+import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
+import {
+   funcRequirementsMet,
+   funcActionRequirementsMet,
+   funcOptionRequirementsMet,
+} from '../../data/requirements'
+import { funcGetCardActions } from '../../data/cardActions'
+import { funcGetOptionsActions } from '../../data/selectOneOptions'
+import '../../css/app.css'
+import ViewGameStateHeader from './gameComponents/ViewGameStateHeader'
 import MenuIcon from './gameComponents/MenuIcon'
 import PanelCorp from './gameComponents/panelCorp/PanelCorp'
 import PanelStateGame from './gameComponents/PanelStateGame'
@@ -15,16 +26,6 @@ import StandardProjects from './gameComponents/StandardProjectsBtn'
 import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
-import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
-import '../../css/app.css'
-import {
-   funcRequirementsMet,
-   funcActionRequirementsMet,
-   funcOptionRequirementsMet,
-} from '../../data/requirements'
-import { funcGetCardActions } from '../../data/cardActions'
-import ViewGameStateHeader from './gameComponents/ViewGameStateHeader'
-import { funcGetOptionsActions } from '../../data/selectOneOptions'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -40,11 +41,29 @@ function Game({ setGameOn }) {
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(2000)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1000)
    const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
 
    useEffect(() => {
+      // Update VP of all cards
       updateVP(statePlayer, dispatchPlayer, stateBoard)
+      // Turn off Special Design effect (if aplicable)
+      if (statePlayer.specialDesignEffect && modals.modalCard.id !== 206) {
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+      }
+      // Turn off Indentured Workers effect (if aplicable)
+      if (statePlayer.indenturedWorkersEffect && modals.modalCard.id !== 195) {
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+            payload: modifiedCards(statePlayer.cardsInHand, statePlayer, null, false),
+         })
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
+            payload: modifiedCards(statePlayer.cardsPlayed, statePlayer, null, false),
+         })
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
+      }
    }, [updateVpTrigger])
 
    function getImmEffects(typeOrCardId) {
@@ -60,7 +79,8 @@ function Game({ setGameOn }) {
          modals,
          setModals,
          cards,
-         setCards
+         setCards,
+         requirementsMet
       )
    }
    function getCardActions(cardId, toBuyResources) {
@@ -94,7 +114,7 @@ function Game({ setGameOn }) {
          setCards
       )
    }
-   function getOptionsActions(option, energyAmount) {
+   function getOptionsActions(option, energyAmount, heatAmount) {
       return funcGetOptionsActions(
          option,
          statePlayer,
@@ -104,7 +124,8 @@ function Game({ setGameOn }) {
          getImmEffects,
          modals,
          setModals,
-         energyAmount
+         energyAmount,
+         heatAmount
       )
    }
    function performSubActions(subActions) {
@@ -124,7 +145,9 @@ function Game({ setGameOn }) {
          stateBoard,
          modals,
          cost,
-         actionClicked
+         actionClicked,
+         getImmEffects,
+         requirementsMet
       )
    }
    function actionRequirementsMet(card) {

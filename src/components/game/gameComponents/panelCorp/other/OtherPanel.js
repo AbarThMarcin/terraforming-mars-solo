@@ -63,7 +63,7 @@ const OtherPanel = () => {
 
    function getEffects() {
       const cards = statePlayer.cardsPlayed.filter((card) => card.effect !== null)
-      const count = cards.length + statePlayer.corporation.effects.length
+      const count = cards.length + statePlayer.corporation.effects.slice(0, 1).length
       return [count, [...statePlayer.corporation.effects.slice(0, 1), ...cards]]
    }
 

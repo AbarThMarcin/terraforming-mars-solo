@@ -22,17 +22,24 @@ export const reducerBoard = (state, action) => {
          let tiles = []
          switch (action.payload) {
             case TILES.GREENERY:
-               if (tiles.length === 0) {
-                  return setAvailFieldsAny(board)
-               } else {
-                  tiles = board.filter(
-                     (field) =>
-                        field.object !== null &&
-                        field.object !== TILES.GREENERY_NEUTRAL &&
-                        field.object !== TILES.CITY_NEUTRAL &&
-                        field.object !== TILES.OCEAN
+               tiles = board.filter(
+                  (field) =>
+                     field.object !== null &&
+                     field.object !== TILES.GREENERY_NEUTRAL &&
+                     field.object !== TILES.CITY_NEUTRAL &&
+                     field.object !== TILES.OCEAN
+               )
+               let availFields = JSON.parse(
+                  JSON.stringify(
+                     setAvailFieldsAdjacent(board, tiles, true).filter(
+                        (field) => field.available === true
+                     )
                   )
+               )
+               if (availFields.length > 0) {
                   return setAvailFieldsAdjacent(board, tiles, true)
+               } else {
+                  return setAvailFieldsAny(board)
                }
             case TILES.OCEAN:
             case TILES.SPECIAL_MOHOLE_AREA:
@@ -63,13 +70,20 @@ export const reducerBoard = (state, action) => {
             case TILES.SPECIAL_MINING_RIGHTS:
                tiles = board.filter(
                   (field) =>
-                     field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)
+                     (field.bonus.includes(RESOURCES.STEEL) ||
+                        field.bonus.includes(RESOURCES.TITAN)) &&
+                     !field.oceanOnly
                )
-               return setAvailFieldsAdjacent(board, tiles, true)
+               return setAvailFieldsSpecific(board, tiles)
             case TILES.SPECIAL_MINING_AREA:
                tiles = board.filter(
                   (field) =>
-                     field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)
+                     field.object !== null &&
+                     field.object !== TILES.CITY_NEUTRAL &&
+                     field.object !== TILES.OCEAN &&
+                     field.object !== TILES.GREENERY_NEUTRAL &&
+                     field.name !== 'PHOBOS SPACE HAVEN' &&
+                     field.name !== 'GANYMEDE COLONY'
                )
                return setAvailFieldsAdjacent(board, tiles, true, true)
             case TILES.SPECIAL_RESTRICTED_AREA:

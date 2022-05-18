@@ -2,7 +2,7 @@
 
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { IMM_EFFECTS } from '../../../../data/immEffects'
+import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalSPaction from './modalsComponents/ModalSPaction'
 import CardDecreaseCostSP from './modalsComponents/CardDecreaseCostSP'

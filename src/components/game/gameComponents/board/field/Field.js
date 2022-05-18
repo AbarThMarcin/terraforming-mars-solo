@@ -19,7 +19,7 @@ import {
    setAnimation,
    startAnimation,
 } from '../../../../../data/animations'
-import { getNeighbors, modifiedCards } from '../../../../../util/misc'
+import { getNeighbors, modifiedCards, modifiedCardsEffect } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 
 import city from '../../../../../assets/images/objects/city.png'
@@ -37,6 +37,8 @@ import commercialDistrict from '../../../../../assets/images/objects/commercialD
 import nuclearZone from '../../../../../assets/images/objects/nuclearZone.png'
 import industrialCenter from '../../../../../assets/images/objects/industrialCenter.png'
 import lavaFlows from '../../../../../assets/images/objects/lavaFlows.png'
+import { CORP_NAMES } from '../../../../../data/corpNames'
+import { EFFECTS } from '../../../../../data/effects'
 
 const Field = ({ field }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -44,7 +46,7 @@ const Field = ({ field }) => {
       useContext(StateGameContext)
    const { cards, setCards } = useContext(CardsContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
-   const { setModals } = useContext(ModalsContext)
+   const { modals, setModals } = useContext(ModalsContext)
    const styles = {
       left:
          field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
@@ -78,7 +80,7 @@ const Field = ({ field }) => {
          startAnimation(setModals)
          for (let i = 0; i < uniqBonuses.length; i++) {
             const countBonus = field.bonus.reduce(
-               (arr, value) => (value === uniqBonuses[i] ? arr + 1 : arr),
+               (total, value) => (value === uniqBonuses[i] ? total + 1 : total),
                0
             )
             const animName = getAnimNameBasedOnBonus(uniqBonuses[i])
@@ -143,21 +145,71 @@ const Field = ({ field }) => {
          stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS ||
          stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_AREA
       ) {
+         let actionSteel = {
+            name: ANIMATIONS.PRODUCTION_IN,
+            type: RESOURCES.STEEL,
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 }),
+         }
+
+         let actionTitan = {
+            name: ANIMATIONS.PRODUCTION_IN,
+            type: RESOURCES.TITAN,
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 }),
+         }
+
          if (field.bonus.includes(RESOURCES.STEEL)) {
+            // Add this action to modals.modalProduction.miningRights / miningArea
+            stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS
+               ? setModals((prevModals) => ({
+                    ...prevModals,
+                    modalProduction: {
+                       ...modals.modalProduction,
+                       miningRights: actionSteel,
+                    },
+                 }))
+               : setModals((prevModals) => ({
+                    ...prevModals,
+                    modalProduction: {
+                       ...modals.modalProduction,
+                       miningArea: actionSteel,
+                    },
+                 }))
+            // Animation
             setTimeout(() => {
                startAnimation(setModals)
                setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals)
             }, delay)
+            // Action
             delay += ANIMATION_SPEED
             setTimeout(() => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
                endAnimation(setModals)
             }, delay)
          } else if (field.bonus.includes(RESOURCES.TITAN)) {
+            // Add this action to modals.modalProduction.miningRights / miningArea
+            stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS
+               ? setModals((prevModals) => ({
+                    ...prevModals,
+                    modalProduction: {
+                       ...modals.modalProduction,
+                       miningRights: actionTitan,
+                    },
+                 }))
+               : setModals((prevModals) => ({
+                    ...prevModals,
+                    modalProduction: {
+                       ...modals.modalProduction,
+                       miningArea: actionTitan,
+                    },
+                 }))
+            // Animation
             setTimeout(() => {
                startAnimation(setModals)
                setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.TITAN, 1, setModals)
             }, delay)
+            // Action
             delay += ANIMATION_SPEED
             setTimeout(() => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
@@ -169,7 +221,7 @@ const Field = ({ field }) => {
       // Receive steel prod if Mining Guild and field has steel/titan bonus
       if (
          (field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) &&
-         statePlayer.corporation.name === 'Mining Guild'
+         statePlayer.corporation.name === CORP_NAMES.MINING_GUILD
       ) {
          setTimeout(() => {
             startAnimation(setModals)
@@ -182,9 +234,43 @@ const Field = ({ field }) => {
          }, delay)
       }
 
-      // Proper action
+      // Perform Research Outpost effect (decrease cost of all cards by 1). The reason for putting here
+      // instead of in immEffect is that when city of this card is put on card, effect of decreasing costs
+      // doesn't include that card.
+      if (modals.modalCard) {
+         if (modals.modalCard.id === 20) {
+            // Start animation
+            setTimeout(() => {
+               startAnimation(setModals)
+               setAnimation(ANIMATIONS.SHORT_ANIMATION, null, null, setModals)
+            }, delay)
+            delay += 1000
+            setTimeout(() => {
+               // Proper action
+               let newCards = field.bonus.includes(RESOURCES.CARD)
+                  ? [
+                       ...statePlayer.cardsInHand.filter((card) => card.id !== 20),
+                       ...cards.slice(0, 1),
+                    ]
+                  : statePlayer.cardsInHand.filter((card) => card.id !== 20)
+               newCards = modifiedCardsEffect(newCards, EFFECTS.EFFECT_RESEARCH_OUTPOST)
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === 20),
+                  ],
+                  EFFECTS.EFFECT_RESEARCH_OUTPOST
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+               // End animation
+               endAnimation(setModals)
+            }, delay)
+         }
+      }
+
+      // Continue performing actions/effects
       setTimeout(() => {
-         // Continue performing actions/effects
          startAnimation(setModals)
          performSubActions(stateGame.actionsLeft)
       }, delay)

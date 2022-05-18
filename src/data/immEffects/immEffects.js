@@ -1,10 +1,10 @@
-import { ACTIONS_PLAYER } from '../util/actionsPlayer'
-import { ACTIONS_GAME } from '../util/actionsGame'
-import { ANIMATIONS } from './animations'
-import { TILES } from './board'
-import { ACTIONS_BOARD } from '../util/actionsBoard'
-import { RESOURCES } from './resources'
-import { getOptions } from './selectOneOptions'
+import { ACTIONS_PLAYER } from '../../util/actionsPlayer'
+import { ACTIONS_GAME } from '../../util/actionsGame'
+import { ANIMATIONS } from '../animations'
+import { TILES } from '../board'
+import { ACTIONS_BOARD } from '../../util/actionsBoard'
+import { RESOURCES } from '../resources'
+import { getOptions } from '../selectOneOptions'
 import {
    getCardsWithPossibleAnimals,
    getCardsWithPossibleFighters,
@@ -12,8 +12,11 @@ import {
    getCardsWithPossibleScience,
    hasTag,
    modifiedCards,
-} from '../util/misc'
-import { TAGS } from './tags'
+   modifiedCardsEffect,
+} from '../../util/misc'
+import { TAGS } from '../tags'
+import { CORP_NAMES } from '../corpNames'
+import { EFFECTS } from '../effects'
 
 export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',
@@ -23,6 +26,7 @@ export const IMM_EFFECTS = {
    OXYGEN: 'Increase oxygen by 1%',
    CITY: 'Place a city',
    TR: 'Increase TR level',
+   MINING_GUILD: 'Increase steel production by 1',
 }
 
 export const funcGetImmEffects = (
@@ -37,7 +41,8 @@ export const funcGetImmEffects = (
    modals,
    setModals,
    cards,
-   setCards
+   setCards,
+   requirementsMet
 ) => {
    let subActions = []
    let dataCards = []
@@ -193,6 +198,15 @@ export const funcGetImmEffects = (
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
+         })
+         break
+      // ========================== Mining Guild immediate effect ====================
+      case IMM_EFFECTS.MINING_GUILD:
+         subActions.push({
+            name: ANIMATIONS.PRODUCTION_IN,
+            type: RESOURCES.STEEL,
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 }),
          })
          break
       // ============================= CARD IMMEDIATE EFFECTS ========================
@@ -386,7 +400,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsPlayed.find((card) => card.id === actionOrCardId),
+                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -461,6 +475,29 @@ export const funcGetImmEffects = (
             type: RESOURCES.PLANT,
             value: 1,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: 1 }),
+         })
+         break
+      // Space Station
+      case 25:
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_SPACE_STATION
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_SPACE_STATION
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
          })
          break
       // Eos Chasma National Park
@@ -610,7 +647,12 @@ export const funcGetImmEffects = (
             statePlayer.cardsPlayed.reduce(
                (total, card) => (hasTag(card, TAGS.PLANT) ? total + 1 : total),
                0
-            ) < 3
+            ) +
+               statePlayer.corporation.tags.reduce(
+                  (total, tag) => (tag === TAGS.PLANT ? total + 1 : total),
+                  0
+               ) <
+            3
          ) {
             subActions.push({
                name: ANIMATIONS.PRODUCTION_IN,
@@ -763,11 +805,16 @@ export const funcGetImmEffects = (
          break
       // Miranda Resort
       case 51:
-         value = statePlayer.cardsPlayed.reduce(
-            (total, card) =>
-               hasTag(card, TAGS.EARTH) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
-            0
-         )
+         value =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) =>
+                  hasTag(card, TAGS.EARTH) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
+               0
+            ) +
+            statePlayer.corporation.tags.reduce(
+               (total, tag) => (tag === TAGS.EARTH ? total + 1 : total),
+               0
+            )
          if (value > 0)
             subActions.push({
                name: ANIMATIONS.PRODUCTION_IN,
@@ -972,6 +1019,29 @@ export const funcGetImmEffects = (
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 }),
          })
          break
+      // Earth Catapult
+      case 70:
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_EARTH_CATAPULT
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_EARTH_CATAPULT
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
+         })
+         break
       // Advanced Alloys
       case 71:
          subActions.push({
@@ -1030,6 +1100,26 @@ export const funcGetImmEffects = (
             type: RESOURCES.ENERGY,
             value: 4,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 4 }),
+         })
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_QUANTUM_EXTRACTOR
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_QUANTUM_EXTRACTOR
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
          })
          break
       // Giant Ice Asteroid
@@ -1109,7 +1199,95 @@ export const funcGetImmEffects = (
          break
       // Robotic Workforce
       case 86:
-         // TO DO
+         dataCards = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.BUILDING))
+         dataCards = dataCards.filter((card) => {
+            let isAnyProduction = false
+            let prodReqMet = true
+            if (card.id === 64 || card.id === 67) return true // If Mining rights or Mining Area, always include those productions
+            let immEffects = getImmEffects(card.id)
+            immEffects.forEach((immEffect) => {
+               if (immEffect.name === ANIMATIONS.PRODUCTION_IN) {
+                  isAnyProduction = true
+               } else if (immEffect.name === ANIMATIONS.PRODUCTION_OUT) {
+                  isAnyProduction = true
+                  if (
+                     immEffect.type === RESOURCES.MLN &&
+                     statePlayer.production.mln - immEffect.value < -5
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.STEEL &&
+                     statePlayer.production.steel < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.TITAN &&
+                     statePlayer.production.steel < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.PLANT &&
+                     statePlayer.production.plant < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.ENERGY &&
+                     statePlayer.production.energy < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.HEAT &&
+                     statePlayer.production.heat < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  }
+               }
+            })
+            return isAnyProduction && prodReqMet
+         })
+         let immProdEffects = []
+         if (statePlayer.corporation.name === CORP_NAMES.MINING_GUILD) {
+            immProdEffects = getImmEffects(IMM_EFFECTS.MINING_GUILD)
+         } else {
+            if (dataCards[0].id === 64) {
+               immProdEffects = [modals.modalProduction.miningArea]
+            } else if (dataCards[0].id === 67) {
+               immProdEffects = [modals.modalProduction.miningRights]
+            } else {
+               immProdEffects = getImmEffects(dataCards[0].id).filter(
+                  (immProdEffect) =>
+                     immProdEffect.name === ANIMATIONS.PRODUCTION_IN ||
+                     immProdEffect.name === ANIMATIONS.PRODUCTION_OUT
+               )
+            }
+         }
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
+               setModals((prevModals) => ({
+                  ...prevModals,
+                  modalProduction: {
+                     ...prevModals.modalProduction,
+                     cardIdOrCorpName:
+                        statePlayer.corporation.name === CORP_NAMES.MINING_GUILD
+                           ? CORP_NAMES.MINING_GUILD
+                           : dataCards[0].id,
+                     data: dataCards,
+                     immProdEffects: immProdEffects,
+                  },
+                  production: true,
+               }))
+            },
+         })
          break
       // Grass
       case 87:
@@ -1153,7 +1331,7 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.ENERGY,
             value: 2,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: 2 }),
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 2 }),
          })
          break
       // Research
@@ -1220,6 +1398,26 @@ export const funcGetImmEffects = (
             type: RESOURCES.ENERGY,
             value: 6,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 6 }),
+         })
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_MASS_CONVERTER
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_MASS_CONVERTER
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
          })
          break
       // Greenhouses
@@ -1290,15 +1488,43 @@ export const funcGetImmEffects = (
          break
       // Power Grid
       case 102:
-         value = statePlayer.cardsPlayed.reduce(
-            (total, card) => (hasTag(card, TAGS.ENERGY) ? total + 1 : total),
-            1
-         )
+         value =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) => (hasTag(card, TAGS.ENERGY) ? total + 1 : total),
+               1
+            ) +
+            statePlayer.corporation.tags.reduce(
+               (total, tag) => (tag === TAGS.POWER ? total + 1 : total),
+               0
+            )
          subActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.ENERGY,
             value: value,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: value }),
+         })
+         break
+      // Earth Office
+      case 105:
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_EARTH_OFFICE
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_EARTH_OFFICE
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
          })
          break
       // Acquired Company
@@ -1398,7 +1624,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsPlayed.find((card) => card.id === actionOrCardId),
+                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -1659,11 +1885,16 @@ export const funcGetImmEffects = (
          break
       // Cartel
       case 137:
-         value = statePlayer.cardsPlayed.reduce(
-            (total, card) =>
-               hasTag(card, TAGS.EARTH) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
-            1
-         )
+         value =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) =>
+                  hasTag(card, TAGS.EARTH) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
+               1
+            ) +
+            statePlayer.corporation.tags.reduce(
+               (total, tag) => (tag === TAGS.EARTH ? total + 1 : total),
+               0
+            )
          subActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.MLN,
@@ -1767,7 +1998,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsPlayed.find((card) => card.id === actionOrCardId),
+                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -1823,10 +2054,15 @@ export const funcGetImmEffects = (
          break
       // Insects
       case 148:
-         value = statePlayer.cardsPlayed.reduce(
-            (total, card) => (hasTag(card, TAGS.PLANT) ? total + 1 : total),
-            0
-         )
+         value =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) => (hasTag(card, TAGS.PLANT) ? total + 1 : total),
+               0
+            ) +
+            statePlayer.corporation.tags.reduce(
+               (total, tag) => (tag === TAGS.PLANT ? total + 1 : total),
+               0
+            )
          if (value > 0)
             subActions.push({
                name: ANIMATIONS.PRODUCTION_IN,
@@ -1870,6 +2106,29 @@ export const funcGetImmEffects = (
             },
          })
          break
+      // Anti-Gravity Technology
+      case 150:
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
+         })
+         break
       // Investment Loan
       case 151:
          subActions.push({
@@ -1887,7 +2146,22 @@ export const funcGetImmEffects = (
          break
       // Insulation
       case 152:
-         // TO DO
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
+               setModals((prevModals) => ({
+                  ...prevModals,
+                  modalSelectOne: {
+                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     options: null,
+                  },
+                  selectOne: true,
+               }))
+            },
+         })
          break
       // Adaptation Technology
       case 153:
@@ -2071,6 +2345,26 @@ export const funcGetImmEffects = (
             value: 2,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 2 }),
          })
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               let newCards = modifiedCardsEffect(
+                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  EFFECTS.EFFECT_SHUTTLES
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               newCards = modifiedCardsEffect(
+                  [
+                     ...statePlayer.cardsPlayed,
+                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                  ],
+                  EFFECTS.EFFECT_SHUTTLES
+               )
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
+            },
+         })
          break
       // Import of Advanced GHG
       case 167:
@@ -2195,11 +2489,16 @@ export const funcGetImmEffects = (
          break
       // Satellites
       case 175:
-         value = statePlayer.cardsPlayed.reduce(
-            (total, card) =>
-               hasTag(card, TAGS.SPACE) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
-            1
-         )
+         value =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) =>
+                  hasTag(card, TAGS.SPACE) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
+               1
+            ) +
+            statePlayer.corporation.tags.reduce(
+               (total, tag) => (tag === TAGS.SPACE ? total + 1 : total),
+               0
+            )
          subActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.MLN,
@@ -2334,7 +2633,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsPlayed.find((card) => card.id === actionOrCardId),
+                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2352,10 +2651,7 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.SHORT_ANIMATION,
             type: null,
             value: null,
-            func: () => {
-               // TO DO: Decrease cost of all cards by 8
-               dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT, payload: true })
-            },
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.APPLY_INDENTURED_WORKERS_EFFECT }),
          })
          break
       // Lagrange Observatory
@@ -2378,10 +2674,15 @@ export const funcGetImmEffects = (
          break
       // Terraforming Ganymede
       case 197:
-         value = statePlayer.cardsPlayed.reduce(
-            (total, card) => (hasTag(card, TAGS.JOVIAN) ? total + 1 : total),
-            1
-         )
+         value =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) => (hasTag(card, TAGS.JOVIAN) ? total + 1 : total),
+               1
+            ) +
+            statePlayer.corporation.tags.reduce(
+               (total, tag) => (tag === TAGS.JOVIAN ? total + 1 : total),
+               0
+            )
          subActions.push({
             name: ANIMATIONS.SHORT_ANIMATION,
             type: null,
@@ -2517,10 +2818,15 @@ export const funcGetImmEffects = (
       // Medical Lab
       case 207:
          value = Math.floor(
-            statePlayer.cardsPlayed.reduce(
+            (statePlayer.cardsPlayed.reduce(
                (total, card) => (hasTag(card, TAGS.BUILDING) ? total + 1 : total),
                1
-            ) / 2
+            ) +
+               statePlayer.corporation.tags.reduce(
+                  (total, tag) => (tag === TAGS.BUILDING ? total + 1 : total),
+                  0
+               )) /
+               2
          )
          if (value > 0)
             subActions.push({

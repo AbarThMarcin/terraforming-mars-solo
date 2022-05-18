@@ -5,6 +5,7 @@ import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import AnimProdRes from '../animations/AnimProdRes'
+import { modifiedCards } from '../../../../util/misc'
 
 const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -43,8 +44,21 @@ const PassContainer = () => {
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_ACTION_USED, payload: { actionUsed: false } })
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: false })
       // Set special design and indentured workers effects to false
-      dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
-      dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS_EFFECT, payload: false })
+      if (statePlayer.specialDesignEffect) {
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+      }
+      if (statePlayer.indenturedWorkersEffect) {
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+            payload: modifiedCards(statePlayer.cardsInHand, statePlayer, null, false),
+         })
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
+            payload: modifiedCards(statePlayer.cardsPlayed, statePlayer, null, false),
+         })
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
+      }
       // Move to next generation
       dispatchGame({ type: ACTIONS_GAME.INCREMENT_GEN })
       // Turn Phase Draft on
@@ -55,9 +69,9 @@ const PassContainer = () => {
    return (
       <>
          <div className="pass-container">
-            {!stateGame.phaseDraft && !stateGame.phasePlaceTile && !stateGame.phaseViewGameState && (
-               <PassBtn onYesFunc={onYesFunc} />
-            )}
+            {!stateGame.phaseDraft &&
+               !stateGame.phasePlaceTile &&
+               !stateGame.phaseViewGameState && <PassBtn onYesFunc={onYesFunc} />}
             <PassCorpSnap />
             {modals.animation && (
                <>
@@ -67,9 +81,7 @@ const PassContainer = () => {
                   {modals.animationData.productionOut.type !== null && (
                      <AnimProdRes type="prod-out" />
                   )}
-                  {modals.animationData.resourcesIn.type !== null && (
-                     <AnimProdRes type="res-in" />
-                  )}
+                  {modals.animationData.resourcesIn.type !== null && <AnimProdRes type="res-in" />}
                   {modals.animationData.resourcesOut.type !== null && (
                      <AnimProdRes type="res-out" />
                   )}

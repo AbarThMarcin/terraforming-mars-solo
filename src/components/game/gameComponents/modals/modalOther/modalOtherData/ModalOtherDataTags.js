@@ -1,17 +1,6 @@
 import { useContext } from 'react'
-import { TAGS } from '../../../../../../data/tags'
+import { getTagIcon, TAGS } from '../../../../../../data/tags'
 import { ModalsContext } from '../../../../Game'
-import buildingTag from '../../../../../../assets/images/tags/building.jpg'
-import spaceTag from '../../../../../../assets/images/tags/space.jpg'
-import powerTag from '../../../../../../assets/images/tags/power.jpg'
-import scienceTag from '../../../../../../assets/images/tags/science.jpg'
-import jovianTag from '../../../../../../assets/images/tags/jovian.jpg'
-import earthTag from '../../../../../../assets/images/tags/earth.jpg'
-import plantTag from '../../../../../../assets/images/tags/plant.jpg'
-import microbeTag from '../../../../../../assets/images/tags/microbe.jpg'
-import animalTag from '../../../../../../assets/images/tags/animal.jpg'
-import cityTag from '../../../../../../assets/images/tags/city.jpg'
-import eventTag from '../../../../../../assets/images/tags/event.jpg'
 import { hasTag } from '../../../../../../util/misc'
 
 const ModalOtherDataTags = () => {
@@ -49,7 +38,7 @@ const ModalOtherDataTags = () => {
                <span>BUILDING</span>
                <div>
                   <span>{building}</span>
-                  <img src={buildingTag} className='img-tags' alt="building_tag" />
+                  <img src={getTagIcon(TAGS.BUILDING)} className='img-tags' alt="building_tag" />
                </div>
             </div>
          )}
@@ -58,7 +47,7 @@ const ModalOtherDataTags = () => {
                <span>SPACE</span>
                <div>
                   <span>{space}</span>
-                  <img src={spaceTag} className='img-tags' alt="space_tag" />
+                  <img src={getTagIcon(TAGS.SPACE)} className='img-tags' alt="space_tag" />
                </div>
             </div>
          )}
@@ -67,7 +56,7 @@ const ModalOtherDataTags = () => {
                <span>POWER</span>
                <div>
                   <span>{power}</span>
-                  <img src={powerTag} className='img-tags' alt="power_tag" />
+                  <img src={getTagIcon(TAGS.POWER)} className='img-tags' alt="power_tag" />
                </div>
             </div>
          )}
@@ -76,7 +65,7 @@ const ModalOtherDataTags = () => {
                <span>SCIENCE</span>
                <div>
                   <span>{science}</span>
-                  <img src={scienceTag} className='img-tags' alt="science_tag" />
+                  <img src={getTagIcon(TAGS.SCIENCE)} className='img-tags' alt="science_tag" />
                </div>
             </div>
          )}
@@ -85,7 +74,7 @@ const ModalOtherDataTags = () => {
                <span>JOVIAN</span>
                <div>
                   <span>{jovian}</span>
-                  <img src={jovianTag} className='img-tags' alt="jovian_tag" />
+                  <img src={getTagIcon(TAGS.JOVIAN)} className='img-tags' alt="jovian_tag" />
                </div>
             </div>
          )}
@@ -94,7 +83,7 @@ const ModalOtherDataTags = () => {
                <span>EARTH</span>
                <div>
                   <span>{earth}</span>
-                  <img src={earthTag} className='img-tags' alt="earth_tag" />
+                  <img src={getTagIcon(TAGS.EARTH)} className='img-tags' alt="earth_tag" />
                </div>
             </div>
          )}
@@ -103,7 +92,7 @@ const ModalOtherDataTags = () => {
                <span>PLANT</span>
                <div>
                   <span>{plant}</span>
-                  <img src={plantTag} className='img-tags' alt="plant_tag" />
+                  <img src={getTagIcon(TAGS.PLANT)} className='img-tags' alt="plant_tag" />
                </div>
             </div>
          )}
@@ -112,7 +101,7 @@ const ModalOtherDataTags = () => {
                <span>MICROBE</span>
                <div>
                   <span>{microbe}</span>
-                  <img src={microbeTag} className='img-tags' alt="microbe_tag" />
+                  <img src={getTagIcon(TAGS.MICROBE)} className='img-tags' alt="microbe_tag" />
                </div>
             </div>
          )}
@@ -121,7 +110,7 @@ const ModalOtherDataTags = () => {
                <span>ANIMAL</span>
                <div>
                   <span>{animal}</span>
-                  <img src={animalTag} className='img-tags' alt="animal_tag" />
+                  <img src={getTagIcon(TAGS.ANIMAL)} className='img-tags' alt="animal_tag" />
                </div>
             </div>
          )}
@@ -130,7 +119,7 @@ const ModalOtherDataTags = () => {
                <span>CITY</span>
                <div>
                   <span>{city}</span>
-                  <img src={cityTag} className='img-tags' alt="city_tag" />
+                  <img src={getTagIcon(TAGS.CITY)} className='img-tags' alt="city_tag" />
                </div>
             </div>
          )}
@@ -139,7 +128,7 @@ const ModalOtherDataTags = () => {
                <span>EVENT</span>
                <div>
                   <span>{event}</span>
-                  <img src={eventTag} className='img-tags' alt="event_tag" />
+                  <img src={getTagIcon(TAGS.EVENT)} className='img-tags' alt="event_tag" />
                </div>
             </div>
          )}

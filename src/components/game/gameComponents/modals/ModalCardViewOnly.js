@@ -6,7 +6,7 @@ import Card from '../Card'
 
 const ModalCardViewOnly = () => {
    const { modals, setModals } = useContext(ModalsContext)
-   
+
    return (
       <>
          <div
@@ -15,7 +15,7 @@ const ModalCardViewOnly = () => {
          >
             <div className="modal-card center">
                <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
-                  <Card card={modals.modalCard} />
+                  <Card card={modals.modalCard} isBig={true} />
                </div>
             </div>
          </div>

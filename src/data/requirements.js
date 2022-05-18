@@ -6,7 +6,9 @@ import {
    getNeighbors,
    hasTag,
 } from '../util/misc'
+import { ANIMATIONS } from './animations'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from './board'
+import { CORP_NAMES } from './corpNames'
 import { RESOURCES } from './resources'
 import { OPTION_ICONS } from './selectOneOptions'
 import { TAGS } from './tags'
@@ -24,6 +26,10 @@ export const REQUIREMENTS = {
    TAGS: 'tags',
    // Board requirements
    BOARD: 'board',
+   // Specific cards requirements
+   ROBOTIC_WORKFORCE: 'robotic workforce',
+   CEOS_FAVOURITE_PROJECT: "ceo's favourite project",
+   RAD_SUITS: 'rad-suits',
 }
 
 export const funcRequirementsMet = (
@@ -33,7 +39,9 @@ export const funcRequirementsMet = (
    stateBoard,
    modals,
    cost,
-   actionClicked
+   actionClicked,
+   getImmEffects,
+   requirementsMet
 ) => {
    // Cost requirement
    if (cost !== undefined) {
@@ -52,6 +60,8 @@ export const funcRequirementsMet = (
       return false
    // Check other requirements
    let isAvailable = true
+   let board = JSON.parse(JSON.stringify(stateBoard))
+   let tiles = []
    card.requirements.forEach(({ type, value, other }) => {
       // Global parameters requirements
       if (type === REQUIREMENTS.TEMPERATURE) {
@@ -194,12 +204,9 @@ export const funcRequirementsMet = (
          }
          // Board requirements
       } else if (type === REQUIREMENTS.BOARD) {
-         let board = JSON.parse(JSON.stringify(stateBoard))
          let availFields = []
-         let tiles = []
          switch (other) {
             case TILES.CITY:
-            case TILES.SPECIAL_CITY_CAPITAL:
                tiles = board.filter(
                   (field) =>
                      field.object === TILES.CITY ||
@@ -207,18 +214,6 @@ export const funcRequirementsMet = (
                      field.object === TILES.SPECIAL_CITY_CAPITAL
                )
                availFields = setAvailFieldsAdjacent(board, tiles, false)
-               break
-            case TILES.SPECIAL_CITY_NOCTIS:
-               tiles = board.filter((field) => field.name === 'NOCTIC CITY')
-               availFields = setAvailFieldsSpecific(board, tiles)
-               break
-            case TILES.SPECIAL_CITY_PHOBOS:
-               tiles = board.filter((field) => field.name === 'PHOBOS SPACE HAVEN')
-               availFields = setAvailFieldsSpecific(board, tiles)
-               break
-            case TILES.SPECIAL_CITY_GANYMEDE:
-               tiles = board.filter((field) => field.name === 'GANYMEDE COLONY')
-               availFields = setAvailFieldsSpecific(board, tiles)
                break
             case TILES.SPECIAL_URBANIZED_AREA:
                tiles = board.filter((field) => {
@@ -237,14 +232,21 @@ export const funcRequirementsMet = (
             case TILES.SPECIAL_MINING_RIGHTS:
                tiles = board.filter(
                   (field) =>
-                     field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)
+                     (field.bonus.includes(RESOURCES.STEEL) ||
+                        field.bonus.includes(RESOURCES.TITAN)) &&
+                     !field.oceanOnly
                )
-               availFields = setAvailFieldsAdjacent(board, tiles, true)
+               availFields = setAvailFieldsSpecific(board, tiles)
                break
             case TILES.SPECIAL_MINING_AREA:
                tiles = board.filter(
                   (field) =>
-                     field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)
+                     field.object !== null &&
+                     field.object !== TILES.CITY_NEUTRAL &&
+                     field.object !== TILES.OCEAN &&
+                     field.object !== TILES.GREENERY_NEUTRAL &&
+                     field.name !== 'PHOBOS SPACE HAVEN' &&
+                     field.name !== 'GANYMEDE COLONY'
                )
                availFields = setAvailFieldsAdjacent(board, tiles, true, true)
                break
@@ -259,10 +261,6 @@ export const funcRequirementsMet = (
             case TILES.SPECIAL_RESEARCH_OUTPOST:
                tiles = board.filter((field) => field.object !== null)
                availFields = setAvailFieldsAdjacent(board, tiles, false)
-               break
-            case TILES.SPECIAL_MOHOLE_AREA:
-               tiles = board.filter((field) => !field.object && field.oceanOnly)
-               availFields = setAvailFieldsSpecific(board, tiles)
                break
             case TILES.GREENERY:
             case TILES.SPECIAL_RESTRICTED_AREA:
@@ -294,6 +292,87 @@ export const funcRequirementsMet = (
          }
          availFields = availFields.filter((field) => field.available === true)
          if (availFields.length === 0) {
+            isAvailable = false
+            return
+         }
+         // Specific cards requirements
+      } else if (type === REQUIREMENTS.ROBOTIC_WORKFORCE) {
+         let cards = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.BUILDING))
+         cards = cards.filter((card) => {
+            let isAnyProduction = false
+            let prodReqMet = true
+            if (card.id === 64 || card.id === 67) return true // If Mining rights or Mining Area, always include those productions
+            let immEffects = getImmEffects(card.id)
+            immEffects.forEach((immEffect) => {
+               if (immEffect.name === ANIMATIONS.PRODUCTION_IN) {
+                  isAnyProduction = true
+               } else if (immEffect.name === ANIMATIONS.PRODUCTION_OUT) {
+                  isAnyProduction = true
+                  if (
+                     immEffect.type === RESOURCES.MLN &&
+                     statePlayer.production.mln - immEffect.value < -5
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.STEEL &&
+                     statePlayer.production.steel < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.TITAN &&
+                     statePlayer.production.steel < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.PLANT &&
+                     statePlayer.production.plant < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.ENERGY &&
+                     statePlayer.production.energy < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  } else if (
+                     immEffect.type === RESOURCES.HEAT &&
+                     statePlayer.production.heat < immEffect.value
+                  ) {
+                     prodReqMet = false
+                     return isAnyProduction && prodReqMet
+                  }
+               }
+            })
+            return isAnyProduction && prodReqMet
+         })
+         if (cards.length === 0 && statePlayer.corporation.name !== CORP_NAMES.MINING_GUILD) {
+            isAvailable = false
+            return
+         }
+      } else if (type === REQUIREMENTS.CEOS_FAVOURITE_PROJECT) {
+         let cards = statePlayer.cardsPlayed.filter(
+            (card) =>
+               card.units.microbe > 0 ||
+               card.units.animal > 0 ||
+               card.units.science > 0 ||
+               card.units.fighter > 0
+         )
+         if (cards.length === 0) {
+            isAvailable = false
+            return
+         }
+      } else if (type === REQUIREMENTS.RAD_SUITS) {
+         tiles = board.filter(
+            (field) =>
+               field.object === TILES.CITY ||
+               field.object === TILES.CITY_NEUTRAL ||
+               field.object === TILES.SPECIAL_CITY_CAPITAL
+         )
+         if (tiles.length < 2) {
             isAvailable = false
             return
          }
@@ -366,6 +445,17 @@ export const funcOptionRequirementsMet = (option, statePlayer) => {
    let card = []
    let cards = []
    switch (option) {
+      case OPTION_ICONS.CARD19_OPTION2:
+      case OPTION_ICONS.CARD134_OPTION2:
+         cards = getCardsWithPossibleMicrobes(statePlayer)
+         if (cards.length === 0) reqMet = false
+         break
+      case OPTION_ICONS.CARD19_OPTION3:
+      case OPTION_ICONS.CARD143_OPTION2:
+      case OPTION_ICONS.CARD190_OPTION2:
+         cards = getCardsWithPossibleAnimals(statePlayer)
+         if (cards.length === 0) reqMet = false
+         break
       case OPTION_ICONS.CARD33_OPTION2:
          card = statePlayer.cardsPlayed.find((card) => card.id === 33)
          if (card.units.microbe < 2) reqMet = false
@@ -379,15 +469,6 @@ export const funcOptionRequirementsMet = (option, statePlayer) => {
          break
       case OPTION_ICONS.CARD69_OPTION2:
          if (statePlayer.resources.steel === 0) reqMet = false
-         break
-      case OPTION_ICONS.CARD134_OPTION2:
-         cards = getCardsWithPossibleMicrobes(statePlayer)
-         if (cards.length === 0) reqMet = false
-         break
-      case OPTION_ICONS.CARD143_OPTION2:
-      case OPTION_ICONS.CARD190_OPTION2:
-         cards = getCardsWithPossibleAnimals(statePlayer)
-         if (cards.length === 0) reqMet = false
          break
       case OPTION_ICONS.CARD157_OPTION2:
          card = statePlayer.cardsPlayed.find((card) => card.id === 157)

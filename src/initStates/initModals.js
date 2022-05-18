@@ -1,27 +1,27 @@
 export const INIT_ANIMATION_DATA = {
    resourcesIn: {
       type: null,
-      value: 0,
+      value: null,
    },
    resourcesOut: {
       type: null,
-      value: 0,
+      value: null,
    },
    productionIn: {
       type: null,
-      value: 0,
+      value: null,
    },
    productionOut: {
       type: null,
-      value: 0,
+      value: null,
    },
    cardIn: {
       type: null,
-      value: 0,
+      value: null,
    },
    cardOut: {
       type: null,
-      value: 0,
+      value: null,
    },
 }
 
@@ -42,6 +42,7 @@ export const INIT_MODALS = {
    standardProjects: false,
    confirmation: false,
    resource: false,
+   production: false, // Card Robotic Workforce only
    selectOne: false,
    selectCard: false,
    animation: false,
@@ -63,13 +64,23 @@ export const INIT_MODALS = {
    // Info for modal other
    modalOther: {
       header: null,
-      amount: 0,
+      amount: null,
       data: [],
    },
    // Info for modal resource
    modalResource: {
-      amount: 0,
+      cardId: null,
+      amount: null,
       data: [],
+      resType: null,
+   },
+   // Info for modal production
+   modalProduction: {
+      cardIdOrCorpName: null,
+      data: [],
+      immProdEffects: [],
+      miningRights: [],
+      miningArea: [],
    },
    // Info for confirmation modal
    modalConf: {

@@ -5,7 +5,7 @@ import { RESOURCES } from './resources'
 import { getCardsWithPossibleMicrobes, modifiedCards } from '../util/misc'
 import { getOptions } from './selectOneOptions'
 import { TILES } from './board'
-import { IMM_EFFECTS } from './immEffects'
+import { IMM_EFFECTS } from './immEffects/immEffects'
 import { EFFECTS } from './effects'
 
 import action_unmi from '../assets/images/actions/action_unmi.png'

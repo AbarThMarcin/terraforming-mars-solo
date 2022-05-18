@@ -51,7 +51,7 @@ const ModalSelectCard = () => {
          <div className="modal-card center">
             <div className="card-container big center">
                {/* CARD */}
-               <Card card={modals.modalSelectCard.card} />
+               <Card card={modals.modalSelectCard.card} isBig={true} />
                {/* CARD BUTTON */}
                <div
                   className={`

@@ -3,15 +3,15 @@ import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 
-const PowerInfrasSection = () => {
+const InsulationSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { dispatchGame, getOptionsActions, performSubActions } =
       useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
-   const [energyAmount, setEnergyAmount] = useState(0)
+   const [heatAmount, setHeatAmount] = useState(0)
 
    const handleClickOptionConfirm = () => {
-      let subActions = getOptionsActions(OPTION_ICONS.CARD194_OPTION1, energyAmount, 0)
+      let subActions = getOptionsActions(OPTION_ICONS.CARD152_OPTION1, 0, heatAmount)
       setModals((prevModals) => ({ ...prevModals, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
@@ -22,19 +22,19 @@ const PowerInfrasSection = () => {
       <div className="select-one-section">
          {/* HEADER */}
          <div className="header">SELECT AMOUNT</div>
-         {/* ENERGY */}
+         {/* HEAT */}
          <div className="card-decrease-cost">
-            <span>{energyAmount} ENERGY</span>
-            {energyAmount > 0 && (
+            <span>{heatAmount} HEAT</span>
+            {heatAmount > 0 && (
                <div
                   className="decrease-arrow pointer decrease-arrow-left"
-                  onClick={() => setEnergyAmount((prevValue) => prevValue - 1)}
+                  onClick={() => setHeatAmount((prevValue) => prevValue - 1)}
                ></div>
             )}
-            {energyAmount < statePlayer.resources.energy && (
+            {heatAmount < statePlayer.production.heat && (
                <div
                   className="decrease-arrow pointer decrease-arrow-right"
-                  onClick={() => setEnergyAmount((prevValue) => prevValue + 1)}
+                  onClick={() => setHeatAmount((prevValue) => prevValue + 1)}
                ></div>
             )}
          </div>
@@ -46,4 +46,4 @@ const PowerInfrasSection = () => {
    )
 }
 
-export default PowerInfrasSection
+export default InsulationSection

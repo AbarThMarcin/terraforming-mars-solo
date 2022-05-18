@@ -1,49 +1,172 @@
+/* General */
 :root {
    --big-ratio: 2.33;
-   --border-radius-small: calc(var(--default-size) * 0.5);
-   --border-radius-big: calc(var(--default-size) * 0.5 * 2.33);
+   --card-ratio: 1.4;
+   --border-radius: calc(var(--default-size) * 0.3);
+   box-sizing: border-box;
 }
 
+/* Containers */
 .card-container {
    position: absolute;
-   width: calc(var(--default-size) * 6);
-   height: calc(var(--default-size) * 9);
+   width: calc(var(--default-size) * 7.5);
+   height: calc(var(--default-size) * 10.5);
    transform: translate(-50%, -50%);
-   border-radius: var(--border-radius-small);
+   border-radius: var(--border-radius);
 }
-
 .card {
    position: absolute;
-   font-size: var(--default-size);
    background-color: rgb(20, 31, 22);
-   border-radius: var(--border-radius-small);
+   border-radius: var(--border-radius);
+}
+.card-bg-green {
+   background-color: rgb(15, 83, 15);
+}
+.card-bg-blue {
+   background-color: rgb(25, 56, 114);
+}
+.card-bg-red {
+   background-color: rgb(117, 27, 27);
+}
+.card > * {
+   position: absolute;
+}
+.card .black-border {
+   background: rgb(0, 0, 0);
+   background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(62, 62, 62, 1) 51%,
+      rgba(0, 0, 0, 1) 100%
+   );
+   inset: 1%;
+   border-radius: calc(var(--border-radius) / var(--card-ratio));
+   overflow: hidden;
+   border: calc(var(--default-size) * 0.10) solid #000;
 }
 
+/* Cost */
+.card .current-cost {
+   transform: translate(-50%, -50%);
+   top: 5%;
+   left: 5%;
+   width: 22%;
+   aspect-ratio: 1;
+}
+.card .current-cost > * {
+   position: absolute;
+   color: #000;
+   font-weight: 700;
+}
+.card .original-cost {
+   transform: translate(-50%, -50%);
+   top: 21%;
+   left: 5%;
+   width: 18%;
+   aspect-ratio: 1;
+   opacity: 0.4;
+}
+.card .original-cost > * {
+   position: absolute;
+   color: #000;
+   font-weight: 700;
+}
+
+/* Tags */
+.card .tags {
+   height: 14.8%;
+   top: -2.5%;
+   right: -4%;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   gap: 2%;
+}
+.card .tags .tag {
+   height: 100%;
+   aspect-ratio: 1;
+}
+.card .tags .tag img {
+   width: 100%;
+   height: 100%;
+}
+
+/* Requirement */
+.card .req {
+   width: 95%;
+   height: 14%;
+   top: 15%;
+   left: 50%;
+   transform: translateX(-50%);
+}
+
+/* Name */
+.card .name {
+   position: absolute;
+   width: 170%;
+   height: 15%;
+   border-bottom-left-radius: 50%;
+   border-bottom-right-radius: 50%;
+   top: 30%;
+   left: 50%;
+   transform: translateX(-50%);
+   font-size: smaller;
+   font-weight: 500;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 77%;
+}
+.card .name.mid-long {
+   font-size: 67%;
+}
+.card .name.long {
+   font-size: 57%;
+}
+
+/* Description */
+.card .description {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   bottom: 2%;
+   width: 95%;
+   font-size: calc(var(--default-size) * 0.8);
+   text-align: center;
+}
+
+/* Card selected */
 .card-container.selected {
    box-shadow: 0 0 calc(var(--default-size) * 1) 0 rgba(0, 255, 0, 0.2);
 }
-
-.card-container.big {
-   width: calc(var(--default-size) * 16);
-   height: calc(var(--default-size) * 24);
-   border-radius: var(--border-radius-big);
-}
-
-.card-container.big .card {
-   border-radius: var(--border-radius-big);
-   font-size: calc(var(--default-size) * 2.33);
-}
-
 .card-selected {
    background-color: rgb(35, 53, 38);
 }
 
+/* Size modification */
+.card-container.big {
+   width: calc(var(--default-size) * 24 / var(--card-ratio));
+   height: calc(var(--default-size) * 24);
+   border-radius: calc(var(--border-radius) * var(--big-ratio));
+}
+
+.card-container.big .card {
+   border-radius: calc(var(--border-radius) * var(--big-ratio));
+   font-size: calc(var(--default-size) * var(--big-ratio));
+}
+.card-container.big .card .black-border {
+   border-radius: calc(var(--border-radius) * var(--big-ratio) / var(--card-ratio));
+   border: calc(var(--default-size) * 0.10 * var(--big-ratio)) solid #000;
+}
+
+/* Card disabled */
 .card-disabled {
    background-color: #000;
    opacity: 0.5;
-   border-radius: var(--border-radius-small);
+   border-radius: var(--border-radius);
 }
 
+/* Mln icon next to button */
 .card-to-buy-mln {
    position: absolute;
    bottom: 0;

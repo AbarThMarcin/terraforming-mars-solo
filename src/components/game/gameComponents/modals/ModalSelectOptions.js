@@ -13,24 +13,22 @@ const ModalSelectOptions = () => {
    )
 
    return (
-      <div className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}>
-         <div className="modal-card center">
-            <div className="card-container big center">
-               <Card card={modals.modalSelectOne.card} isBig={true} />
-               {modals.modalSelectOne.card.id === 194 ? (
-                  // Power Infrastructure
-                  <PowerInfrasSection />
-               ) : modals.modalSelectOne.card.id === 152 ? (
-                  // Insulation
-                  <InsulationSection />
-               ) : (
-                  // Any other card with options
-                  <SelectOptionSection
-                     selectedOption={selectedOption}
-                     setSelectedOption={setSelectedOption}
-                  />
-               )}
-            </div>
+      <div className={`modal-background ${modals.confirmation && 'display-none'}`}>
+         <div className="card-container big center">
+            <Card card={modals.modalSelectOne.card} isBig={true} />
+            {modals.modalSelectOne.card.id === 194 ? (
+               // Power Infrastructure
+               <PowerInfrasSection />
+            ) : modals.modalSelectOne.card.id === 152 ? (
+               // Insulation
+               <InsulationSection />
+            ) : (
+               // Any other card with options
+               <SelectOptionSection
+                  selectedOption={selectedOption}
+                  setSelectedOption={setSelectedOption}
+               />
+            )}
          </div>
       </div>
    )

@@ -10,7 +10,7 @@ const BtnCardsPlayed = () => {
    }
 
    return (
-      <div className="panel-corp-btn btn-cards-played pointer" onClick={handleClickBtnCardsPlayed}>
+      <div className="btn-cards-played-log pointer" onClick={handleClickBtnCardsPlayed}>
          CARDS PLAYED
       </div>
    )

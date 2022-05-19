@@ -21,9 +21,13 @@ import { EFFECTS } from '../effects'
 export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',
    TEMPERATURE: 'Increase temperature by 2 degrees',
+   TEMPERATURE4: 'Increase temperature by 4 degrees',
+   TEMPERATURE6: 'Increase temperature by 6 degrees',
    AQUIFER: 'Place an ocean',
+   AQUIFER2: 'Place two oceans',
    GREENERY: 'Place greenery',
    OXYGEN: 'Increase oxygen by 1%',
+   OXYGEN2: 'Increase oxygen by 2%',
    CITY: 'Place a city',
    TR: 'Increase TR level',
    MINING_GUILD: 'Increase steel production by 1',
@@ -96,6 +100,98 @@ export const funcGetImmEffects = (
             }
          }
          break
+      // =================== INCREASE TEMPERATURE BY 4 DEGREES ===================
+      case IMM_EFFECTS.TEMPERATURE4:
+         if (stateGame.globalParameters.temperature < 8) {
+            subActions.push({
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
+               value: null,
+               func: () => {
+                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  if (stateGame.globalParameters.temperature < 6) {
+                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  }
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+               },
+            })
+            // Bonus heat production
+            if (
+               (stateGame.globalParameters.temperature >= -28 &&
+                  stateGame.globalParameters.temperature <= -26) ||
+               (stateGame.globalParameters.temperature >= -24 &&
+                  stateGame.globalParameters.temperature <= -22)
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.PRODUCTION_IN,
+                  type: RESOURCES.HEAT,
+                  value: 1,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 }),
+               })
+               // Bonus ocean
+            } else if (
+               stateGame.globalParameters.temperature >= -4 &&
+               stateGame.globalParameters.temperature <= -2
+            ) {
+               subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+            }
+         }
+         break
+      // =================== INCREASE TEMPERATURE BY 6 DEGREES ===================
+      case IMM_EFFECTS.TEMPERATURE6:
+         if (stateGame.globalParameters.temperature < 8) {
+            subActions.push({
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
+               value: null,
+               func: () => {
+                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  if (stateGame.globalParameters.temperature < 6) {
+                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  }
+                  if (stateGame.globalParameters.temperature < 4) {
+                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  }
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+               },
+            })
+            // Bonus heat productions
+            if (
+               stateGame.globalParameters.temperature >= -30 &&
+               stateGame.globalParameters.temperature <= -26
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.PRODUCTION_IN,
+                  type: RESOURCES.HEAT,
+                  value: 1,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 }),
+               })
+            }
+            if (
+               stateGame.globalParameters.temperature >= -26 &&
+               stateGame.globalParameters.temperature <= -22
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.PRODUCTION_IN,
+                  type: RESOURCES.HEAT,
+                  value: 1,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 }),
+               })
+               // Bonus ocean
+            }
+            if (
+               stateGame.globalParameters.temperature >= -6 &&
+               stateGame.globalParameters.temperature <= -2
+            ) {
+               subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+            }
+         }
+         break
       // =============================== PLACE OCEAN TILE ============================
       // cards: Subterranean Reservoir, Ice Cap Melting, Flooding, Permafrost Extraction
       case IMM_EFFECTS.AQUIFER:
@@ -130,6 +226,54 @@ export const funcGetImmEffects = (
             })
          }
          break
+      // =============================== PLACE TWO OCEAN TILES ============================
+      case IMM_EFFECTS.AQUIFER2:
+         if (stateGame.globalParameters.oceans < 9) {
+            subActions.push({
+               name: ANIMATIONS.USER_INTERACTION,
+               type: null,
+               value: null,
+               func: () => {
+                  dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
+                  dispatchGame({
+                     type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
+                     payload: TILES.OCEAN,
+                  })
+                  dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.OCEAN })
+               },
+            })
+            if (stateGame.globalParameters.oceans < 8) {
+               subActions.push({
+                  name: ANIMATIONS.USER_INTERACTION,
+                  type: null,
+                  value: null,
+                  func: () => {
+                     dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
+                     dispatchGame({
+                        type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
+                        payload: TILES.OCEAN,
+                     })
+                     dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.OCEAN })
+                  },
+               })
+            }
+            // Increase oceans meter
+            subActions.push({
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
+               value: null,
+               func: () => {
+                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
+                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  if (stateGame.globalParameters.oceans < 8) {
+                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
+                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  }
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+               },
+            })
+         }
+         break
       // ============================== PLACE GREENERY TILE ==========================
       // card: Plantation
       case IMM_EFFECTS.GREENERY:
@@ -150,7 +294,7 @@ export const funcGetImmEffects = (
          // Increase oxygen
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
          break
-      // ================================= INCREASE OXYGEN ===========================
+      // ================================= INCREASE OXYGEN BY 1% ===========================
       case IMM_EFFECTS.OXYGEN:
          if (stateGame.globalParameters.oxygen < 14) {
             subActions.push({
@@ -167,6 +311,33 @@ export const funcGetImmEffects = (
          // Bonus temperature
          if (
             stateGame.globalParameters.oxygen === 7 &&
+            stateGame.globalParameters.temperature < 8
+         ) {
+            subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         }
+         break
+      // ================================= INCREASE OXYGEN BY 2% ===========================
+      case IMM_EFFECTS.OXYGEN:
+         if (stateGame.globalParameters.oxygen < 14) {
+            subActions.push({
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
+               value: null,
+               func: () => {
+                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
+                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  if (stateGame.globalParameters.oxygen < 13) {
+                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
+                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  }
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+               },
+            })
+         }
+         // Bonus temperature
+         if (
+            stateGame.globalParameters.oxygen >= 6 &&
+            stateGame.globalParameters.oxygen <= 7 &&
             stateGame.globalParameters.temperature < 8
          ) {
             subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
@@ -293,8 +464,7 @@ export const funcGetImmEffects = (
             value: 4,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: 4 }),
          })
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
          break
       // Space Elevator
       case 13:
@@ -633,16 +803,6 @@ export const funcGetImmEffects = (
          break
       // Nitrogen-Rich Asteroid
       case 37:
-         subActions.push({
-            name: ANIMATIONS.SHORT_ANIMATION,
-            type: null,
-            value: null,
-            func: () => {
-               dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 2 })
-               dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
-            },
-         })
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          if (
             statePlayer.cardsPlayed.reduce(
                (total, card) => (hasTag(card, TAGS.PLANT) ? total + 1 : total),
@@ -668,18 +828,26 @@ export const funcGetImmEffects = (
                func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: 4 }),
             })
          }
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 2 })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+            },
+         })
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          break
       // Deimos Down
       case 39:
-         subActions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          subActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.STEEL,
             value: 4,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 4 }),
          })
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE6)]
          break
       // Asteroid Mining
       case 40:
@@ -1126,8 +1294,7 @@ export const funcGetImmEffects = (
       case 80:
          subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
          break
       // Ganymede Colony
       case 81:
@@ -1458,8 +1625,7 @@ export const funcGetImmEffects = (
                })
             },
          })
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
          break
       // Tropical Resort
       case 98:
@@ -1922,8 +2088,7 @@ export const funcGetImmEffects = (
             value: 1,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 }),
          })
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN2)]
          break
       // Lava Flows
       case 140:
@@ -1943,8 +2108,7 @@ export const funcGetImmEffects = (
                })
             },
          })
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
          break
       // Mohole Area
       case 142:

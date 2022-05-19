@@ -40,11 +40,12 @@ const ModalCardWithAction = () => {
    }
 
    function getInitToBuyMln() {
-      const diff =
+      const diff = Math.max(
+         0,
          modals.modalCard.currentCost -
-         toBuySteel * statePlayer.valueSteel -
-         toBuyTitan * statePlayer.valueTitan
-
+            toBuySteel * statePlayer.valueSteel -
+            toBuyTitan * statePlayer.valueTitan
+      )
       return Math.min(diff, statePlayer.resources.mln)
    }
    function getInitToBuySteel() {
@@ -178,43 +179,37 @@ const ModalCardWithAction = () => {
 
    return (
       <div
-         className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}
+         className={`modal-background ${modals.confirmation && 'display-none'}`}
          onClick={() => setModals({ ...modals, cardWithAction: false, modalCard: null })}
       >
-         <div className="modal-card center">
-            <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
-               {/* CARD */}
-               <Card card={modals.modalCard} isBig={true} />
-               {/* CARD BUTTON */}
-               {!modals.draft && (
-                  <>
-                     <CardBtn
-                        initBtnText="USE"
-                        handleClick={showConfirmation}
-                        disabled={disabled}
-                     />
-                     <div className="card-to-buy-mln">{toBuyMln}</div>
-                  </>
+         <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
+            {/* CARD */}
+            <Card card={modals.modalCard} isBig={true} />
+            {/* CARD BUTTON */}
+            {!modals.draft && (
+               <>
+                  <CardBtn initBtnText="USE" handleClick={showConfirmation} disabled={disabled} />
+                  <div className="card-to-buy-mln">{toBuyMln}</div>
+               </>
+            )}
+            {/* CARD DECREASE COST SECTION */}
+            {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
+               (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
+               (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
+               modals.cardWithAction &&
+               !modals.draft && (
+                  <CardDecreaseCost
+                     toBuyMln={toBuyMln}
+                     setToBuyMln={setToBuyMln}
+                     toBuySteel={toBuySteel}
+                     setToBuySteel={setToBuySteel}
+                     toBuyTitan={toBuyTitan}
+                     setToBuyTitan={setToBuyTitan}
+                     toBuyHeat={toBuyHeat}
+                     setToBuyHeat={setToBuyHeat}
+                     setDisabled={setDisabled}
+                  />
                )}
-               {/* CARD DECREASE COST SECTION */}
-               {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
-                  (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
-                  (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
-                  modals.cardWithAction &&
-                  !modals.draft && (
-                     <CardDecreaseCost
-                        toBuyMln={toBuyMln}
-                        setToBuyMln={setToBuyMln}
-                        toBuySteel={toBuySteel}
-                        setToBuySteel={setToBuySteel}
-                        toBuyTitan={toBuyTitan}
-                        setToBuyTitan={setToBuyTitan}
-                        toBuyHeat={toBuyHeat}
-                        setToBuyHeat={setToBuyHeat}
-                        setDisabled={setDisabled}
-                     />
-                  )}
-            </div>
          </div>
       </div>
    )

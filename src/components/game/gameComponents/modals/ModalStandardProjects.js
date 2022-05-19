@@ -216,7 +216,7 @@ const ModalStandardProjects = () => {
    return (
       <>
          <div
-            className={`modal-standard-projects-bg full-size
+            className={`modal-background
                ${(modals.confirmation || modals.sellCards) && 'display-none'}
             `}
             onClick={() => setModals({ ...modals, standardProjects: false })}

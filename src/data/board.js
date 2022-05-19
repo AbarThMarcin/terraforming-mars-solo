@@ -63,17 +63,6 @@ export const setAvailFieldsAdjacent = (board, tiles, adjacent, isMiningArea = fa
 
       allNeighbors = [...allNeighbors, ...tileNeighbors]
    })
-   console.log(tiles)
-   console.log(board.map((field) => ({
-      ...field,
-      available:
-         !field.oceanOnly &&
-         !field.object &&
-         field.name !== 'PHOBOS SPACE HAVEN' &&
-         field.name !== 'GANYMEDE COLONY' &&
-         field.name !== 'NOCTIC CITY' &&
-         isIncluded(allNeighbors, field),
-   })))
 
    if (adjacent || isMiningArea) {
       return board.map((field) => ({

@@ -19,7 +19,7 @@ const ModalDraftBtnChangeCorp = ({ dispatchGame, statePlayer, dispatchPlayer }) 
    }
 
    return (
-      <div className="modal-draft-change-corp-btn pointer" onClick={handleClickChangeCorpBtn}>
+      <div className="btn-change-corp pointer" onClick={handleClickChangeCorpBtn}>
          ChangeCorpBtn
       </div>
    )

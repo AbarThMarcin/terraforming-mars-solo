@@ -11,14 +11,20 @@ import { getPosition } from '../../../../util/misc'
 import { SP } from '../../../../data/StandardProjects'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
+import Arrows from './modalsComponents/Arrows'
 
 const ModalSellCards = () => {
-   const { stateGame, performSubActions } = useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
+   const { stateGame, performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [mlnBack, setMlnBack] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
    const textSellConfirmation = 'Are you sure you want to sell these project cards?'
+   const [page, setPage] = useState(1)
+
+   const getBoxPosition = () => {
+      return `${(1 - page) * 100}%`
+   }
 
    const onYesFunc = () => {
       let subActions = []
@@ -58,37 +64,45 @@ const ModalSellCards = () => {
 
    return (
       <div
-         className={`
-            modal-draft center
-            ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}
-         `}
+         className={`modal-background ${
+            (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
+         }`}
       >
-         {/* HEADER */}
-         <ModalHeader text={SP.SELL_PATENT} eachText="1 each" />
-
-         {/* ACTION BUTTON */}
-         <ModalBtnAction
-            text="SELL"
-            mln={mlnBack}
-            textConfirmation={textSellConfirmation}
-            onYesFunc={onYesFunc}
-         />
-
-         {/* CANCEL BUTTON */}
-         <ModalBtnAction text="CANCEL" />
-
-         {/* CARDS */}
-         {statePlayer.cardsInHand.map((card, idx) => (
-            <div
-               key={idx}
-               className={`card-container ${selectedCards.includes(card) && 'selected'}`}
-               style={getPosition(statePlayer.cardsInHand.length, idx)}
-               onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
-            >
-               <Card card={card} />
-               <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+         {/* ARROWS */}
+         {modals.modalCards.length > 10 && (
+            <Arrows
+               page={page}
+               setPage={setPage}
+               pages={Math.ceil(modals.modalCards.length / 10)}
+            />
+         )}
+         <div className="modal-select-cards">
+            <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
+               {/* CARDS */}
+               {statePlayer.cardsInHand.map((card, idx) => (
+                  <div
+                     key={idx}
+                     className={`card-container ${selectedCards.includes(card) && 'selected'}`}
+                     style={getPosition(statePlayer.cardsInHand.length, idx)}
+                     onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+                  >
+                     <Card card={card} />
+                     <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+                  </div>
+               ))}
             </div>
-         ))}
+            {/* HEADER */}
+            <ModalHeader text={SP.SELL_PATENT} eachText="1 each" />
+            {/* ACTION BUTTON */}
+            <ModalBtnAction
+               text="SELL"
+               mln={mlnBack}
+               textConfirmation={textSellConfirmation}
+               onYesFunc={onYesFunc}
+            />
+            {/* CANCEL BUTTON */}
+            <ModalBtnAction text="CANCEL" />
+         </div>
       </div>
    )
 }

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { ACTIONS_GAME } from '../../../../../util/actionsGame'
-import { StateGameContext } from '../../../Game'
+import { ACTIONS_GAME } from '../../../util/actionsGame'
+import { StateGameContext } from '../Game'
 
 const BtnViewGameState = () => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)

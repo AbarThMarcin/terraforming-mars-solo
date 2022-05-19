@@ -10,13 +10,11 @@ const ModalCardViewOnly = () => {
    return (
       <>
          <div
-            className={`modal-card-container full-size ${modals.confirmation && 'display-none'}`}
+            className={`modal-background ${modals.confirmation && 'display-none'}`}
             onClick={() => setModals({ ...modals, cardViewOnly: false, modalCard: null })}
          >
-            <div className="modal-card center">
-               <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
-                  <Card card={modals.modalCard} isBig={true} />
-               </div>
+            <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
+               <Card card={modals.modalCard} isBig={true} />
             </div>
          </div>
       </>

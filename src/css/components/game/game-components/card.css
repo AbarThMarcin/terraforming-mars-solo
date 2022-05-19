@@ -13,6 +13,7 @@
    height: calc(var(--default-size) * 10.5);
    transform: translate(-50%, -50%);
    border-radius: var(--border-radius);
+   /* z-index: 1; */
 }
 .card {
    position: absolute;

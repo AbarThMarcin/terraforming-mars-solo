@@ -34,9 +34,9 @@ export const getPosition = (length, id) => {
       top = '50%'
    } else {
       if (id % 10 >= 0 && id % 10 <= 4) {
-         top = '28%'
+         top = '29%'
       } else {
-         top = '72%'
+         top = '71%'
       }
    }
 

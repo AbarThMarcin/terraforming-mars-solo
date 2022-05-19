@@ -31,7 +31,7 @@ const ModalSPaction = ({
       if (!isAvailable) return
       // If clicked SELL PATENT
       if (name === SP.SELL_PATENT) {
-         setModals({ ...modals, sellCards: true })
+         setModals({ ...modals, sellCards: true, modalCards: statePlayer.cardsInHand })
          return
       }
       // For Helion only: first click turns 'Decrease Cost with heat' minimodal,

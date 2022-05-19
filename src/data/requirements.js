@@ -67,14 +67,14 @@ export const funcRequirementsMet = (
       if (type === REQUIREMENTS.TEMPERATURE) {
          if (
             other === 'max' &&
-            stateGame.globalParameters.temperature - Math.abs(statePlayer.globParamReqModifier) >
+            stateGame.globalParameters.temperature - Math.abs(statePlayer.globParamReqModifier) * 2 >
                value
          ) {
             isAvailable = false
             return
          } else if (
             other === 'min' &&
-            stateGame.globalParameters.temperature + Math.abs(statePlayer.globParamReqModifier) <
+            stateGame.globalParameters.temperature + Math.abs(statePlayer.globParamReqModifier) * 2 <
                value
          ) {
             isAvailable = false

@@ -25,22 +25,22 @@ const ModalMenu = ({ setGameOn }) => {
    return (
       <>
          <div
-            className="full-size"
+            className="modal-background-wo-opacity"
             onClick={() => setModals({ ...modals, menu: false, settings: false })}
          >
             <div className="modal-menu" onClick={(e) => e.stopPropagation()}>
                <ul>
                   <li
-                     className="pointer"
+                     className="btn-menu-li pointer"
                      onClick={() => setModals({ ...modals, settings: !modals.settings })}
                   >
                      SETTINGS
                   </li>
-                  <li className="pointer" onClick={handleClickForfeit}>
+                  <li className="btn-menu-li pointer" onClick={handleClickForfeit}>
                      FORFEIT
                   </li>
                   <li
-                     className="pointer"
+                     className="btn-menu-li pointer"
                      onClick={() => setModals({ ...modals, rules: true, settings: false })}
                   >
                      RULES

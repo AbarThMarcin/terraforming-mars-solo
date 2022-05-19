@@ -24,7 +24,7 @@ const ModalCards = () => {
 
    return (
       <div
-         className={`full-size ${modals.cardWithAction && 'display-none'}`}
+         className={`modal-background ${modals.cardWithAction && 'display-none'}`}
          onClick={() => setModals({ ...modals, cards: false })}
       >
          {/* ARROWS */}
@@ -35,13 +35,9 @@ const ModalCards = () => {
                pages={Math.ceil(modals.modalCards.length / 10)}
             />
          )}
+         {/* CARDS */}
          <div className="modal-cards center" onClick={(e) => e.stopPropagation()}>
             <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
-               {/* HEADER */}
-               {modals.modalCardsType === 'Cards Played' && (
-                  <div className="modal-cards-header">CARDS PLAYED</div>
-               )}
-               {/* CARDS */}
                {modals.modalCards.length === 0 ? (
                   <div className="modal-cards-no-cards center">NO CARDS PLAYED</div>
                ) : (
@@ -58,6 +54,8 @@ const ModalCards = () => {
                )}
             </div>
          </div>
+         {/* HEADER */}
+         <div className="modal-cards-header">{modals.modalCardsType.toUpperCase()}</div>
       </div>
    )
 }

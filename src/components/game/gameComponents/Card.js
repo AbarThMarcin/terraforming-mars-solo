@@ -27,7 +27,7 @@ const Card = ({ card, isBig }) => {
    // cardsPlayer/cardsInHand) AND when a card is not clicked because then
    // both modals: cards and cardWithAction are shown [cards = display-none]
    const pointer =
-      (modals.draft || modals.sellCard || modals.cards) &&
+      (modals.draft || modals.sellCards || modals.cards) &&
       !modals.cardWithAction &&
       !modals.cardViewOnly
 

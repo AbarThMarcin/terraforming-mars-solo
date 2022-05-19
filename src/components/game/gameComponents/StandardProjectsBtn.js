@@ -5,7 +5,7 @@ const StandardProjectsBtn = () => {
    const { modals, setModals } = useContext(ModalsContext)
    return (
       <div
-         className='standard-projects-btn pointer'
+         className='btn-standard-projects pointer'
          onClick={() => setModals({ ...modals, standardProjects: true })}
       >
          Standard Projects

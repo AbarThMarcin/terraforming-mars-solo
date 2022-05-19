@@ -6,7 +6,6 @@ import BtnCardsPlayed from './buttons/BtnCardsPlayed'
 import BtnLog from './buttons/BtnLog'
 import { StateGameContext, ModalsContext } from '../../Game'
 import { useContext } from 'react'
-import BtnViewGameState from './buttons/BtnViewGameState'
 
 const PanelCorp = () => {
    const { modals } = useContext(ModalsContext)
@@ -19,15 +18,11 @@ const PanelCorp = () => {
          <OtherPanel />
          <CardsInHandBtn />
          {!modals.cards && (
-            <div className="panel-corp-btns">
+            <div className="btns-cards-played-log-container">
                <BtnCardsPlayed />
                <BtnLog />
             </div>
          )}
-         {(stateGame.phaseDraft ||
-            modals.sellCards ||
-            stateGame.phaseAddRemoveRes ||
-            modals.selectCard) && <BtnViewGameState />}
       </div>
    )
 }

@@ -1,0 +1,61 @@
+cardsInHand (ModalCards)
+cardsPlayed (ModalCards)
+
+draft
+sellCards
+(invention contest / business contacts) modal
+(mars university) modal
+
+cardViewOnly
+cardWithAction
+selectCard
+
+
+
+
+BUTTONS:
+
+Change Corp
+- tylko w 1. drafcie
+
+Select
+- w drafcie
+- w cards to sell
+- w ModalSelectCard
+- sort btns
+
+Selected
+- j.w.
+
+Action positive
+- w drafcie DONE
+- w modalCard USE card
+- w actions USE
+- w sellCards SELL
+- w confirmation YES
+- wszedzie tam gdzie jest confirm
+
+Action negative
+- w sellCards CANCEL
+- w confirmation NO
+
+Disabled
+- wszedzie tam gdzie btn nie moze byc klikniety; ma tylko poprawiac przycisk zeby byl jakos wyszarzony i nie bylo pointera
+
+View Game State
+- tylko view game state btn
+
+Cards Played / Log
+- tylko w panel corp
+
+Pass
+- tylko w pass container
+
+Menu Btn
+- tylko Menu Btn
+
+Menu pozycje
+- tylko w menu pozycje
+
+Standard Projects btn
+- tylko ten przycisk

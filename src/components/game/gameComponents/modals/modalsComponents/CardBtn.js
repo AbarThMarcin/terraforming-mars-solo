@@ -7,9 +7,9 @@ const CardBtn = ({ initBtnText, handleClick, disabled }) => {
    return (
       <div
          className={`
-            card-btn
+            ${clicked ? 'btn-selected' : 'btn-select'}
+            ${btnText === 'USE' ? 'btn-action' : ''}
             ${disabled ? 'disabled' : 'pointer'}
-            ${(clicked || btnText === 'USE') && 'selected-or-use'}
          `}
          onClick={(e) => {
             e.stopPropagation()

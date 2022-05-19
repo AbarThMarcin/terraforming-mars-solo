@@ -1,6 +1,6 @@
 .modal-cards {
-   width: 67%;
-   height: 70%;
+   width: 80%;
+   height: 75%;
    background: linear-gradient(
       180deg,
       rgba(50, 50, 50, 1) 0%,
@@ -18,8 +18,8 @@
 .modal-cards-header {
    position: absolute;
    left: 50%;
-   top: 5%;
-   transform: translateX(-50%);
+   top: 12.5%;
+   transform: translate(-50%, -50%);
 }
 
 .modal-cards-no-cards {

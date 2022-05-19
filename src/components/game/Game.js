@@ -19,13 +19,14 @@ import { funcGetCardActions } from '../../data/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import '../../css/app.css'
 import ViewGameStateHeader from './gameComponents/ViewGameStateHeader'
-import MenuIcon from './gameComponents/MenuIcon'
+import BtnMenu from './gameComponents/BtnMenu'
 import PanelCorp from './gameComponents/panelCorp/PanelCorp'
 import PanelStateGame from './gameComponents/PanelStateGame'
 import StandardProjects from './gameComponents/StandardProjectsBtn'
 import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
+import BtnViewGameState from './gameComponents/BtnViewGameState'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -190,7 +191,11 @@ function Game({ setGameOn }) {
                            <Board />
                            {!stateGame.phaseCorporation && <PanelCorp />}
                            <Modals setGameOn={setGameOn} />
-                           <MenuIcon />
+                           {(stateGame.phaseDraft ||
+                              modals.sellCards ||
+                              stateGame.phaseAddRemoveRes ||
+                              modals.selectCard) && <BtnViewGameState />}
+                           <BtnMenu />
                            {/* ----------------------------------------------------- */}
                         </ModalsContext.Provider>
                      </CardsContext.Provider>

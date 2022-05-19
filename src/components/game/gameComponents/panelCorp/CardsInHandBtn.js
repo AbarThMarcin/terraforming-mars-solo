@@ -19,7 +19,7 @@ const CardsInHandBtn = () => {
 
    return (
       <div
-         className={`cards-in-hand-btn ${statePlayer.cardsInHand.length > 0 ? 'pointer' : ''}`}
+         className={`btn-cards-in-hand ${statePlayer.cardsInHand.length > 0 ? 'pointer' : ''}`}
          onClick={handleClickBtnCardsInHand}
       >
          {modals.animation && (

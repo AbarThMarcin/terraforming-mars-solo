@@ -96,43 +96,48 @@ const ModalDraft = () => {
 
    return (
       <div
-         className={`
-            modal-draft center
-            ${(modals.cards || stateGame.phaseViewGameState) && 'display-none'}
-         `}
+         className={`modal-background ${
+            (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
+         }`}
       >
-         {/* HEADER */}
-         <ModalHeader
-            text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
-            eachText="3 each"
-         />
-         {/* CHANGE CORPORATION BUTTON */}
-         {stateGame.generation === 1 && (
-            <ModalDraftBtnChangeCorp
-               dispatchGame={dispatchGame}
-               statePlayer={statePlayer}
-               dispatchPlayer={dispatchPlayer}
+         <div
+            className={`modal-select-cards ${
+               (modals.cards || stateGame.phaseViewGameState) && 'display-none'
+            }`}
+         >
+            {/* HEADER */}
+            <ModalHeader
+               text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
+               eachText="3 each"
             />
-         )}
-         {/* ACTION BUTTON */}
-         <ModalBtnAction
-            text="DONE"
-            mln={buyCost}
-            textConfirmation={textDoneConfirmation}
-            onYesFunc={onYesFunc}
-         />
-         {/* CARDS */}
-         {cardsDraft.map((card, idx) => (
-            <div
-               key={idx}
-               className={`card-container ${selectedCards.includes(card) && 'selected'}`}
-               style={getPosition(cardsDraft.length, idx)}
-               onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
-            >
-               <Card card={card} />
-               <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
-            </div>
-         ))}
+            {/* CHANGE CORPORATION BUTTON */}
+            {stateGame.generation === 1 && (
+               <ModalDraftBtnChangeCorp
+                  dispatchGame={dispatchGame}
+                  statePlayer={statePlayer}
+                  dispatchPlayer={dispatchPlayer}
+               />
+            )}
+            {/* CARDS */}
+            {cardsDraft.map((card, idx) => (
+               <div
+                  key={idx}
+                  className={`card-container ${selectedCards.includes(card) && 'selected'}`}
+                  style={getPosition(cardsDraft.length, idx)}
+                  onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+               >
+                  <Card card={card} />
+                  <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+               </div>
+            ))}
+            {/* ACTION BUTTON */}
+            <ModalBtnAction
+               text="DONE"
+               mln={buyCost}
+               textConfirmation={textDoneConfirmation}
+               onYesFunc={onYesFunc}
+            />
+         </div>
       </div>
    )
 }

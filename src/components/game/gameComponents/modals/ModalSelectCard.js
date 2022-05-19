@@ -44,35 +44,29 @@ const ModalSelectCard = () => {
    return (
       <div
          className={`
-            modal-card-container full-size
+            modal-background
             ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}
          `}
       >
-         <div className="modal-card center">
-            <div className="card-container big center">
-               {/* CARD */}
-               <Card card={modals.modalSelectCard.card} isBig={true} />
-               {/* CARD BUTTON */}
-               <div
-                  className={`
-                     card-btn
+         <div className="card-container big center">
+            {/* CARD */}
+            <Card card={modals.modalSelectCard.card} isBig={true} />
+            {/* CARD BUTTON */}
+            <div
+               className={`
                      ${modals.modalSelectCard.cardIdAction !== 5 && 'pointer'}
-                     ${selected && 'selected-or-use'}
+                     ${selected ? 'btn-selected' : 'btn-select'}
                   `}
-                  onClick={handleClickSelect}
-               >
-                  {selected ? 'SELECTED' : 'SELECT'}
-               </div>
-               {modals.modalSelectCard.cardIdAction !== 5 && (
-                  <div className="card-to-buy-mln">{toBuyMln}</div>
-               )}
-               {/* CONFIRM BUTTON */}
-               <div
-                  className="modal-select-card-confirm-btn pointer"
-                  onClick={handleClickConfirmBtn}
-               >
-                  CONFIRM
-               </div>
+               onClick={handleClickSelect}
+            >
+               {selected ? 'SELECTED' : 'SELECT'}
+            </div>
+            {modals.modalSelectCard.cardIdAction !== 5 && (
+               <div className="card-to-buy-mln">{toBuyMln}</div>
+            )}
+            {/* CONFIRM BUTTON */}
+            <div className="modal-select-card-confirm-btn pointer" onClick={handleClickConfirmBtn}>
+               CONFIRM
             </div>
          </div>
       </div>

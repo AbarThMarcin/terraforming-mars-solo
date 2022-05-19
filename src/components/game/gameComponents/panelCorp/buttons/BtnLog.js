@@ -5,7 +5,7 @@ const BtnLog = () => {
    const { modals, setModals } = useContext(ModalsContext)
 
    return (
-      <div className="panel-corp-btn btn-log pointer" onClick={() => setModals({...modals, log: true})}>
+      <div className="btn-cards-played-log pointer" onClick={() => setModals({...modals, log: true})}>
          LOG
       </div>
    )

@@ -2,15 +2,21 @@ import { useContext, useState } from 'react'
 import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
+import BtnAction from '../../buttons/BtnAction'
 
 const InsulationSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getOptionsActions, performSubActions } =
-      useContext(StateGameContext)
+   const { dispatchGame, getOptionsActions, performSubActions } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const [heatAmount, setHeatAmount] = useState(0)
 
-   const handleClickOptionConfirm = () => {
+   const btnActionConfirmPosition = {
+      bottom: '-5%',
+      left: '50%',
+      transform: 'translate(-50%, 100%)',
+   }
+
+   const handleClickConfirmBtn = () => {
       let subActions = getOptionsActions(OPTION_ICONS.CARD152_OPTION1, 0, heatAmount)
       setModals((prevModals) => ({ ...prevModals, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
@@ -39,9 +45,11 @@ const InsulationSection = () => {
             )}
          </div>
          {/* CONFIRM BUTTON */}
-         <div className="modal-resource-confirm-btn pointer" onClick={handleClickOptionConfirm}>
-            CONFIRM
-         </div>
+         <BtnAction
+            text="CONFIRM"
+            onYesFunc={handleClickConfirmBtn}
+            position={btnActionConfirmPosition}
+         />
       </div>
    )
 }

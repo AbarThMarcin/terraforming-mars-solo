@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import PassBtn from './PassBtn'
+import BtnPass from '../buttons/BtnPass'
 import PassCorpSnap from './PassCorpSnap'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
@@ -71,7 +71,7 @@ const PassContainer = () => {
          <div className="pass-container">
             {!stateGame.phaseDraft &&
                !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState && <PassBtn onYesFunc={onYesFunc} />}
+               !stateGame.phaseViewGameState && <BtnPass onYesFunc={onYesFunc} />}
             <PassCorpSnap />
             {modals.animation && (
                <>

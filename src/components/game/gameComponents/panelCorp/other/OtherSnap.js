@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { ModalsContext } from '../../../Game'
 
-const OtherBtn = ({ icon, headerForModal, amountForModal, dataForModal }) => {
+const OtherSnap = ({ icon, headerForModal, amountForModal, dataForModal }) => {
    const { modals, setModals } = useContext(ModalsContext)
 
    return (
@@ -28,4 +28,4 @@ const OtherBtn = ({ icon, headerForModal, amountForModal, dataForModal }) => {
    )
 }
 
-export default OtherBtn
+export default OtherSnap

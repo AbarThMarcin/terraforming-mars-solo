@@ -4,13 +4,16 @@ import { StateGameContext, ModalsContext } from '../../../Game'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import Card from '../../Card'
 import ModalProductionData from './ModalProductionData'
+import BtnAction from '../../buttons/BtnAction'
 
 const ModalProduction = () => {
    const { stateGame, dispatchGame, performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
-   const handleClick = () => {
+   const btnActionConfirmPosition = { bottom: '-1%', left: '50%', transform: 'translate(-50%, 100%) scale(1.2)' }
+
+   const handleClickConfirmBtn = () => {
       // Turn addRemoveRes phase on
       setModals({ ...modals, production: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
@@ -21,7 +24,7 @@ const ModalProduction = () => {
    return (
       <>
          <div
-            className={`modal-other-bg full-size ${stateGame.phaseViewGameState && 'display-none'}`}
+            className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}
          >
             <div className="modal-resource-header">SELECT ANY PRODUCTION</div>
             <div className="modal-other-box center">
@@ -36,9 +39,11 @@ const ModalProduction = () => {
                   </div>
                )}
                {/* CONFIRM BUTTON */}
-               <div className="modal-resource-confirm-btn pointer" onClick={handleClick}>
-                  CONFIRM
-               </div>
+               <BtnAction
+                  text="CONFIRM"
+                  onYesFunc={handleClickConfirmBtn}
+                  position={btnActionConfirmPosition}
+               />
             </div>
          </div>
       </>

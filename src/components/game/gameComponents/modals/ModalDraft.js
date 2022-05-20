@@ -6,16 +6,16 @@ import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } fro
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
-import ModalDraftBtnChangeCorp from './modalsComponents/ModalDraftBtnChangeCorp'
-import ModalBtnAction from './modalsComponents/ModalBtnAction'
+import BtnChangeCorp from '../buttons/BtnChangeCorp'
+import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import CardBtn from './modalsComponents/CardBtn'
 import { getPosition, modifiedCards } from '../../../../util/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
+import BtnSelect from '../buttons/BtnSelect'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -29,12 +29,14 @@ const ModalDraft = () => {
       stateGame.generation === 1
          ? modifiedCards(cards.slice(0, 10), statePlayer)
          : modifiedCards(cards.slice(0, 4), statePlayer)
-   const textDoneConfirmation =
+   const textConfirmation =
       stateGame.generation === 1
          ? 'Are you sure you want to choose this corporation and these project cards?'
          : buyCost === 0
          ? "Are you sure you don't want to buy any cards?"
          : 'Are you sure you want to buy these project cards?'
+
+   const btnActionPosition = { bottom: '0', left: '50%', transform: 'translateX(-50%)' }
 
    const onYesFunc = () => {
       // Decrease corporation mln resources
@@ -84,7 +86,7 @@ const ModalDraft = () => {
       }
    }
 
-   const handleClickCardBtn = (card) => {
+   const handleClickBtnSelect = (card) => {
       if (selectedCards.filter((selCard) => selCard.id === card.id).length === 0) {
          setBuyCost((v) => v + 3)
          setSelectedCards((cards) => [...cards, card])
@@ -112,7 +114,7 @@ const ModalDraft = () => {
             />
             {/* CHANGE CORPORATION BUTTON */}
             {stateGame.generation === 1 && (
-               <ModalDraftBtnChangeCorp
+               <BtnChangeCorp
                   dispatchGame={dispatchGame}
                   statePlayer={statePlayer}
                   dispatchPlayer={dispatchPlayer}
@@ -127,15 +129,17 @@ const ModalDraft = () => {
                   onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                >
                   <Card card={card} />
-                  <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+                  <BtnSelect initBtnText="SELECT" handleClick={() => handleClickBtnSelect(card)} />
                </div>
             ))}
             {/* ACTION BUTTON */}
-            <ModalBtnAction
+            <BtnAction
                text="DONE"
                mln={buyCost}
-               textConfirmation={textDoneConfirmation}
+               textConfirmation={textConfirmation}
                onYesFunc={onYesFunc}
+               disabled={buyCost > statePlayer.resources.mln}
+               position={btnActionPosition}
             />
          </div>
       </div>

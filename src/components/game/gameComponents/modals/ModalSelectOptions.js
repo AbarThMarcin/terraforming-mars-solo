@@ -1,3 +1,4 @@
+/* Used to show ONE card with possible options to select */
 import { useContext, useState } from 'react'
 import { getOptions } from '../../../../data/selectOneOptions'
 import { ModalsContext } from '../../Game'

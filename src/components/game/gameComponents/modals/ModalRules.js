@@ -1,5 +1,4 @@
 /* Used to show the rules window */
-
 import { useContext } from 'react'
 import { ModalsContext } from '../../Game'
 

@@ -16,16 +16,3 @@
    left: 0;
    top: -5%;
 }
-
-.modal-standard-projects-box-close-btn {
-   position: absolute;
-   right: 0;
-   top: -5%;
-   width: calc(var(--default-size) * 1.5);
-   height: calc(var(--default-size) * 1.5);
-   border: calc(var(--default-size) * 0.15) solid #fff;
-}
-
-.modal-standard-projects-box-close-btn:hover {
-   background-color: #555;
-}

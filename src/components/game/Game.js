@@ -19,14 +19,14 @@ import { funcGetCardActions } from '../../data/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import '../../css/app.css'
 import ViewGameStateHeader from './gameComponents/ViewGameStateHeader'
-import BtnMenu from './gameComponents/BtnMenu'
+import BtnMenu from './gameComponents/buttons/BtnMenu'
 import PanelCorp from './gameComponents/panelCorp/PanelCorp'
 import PanelStateGame from './gameComponents/PanelStateGame'
-import StandardProjects from './gameComponents/StandardProjectsBtn'
+import StandardProjects from './gameComponents/buttons/BtnStandardProjects'
 import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
-import BtnViewGameState from './gameComponents/BtnViewGameState'
+import BtnViewGameState from './gameComponents/buttons/BtnViewGameState'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -147,8 +147,7 @@ function Game({ setGameOn }) {
          modals,
          cost,
          actionClicked,
-         getImmEffects,
-         requirementsMet
+         getImmEffects
       )
    }
    function actionRequirementsMet(card) {
@@ -194,7 +193,9 @@ function Game({ setGameOn }) {
                            {(stateGame.phaseDraft ||
                               modals.sellCards ||
                               stateGame.phaseAddRemoveRes ||
-                              modals.selectCard) && <BtnViewGameState />}
+                              modals.selectCard ||
+                              modals.marsUniversity ||
+                              modals.businessContacts) && <BtnViewGameState />}
                            <BtnMenu />
                            {/* ----------------------------------------------------- */}
                         </ModalsContext.Provider>

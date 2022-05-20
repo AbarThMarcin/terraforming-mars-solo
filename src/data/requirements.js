@@ -40,8 +40,7 @@ export const funcRequirementsMet = (
    modals,
    cost,
    actionClicked,
-   getImmEffects,
-   requirementsMet
+   getImmEffects
 ) => {
    // Cost requirement
    if (cost !== undefined) {

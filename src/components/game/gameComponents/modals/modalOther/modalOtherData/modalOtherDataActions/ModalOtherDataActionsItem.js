@@ -4,6 +4,7 @@ import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActio
 import { ACTIONS_GAME } from '../../../../../../../util/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../util/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../util/misc'
+import BtnAction from '../../../../buttons/BtnAction'
 
 const ModalOtherDataActionsItem = ({
    item,
@@ -22,6 +23,8 @@ const ModalOtherDataActionsItem = ({
    const { modals, setModals } = useContext(ModalsContext)
    const isUnmi = item.name === 'UNMI'
    const isAvailable = getAvailability()
+   
+   const btnActionPosition = { right: '-3%', transform: 'scale(0.65)' }
 
    function getAvailability() {
       if (isUnmi) {
@@ -108,12 +111,14 @@ const ModalOtherDataActionsItem = ({
             />
          </div>
          {actionClicked === item.id && <div>{toBuyMln} </div>}
-         <button
-            className={`btn ${isAvailable ? 'pointer' : 'disabled'}`}
-            onClick={handleClickAction}
-         >
-            USE
-         </button>
+         {/* CONFIRM BUTTON */}
+         <BtnAction
+            text="ACTION"
+            textConfirmation={`Do you want to play: ${modals.modalCard.name}`}
+            onYesFunc={handleClickAction}
+            disabled={!isAvailable}
+            position={btnActionPosition}
+         />
       </div>
    )
 }

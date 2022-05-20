@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { ModalsContext } from '../../Game'
 
-const PassBtn = ({ onYesFunc }) => {
+const BtnPass = ({ onYesFunc }) => {
    const { modals, setModals } = useContext(ModalsContext)
 
    const handleClickPassBtn = () => {
@@ -23,4 +23,4 @@ const PassBtn = ({ onYesFunc }) => {
    )
 }
 
-export default PassBtn
+export default BtnPass

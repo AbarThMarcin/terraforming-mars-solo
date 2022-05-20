@@ -10,6 +10,8 @@ export const ACTIONS_GAME = {
    SET_PHASE_ADDREMOVERES:
       'Set phase where user selects a card, a resource will be added / removed',
    SET_PHASE_SELECTONE: 'Set phase where user selects one of available options for card action',
+   SET_PHASE_MARS_UNIVERSITY: 'Select cards to discard phase for Mars University',
+   SET_PHASE_BUSINESS_CONTACTS: 'Select cards to discard phase for Mars University',
    // Global Parameters
    INCREMENT_TEMPERATURE: 'Increase temperature by 2 degrees',
    INCREMENT_OXYGEN: 'Increase oxygen by 1 percent',
@@ -65,6 +67,16 @@ export const reducerGame = (state, action) => {
          return {
             ...state,
             phaseSelectOne: action.payload,
+         }
+      case ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY:
+         return {
+            ...state,
+            phaseMarsUniversity: action.payload,
+         }
+      case ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS:
+         return {
+            ...state,
+            phaseBusinessContacts: action.payload,
          }
       // INCREASE GLOBAL PARAMETERS
       case ACTIONS_GAME.INCREMENT_TEMPERATURE:

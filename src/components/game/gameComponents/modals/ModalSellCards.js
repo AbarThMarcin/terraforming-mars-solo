@@ -1,17 +1,16 @@
 /* Used to show window with cards to sell */
-
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
-import ModalBtnAction from './modalsComponents/ModalBtnAction'
+import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import CardBtn from './modalsComponents/CardBtn'
 import { getPosition } from '../../../../util/misc'
 import { SP } from '../../../../data/StandardProjects'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
+import BtnSelect from '../buttons/BtnSelect'
 
 const ModalSellCards = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -19,8 +18,11 @@ const ModalSellCards = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const [mlnBack, setMlnBack] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
-   const textSellConfirmation = 'Are you sure you want to sell these project cards?'
+   const textConfirmation = 'Are you sure you want to sell these project cards?'
    const [page, setPage] = useState(1)
+
+   const btnActionPosition = { bottom: '0', left: '42%', transform: 'translateX(-50%)' }
+   const btnCancelPosition = { bottom: '0', left: '58%', transform: 'translateX(-50%)' }
 
    const getBoxPosition = () => {
       return `${(1 - page) * 100}%`
@@ -52,7 +54,7 @@ const ModalSellCards = () => {
       performSubActions(subActions)
    }
 
-   const handleClickCardBtn = (card) => {
+   const handleClickBtnSelect = (card) => {
       if (!selectedCards.includes(card)) {
          setMlnBack((v) => v + 1)
          setSelectedCards((cards) => [...cards, card])
@@ -87,21 +89,26 @@ const ModalSellCards = () => {
                      onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                   >
                      <Card card={card} />
-                     <CardBtn initBtnText="SELECT" handleClick={() => handleClickCardBtn(card)} />
+                     <BtnSelect
+                        initBtnText="SELECT"
+                        handleClick={() => handleClickBtnSelect(card)}
+                     />
                   </div>
                ))}
             </div>
             {/* HEADER */}
             <ModalHeader text={SP.SELL_PATENT} eachText="1 each" />
             {/* ACTION BUTTON */}
-            <ModalBtnAction
+            <BtnAction
                text="SELL"
                mln={mlnBack}
-               textConfirmation={textSellConfirmation}
+               textConfirmation={textConfirmation}
                onYesFunc={onYesFunc}
+               disabled={mlnBack === 0}
+               position={btnActionPosition}
             />
             {/* CANCEL BUTTON */}
-            <ModalBtnAction text="CANCEL" />
+            <BtnAction text="CANCEL" position={btnCancelPosition} />
          </div>
       </div>
    )

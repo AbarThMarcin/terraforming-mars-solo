@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StateGameContext, ModalsContext } from '../../../Game'
+import BtnAction from '../../buttons/BtnAction'
 import SelectOption from './SelectOption'
 
 const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
@@ -8,7 +9,13 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    const { stateGame, dispatchGame, getOptionsActions, performSubActions } =
       useContext(StateGameContext)
 
-   const handleClickOptionConfirm = () => {
+   const btnActionConfirmPosition = {
+      bottom: '-5%',
+      left: '50%',
+      transform: 'translate(-50%, 100%)',
+   }
+
+   const handleClickConfirmBtn = () => {
       let subActions = [...getOptionsActions(selectedOption), ...stateGame.actionsLeft]
       setModals((prevModals) => ({ ...prevModals, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
@@ -31,9 +38,11 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
             />
          ))}
          {/* CONFIRM BUTTON */}
-         <div className="modal-resource-confirm-btn pointer" onClick={handleClickOptionConfirm}>
-            CONFIRM
-         </div>
+         <BtnAction
+            text="CONFIRM"
+            onYesFunc={handleClickConfirmBtn}
+            position={btnActionConfirmPosition}
+         />
       </div>
    )
 }

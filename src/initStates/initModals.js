@@ -32,6 +32,8 @@ export const INIT_MODALS = {
    cards: false, // Cards In Hand or Cards Played
    draft: false,
    sellCards: false,
+   marsUniversity: false,
+   businessContacts: false,
    corp: false,
    corps: true,
    log: false,
@@ -46,6 +48,11 @@ export const INIT_MODALS = {
    selectOne: false,
    selectCard: false,
    animation: false,
+   // Info for business contacts or invention contest
+   modalBusCont: {
+      cardsCount: null,
+      selectCount: null
+   },
    // Info for cards modal
    modalCard: null,
    modalCards: [],

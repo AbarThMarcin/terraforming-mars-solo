@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { StatePlayerContext, ModalsContext } from '../../../Game'
+import { StatePlayerContext, ModalsContext } from '../../Game'
 
 const BtnCardsPlayed = () => {
    const { modals, setModals } = useContext(ModalsContext)

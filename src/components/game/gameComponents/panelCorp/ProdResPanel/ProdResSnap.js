@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import PanelCorpActionBtn from './PanelCorpActionBtn'
 import actionGreenery from '../../../../../assets/images/panelCorp-actions/panelCorp-action-greenery.png'
 import actionTemperature from '../../../../../assets/images/panelCorp-actions/panelCorp-action-temperature.png'
+import BtnConvertPlantsHeat from '../../buttons/BtnConvertPlantsHeat'
 
 const ProdResSnap = ({ prod, res, icon, action }) => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -22,7 +22,7 @@ const ProdResSnap = ({ prod, res, icon, action }) => {
                !stateGame.phasePlaceTile &&
                !stateGame.phaseViewGameState &&
                !modals.animation && (
-                  <PanelCorpActionBtn
+                  <BtnConvertPlantsHeat
                      textConfirmation={`Do you want to convert ${statePlayer.valueGreenery} plants to a Greenery?`}
                      action={action.func}
                      bg={actionGreenery}
@@ -34,7 +34,7 @@ const ProdResSnap = ({ prod, res, icon, action }) => {
                !stateGame.phasePlaceTile &&
                !stateGame.phaseViewGameState &&
                !modals.animation && (
-                  <PanelCorpActionBtn
+                  <BtnConvertPlantsHeat
                      textConfirmation="Do you want to convert 8 heat to increase the temperature?"
                      action={action.func}
                      bg={actionTemperature}

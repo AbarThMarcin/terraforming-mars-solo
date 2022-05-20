@@ -1,5 +1,4 @@
 /* Used to show the game menu window */
-
 import { useContext } from 'react'
 import { ModalsContext } from '../../Game'
 
@@ -25,7 +24,7 @@ const ModalMenu = ({ setGameOn }) => {
    return (
       <>
          <div
-            className="modal-background-wo-opacity"
+            className="full-size"
             onClick={() => setModals({ ...modals, menu: false, settings: false })}
          >
             <div className="modal-menu" onClick={(e) => e.stopPropagation()}>

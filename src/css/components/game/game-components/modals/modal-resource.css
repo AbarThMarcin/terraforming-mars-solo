@@ -20,18 +20,3 @@
    font-size: calc(var(--default-size) * 1.8);
    letter-spacing: calc(var(--default-size) * 0.05);
 }
-
-.modal-resource-confirm-btn {
-   position: absolute;
-   bottom: -7%;
-   left: 50%;
-   transform: translateX(-50%);
-   width: 40%;
-   height: 5%;
-   font-size: var(--default-size);
-   color: #fff;
-   background-color: rgb(6, 77, 0);
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}

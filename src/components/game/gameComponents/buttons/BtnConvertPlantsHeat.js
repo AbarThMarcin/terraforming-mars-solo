@@ -1,9 +1,8 @@
 import { useContext } from 'react'
-import { StateGameContext, ModalsContext } from '../../../Game'
+import { ModalsContext } from '../../Game'
 
-const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
+const BtnConvertPlantsHeat = ({ textConfirmation, action, bg }) => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame } = useContext(StateGameContext)
 
    const handleClickCorpAction = () => {
       setModals({
@@ -23,11 +22,11 @@ const PanelCorpActionBtn = ({ textConfirmation, action, bg }) => {
    return (
       <img
          src={bg}
-         className="panel-corp-action-btn pointer"
-         alt=""
+         className="btn-convert-plants-heat pointer"
+         alt="btn-convert-plants-heat"
          onClick={handleClickCorpAction}
       />
    )
 }
 
-export default PanelCorpActionBtn
+export default BtnConvertPlantsHeat

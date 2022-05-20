@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../Game'
+import { ModalsContext } from '../../Game'
 
 const BtnMenu = () => {
    const { modals, setModals } = useContext(ModalsContext)

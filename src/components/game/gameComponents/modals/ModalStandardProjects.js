@@ -1,5 +1,4 @@
 /* Used to view standard projects */
-
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
@@ -229,7 +228,7 @@ const ModalStandardProjects = () => {
                <div className="modal-standard-projects-box-header">STANDARD PROJECTS</div>
                {/* CLOSE BUTTON */}
                <div
-                  className="modal-standard-projects-box-close-btn pointer"
+                  className="btn-close pointer"
                   onClick={() => setModals({ ...modals, standardProjects: false })}
                >
                   X

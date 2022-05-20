@@ -158,6 +158,7 @@ export function funcPerformSubActions(
    dispatchGame,
    setUpdateVpTrigger
 ) {
+   console.log(subActions)
    subActions = subActions.filter((subAction) => subAction.name !== undefined)
    let iLast = subActions.length - 1
    for (let i = 0; i <= subActions.length - 1; i++) {

@@ -5,7 +5,8 @@
 @import url('./game-components/pass-container.css');
 @import url('./game-components/card.css');
 @import url('./game-components/corp.css');
-@import url('./game-components/animations/animations.css');
+@import url('./game-components/animations/anim-card.css');
+@import url('./game-components/animations/anim-prod-res.css');
 @import url('./game-components/view-game-state-header.css');
 @import url('./game-components/buttons.css');
 

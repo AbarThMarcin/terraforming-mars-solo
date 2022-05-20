@@ -1,4 +1,1 @@
 - Mozliwosc placenia cieplem przy graniu akcji Inventors' guild lub Business Network ORAZ przy drafcie
-- Mars University (w effects i w immEffects ale to bedzie to samo)
-- Business Contacts / Invention Contest (w immEffects)
-

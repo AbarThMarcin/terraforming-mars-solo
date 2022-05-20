@@ -1,6 +1,6 @@
 /* General */
 :root {
-   --big-ratio: 2.33;
+   --big-ratio: 1.9;
    --card-ratio: 1.4;
    --border-radius: calc(var(--default-size) * 0.3);
    box-sizing: border-box;
@@ -146,8 +146,8 @@
 
 /* Size modification */
 .card-container.big {
-   width: calc(var(--default-size) * 24 / var(--card-ratio));
-   height: calc(var(--default-size) * 24);
+   width: calc(var(--default-size) * 20 / var(--card-ratio));
+   height: calc(var(--default-size) * 20);
    border-radius: calc(var(--border-radius) * var(--big-ratio));
 }
 

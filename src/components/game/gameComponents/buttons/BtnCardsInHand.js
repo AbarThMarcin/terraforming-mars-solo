@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { StatePlayerContext, ModalsContext } from '../../Game'
 import AnimCard from '../animations/AnimCard'
 
-const CardsInHandBtn = () => {
+const BtnCardsInHand = () => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
 
@@ -35,4 +35,4 @@ const CardsInHandBtn = () => {
    )
 }
 
-export default CardsInHandBtn
+export default BtnCardsInHand

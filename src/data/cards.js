@@ -78,7 +78,7 @@ export const CARDS = [
    },
    {
       id: 4,
-      name: 'CLOUND SEEDING',
+      name: 'CLOUD SEEDING',
       description: 'Lessens solar influx, but enhances plant growth',
       originalCost: 11,
       currentCost: 11,

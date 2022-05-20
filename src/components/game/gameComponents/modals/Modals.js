@@ -19,6 +19,8 @@ import ModalResource from './modalResources/ModalResource'
 import ModalSelectOne from './ModalSelectOptions'
 import ModalSelectCard from './ModalSelectCard'
 import ModalProduction from './modalProduction/ModalProduction'
+import ModalMarsUniversity from './ModalMarsUniversity'
+import ModalBusinessContacts from './ModalBusinessContacts'
 
 const Modals = ({ setGameOn }) => {
    const { modals } = useContext(ModalsContext)
@@ -26,6 +28,8 @@ const Modals = ({ setGameOn }) => {
    return (
       <>
          {modals.sellCards && <ModalSellCards />}
+         {modals.marsUniversity && <ModalMarsUniversity />}
+         {modals.businessContacts && <ModalBusinessContacts />}
          {modals.corps && <ModalCorps />}
          {modals.log && <ModalLog />}
          {modals.standardProjects && <ModalStandardProjects />}

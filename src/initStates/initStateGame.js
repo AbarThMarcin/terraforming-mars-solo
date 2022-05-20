@@ -9,10 +9,12 @@ export const INIT_STATE_GAME = {
    phasePlaceTileData: null,
    phaseAddRemoveRes: false,
    phaseSelectOne: false,
+   phaseMarsUniversity: false, // For Mars University only
+   phaseBusinessContacts: false, // For Business Contacts and Invention Contest only
    // Current Global Parameters
    globalParameters: {
       temperature: -2,
-      oxygen: 7,
+      oxygen: 6,
       oceans: 0,
    },
    // TR

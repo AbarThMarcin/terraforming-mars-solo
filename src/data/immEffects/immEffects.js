@@ -317,7 +317,7 @@ export const funcGetImmEffects = (
          }
          break
       // ================================= INCREASE OXYGEN BY 2% ===========================
-      case IMM_EFFECTS.OXYGEN:
+      case IMM_EFFECTS.OXYGEN2:
          if (stateGame.globalParameters.oxygen < 14) {
             subActions.push({
                name: ANIMATIONS.SHORT_ANIMATION,
@@ -1224,7 +1224,16 @@ export const funcGetImmEffects = (
          break
       // Mars University
       case 73:
-         // TO DO
+         if (statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId).length > 0)
+            subActions.push({
+               name: ANIMATIONS.USER_INTERACTION,
+               type: null,
+               value: null,
+               func: () => {
+                  dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: true })
+                  setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+               },
+            })
          break
       // Viral Enhancers
       case 74:
@@ -1511,7 +1520,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsPlayed,
+                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(cards.slice(0, 2), statePlayer),
                   ],
                })
@@ -1764,7 +1773,19 @@ export const funcGetImmEffects = (
          break
       // Business Contacts
       case 111:
-         // TO DO
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
+               setModals((prevModals) => ({
+                  ...prevModals,
+                  modalBusCont: { cardsCount: 4, selectCount: 2 },
+                  businessContacts: true,
+               }))
+            },
+         })
          break
       // Bribed Committee
       case 112:
@@ -2145,7 +2166,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsPlayed,
+                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(cards.slice(0, 2), statePlayer),
                   ],
                })
@@ -2388,7 +2409,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsPlayed,
+                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(cards.slice(0, 1), statePlayer),
                   ],
                })
@@ -2807,7 +2828,19 @@ export const funcGetImmEffects = (
          break
       // Invention Contest
       case 192:
-         // TO DO
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
+               setModals((prevModals) => ({
+                  ...prevModals,
+                  modalBusCont: { cardsCount: 3, selectCount: 1 },
+                  businessContacts: true,
+               }))
+            },
+         })
          break
       // Indentured Workers
       case 195:
@@ -2828,7 +2861,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsPlayed,
+                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(cards.slice(0, 1), statePlayer),
                   ],
                })
@@ -2941,7 +2974,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsPlayed,
+                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(cards.slice(0, 2), statePlayer),
                   ],
                })

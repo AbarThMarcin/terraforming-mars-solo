@@ -8,8 +8,8 @@ import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../..
 import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
 import Card from '../Card'
-import CardBtn from './modalsComponents/CardBtn'
 import CardDecreaseCost from './modalsComponents/CardDecreaseCost'
+import BtnAction from '../buttons/BtnAction'
 
 const ModalCardWithAction = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -28,6 +28,8 @@ const ModalCardWithAction = () => {
    const [toBuyMln, setToBuyMln] = useState(getInitToBuyMln())
    const [toBuyHeat, setToBuyHeat] = useState(getInitToBuyHeat())
    const [disabled, setDisabled] = useState(getDisabled())
+
+   const btnActionPosition = { bottom: '0', left: '43.5%', transform: 'translate(-50%, 100%)' }
 
    function getInitToBuyHeat() {
       return Math.max(
@@ -101,21 +103,7 @@ const ModalCardWithAction = () => {
       )
    }
 
-   const showConfirmation = () => {
-      if (!disabled) {
-         setModals((prevModals) => ({
-            ...prevModals,
-            modalConf: {
-               text: `Do you want to play: ${modals.modalCard.name}`,
-               onYes: handleUseAction,
-               onNo: () => setModals({ ...modals, confirmation: false }),
-            },
-            confirmation: true,
-         }))
-      }
-   }
-
-   const handleUseAction = () => {
+   const onYesFunc = () => {
       // ANIMATIONS
       let animResPaidTypes = []
       if (toBuyMln) animResPaidTypes.push([RESOURCES.MLN, toBuyMln])
@@ -188,8 +176,14 @@ const ModalCardWithAction = () => {
             {/* CARD BUTTON */}
             {!modals.draft && (
                <>
-                  <CardBtn initBtnText="USE" handleClick={showConfirmation} disabled={disabled} />
-                  <div className="card-to-buy-mln">{toBuyMln}</div>
+                  <BtnAction
+                     text="USE"
+                     mln={toBuyMln}
+                     textConfirmation={`Do you want to play: ${modals.modalCard.name}`}
+                     onYesFunc={onYesFunc}
+                     disabled={disabled}
+                     position={btnActionPosition}
+                  />
                </>
             )}
             {/* CARD DECREASE COST SECTION */}

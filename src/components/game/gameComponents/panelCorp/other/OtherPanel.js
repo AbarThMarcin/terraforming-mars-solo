@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { TAGS } from '../../../../../data/tags'
 import { hasTag } from '../../../../../util/misc'
 import { StatePlayerContext, StateGameContext } from '../../../Game'
-import OtherBtn from './OtherBtn'
+import OtherSnap from './OtherSnap'
 
 const OtherPanel = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -69,31 +69,31 @@ const OtherPanel = () => {
 
    return (
       <div className="other">
-         <OtherBtn
+         <OtherSnap
             headerForModal="CARD RESOURCES"
             amountForModal={countCardRes}
             dataForModal={cardsCardRes}
             icon={null}
          />
-         <OtherBtn
+         <OtherSnap
             headerForModal="TAGS"
             amountForModal={countTags}
             dataForModal={cardsTags}
             icon={null}
          />
-         <OtherBtn
+         <OtherSnap
             headerForModal="VP"
             amountForModal={countVp}
             dataForModal={cardsVp}
             icon={null}
          />
-         <OtherBtn
+         <OtherSnap
             headerForModal="ACTIONS"
             amountForModal={countActions}
             dataForModal={cardsActions}
             icon={null}
          />
-         <OtherBtn
+         <OtherSnap
             headerForModal="EFFECTS"
             amountForModal={countEffects}
             dataForModal={cardsEffects}

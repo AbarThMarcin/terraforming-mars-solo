@@ -291,11 +291,22 @@ export const funcGetEffect = (
          ]
          break
       case EFFECTS.EFFECT_MARS_UNIVERSITY:
-         //
-         //
-         // TO DO
-         //
-         //
+         if (statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
+            modals.modalCard.tags.forEach((tag) => {
+               if (tag === TAGS.SCIENCE)
+                  effect.push({
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: null,
+                     value: null,
+                     func: () => {
+                        dispatchGame({
+                           type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
+                           payload: true,
+                        })
+                        setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                     },
+                  })
+            })
          break
       case EFFECTS.EFFECT_VIRAL_ENHANCERS:
          let getPlantEffect = {

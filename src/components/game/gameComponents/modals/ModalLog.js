@@ -1,5 +1,4 @@
 /* Used to show the log window at the right side */
-
 import { useContext } from 'react'
 import { ModalsContext } from '../../Game'
 

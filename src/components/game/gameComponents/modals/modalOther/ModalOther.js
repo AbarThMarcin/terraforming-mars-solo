@@ -29,7 +29,7 @@ const ModalOther = () => {
    return (
       <>
          <div
-            className={`modal-other-bg full-size ${modals.confirmation && 'display-none'}`}
+            className={`modal-background ${modals.confirmation && 'display-none'}`}
             onClick={() => setModals({ ...modals, other: false })}
          >
             <div className="modal-other-box center" onClick={(e) => e.stopPropagation()}>
@@ -39,7 +39,7 @@ const ModalOther = () => {
                </div>
                {/* CLOSE BUTTON */}
                <div
-                  className="modal-other-box-close-btn pointer"
+                  className="btn-close pointer"
                   onClick={() => setModals({ ...modals, other: false })}
                >
                   X

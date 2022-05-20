@@ -1,11 +1,11 @@
 /* Used at the very beginning of the game to show two corps */
-
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, CorpsContext } from '../../Game'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import Corp from '../Corp'
 import { performImmediateCorpEffect } from '../../../../data/effects'
+import BtnAction from '../buttons/BtnAction'
 
 const ModalCorps = () => {
    const corps = useContext(CorpsContext)
@@ -13,6 +13,12 @@ const ModalCorps = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [selectedCorp, setSelectedCorp] = useState(initSelectedCorp())
+
+   const btnActionNextPosition = {
+      bottom: '2%',
+      left: '50%',
+      transform: 'translateX(-50%)',
+   }
 
    function initSelectedCorp() {
       if (Object.keys(statePlayer.corporation).length === 0) {
@@ -26,7 +32,7 @@ const ModalCorps = () => {
       }
    }
 
-   const handleCorpsClick = () => {
+   const handleClickNext = () => {
       // Assign choosen corporation to statePlayer.corporation
       dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_CORPORATION, payload: corps[selectedCorp] })
       // Perform immediate effects
@@ -38,8 +44,8 @@ const ModalCorps = () => {
    }
 
    return (
-      <>
-         <div className="full-size modal-corps">
+      <div className='modal-background'>
+         <div className="modal-corps center">
             <Corp
                corp={corps[0]}
                selectedCorp={selectedCorp}
@@ -53,10 +59,12 @@ const ModalCorps = () => {
                id={1}
             />
          </div>
-         <button className="modal-corps-btn pointer" onClick={handleCorpsClick}>
-            NEXT
-         </button>
-      </>
+         <BtnAction
+            text="NEXT"
+            onYesFunc={handleClickNext}
+            position={btnActionNextPosition}
+         />
+      </div>
    )
 }
 

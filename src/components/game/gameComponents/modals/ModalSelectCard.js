@@ -1,7 +1,10 @@
+/* Used to show ONE card with selection */
 import { useContext, useState } from 'react'
 import { TAGS } from '../../../../data/tags'
 import { hasTag } from '../../../../util/misc'
 import { StateGameContext, ModalsContext } from '../../Game'
+import BtnAction from '../buttons/BtnAction'
+import BtnSelect from '../buttons/BtnSelect'
 import Card from '../Card'
 
 const ModalSelectCard = () => {
@@ -9,6 +12,12 @@ const ModalSelectCard = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const [selected, setSelected] = useState(getInitSelected)
    const [toBuyMln, setToBuyMln] = useState(0)
+
+   const btnActionConfirmPosition = {
+      bottom: '-20%',
+      left: '50%',
+      transform: 'translate(-50%, 100%) scale(1.2)',
+   }
 
    const handleClickConfirmBtn = () => {
       setModals((prevModals) => ({
@@ -52,22 +61,17 @@ const ModalSelectCard = () => {
             {/* CARD */}
             <Card card={modals.modalSelectCard.card} isBig={true} />
             {/* CARD BUTTON */}
-            <div
-               className={`
-                     ${modals.modalSelectCard.cardIdAction !== 5 && 'pointer'}
-                     ${selected ? 'btn-selected' : 'btn-select'}
-                  `}
-               onClick={handleClickSelect}
-            >
-               {selected ? 'SELECTED' : 'SELECT'}
-            </div>
-            {modals.modalSelectCard.cardIdAction !== 5 && (
-               <div className="card-to-buy-mln">{toBuyMln}</div>
-            )}
+            <BtnSelect
+               initBtnText={selected ? 'SELECTED' : 'SELECT'}
+               handleClick={handleClickSelect}
+               sourceCardId={modals.modalSelectCard.cardIdAction}
+            />
             {/* CONFIRM BUTTON */}
-            <div className="modal-select-card-confirm-btn pointer" onClick={handleClickConfirmBtn}>
-               CONFIRM
-            </div>
+            <BtnAction
+               text="CONFIRM"
+               onYesFunc={handleClickConfirmBtn}
+               position={btnActionConfirmPosition}
+            />
          </div>
       </div>
    )

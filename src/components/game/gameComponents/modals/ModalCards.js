@@ -1,5 +1,4 @@
 /* Used to view cards in hand or cards played */
-
 import { useState, useContext } from 'react'
 import { ModalsContext } from '../../Game'
 import Arrows from './modalsComponents/Arrows'

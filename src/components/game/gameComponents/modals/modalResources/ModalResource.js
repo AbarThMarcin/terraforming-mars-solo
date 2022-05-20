@@ -7,6 +7,7 @@ import { ANIMATIONS, endAnimation, setAnimation } from '../../../../../data/anim
 import ModalResourceData from './ModalResourceData'
 import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
 import { RESOURCES } from '../../../../../data/resources'
+import BtnAction from '../../buttons/BtnAction'
 
 const ModalResource = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -14,7 +15,13 @@ const ModalResource = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
-   const handleClick = () => {
+   const btnActionConfirmPosition = {
+      bottom: '-1%',
+      left: '50%',
+      transform: 'translate(-50%, 100%) scale(1.2)',
+   }
+
+   const handleClickConfirmBtn = () => {
       // Turn addRemoveRes phase on
       setModals({ ...modals, resource: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
@@ -48,7 +55,7 @@ const ModalResource = () => {
    return (
       <>
          <div
-            className={`modal-other-bg full-size ${stateGame.phaseViewGameState && 'display-none'}`}
+            className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}
          >
             <div className="modal-resource-header">SELECT ANY RESOURCE</div>
             <div className="modal-other-box center">
@@ -63,9 +70,11 @@ const ModalResource = () => {
                   </div>
                )}
                {/* CONFIRM BUTTON */}
-               <div className="modal-resource-confirm-btn pointer" onClick={handleClick}>
-                  CONFIRM
-               </div>
+               <BtnAction
+                  text="CONFIRM"
+                  onYesFunc={handleClickConfirmBtn}
+                  position={btnActionConfirmPosition}
+               />
             </div>
          </div>
       </>

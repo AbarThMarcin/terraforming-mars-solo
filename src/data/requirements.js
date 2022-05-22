@@ -30,6 +30,7 @@ export const REQUIREMENTS = {
    ROBOTIC_WORKFORCE: 'robotic workforce',
    CEOS_FAVOURITE_PROJECT: "ceo's favourite project",
    RAD_SUITS: 'rad-suits',
+   ECOLOGICAL_ZONE: 'ecological-zone',
 }
 
 export const funcRequirementsMet = (
@@ -66,14 +67,16 @@ export const funcRequirementsMet = (
       if (type === REQUIREMENTS.TEMPERATURE) {
          if (
             other === 'max' &&
-            stateGame.globalParameters.temperature - Math.abs(statePlayer.globParamReqModifier) * 2 >
+            stateGame.globalParameters.temperature -
+               Math.abs(statePlayer.globParamReqModifier) * 2 >
                value
          ) {
             isAvailable = false
             return
          } else if (
             other === 'min' &&
-            stateGame.globalParameters.temperature + Math.abs(statePlayer.globParamReqModifier) * 2 <
+            stateGame.globalParameters.temperature +
+               Math.abs(statePlayer.globParamReqModifier) * 2 <
                value
          ) {
             isAvailable = false
@@ -372,6 +375,12 @@ export const funcRequirementsMet = (
                field.object === TILES.SPECIAL_CITY_CAPITAL
          )
          if (tiles.length < 2) {
+            isAvailable = false
+            return
+         }
+      } else if (type === REQUIREMENTS.ECOLOGICAL_ZONE) {
+         tiles = board.filter((field) => field.object === TILES.GREENERY)
+         if (tiles.length === 0) {
             isAvailable = false
             return
          }

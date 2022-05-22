@@ -644,7 +644,7 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: 1 }),
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 1 }),
          })
          break
       // Space Station
@@ -682,7 +682,7 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: 3,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: 3 }),
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 3 }),
          })
          dataCards = getCardsWithPossibleAnimals(statePlayer)
          if (dataCards.length > 0)
@@ -1140,7 +1140,7 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.PRODUCTION_OUT,
             type: RESOURCES.ENERGY,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 1 }),
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 }),
          })
          subActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
@@ -1948,7 +1948,7 @@ export const funcGetImmEffects = (
             },
          })
          break
-      // Moss
+      // Hackers
       case 125:
          subActions.push({
             name: ANIMATIONS.PRODUCTION_OUT,
@@ -1968,7 +1968,7 @@ export const funcGetImmEffects = (
          subActions.push({
             name: ANIMATIONS.PRODUCTION_OUT,
             type: RESOURCES.ENERGY,
-            value: -1,
+            value: 1,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 }),
          })
          subActions.push({
@@ -2413,7 +2413,7 @@ export const funcGetImmEffects = (
                      ...modifiedCards(cards.slice(0, 1), statePlayer),
                   ],
                })
-               setCards(cards.slice(2))
+               setCards(cards.slice(1))
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]

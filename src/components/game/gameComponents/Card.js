@@ -4,12 +4,46 @@ import icon_mln from '../../../assets/images/resources/mln.png'
 import { hasTag } from '../../../util/misc'
 import { getTagIcon, TAGS } from '../../../data/tags'
 import { REQUIREMENTS } from '../../../data/requirements'
+import { RESOURCES } from '../../../data/resources'
+import tempIcon from '../../../assets/images/other/tempIcon.png'
+import oxIcon from '../../../assets/images/other/oxIcon.png'
+import oceanIcon from '../../../assets/images/objects/ocean.png'
 
 const Card = ({ card, isBig }) => {
    const { modals } = useContext(ModalsContext)
    const { requirementsMet } = useContext(StateGameContext)
    // If card is playable (all requirements met)
    const available = requirementsMet(card)
+
+   // If requirement to be shown on card
+   const showRequirement = (req) => {
+      return (
+         req.type === REQUIREMENTS.TEMPERATURE ||
+         req.type === REQUIREMENTS.OXYGEN ||
+         req.type === REQUIREMENTS.OCEAN ||
+         req.type === REQUIREMENTS.TAGS ||
+         req.other === RESOURCES.STEEL ||
+         req.other === RESOURCES.TITAN ||
+         req.type === REQUIREMENTS.ECOLOGICAL_ZONE ||
+         req.type === REQUIREMENTS.RAD_SUITS
+      )
+   }
+
+   const getTempOrOxText = (req) => {
+      return `${req.other === 'max' ? 'max ' : ''}${req.value}${
+         req.type === REQUIREMENTS.TEMPERATURE ? '°C ' : '% '
+      }`
+   }
+   const getOceanText = (req) => {
+      return `${req.other === 'max' ? 'max ' : ''}${req.value > 2 ? req.value : ''}`
+   }
+   const oceansCount = (v) => {
+      let arr = []
+      for (let i = 0; i < v; i++) {
+         arr.push(i)
+      }
+      return arr
+   }
 
    // Card disabled (greyed out; new layer with half opacity is shown) only when
    // requirements are not met, we are in the cards in hand modal
@@ -93,13 +127,37 @@ const Card = ({ card, isBig }) => {
             {/* REQUIREMENTS */}
             {card.requirements.map(
                (req, idx) =>
-                  (req.type === REQUIREMENTS.TEMPERATURE ||
-                     req.type === REQUIREMENTS.OXYGEN ||
-                     req.type === REQUIREMENTS.OCEAN || req.type === REQUIREMENTS.RAD_SUITS) && (
-                     <div key={idx} className="req">
-                        <span>
-                           {req.type} {req.other} {req.value}
-                        </span>
+                  showRequirement(req) && (
+                     <div key={idx} className={`req ${req.other === 'max' ? 'max' : ''}`}>
+                        {/* // Temperature & Oxygen */}
+                        {(req.type === REQUIREMENTS.TEMPERATURE ||
+                           req.type === REQUIREMENTS.OXYGEN) && (
+                           <>
+                              <div className='text'>{getTempOrOxText(req)}</div>
+                              <div>
+                                 {req.type === REQUIREMENTS.TEMPERATURE ? (
+                                    <img src={tempIcon} alt="temperature_icon" />
+                                 ) : (
+                                    <img src={oxIcon} alt="oxygen_icon" />
+                                 )}
+                              </div>
+                           </>
+                        )}
+                        {/* Oceans */}
+                        {req.type === REQUIREMENTS.OCEAN && (
+                           <>
+                              {getOceanText(req) && <div className='text'>{getOceanText(req)}</div>}
+                              <div>
+                                 {req.value > 2 ? (
+                                    <img src={oceanIcon} alt="ocean_icon" />
+                                 ) : (
+                                    oceansCount(req.value).map((_, idx) => (
+                                       <img key={idx} src={oceanIcon} alt="ocean_icon" />
+                                    ))
+                                 )}
+                              </div>
+                           </>
+                        )}
                      </div>
                   )
             )}

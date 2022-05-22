@@ -43,7 +43,7 @@
    inset: 1%;
    border-radius: calc(var(--border-radius) / var(--card-ratio));
    overflow: hidden;
-   border: calc(var(--default-size) * 0.10) solid #000;
+   border: calc(var(--default-size) * 0.1) solid #000;
 }
 
 /* Cost */
@@ -94,11 +94,52 @@
 
 /* Requirement */
 .card .req {
-   width: 95%;
-   height: 14%;
+   width: 65%;
+   height: 13%;
    top: 15%;
    left: 50%;
    transform: translateX(-50%);
+   background: rgb(255, 145, 0);
+   background: linear-gradient(
+      90deg,
+      rgba(255, 145, 0, 1) 0%,
+      rgba(255, 214, 0, 1) 50%,
+      rgba(255, 145, 0, 1) 100%
+   );
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #000;
+   font-weight: 900;
+   border: calc(var(--default-size) * 0.1) solid #333;
+   box-shadow: 0 0 0 calc(var(--default-size) * 0.06) #fff;
+   font-size: calc(var(--default-size) * 0.8);
+}
+.card .req div {
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.card .req .text {
+   margin-right: 5%;
+}
+.card .req img {
+   height: 120%;
+}
+.card-container.big .card .req {
+   border: calc(var(--default-size) * 0.1 * var(--big-ratio)) solid #333;
+   box-shadow: 0 0 0 calc(var(--default-size) * 0.06 * var(--big-ratio)) #fff;
+   font-size: calc(var(--default-size) * 0.8 * var(--big-ratio));
+}
+.card .req.max {
+   background: rgb(208, 0, 0);
+   background: linear-gradient(
+      90deg,
+      rgba(208, 0, 0, 1) 0%,
+      rgba(255, 142, 55, 1) 50%,
+      rgba(208, 0, 0, 1) 100%
+   );
 }
 
 /* Name */
@@ -157,7 +198,7 @@
 }
 .card-container.big .card .black-border {
    border-radius: calc(var(--border-radius) * var(--big-ratio) / var(--card-ratio));
-   border: calc(var(--default-size) * 0.10 * var(--big-ratio)) solid #000;
+   border: calc(var(--default-size) * 0.1 * var(--big-ratio)) solid #000;
 }
 
 /* Card disabled */

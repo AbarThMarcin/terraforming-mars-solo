@@ -65,13 +65,10 @@ const ModalMarsUniversity = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
       // Continue remaining actions
       startAnimation(setModals)
-      console.log(stateGame.actionsLeft)
       performSubActions(stateGame.actionsLeft)
    }
 
    const handleClickBtnSelect = (card) => {
-      console.log(selectedCardId === 0 || card.id !== selectedCardId)
-
       selectedCardId === 0 || card.id !== selectedCardId
          ? setSelectedCardId(card.id)
          : setSelectedCardId(0)

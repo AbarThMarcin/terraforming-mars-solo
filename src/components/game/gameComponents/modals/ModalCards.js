@@ -43,7 +43,7 @@ const ModalCards = () => {
                   modals.modalCards.map((card, idx) => (
                      <div
                         key={idx}
-                        className="card-container"
+                        className="card-container small"
                         style={getPosition(modals.modalCards.length, idx)}
                         onClick={() => handleClickCard(card)}
                      >

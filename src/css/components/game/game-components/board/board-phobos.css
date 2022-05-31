@@ -1,10 +1,9 @@
 .board-phobos {
    position: absolute;
-   left: -15%;
-   top: 20%;
+   left: -20.5%;
+   top: 19.5%;
    transform: translateY(-50%);
    width: 20%;
    height: 20%;
-   background-color: rgb(143, 44, 27);
    border-radius: 50%;
 }

@@ -124,7 +124,7 @@ const ModalDraft = () => {
             {cardsDraft.map((card, idx) => (
                <div
                   key={idx}
-                  className={`card-container ${selectedCards.includes(card) && 'selected'}`}
+                  className={`card-container small ${selectedCards.includes(card) && 'selected'}`}
                   style={getPosition(cardsDraft.length, idx)}
                   onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                >

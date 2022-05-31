@@ -3,30 +3,26 @@ import { ACTIONS_PLAYER } from '../util/actionsPlayer'
 import { getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../util/misc'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
-import card19_option1 from '../assets/images/selectOne-options/card19_option1.png'
-import card19_option2 from '../assets/images/selectOne-options/card19_option2.png'
-import card19_option3 from '../assets/images/selectOne-options/card19_option3.png'
-import card33_option1 from '../assets/images/selectOne-options/card33_34_157_option1.png'
-import card33_option2 from '../assets/images/selectOne-options/card33_option2.png'
-import card34_option1 from '../assets/images/selectOne-options/card33_34_157_option1.png'
-import card34_option2 from '../assets/images/selectOne-options/card34_option2.png'
-import card69_option1 from '../assets/images/selectOne-options/card69_option1.png'
-import card69_option2 from '../assets/images/selectOne-options/card69_option2.png'
-import card74_option1 from '../assets/images/selectOne-options/card74_option1.png'
-import card74_option2 from '../assets/images/selectOne-options/card74_option2.png'
-import card74_option3 from '../assets/images/selectOne-options/card74_option3.png'
-import card115_option1 from '../assets/images/selectOne-options/card115_option1.png'
-import card115_option2 from '../assets/images/selectOne-options/card115_option2.png'
-import card124_option1 from '../assets/images/selectOne-options/card124_option1.png'
-import card124_option2 from '../assets/images/selectOne-options/card124_option2.png'
-import card134_option1 from '../assets/images/selectOne-options/card134_option1.png'
-import card134_option2 from '../assets/images/selectOne-options/card134_option2.png'
-import card143_option1 from '../assets/images/selectOne-options/card143_option1.png'
-import card143_option2 from '../assets/images/selectOne-options/card143_option2.png'
-import card157_option1 from '../assets/images/selectOne-options/card33_34_157_option1.png'
-import card157_option2 from '../assets/images/selectOne-options/card157_option2.png'
-import card190_option1 from '../assets/images/selectOne-options/card190_option1.png'
-import card190_option2 from '../assets/images/selectOne-options/card190_option2.png'
+import microbe from '../assets/images/selectOne-options/microbe.svg'
+import plant from '../assets/images/selectOne-options/plant.svg'
+import animal2 from '../assets/images/selectOne-options/animal2.svg'
+import card19_option1 from '../assets/images/selectOne-options/card19_option1.svg'
+import card19_option2 from '../assets/images/selectOne-options/card19_option2.svg'
+import card33_option2 from '../assets/images/selectOne-options/card33_option2.svg'
+import card34_option2 from '../assets/images/selectOne-options/card34_option2.svg'
+import card69_option1 from '../assets/images/selectOne-options/card69_option1.svg'
+import card69_option2 from '../assets/images/selectOne-options/card69_option2.svg'
+import card74_option2 from '../assets/images/selectOne-options/card74_option2.svg'
+import card74_option3 from '../assets/images/selectOne-options/card74_option3.svg'
+import card115_option1 from '../assets/images/selectOne-options/card115_option1.svg'
+import card115_option2 from '../assets/images/selectOne-options/card115_option2.svg'
+import card124_option1 from '../assets/images/selectOne-options/card124_option1.svg'
+import card124_option2 from '../assets/images/selectOne-options/card124_option2.svg'
+import card134_option2 from '../assets/images/selectOne-options/card134_option2.svg'
+import card143_option1 from '../assets/images/selectOne-options/card143_option1.svg'
+import card143_option2 from '../assets/images/selectOne-options/card143_option2.svg'
+import card157_option2 from '../assets/images/selectOne-options/card157_option2.svg'
+import card190_option1 from '../assets/images/selectOne-options/card190_option1.svg'
 import { IMM_EFFECTS } from './immEffects/immEffects'
 
 export const OPTION_ICONS = {
@@ -54,7 +50,7 @@ export const OPTION_ICONS = {
    CARD157_OPTION2: 'card157_option2',
    CARD190_OPTION1: 'card190_option1',
    CARD190_OPTION2: 'card190_option2',
-   CARD152_OPTION1: 'card52_option1', // Insulation
+   CARD152_OPTION1: 'card152_option1', // Insulation
    CARD194_OPTION1: 'card194_option1', // Power Infrastructure
 }
 
@@ -65,13 +61,14 @@ export const getOptionIcon = (actionIconName) => {
       case OPTION_ICONS.CARD19_OPTION2:
          return card19_option2
       case OPTION_ICONS.CARD19_OPTION3:
-         return card19_option3
+      case OPTION_ICONS.CARD190_OPTION2:
+         return animal2
       case OPTION_ICONS.CARD33_OPTION1:
-         return card33_option1
+      case OPTION_ICONS.CARD34_OPTION1:
+      case OPTION_ICONS.CARD157_OPTION1:
+         return microbe
       case OPTION_ICONS.CARD33_OPTION2:
          return card33_option2
-      case OPTION_ICONS.CARD34_OPTION1:
-         return card34_option1
       case OPTION_ICONS.CARD34_OPTION2:
          return card34_option2
       case OPTION_ICONS.CARD69_OPTION1:
@@ -79,7 +76,8 @@ export const getOptionIcon = (actionIconName) => {
       case OPTION_ICONS.CARD69_OPTION2:
          return card69_option2
       case OPTION_ICONS.CARD74_OPTION1:
-         return card74_option1
+      case OPTION_ICONS.CARD134_OPTION1:
+         return plant
       case OPTION_ICONS.CARD74_OPTION2:
          return card74_option2
       case OPTION_ICONS.CARD74_OPTION3:
@@ -92,22 +90,16 @@ export const getOptionIcon = (actionIconName) => {
          return card124_option1
       case OPTION_ICONS.CARD124_OPTION2:
          return card124_option2
-      case OPTION_ICONS.CARD134_OPTION1:
-         return card134_option1
       case OPTION_ICONS.CARD134_OPTION2:
          return card134_option2
       case OPTION_ICONS.CARD143_OPTION1:
          return card143_option1
       case OPTION_ICONS.CARD143_OPTION2:
          return card143_option2
-      case OPTION_ICONS.CARD157_OPTION1:
-         return card157_option1
       case OPTION_ICONS.CARD157_OPTION2:
          return card157_option2
       case OPTION_ICONS.CARD190_OPTION1:
          return card190_option1
-      case OPTION_ICONS.CARD190_OPTION2:
-         return card190_option2
       default:
          return
    }

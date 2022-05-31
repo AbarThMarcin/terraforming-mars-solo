@@ -110,11 +110,10 @@ const ModalOtherDataActionsItem = ({
                alt={isUnmi ? 'UNMI_action' : item.iconNames.action}
             />
          </div>
-         {actionClicked === item.id && <div>{toBuyMln} </div>}
          {/* CONFIRM BUTTON */}
          <BtnAction
             text="ACTION"
-            textConfirmation={`Do you want to play: ${modals.modalCard.name}`}
+            textConfirmation={`Do you want to play: ${item.name}`}
             onYesFunc={handleClickAction}
             disabled={!isAvailable}
             position={btnActionPosition}

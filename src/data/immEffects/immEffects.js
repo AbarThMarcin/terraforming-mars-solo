@@ -46,7 +46,6 @@ export const funcGetImmEffects = (
    setModals,
    cards,
    setCards,
-   requirementsMet
 ) => {
    let subActions = []
    let dataCards = []

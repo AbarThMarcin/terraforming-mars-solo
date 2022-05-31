@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import { getImmEffectIcon } from '../../../../../data/immEffects/immEffectsIcons'
+import { getProdImmEffectIcon } from '../../../../../data/immEffects/prodImmEffectsIcons'
 import { ANIMATIONS } from '../../../../../data/animations'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
@@ -9,11 +9,6 @@ const ModalProductionData = ({ setCardSnap }) => {
    const { stateGame, getImmEffects } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
-
-   // useEffect(() => {
-   //    handleClickProdCard(modals.modalproduction.data[0])
-   // }, [])
-   
 
    const handleClickProdCard = (itemIdOrCorpName) => {
       let immProdEffects = []
@@ -59,7 +54,7 @@ const ModalProductionData = ({ setCardSnap }) => {
                <div className="card-name">{statePlayer.corporation.name}</div>
                <div>
                   <img
-                     src={getImmEffectIcon(statePlayer.corporation.name)}
+                     src={getProdImmEffectIcon(statePlayer.corporation.name)}
                      className="img-res"
                      alt="miningGuild_prodIcon"
                   />
@@ -82,7 +77,7 @@ const ModalProductionData = ({ setCardSnap }) => {
                <div className="card-name">{item.name}</div>
                <div>
                   <img
-                     src={getImmEffectIcon(item.id, modals)}
+                     src={getProdImmEffectIcon(item.id, modals)}
                      className="img-res"
                      alt={`card_${item.id}_prodIcon`}
                   />

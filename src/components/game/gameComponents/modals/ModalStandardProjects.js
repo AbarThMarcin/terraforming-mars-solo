@@ -4,7 +4,7 @@ import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalSPaction from './modalsComponents/ModalSPaction'
-import CardDecreaseCostSP from './modalsComponents/CardDecreaseCostSP'
+import DecreaseCostSP from './modalsComponents/DecreaseCostSP'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
@@ -306,7 +306,7 @@ const ModalStandardProjects = () => {
                {actionClicked !== null &&
                   statePlayer.resources.heat > 0 &&
                   statePlayer.canPayWithHeat && (
-                     <CardDecreaseCostSP
+                     <DecreaseCostSP
                         toBuyMln={toBuyMln}
                         toBuyHeat={toBuyHeat}
                         changeSPcosts={changeSPcosts}

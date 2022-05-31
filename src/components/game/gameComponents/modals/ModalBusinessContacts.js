@@ -77,7 +77,7 @@ const ModalBusinessContacts = () => {
                {cards.slice(0, modals.modalBusCont.cardsCount).map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container ${selectedCardIds.includes(card.id) && 'selected'}`}
+                     className={`card-container small ${selectedCardIds.includes(card.id) && 'selected'}`}
                      style={getPosition(modals.modalBusCont.cardsCount, idx)}
                      onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                   >

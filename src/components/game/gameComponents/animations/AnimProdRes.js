@@ -38,7 +38,7 @@ const AnimProdRes = ({ type }) => {
          style={{ animationDuration: `${ANIMATION_SPEED}ms` }}
       >
          {(type === 'prod-in' || type === 'prod-out') && (
-            <img src={getResIcon(RESOURCES.PROD_BG)} className="img-prod full-size" alt="prod_bg" />
+            <img src={getResIcon(RESOURCES.PROD_BG)} className="img-prod" alt="prod_bg" />
          )}
          <img src={resource} className="img-res center" alt={resourceAlt} />
          <span className="value center">{value}</span>

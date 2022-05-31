@@ -1,19 +1,25 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { StateGameContext, ModalsContext } from '../Game'
-import icon_mln from '../../../assets/images/resources/mln.png'
 import { hasTag } from '../../../util/misc'
 import { getTagIcon, TAGS } from '../../../data/tags'
 import { REQUIREMENTS } from '../../../data/requirements'
-import { RESOURCES } from '../../../data/resources'
-import tempIcon from '../../../assets/images/other/tempIcon.png'
-import oxIcon from '../../../assets/images/other/oxIcon.png'
-import oceanIcon from '../../../assets/images/objects/ocean.png'
+import { getResIcon, RESOURCES } from '../../../data/resources'
+import icon_mln from '../../../assets/images/resources/mln.svg'
+import tempIcon from '../../../assets/images/other/tempIcon.svg'
+import oxIcon from '../../../assets/images/other/oxIcon.svg'
+import oceanIcon from '../../../assets/images/objects/ocean.svg'
+import greenery from '../../../assets/images/objects/greenery.svg'
+import cityAnyIcon from '../../../assets/images/other/cityAny.svg'
+import { getVpIcon } from '../../../data/vp'
+import { getImmEffectIcon } from '../../../data/immEffects/immEffectsIcons'
 
 const Card = ({ card, isBig }) => {
+   const [info, setInfo] = useState(false)
    const { modals } = useContext(ModalsContext)
    const { requirementsMet } = useContext(StateGameContext)
    // If card is playable (all requirements met)
    const available = requirementsMet(card)
+   const immEffectIcon = getImmEffectIcon(card.id)
 
    // If requirement to be shown on card
    const showRequirement = (req) => {
@@ -21,7 +27,9 @@ const Card = ({ card, isBig }) => {
          req.type === REQUIREMENTS.TEMPERATURE ||
          req.type === REQUIREMENTS.OXYGEN ||
          req.type === REQUIREMENTS.OCEAN ||
-         req.type === REQUIREMENTS.TAGS ||
+         (req.type === REQUIREMENTS.TAGS &&
+            req.other !== TAGS.MICROBE &&
+            req.other !== TAGS.ANIMAL) ||
          req.other === RESOURCES.STEEL ||
          req.other === RESOURCES.TITAN ||
          req.type === REQUIREMENTS.ECOLOGICAL_ZONE ||
@@ -37,7 +45,7 @@ const Card = ({ card, isBig }) => {
    const getOceanText = (req) => {
       return `${req.other === 'max' ? 'max ' : ''}${req.value > 2 ? req.value : ''}`
    }
-   const oceansCount = (v) => {
+   const elementsCount = (v) => {
       let arr = []
       for (let i = 0; i < v; i++) {
          arr.push(i)
@@ -99,8 +107,44 @@ const Card = ({ card, isBig }) => {
                >
                   <span>{card.name}</span>
                </div>
+               {/* EFFECT */}
+               {immEffectIcon && (
+                  <div className="effect">
+                     <img src={immEffectIcon} alt={`immEffectIcon_for_${card.name}`} />
+                  </div>
+               )}
                {/* DESCRIPTION */}
-               {isBig && <div className="description">{card.description}</div>}
+               {isBig && (
+                  <div className={`description ${card.iconNames.vp && 'with-vp'}`}>
+                     {card.description}
+                  </div>
+               )}
+               {/* VP */}
+               {card.iconNames.vp && (
+                  <div className="vp-container">
+                     <img
+                        src={getVpIcon(card.iconNames.vp)}
+                        className="vp"
+                        alt={card.iconNames.vp}
+                     />
+                  </div>
+               )}
+               {isBig && (
+                  <>
+                     {/* CARD INFO SECTION */}
+                     {info && (
+                        <div className="info-section pointer">
+                           {card.info.map((inf, idx) => (
+                              <span key={idx}>{inf}</span>
+                           ))}
+                        </div>
+                     )}
+                     {/* CARD INFO BUTTON */}
+                     <div className="info-btn pointer" onClick={() => setInfo((info) => !info)}>
+                        <span>{info ? 'X' : '!'}</span>
+                     </div>
+                  </>
+               )}
             </div>
             {/* CURRENT COST */}
             <div className="current-cost">
@@ -112,6 +156,12 @@ const Card = ({ card, isBig }) => {
                <div className="original-cost">
                   <img className="center full-size" src={icon_mln} alt="" />
                   <span className="center">{card.originalCost}</span>
+               </div>
+            )}
+            {/* CARD ID */}
+            {isBig && (
+               <div className="id">
+                  <span>{`#${card.id}`}</span>
                </div>
             )}
             {/* TAGS */}
@@ -133,36 +183,117 @@ const Card = ({ card, isBig }) => {
                         {(req.type === REQUIREMENTS.TEMPERATURE ||
                            req.type === REQUIREMENTS.OXYGEN) && (
                            <>
-                              <div className='text'>{getTempOrOxText(req)}</div>
-                              <div>
-                                 {req.type === REQUIREMENTS.TEMPERATURE ? (
-                                    <img src={tempIcon} alt="temperature_icon" />
-                                 ) : (
-                                    <img src={oxIcon} alt="oxygen_icon" />
-                                 )}
-                              </div>
+                              <div className="text">{getTempOrOxText(req)}</div>
+                              {req.type === REQUIREMENTS.TEMPERATURE ? (
+                                 <img className="icon" src={tempIcon} alt="temperature_icon" />
+                              ) : (
+                                 <img className="icon" src={oxIcon} alt="oxygen_icon" />
+                              )}
                            </>
                         )}
                         {/* Oceans */}
                         {req.type === REQUIREMENTS.OCEAN && (
                            <>
-                              {getOceanText(req) && <div className='text'>{getOceanText(req)}</div>}
-                              <div>
-                                 {req.value > 2 ? (
-                                    <img src={oceanIcon} alt="ocean_icon" />
-                                 ) : (
-                                    oceansCount(req.value).map((_, idx) => (
-                                       <img key={idx} src={oceanIcon} alt="ocean_icon" />
-                                    ))
-                                 )}
-                              </div>
+                              {getOceanText(req) && <div className="text">{getOceanText(req)}</div>}
+                              {req.value > 2 ? (
+                                 <img className="icon" src={oceanIcon} alt="ocean_icon" />
+                              ) : (
+                                 elementsCount(req.value).map((_, idx) => (
+                                    <img
+                                       className="icon"
+                                       key={idx}
+                                       src={oceanIcon}
+                                       alt="ocean_icon"
+                                    />
+                                 ))
+                              )}
+                           </>
+                        )}
+                        {/* Tags */}
+                        {req.type === REQUIREMENTS.TAGS && card.id !== 135 && (
+                           <>
+                              {req.value > 2 && <div className="text">{req.value}</div>}
+                              {req.value > 2 ? (
+                                 <img
+                                    className="icon"
+                                    src={getTagIcon(req.other)}
+                                    alt={`${req.other}_icon`}
+                                 />
+                              ) : (
+                                 elementsCount(req.value).map((_, idx) => (
+                                    <img
+                                       className="icon"
+                                       key={idx}
+                                       src={getTagIcon(req.other)}
+                                       alt={`${req.other}_icon`}
+                                    />
+                                 ))
+                              )}
+                           </>
+                        )}
+                        {card.id === 135 && req.other === TAGS.PLANT && (
+                           <>
+                              <img className="icon" src={getTagIcon(TAGS.PLANT)} alt="plant_icon" />
+                              <img
+                                 className="icon"
+                                 src={getTagIcon(TAGS.MICROBE)}
+                                 alt="microbe_icon"
+                              />
+                              <img
+                                 className="icon"
+                                 src={getTagIcon(TAGS.ANIMAL)}
+                                 alt="animal_icon"
+                              />
+                           </>
+                        )}
+                        {/* Steel / Titan production */}
+                        {req.other === RESOURCES.STEEL && (
+                           <>
+                              <img
+                                 className="icon"
+                                 src={getResIcon(RESOURCES.PROD_BG)}
+                                 alt="prod_bg"
+                              />
+                              <img
+                                 src={getResIcon(RESOURCES.STEEL)}
+                                 className="icon-res center"
+                                 alt="steel_resource"
+                              />
+                           </>
+                        )}
+                        {req.other === RESOURCES.TITAN && (
+                           <>
+                              <img
+                                 className="icon"
+                                 src={getResIcon(RESOURCES.PROD_BG)}
+                                 alt="prod_bg"
+                              />
+                              <img
+                                 src={getResIcon(RESOURCES.TITAN)}
+                                 className="icon-res center"
+                                 alt="titanq_resource"
+                              />
+                           </>
+                        )}
+                        {/* Ecological Zone */}
+                        {req.type === REQUIREMENTS.ECOLOGICAL_ZONE && (
+                           <div className="icon-ox">
+                              <img className="greenery center" src={greenery} alt="greenery_tile" />
+                              <img className="ox" src={oxIcon} alt="ox_icon" />
+                           </div>
+                        )}
+                        {/* Rad-Suits */}
+                        {req.type === REQUIREMENTS.RAD_SUITS && (
+                           <>
+                              <img className="icon" src={cityAnyIcon} alt="any_city_tile" />
+                              <img className="icon" src={cityAnyIcon} alt="any_city_tile" />
                            </>
                         )}
                      </div>
                   )
             )}
+            {disabled && <div className="bg-disabled full-size pointer"></div>}
          </div>
-         {disabled && <div className="card-disabled full-size pointer"></div>}
       </>
    )
 }

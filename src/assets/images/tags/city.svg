@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="city" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 124.7 124.7" style="enable-background:new 0 0 124.7 124.7;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#020203;}
+	.st1{fill:url(#SVGID_1_);}
+	.st2{fill:url(#SVGID_00000004517651519056852400000005491515165679050884_);}
+	.st3{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st4{opacity:8.000000e-02;fill:#020203;enable-background:new    ;}
+</style>
+<g id="tagCity">
+	<path class="st0" d="M124.3,62.4c0,34.2-27.8,62-62,62s-62-27.8-62-62s27.8-62,62-62C96.6,0.4,124.3,28.1,124.3,62.4z"/>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="62.34" y1="136.7979" x2="62.34" y2="21.9379" gradientTransform="matrix(1 0 0 1 0 -17.0079)">
+		<stop  offset="0" style="stop-color:#000000"/>
+		<stop  offset="1" style="stop-color:#FFFFFF"/>
+	</linearGradient>
+	<path class="st1" d="M119.8,62.4c0,31.7-25.7,57.4-57.4,57.4c-31.7,0-57.4-25.7-57.4-57.4S30.6,4.9,62.3,4.9
+		C94.1,4.9,119.8,30.6,119.8,62.4z"/>
+	
+		<radialGradient id="SVGID_00000132058994871969402620000015170211865547431583_" cx="62.34" cy="63.3723" r="51.86" gradientTransform="matrix(1 0 0 -1 0 125.7323)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#C6C6C6"/>
+		<stop  offset="1" style="stop-color:#706F6F"/>
+	</radialGradient>
+	<path style="fill:url(#SVGID_00000132058994871969402620000015170211865547431583_);" d="M114.2,62.4c0,28.6-23.2,51.9-51.9,51.9
+		S10.5,91,10.5,62.4s23.2-51.9,51.9-51.9C91,10.5,114.2,33.7,114.2,62.4z"/>
+	<g id="miasto_logo_00000042735629474522904260000011247504104073179538_">
+		<path class="st3" d="M20.5,71.3c0-22.6,18.9-40.9,42.2-40.9"/>
+		<path class="st3" d="M104.7,71.3c0-22.6-19.1-40.9-42.6-40.9"/>
+		<rect x="19.7" y="68.7" width="85.8" height="5.4"/>
+		<rect x="24.2" y="63.6" width="2.5" height="5"/>
+		<rect x="25.5" y="59.6" width="1.3" height="4"/>
+		<rect x="29.5" y="63" width="4.6" height="5.6"/>
+		<rect x="29.5" y="56.5" width="2.3" height="6.5"/>
+		<rect x="35.6" y="61.6" width="2" height="7.1"/>
+		<rect x="37.6" y="47.6" width="2.2" height="21.1"/>
+		<rect x="38.7" y="45.3" width="1.1" height="2.2"/>
+		<rect x="39.8" y="63.6" width="3.7" height="5"/>
+		<rect x="42.7" y="61.1" width="0.8" height="2.5"/>
+		<rect x="43.5" y="42.5" width="3" height="26.2"/>
+		<rect x="46.5" y="47.2" width="1.5" height="21.4"/>
+		<rect x="48" y="54.9" width="3.1" height="13.8"/>
+		<rect x="51" y="57.6" width="2" height="11"/>
+		<rect x="54.8" y="50.9" width="4.1" height="17.8"/>
+		<rect x="59" y="57.9" width="2.2" height="10.7"/>
+		<rect x="61.1" y="38.1" width="5" height="30.6"/>
+		<rect x="68.4" y="44.9" width="2.6" height="23.8"/>
+		<rect x="73.8" y="49.8" width="2.8" height="18.9"/>
+		<rect x="71" y="62.3" width="2.8" height="6.3"/>
+		<rect x="76.6" y="65.1" width="2.1" height="3.5"/>
+		<rect x="81" y="63.3" width="1.8" height="5.4"/>
+		<rect x="82.8" y="54.9" width="3.1" height="13.8"/>
+		<rect x="86" y="48.5" width="2.3" height="20.2"/>
+		<rect x="88.3" y="62.6" width="2" height="6.1"/>
+		<rect x="91.4" y="58.9" width="2.4" height="9.7"/>
+		<rect x="93.8" y="57.9" width="2.7" height="10.7"/>
+		<rect x="98.4" y="63.8" width="1.2" height="4.9"/>
+		<rect x="99.6" y="66.2" width="2.3" height="2.4"/>
+	</g>
+	<path id="darker" class="st4" d="M119.8,62.4c0-1.2,0-2.3-0.1-3.4c-11.6,3.2-31.5,7.3-57.3,7.3c-25.1,0-45.1-5.1-57.2-9.3
+		c-0.2,1.8-0.3,3.6-0.3,5.4c0,31.7,25.7,57.4,57.4,57.4C94.1,119.8,119.8,94.1,119.8,62.4z"/>
+</g>
+</svg>

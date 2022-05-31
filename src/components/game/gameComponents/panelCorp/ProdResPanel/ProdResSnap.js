@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import actionGreenery from '../../../../../assets/images/panelCorp-actions/panelCorp-action-greenery.png'
-import actionTemperature from '../../../../../assets/images/panelCorp-actions/panelCorp-action-temperature.png'
+import actionGreenery from '../../../../../assets/images/panelCorp/actions/action-greenery.png'
+import actionTemperature from '../../../../../assets/images/panelCorp/actions/action-temperature.png'
 import BtnConvertPlantsHeat from '../../buttons/BtnConvertPlantsHeat'
 
 const ProdResSnap = ({ prod, res, icon, action }) => {

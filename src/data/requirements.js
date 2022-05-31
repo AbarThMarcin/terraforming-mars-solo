@@ -196,10 +196,13 @@ export const funcRequirementsMet = (
          }
          // Tags requirements
       } else if (type === REQUIREMENTS.TAGS) {
-         const countTags = statePlayer.cardsPlayed.reduce(
-            (total, card) => (hasTag(card, type) && !hasTag(card, TAGS.EVENT) ? total + 1 : total),
-            1
-         )
+         const countTags =
+            statePlayer.cardsPlayed.reduce(
+               (total, card) =>
+                  hasTag(card, other) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
+               0
+            ) + statePlayer.corporation.tags.filter((tag) => tag === other).length
+         console.log(countTags, value)
          if (countTags < value) {
             isAvailable = false
             return
@@ -393,7 +396,7 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
    let reqMet = true
    // ===================== If already used, return false =====================
    if (item.actionUsed) return false
-   // ==================If inappropiate state of the game is on ===============
+   // ================== If specific phase of the game is on ==============
    if (
       stateGame.phaseDraft ||
       stateGame.phaseViewGameState ||
@@ -412,10 +415,12 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
          // Search For Life
          case 5:
             value = statePlayer.resources.mln
+            if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
             if (value < 1) reqMet = false
             break
-         // Martian Rails
+         // Martian Rails, Development Center
          case 7:
+         case 14:
             value = statePlayer.resources.energy
             if (value < 1) reqMet = false
             break
@@ -425,10 +430,59 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
             if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
             if (value < 12 || stateGame.globalParameters.oceans === 9) reqMet = false
             break
+         // Space Elevator
+         case 13:
+            value = statePlayer.resources.steel
+            if (value < 1) reqMet = false
+            break
+         // Equatorial Magnetizer
+         case 15:
+            value = statePlayer.production.energy
+            if (value < 1) reqMet = false
+            break
+         // Security Fleet
+         case 28:
+            value = statePlayer.resources.titan
+            if (value < 1) reqMet = false
+            break
+         // Electro Catapult
+         case 69:
+            value = statePlayer.resources.plant + statePlayer.resources.steel
+            if (value < 1) reqMet = false
+            break
+         // Space Mirrors and Industrial Center
+         case 76:
+         case 123:
+            value = statePlayer.resources.mln
+            if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
+            if (value < 7) reqMet = false
+            break
+         // Physics Complex
+         case 95:
+            value = statePlayer.resources.energy
+            if (value < 6) reqMet = false
+            break
+         // Ironworks, Steelworks, Ore Processor
+         case 101:
+         case 103:
+         case 104:
+            value = statePlayer.resources.energy
+            if (value < 4 || stateGame.globalParameters.oxygen === 14) reqMet = false
+            break
          // Symbiotic Fungus
          case 133:
             cards = getCardsWithPossibleMicrobes(statePlayer)
             if (cards.length === 0) reqMet = false
+            break
+         // Caretaker Contract
+         case 154:
+            value = statePlayer.resources.heat
+            if (value < 8 || stateGame.globalParameters.temperature === 8) reqMet = false
+            break
+         // Water Splitting Plant
+         case 177:
+            value = statePlayer.resources.energy
+            if (value < 3 || stateGame.globalParameters.oxygen === 14) reqMet = false
             break
          // Aquifer Pumping
          case 187:
@@ -439,6 +493,18 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
          // Power Infrastructure
          case 194:
             if (statePlayer.resources.energy === 0) reqMet = false
+            break
+         // Restricted Area
+         case 199:
+            value = statePlayer.resources.mln
+            if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
+            if (value < 2) reqMet = false
+            break
+         // Underground Detonations
+         case 202:
+            value = statePlayer.resources.mln
+            if (statePlayer.canPayWithHeat) value += statePlayer.resources.heat
+            if (value < 10) reqMet = false
             break
          default:
             break

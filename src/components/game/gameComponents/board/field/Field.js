@@ -22,21 +22,21 @@ import {
 import { getNeighbors, modifiedCards, modifiedCardsEffect } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 
-import city from '../../../../../assets/images/objects/city.png'
-import cityNeutral from '../../../../../assets/images/objects/cityNeutral.png'
-import greenery from '../../../../../assets/images/objects/greenery.png'
-import greeneryNeutral from '../../../../../assets/images/objects/greeneryNeutral.png'
-import ocean from '../../../../../assets/images/objects/ocean.png'
-import cityCapital from '../../../../../assets/images/objects/cityCapital.png'
-import miningRightsArea from '../../../../../assets/images/objects/miningRightsArea.png'
-import ecologicalZone from '../../../../../assets/images/objects/ecologicalZone.png'
-import naturalPreserve from '../../../../../assets/images/objects/naturalPreserve.png'
-import moholeArea from '../../../../../assets/images/objects/moholeArea.png'
-import restrictedArea from '../../../../../assets/images/objects/restrictedArea.png'
-import commercialDistrict from '../../../../../assets/images/objects/commercialDistrict.png'
-import nuclearZone from '../../../../../assets/images/objects/nuclearZone.png'
-import industrialCenter from '../../../../../assets/images/objects/industrialCenter.png'
-import lavaFlows from '../../../../../assets/images/objects/lavaFlows.png'
+import city from '../../../../../assets/images/objects/city.svg'
+import cityNeutral from '../../../../../assets/images/objects/cityNeutral.svg'
+import greenery from '../../../../../assets/images/objects/greenery.svg'
+import greeneryNeutral from '../../../../../assets/images/objects/greeneryNeutral.svg'
+import ocean from '../../../../../assets/images/objects/ocean.svg'
+import cityCapital from '../../../../../assets/images/objects/cityCapital.svg'
+import miningRightsArea from '../../../../../assets/images/objects/miningRightsArea.svg'
+import ecologicalZone from '../../../../../assets/images/objects/ecologicalZone.svg'
+import naturalPreserve from '../../../../../assets/images/objects/naturalPreserve.svg'
+import moholeArea from '../../../../../assets/images/objects/moholeArea.svg'
+import restrictedArea from '../../../../../assets/images/objects/restrictedArea.svg'
+import commercialDistrict from '../../../../../assets/images/objects/commercialDistrict.svg'
+import nuclearZone from '../../../../../assets/images/objects/nuclearZone.svg'
+import industrialCenter from '../../../../../assets/images/objects/industrialCenter.svg'
+import lavaFlows from '../../../../../assets/images/objects/lavaFlows.svg'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { EFFECTS } from '../../../../../data/effects'
 
@@ -51,11 +51,11 @@ const Field = ({ field }) => {
       left:
          field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
             ? '50%'
-            : `calc(var(--field-height) * 0.1 + (var(--field-width) * 0.537) * ${field.y})`,
+            : `calc(var(--field-width) * 0.05 + (var(--field-width) * 0.538) * ${field.y})`,
       top:
          field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
             ? '50%'
-            : `calc(var(--field-height) * 1.48 + (var(--field-height) * 1.61) * ${field.x})`,
+            : `calc(var(--field-height) * 1.8 + (var(--field-height) * 1.615) * ${field.x})`,
       transform:
          field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
             ? 'translate(-50%, -50%)'

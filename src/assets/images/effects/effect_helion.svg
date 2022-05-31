@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1173.5 141.7" style="enable-background:new 0 0 1173.5 141.7;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;fill-opacity:0;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:#010202;stroke:#030304;stroke-width:1.72;stroke-miterlimit:10;}
+	.st3{fill:url(#obram_zolte_00000089535852780928533870000014507934849158548398_);}
+	.st4{fill:url(#tlo_wew_00000081625397386328637980000016660249410974376596_);}
+	.st5{fill:url(#obram_skosne_00000039828531880421550290000015498973877173042834_);}
+	.st6{fill:url(#tlo_zew_00000087377935450473601300000005590558228694733490_);}
+	.st7{fill:#030304;}
+	.st8{fill:url(#SVGID_1_);}
+	.st9{fill:#E62B23;}
+	.st10{opacity:5.000000e-02;fill:#030304;enable-background:new    ;}
+	.st11{fill:#FFD113;}
+	.st12{fill:#010101;}
+</style>
+<rect y="0" class="st0" width="1173.5" height="141.7"/>
+<path class="st1" d="M407,100.1l18.4-28.2l-17.5-29.1h13.9l11.6,19.3L446,42.8h9.6l-17.6,27.1l18.2,30.3h-13.9L430,79.5l-13.4,20.6
+	L407,100.1L407,100.1z"/>
+<g id="mln">
+	<polygon id="obram_czarne" class="st2" points="675.3,18.1 659.3,34 659.3,107.4 675.3,123.4 748.8,123.4 764.6,107.4 764.6,34 
+		748.8,18.1 	"/>
+	
+		<linearGradient id="obram_zolte_00000060731529314617253240000011539141392369865618_" gradientUnits="userSpaceOnUse" x1="712.01" y1="154.1423" x2="712.01" y2="54.8723" gradientTransform="matrix(1 0 0 1 0 -33.7823)">
+		<stop  offset="0.16" style="stop-color:#823A13"/>
+		<stop  offset="0.18" style="stop-color:#985C1A"/>
+		<stop  offset="0.22" style="stop-color:#AE7D22"/>
+		<stop  offset="0.26" style="stop-color:#C39D26"/>
+		<stop  offset="0.3" style="stop-color:#D6B92E"/>
+		<stop  offset="0.35" style="stop-color:#E4CF36"/>
+		<stop  offset="0.41" style="stop-color:#EFE036"/>
+		<stop  offset="0.48" style="stop-color:#F6E947"/>
+		<stop  offset="0.58" style="stop-color:#F8EA4E"/>
+		<stop  offset="0.86" style="stop-color:#F6EA4D"/>
+		<stop  offset="1" style="stop-color:#FCF4F9"/>
+	</linearGradient>
+	<polygon id="obram_zolte" style="fill:url(#obram_zolte_00000060731529314617253240000011539141392369865618_);" points="
+		677.3,21.1 662.4,36.1 662.4,105.3 677.3,120.4 746.6,120.4 761.6,105.3 761.6,36.1 746.6,21.1 	"/>
+	
+		<linearGradient id="tlo_wew_00000100352834253146594420000007240850247702962069_" gradientUnits="userSpaceOnUse" x1="712.01" y1="49.5923" x2="712.01" y2="201.3123" gradientTransform="matrix(1 0 0 1 0 -33.7823)">
+		<stop  offset="0.26" style="stop-color:#F6EA4D"/>
+		<stop  offset="0.86" style="stop-color:#803813"/>
+	</linearGradient>
+	<polygon id="tlo_wew" style="fill:url(#tlo_wew_00000100352834253146594420000007240850247702962069_);" points="678.4,22.6 
+		663.8,37.1 663.8,104.3 678.4,118.9 745.6,118.9 760.2,104.3 760.2,37.1 745.6,22.6 	"/>
+	
+		<linearGradient id="obram_skosne_00000095317501100747483340000013979592615759241104_" gradientUnits="userSpaceOnUse" x1="712.045" y1="152.7523" x2="712.045" y2="56.3423" gradientTransform="matrix(1 0 0 1 0 -33.7823)">
+		<stop  offset="0.16" style="stop-color:#803813"/>
+		<stop  offset="0.17" style="stop-color:#8C471E"/>
+		<stop  offset="0.18" style="stop-color:#A26B3C"/>
+		<stop  offset="0.2" style="stop-color:#B78954"/>
+		<stop  offset="0.22" style="stop-color:#C7A468"/>
+		<stop  offset="0.24" style="stop-color:#D7BB7A"/>
+		<stop  offset="0.26" style="stop-color:#E2CC88"/>
+		<stop  offset="0.3" style="stop-color:#EAD891"/>
+		<stop  offset="0.34" style="stop-color:#EEDE97"/>
+		<stop  offset="0.46" style="stop-color:#EFE097"/>
+		<stop  offset="0.7" style="stop-color:#803813"/>
+		<stop  offset="0.73" style="stop-color:#E6D234"/>
+		<stop  offset="0.74" style="stop-color:#EBD948"/>
+		<stop  offset="0.75" style="stop-color:#EEDE6D"/>
+		<stop  offset="0.77" style="stop-color:#F0E28A"/>
+		<stop  offset="0.79" style="stop-color:#F8EBAA"/>
+		<stop  offset="0.8" style="stop-color:#F8EDBF"/>
+		<stop  offset="0.83" style="stop-color:#FAF0CF"/>
+		<stop  offset="0.85" style="stop-color:#FCF2DA"/>
+		<stop  offset="0.89" style="stop-color:#FDF4E1"/>
+		<stop  offset="0.99" style="stop-color:#FDF5E3"/>
+	</linearGradient>
+	<path id="obram_skosne" style="fill:url(#obram_skosne_00000095317501100747483340000013979592615759241104_);" d="M753.2,89.3
+		c-2.7,0-4.8-2.2-4.8-4.8V57c0-2.7,2.2-4.8,4.8-4.8h6.9v-15l-14.5-14.6h-15.1v6.9c0,2.7-2.2,4.8-4.8,4.8h-27.5
+		c-2.7,0-4.8-2.2-4.8-4.8v-6.9h-15l-14.6,14.6v15.1h6.9c2.7,0,4.8,2.2,4.8,4.8v27.5c0,2.7-2.2,4.8-4.8,4.8h-6.9v15l14.6,14.6h15.1
+		v-6.9c0-2.7,2.2-4.8,4.8-4.8h27.5c2.7,0,4.8,2.2,4.8,4.8v6.9h15.1l14.6-14.6V89.3H753.2L753.2,89.3z"/>
+	
+		<linearGradient id="tlo_zew_00000183221772966213259310000016252085024685988012_" gradientUnits="userSpaceOnUse" x1="712.015" y1="70.4923" x2="712.015" y2="219.2923" gradientTransform="matrix(1 0 0 1 0 -33.7823)">
+		<stop  offset="0.26" style="stop-color:#F6EA4D"/>
+		<stop  offset="0.77" style="stop-color:#803813"/>
+	</linearGradient>
+	<path id="tlo_zew" style="fill:url(#tlo_zew_00000183221772966213259310000016252085024685988012_);" d="M753,90.9
+		c-3.3,0-6-3.3-6-6.6V57.1c0-3.3,2.7-6.5,6-6.5h5.6V38.3l-14.1-14.1h-12.2v5.6c0,3.3-3.3,6-6.5,6h-27.3c-3.3,0-6.5-2.7-6.5-6v-5.6
+		h-12.3l-14.1,14.1v12.2h5.6c3.3,0,6,3.3,6,6.5v27.3c0,3.3-2.7,6.6-6,6.6h-5.6v12.2l14.1,14.1h12.2v-5.6c0-3.3,3.3-5.9,6.5-5.9h27.2
+		c3.3,0,6.5,2.7,6.5,5.9v5.6h12.2l14.1-14.1V90.9H753L753,90.9z"/>
+</g>
+<path class="st1" d="M607.6,64.6V53.1h11.5v11.5H607.6z M607.6,95.7V84.2h11.5v11.5H607.6z"/>
+<g id="heat">
+	<rect x="473.1" y="16.9" class="st7" width="107.5" height="107.5"/>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-622.3175" y1="-1652.1517" x2="-550.6463" y2="-1580.5006" gradientTransform="matrix(0.7071 -0.7071 -0.7071 -0.7071 -201.3148 -1486.8955)">
+		<stop  offset="0" style="stop-color:#951919"/>
+		<stop  offset="0.21" style="stop-color:#B9251D"/>
+		<stop  offset="0.47" style="stop-color:#E62B23"/>
+		<stop  offset="0.55" style="stop-color:#E62F2A"/>
+		<stop  offset="0.84" style="stop-color:#E73A3B"/>
+		<stop  offset="1" style="stop-color:#E83E41"/>
+	</linearGradient>
+	<rect x="476.2" y="20.1" class="st8" width="101.3" height="101.3"/>
+	<rect x="481.1" y="25" class="st9" width="91.5" height="91.5"/>
+	<path id="darker" class="st10" d="M577.6,121.4H476.2V65.8c0,0,31.9,4.9,50.6,4.9c18.7,0,50.7-4.9,50.7-4.9V121.4z"/>
+	<g>
+		<polygon class="st11" points="515.5,75.4 503.9,65.4 503.9,65.4 503.9,34.9 492.4,66 504,75.9 504,75.9 503.9,106.6 		"/>
+		<polygon class="st11" points="538.5,75.4 526.9,65.4 526.8,65.4 526.9,34.9 515.4,66 526.9,75.9 526.9,75.9 526.9,106.6 		"/>
+		<polygon class="st11" points="562.1,75.4 550.6,65.4 550.5,65.4 550.6,34.9 539,66 550.6,75.9 550.6,75.9 550.6,106.6 		"/>
+	</g>
+</g>
+<path class="st12" d="M691.1,96.3l16-24.6l-15.3-25.3h12.1L714,63.3l11-16.8h8.4L718,70l15.9,26.3h-12.1L711,78.4l-11.6,17.9H691.1
+	L691.1,96.3z"/>
+</svg>

@@ -65,7 +65,7 @@ const ModalResource = () => {
                <ModalResourceData setCardSnap={setCardSnap} />
                {/* CARD SNAP FOR VP VIEW */}
                {cardSnap && (
-                  <div className="modal-other-card">
+                  <div className="card-container medium">
                      <Card card={cardSnap} />
                   </div>
                )}

@@ -42,7 +42,7 @@ function Game({ setGameOn }) {
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1000)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(800)
    const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
 
    useEffect(() => {

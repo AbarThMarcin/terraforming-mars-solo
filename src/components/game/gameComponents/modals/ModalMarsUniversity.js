@@ -94,7 +94,7 @@ const ModalMarsUniversity = () => {
                {statePlayer.cardsInHand.map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container ${selectedCardId === card.id && 'selected'}`}
+                     className={`card-container small ${selectedCardId === card.id && 'selected'}`}
                      style={getPosition(statePlayer.cardsInHand.length, idx)}
                      onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                   >

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { getActionCost } from '../../../../../../../util/misc'
 import { ModalsContext, StatePlayerContext } from '../../../../../Game'
-import CardDecreaseCost from '../../../modalsComponents/CardDecreaseCost'
+import DecreaseCostAction from '../../../modalsComponents/DecreaseCostAction'
 import ModalOtherDataActionsItem from './ModalOtherDataActionsItem'
 
 const ModalOtherDataActions = ({ setCardSnap }) => {
@@ -79,7 +79,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
          {((statePlayer.resources.titan > 0 && actionClicked === 12) ||
             (statePlayer.resources.steel > 0 && actionClicked === 187) ||
             (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && actionClicked)) && (
-            <CardDecreaseCost
+            <DecreaseCostAction
                toBuyMln={toBuyMln}
                setToBuyMln={setToBuyMln}
                toBuySteel={toBuySteel}

@@ -11,32 +11,27 @@
    font-size: calc(var(--default-size) * 1.5);
 }
 
-
 .modal-other-data {
+   width: calc(100% - var(--default-size) * 1.8);
+   height: calc(100% - var(--default-size) * 1.8);
    overflow-y: auto;
-   width: calc(100% - var(--default-size) * 2);
-   height: calc(100% - var(--default-size) * 2);
 }
 
 .modal-other-data-item {
-   background-color: rgba(0, 0, 0, 0.5);
+   position: relative;
+   background: rgb(0, 0, 0);
+   background: radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.5) 100%);
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: calc(var(--default-size) * 0.6);
+   padding: calc(var(--default-size) * 0.2);
    height: calc(var(--default-size) * 2.5);
    font-size: calc(var(--default-size) * 1.3);
+   box-shadow: 0 0 0 calc(var(--default-size) * 0.1) rgba(0, 0, 0, 0.5);
+   margin: calc(var(--default-size) * 0.2);
 }
 .modal-other-data-item:not(:last-of-type) {
    margin-bottom: calc(var(--default-size) * 1);
-}
-
-.modal-other-card {
-   position: absolute;
-   top: 25%;
-   left: 104.5%;
-   width: calc(var(--default-size) * 12);
-   height: calc(var(--default-size) * 18);
 }
 
 .modal-other-data-item.selected {

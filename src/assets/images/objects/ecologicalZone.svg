@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="ecologicalZone" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 124.7 124.7" style="enable-background:new 0 0 124.7 124.7;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#977355;}
+	.st1{fill:url(#SVGID_1_);stroke:#000000;stroke-width:0.75;stroke-miterlimit:10;}
+	.st2{fill:#B78C6C;}
+	.st3{opacity:0.15;enable-background:new    ;}
+	.st4{fill:#473628;}
+</style>
+<g id="ecologicalZone_00000015313103734440251640000012287195769459700355_">
+	<polygon points="115.8,93.2 115.8,31.5 62.4,0.7 8.9,31.5 8.9,93.2 62.4,124.1 	"/>
+	<polygon class="st0" points="114.1,92.2 114.1,32.4 62.4,2.5 10.6,32.4 10.6,92.2 62.4,122.1 	"/>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="62.45" y1="135.1079" x2="62.45" y2="23.5079" gradientTransform="matrix(1 0 0 1 0 -17.0079)">
+		<stop  offset="0" style="stop-color:#231C1B"/>
+		<stop  offset="1" style="stop-color:#D3B39B"/>
+	</linearGradient>
+	<polygon class="st1" points="110.8,90.3 110.8,34.4 62.4,6.5 14.1,34.4 14.1,90.3 62.4,118.1 	"/>
+	<polygon class="st2" points="107.3,88.3 107.3,36.4 62.4,10.6 17.6,36.4 17.6,88.3 62.4,114 	"/>
+	<path class="st3" d="M115.5,91.4V52.9l0,0c-53.1,7.9-53.1,7.9-106.3,0l0,0v38.5l53.1,30.7L115.5,91.4z"/>
+	<g>
+		<ellipse transform="matrix(0.9879 -0.1548 0.1548 0.9879 -5.0939 8.401)" class="st4" cx="51.4" cy="36.9" rx="3.7" ry="6.1"/>
+		<ellipse transform="matrix(0.9628 -0.2701 0.2701 0.9628 -9.0003 12.7979)" class="st4" cx="42" cy="39.1" rx="3.7" ry="6.1"/>
+		<ellipse transform="matrix(0.9196 -0.3929 0.3929 0.9196 -16.1013 17.9468)" class="st4" cx="35.8" cy="48.3" rx="3" ry="5"/>
+		<ellipse class="st4" cx="60.2" cy="43.9" rx="3" ry="5"/>
+		<path class="st4" d="M39.4,57.9c0.3-2.9,0.6-5.9,2.8-9.1c1.2-1.8,2.3-3.4,4.5-4.2c2.1-0.8,3.9-0.3,4.7-0.1c2.5,0.6,4,2.1,5,3
+			c2.1,2,2.9,4,3.7,6.1c0.7,1.7,1,3.1,0.7,4.6c-0.2,1-0.6,1.3-0.8,1.5c-0.8,0.6-1.9,0.2-3-0.1c-0.3-0.1-3.5-0.9-6.2-0.4
+			c-2.3,0.4-4.4,1.8-4.9,2.1c-1.2,0.8-1.8,1.4-3,1.6c-0.3,0-1.8,0.2-2.8-0.7C39.5,61.6,39.2,60.7,39.4,57.9z"/>
+	</g>
+	<g>
+		<ellipse transform="matrix(0.1515 -0.9885 0.9885 0.1515 5.7386 136.7175)" class="st4" cx="82.5" cy="65" rx="6.1" ry="3.7"/>
+		
+			<ellipse transform="matrix(3.405007e-02 -0.9994 0.9994 3.405007e-02 6.0951 134.8834)" class="st4" cx="72.8" cy="64.3" rx="6.1" ry="3.7"/>
+		
+			<ellipse transform="matrix(0.9954 -9.607223e-02 9.607223e-02 0.9954 -6.5441 6.4877)" class="st4" cx="64.1" cy="71.2" rx="3" ry="5"/>
+		<ellipse transform="matrix(0.3027 -0.9531 0.9531 0.3027 -9.0375 136.4078)" class="st4" cx="88.7" cy="74.4" rx="5" ry="3"/>
+		<path class="st4" d="M64.7,81.4c1.1-2.6,2.3-5.4,5.4-7.8c1.6-1.3,3.2-2.6,5.6-2.7c2.2-0.1,3.9,0.9,4.6,1.3
+			c2.2,1.3,3.2,3.2,3.9,4.4c1.4,2.5,1.5,4.7,1.7,6.9c0.1,1.8,0,3.3-0.8,4.6c-0.5,0.8-0.9,1.1-1.2,1.1c-1,0.3-1.9-0.4-2.9-1
+			c-0.3-0.2-3-1.9-5.8-2.3c-2.3-0.3-4.8,0.4-5.3,0.5c-1.3,0.4-2.1,0.8-3.4,0.6c-0.3,0-1.8-0.3-2.4-1.5C63.6,85,63.6,84,64.7,81.4z"
+			/>
+	</g>
+</g>
+</svg>

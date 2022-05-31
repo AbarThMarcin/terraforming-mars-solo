@@ -4,6 +4,7 @@
 
 .modal-other-data-item div .img-res {
    margin-left: calc(var(--default-size) * 0.5);
+   margin-right: calc(var(--default-size) * 0.5);
    height: 100%;
    vertical-align: middle;
 }

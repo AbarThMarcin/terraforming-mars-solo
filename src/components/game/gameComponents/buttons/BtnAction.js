@@ -18,6 +18,7 @@ const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position 
          text === 'CONFIRM' ||
          text === 'NEXT' ||
          text === 'DISCARD' ||
+         text === 'ACTION' ||
          text === 'CANCEL'
       ) {
          onYesFunc()
@@ -38,6 +39,7 @@ const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position 
          confirmation: true,
       })
    }
+
    return (
       // Button
       <div

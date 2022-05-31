@@ -8,7 +8,7 @@ import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../..
 import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
 import Card from '../Card'
-import CardDecreaseCost from './modalsComponents/CardDecreaseCost'
+import DecreaseCost from './modalsComponents/DecreaseCost'
 import BtnAction from '../buttons/BtnAction'
 
 const ModalCardWithAction = () => {
@@ -91,16 +91,18 @@ const ModalCardWithAction = () => {
    }
 
    function getDisabled() {
-      return (
+      if (!requirementsMet(modals.modalCard)) return true
+      if (stateGame.phaseViewGameState) return true
+      if (stateGame.phasePlaceTile) return true
+      if (
          Math.min(toBuyMln, statePlayer.resources.mln) +
             toBuySteel * statePlayer.valueSteel +
             toBuyTitan * statePlayer.valueTitan +
             toBuyHeat <
-            modals.modalCard.currentCost ||
-         !requirementsMet(modals.modalCard) ||
-         stateGame.phaseViewGameState ||
-         stateGame.phasePlaceTile
+         modals.modalCard.currentCost
       )
+         return true
+      return false
    }
 
    const onYesFunc = () => {
@@ -192,7 +194,7 @@ const ModalCardWithAction = () => {
                (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
                modals.cardWithAction &&
                !modals.draft && (
-                  <CardDecreaseCost
+                  <DecreaseCost
                      toBuyMln={toBuyMln}
                      setToBuyMln={setToBuyMln}
                      toBuySteel={toBuySteel}

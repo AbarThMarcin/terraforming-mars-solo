@@ -42,7 +42,7 @@
    position: absolute;
    width: calc(var(--field-width) / 1.7320508075);
    height: calc(var(--field-width) * var(--field-border-weight));
-   background-color: rgb(94, 64, 0);
+   background-color: rgb(75, 51, 0);
    border-radius: calc(var(--default-size) * 0.2);
 }
 
@@ -128,11 +128,11 @@
 }
 
 .field-blue-color {
-   background-color: rgb(48, 50, 180);
+   background-color: rgb(67, 69, 212);
 }
 
 .field-green-color {
-   background-color: rgb(39, 148, 30);
+   background-color: rgb(29, 109, 22);
 }
 
 .field-transparent-border {
@@ -141,12 +141,12 @@
 
 @keyframes field-available {
    0% {
-      background-color: rgb(202, 166, 86);
+      background-color: rgb(187, 162, 110);
    }
    50% {
-      background-color: rgb(255, 211, 115);
+      background-color: rgb(253, 231, 184);
    }
    100% {
-      background-color: rgb(202, 166, 86);
+      background-color: rgb(187, 162, 110);
    }
 }

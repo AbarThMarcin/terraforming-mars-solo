@@ -22,7 +22,7 @@ const AnimCard = ({ type }) => {
          style={{ animationDuration: `${ANIMATION_SPEED}ms` }}
       >
          <img src={getResIcon(RESOURCES.CARD)} className="full-size" alt="card" />
-         <span className="value center">{value}</span>
+         <div className="value center">{value}</div>
       </div>
    )
 }

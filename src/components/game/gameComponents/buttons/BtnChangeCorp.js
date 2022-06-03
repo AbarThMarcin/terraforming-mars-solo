@@ -23,7 +23,7 @@ const BtnChangeCorp = ({ dispatchGame, statePlayer, dispatchPlayer }) => {
 
    return (
       <div className="btn-change-corp pointer" onClick={handleClickChangeCorpBtn}>
-         ChangeCorpBtn
+         CHANGE CORPORATION
       </div>
    )
 }

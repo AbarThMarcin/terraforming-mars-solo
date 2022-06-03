@@ -1,6 +1,4 @@
 import {
-   getAllResources,
-   getAllResourcesForAction,
    getCardsWithPossibleAnimals,
    getCardsWithPossibleMicrobes,
    getNeighbors,
@@ -39,17 +37,8 @@ export const funcRequirementsMet = (
    stateGame,
    stateBoard,
    modals,
-   cost,
-   actionClicked,
    getImmEffects
 ) => {
-   // Cost requirement
-   if (cost !== undefined) {
-      if (getAllResourcesForAction(actionClicked, statePlayer) < cost) return false
-      return true
-   } else {
-      if (getAllResources(card, statePlayer) < card.currentCost) return false
-   }
    // If inappropiate state of the game is on, return false
    if (
       stateGame.phaseDraft ||
@@ -202,7 +191,6 @@ export const funcRequirementsMet = (
                   hasTag(card, other) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
                0
             ) + statePlayer.corporation.tags.filter((tag) => tag === other).length
-         console.log(countTags, value)
          if (countTags < value) {
             isAvailable = false
             return

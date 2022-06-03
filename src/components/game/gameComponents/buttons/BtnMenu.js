@@ -11,7 +11,9 @@ const BtnMenu = () => {
    }
    return (
       <div className="btn-menu pointer" onClick={handleClickMenuIcon}>
-         MENU
+         <div className="btn-menu-line btn-menu-line1"></div>
+         <div className="btn-menu-line btn-menu-line2"></div>
+         <div className="btn-menu-line btn-menu-line3"></div>
       </div>
    )
 }

@@ -16,6 +16,8 @@
 .card-container.small {
    width: calc(var(--default-size) * 7.5);
    height: calc(var(--default-size) * 7.5 * 1.4);
+   border-radius: calc(var(--default-size) * 0.5);
+   box-shadow: 0 0 calc(var(--default-size) * 0.6) rgba(0, 0, 0, 1);
 }
 .card-container.medium {
    width: calc(var(--default-size) * 7.5 * var(--ratio-medium));
@@ -23,10 +25,14 @@
    top: 61%;
    left: 135%;
    opacity: 0.7;
+   border-radius: calc(var(--default-size) * 0.5 * var(--ratio-medium));
+   box-shadow: 0 0 calc(var(--default-size) * 0.8) rgba(0, 0, 0, 1);
 }
 .card-container.big {
    width: calc(var(--default-size) * 7.5 * var(--ratio-big));
    height: calc(var(--default-size) * 7.5 * 1.4 * var(--ratio-big));
+   border-radius: calc(var(--default-size) * 0.5 * var(--ratio-big));
+   box-shadow: 0 0 calc(var(--default-size) * 2.5) calc(var(--default-size) * 1) rgba(0, 0, 0, 0.8);
 }
 
 /* Card */
@@ -38,7 +44,7 @@
    border-radius: calc(var(--default-size) * 0.5 * var(--ratio-medium));
 }
 .card-container.big .card {
-   border-radius: calc(var(--default-size) * 0.5 * var(--ratio-medium));
+   border-radius: calc(var(--default-size) * 0.5 * var(--ratio-big));
 }
 .card-bg-green {
    background-color: rgb(13, 68, 13);
@@ -76,6 +82,10 @@
    inset: calc(var(--default-size) * 0.15 * var(--ratio-big));
    border: calc(var(--default-size) * 0.1 * var(--ratio-big)) solid #000;
    border-radius: calc(var(--default-size) * 0.5 * 0.8 * var(--ratio-big));
+}
+.card .black-border > img {
+   width: 102%;
+   height: auto;
 }
 
 /* Cost */
@@ -366,16 +376,12 @@
 
 /* Card selected */
 .card-container.selected {
-   box-shadow: 0 0 calc(var(--default-size) * 1) 0 rgba(0, 255, 0, 0.2);
-}
-.card-selected {
-   background-color: rgb(35, 53, 38);
+   box-shadow: 0 0 calc(var(--default-size) * 0.8) 0 rgba(0, 158, 79, 0.5);
 }
 
 /* Card disabled */
-.card .bg-disabled {
-   background-color: rgba(0, 0, 0, 0.5);
-   border-radius: calc(var(--default-size) * 0.5);
+.card.disabled {
+   opacity: 0.3;
 }
 
 /* Mln icon next to button */

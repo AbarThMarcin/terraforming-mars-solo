@@ -10,7 +10,7 @@ import {
    setAnimation,
    startAnimation,
 } from '../../../../../data/animations'
-import { RESOURCES } from '../../../../../data/resources'
+import { getResIcon, RESOURCES } from '../../../../../data/resources'
 import { EFFECTS } from '../../../../../data/effects'
 
 const ProdResPanel = () => {
@@ -80,38 +80,44 @@ const ProdResPanel = () => {
          <ProdResSnap
             prod={statePlayer.production.mln}
             res={statePlayer.resources.mln}
-            icon={null}
+            icon={getResIcon(RESOURCES.MLN)}
             action={{ func: null, type: null }}
+            resource={RESOURCES.MLN}
          />
          <ProdResSnap
             prod={statePlayer.production.steel}
             res={statePlayer.resources.steel}
-            icon={null}
+            icon={getResIcon(RESOURCES.STEEL)}
             action={{ func: null, type: null }}
+            resource={RESOURCES.STEEL}
          />
          <ProdResSnap
             prod={statePlayer.production.titan}
             res={statePlayer.resources.titan}
-            icon={null}
+            icon={getResIcon(RESOURCES.TITAN)}
             action={{ func: null, type: null }}
+            resource={RESOURCES.TITAN}
          />
          <ProdResSnap
             prod={statePlayer.production.plant}
             res={statePlayer.resources.plant}
-            icon={null}
+            icon={getResIcon(RESOURCES.PLANT)}
             action={{ func: actionGreenery, type: 'greenery' }}
+            resource={RESOURCES.PLANT}
          />
          <ProdResSnap
             prod={statePlayer.production.energy}
             res={statePlayer.resources.energy}
-            icon={null}
+            icon={getResIcon(RESOURCES.ENERGY)}
             action={{ func: null, type: null }}
+            resource={RESOURCES.ENERGY}
          />
          <ProdResSnap
             prod={statePlayer.production.heat}
             res={statePlayer.resources.heat}
-            icon={null}
+            icon={getResIcon(RESOURCES.HEAT)}
             action={{ func: actionTemperature, type: 'temperature' }}
+            resource={RESOURCES.HEAT}
          />
       </div>
    )

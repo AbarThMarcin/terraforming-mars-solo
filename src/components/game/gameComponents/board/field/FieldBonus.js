@@ -12,7 +12,9 @@ const FieldBonus = ({ bonus }) => {
          {bonus === RESOURCES.PLANT && (
             <img src={getResIcon(RESOURCES.PLANT)} className="field-bonus" alt="plant_res"></img>
          )}
-         {bonus === RESOURCES.CARD && <img src={getResIcon(RESOURCES.CARD)} className="field-bonus" alt="card"></img>}
+         {bonus === RESOURCES.CARD && (
+            <img src={getResIcon(RESOURCES.CARD)} className="field-bonus-card" alt="card"></img>
+         )}
       </>
    )
 }

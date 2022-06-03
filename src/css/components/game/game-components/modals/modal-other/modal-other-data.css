@@ -1,0 +1,91 @@
+/* General */
+.modal-other-box-no-data {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   font-size: calc(var(--default-size) * 1.6);
+}
+
+.modal-other-data {
+   width: calc(100% - var(--default-size) * 1.8);
+   height: calc(100% - var(--default-size) * 1.8);
+   overflow-y: auto;
+}
+
+.modal-other-data-item {
+   position: relative;
+   background: rgb(0, 0, 0);
+   background: radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.5) 100%);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: calc(var(--default-size) * 0.7);
+   height: calc(var(--default-size) * 2.2);
+   font-size: calc(var(--default-size) * 1.1);
+   box-shadow: 0 0 0 calc(var(--default-size) * 0.1) rgba(0, 0, 0, 0.5);
+   margin: calc(var(--default-size) * 0.2);
+}
+.modal-other-data-item:not(:last-of-type) {
+   margin-bottom: calc(var(--default-size) * 1);
+}
+.modal-other-data-item div {
+   height: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.modal-other-data-item.selected {
+   outline: #fff solid calc(var(--default-size) * 0.2);
+}
+
+/* Card Resources */
+.modal-other-data-item div .img-res {
+   margin-left: calc(var(--default-size) * 0.2);
+   height: 180%;
+   transform: translateX(20%);
+}
+
+/* Tags */
+.modal-other-data-tags {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-auto-rows: calc(var(--default-size) * 2.5);
+   gap: calc(var(--default-size) * 0.6);
+}
+
+.modal-other-data-item div .img-tag {
+   height: 210%;
+   transform: translateX(25%);
+}
+
+/* VP */
+.modal-other-data-item .img-vp {
+   height: 240%;
+   transform: translateX(30%);
+}
+
+/* Actions */
+.modal-other-data-item .action {
+   display: flex;
+   justify-content: center;
+   height: 100%;
+   width: 75%;
+}
+
+.modal-other-data-item .action img {
+   height: 200%;
+}
+
+/* Effects */
+.modal-other-data-item .effect {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+   width: 100%;
+}
+
+.modal-other-data-item .effect img {
+   height: 200%;
+}

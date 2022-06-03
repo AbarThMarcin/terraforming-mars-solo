@@ -1,8 +1,18 @@
+import iconMln from '../../../../../assets/images/resources/mln.svg'
+
 const ModalHeader = ({ text, eachText }) => {
    return (
       <div className="header">
-         <div className="text center">{text}</div>
-         {eachText && <div className="eachText">{eachText}</div>}
+         <span className="text center">{text}</span>
+         {eachText && (
+            <div className="eachText">
+               <div className="icon">
+                  <img className="center" src={iconMln} alt="icon_mln" />
+                  <span className="center">{eachText}</span>
+               </div>
+               <span>each</span>
+            </div>
+         )}
       </div>
    )
 }

@@ -2,6 +2,7 @@
 
 import { useState, useContext } from 'react'
 import { ModalsContext } from '../../../Game'
+import BtnClose from '../../buttons/BtnClose'
 import Card from '../../Card'
 import ModalOtherData from './modalOtherData/ModalOtherData'
 
@@ -32,18 +33,15 @@ const ModalOther = () => {
             className={`modal-background ${modals.confirmation && 'display-none'}`}
             onClick={() => setModals({ ...modals, other: false })}
          >
-            <div className="modal-other-box center" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-standard-projects-box other center" onClick={(e) => e.stopPropagation()}>
                {/* HEADER */}
-               <div className="modal-other-box-header">
+               <div className="header">
                   {modals.modalOther.header} {modals.modalOther.amount}
                </div>
                {/* CLOSE BUTTON */}
-               <div
-                  className="btn-close pointer"
-                  onClick={() => setModals({ ...modals, other: false })}
-               >
-                  X
-               </div>
+               <BtnClose
+               onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
+            />
                {/* DATA */}
                {modals.modalOther.data.length === 0 ? (
                   <div className="modal-other-box-no-data center">

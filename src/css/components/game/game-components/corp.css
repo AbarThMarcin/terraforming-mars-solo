@@ -1,10 +1,27 @@
 .corp {
-   width: calc(var(--default-size) * 20);
-   height: calc(var(--default-size) * 30);
-   background-color: rgba(34, 34, 34, 0.678);
-   border-radius: var(--default-size);
+   position: relative;
+   opacity: 0.5;
+   width: calc(var(--default-size) * 18 * 1.422862);
+   height: calc(var(--default-size) * 18);
+   border-radius: calc(var(--default-size) * 1.5);
+   box-shadow: 0 0 calc(var(--default-size) * 1.5) calc(var(--default-size) * 0.5) #000;
+}
+.corp.modal {
+   opacity: 1;
+   box-shadow: 0 0 calc(var(--default-size) * 1.5) calc(var(--default-size) * 0.5) #000,
+      0 0 calc(var(--default-size) * 1.5) calc(var(--default-size) * 0.5) #000;
+}
+.corp img {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 100%;
+   height: auto;
 }
 
 .corp.selected {
-   background-color: rgba(85, 85, 85, 0.678);
+   opacity: 1;
+   box-shadow: 0 0 calc(var(--default-size) * 1.5) calc(var(--default-size) * 0.5) #000,
+      0 0 calc(var(--default-size) * 1.5) calc(var(--default-size) * 0.3) rgba(57, 253, 155, 0.6);
 }

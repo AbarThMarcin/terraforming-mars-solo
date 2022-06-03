@@ -1,16 +1,19 @@
 import { useContext } from 'react'
 import BtnPass from '../buttons/BtnPass'
-import PassCorpSnap from './PassCorpSnap'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
 import AnimProdRes from '../animations/AnimProdRes'
 import { modifiedCards } from '../../../../util/misc'
+import passContBg from '../../../../assets/images/other/passContBg.svg'
+import { getCorpLogoMini } from '../../../../data/corporations'
+import { getResIcon } from '../../../../data/resources'
 
 const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame } = useContext(StateGameContext)
+   const logo = getCorpLogoMini(statePlayer.corporation.name)
 
    const onYesFunc = () => {
       // Close confirmation window
@@ -69,10 +72,7 @@ const PassContainer = () => {
    return (
       <>
          <div className="pass-container">
-            {!stateGame.phaseDraft &&
-               !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState && <BtnPass onYesFunc={onYesFunc} />}
-            <PassCorpSnap />
+            {/* Animation */}
             {modals.animation && (
                <>
                   {modals.animationData.productionIn.type !== null && (
@@ -87,6 +87,22 @@ const PassContainer = () => {
                   )}
                </>
             )}
+            {/* Button */}
+            {!stateGame.phaseDraft &&
+               !stateGame.phasePlaceTile &&
+               !stateGame.phaseViewGameState && <BtnPass onYesFunc={onYesFunc} />}
+            {/* Background */}
+            <img className="full-size" src={passContBg} alt="pass_container_background" />
+            {/* Corp Name */}
+            <div className="corp-name">{statePlayer.corporation.name}</div>
+            {/* Corp Logo */}
+            <div className="logo">
+               <img src={logo} alt={`logo_${statePlayer.corporation.name}`} />
+            </div>
+            {/* You text */}
+            <div className="you-text">YOU</div>
+            {/* TR */}
+            <div className="tr">{stateGame.tr}</div>
          </div>
       </>
    )

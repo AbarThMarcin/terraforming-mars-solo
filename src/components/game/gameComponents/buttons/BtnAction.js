@@ -1,7 +1,16 @@
 import { useContext } from 'react'
 import { ModalsContext } from '../../Game'
+import mlnIcon from '../../../../assets/images/resources/mln.svg'
 
-const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position }) => {
+const BtnAction = ({
+   text,
+   mln,
+   textConfirmation,
+   onYesFunc,
+   disabled,
+   position,
+   onMouseDownFunc,
+}) => {
    const { modals, setModals } = useContext(ModalsContext)
 
    const handleClickActionBtn = () => {
@@ -12,32 +21,26 @@ const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position 
          setModals((prevModals) => ({ ...prevModals, sellCards: false }))
          return
       }
-      // If button text is one of the following, perform onYesFunc immediately
-      if (
-         text === 'YES' ||
-         text === 'CONFIRM' ||
-         text === 'NEXT' ||
-         text === 'DISCARD' ||
-         text === 'ACTION' ||
-         text === 'CANCEL'
-      ) {
-         onYesFunc()
-         return
-      }
-      if (text === 'NO') {
+      // If Button is NO in confirmation phase
+      if (text === 'NO' && modals.confirmation) {
          setModals((prevModals) => ({ ...prevModals, confirmation: false }))
          return
       }
       // If Button requires confirmation
-      setModals({
-         ...modals,
-         modalConf: {
-            text: textConfirmation,
-            onYes: onYesFunc,
-            onNo: () => setModals({ ...modals, confirmation: false }),
-         },
-         confirmation: true,
-      })
+      if (textConfirmation) {
+         setModals({
+            ...modals,
+            modalConf: {
+               text: textConfirmation,
+               onYes: onYesFunc,
+               onNo: () => setModals({ ...modals, confirmation: false }),
+            },
+            confirmation: true,
+         })
+      } else {
+         onYesFunc()
+         return
+      }
    }
 
    return (
@@ -47,14 +50,16 @@ const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position 
             ${text === 'CANCEL' || text === 'NO' ? 'btn-cancel' : 'btn-action'}
             ${disabled ? 'disabled' : 'pointer'}
          `}
-         onClick={handleClickActionBtn}
          style={position !== undefined ? position : {}}
+         onClick={handleClickActionBtn}
+         onMouseDown={onMouseDownFunc}
       >
          {text}
          {/* Mln Icon */}
-         {(text === 'SELL' || text === 'USE' || text === 'DONE') && (
+         {mln !== undefined && (
             <div className="btn-action-mlnicon" onClick={(e) => e.stopPropagation()}>
-               {mln}
+               <img src={mlnIcon} alt='mln_icon' />
+               <span className='center'>{mln}</span>
             </div>
          )}
       </div>

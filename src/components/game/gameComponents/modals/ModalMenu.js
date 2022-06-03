@@ -30,16 +30,16 @@ const ModalMenu = ({ setGameOn }) => {
             <div className="modal-menu" onClick={(e) => e.stopPropagation()}>
                <ul>
                   <li
-                     className="btn-menu-li pointer"
+                     className="pointer"
                      onClick={() => setModals({ ...modals, settings: !modals.settings })}
                   >
                      SETTINGS
                   </li>
-                  <li className="btn-menu-li pointer" onClick={handleClickForfeit}>
+                  <li className="pointer" onClick={handleClickForfeit}>
                      FORFEIT
                   </li>
                   <li
-                     className="btn-menu-li pointer"
+                     className="pointer"
                      onClick={() => setModals({ ...modals, rules: true, settings: false })}
                   >
                      RULES

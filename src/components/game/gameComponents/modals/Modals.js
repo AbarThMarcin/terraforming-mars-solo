@@ -22,7 +22,7 @@ import ModalProduction from './modalProduction/ModalProduction'
 import ModalMarsUniversity from './ModalMarsUniversity'
 import ModalBusinessContacts from './ModalBusinessContacts'
 
-const Modals = ({ setGameOn }) => {
+const Modals = ({ setGameOn, setAnimationSpeed }) => {
    const { modals } = useContext(ModalsContext)
 
    return (
@@ -45,7 +45,7 @@ const Modals = ({ setGameOn }) => {
          {modals.cardViewOnly && <ModalCardViewOnly />}
          {modals.animation && <div className="full-size"></div>}
          {modals.menu && <ModalMenu setGameOn={setGameOn} />}
-         {modals.settings && <ModalSettings />}
+         {modals.settings && <ModalSettings setAnimationSpeed={setAnimationSpeed} />}
          {modals.rules && <ModalRules />}
          {modals.confirmation && <ModalConfirmation />}
       </>

@@ -36,7 +36,7 @@ const ModalDraft = () => {
          ? "Are you sure you don't want to buy any cards?"
          : 'Are you sure you want to buy these project cards?'
 
-   const btnActionPosition = { bottom: '0', left: '50%', transform: 'translateX(-50%)' }
+   const btnActionPosition = { bottom: '0.5%', left: '50%', transform: 'translateX(-50%)' }
 
    const onYesFunc = () => {
       // Decrease corporation mln resources
@@ -110,7 +110,7 @@ const ModalDraft = () => {
             {/* HEADER */}
             <ModalHeader
                text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
-               eachText="3 each"
+               eachText="3"
             />
             {/* CHANGE CORPORATION BUTTON */}
             {stateGame.generation === 1 && (
@@ -124,7 +124,7 @@ const ModalDraft = () => {
             {cardsDraft.map((card, idx) => (
                <div
                   key={idx}
-                  className={`card-container small ${selectedCards.includes(card) && 'selected'}`}
+                  className={`card-container small ${selectedCards.find(selCard => selCard.id === card.id)  && 'selected'}`}
                   style={getPosition(cardsDraft.length, idx)}
                   onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                >

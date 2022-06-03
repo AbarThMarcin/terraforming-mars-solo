@@ -1,22 +1,34 @@
 import { EFFECTS } from './effects'
 import { TAGS } from './tags'
 import { CORP_NAMES } from './corpNames'
-import logoCredicor from '../assets/images/corporation-logos/logoCredicor.png'
-import logoEcoline from '../assets/images/corporation-logos/logoEcoline.png'
-import logoHelion from '../assets/images/corporation-logos/logoHelion.png'
-import logoInterplanetary from '../assets/images/corporation-logos/logoInterplanetary.png'
-import logoInventrix from '../assets/images/corporation-logos/logoInventrix.png'
-import logoMiningGuild from '../assets/images/corporation-logos/logoMiningGuild.png'
-import logoPhobolog from '../assets/images/corporation-logos/logoPhobolog.png'
-import logoSaturnSystems from '../assets/images/corporation-logos/logoSaturnSystems.png'
-import logoTeractor from '../assets/images/corporation-logos/logoTeractor.png'
-import logoTharsis from '../assets/images/corporation-logos/logoTharsis.png'
-import logoThorgate from '../assets/images/corporation-logos/logoThorgate.png'
-import logoUnmi from '../assets/images/corporation-logos/logoUnmi.png'
+import logoCredicor from '../assets/images/corporation-logos/Card/credicor.png'
+import logoEcoline from '../assets/images/corporation-logos/Card/ecoline.png'
+import logoHelion from '../assets/images/corporation-logos/Card/helion.png'
+import logoInterplanetary from '../assets/images/corporation-logos/Card/interplanetary.png'
+import logoInventrix from '../assets/images/corporation-logos/Card/inventrix.png'
+import logoMiningGuild from '../assets/images/corporation-logos/Card/miningGuild.png'
+import logoPhobolog from '../assets/images/corporation-logos/Card/phobolog.png'
+import logoSaturnSystems from '../assets/images/corporation-logos/Card/saturnSystems.png'
+import logoTeractor from '../assets/images/corporation-logos/Card/teractor.png'
+import logoTharsis from '../assets/images/corporation-logos/Card/tharsis.png'
+import logoThorgate from '../assets/images/corporation-logos/Card/thorgate.png'
+import logoUnmi from '../assets/images/corporation-logos/Card/unmi.png'
+import logoMiniCredicor from '../assets/images/corporation-logos/PassContainer/credicor.svg'
+import logoMiniEcoline from '../assets/images/corporation-logos/PassContainer/ecoline.svg'
+import logoMiniHelion from '../assets/images/corporation-logos/PassContainer/helion.svg'
+import logoMiniInterplanetary from '../assets/images/corporation-logos/PassContainer/interplanetary.svg'
+import logoMiniInventrix from '../assets/images/corporation-logos/PassContainer/inventrix.svg'
+import logoMiniMiningGuild from '../assets/images/corporation-logos/PassContainer/miningGuild.svg'
+import logoMiniPhobolog from '../assets/images/corporation-logos/PassContainer/phobolog.svg'
+import logoMiniSaturnSystems from '../assets/images/corporation-logos/PassContainer/saturnSystems.svg'
+import logoMiniTeractor from '../assets/images/corporation-logos/PassContainer/teractor.svg'
+import logoMiniTharsis from '../assets/images/corporation-logos/PassContainer/tharsis.svg'
+import logoMiniThorgate from '../assets/images/corporation-logos/PassContainer/thorgate.svg'
+import logoMiniUnmi from '../assets/images/corporation-logos/PassContainer/unmi.svg'
 
 // Corporation names
-export const getCorpLogo = (corporation) => {
-   switch (corporation) {
+export const getCorpLogo = (corpName) => {
+   switch (corpName) {
       case CORP_NAMES.CREDICOR:
          return logoCredicor
       case CORP_NAMES.ECOLINE:
@@ -45,26 +57,56 @@ export const getCorpLogo = (corporation) => {
          return
    }
 }
+export const getCorpLogoMini = (corpName) => {
+   switch (corpName) {
+      case CORP_NAMES.CREDICOR:
+         return logoMiniCredicor
+      case CORP_NAMES.ECOLINE:
+         return logoMiniEcoline
+      case CORP_NAMES.HELION:
+         return logoMiniHelion
+      case CORP_NAMES.INTERPLANETARY:
+         return logoMiniInterplanetary
+      case CORP_NAMES.INVENTRIX:
+         return logoMiniInventrix
+      case CORP_NAMES.MINING_GUILD:
+         return logoMiniMiningGuild
+      case CORP_NAMES.PHOBOLOG:
+         return logoMiniPhobolog
+      case CORP_NAMES.SATURN_SYSTEMS:
+         return logoMiniSaturnSystems
+      case CORP_NAMES.TERACTOR:
+         return logoMiniTeractor
+      case CORP_NAMES.THARSIS_REPUBLIC:
+         return logoMiniTharsis
+      case CORP_NAMES.THORGATE:
+         return logoMiniThorgate
+      case CORP_NAMES.UNMI:
+         return logoMiniUnmi
+      default:
+         return
+   }
+}
 
 export const CORPORATIONS = [
-   // {
-   //    id: 1,
-   //    name: CORP_NAMES.CREDICOR,
-   //    description: 'Credicor',
-   //    production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //    resources: { mln: 57, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-   //    effects: [EFFECTS.EFFECT_CREDICOR],
-   //    tags: [],
-   // },
    {
-      id: 2,
-      name: CORP_NAMES.ECOLINE,
-      description: 'Ecoline',
-      production: { mln: 0, steel: 0, titan: 0, plant: 2, energy: 0, heat: 0 },
-      resources: { mln: 100, steel: 2, titan: 2, plant: 3, energy: 0, heat: 5 },
-      effects: [EFFECTS.EFFECT_ECOLINE],
-      tags: [TAGS.PLANT],
+      id: 1,
+      name: CORP_NAMES.CREDICOR,
+      description: 'Credicor',
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 57, steel: 0, titan: 0, plant: 0, energy: 0, heat: 20 },
+      effects: [EFFECTS.EFFECT_CREDICOR],
+      tags: [],
    },
+   // {
+   //    id: 2,
+   //    name: CORP_NAMES.ECOLINE,
+   //    description: 'Ecoline',
+   //    production: { mln: 0, steel: 0, titan: 0, plant: 2, energy: 0, heat: 0 },
+   //    resources: { mln: 100, steel: 2, titan: 2, plant: 3, energy: 0, heat: 5 },
+   //    effects: [EFFECTS.EFFECT_ECOLINE],
+   //    tags: [TAGS.PLANT],
+   // },
    {
       id: 3,
       name: CORP_NAMES.HELION,

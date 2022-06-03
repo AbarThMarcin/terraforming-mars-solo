@@ -6,7 +6,7 @@ const OtherSnap = ({ icon, headerForModal, amountForModal, dataForModal }) => {
 
    return (
       <div
-         className="other-btn pointer"
+         className="other-snap pointer"
          onClick={() =>
             setModals({
                ...modals,
@@ -19,10 +19,12 @@ const OtherSnap = ({ icon, headerForModal, amountForModal, dataForModal }) => {
             })
          }
       >
-         <div className="other-btn-header">{headerForModal}</div>
-         <div className="other-btn-data">
-            <div className="other-btn-icon">{icon}</div>
-            <div className="other-btn-value">{amountForModal}</div>
+         <div className="header">{headerForModal}</div>
+         <div className="data">
+            <div className="icon">
+               <img src={icon} alt="icon_other_snap" />
+            </div>
+            <div className="value">{amountForModal}</div>
          </div>
       </div>
    )

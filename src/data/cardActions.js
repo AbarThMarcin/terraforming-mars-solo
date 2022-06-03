@@ -313,12 +313,10 @@ export const funcGetCardActions = (
          value = stateBoard.filter(
             (field) =>
                field.object === TILES.CITY_NEUTRAL ||
-               (
-                  field.object === TILES.CITY &&
+               (field.object === TILES.CITY &&
                   field.name !== 'PHOBOS SPACE HAVEN' &&
-                  field.name !== 'GANYMEDE COLONY'
-               ).length
-         )
+                  field.name !== 'GANYMEDE COLONY')
+         ).length
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,

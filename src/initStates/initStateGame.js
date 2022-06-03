@@ -13,9 +13,9 @@ export const INIT_STATE_GAME = {
    phaseBusinessContacts: false, // For Business Contacts and Invention Contest only
    // Current Global Parameters
    globalParameters: {
-      temperature: -2,
-      oxygen: 5,
-      oceans: 0,
+      temperature: -30,
+      oxygen: 0,
+      oceans: 5,
    },
    // TR
    tr: 14,

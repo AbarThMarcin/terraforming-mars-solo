@@ -18,7 +18,7 @@ const BtnPass = ({ onYesFunc }) => {
 
    return (
       <div className="btn-pass pointer" onClick={handleClickPassBtn}>
-         Pass
+         <span>PASS</span>
       </div>
    )
 }

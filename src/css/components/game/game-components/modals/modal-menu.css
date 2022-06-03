@@ -4,17 +4,40 @@
    top: 0;
    width: 25%;
    height: 100%;
-   background-color: rgba(0, 0, 0, 0.85);
+   background: rgb(0, 0, 0);
+   background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.95) 68%,
+      rgba(10, 10, 10, 0.95) 100%
+   );
+   letter-spacing: calc(var(--default-size) * 0.12);
 }
 
 .modal-menu ul {
    position: absolute;
-   right: 5%;
+   right: 0;
    top: 10%;
-   width: 40%;
+   width: 100%;
    list-style: none;
 }
 
 .modal-menu ul li {
-   margin-top: 10%;
+   padding-right: 5%;
+   text-align: right;
+   font-size: calc(var(--default-size) * 1.1);
+   font-weight: 500;
+   font-style: italic;
+}
+.modal-menu ul li:not(:first-of-type) {
+   margin-top: 0%;
+}
+.modal-menu ul li:hover {
+   background: rgb(0, 255, 175);
+   background: linear-gradient(
+      90deg,
+      rgba(0, 255, 175, 0.2) 0%,
+      rgba(0, 255, 175, 0.2) 68%,
+      rgba(0, 255, 175, 0.4) 100%
+   );
 }

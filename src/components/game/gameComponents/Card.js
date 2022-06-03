@@ -4,14 +4,17 @@ import { hasTag } from '../../../util/misc'
 import { getTagIcon, TAGS } from '../../../data/tags'
 import { REQUIREMENTS } from '../../../data/requirements'
 import { getResIcon, RESOURCES } from '../../../data/resources'
+import { getVpIcon } from '../../../data/vp'
+import { getImmEffectIcon } from '../../../data/immEffects/immEffectsIcons'
 import icon_mln from '../../../assets/images/resources/mln.svg'
 import tempIcon from '../../../assets/images/other/tempIcon.svg'
 import oxIcon from '../../../assets/images/other/oxIcon.svg'
 import oceanIcon from '../../../assets/images/objects/ocean.svg'
 import greenery from '../../../assets/images/objects/greenery.svg'
 import cityAnyIcon from '../../../assets/images/other/cityAny.svg'
-import { getVpIcon } from '../../../data/vp'
-import { getImmEffectIcon } from '../../../data/immEffects/immEffectsIcons'
+import cardBgGreen from '../../../assets/images/card/card-bg-green.svg'
+import cardBgBlue from '../../../assets/images/card/card-bg-blue.svg'
+import cardBgRed from '../../../assets/images/card/card-bg-red.svg'
 
 const Card = ({ card, isBig }) => {
    const [info, setInfo] = useState(false)
@@ -77,12 +80,12 @@ const Card = ({ card, isBig }) => {
       <>
          <div
             className={`
-            card full-size
+            card full-size ${disabled && 'disabled'}
             ${pointer && 'pointer'}
             ${
                hasTag(card, TAGS.EVENT)
                   ? 'card-bg-red'
-                  : card.effect !== null || card.iconNames.action !== null || card.id === 173
+                  : card.effect !== null || card.iconNames.action !== null || card.id === 173 // Protected Habitats
                   ? 'card-bg-blue'
                   : 'card-bg-green'
             }
@@ -90,6 +93,14 @@ const Card = ({ card, isBig }) => {
          >
             {/* BLACK INSET BORDER */}
             <div className="black-border">
+               {/* BACKGROUND */}
+               {hasTag(card, TAGS.EVENT) ? (
+                  <img className='full-size center' src={cardBgRed} alt="card_bg_red" />
+               ) : card.effect !== null || card.iconNames.action !== null || card.id === 173 ? (
+                  <img className='full-size center' src={cardBgBlue} alt="card_bg_blue" />
+               ) : (
+                  <img className='full-size center' src={cardBgGreen} alt="card_bg_green" />
+               )}
                {/* NAME */}
                <div
                   className={`
@@ -292,7 +303,6 @@ const Card = ({ card, isBig }) => {
                      </div>
                   )
             )}
-            {disabled && <div className="bg-disabled full-size pointer"></div>}
          </div>
       </>
    )

@@ -1,27 +1,45 @@
 .pass-container {
    position: absolute;
-   height: 4%;
-   width: 10%;
+   height: calc(var(--default-size) * 1.8);
+   width: calc(var(--default-size) * 1.8 * 3.1879);
+   left: -0.6%;
    top: 18%;
 }
 
-.pass-corp-snap {
-   top: 0;
+.pass-container * {
    position: absolute;
-   width: 60%;
-   height: 100%;
-   background-color: green;
 }
 
-.pass-corp-snap-logo {
-   font-size: smaller;
-   height: 100%;
+.pass-container .corp-name {
+   transform: translateY(-100%);
+   left: 10%;
+   font-size: calc(var(--default-size) * 0.7);
+   letter-spacing: calc(var(--default-size) * 0.08);
+   font-weight: 500;
+   font-style: italic;
+   text-shadow: 0 0 calc(var(--default-size) * 0.2) #000;
 }
 
-.pass-corp-tr {
-   position: absolute;
-   right: 0;
-   top: 0;
-   width: 40%;
-   height: 100%;
+.pass-container .logo {
+   height: 74%;
+   aspect-ratio: 1;
+   left: 35%;
+   top: 50%;
+   transform: translateY(-50%);
+}
+
+.pass-container .tr {
+   left: 68%;
+   font-size: calc(var(--default-size) * 1.1);
+   font-weight: 600;
+   text-shadow: 0 0 calc(var(--default-size) * 0.2) #000;
+}
+
+.pass-container .you-text {
+   left: 10%;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: calc(var(--default-size) * 0.8);
+   font-weight: 600;
+   text-shadow: 0 0 calc(var(--default-size) * 0.2) #000;
 }

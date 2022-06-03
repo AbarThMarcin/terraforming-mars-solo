@@ -1,3 +1,0 @@
-- Mozliwosc placenia cieplem przy graniu akcji Inventors' guild lub Business Network ORAZ przy drafcie
-- Przy normalnej zaplacie za karte stala lub tytanem, jak jest wymog i klikne stal to nagle wymog przestaje dzialac
-- Przy zagraniu akcji np. inventors' guild dwa razy jest confirmation modal

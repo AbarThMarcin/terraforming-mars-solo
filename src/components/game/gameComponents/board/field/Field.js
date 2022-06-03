@@ -325,7 +325,6 @@ const Field = ({ field }) => {
             {field.object === TILES.OCEAN && (
                <img src={ocean} className="field-object" alt={TILES.OCEAN}></img>
             )}
-
             {field.object === TILES.SPECIAL_CITY_CAPITAL && (
                <img
                   src={cityCapital}

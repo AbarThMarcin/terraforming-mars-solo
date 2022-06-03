@@ -21,8 +21,8 @@ const ModalSellCards = () => {
    const textConfirmation = 'Are you sure you want to sell these project cards?'
    const [page, setPage] = useState(1)
 
-   const btnActionPosition = { bottom: '0', left: '42%', transform: 'translateX(-50%)' }
-   const btnCancelPosition = { bottom: '0', left: '58%', transform: 'translateX(-50%)' }
+   const btnActionPosition = { bottom: '0.5%', left: '42%', transform: 'translateX(-50%)' }
+   const btnCancelPosition = { bottom: '0.5%', left: '58%', transform: 'translateX(-50%)' }
 
    const getBoxPosition = () => {
       return `${(1 - page) * 100}%`
@@ -97,7 +97,7 @@ const ModalSellCards = () => {
                ))}
             </div>
             {/* HEADER */}
-            <ModalHeader text={SP.SELL_PATENT} eachText="1 each" />
+            <ModalHeader text={SP.SELL_PATENT} eachText="1" />
             {/* ACTION BUTTON */}
             <BtnAction
                text="SELL"

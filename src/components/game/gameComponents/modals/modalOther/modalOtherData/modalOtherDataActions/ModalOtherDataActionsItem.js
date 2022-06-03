@@ -112,8 +112,7 @@ const ModalOtherDataActionsItem = ({
          </div>
          {/* CONFIRM BUTTON */}
          <BtnAction
-            text="ACTION"
-            textConfirmation={`Do you want to play: ${item.name}`}
+            text="USE"
             onYesFunc={handleClickAction}
             disabled={!isAvailable}
             position={btnActionPosition}

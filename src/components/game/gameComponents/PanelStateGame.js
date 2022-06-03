@@ -1,16 +1,16 @@
 import { useContext } from 'react'
 import { StateGameContext } from '../Game'
-import panelStateGame from '../../../assets/images/panelStateGame.png'
+import panelStateGame from '../../../assets/images/panelStateGame.svg'
 import { scale } from '../../../util/misc'
 
 const PanelStateGame = () => {
    const { stateGame } = useContext(StateGameContext)
 
    const tempHeight = {
-      height: `${7 + 3.1 * scale(stateGame.globalParameters.temperature, -30, 8, 0, 19)}%`,
+      height: `${4.1 + 2.93 * scale(stateGame.globalParameters.temperature, -30, 8, 0, 19)}%`,
    }
    const oxHeight = {
-      height: `${8.5 + 4.15 * stateGame.globalParameters.oxygen}%`,
+      height: `${4.9 + 3.92 * stateGame.globalParameters.oxygen}%`,
    }
 
    return (
@@ -18,19 +18,66 @@ const PanelStateGame = () => {
          {/* Background */}
          <img src={panelStateGame} alt="panelStateGame" />
          {/* Generation */}
-         <span className="panel-state-game-text gen">{stateGame.generation}</span>
+         <span className="gen-text">GEN</span>
+         <span className="gen">{stateGame.generation}</span>
+         {/* Ox/ Temp  counters */}
+         <span className="ox-numbers">
+            14
+            <br />
+            13
+            <br />
+            12
+            <br />
+            11
+            <br />
+            10
+            <br />9<br />8<br />7<br />6<br />5<br />4<br />3<br />2<br />1<br />0
+         </span>
+         <span className="temp-numbers">
+            8<br />6<br />4<br />2<br />0<br />
+            -2
+            <br />
+            -4
+            <br />
+            -6
+            <br />
+            -8
+            <br />
+            -10
+            <br />
+            -12
+            <br />
+            -14
+            <br />
+            -16
+            <br />
+            -18
+            <br />
+            -20
+            <br />
+            -22
+            <br />
+            -24
+            <br />
+            -26
+            <br />
+            -28
+            <br />
+            -30
+         </span>
          {/* Temperature */}
-         <div className="panel-state-game-temp-cont" style={tempHeight}>
-            <span className="panel-state-game-text temp">
-               {stateGame.globalParameters.temperature}
-            </span>
+         <div className="temp-container" style={tempHeight}>
+            <span className="current-value">{stateGame.globalParameters.temperature}</span>
          </div>
          {/* Oxygen */}
-         <div className="panel-state-game-ox-cont" style={oxHeight}>
-            <span className="panel-state-game-text ox">{stateGame.globalParameters.oxygen}</span>
+         <div className="ox-container" style={oxHeight}>
+            <span className="current-value">{stateGame.globalParameters.oxygen}</span>
          </div>
          {/* Oceans */}
-         <span className="panel-state-game-text oceans">{stateGame.globalParameters.oceans}</span>
+         <div className="oceans-container">
+            <span className="oceans">{stateGame.globalParameters.oceans}</span>
+            <span>/9</span>
+         </div>
       </div>
    )
 }

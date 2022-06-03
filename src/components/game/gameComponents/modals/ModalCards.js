@@ -4,6 +4,7 @@ import { ModalsContext } from '../../Game'
 import Arrows from './modalsComponents/Arrows'
 import Card from '../Card'
 import { getPosition } from '../../../../util/misc'
+import SortBtns from './modalsComponents/SortBtns'
 
 const ModalCards = () => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -36,9 +37,9 @@ const ModalCards = () => {
          )}
          {/* CARDS */}
          <div className="modal-cards center" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
+            <div className="box full-size" style={{ left: getBoxPosition() }}>
                {modals.modalCards.length === 0 ? (
-                  <div className="modal-cards-no-cards center">NO CARDS PLAYED</div>
+                  <div className="no-cards-text center">NO CARDS PLAYED</div>
                ) : (
                   modals.modalCards.map((card, idx) => (
                      <div
@@ -55,6 +56,8 @@ const ModalCards = () => {
          </div>
          {/* HEADER */}
          <div className="modal-cards-header">{modals.modalCardsType.toUpperCase()}</div>
+         {/* SORT BUTTONS */}
+         <SortBtns />
       </div>
    )
 }

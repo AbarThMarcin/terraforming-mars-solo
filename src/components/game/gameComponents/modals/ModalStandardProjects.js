@@ -10,6 +10,13 @@ import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../..
 import { RESOURCES } from '../../../../data/resources'
 import { EFFECTS, getSPeffectsToCall } from '../../../../data/effects'
 import { SP } from '../../../../data/StandardProjects'
+import BtnClose from '../buttons/BtnClose'
+import iconCard from '../../../../assets/images/resources/card.png'
+import iconPowerPlant from '../../../../assets/images/other/SPpowerPlant.svg'
+import iconAsteroid from '../../../../assets/images/other/tempIcon.svg'
+import iconOcean from '../../../../assets/images/objects/ocean.svg'
+import iconGreenery from '../../../../assets/images/other/SPgreenery.svg'
+import iconCity from '../../../../assets/images/other/SPcity.svg'
 
 const ModalStandardProjects = () => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -225,18 +232,17 @@ const ModalStandardProjects = () => {
                onClick={(e) => e.stopPropagation()}
             >
                {/* HEADER */}
-               <div className="modal-standard-projects-box-header">STANDARD PROJECTS</div>
+               <div className="header">STANDARD PROJECTS</div>
                {/* CLOSE BUTTON */}
-               <div
-                  className="btn-close pointer"
-                  onClick={() => setModals({ ...modals, standardProjects: false })}
-               >
-                  X
-               </div>
+               <BtnClose
+                  onCloseClick={() =>
+                     setModals((prevModals) => ({ ...prevModals, standardProjects: false }))
+                  }
+               />
                {/* ACTIONS */}
                <ModalSPaction
                   id={0}
-                  icon={{ url: '' }}
+                  icon={iconCard}
                   name={SP.SELL_PATENT}
                   cost={toBuyMln[0]}
                   textConfirmation=""
@@ -245,7 +251,7 @@ const ModalStandardProjects = () => {
                />
                <ModalSPaction
                   id={1}
-                  icon={{ url: '' }}
+                  icon={iconPowerPlant}
                   name={SP.POWER_PLANT}
                   cost={toBuyMln[1]}
                   textConfirmation="Do you want to build a power plant?"
@@ -257,7 +263,7 @@ const ModalStandardProjects = () => {
                />
                <ModalSPaction
                   id={2}
-                  icon={{ url: '' }}
+                  icon={iconAsteroid}
                   name={SP.ASTEROID}
                   cost={toBuyMln[2]}
                   textConfirmation="Do you want to use the asteroid project?"
@@ -269,7 +275,7 @@ const ModalStandardProjects = () => {
                />
                <ModalSPaction
                   id={3}
-                  icon={{ url: '' }}
+                  icon={iconOcean}
                   name={SP.AQUIFER}
                   cost={toBuyMln[3]}
                   textConfirmation="Do you want to build an aquifer?"
@@ -281,7 +287,7 @@ const ModalStandardProjects = () => {
                />
                <ModalSPaction
                   id={4}
-                  icon={{ url: '' }}
+                  icon={iconGreenery}
                   name={SP.GREENERY}
                   cost={toBuyMln[4]}
                   textConfirmation="Do you want to build a greenery?"
@@ -293,7 +299,7 @@ const ModalStandardProjects = () => {
                />
                <ModalSPaction
                   id={5}
-                  icon={{ url: '' }}
+                  icon={iconCity}
                   name={SP.CITY}
                   cost={toBuyMln[5]}
                   textConfirmation="Do you want to build a city?"

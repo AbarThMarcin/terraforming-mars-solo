@@ -31,7 +31,7 @@ const ModalOtherDataRes = ({ setCardSnap, selectedCardId, setSelectedCardId }) =
                onMouseLeave={() => setCardSnap(null)}
                onClick={() => handleClickResCard(item.id)}
             >
-               <div className="card-name">{item.name}</div>
+               <span>{item.name}</span>
                <div>
                   <span>
                      {item.units.microbe +

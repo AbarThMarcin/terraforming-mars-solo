@@ -1,21 +1,27 @@
-import CorpSnap from './CorpSnap'
+import CorpLogo from './CorpLogo'
 import ProdResPanel from './ProdResPanel/ProdResPanel'
 import BtnCardsInHand from '../buttons/BtnCardsInHand'
 import OtherPanel from './other/OtherPanel'
 import BtnCardsPlayed from '../buttons/BtnCardsPlayed'
 import BtnLog from '../buttons/BtnLog'
-import { StateGameContext, ModalsContext } from '../../Game'
+import { ModalsContext } from '../../Game'
 import { useContext } from 'react'
+import panelCorpBg from '../../../../assets/images/panelCorp/panelCorpBg.svg'
 
 const PanelCorp = () => {
    const { modals } = useContext(ModalsContext)
-   const { stateGame } = useContext(StateGameContext)
 
    return (
       <div className="panel-corp">
-         <CorpSnap />
+         {/* Background */}
+         <img src={panelCorpBg} alt="panel_corp_bg" />
+         {/* Corporation Logo */}
+         <CorpLogo />
+         {/* Production / Resources Panel */}
          <ProdResPanel />
+         {/* Card Resources / Tags / VP / Actions / Effects Panel */}
          <OtherPanel />
+         {/* Cards In Hand Snap */}
          <BtnCardsInHand />
          {!modals.cards && (
             <div className="btns-cards-played-log-container">

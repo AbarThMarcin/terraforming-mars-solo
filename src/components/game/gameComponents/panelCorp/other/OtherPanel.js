@@ -3,6 +3,11 @@ import { TAGS } from '../../../../../data/tags'
 import { hasTag } from '../../../../../util/misc'
 import { StatePlayerContext, StateGameContext } from '../../../Game'
 import OtherSnap from './OtherSnap'
+import iconCardRes from '../../../../../assets/images/resources/any.svg'
+import iconTags from '../../../../../assets/images/tags/any.svg'
+import iconVP from '../../../../../assets/images/vp/any.svg'
+import iconActions from '../../../../../assets/images/actions/any.svg'
+import iconEffects from '../../../../../assets/images/effects/any.svg'
 
 const OtherPanel = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -73,31 +78,31 @@ const OtherPanel = () => {
             headerForModal="CARD RESOURCES"
             amountForModal={countCardRes}
             dataForModal={cardsCardRes}
-            icon={null}
+            icon={iconCardRes}
          />
          <OtherSnap
             headerForModal="TAGS"
             amountForModal={countTags}
             dataForModal={cardsTags}
-            icon={null}
+            icon={iconTags}
          />
          <OtherSnap
             headerForModal="VP"
             amountForModal={countVp}
             dataForModal={cardsVp}
-            icon={null}
+            icon={iconVP}
          />
          <OtherSnap
             headerForModal="ACTIONS"
             amountForModal={countActions}
             dataForModal={cardsActions}
-            icon={null}
+            icon={iconActions}
          />
          <OtherSnap
             headerForModal="EFFECTS"
             amountForModal={countEffects}
             dataForModal={cardsEffects}
-            icon={null}
+            icon={iconEffects}
          />
       </div>
    )

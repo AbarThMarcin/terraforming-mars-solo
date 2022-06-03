@@ -1,7 +1,56 @@
 .modal-settings {
    left: 25%;
-   top: 20%;
-   background-color: rgba(0, 0, 0, 0.85);
+   top: 8.4%;
+   background-color: rgba(10, 10, 10, 0.95);
    width: 25%;
-   height: 50%;
+   border-top-right-radius: calc(var(--default-size) * 0.5);
+   border-bottom-right-radius: calc(var(--default-size) * 0.5);
+   padding: calc(var(--default-size) * 0.7);
+}
+.modal-settings .settings {
+   width: 100%;
+   height: calc(var(--default-size) * 2);
+   background-color: rgba(0, 0, 0, 0.3);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: calc(var(--default-size) * 0.5);
+   font-size: var(--default-size);
+   line-height: var(--default-size);
+}
+.modal-settings .settings:not(:last-of-type) {
+   margin-bottom: calc(var(--default-size) * 0.5);
+}
+.modal-settings .settings .speed {
+   position: relative;
+   width: 40%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc(var(--default-size) * 0.9);
+}
+.modal-settings .settings .speed .arrow {
+   position: absolute;
+   top: 50%;
+   background-color: transparent;
+}
+.modal-settings .settings .speed .arrow-left:hover {
+   border-right: calc(var(--default-size) * 0.5) solid rgb(0, 255, 174);
+}
+.modal-settings .settings .speed .arrow-right:hover {
+   border-left: calc(var(--default-size) * 0.5) solid rgb(0, 255, 174);
+}
+.modal-settings .settings .speed .arrow-left {
+   left: calc(var(--default-size) * -0.5);
+   border-right: calc(var(--default-size) * 0.5) solid rgb(0, 133, 91);
+   border-bottom: calc(var(--default-size) * 0.5) solid transparent;
+   border-left: calc(var(--default-size) * 0.5) solid transparent;
+   border-top: calc(var(--default-size) * 0.5) solid transparent;
+}
+.modal-settings .settings .speed .arrow-right {
+   right: calc(var(--default-size) * -0.5);
+   border-right: calc(var(--default-size) * 0.5) solid transparent;
+   border-bottom: calc(var(--default-size) * 0.5) solid transparent;
+   border-left: calc(var(--default-size) * 0.5) solid rgb(0, 133, 91);
+   border-top: calc(var(--default-size) * 0.5) solid transparent;
 }

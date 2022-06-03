@@ -7,6 +7,7 @@ import {
    StateBoardContext,
    ModalsContext,
 } from '../../../Game'
+import BtnAction from '../../buttons/BtnAction'
 
 const ModalSPaction = ({
    id,
@@ -25,6 +26,14 @@ const ModalSPaction = ({
    const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const isAvailable = SPrequirementsMet()
+   const styles =
+      name === SP.GREENERY
+         ? { transform: 'translateX(8%)' }
+         : name === SP.CITY
+         ? { transform: 'translateX(4%)' }
+         : {}
+
+   const btnSPActionPosition = { right: '8%', top: '50%', transform: 'translateY(-50%) scale(0.9)'}
 
    const handleClickBtn = () => {
       // No action if cost is higher than resources
@@ -36,7 +45,7 @@ const ModalSPaction = ({
       }
       // For Helion only: first click turns 'Decrease Cost with heat' minimodal,
       // second click turns confirmation modal
-      if (statePlayer.canPayWithHeat) {
+      if (statePlayer.canPayWithHeat && statePlayer.resources.heat > 0) {
          if (actionClicked === null || actionClicked !== name) {
             setActionClicked(name)
             changeSPcosts(undefined, name)
@@ -106,16 +115,23 @@ const ModalSPaction = ({
 
    return (
       <div className={`sp-action ${!isAvailable && 'disabled'}`}>
-         <div className="sp-action-element sp-action-icon">{icon.url}</div>
-         <div className="sp-action-element sp-action-name">{name}</div>
-         <div className="sp-action-element sp-action-cost">{cost}</div>
-         <div
-            className={`sp-action-element sp-action-btn ${isAvailable && 'pointer'}`}
-            onClick={handleClickBtn}
-            onMouseDown={() => setBtnClickedId(id)}
-         >
-            BTN
+         {/* Icon */}
+         <div className="sp-action-element icon">
+            <div>
+               <img style={styles} src={icon} alt={`icon_${name}`} />
+            </div>
          </div>
+         {/* Name */}
+         <div className="sp-action-element name">{name}</div>
+         {/* Button */}
+         <BtnAction
+            text="USE"
+            mln={cost}
+            onYesFunc={handleClickBtn}
+            disabled={!isAvailable}
+            position={btnSPActionPosition}
+            onMouseDownFunc={() => setBtnClickedId(id)}
+         />
       </div>
    )
 }

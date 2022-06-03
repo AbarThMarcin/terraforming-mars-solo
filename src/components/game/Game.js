@@ -42,7 +42,8 @@ function Game({ setGameOn }) {
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(800)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1500)
+   const [btnClickedId, setBtnClickedId] = useState(4)
    const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
 
    useEffect(() => {
@@ -66,6 +67,25 @@ function Game({ setGameOn }) {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
       }
    }, [updateVpTrigger])
+
+   function setAnimationSpeed(id) {
+      switch (id) {
+         case 1:
+            setANIMATION_SPEED(2300)
+            break
+         case 2:
+            setANIMATION_SPEED(1500)
+            break
+         case 3:
+            setANIMATION_SPEED(1000)
+            break
+         case 4:
+            setANIMATION_SPEED(600)
+            break
+         default:
+            break
+      }
+   }
 
    function getImmEffects(typeOrCardId) {
       return funcGetImmEffects(
@@ -138,17 +158,8 @@ function Game({ setGameOn }) {
          setUpdateVpTrigger
       )
    }
-   function requirementsMet(card, cost, actionClicked) {
-      return funcRequirementsMet(
-         card,
-         statePlayer,
-         stateGame,
-         stateBoard,
-         modals,
-         cost,
-         actionClicked,
-         getImmEffects
-      )
+   function requirementsMet(card) {
+      return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals, getImmEffects)
    }
    function actionRequirementsMet(card) {
       return funcActionRequirementsMet(card, statePlayer, stateGame, modals, stateBoard)
@@ -174,6 +185,8 @@ function Game({ setGameOn }) {
                   optionRequirementsMet,
                   ANIMATION_SPEED,
                   setANIMATION_SPEED,
+                  btnClickedId,
+                  setBtnClickedId
                }}
             >
                <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
@@ -189,7 +202,7 @@ function Game({ setGameOn }) {
                            {!stateGame.phaseCorporation && <PassContainer />}
                            <Board />
                            {!stateGame.phaseCorporation && <PanelCorp />}
-                           <Modals setGameOn={setGameOn} />
+                           <Modals setGameOn={setGameOn} setAnimationSpeed={setAnimationSpeed} />
                            {(stateGame.phaseDraft ||
                               modals.sellCards ||
                               stateGame.phaseAddRemoveRes ||

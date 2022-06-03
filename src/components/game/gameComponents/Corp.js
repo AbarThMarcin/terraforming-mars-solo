@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { getCorpLogo } from '../../../data/corporations'
 import { StateGameContext, ModalsContext } from '../Game'
+import iconEcoline from '../../../assets/images/corps/ecoline.svg'
 
 const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
    const { stateGame } = useContext(StateGameContext)
@@ -16,15 +16,13 @@ const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
       <div
          className={`
             corp
-            ${modals.corp && 'center'}
+            ${modals.corp && 'modal center'}
             ${selectedCorp === id && selectedCorp !== undefined && 'selected'}
             ${modals.corps && 'pointer'}
          `}
          onClick={handleCorpClick}
       >
-         <img src={getCorpLogo(corp.name)} alt={`${corp.name}_logo`} />
-         <div className="corp-name">{corp.name}</div>
-         <div className="corp-description">{corp.description}</div>
+         <img src={iconEcoline} alt="" />
       </div>
    )
 }

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
+import { StatePlayerContext, ModalsContext } from '../../../Game'
 import { getActionCost, hasTag } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
@@ -13,11 +13,9 @@ const DecreaseCostAction = ({
    setToBuyTitan,
    toBuyHeat,
    setToBuyHeat,
-   setDisabled,
    actionClicked,
 }) => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { stateGame, requirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
    const cost = getActionCost(actionClicked)
 
@@ -57,16 +55,6 @@ const DecreaseCostAction = ({
       setToBuySteel(resSteel)
       setToBuyTitan(resTitan)
       setToBuyHeat(resHeat)
-
-      if (setDisabled)
-         setDisabled(
-            Math.min(resMln, statePlayer.resources.mln) +
-               resSteel * statePlayer.valueSteel +
-               resTitan * statePlayer.valueTitan +
-               resHeat <
-               cost ||
-               (modals.card && !requirementsMet(modals.modalCard, cost))
-         )
    }
 
    return (

@@ -224,31 +224,31 @@ export function funcPerformSubActions(
    }
 }
 
-export function getAllResources(card, statePlayer) {
-   let resources = statePlayer.resources.mln
-   if (hasTag(card, TAGS.BUILDING))
-      resources += statePlayer.resources.steel * statePlayer.valueSteel
-   if (hasTag(card, TAGS.SPACE)) resources += statePlayer.resources.titan * statePlayer.valueTitan
-   if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
-   return resources
-}
-export function getAllResourcesForAction(actionClicked, statePlayer) {
-   let resources = statePlayer.resources.mln
-   switch (actionClicked) {
-      // Water Import From Europa
-      case 12:
-         resources += statePlayer.resources.titan * statePlayer.valueTitan
-         break
-      // Aquifer Pumping
-      case 187:
-         resources += statePlayer.resources.steel * statePlayer.valueSteel
-         break
-      default:
-         break
-   }
-   if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
-   return resources
-}
+// export function getAllResources(card, statePlayer) {
+//    let resources = statePlayer.resources.mln
+//    if (hasTag(card, TAGS.BUILDING))
+//       resources += statePlayer.resources.steel * statePlayer.valueSteel
+//    if (hasTag(card, TAGS.SPACE)) resources += statePlayer.resources.titan * statePlayer.valueTitan
+//    if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+//    return resources
+// }
+// export function getAllResourcesForAction(actionClicked, statePlayer) {
+//    let resources = statePlayer.resources.mln
+//    switch (actionClicked) {
+//       // Water Import From Europa
+//       case 12:
+//          resources += statePlayer.resources.titan * statePlayer.valueTitan
+//          break
+//       // Aquifer Pumping
+//       case 187:
+//          resources += statePlayer.resources.steel * statePlayer.valueSteel
+//          break
+//       default:
+//          break
+//    }
+//    if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+//    return resources
+// }
 
 // A function that decreases cost of the card based on current decreasing cost effects
 export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndenturedWorkersEffectOn) {

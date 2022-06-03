@@ -6,13 +6,13 @@ import BtnAction from '../buttons/BtnAction'
 const ModalConfirmation = () => {
    const { modals } = useContext(ModalsContext)
 
-   const btnActionYesPosition = { bottom: '0%', left: '35%', transform: 'translate(-50%, 100%)' }
-   const btnActionNoPosition = { bottom: '0%', left: '65%', transform: 'translate(-50%, 100%)' }
+   const btnActionYesPosition = { bottom: 'calc(var(--default-size) * -0.7)', left: '35%', transform: 'translate(-50%, 100%)' }
+   const btnActionNoPosition = { bottom: 'calc(var(--default-size) * -0.7)', left: '65%', transform: 'translate(-50%, 100%)' }
 
    return (
       <div className="modal-background">
          <div className="modal-confirmation center">
-            {modals.modalConf.text}
+            <span>{modals.modalConf.text}</span>
             <BtnAction
                text="YES"
                onYesFunc={modals.modalConf.onYes}

@@ -51,7 +51,7 @@ const ModalProductionData = ({ setCardSnap }) => {
             `}
                onClick={() => handleClickProdCard(statePlayer.corporation.name)}
             >
-               <div className="card-name">{statePlayer.corporation.name}</div>
+               <div>{statePlayer.corporation.name}</div>
                <div>
                   <img
                      src={getProdImmEffectIcon(statePlayer.corporation.name)}
@@ -74,11 +74,11 @@ const ModalProductionData = ({ setCardSnap }) => {
                onMouseLeave={() => setCardSnap(null)}
                onClick={() => handleClickProdCard(item.id)}
             >
-               <div className="card-name">{item.name}</div>
+               <div>{item.name}</div>
                <div>
                   <img
                      src={getProdImmEffectIcon(item.id, modals)}
-                     className="img-res"
+                     className="img-prod"
                      alt={`card_${item.id}_prodIcon`}
                   />
                </div>

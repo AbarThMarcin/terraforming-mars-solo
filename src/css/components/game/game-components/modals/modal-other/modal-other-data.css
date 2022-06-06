@@ -45,6 +45,10 @@
    height: 180%;
    transform: translateX(20%);
 }
+/* Production (robotic Workforce) */
+.modal-other-data-item div .img-prod {
+   height: calc(var(--default-size) * 2.2);
+}
 
 /* Tags */
 .modal-other-data-tags {

@@ -33,15 +33,18 @@ const ModalOther = () => {
             className={`modal-background ${modals.confirmation && 'display-none'}`}
             onClick={() => setModals({ ...modals, other: false })}
          >
-            <div className="modal-standard-projects-box other center" onClick={(e) => e.stopPropagation()}>
+            <div
+               className="modal-standard-projects-box other center"
+               onClick={(e) => e.stopPropagation()}
+            >
                {/* HEADER */}
                <div className="header">
                   {modals.modalOther.header} {modals.modalOther.amount}
                </div>
                {/* CLOSE BUTTON */}
                <BtnClose
-               onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
-            />
+                  onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
+               />
                {/* DATA */}
                {modals.modalOther.data.length === 0 ? (
                   <div className="modal-other-box-no-data center">
@@ -56,7 +59,6 @@ const ModalOther = () => {
                      <Card card={cardSnap} />
                   </div>
                )}
-               
             </div>
          </div>
       </>

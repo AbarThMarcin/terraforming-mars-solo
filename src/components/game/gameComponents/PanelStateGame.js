@@ -10,7 +10,7 @@ const PanelStateGame = () => {
       height: `${4.1 + 2.93 * scale(stateGame.globalParameters.temperature, -30, 8, 0, 19)}%`,
    }
    const oxHeight = {
-      height: `${4.9 + 3.92 * stateGame.globalParameters.oxygen}%`,
+      height: `${4.1 + 3.98 * stateGame.globalParameters.oxygen}%`,
    }
 
    return (

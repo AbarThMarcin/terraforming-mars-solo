@@ -36,7 +36,7 @@ const ModalResourceData = ({ setCardSnap }) => {
                onMouseLeave={() => setCardSnap(null)}
                onClick={() => handleClickResCard(item.id)}
             >
-               <div className="card-name">{item.name}</div>
+               <div>{item.name}</div>
                <div>
                   <span>
                      {item.units.microbe +

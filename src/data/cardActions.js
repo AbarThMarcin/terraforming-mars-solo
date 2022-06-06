@@ -39,6 +39,7 @@ import action_powerInfra from '../assets/images/actions/action_powerInfra.svg'
 import action_restrictedArea from '../assets/images/actions/action_restrictedArea.svg'
 import action_undergroundDet from '../assets/images/actions/action_undergroundDet.svg'
 import action_aiCentral from '../assets/images/actions/action_aiCentral.svg'
+import { CORP_NAMES } from './corpNames'
 
 export const ACTION_ICONS = {
    ACTION_UNMI: 'Action UNMI',
@@ -165,7 +166,7 @@ export const funcGetCardActions = (
    let value = 0
    switch (cardId) {
       // ===================== UNMI CORPORATION =====================
-      case 'UNMI':
+      case CORP_NAMES.UNMI:
          if (toBuyResources[0])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,

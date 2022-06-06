@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { TAGS } from '../../../../../data/tags'
-import { hasTag } from '../../../../../util/misc'
+import { getActionCost, getActionIdsWithCost, hasTag } from '../../../../../util/misc'
 import { StatePlayerContext, StateGameContext } from '../../../Game'
 import OtherSnap from './OtherSnap'
 import iconCardRes from '../../../../../assets/images/resources/any.svg'
@@ -8,10 +8,11 @@ import iconTags from '../../../../../assets/images/tags/any.svg'
 import iconVP from '../../../../../assets/images/vp/any.svg'
 import iconActions from '../../../../../assets/images/actions/any.svg'
 import iconEffects from '../../../../../assets/images/effects/any.svg'
+import { CORP_NAMES } from '../../../../../data/corpNames'
 
 const OtherPanel = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { getCardActions } = useContext(StateGameContext)
+   const { actionRequirementsMet, getCardActions } = useContext(StateGameContext)
    const [countCardRes, cardsCardRes] = getCardRes()
    const [countTags, cardsTags] = getTags()
    const [countVp, cardsVp] = getVp()
@@ -62,7 +63,23 @@ const OtherPanel = () => {
       const cards = statePlayer.cardsPlayed.filter(
          (card) => getCardActions(card.id, [0, 0, 0, 0]).length > 0
       )
-      const count = statePlayer.corporation.name === 'UNMI' ? cards.length + 1 : cards.length
+      let count = cards.filter((card) => {
+         let reqsMet = false
+         let enoughToBuy = true
+         if (actionRequirementsMet(card)) reqsMet = true
+         if (getActionIdsWithCost().includes(card.id)) {
+            const cost = getActionCost(card.id)
+            let resources = statePlayer.resources.mln
+            if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+            if (card.id === 187) resources += statePlayer.resources.steel * statePlayer.valueSteel
+            if (card.id === 12) resources += statePlayer.resources.titan * statePlayer.valueTitan
+            enoughToBuy = resources >= cost
+         }
+         return reqsMet && enoughToBuy
+      }).length
+      if (statePlayer.corporation.name === CORP_NAMES.UNMI) {
+         count = actionRequirementsMet(statePlayer.corporation) ? count + 1 : count
+      }
       return [count, cards]
    }
 

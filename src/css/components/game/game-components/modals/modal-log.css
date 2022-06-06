@@ -2,7 +2,35 @@
    position: absolute;
    right: 0;
    top: 0;
-   width: 25%;
+   width: calc(var(--default-size) * 15);
    height: 100%;
    background-color: rgba(0, 0, 0, 0.85);
+   padding-top: calc(var(--default-size) * 5);
+   padding-left: calc(var(--default-size) * 2);
+   color: #fff;
+}
+
+.modal-log .log {
+   font-size: calc(var(--default-size) * 2);
+}
+
+.modal-log .generation {
+   font-size: calc(var(--default-size) * 1.5);
+   color: #ccc;
+   position: relative;
+}
+.modal-log .generation::after {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   left: 0.7%;
+   height: calc(var(--default-size) * 0.12);
+   width: calc(var(--default-size) * 13 - 0.7%);
+   background-color: #bbb;
+}
+
+.modal-log .action {
+   height: calc(var(--default-size) * 2.5);
+   background: rgb(150, 150, 150);
+   background: linear-gradient(90deg, rgba(150, 150, 150, 1) 0%, rgba(150, 150, 150, 0) 100%);
 }

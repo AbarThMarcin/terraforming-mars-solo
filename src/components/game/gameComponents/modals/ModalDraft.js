@@ -53,7 +53,7 @@ const ModalDraft = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
       setModals({ ...modals, confirmation: false, draft: false })
-      // Perform starting Tharsis / Inventrix actions in GEN 1
+      // Perform forced action for Tharsis or Inventrix in GEN 1
       if (stateGame.generation === 1) {
          let actions = []
          if (statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC) {

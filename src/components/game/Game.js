@@ -26,7 +26,6 @@ import StandardProjects from './gameComponents/buttons/BtnStandardProjects'
 import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
-import BtnViewGameState from './gameComponents/buttons/BtnViewGameState'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -42,6 +41,7 @@ function Game({ setGameOn }) {
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
    const corps = shuffledCorps
    const [cards, setCards] = useState(shuffledCards)
+   const [logItems, setLogItems] = useState([{ type: 'log', data: null }, { type: 'generation', data: { text: '1' } }])
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1500)
    const [btnClickedId, setBtnClickedId] = useState(4)
    const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
@@ -175,6 +175,7 @@ function Game({ setGameOn }) {
                value={{
                   stateGame,
                   dispatchGame,
+                  setLogItems,
                   getImmEffects,
                   getCardActions,
                   getEffect,
@@ -186,7 +187,7 @@ function Game({ setGameOn }) {
                   ANIMATION_SPEED,
                   setANIMATION_SPEED,
                   btnClickedId,
-                  setBtnClickedId
+                  setBtnClickedId,
                }}
             >
                <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
@@ -202,13 +203,11 @@ function Game({ setGameOn }) {
                            {!stateGame.phaseCorporation && <PassContainer />}
                            <Board />
                            {!stateGame.phaseCorporation && <PanelCorp />}
-                           <Modals setGameOn={setGameOn} setAnimationSpeed={setAnimationSpeed} />
-                           {(stateGame.phaseDraft ||
-                              modals.sellCards ||
-                              stateGame.phaseAddRemoveRes ||
-                              modals.selectCard ||
-                              modals.marsUniversity ||
-                              modals.businessContacts) && <BtnViewGameState />}
+                           <Modals
+                              setGameOn={setGameOn}
+                              setAnimationSpeed={setAnimationSpeed}
+                              logItems={logItems}
+                           />
                            <BtnMenu />
                            {/* ----------------------------------------------------- */}
                         </ModalsContext.Provider>

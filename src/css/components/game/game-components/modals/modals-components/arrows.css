@@ -1,22 +1,25 @@
-.arrows {
+.cards-arrows {
    width: 94%;
    height: 35%;
 }
 
-.arrow {
+.cards-arrow {
    position: absolute;
-   width: 7%;
-   height: 100%;
-   background-color: green;
+   width: calc(var(--default-size) * 4.5);
+   height: calc(var(--default-size) * 4.5 * 2.8747225);
    top: 50%;
+   opacity: 0.4;
+}
+.cards-arrow:hover {
+   opacity: 0.5;
 }
 
-.arrow.arrow-left {
+.cards-arrow.arrow-left {
    left: 0;
    transform: translateY(-50%);
 }
 
-.arrow.arrow-right {
+.cards-arrow.arrow-right {
    right: 0;
    transform: translateY(-50%);
 }

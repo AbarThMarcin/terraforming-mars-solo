@@ -54,13 +54,16 @@ const ModalResource = () => {
 
    return (
       <>
-         <div
-            className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}
-         >
+         <div className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}>
+            {/* HEADER */}
             <div className="modal-resource-header">SELECT ANY RESOURCE</div>
-            <div className="modal-other-box center">
+            {/* BOX */}
+            <div
+               className="modal-standard-projects-box other center"
+               onClick={(e) => e.stopPropagation()}
+            >
                {/* HEADER */}
-               <div className="modal-other-box-header">CARD RESOURCES</div>
+               <div className="header">CARD RESOURCES</div>
                {/* DATA */}
                <ModalResourceData setCardSnap={setCardSnap} />
                {/* CARD SNAP FOR VP VIEW */}

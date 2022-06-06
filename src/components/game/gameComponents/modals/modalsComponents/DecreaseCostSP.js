@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { SP } from '../../../../../data/StandardProjects'
 import { StatePlayerContext } from '../../../Game'
+import iconHeat from '../../../../../assets/images/resources/heat.svg'
 
 const DecreaseCostSP = ({ toBuyMln, toBuyHeat, changeSPcosts, actionClicked }) => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -28,7 +29,8 @@ const DecreaseCostSP = ({ toBuyMln, toBuyHeat, changeSPcosts, actionClicked }) =
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (
             <div className="card-decrease-cost">
-               <span>{toBuyHeat} HEAT</span>
+               <span>{toBuyHeat}</span>
+               <img src={iconHeat} alt="icon_heat" />
                {toBuyHeat > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"

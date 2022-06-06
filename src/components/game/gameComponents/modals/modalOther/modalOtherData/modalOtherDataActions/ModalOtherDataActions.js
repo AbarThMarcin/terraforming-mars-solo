@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { CORP_NAMES } from '../../../../../../../data/corpNames'
 import { getActionCost } from '../../../../../../../util/misc'
 import { ModalsContext, StatePlayerContext } from '../../../../../Game'
 import DecreaseCostAction from '../../../modalsComponents/DecreaseCostAction'
@@ -54,7 +55,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
    return (
       <>
          <div className="modal-other-data center">
-            {statePlayer.corporation.name === 'UNMI' && (
+            {statePlayer.corporation.name === CORP_NAMES.UNMI && (
                <ModalOtherDataActionsItem
                   item={statePlayer.corporation}
                   setCardSnap={setCardSnap}

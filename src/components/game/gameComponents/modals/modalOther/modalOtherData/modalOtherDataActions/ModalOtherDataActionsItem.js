@@ -5,6 +5,7 @@ import { ACTIONS_GAME } from '../../../../../../../util/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../util/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../util/misc'
 import BtnAction from '../../../../buttons/BtnAction'
+import { CORP_NAMES } from '../../../../../../../data/corpNames'
 
 const ModalOtherDataActionsItem = ({
    item,
@@ -21,7 +22,7 @@ const ModalOtherDataActionsItem = ({
    const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } =
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const isUnmi = item.name === 'UNMI'
+   const isUnmi = item.name === CORP_NAMES.UNMI
    const isAvailable = getAvailability()
    
    const btnActionPosition = { right: '-3%', transform: 'scale(0.65)' }

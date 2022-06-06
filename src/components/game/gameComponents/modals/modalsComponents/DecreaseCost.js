@@ -3,6 +3,9 @@ import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Ga
 import { hasTag } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
+import iconSteel from '../../../../../assets/images/resources/steel.svg'
+import iconTitan from '../../../../../assets/images/resources/titan.svg'
+import iconHeat from '../../../../../assets/images/resources/heat.svg'
 
 const DecreaseCost = ({
    toBuyMln,
@@ -78,7 +81,8 @@ const DecreaseCost = ({
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING) && (
             <div className="card-decrease-cost">
-               <span>{toBuySteel} STEEL</span>
+               <span>{toBuySteel}</span>
+               <img src={iconSteel} alt="icon_steel" />
                {toBuySteel > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"
@@ -95,7 +99,8 @@ const DecreaseCost = ({
          )}
          {statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE) && (
             <div className="card-decrease-cost">
-               <span>{toBuyTitan} TITAN</span>
+               <span>{toBuyTitan}</span>
+               <img src={iconTitan} alt="icon_titan" />
                {toBuyTitan > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"
@@ -112,7 +117,8 @@ const DecreaseCost = ({
          )}
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (
             <div className="card-decrease-cost">
-               <span>{toBuyHeat} HEAT</span>
+               <span>{toBuyHeat}</span>
+               <img src={iconHeat} alt="icon_heat" />
                {toBuyHeat > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"

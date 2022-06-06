@@ -3,6 +3,10 @@ import { StatePlayerContext, ModalsContext } from '../../../Game'
 import { getActionCost, hasTag } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
+import iconMln from '../../../../../assets/images/resources/mln.svg'
+import iconSteel from '../../../../../assets/images/resources/steel.svg'
+import iconTitan from '../../../../../assets/images/resources/titan.svg'
+import iconHeat from '../../../../../assets/images/resources/heat.svg'
 
 const DecreaseCostAction = ({
    toBuyMln,
@@ -59,12 +63,16 @@ const DecreaseCostAction = ({
 
    return (
       <div className="card-decrease-cost-container">
-         <span>{toBuyMln}</span>
+         <div className="mln">
+            <img className='center full-size' src={iconMln} alt="icon_mln" />
+            <span className='center'>{toBuyMln}</span>
+         </div>
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.steel > 0 &&
             (hasTag(modals.modalCard, TAGS.BUILDING) || actionClicked === 187) && (
                <div className="card-decrease-cost">
-                  <span>{toBuySteel} STEEL</span>
+                  <span>{toBuySteel}</span>
+                  <img src={iconSteel} alt="icon_steel" />
                   {toBuySteel > 0 && (
                      <div
                         className="decrease-arrow pointer decrease-arrow-left"
@@ -82,7 +90,8 @@ const DecreaseCostAction = ({
          {statePlayer.resources.titan > 0 &&
             (hasTag(modals.modalCard, TAGS.SPACE) || actionClicked === 12) && (
                <div className="card-decrease-cost">
-                  <span>{toBuyTitan} TITAN</span>
+                  <span>{toBuyTitan}</span>
+                  <img src={iconTitan} alt="icon_titan" />
                   {toBuyTitan > 0 && (
                      <div
                         className="decrease-arrow pointer decrease-arrow-left"
@@ -99,7 +108,8 @@ const DecreaseCostAction = ({
             )}
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (
             <div className="card-decrease-cost">
-               <span>{toBuyHeat} HEAT</span>
+               <span>{toBuyHeat}</span>
+               <img src={iconHeat} alt="icon_heat" />
                {toBuyHeat > 0 && (
                   <div
                      className="decrease-arrow pointer decrease-arrow-left"

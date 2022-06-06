@@ -15,7 +15,7 @@ export const INIT_STATE_GAME = {
    globalParameters: {
       temperature: -30,
       oxygen: 0,
-      oceans: 5,
+      oceans: 0,
    },
    // TR
    tr: 14,

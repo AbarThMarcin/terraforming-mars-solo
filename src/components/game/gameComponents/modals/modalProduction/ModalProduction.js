@@ -23,13 +23,16 @@ const ModalProduction = () => {
 
    return (
       <>
-         <div
-            className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}
-         >
+         <div className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}>
+            {/* HEADER */}
             <div className="modal-resource-header">SELECT ANY PRODUCTION</div>
-            <div className="modal-other-box center">
+            {/* BOX */}
+            <div
+               className="modal-standard-projects-box other center"
+               onClick={(e) => e.stopPropagation()}
+            >
                {/* HEADER */}
-               <div className="modal-other-box-header">CARD PRODUCTIONS</div>
+               <div className="header">CARD PRODUCTIONS</div>
                {/* DATA */}
                <ModalProductionData setCardSnap={setCardSnap} />
                {/* CARD SNAP FOR VP VIEW */}

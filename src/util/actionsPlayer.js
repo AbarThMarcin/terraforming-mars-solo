@@ -1,3 +1,4 @@
+import { CORP_NAMES } from '../data/corpNames'
 import { RESOURCES } from '../data/resources'
 
 export const ACTIONS_PLAYER = {
@@ -178,7 +179,7 @@ export const reducerPlayer = (state, action) => {
          }
       case ACTIONS_PLAYER.SET_ACTION_USED:
          // If payload.cardId === 'UNMI'
-         if (action.payload.cardId === 'UNMI') {
+         if (action.payload.cardId === CORP_NAMES.UNMI) {
             return {
                ...state,
                corporation: {
@@ -270,7 +271,7 @@ export const reducerPlayer = (state, action) => {
             }),
          }
       case ACTIONS_PLAYER.SET_TRRAISED:
-         if (state.corporation.name === 'UNMI') {
+         if (state.corporation.name === CORP_NAMES.UNMI) {
             return {
                ...state,
                corporation: {

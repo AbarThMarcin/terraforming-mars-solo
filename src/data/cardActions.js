@@ -2,7 +2,7 @@ import { ACTIONS_PLAYER } from '../util/actionsPlayer'
 import { ACTIONS_GAME } from '../util/actionsGame'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
-import { getCardsWithPossibleMicrobes, modifiedCards } from '../util/misc'
+import { getCardsWithPossibleMicrobes, modifiedCards, withTimeAdded } from '../util/misc'
 import { getOptions } from './selectOneOptions'
 import { TILES } from './board'
 import { IMM_EFFECTS } from './immEffects/immEffects'
@@ -290,7 +290,7 @@ export const funcGetCardActions = (
                                     type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                                     payload: [
                                        ...statePlayer.cardsInHand,
-                                       ...modifiedCards(cards.slice(0, 1), statePlayer),
+                                       ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
                                     ],
                                  }),
                            },
@@ -408,7 +408,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand,
-                     ...modifiedCards(cards.slice(0, 1), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
                   ],
                })
                setCards(cards.slice(1))
@@ -779,7 +779,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand,
-                     ...modifiedCards(cards.slice(0, 1), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
                   ],
                })
                setCards(cards.slice(1))
@@ -828,7 +828,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand,
-                     ...modifiedCards(cards.slice(0, 2), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
                   ],
                })
                setCards(cards.slice(2))

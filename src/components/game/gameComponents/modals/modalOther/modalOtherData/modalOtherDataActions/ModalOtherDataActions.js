@@ -14,15 +14,15 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
    const [toBuyTitan, setToBuyTitan] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
 
-   const changeCosts = (cardId) => {
+   const changeCosts = (cardIdOrUnmi) => {
       let resMln = 0
       let resSteel = 0
       let resTitan = 0
       let resHeat = 0
       let diff
-      let cost = getActionCost(cardId)
+      let cost = getActionCost(cardIdOrUnmi)
 
-      if (statePlayer.resources.titan > 0 && cardId === 12) {
+      if (statePlayer.resources.titan > 0 && cardIdOrUnmi === 12) {
          diff = cost - statePlayer.resources.mln
          if (diff > 0)
             resTitan = Math.min(
@@ -30,7 +30,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
                statePlayer.resources.titan
             )
       }
-      if (statePlayer.resources.steel > 0 && cardId === 187) {
+      if (statePlayer.resources.steel > 0 && cardIdOrUnmi === 187) {
          diff = cost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan
          if (diff > 0)
             resSteel = Math.min(
@@ -59,6 +59,13 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
                <ModalOtherDataActionsItem
                   item={statePlayer.corporation}
                   setCardSnap={setCardSnap}
+                  actionClicked={actionClicked}
+                  setActionClicked={setActionClicked}
+                  toBuyMln={toBuyMln}
+                  toBuySteel={toBuySteel}
+                  toBuyTitan={toBuyTitan}
+                  toBuyHeat={toBuyHeat}
+                  changeCosts={changeCosts}
                />
             )}
             {modals.modalOther.data.map((item, idx) => (

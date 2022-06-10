@@ -1,36 +1,71 @@
+/* General */
 .modal-log {
    position: absolute;
    right: 0;
    top: 0;
-   width: calc(var(--default-size) * 15);
+   width: calc(var(--default-size) * 21);
    height: 100%;
    background-color: rgba(0, 0, 0, 0.85);
-   padding-top: calc(var(--default-size) * 5);
+   padding-top: calc(var(--default-size) * 2);
    padding-left: calc(var(--default-size) * 2);
    color: #fff;
 }
 
-.modal-log .log {
+.modal-log .box {
+   width: 100%;
+   height: 100%;
+   overflow-y: auto;
+   overflow-x: hidden;
+}
+
+/* Types of actions */
+.modal-log .box .log {
    font-size: calc(var(--default-size) * 2);
 }
 
-.modal-log .generation {
+.modal-log .box .generation {
    font-size: calc(var(--default-size) * 1.5);
    color: #ccc;
    position: relative;
+   margin-top: var(--default-size);
 }
-.modal-log .generation::after {
+.modal-log .box .generation::after {
    content: '';
    position: absolute;
    bottom: 0;
-   left: 0.7%;
+   left: 0;
    height: calc(var(--default-size) * 0.12);
-   width: calc(var(--default-size) * 13 - 0.7%);
+   width: calc(var(--default-size) * 19);
    background-color: #bbb;
 }
 
-.modal-log .action {
+.modal-log .box .action {
    height: calc(var(--default-size) * 2.5);
-   background: rgb(150, 150, 150);
-   background: linear-gradient(90deg, rgba(150, 150, 150, 1) 0%, rgba(150, 150, 150, 0) 100%);
+   background: rgb(70, 70, 70);
+   background: linear-gradient(90deg, rgba(70, 70, 70, 1) 0%, rgba(70, 70, 70, 0) 100%);
+   margin-top: calc(var(--default-size) * 0.7);
+   padding: calc(var(--default-size) * 0.2);
+   padding-left: calc(var(--default-size) * 0.8);
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+}
+.modal-log .box .action .icon {
+   height: calc(var(--default-size) * 2.1);
+   width: calc(var(--default-size) * 2.1 * 1.9);
+   margin-right: calc(var(--default-size) * 0.5);
+}
+.modal-log .box .action .icon.icon-unmi {
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.modal-log .box .action .icon.icon-unmi img {
+   position: absolute;
+   width: 130% !important;
+   height: auto;
+}
+.modal-log .box .action .text {
+   font-size: calc(var(--default-size) * 0.8);
 }

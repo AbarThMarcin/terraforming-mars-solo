@@ -20,10 +20,10 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
             </div>
             {/* Resources */}
             <div className={resource === RESOURCES.MLN ? 'res-snap mln' : 'res-snap'}>
-               <div className='icon'>
+               <div className="icon">
                   <img src={icon} alt="res_icon" />
                </div>
-               <div className='value'>
+               <div className="value">
                   <span>{res}</span>
                </div>
             </div>
@@ -32,8 +32,7 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
                statePlayer.resources.plant >= statePlayer.valueGreenery &&
                !modals.draft &&
                !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState &&
-               !modals.animation && (
+               !stateGame.phaseViewGameState && (
                   <BtnConvertPlantsHeat
                      textConfirmation={`Do you want to convert ${statePlayer.valueGreenery} plants to a Greenery?`}
                      action={action.func}
@@ -45,8 +44,7 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
                statePlayer.resources.heat >= 8 &&
                !modals.draft &&
                !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState &&
-               !modals.animation && (
+               !stateGame.phaseViewGameState && (
                   <BtnConvertPlantsHeat
                      textConfirmation="Do you want to convert 8 heat to increase the temperature?"
                      action={action.func}

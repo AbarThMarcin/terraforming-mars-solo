@@ -1,6 +1,6 @@
 export const INIT_STATE_GAME = {
    // Current Generation
-   generation: 1,
+   generation: 14,
    // Game phases
    phaseCorporation: true,
    phaseDraft: false,
@@ -11,6 +11,7 @@ export const INIT_STATE_GAME = {
    phaseSelectOne: false,
    phaseMarsUniversity: false, // For Mars University only
    phaseBusinessContacts: false, // For Business Contacts and Invention Contest only
+   phaseAfterGen14: false,
    // Current Global Parameters
    globalParameters: {
       temperature: -30,

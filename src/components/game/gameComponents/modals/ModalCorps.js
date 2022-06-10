@@ -44,7 +44,7 @@ const ModalCorps = () => {
    }
 
    return (
-      <div className='modal-background'>
+      <>
          <div className="modal-corps center">
             <Corp
                corp={corps[0]}
@@ -64,7 +64,7 @@ const ModalCorps = () => {
             onYesFunc={handleClickNext}
             position={btnActionNextPosition}
          />
-      </div>
+      </>
    )
 }
 

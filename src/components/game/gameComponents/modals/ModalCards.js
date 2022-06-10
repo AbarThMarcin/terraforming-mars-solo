@@ -23,10 +23,7 @@ const ModalCards = () => {
    }
 
    return (
-      <div
-         className={`modal-background ${modals.cardWithAction && 'display-none'}`}
-         onClick={() => setModals({ ...modals, cards: false })}
-      >
+      <>
          {/* ARROWS */}
          {modals.modalCards.length > 10 && (
             <Arrows
@@ -55,10 +52,12 @@ const ModalCards = () => {
             </div>
          </div>
          {/* HEADER */}
-         <div className="modal-cards-header">{modals.modalCardsType.toUpperCase()}</div>
+         <div className="modal-cards-header" onClick={(e) => e.stopPropagation()}>
+            {modals.modalCardsType.toUpperCase()}
+         </div>
          {/* SORT BUTTONS */}
          <SortBtns />
-      </div>
+      </>
    )
 }
 

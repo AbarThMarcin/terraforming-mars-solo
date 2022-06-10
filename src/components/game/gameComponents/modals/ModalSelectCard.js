@@ -8,7 +8,7 @@ import BtnSelect from '../buttons/BtnSelect'
 import Card from '../Card'
 
 const ModalSelectCard = () => {
-   const { stateGame } = useContext(StateGameContext)
+   const { performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [selected, setSelected] = useState(getInitSelected)
    const [toBuyMln, setToBuyMln] = useState(0)
@@ -29,7 +29,11 @@ const ModalSelectCard = () => {
          },
          selectCard: false,
       }))
-      if (selected) modals.modalSelectCard.func()
+      if (selected) {
+         modals.modalSelectCard.func()
+      } else {
+         performSubActions([])
+      }
    }
 
    const handleClickSelect = () => {
@@ -51,28 +55,21 @@ const ModalSelectCard = () => {
    }
 
    return (
-      <div
-         className={`
-            modal-background
-            ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}
-         `}
-      >
-         <div className="card-container big center">
-            {/* CARD */}
-            <Card card={modals.modalSelectCard.card} isBig={true} />
-            {/* CARD BUTTON */}
-            <BtnSelect
-               initBtnText={selected ? 'SELECTED' : 'SELECT'}
-               handleClick={handleClickSelect}
-               sourceCardId={modals.modalSelectCard.cardIdAction}
-            />
-            {/* CONFIRM BUTTON */}
-            <BtnAction
-               text="CONFIRM"
-               onYesFunc={handleClickConfirmBtn}
-               position={btnActionConfirmPosition}
-            />
-         </div>
+      <div className="card-container big center">
+         {/* CARD */}
+         <Card card={modals.modalSelectCard.card} isBig={true} />
+         {/* CARD BUTTON */}
+         <BtnSelect
+            initBtnText={selected ? 'SELECTED' : 'SELECT'}
+            handleClick={handleClickSelect}
+            sourceCardId={modals.modalSelectCard.cardIdAction}
+         />
+         {/* CONFIRM BUTTON */}
+         <BtnAction
+            text="CONFIRM"
+            onYesFunc={handleClickConfirmBtn}
+            position={btnActionConfirmPosition}
+         />
       </div>
    )
 }

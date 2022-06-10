@@ -1,0 +1,66 @@
+.modal-end-stats {
+   position: absolute;
+   height: 40%;
+   background: rgb(0, 10, 7);
+   background: linear-gradient(
+      0deg,
+      rgba(0, 30, 21, 0.9) 0%,
+      rgba(0, 10, 7, 0.7) 40%,
+      rgba(0, 10, 7, 0.7) 60%,
+      rgba(0, 30, 21, 0.9) 100%
+   );
+   letter-spacing: calc(var(--default-size) * 0.1);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   box-shadow: 0 0 0 calc(var(--default-size) * 0.8) rgba(0, 0, 0, 0.5),
+      0 0 calc(var(--default-size) * 3) calc(var(--default-size) * 0.95) rgba(0, 133, 91, 0.2);
+}
+
+.modal-end-stats .victory-loss {
+   position: absolute;
+   left: 50%;
+   top: -50%;
+   transform: translateX(-50%);
+   font-size: calc(var(--default-size) * 2.5);
+}
+.modal-end-stats .header {
+   position: absolute;
+   left: 0;
+   top: -19%;
+   font-size: calc(var(--default-size) * 1.5);
+}
+
+.modal-end-stats .data {
+   height: 100%;
+   display: flex;
+   justify-content: space-evenly;
+   column-gap: calc(var(--default-size) * 0.5);
+   padding: var(--default-size);
+}
+
+.modal-end-stats .data .category {
+   height: 100%;
+   width: calc(var(--default-size) * 8);
+}
+
+.modal-end-stats .data .category span {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   text-align: center;
+   padding: calc(var(--default-size) * 0.3);
+   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modal-end-stats .data .category .name {
+   height: calc(var(--default-size) * 2.8);
+   line-height: var(--default-size);
+   margin-top: calc(var(--default-size) * 1);
+   margin-bottom: calc(var(--default-size) * 1);
+}
+
+.modal-end-stats .data .category .value {
+   font-size: calc(var(--default-size) * 1.2);
+}

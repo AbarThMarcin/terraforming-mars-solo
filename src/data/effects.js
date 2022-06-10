@@ -5,7 +5,7 @@ import { RESOURCES } from './resources'
 import { SP } from './StandardProjects'
 import { OPTION_ICONS } from './selectOneOptions'
 import { TAGS } from './tags'
-import { canCardHaveAnimals, canCardHaveMicrobes, modifiedCards } from '../util/misc'
+import { canCardHaveAnimals, canCardHaveMicrobes, modifiedCards, withTimeAdded } from '../util/misc'
 // Corporation effects icons
 import effect_credicor from '../assets/images/effects/effect_credicor.svg'
 import effect_ecoline from '../assets/images/effects/effect_ecoline.svg'
@@ -513,7 +513,7 @@ export const funcGetEffect = (
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: [
                            ...statePlayer.cardsInHand,
-                           ...modifiedCards(cards.slice(0, 1), statePlayer),
+                           ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
                         ],
                      })
                      setCards(cards.slice(1))

@@ -1,4 +1,5 @@
 import {
+   getAllResources,
    getCardsWithPossibleAnimals,
    getCardsWithPossibleMicrobes,
    getNeighbors,
@@ -47,6 +48,8 @@ export const funcRequirementsMet = (
       stateGame.phasePlaceTile
    )
       return false
+   // If cost is higher than current resources
+   if (getAllResources(card, statePlayer) < card.currentCost) return false
    // Check other requirements
    let isAvailable = true
    let board = JSON.parse(JSON.stringify(stateBoard))

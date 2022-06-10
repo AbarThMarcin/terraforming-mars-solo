@@ -19,31 +19,46 @@ import {
    setAnimation,
    startAnimation,
 } from '../../../../../data/animations'
-import { getNeighbors, modifiedCards, modifiedCardsEffect } from '../../../../../util/misc'
+import {
+   getNeighbors,
+   modifiedCards,
+   modifiedCardsEffect,
+   withTimeAdded,
+} from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 
-import city from '../../../../../assets/images/objects/city.svg'
-import cityNeutral from '../../../../../assets/images/objects/cityNeutral.svg'
-import greenery from '../../../../../assets/images/objects/greenery.svg'
-import greeneryNeutral from '../../../../../assets/images/objects/greeneryNeutral.svg'
-import ocean from '../../../../../assets/images/objects/ocean.svg'
-import cityCapital from '../../../../../assets/images/objects/cityCapital.svg'
-import miningRightsArea from '../../../../../assets/images/objects/miningRightsArea.svg'
-import ecologicalZone from '../../../../../assets/images/objects/ecologicalZone.svg'
-import naturalPreserve from '../../../../../assets/images/objects/naturalPreserve.svg'
-import moholeArea from '../../../../../assets/images/objects/moholeArea.svg'
-import restrictedArea from '../../../../../assets/images/objects/restrictedArea.svg'
-import commercialDistrict from '../../../../../assets/images/objects/commercialDistrict.svg'
-import nuclearZone from '../../../../../assets/images/objects/nuclearZone.svg'
-import industrialCenter from '../../../../../assets/images/objects/industrialCenter.svg'
-import lavaFlows from '../../../../../assets/images/objects/lavaFlows.svg'
+import city from '../../../../../assets/images/tiles/city.svg'
+import cityNeutral from '../../../../../assets/images/tiles/cityNeutral.svg'
+import greenery from '../../../../../assets/images/tiles/greenery.svg'
+import greeneryNeutral from '../../../../../assets/images/tiles/greeneryNeutral.svg'
+import ocean from '../../../../../assets/images/tiles/ocean.svg'
+import cityCapital from '../../../../../assets/images/tiles/cityCapital.svg'
+import miningRightsArea from '../../../../../assets/images/tiles/miningRightsArea.svg'
+import ecologicalZone from '../../../../../assets/images/tiles/ecologicalZone.svg'
+import naturalPreserve from '../../../../../assets/images/tiles/naturalPreserve.svg'
+import moholeArea from '../../../../../assets/images/tiles/moholeArea.svg'
+import restrictedArea from '../../../../../assets/images/tiles/restrictedArea.svg'
+import commercialDistrict from '../../../../../assets/images/tiles/commercialDistrict.svg'
+import nuclearZone from '../../../../../assets/images/tiles/nuclearZone.svg'
+import industrialCenter from '../../../../../assets/images/tiles/industrialCenter.svg'
+import lavaFlows from '../../../../../assets/images/tiles/lavaFlows.svg'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { EFFECTS } from '../../../../../data/effects'
+import { LOG_TYPES } from '../../../../../data/log'
+import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 
 const Field = ({ field }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
-      useContext(StateGameContext)
+   const {
+      stateGame,
+      dispatchGame,
+      logItems,
+      setLogItems,
+      performSubActions,
+      getImmEffects,
+      getEffect,
+      ANIMATION_SPEED,
+   } = useContext(StateGameContext)
    const { cards, setCards } = useContext(CardsContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -70,11 +85,18 @@ const Field = ({ field }) => {
          type: ACTIONS_BOARD.SET_OBJECT,
          payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
       })
+      // Update log for Forced Action of Tharsis
+      if (logItems.length === 2 && statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC)
+         setLogItems((currentLogItems) => [
+            ...currentLogItems,
+            { type: LOG_TYPES.FORCED_ACTION, data: { text: CORP_NAMES.THARSIS_REPUBLIC } },
+         ])
       // Turn phasePlaceTile off
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: null })
       // Receive tile bonus
       let uniqBonuses = [...new Set(field.bonus)]
+      let newPlants = statePlayer.resources.plant
       if (uniqBonuses.length > 0) {
          // Start Animation
          startAnimation(setModals)
@@ -98,6 +120,7 @@ const Field = ({ field }) => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: countBonus })
                      break
                   case RESOURCES.PLANT:
+                     newPlants += countBonus
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
                      break
                   case RESOURCES.CARD:
@@ -105,7 +128,7 @@ const Field = ({ field }) => {
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: [
                            ...statePlayer.cardsInHand,
-                           ...modifiedCards(cards.slice(0, countBonus), statePlayer),
+                           ...modifiedCards(withTimeAdded(cards.slice(0, countBonus)), statePlayer),
                         ],
                      })
                      setCards(cards.slice(countBonus))
@@ -250,7 +273,7 @@ const Field = ({ field }) => {
                let newCards = field.bonus.includes(RESOURCES.CARD)
                   ? [
                        ...statePlayer.cardsInHand.filter((card) => card.id !== 20),
-                       ...cards.slice(0, 1),
+                       ...withTimeAdded(cards.slice(0, 1)),
                     ]
                   : statePlayer.cardsInHand.filter((card) => card.id !== 20)
                newCards = modifiedCardsEffect(newCards, EFFECTS.EFFECT_RESEARCH_OUTPOST)
@@ -269,10 +292,35 @@ const Field = ({ field }) => {
          }
       }
 
-      // Continue performing actions/effects
       setTimeout(() => {
-         startAnimation(setModals)
-         performSubActions(stateGame.actionsLeft)
+         // If NOT Phase After Gen14 is on
+         if (!stateGame.phaseAfterGen14) {
+            // Continue performing actions/effects
+            startAnimation(setModals)
+            performSubActions(stateGame.actionsLeft)
+         } else {
+            setTimeout(() => {
+               // If there are still enough plants to convert
+               if (newPlants >= statePlayer.valueGreenery) {
+                  // Decrease plants
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
+                     payload: -statePlayer.valueGreenery,
+                  })
+                  // Proper action + potential Herbivores
+                  let actions = getImmEffects(IMM_EFFECTS.GREENERY)
+                  if (
+                     statePlayer.cardsPlayed.some(
+                        (card) => card.effect === EFFECTS.EFFECT_HERBIVORES
+                     )
+                  )
+                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+                  performSubActions(actions, null, null)
+               } else {
+                  setModals((prevModals) => ({ ...prevModals, endStats: true }))
+               }
+            }, 1000)
+         }
       }, delay)
    }
 

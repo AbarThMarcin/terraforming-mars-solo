@@ -12,6 +12,7 @@
 @import url('./modal-resource.css');
 @import url('./modal-select-card.css');
 @import url('./modal-select-cards.css');
+@import url('./modal-end-stats.css');
 
 .modal-background {
    position: relative;

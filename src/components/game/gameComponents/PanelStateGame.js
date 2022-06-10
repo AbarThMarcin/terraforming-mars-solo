@@ -14,7 +14,7 @@ const PanelStateGame = () => {
    }
 
    return (
-      <div className="panel-state-game">
+      <>
          {/* Background */}
          <img src={panelStateGame} alt="panelStateGame" />
          {/* Generation */}
@@ -78,7 +78,7 @@ const PanelStateGame = () => {
             <span className="oceans">{stateGame.globalParameters.oceans}</span>
             <span>/9</span>
          </div>
-      </div>
+      </>
    )
 }
 

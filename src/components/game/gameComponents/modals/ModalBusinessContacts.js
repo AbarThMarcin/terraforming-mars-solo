@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition } from '../../../../util/misc'
+import { getPosition, withTimeAdded } from '../../../../util/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
@@ -38,7 +38,7 @@ const ModalBusinessContacts = () => {
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
             payload: [
                ...statePlayer.cardsInHand,
-               ...cards.filter((card) => selectedCardIds.includes(card.id)),
+               ...withTimeAdded(cards.filter((card) => selectedCardIds.includes(card.id))),
             ],
          })
          setCards(cards.slice(modals.modalBusCont.cardsCount))
@@ -58,11 +58,7 @@ const ModalBusinessContacts = () => {
    }
 
    return (
-      <div
-         className={`modal-background ${
-            (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-         }`}
-      >
+      <>
          {/* ARROWS */}
          {modals.modalCards.length > 10 && (
             <Arrows
@@ -108,7 +104,7 @@ const ModalBusinessContacts = () => {
                position={btnActionPosition}
             />
          </div>
-      </div>
+      </>
    )
 }
 

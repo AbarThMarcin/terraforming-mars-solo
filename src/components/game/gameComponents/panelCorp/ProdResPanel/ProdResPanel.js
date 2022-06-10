@@ -12,6 +12,9 @@ import {
 } from '../../../../../data/animations'
 import { getResIcon, RESOURCES } from '../../../../../data/resources'
 import { EFFECTS } from '../../../../../data/effects'
+import { LOG_TYPES } from '../../../../../data/log'
+import logConvertPlants from '../../../../../assets/images/other/logConvertPlants.svg'
+import logConvertHeat from '../../../../../assets/images/other/logConvertHeat.svg'
 
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -47,7 +50,14 @@ const ProdResPanel = () => {
                actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(actions)
+         performSubActions(
+            actions,
+            {
+               type: LOG_TYPES.CONVERT_PLANTS,
+               text: null,
+            },
+            logConvertPlants
+         )
       }, ANIMATION_SPEED)
    }
 
@@ -71,7 +81,14 @@ const ProdResPanel = () => {
                actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(actions)
+         performSubActions(
+            actions,
+            {
+               type: LOG_TYPES.CONVERT_HEAT,
+               text: null,
+            },
+            logConvertHeat
+         )
       }, ANIMATION_SPEED)
    }
 

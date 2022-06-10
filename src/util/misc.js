@@ -1,5 +1,6 @@
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
 import { TILES } from '../data/board'
+import { CORP_NAMES } from '../data/corpNames'
 import { EFFECTS } from '../data/effects'
 import { TAGS } from '../data/tags'
 import { ACTIONS_GAME } from './actionsGame'
@@ -151,13 +152,31 @@ function hasNeutralCityOrGreenery(neighbors) {
    })
 }
 
+export function getAllResources(card, statePlayer) {
+   let resources = statePlayer.resources.mln
+   if (hasTag(card, TAGS.BUILDING))
+      resources += statePlayer.resources.steel * statePlayer.valueSteel
+   if (hasTag(card, TAGS.SPACE)) resources += statePlayer.resources.titan * statePlayer.valueTitan
+   if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+   return resources
+}
+
 export function funcPerformSubActions(
    subActions,
    ANIMATION_SPEED,
    setModals,
    dispatchGame,
-   setUpdateVpTrigger
+   setUpdateVpTrigger,
+   logData,
+   logIcon,
+   setLogData,
+   setLogIcon
 ) {
+   if (logData) {
+      setLogData(logData)
+      setLogIcon(logIcon)
+   }
+
    subActions = subActions.filter((subAction) => subAction.name !== undefined)
    let iLast = subActions.length - 1
    for (let i = 0; i <= subActions.length - 1; i++) {
@@ -205,8 +224,9 @@ export function funcPerformSubActions(
                   type: ACTIONS_GAME.SET_ACTIONSLEFT,
                   payload: subActions.slice(iLast + 1),
                })
-               if (subActions[i].name !== ANIMATIONS.USER_INTERACTION)
+               if (subActions[i].name !== ANIMATIONS.USER_INTERACTION) {
                   setUpdateVpTrigger((prevValue) => !prevValue)
+               }
             },
             subActions[i].name !== ANIMATIONS.USER_INTERACTION
                ? subActions[i].name !== ANIMATIONS.SHORT_ANIMATION
@@ -455,12 +475,16 @@ export function canCardHaveFighters(cardId) {
 }
 
 export function getActionIdsWithCost() {
-   return [5, 12, 76, 123, 187, 199, 202]
+   return [CORP_NAMES.UNMI, 5, 12, 76, 123, 187, 199, 202]
 }
 
-export function getActionCost(cardId) {
+export function getActionCost(cardIdOrUnmi) {
    let cost = 0
-   switch (cardId) {
+   switch (cardIdOrUnmi) {
+      // UNMI
+      case CORP_NAMES.UNMI:
+         cost = 3
+         break
       // Search For Life
       case 5:
          cost = 1
@@ -490,4 +514,124 @@ export function getActionCost(cardId) {
          break
    }
    return cost
+}
+
+export const getCardType = (card) => {
+   return hasTag(card, TAGS.EVENT)
+      ? 'red'
+      : card.effect !== null || card.iconNames.action !== null || card.id === 173 // Protected Habitats
+      ? 'blue'
+      : 'green'
+}
+
+export const sorted = (cards, id, requirementsMet) => {
+   if (cards.length > 1) {
+      let sortOrder
+      switch (id) {
+         case '1a':
+            cards.sort((a, b) => (a.currentCost <= b.currentCost ? 1 : -1))
+            return cards
+         case '1b':
+            cards.sort((a, b) => (a.currentCost >= b.currentCost ? 1 : -1))
+            return cards
+         case '2a':
+            sortOrder = ['green', 'blue', 'red']
+            cards.sort(
+               (a, b) => sortOrder.indexOf(getCardType(a)) - sortOrder.indexOf(getCardType(b))
+            )
+            return cards
+         case '2b':
+            sortOrder = ['red', 'blue', 'green']
+            cards.sort(
+               (a, b) => sortOrder.indexOf(getCardType(a)) - sortOrder.indexOf(getCardType(b))
+            )
+            return cards
+         case '3a':
+            sortOrder = [
+               TAGS.BUILDING,
+               TAGS.SPACE,
+               TAGS.POWER,
+               TAGS.SCIENCE,
+               TAGS.JOVIAN,
+               TAGS.EARTH,
+               TAGS.PLANT,
+               TAGS.MICROBE,
+               TAGS.ANIMAL,
+               TAGS.CITY,
+               TAGS.EVENT,
+            ]
+            cards.sort((a, b) => {
+               let tagsA = ''
+               let tagsB = ''
+               let foundTag = ''
+               for (let i = 0; i < sortOrder.length; i++) {
+                  foundTag = a.tags.find((tag) => tag === sortOrder[i])
+                  if (foundTag) tagsA += foundTag
+               }
+               for (let i = 0; i < sortOrder.length; i++) {
+                  foundTag = b.tags.find((tag) => tag === sortOrder[i])
+                  if (foundTag) tagsB += foundTag
+               }
+               return tagsA >= tagsB ? 1 : -1
+            })
+            return cards
+         case '3b':
+            sortOrder = [
+               TAGS.BUILDING,
+               TAGS.SPACE,
+               TAGS.POWER,
+               TAGS.SCIENCE,
+               TAGS.JOVIAN,
+               TAGS.EARTH,
+               TAGS.PLANT,
+               TAGS.MICROBE,
+               TAGS.ANIMAL,
+               TAGS.CITY,
+               TAGS.EVENT,
+            ]
+            cards.sort((a, b) => {
+               let tagsA = ''
+               let tagsB = ''
+               let foundTag = ''
+               for (let i = 0; i < sortOrder.length; i++) {
+                  foundTag = a.tags.find((tag) => tag === sortOrder[i])
+                  if (foundTag) tagsA += foundTag
+               }
+               for (let i = 0; i < sortOrder.length; i++) {
+                  foundTag = b.tags.find((tag) => tag === sortOrder[i])
+                  if (foundTag) tagsB += foundTag
+               }
+               return tagsA <= tagsB ? 1 : -1
+            })
+            return cards
+         case '4a':
+            cards.sort((a, b) => (a.timeAdded >= b.timeAdded ? 1 : -1))
+            return cards
+         case '4b':
+            cards.sort((a, b) => (a.timeAdded <= b.timeAdded ? 1 : -1))
+            return cards
+         case '5a':
+            cards.sort((a, b) => {
+               let availabilityA = requirementsMet(a) ? 'available' : 'not-available'
+               let availabilityB = requirementsMet(b) ? 'available' : 'not-available'
+               return availabilityA <= availabilityB ? 1 : -1
+            })
+            return cards
+         case '5b':
+            cards.sort((a, b) => {
+               let availabilityA = requirementsMet(a) ? 'available' : 'not-available'
+               let availabilityB = requirementsMet(b) ? 'available' : 'not-available'
+               return availabilityA >= availabilityB ? 1 : -1
+            })
+            return cards
+         default:
+            return cards
+      }
+   } else {
+      return cards
+   }
+}
+
+export const withTimeAdded = (cards) => {
+   return cards.map((card, idx) => ({ ...card, timeAdded: Date.now() + idx }))
 }

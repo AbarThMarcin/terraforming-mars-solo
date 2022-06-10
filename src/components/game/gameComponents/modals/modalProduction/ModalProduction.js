@@ -7,11 +7,15 @@ import ModalProductionData from './ModalProductionData'
 import BtnAction from '../../buttons/BtnAction'
 
 const ModalProduction = () => {
-   const { stateGame, dispatchGame, performSubActions } = useContext(StateGameContext)
+   const { dispatchGame, performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
-   const btnActionConfirmPosition = { bottom: '-1%', left: '50%', transform: 'translate(-50%, 100%) scale(1.2)' }
+   const btnActionConfirmPosition = {
+      bottom: '-1%',
+      left: '50%',
+      transform: 'translate(-50%, 100%) scale(1.2)',
+   }
 
    const handleClickConfirmBtn = () => {
       // Turn addRemoveRes phase on
@@ -23,31 +27,29 @@ const ModalProduction = () => {
 
    return (
       <>
-         <div className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}>
+         {/* HEADER */}
+         <div className="modal-resource-header">SELECT ANY PRODUCTION</div>
+         {/* BOX */}
+         <div
+            className="modal-standard-projects-box other center"
+            onClick={(e) => e.stopPropagation()}
+         >
             {/* HEADER */}
-            <div className="modal-resource-header">SELECT ANY PRODUCTION</div>
-            {/* BOX */}
-            <div
-               className="modal-standard-projects-box other center"
-               onClick={(e) => e.stopPropagation()}
-            >
-               {/* HEADER */}
-               <div className="header">CARD PRODUCTIONS</div>
-               {/* DATA */}
-               <ModalProductionData setCardSnap={setCardSnap} />
-               {/* CARD SNAP FOR VP VIEW */}
-               {cardSnap && (
-                  <div className="card-container medium">
-                     <Card card={cardSnap} />
-                  </div>
-               )}
-               {/* CONFIRM BUTTON */}
-               <BtnAction
-                  text="CONFIRM"
-                  onYesFunc={handleClickConfirmBtn}
-                  position={btnActionConfirmPosition}
-               />
-            </div>
+            <div className="header">CARD PRODUCTIONS</div>
+            {/* DATA */}
+            <ModalProductionData setCardSnap={setCardSnap} />
+            {/* CARD SNAP FOR VP VIEW */}
+            {cardSnap && (
+               <div className="card-container medium">
+                  <Card card={cardSnap} />
+               </div>
+            )}
+            {/* CONFIRM BUTTON */}
+            <BtnAction
+               text="CONFIRM"
+               onYesFunc={handleClickConfirmBtn}
+               position={btnActionConfirmPosition}
+            />
          </div>
       </>
    )

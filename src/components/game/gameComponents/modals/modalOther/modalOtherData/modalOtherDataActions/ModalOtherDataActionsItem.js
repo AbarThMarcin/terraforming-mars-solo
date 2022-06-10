@@ -6,6 +6,8 @@ import { ACTIONS_PLAYER } from '../../../../../../../util/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../util/misc'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
+import { LOG_TYPES } from '../../../../../../../data/log'
+import { getImmEffectIcon } from '../../../../../../../data/immEffects/immEffectsIcons'
 
 const ModalOtherDataActionsItem = ({
    item,
@@ -24,7 +26,7 @@ const ModalOtherDataActionsItem = ({
    const { modals, setModals } = useContext(ModalsContext)
    const isUnmi = item.name === CORP_NAMES.UNMI
    const isAvailable = getAvailability()
-   
+
    const btnActionPosition = { right: '-3%', transform: 'scale(0.65)' }
 
    function getAvailability() {
@@ -46,33 +48,32 @@ const ModalOtherDataActionsItem = ({
    const handleClickAction = () => {
       if (!isAvailable) return
       // Change all resources to buy
+      let itemIdOrUnmi = isUnmi ? item.name : item.id
       let toBuyResources =
-         actionClicked === item.id
+         actionClicked === itemIdOrUnmi
             ? [toBuyMln, toBuySteel, toBuyTitan, toBuyHeat]
-            : changeCosts(item.id)
+            : changeCosts(itemIdOrUnmi)
       // Set which action card id has been clicked
-      setActionClicked(() => item.id)
+      setActionClicked(() => itemIdOrUnmi)
       // Actions with resources to pay - first click
-      if (!isUnmi) {
-         if (
-            (item.id === 12 && statePlayer.resources.titan > 0) ||
-            (item.id === 187 && statePlayer.resources.steel > 0) ||
-            (getActionIdsWithCost().includes(item.id) &&
-               statePlayer.canPayWithHeat &&
-               statePlayer.resources.heat > 0)
-         ) {
-            if (actionClicked === null || actionClicked !== item.id) {
-               return
-            }
+      if (
+         (itemIdOrUnmi === 12 && statePlayer.resources.titan > 0) || // Water Import From Europa
+         (itemIdOrUnmi === 187 && statePlayer.resources.steel > 0) || // Aquifer Pumping
+         (getActionIdsWithCost().includes(itemIdOrUnmi) &&
+            statePlayer.canPayWithHeat &&
+            statePlayer.resources.heat > 0)
+      ) {
+         if (actionClicked === null || actionClicked !== itemIdOrUnmi) {
+            return
          }
       }
       // Other actions
-      if (!getActionIdsWithCost().includes(item.id)) setActionClicked(null)
+      if (!getActionIdsWithCost().includes(itemIdOrUnmi)) setActionClicked(null)
       setModals((prevModals) => ({
          ...prevModals,
          modalConf: {
             text: 'Do you want to use this action?',
-            onYes: () => handleUseAction(toBuyResources),
+            onYes: () => performAction(toBuyResources),
             onNo: () => {
                setModals({ ...modals, confirmation: false })
                setActionClicked(null)
@@ -82,17 +83,25 @@ const ModalOtherDataActionsItem = ({
       }))
    }
 
-   const handleUseAction = (toBuyResources) => {
+   const performAction = (toBuyResources) => {
+      let itemIdOrUnmi = isUnmi ? item.name : item.id
       // Set action_used to true
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_ACTION_USED,
-         payload: { cardId: isUnmi ? item.name : item.id, actionUsed: true },
+         payload: { cardId: itemIdOrUnmi, actionUsed: true },
       })
       let subActions
-      subActions = getCardActions(isUnmi ? item.name : item.id, toBuyResources)
+      subActions = getCardActions(itemIdOrUnmi, toBuyResources)
       setModals({ ...modals, confirmation: false, other: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-      performSubActions(subActions)
+      performSubActions(
+         subActions,
+         {
+            type: LOG_TYPES.CARD_ACTION,
+            text: item.name,
+         },
+         isUnmi ? getActionIcon(ACTION_ICONS.ACTION_UNMI) : getImmEffectIcon(item.id)
+      )
    }
 
    return (
@@ -101,6 +110,7 @@ const ModalOtherDataActionsItem = ({
          onMouseOver={() => handleMouseOverItem(item)}
          onMouseLeave={() => setCardSnap(null)}
       >
+         {/* ICON */}
          <div className="action">
             <img
                src={

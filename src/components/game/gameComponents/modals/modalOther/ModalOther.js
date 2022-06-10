@@ -1,5 +1,4 @@
 /* Used to view card resources, tags, vp, actions and effects */
-
 import { useState, useContext } from 'react'
 import { ModalsContext } from '../../../Game'
 import BtnClose from '../../buttons/BtnClose'
@@ -28,40 +27,33 @@ const ModalOther = () => {
    }
 
    return (
-      <>
-         <div
-            className={`modal-background ${modals.confirmation && 'display-none'}`}
-            onClick={() => setModals({ ...modals, other: false })}
-         >
-            <div
-               className="modal-standard-projects-box other center"
-               onClick={(e) => e.stopPropagation()}
-            >
-               {/* HEADER */}
-               <div className="header">
-                  {modals.modalOther.header} {modals.modalOther.amount}
-               </div>
-               {/* CLOSE BUTTON */}
-               <BtnClose
-                  onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
-               />
-               {/* DATA */}
-               {modals.modalOther.data.length === 0 ? (
-                  <div className="modal-other-box-no-data center">
-                     {getTextWhenNoData(modals.modalOther.header)}
-                  </div>
-               ) : (
-                  <ModalOtherData setCardSnap={setCardSnap} />
-               )}
-               {/* CARD SNAP FOR VP VIEW */}
-               {cardSnap && (
-                  <div className="card-container medium">
-                     <Card card={cardSnap} />
-                  </div>
-               )}
-            </div>
+      <div
+         className="modal-standard-projects-box other center"
+         onClick={(e) => e.stopPropagation()}
+      >
+         {/* HEADER */}
+         <div className="header">
+            {modals.modalOther.header} {modals.modalOther.amount}
          </div>
-      </>
+         {/* CLOSE BUTTON */}
+         <BtnClose
+            onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
+         />
+         {/* DATA */}
+         {modals.modalOther.data.length === 0 ? (
+            <div className="modal-other-box-no-data center">
+               {getTextWhenNoData(modals.modalOther.header)}
+            </div>
+         ) : (
+            <ModalOtherData setCardSnap={setCardSnap} />
+         )}
+         {/* CARD SNAP FOR VP VIEW */}
+         {cardSnap && (
+            <div className="card-container medium">
+               <Card card={cardSnap} />
+            </div>
+         )}
+      </div>
    )
 }
 

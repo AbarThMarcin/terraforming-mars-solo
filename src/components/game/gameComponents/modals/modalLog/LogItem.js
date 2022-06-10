@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { LOG_TYPES } from '../../../../../data/log'
+import { CORP_NAMES } from '../../../../../data/corpNames'
 
 const LogItem = ({ item }) => {
    const itemDetails = getDetails()
@@ -11,11 +11,11 @@ const LogItem = ({ item }) => {
          case LOG_TYPES.GENERATION:
             return { text: `GENERATION ${item.data.text}`, styles: 'generation' }
          case LOG_TYPES.FORCED_ACTION:
-            return { text: `FORCED_ACTION ${item.data.text}`, styles: 'action' }
+            return { text: `FORCED ACTION (${item.data.text})`, styles: 'action' }
          case LOG_TYPES.IMMEDIATE_EFFECT:
             return { text: item.data.text, styles: 'action' }
          case LOG_TYPES.CARD_ACTION:
-            return { text: `${item.data.text} (BLUE CARD)`, styles: 'action' }
+            return { text: `${item.data.text} (ACTION)`, styles: 'action' }
          case LOG_TYPES.CONVERT_PLANTS:
             return { text: 'PLANTS CONVERSION', styles: 'action' }
          case LOG_TYPES.CONVERT_HEAT:
@@ -31,7 +31,16 @@ const LogItem = ({ item }) => {
 
    return (
       <div className={itemDetails.styles}>
-         <span>{itemDetails.text}</span>
+         {item.type !== LOG_TYPES.LOG &&
+            item.type !== LOG_TYPES.GENERATION &&
+            item.type !== LOG_TYPES.PASS && item.data.icon && (
+               <div className={`icon ${item.data.text === CORP_NAMES.UNMI && 'icon-unmi'}`}>
+                  <img className="full-size" src={item.data.icon} alt="icon" />
+               </div>
+            )}
+         <div className="text">
+            <span>{itemDetails.text}</span>
+         </div>
       </div>
    )
 }

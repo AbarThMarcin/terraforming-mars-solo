@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition } from '../../../../util/misc'
+import { getPosition, withTimeAdded } from '../../../../util/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
@@ -49,7 +49,7 @@ const ModalMarsUniversity = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId), cards[0]],
+            payload: [...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId), withTimeAdded(cards[0])],
          })
          setCards(cards.slice(1))
          endAnimation(setModals)
@@ -75,11 +75,7 @@ const ModalMarsUniversity = () => {
    }
 
    return (
-      <div
-         className={`modal-background ${
-            (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-         }`}
-      >
+      <>
          {/* ARROWS */}
          {modals.modalCards.length > 10 && (
             <Arrows
@@ -127,7 +123,7 @@ const ModalMarsUniversity = () => {
             {/* CANCEL BUTTON */}
             <BtnAction text="CANCEL" onYesFunc={onCancelFunc} position={btnCancelPosition} />
          </div>
-      </div>
+      </>
    )
 }
 

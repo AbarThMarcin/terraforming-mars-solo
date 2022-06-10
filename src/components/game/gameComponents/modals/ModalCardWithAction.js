@@ -10,6 +10,8 @@ import { TAGS } from '../../../../data/tags'
 import Card from '../Card'
 import DecreaseCost from './modalsComponents/DecreaseCost'
 import BtnAction from '../buttons/BtnAction'
+import { LOG_TYPES } from '../../../../data/log'
+import { getImmEffectIcon } from '../../../../data/immEffects/immEffectsIcons'
 
 const ModalCardWithAction = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -25,57 +27,32 @@ const ModalCardWithAction = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const [toBuyTitan, setToBuyTitan] = useState(getInitToBuyTitan())
    const [toBuySteel, setToBuySteel] = useState(getInitToBuySteel())
-   const [toBuyMln, setToBuyMln] = useState(getInitToBuyMln())
    const [toBuyHeat, setToBuyHeat] = useState(getInitToBuyHeat())
+   const [toBuyMln, setToBuyMln] = useState(getInitToBuyMln())
    const [disabled, setDisabled] = useState(getDisabled())
 
    const btnActionPosition = { bottom: '0', left: '43.5%', transform: 'translate(-50%, 100%)' }
 
-   function getInitToBuyHeat() {
-      return Math.max(
-         0,
-         modals.modalCard.currentCost -
-            toBuySteel * statePlayer.valueSteel -
-            toBuyTitan * statePlayer.valueTitan -
-            toBuyMln
-      )
-   }
-
-   function getInitToBuyMln() {
-      const diff = Math.max(
-         0,
-         modals.modalCard.currentCost -
-            toBuySteel * statePlayer.valueSteel -
-            toBuyTitan * statePlayer.valueTitan
-      )
-      return Math.min(diff, statePlayer.resources.mln)
-   }
-   function getInitToBuySteel() {
-      if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
-         const diff =
-            modals.modalCard.currentCost -
-            statePlayer.resources.mln -
-            toBuyTitan * statePlayer.valueTitan
-
-         if (diff > 0) {
-            return Math.min(Math.ceil(diff / statePlayer.valueSteel), statePlayer.resources.steel)
-         } else {
-            return 0
-         }
-      } else {
-         return 0
-      }
-   }
    function getInitToBuyTitan() {
       if (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) {
          const diff = modals.modalCard.currentCost - statePlayer.resources.mln
 
          if (diff > 0) {
             if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
-               return Math.min(
-                  Math.floor(diff / statePlayer.valueTitan),
-                  statePlayer.resources.titan
-               )
+               if (
+                  statePlayer.valueTitan - statePlayer.valueSteel === 1 ||
+                  statePlayer.resources.steel > 1
+               ) {
+                  return Math.min(
+                     Math.floor(diff / statePlayer.valueTitan),
+                     statePlayer.resources.titan
+                  )
+               } else {
+                  return Math.min(
+                     Math.ceil(diff / statePlayer.valueTitan),
+                     statePlayer.resources.titan
+                  )
+               }
             } else {
                return Math.min(
                   Math.ceil(diff / statePlayer.valueTitan),
@@ -89,11 +66,71 @@ const ModalCardWithAction = () => {
          return 0
       }
    }
+   function getInitToBuySteel() {
+      if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
+         const diff =
+            modals.modalCard.currentCost -
+            statePlayer.resources.mln -
+            toBuyTitan * statePlayer.valueTitan
+
+         if (diff > 0) {
+            if (statePlayer.canPayWithHeat && statePlayer.resources.heat > 0) {
+               if (statePlayer.valueSteel === 2 || statePlayer.resources.heat > 1) {
+                  return Math.min(
+                     Math.floor(diff / statePlayer.valueSteel),
+                     statePlayer.resources.steel
+                  )
+               } else {
+                  return Math.min(
+                     Math.ceil(diff / statePlayer.valueSteel),
+                     statePlayer.resources.steel
+                  )
+               }
+            } else {
+               return Math.min(
+                  Math.ceil(diff / statePlayer.valueSteel),
+                  statePlayer.resources.steel
+               )
+            }
+         } else {
+            return 0
+         }
+      } else {
+         return 0
+      }
+   }
+   function getInitToBuyHeat() {
+      if (statePlayer.canPayWithHeat && statePlayer.resources.heat > 0) {
+         const diff =
+            modals.modalCard.currentCost -
+            statePlayer.resources.mln -
+            toBuyTitan * statePlayer.valueTitan -
+            toBuySteel * statePlayer.valueSteel
+         if (diff > 0) {
+            return Math.min(diff, statePlayer.resources.heat)
+         } else {
+            return 0
+         }
+      } else {
+         return 0
+      }
+   }
+   function getInitToBuyMln() {
+      const diff = Math.max(
+         0,
+         modals.modalCard.currentCost -
+            toBuySteel * statePlayer.valueSteel -
+            toBuyTitan * statePlayer.valueTitan -
+            toBuyHeat
+      )
+      return diff
+   }
 
    function getDisabled() {
-      if (!requirementsMet(modals.modalCard)) return true
+      // When viewing Game State, disable button
       if (stateGame.phaseViewGameState) return true
       if (stateGame.phasePlaceTile) return true
+      // When resources to use the card are not enough, disable button
       if (
          Math.min(toBuyMln, statePlayer.resources.mln) +
             toBuySteel * statePlayer.valueSteel +
@@ -102,6 +139,9 @@ const ModalCardWithAction = () => {
          modals.modalCard.currentCost
       )
          return true
+      // When requirements are not met, disable button
+      if (!requirementsMet(modals.modalCard)) return true
+
       return false
    }
 
@@ -162,51 +202,53 @@ const ModalCardWithAction = () => {
                actions = [...actions, ...getEffect(effect)]
          })
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(actions)
+         performSubActions(
+            actions,
+            {
+               type: LOG_TYPES.IMMEDIATE_EFFECT,
+               text: modals.modalCard.name,
+            },
+            getImmEffectIcon(modals.modalCard.id)
+         )
          // =======================================================
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }
 
    return (
-      <div
-         className={`modal-background ${modals.confirmation && 'display-none'}`}
-         onClick={() => setModals({ ...modals, cardWithAction: false, modalCard: null })}
-      >
-         <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
-            {/* CARD */}
-            <Card card={modals.modalCard} isBig={true} />
-            {/* CARD BUTTON */}
-            {!modals.draft && (
-               <>
-                  <BtnAction
-                     text="USE"
-                     mln={toBuyMln}
-                     textConfirmation={`Do you want to play: ${modals.modalCard.name}`}
-                     onYesFunc={onYesFunc}
-                     disabled={disabled}
-                     position={btnActionPosition}
-                  />
-               </>
+      <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
+         {/* CARD */}
+         <Card card={modals.modalCard} isBig={true} />
+         {/* CARD BUTTON */}
+         {!modals.draft && (
+            <>
+               <BtnAction
+                  text="USE"
+                  mln={toBuyMln}
+                  textConfirmation={`Do you want to play: ${modals.modalCard.name}`}
+                  onYesFunc={onYesFunc}
+                  disabled={disabled}
+                  position={btnActionPosition}
+               />
+            </>
+         )}
+         {/* CARD DECREASE COST SECTION */}
+         {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
+            (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
+            (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
+            modals.cardWithAction &&
+            !modals.draft && (
+               <DecreaseCost
+                  toBuyMln={toBuyMln}
+                  setToBuyMln={setToBuyMln}
+                  toBuySteel={toBuySteel}
+                  setToBuySteel={setToBuySteel}
+                  toBuyTitan={toBuyTitan}
+                  setToBuyTitan={setToBuyTitan}
+                  toBuyHeat={toBuyHeat}
+                  setToBuyHeat={setToBuyHeat}
+                  setDisabled={setDisabled}
+               />
             )}
-            {/* CARD DECREASE COST SECTION */}
-            {((statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) ||
-               (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) ||
-               (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)) &&
-               modals.cardWithAction &&
-               !modals.draft && (
-                  <DecreaseCost
-                     toBuyMln={toBuyMln}
-                     setToBuyMln={setToBuyMln}
-                     toBuySteel={toBuySteel}
-                     setToBuySteel={setToBuySteel}
-                     toBuyTitan={toBuyTitan}
-                     setToBuyTitan={setToBuyTitan}
-                     toBuyHeat={toBuyHeat}
-                     setToBuyHeat={setToBuyHeat}
-                     setDisabled={setDisabled}
-                  />
-               )}
-         </div>
       </div>
    )
 }

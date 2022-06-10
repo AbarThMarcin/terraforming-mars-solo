@@ -11,10 +11,12 @@ import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
 import BtnSelect from '../buttons/BtnSelect'
+import { LOG_TYPES } from '../../../../data/log'
+import iconLogSellPatent from '../../../../assets/images/other/iconLogSellPatent.svg'
 
 const ModalSellCards = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, performSubActions } = useContext(StateGameContext)
+   const { performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [mlnBack, setMlnBack] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
@@ -51,7 +53,14 @@ const ModalSellCards = () => {
          func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: mlnBack }),
       })
       // Perform subActions
-      performSubActions(subActions)
+      performSubActions(
+         subActions,
+         {
+            type: LOG_TYPES.SP_ACTION,
+            text: SP.POWER_PLANT,
+         },
+         iconLogSellPatent
+      )
    }
 
    const handleClickBtnSelect = (card) => {
@@ -65,11 +74,7 @@ const ModalSellCards = () => {
    }
 
    return (
-      <div
-         className={`modal-background ${
-            (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-         }`}
-      >
+      <>
          {/* ARROWS */}
          {modals.modalCards.length > 10 && (
             <Arrows
@@ -84,7 +89,9 @@ const ModalSellCards = () => {
                {statePlayer.cardsInHand.map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container small ${selectedCards.includes(card) && 'selected'}`}
+                     className={`card-container small ${
+                        selectedCards.includes(card) && 'selected'
+                     }`}
                      style={getPosition(statePlayer.cardsInHand.length, idx)}
                      onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
                   >
@@ -110,7 +117,7 @@ const ModalSellCards = () => {
             {/* CANCEL BUTTON */}
             <BtnAction text="CANCEL" position={btnCancelPosition} />
          </div>
-      </div>
+      </>
    )
 }
 

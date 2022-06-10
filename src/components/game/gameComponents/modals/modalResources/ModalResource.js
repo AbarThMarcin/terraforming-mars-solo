@@ -11,7 +11,7 @@ import BtnAction from '../../buttons/BtnAction'
 
 const ModalResource = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, ANIMATION_SPEED } = useContext(StateGameContext)
+   const { dispatchGame, ANIMATION_SPEED } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
@@ -54,31 +54,29 @@ const ModalResource = () => {
 
    return (
       <>
-         <div className={`modal-background ${stateGame.phaseViewGameState && 'display-none'}`}>
+         {/* HEADER */}
+         <div className="modal-resource-header">SELECT ANY RESOURCE</div>
+         {/* BOX */}
+         <div
+            className="modal-standard-projects-box other center"
+            onClick={(e) => e.stopPropagation()}
+         >
             {/* HEADER */}
-            <div className="modal-resource-header">SELECT ANY RESOURCE</div>
-            {/* BOX */}
-            <div
-               className="modal-standard-projects-box other center"
-               onClick={(e) => e.stopPropagation()}
-            >
-               {/* HEADER */}
-               <div className="header">CARD RESOURCES</div>
-               {/* DATA */}
-               <ModalResourceData setCardSnap={setCardSnap} />
-               {/* CARD SNAP FOR VP VIEW */}
-               {cardSnap && (
-                  <div className="card-container medium">
-                     <Card card={cardSnap} />
-                  </div>
-               )}
-               {/* CONFIRM BUTTON */}
-               <BtnAction
-                  text="CONFIRM"
-                  onYesFunc={handleClickConfirmBtn}
-                  position={btnActionConfirmPosition}
-               />
-            </div>
+            <div className="header">CARD RESOURCES</div>
+            {/* DATA */}
+            <ModalResourceData setCardSnap={setCardSnap} />
+            {/* CARD SNAP FOR VP VIEW */}
+            {cardSnap && (
+               <div className="card-container medium">
+                  <Card card={cardSnap} />
+               </div>
+            )}
+            {/* CONFIRM BUTTON */}
+            <BtnAction
+               text="CONFIRM"
+               onYesFunc={handleClickConfirmBtn}
+               position={btnActionConfirmPosition}
+            />
          </div>
       </>
    )

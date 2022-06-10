@@ -12,7 +12,7 @@ const PanelCorp = () => {
    const { modals } = useContext(ModalsContext)
 
    return (
-      <div className="panel-corp">
+      <>
          {/* Background */}
          <img src={panelCorpBg} alt="panel_corp_bg" />
          {/* Corporation Logo */}
@@ -29,7 +29,7 @@ const PanelCorp = () => {
                <BtnLog />
             </div>
          )}
-      </div>
+      </>
    )
 }
 

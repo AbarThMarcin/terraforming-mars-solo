@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { StateGameContext, ModalsContext } from '../Game'
-import { hasTag } from '../../../util/misc'
+import { getCardType, hasTag } from '../../../util/misc'
 import { getTagIcon, TAGS } from '../../../data/tags'
 import { REQUIREMENTS } from '../../../data/requirements'
 import { getResIcon, RESOURCES } from '../../../data/resources'
@@ -9,8 +9,8 @@ import { getImmEffectIcon } from '../../../data/immEffects/immEffectsIcons'
 import icon_mln from '../../../assets/images/resources/mln.svg'
 import tempIcon from '../../../assets/images/other/tempIcon.svg'
 import oxIcon from '../../../assets/images/other/oxIcon.svg'
-import oceanIcon from '../../../assets/images/objects/ocean.svg'
-import greenery from '../../../assets/images/objects/greenery.svg'
+import oceanIcon from '../../../assets/images/tiles/ocean.svg'
+import greenery from '../../../assets/images/tiles/greenery.svg'
 import cityAnyIcon from '../../../assets/images/other/cityAny.svg'
 import cardBgGreen from '../../../assets/images/card/card-bg-green.svg'
 import cardBgBlue from '../../../assets/images/card/card-bg-blue.svg'
@@ -56,7 +56,7 @@ const Card = ({ card, isBig }) => {
       return arr
    }
 
-   // Card disabled (greyed out; new layer with half opacity is shown) only when
+   // Card disabled (opacity lower than 1) only when
    // requirements are not met, we are in the cards in hand modal
    // (but a card is not clicked because then both modals:
    // cards and cardWithAction are shown [cards = display-none])
@@ -83,11 +83,11 @@ const Card = ({ card, isBig }) => {
             card full-size ${disabled && 'disabled'}
             ${pointer && 'pointer'}
             ${
-               hasTag(card, TAGS.EVENT)
-                  ? 'card-bg-red'
-                  : card.effect !== null || card.iconNames.action !== null || card.id === 173 // Protected Habitats
+               getCardType(card) === 'green'
+                  ? 'card-bg-green'
+                  : getCardType(card) === 'blue'
                   ? 'card-bg-blue'
-                  : 'card-bg-green'
+                  : 'card-bg-red'
             }
          `}
          >
@@ -95,11 +95,11 @@ const Card = ({ card, isBig }) => {
             <div className="black-border">
                {/* BACKGROUND */}
                {hasTag(card, TAGS.EVENT) ? (
-                  <img className='full-size center' src={cardBgRed} alt="card_bg_red" />
+                  <img className="full-size center" src={cardBgRed} alt="card_bg_red" />
                ) : card.effect !== null || card.iconNames.action !== null || card.id === 173 ? (
-                  <img className='full-size center' src={cardBgBlue} alt="card_bg_blue" />
+                  <img className="full-size center" src={cardBgBlue} alt="card_bg_blue" />
                ) : (
-                  <img className='full-size center' src={cardBgGreen} alt="card_bg_green" />
+                  <img className="full-size center" src={cardBgGreen} alt="card_bg_green" />
                )}
                {/* NAME */}
                <div

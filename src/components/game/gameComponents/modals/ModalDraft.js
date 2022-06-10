@@ -9,18 +9,28 @@ import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, modifiedCards } from '../../../../util/misc'
+import { getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../util/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
+import { LOG_TYPES } from '../../../../data/log'
+import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
+import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect } =
-      useContext(StateGameContext)
+   const {
+      stateGame,
+      dispatchGame,
+      performSubActions,
+      getImmEffects,
+      getEffect,
+      sortId,
+      requirementsMet,
+   } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { cards, setCards } = useContext(CardsContext)
    const [buyCost, setBuyCost] = useState(0)
@@ -44,7 +54,11 @@ const ModalDraft = () => {
       // Add selected cards to the hand
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: [...statePlayer.cardsInHand, ...selectedCards],
+         payload: sorted(
+            [...statePlayer.cardsInHand, ...withTimeAdded(selectedCards)],
+            sortId[0],
+            requirementsMet
+         ),
       })
       // Remove all 4 (10 if gen = 1) cards from the CardsContext
       let newCards = stateGame.generation === 1 ? cards.slice(10) : cards.slice(4)
@@ -63,26 +77,45 @@ const ModalDraft = () => {
                ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET),
             ]
             dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-            performSubActions(actions)
-         }
-         if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX)
-            performSubActions([
+            performSubActions(
+               actions,
                {
-                  name: ANIMATIONS.CARD_IN,
-                  type: RESOURCES.CARD,
-                  value: 3,
-                  func: () => {
-                     dispatchPlayer({
-                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: [
-                           ...selectedCards,
-                           ...modifiedCards(newCards.slice(0, 3), statePlayer),
-                        ],
-                     })
-                     setCards(newCards.slice(3))
-                  },
+                  type: LOG_TYPES.FORCED_ACTION,
+                  text: CORP_NAMES.THARSIS_REPUBLIC,
                },
-            ])
+               logIconTharsis
+            )
+         }
+         if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
+            performSubActions(
+               [
+                  {
+                     name: ANIMATIONS.CARD_IN,
+                     type: RESOURCES.CARD,
+                     value: 3,
+                     func: () => {
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                           payload: sorted(
+                              [
+                                 ...selectedCards,
+                                 ...modifiedCards(newCards.slice(0, 3), statePlayer),
+                              ],
+                              sortId[0],
+                              requirementsMet
+                           ),
+                        })
+                        setCards(newCards.slice(3))
+                     },
+                  },
+               ],
+               {
+                  type: LOG_TYPES.FORCED_ACTION,
+                  text: CORP_NAMES.INVENTRIX,
+               },
+               logIconInventrix
+            )
+         }
       }
    }
 
@@ -98,50 +131,46 @@ const ModalDraft = () => {
 
    return (
       <div
-         className={`modal-background ${
-            (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
+         className={`modal-select-cards ${
+            (modals.cards || stateGame.phaseViewGameState) && 'display-none'
          }`}
       >
-         <div
-            className={`modal-select-cards ${
-               (modals.cards || stateGame.phaseViewGameState) && 'display-none'
-            }`}
-         >
-            {/* HEADER */}
-            <ModalHeader
-               text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
-               eachText="3"
+         {/* HEADER */}
+         <ModalHeader
+            text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
+            eachText="3"
+         />
+         {/* CHANGE CORPORATION BUTTON */}
+         {stateGame.generation === 1 && (
+            <BtnChangeCorp
+               dispatchGame={dispatchGame}
+               statePlayer={statePlayer}
+               dispatchPlayer={dispatchPlayer}
             />
-            {/* CHANGE CORPORATION BUTTON */}
-            {stateGame.generation === 1 && (
-               <BtnChangeCorp
-                  dispatchGame={dispatchGame}
-                  statePlayer={statePlayer}
-                  dispatchPlayer={dispatchPlayer}
-               />
-            )}
-            {/* CARDS */}
-            {cardsDraft.map((card, idx) => (
-               <div
-                  key={idx}
-                  className={`card-container small ${selectedCards.find(selCard => selCard.id === card.id)  && 'selected'}`}
-                  style={getPosition(cardsDraft.length, idx)}
-                  onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
-               >
-                  <Card card={card} />
-                  <BtnSelect initBtnText="SELECT" handleClick={() => handleClickBtnSelect(card)} />
-               </div>
-            ))}
-            {/* ACTION BUTTON */}
-            <BtnAction
-               text="DONE"
-               mln={buyCost}
-               textConfirmation={textConfirmation}
-               onYesFunc={onYesFunc}
-               disabled={buyCost > statePlayer.resources.mln}
-               position={btnActionPosition}
-            />
-         </div>
+         )}
+         {/* CARDS */}
+         {cardsDraft.map((card, idx) => (
+            <div
+               key={idx}
+               className={`card-container small ${
+                  selectedCards.find((selCard) => selCard.id === card.id) && 'selected'
+               }`}
+               style={getPosition(cardsDraft.length, idx)}
+               onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+            >
+               <Card card={card} />
+               <BtnSelect initBtnText="SELECT" handleClick={() => handleClickBtnSelect(card)} />
+            </div>
+         ))}
+         {/* ACTION BUTTON */}
+         <BtnAction
+            text="DONE"
+            mln={buyCost}
+            textConfirmation={textConfirmation}
+            onYesFunc={onYesFunc}
+            disabled={buyCost > statePlayer.resources.mln}
+            position={btnActionPosition}
+         />
       </div>
    )
 }

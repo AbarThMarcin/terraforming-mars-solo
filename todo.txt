@@ -1,0 +1,3 @@
+1. End stats
+2. Dzwieki sprobowac znalezc
+3. Sprobowac zoptymalizowac jakies najciezsze rzeczy, np. po wiswietleniu kart w drafcie zeby nie pobieralo ikony 208 kart 10 razy tylko 10 razy zeby sie pobralo.

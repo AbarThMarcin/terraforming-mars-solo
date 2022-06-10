@@ -11,15 +11,21 @@ import { RESOURCES } from '../../../../data/resources'
 import { EFFECTS, getSPeffectsToCall } from '../../../../data/effects'
 import { SP } from '../../../../data/StandardProjects'
 import BtnClose from '../buttons/BtnClose'
-import iconCard from '../../../../assets/images/resources/card.png'
+import iconSellPatent from '../../../../assets/images/resources/card.png'
 import iconPowerPlant from '../../../../assets/images/other/SPpowerPlant.svg'
 import iconAsteroid from '../../../../assets/images/other/tempIcon.svg'
-import iconOcean from '../../../../assets/images/objects/ocean.svg'
+import iconAquifer from '../../../../assets/images/tiles/ocean.svg'
 import iconGreenery from '../../../../assets/images/other/SPgreenery.svg'
 import iconCity from '../../../../assets/images/other/SPcity.svg'
+import iconLogPowerPlant from '../../../../assets/images/immEffects/icon113.svg'
+import iconLogAsteroid from '../../../../assets/images/other/logConvertHeat.svg'
+import iconLogAquifer from '../../../../assets/images/immEffects/icon127.svg'
+import iconLogGreenery from '../../../../assets/images/other/logConvertPlants.svg'
+import iconLogCity from '../../../../assets/images/other/iconLogCity.svg'
+import { LOG_TYPES } from '../../../../data/log'
 
 const ModalStandardProjects = () => {
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED } =
       useContext(StateGameContext)
@@ -79,6 +85,8 @@ const ModalStandardProjects = () => {
 
    const handleUseSP = (name) => {
       let animResPaidTypes = []
+      let logData = {}
+      let logIcon = null
       if (toBuyMln[btnClickedId] !== 0)
          animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])
       if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
@@ -120,6 +128,8 @@ const ModalStandardProjects = () => {
                   )
                )
                   actions = [...actions, ...getEffect(EFFECTS.EFFECT_STANDARD_TECHNOLOGY)]
+               logData = { type: LOG_TYPES.SP_ACTION, text: SP.POWER_PLANT }
+               logIcon = iconLogPowerPlant
                break
             case SP.ASTEROID:
                // Cost
@@ -145,6 +155,8 @@ const ModalStandardProjects = () => {
                   )
                      actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
                }
+               logData = { type: LOG_TYPES.SP_ACTION, text: SP.ASTEROID }
+               logIcon = iconLogAsteroid
                break
             case SP.AQUIFER:
                // Cost
@@ -160,6 +172,8 @@ const ModalStandardProjects = () => {
                   )
                      actions = [...actions, ...getEffect(spEffect)]
                })
+               logData = { type: LOG_TYPES.SP_ACTION, text: SP.AQUIFER }
+               logIcon = iconLogAquifer
                break
             case SP.GREENERY:
                // Cost
@@ -188,6 +202,8 @@ const ModalStandardProjects = () => {
                   )
                      actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
                }
+               logData = { type: LOG_TYPES.SP_ACTION, text: SP.GREENERY }
+               logIcon = iconLogGreenery
                break
             case SP.CITY:
                // Cost
@@ -210,118 +226,108 @@ const ModalStandardProjects = () => {
                   )
                      actions = [...actions, ...getEffect(spEffect)]
                })
+               logData = { type: LOG_TYPES.SP_ACTION, text: SP.CITY }
+               logIcon = iconLogCity
                break
             default:
                break
          }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(actions)
+         performSubActions(actions, logData, logIcon)
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }
 
    return (
-      <>
-         <div
-            className={`modal-background
-               ${(modals.confirmation || modals.sellCards) && 'display-none'}
-            `}
-            onClick={() => setModals({ ...modals, standardProjects: false })}
-         >
-            <div
-               className="modal-standard-projects-box center"
-               onClick={(e) => e.stopPropagation()}
-            >
-               {/* HEADER */}
-               <div className="header">STANDARD PROJECTS</div>
-               {/* CLOSE BUTTON */}
-               <BtnClose
-                  onCloseClick={() =>
-                     setModals((prevModals) => ({ ...prevModals, standardProjects: false }))
-                  }
-               />
-               {/* ACTIONS */}
-               <ModalSPaction
-                  id={0}
-                  icon={iconCard}
-                  name={SP.SELL_PATENT}
-                  cost={toBuyMln[0]}
-                  textConfirmation=""
-                  handleUseSP={handleUseSP}
-                  setBtnClickedId={setBtnClickedId}
-               />
-               <ModalSPaction
-                  id={1}
-                  icon={iconPowerPlant}
-                  name={SP.POWER_PLANT}
-                  cost={toBuyMln[1]}
-                  textConfirmation="Do you want to build a power plant?"
-                  actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
+      <div className="modal-standard-projects-box center" onClick={(e) => e.stopPropagation()}>
+         {/* HEADER */}
+         <div className="header">STANDARD PROJECTS</div>
+         {/* CLOSE BUTTON */}
+         <BtnClose
+            onCloseClick={() =>
+               setModals((prevModals) => ({ ...prevModals, standardProjects: false }))
+            }
+         />
+         {/* ACTIONS */}
+         <ModalSPaction
+            id={0}
+            icon={iconSellPatent}
+            name={SP.SELL_PATENT}
+            cost={toBuyMln[0]}
+            textConfirmation=""
+            handleUseSP={handleUseSP}
+            setBtnClickedId={setBtnClickedId}
+         />
+         <ModalSPaction
+            id={1}
+            icon={iconPowerPlant}
+            name={SP.POWER_PLANT}
+            cost={toBuyMln[1]}
+            textConfirmation="Do you want to build a power plant?"
+            actionClicked={actionClicked}
+            setActionClicked={setActionClicked}
+            changeSPcosts={changeSPcosts}
+            handleUseSP={handleUseSP}
+            setBtnClickedId={setBtnClickedId}
+         />
+         <ModalSPaction
+            id={2}
+            icon={iconAsteroid}
+            name={SP.ASTEROID}
+            cost={toBuyMln[2]}
+            textConfirmation="Do you want to use the asteroid project?"
+            actionClicked={actionClicked}
+            setActionClicked={setActionClicked}
+            changeSPcosts={changeSPcosts}
+            handleUseSP={handleUseSP}
+            setBtnClickedId={setBtnClickedId}
+         />
+         <ModalSPaction
+            id={3}
+            icon={iconAquifer}
+            name={SP.AQUIFER}
+            cost={toBuyMln[3]}
+            textConfirmation="Do you want to build an aquifer?"
+            actionClicked={actionClicked}
+            setActionClicked={setActionClicked}
+            changeSPcosts={changeSPcosts}
+            handleUseSP={handleUseSP}
+            setBtnClickedId={setBtnClickedId}
+         />
+         <ModalSPaction
+            id={4}
+            icon={iconGreenery}
+            name={SP.GREENERY}
+            cost={toBuyMln[4]}
+            textConfirmation="Do you want to build a greenery?"
+            actionClicked={actionClicked}
+            setActionClicked={setActionClicked}
+            changeSPcosts={changeSPcosts}
+            handleUseSP={handleUseSP}
+            setBtnClickedId={setBtnClickedId}
+         />
+         <ModalSPaction
+            id={5}
+            icon={iconCity}
+            name={SP.CITY}
+            cost={toBuyMln[5]}
+            textConfirmation="Do you want to build a city?"
+            actionClicked={actionClicked}
+            setActionClicked={setActionClicked}
+            changeSPcosts={changeSPcosts}
+            handleUseSP={handleUseSP}
+            setBtnClickedId={setBtnClickedId}
+         />
+         {actionClicked !== null &&
+            statePlayer.resources.heat > 0 &&
+            statePlayer.canPayWithHeat && (
+               <DecreaseCostSP
+                  toBuyMln={toBuyMln}
+                  toBuyHeat={toBuyHeat}
                   changeSPcosts={changeSPcosts}
-                  handleUseSP={handleUseSP}
-                  setBtnClickedId={setBtnClickedId}
-               />
-               <ModalSPaction
-                  id={2}
-                  icon={iconAsteroid}
-                  name={SP.ASTEROID}
-                  cost={toBuyMln[2]}
-                  textConfirmation="Do you want to use the asteroid project?"
                   actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
-                  changeSPcosts={changeSPcosts}
-                  handleUseSP={handleUseSP}
-                  setBtnClickedId={setBtnClickedId}
                />
-               <ModalSPaction
-                  id={3}
-                  icon={iconOcean}
-                  name={SP.AQUIFER}
-                  cost={toBuyMln[3]}
-                  textConfirmation="Do you want to build an aquifer?"
-                  actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
-                  changeSPcosts={changeSPcosts}
-                  handleUseSP={handleUseSP}
-                  setBtnClickedId={setBtnClickedId}
-               />
-               <ModalSPaction
-                  id={4}
-                  icon={iconGreenery}
-                  name={SP.GREENERY}
-                  cost={toBuyMln[4]}
-                  textConfirmation="Do you want to build a greenery?"
-                  actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
-                  changeSPcosts={changeSPcosts}
-                  handleUseSP={handleUseSP}
-                  setBtnClickedId={setBtnClickedId}
-               />
-               <ModalSPaction
-                  id={5}
-                  icon={iconCity}
-                  name={SP.CITY}
-                  cost={toBuyMln[5]}
-                  textConfirmation="Do you want to build a city?"
-                  actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
-                  changeSPcosts={changeSPcosts}
-                  handleUseSP={handleUseSP}
-                  setBtnClickedId={setBtnClickedId}
-               />
-               {actionClicked !== null &&
-                  statePlayer.resources.heat > 0 &&
-                  statePlayer.canPayWithHeat && (
-                     <DecreaseCostSP
-                        toBuyMln={toBuyMln}
-                        toBuyHeat={toBuyHeat}
-                        changeSPcosts={changeSPcosts}
-                        actionClicked={actionClicked}
-                     />
-                  )}
-            </div>
-         </div>
-      </>
+            )}
+      </div>
    )
 }
 

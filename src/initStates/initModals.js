@@ -48,6 +48,9 @@ export const INIT_MODALS = {
    selectOne: false,
    selectCard: false,
    animation: false,
+   panelCorp: true,
+   panelStateGame: true,
+   endStats: false,
    // Info for business contacts or invention contest
    modalBusCont: {
       cardsCount: null,

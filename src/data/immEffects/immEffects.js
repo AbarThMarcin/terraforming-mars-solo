@@ -13,6 +13,7 @@ import {
    hasTag,
    modifiedCards,
    modifiedCardsEffect,
+   withTimeAdded,
 } from '../../util/misc'
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
@@ -45,7 +46,7 @@ export const funcGetImmEffects = (
    modals,
    setModals,
    cards,
-   setCards,
+   setCards
 ) => {
    let subActions = []
    let dataCards = []
@@ -295,7 +296,7 @@ export const funcGetImmEffects = (
          break
       // ================================= INCREASE OXYGEN BY 1% ===========================
       case IMM_EFFECTS.OXYGEN:
-         if (stateGame.globalParameters.oxygen < 14) {
+         if (stateGame.globalParameters.oxygen < 14 && !stateGame.phaseAfterGen14) {
             subActions.push({
                name: ANIMATIONS.SHORT_ANIMATION,
                type: null,
@@ -317,7 +318,7 @@ export const funcGetImmEffects = (
          break
       // ================================= INCREASE OXYGEN BY 2% ===========================
       case IMM_EFFECTS.OXYGEN2:
-         if (stateGame.globalParameters.oxygen < 14) {
+         if (stateGame.globalParameters.oxygen < 14 && !stateGame.phaseAfterGen14) {
             subActions.push({
                name: ANIMATIONS.SHORT_ANIMATION,
                type: null,
@@ -337,7 +338,7 @@ export const funcGetImmEffects = (
          if (
             stateGame.globalParameters.oxygen >= 6 &&
             stateGame.globalParameters.oxygen <= 7 &&
-            stateGame.globalParameters.temperature < 8
+            stateGame.globalParameters.temperature < 8 && !stateGame.phaseAfterGen14
          ) {
             subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          }
@@ -1520,7 +1521,7 @@ export const funcGetImmEffects = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(cards.slice(0, 2), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
                   ],
                })
                setCards(cards.slice(2))
@@ -2166,7 +2167,7 @@ export const funcGetImmEffects = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(cards.slice(0, 2), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
                   ],
                })
                setCards(cards.slice(2))
@@ -2409,7 +2410,7 @@ export const funcGetImmEffects = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(cards.slice(0, 1), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
                   ],
                })
                setCards(cards.slice(1))
@@ -2861,7 +2862,7 @@ export const funcGetImmEffects = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(cards.slice(0, 1), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
                   ],
                })
                setCards(cards.slice(1))
@@ -2974,7 +2975,7 @@ export const funcGetImmEffects = (
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(cards.slice(0, 2), statePlayer),
+                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
                   ],
                })
                setCards(cards.slice(2))

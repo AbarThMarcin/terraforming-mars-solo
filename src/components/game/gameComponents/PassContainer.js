@@ -212,7 +212,6 @@ const PassContainer = () => {
                      key="keyBtnPass"
                      initial={{ opacity: 0 }}
                      animate={{ opacity: 1 }}
-                     exit={{ opacity: 0 }}
                      transition={{ duration: 0.5 }}
                      className="btn-pass pointer"
                      onClick={handleClickPassBtn}

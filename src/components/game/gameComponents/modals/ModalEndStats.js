@@ -2,8 +2,13 @@ import { useContext } from 'react'
 import { TILES } from '../../../../data/board'
 import { getNeighbors } from '../../../../util/misc'
 import { StatePlayerContext, StateGameContext, StateBoardContext } from '../../Game'
+import iconTr from '../../../../assets/images/resources/tr.svg'
+import iconGreenery from '../../../../assets/images/tiles/greenery.svg'
+import iconCity from '../../../../assets/images/tiles/city.svg'
+import iconVp from '../../../../assets/images/vp/vp.svg'
+import BtnAction from '../buttons/BtnAction'
 
-const ModalEndStats = () => {
+const ModalEndStats = ({ setGameOn }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
@@ -18,6 +23,8 @@ const ModalEndStats = () => {
    const cityPoints = getCityPoints()
    const victoryPoints = getVictoryPoints()
    const totalPoints = getTotalPoints()
+
+   const btnActionPosition = { bottom: '-20%', left: '50%', transform: 'translateX(-50%)' }
 
    function getTrPoints() {
       return stateGame.tr
@@ -55,32 +62,46 @@ const ModalEndStats = () => {
       return trPoints + greeneryPoints + cityPoints + victoryPoints
    }
 
+   const onYesFunc = () => {
+      setGameOn(false)
+   }
+
    return (
       <div className="modal-end-stats center">
          <span className="header">SCOREBOARD</span>
          <span className="victory-loss">{victoryLossText}</span>
          <div className="data">
             <div className="category">
+               <img src={iconTr} alt="icon_tr" />
                <span className="name">TERRAFORMING RATING </span>
                <span className="value">{trPoints}</span>
             </div>
             <div className="category">
+               <img src={iconGreenery} alt="icon_greenery" />
                <span className="name">GREENERY </span>
                <span className="value">{greeneryPoints}</span>
             </div>
             <div className="category">
+               <img src={iconCity} alt="icon_city" />
                <span className="name">CITY </span>
                <span className="value">{cityPoints}</span>
             </div>
             <div className="category">
+               <img src={iconVp} alt="icon_vp" />
                <span className="name">VICTORY POINTS </span>
                <span className="value">{victoryPoints}</span>
             </div>
             <div className="category">
                <span className="name">TOTAL </span>
-               <span className="value">{totalPoints}</span>
+               <span className="value value-total">{totalPoints}</span>
             </div>
          </div>
+         <BtnAction 
+            text="DONE"
+            textConfirmation='Leave the game and go back to main menu?'
+            onYesFunc={onYesFunc}
+            position={btnActionPosition}
+         />
       </div>
    )
 }

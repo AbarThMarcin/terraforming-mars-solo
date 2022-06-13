@@ -4,11 +4,11 @@ import BoardGanymede from './BoardGanymede'
 
 const Board = () => {
   return (
-    <div className='board center'>
+    <>
        <BoardTharsis />
        <BoardPhobos />
        <BoardGanymede />
-    </div>
+    </>
   )
 }
 

@@ -301,7 +301,17 @@ function Game({ setGameOn }) {
                            </AnimatePresence>
 
                            {/* Board */}
-                           <Board />
+                           <AnimatePresence>
+                              <motion.div
+                                    key="keyBoard"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.5 }}
+                                    className='board center'
+                                 >
+                                    <Board />
+                                 </motion.div>
+                           </AnimatePresence>
 
                            {/* Corporation Panel */}
                            <AnimatePresence>

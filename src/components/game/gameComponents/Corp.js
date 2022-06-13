@@ -28,7 +28,6 @@ const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
       <div
          className={`
             corp
-            ${modals.corp && 'modal center'}
             ${selectedCorp === id && selectedCorp !== undefined && 'selected'}
             ${modals.corps && 'pointer'}
          `}

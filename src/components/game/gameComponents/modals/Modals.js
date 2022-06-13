@@ -306,11 +306,13 @@ const Modals = ({ setGameOn, setAnimationSpeed, logItems }) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.1 }}
+                  transition={{ duration: 0.2 }}
                   className="modal-background"
                   onClick={() => setModals({ ...modals, corp: false })}
                >
-                  <Corp corp={statePlayer.corporation} />
+                  <div className="modal-corp-container center">
+                     <Corp corp={statePlayer.corporation} />
+                  </div>
                </motion.div>
             )}
          </AnimatePresence>
@@ -369,9 +371,9 @@ const Modals = ({ setGameOn, setAnimationSpeed, logItems }) => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
-                  className="modal-background"
+                  className={`modal-background ${modals.confirmation && 'display-none'}`}
                >
-                  <ModalEndStats />
+                  <ModalEndStats setGameOn={setGameOn} />
                </motion.div>
             )}
          </AnimatePresence>
@@ -383,7 +385,7 @@ const Modals = ({ setGameOn, setAnimationSpeed, logItems }) => {
                   key="keyModalConfirmation"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.1 }}
+                  transition={{ duration: 0.03 }}
                   className="modal-background"
                >
                   <ModalConfirmation />

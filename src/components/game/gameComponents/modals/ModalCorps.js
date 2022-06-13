@@ -6,6 +6,7 @@ import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import Corp from '../Corp'
 import { performImmediateCorpEffect } from '../../../../data/effects'
 import BtnAction from '../buttons/BtnAction'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const ModalCorps = () => {
    const corps = useContext(CorpsContext)
@@ -15,7 +16,7 @@ const ModalCorps = () => {
    const [selectedCorp, setSelectedCorp] = useState(initSelectedCorp())
 
    const btnActionNextPosition = {
-      bottom: '2%',
+      bottom: '-23%',
       left: '50%',
       transform: 'translateX(-50%)',
    }
@@ -44,27 +45,36 @@ const ModalCorps = () => {
    }
 
    return (
-      <>
-         <div className="modal-corps center">
-            <Corp
-               corp={corps[0]}
-               selectedCorp={selectedCorp}
-               setSelectedCorp={setSelectedCorp}
-               id={0}
-            />
-            <Corp
-               corp={corps[1]}
-               selectedCorp={selectedCorp}
-               setSelectedCorp={setSelectedCorp}
-               id={1}
-            />
-         </div>
-         <BtnAction
-            text="NEXT"
-            onYesFunc={handleClickNext}
-            position={btnActionNextPosition}
-         />
-      </>
+      <AnimatePresence>
+         {modals.corps && (
+            <motion.div
+               key="keyModalCorpsBox"
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               transition={{ duration: 0.5, delay: 0.5 }}
+               className="modal-corps center"
+            >
+               <Corp
+                  corp={corps[0]}
+                  selectedCorp={selectedCorp}
+                  setSelectedCorp={setSelectedCorp}
+                  id={0}
+               />
+               <Corp
+                  corp={corps[1]}
+                  selectedCorp={selectedCorp}
+                  setSelectedCorp={setSelectedCorp}
+                  id={1}
+               />
+               <BtnAction
+                  text="NEXT"
+                  onYesFunc={handleClickNext}
+                  position={btnActionNextPosition}
+               />
+            </motion.div>
+         )}
+      </AnimatePresence>
    )
 }
 

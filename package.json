@@ -1,41 +1,24 @@
 {
-   "name": "terraforming-mars",
-   "version": "0.1.0",
-   "private": true,
-   "dependencies": {
-      "@fortawesome/fontawesome-svg-core": "^6.1.1",
-      "@fortawesome/free-solid-svg-icons": "^6.1.1",
-      "@fortawesome/react-fontawesome": "^0.1.18",
-      "@testing-library/jest-dom": "^5.16.4",
-      "@testing-library/react": "^12.1.4",
-      "@testing-library/user-event": "^13.5.0",
-      "framer-motion": "^6.3.1",
-      "react": "^18.0.0",
-      "react-dom": "^18.0.0",
-      "react-scripts": "5.0.0"
-   },
+   "name": "terraforming-mars-solo",
+   "version": "1.0.0",
+   "description": "",
+   "main": "index.js",
    "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
-      "eject": "react-scripts eject"
+      "start": "node server/index.js",
+      "dev": "nodemon server/index.js"
    },
-   "eslintConfig": {
-      "extends": [
-         "react-app",
-         "react-app/jest"
-      ]
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "devDependencies": {
+      "dotenv": "^16.0.1",
+      "nodemon": "^2.0.16"
    },
-   "browserslist": {
-      "production": [
-         ">0.2%",
-         "not dead",
-         "not op_mini all"
-      ],
-      "development": [
-         "last 1 chrome version",
-         "last 1 firefox version",
-         "last 1 safari version"
-      ]
+   "dependencies": {
+      "colors": "^1.4.0",
+      "express": "^4.18.1",
+      "express-graphql": "^0.12.0",
+      "graphql": "^16.5.0",
+      "mongoose": "^6.3.6"
    }
 }

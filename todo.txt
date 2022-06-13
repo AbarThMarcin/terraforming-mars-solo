@@ -1,9 +1,0 @@
-1. Dzwieki sprobowac znalezc
-2. Sprobowac zoptymalizowac jakies najciezsze rzeczy, np. po wiswietleniu kart w drafcie zeby nie pobieralo ikony 208 kart 10 razy tylko 10 razy zeby sie pobralo.
-3. Cos nie dziala z Inventors' guild gdy chce kupic karte. Dodatkowo chyba nie ma zabezpieczenia, ze jak nie mam 3 mln to nie moge kupic tylko zawsze kupie.
-4. Poprawic na kartach korporacji zeby byly przed naszymi poprawkami, tzn np UNMI ze koszt ma byc 3 mln a nie 1 mln
-5. Cos nie tak z akcjami; jak mam tylko akcje UNMI to jej nie widac, dopiero jak bedzie jakakolwiek inna akcja to wtedy sie pojawiaja obie.
-6. Zrobic jednak mozliwosc kupienia karty z Inventors' Guild za heat jak jestem helionem (podobnie przy drafcie)
-7. Ogarnac: "Function declared in a loop contains unsafe references to variable(s)"
-8. Upewnic sie, ze moze byc ten komunikat: "React Hook useEffect has missing dependencies"
-9. Upewnic sie, ze waga node-modules 3.4 GB jest ok.

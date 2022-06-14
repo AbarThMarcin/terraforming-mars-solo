@@ -228,31 +228,9 @@ export const funcGetCardActions = (
             func: () => {
                setModals((prevModals) => ({
                   ...prevModals,
-                  modalSelectCard: {
-                     cardIdAction: cardId,
-                     card: cards[0],
-                     func: () => {
-                        performSubActions([
-                           {
-                              name: ANIMATIONS.RESOURCES_IN,
-                              type: RESOURCES.MICROBE,
-                              value: 1,
-                              func: () =>
-                                 dispatchPlayer({
-                                    type: ACTIONS_PLAYER.ADD_BIO_RES,
-                                    payload: {
-                                       cardId: cardId,
-                                       resource: RESOURCES.MICROBE,
-                                       amount: 1,
-                                    },
-                                 }),
-                           },
-                        ])
-                     },
-                  },
+                  modalSelectCard: { cardIdAction: cardId, card: cards[0] },
+                  selectCard: true,
                }))
-               setCards(cards.slice(1))
-               setModals((prevModals) => ({ ...prevModals, selectCard: true }))
             },
          })
          break
@@ -266,40 +244,9 @@ export const funcGetCardActions = (
             func: () => {
                setModals((prevModals) => ({
                   ...prevModals,
-                  modalSelectCard: {
-                     cardIdAction: cardId,
-                     card: cards[0],
-                     func: () => {
-                        performSubActions([
-                           {
-                              name: ANIMATIONS.RESOURCES_OUT,
-                              type: RESOURCES.MLN,
-                              value: 3,
-                              func: () =>
-                                 dispatchPlayer({
-                                    type: ACTIONS_PLAYER.CHANGE_RES_MLN,
-                                    payload: -3,
-                                 }),
-                           },
-                           {
-                              name: ANIMATIONS.CARD_IN,
-                              type: RESOURCES.CARD,
-                              value: 1,
-                              func: () =>
-                                 dispatchPlayer({
-                                    type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                                    payload: [
-                                       ...statePlayer.cardsInHand,
-                                       ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
-                                    ],
-                                 }),
-                           },
-                        ])
-                     },
-                  },
+                  modalSelectCard: { cardIdAction: cardId, card: cards[0] },
+                  selectCard: true,
                }))
-               setCards(cards.slice(1))
-               setModals((prevModals) => ({ ...prevModals, selectCard: true }))
             },
          })
          break

@@ -12,9 +12,6 @@ import oxIcon from '../../../assets/images/other/oxIcon.svg'
 import oceanIcon from '../../../assets/images/tiles/ocean.svg'
 import greenery from '../../../assets/images/tiles/greenery.svg'
 import cityAnyIcon from '../../../assets/images/other/cityAny.svg'
-import cardBgGreen from '../../../assets/images/card/card-bg-green.svg'
-import cardBgBlue from '../../../assets/images/card/card-bg-blue.svg'
-import cardBgRed from '../../../assets/images/card/card-bg-red.svg'
 
 const Card = ({ card, isBig }) => {
    const [info, setInfo] = useState(false)
@@ -92,15 +89,7 @@ const Card = ({ card, isBig }) => {
          `}
          >
             {/* BLACK INSET BORDER */}
-            <div className="black-border">
-               {/* BACKGROUND */}
-               {hasTag(card, TAGS.EVENT) ? (
-                  <img className="full-size center" src={cardBgRed} alt="card_bg_red" />
-               ) : card.effect !== null || card.iconNames.action !== null || card.id === 173 ? (
-                  <img className="full-size center" src={cardBgBlue} alt="card_bg_blue" />
-               ) : (
-                  <img className="full-size center" src={cardBgGreen} alt="card_bg_green" />
-               )}
+            <div className='black-border'>
                {/* NAME */}
                <div
                   className={`

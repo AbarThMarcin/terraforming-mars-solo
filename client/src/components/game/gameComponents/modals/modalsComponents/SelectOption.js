@@ -21,10 +21,10 @@ const SelectOption = ({ idx, option, selectedOption, setSelectedOption }) => {
          onClick={() => handleClickOption(option)}
       >
          <img
+            className={!isAvailable ? 'disabled' : ''}
             src={getOptionIcon(option)}
             alt={`${modals.modalSelectOne.card.name}_opt_${idx + 1}`}
          />
-         <div className={`${!isAvailable && 'disabled'} full-size`}></div>
       </div>
    )
 }

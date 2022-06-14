@@ -40,6 +40,7 @@ export const funcRequirementsMet = (
    modals,
    getImmEffects
 ) => {
+   console.log('req')
    // If inappropiate state of the game is on, return false
    if (
       stateGame.phaseDraft ||

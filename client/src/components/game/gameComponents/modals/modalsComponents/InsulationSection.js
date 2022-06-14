@@ -3,6 +3,8 @@ import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 import BtnAction from '../../buttons/BtnAction'
+import iconProdBg from '../../../../../assets/images/resources/prodBg.svg'
+import iconHeat from '../../../../../assets/images/resources/heat.svg'
 
 const InsulationSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -13,7 +15,7 @@ const InsulationSection = () => {
    const btnActionConfirmPosition = {
       bottom: '-5%',
       left: '50%',
-      transform: 'translate(-50%, 100%)',
+      transform: 'translate(-50%, 110%)',
    }
 
    const handleClickConfirmBtn = () => {
@@ -30,7 +32,11 @@ const InsulationSection = () => {
          <div className="header">SELECT AMOUNT</div>
          {/* HEAT */}
          <div className="card-decrease-cost">
-            <span>{heatAmount} HEAT</span>
+            <div className='amount'>{heatAmount}</div>
+            <div className="icon">
+               <img src={iconProdBg} alt="icon_prodBg" />
+               <img src={iconHeat} alt="icon_heat" />
+            </div>
             {heatAmount > 0 && (
                <div
                   className="decrease-arrow pointer decrease-arrow-left"

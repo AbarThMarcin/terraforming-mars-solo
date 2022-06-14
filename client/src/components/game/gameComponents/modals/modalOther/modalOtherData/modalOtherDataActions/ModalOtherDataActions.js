@@ -13,7 +13,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
    const [toBuySteel, setToBuySteel] = useState(0)
    const [toBuyTitan, setToBuyTitan] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
-
+   
    const changeCosts = (cardIdOrUnmi) => {
       let resMln = 0
       let resSteel = 0

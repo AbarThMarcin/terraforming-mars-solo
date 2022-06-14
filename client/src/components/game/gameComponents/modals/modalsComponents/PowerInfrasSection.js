@@ -3,6 +3,7 @@ import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
 import { ACTIONS_GAME } from '../../../../../util/actionsGame'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 import BtnAction from '../../buttons/BtnAction'
+import iconEnergy from '../../../../../assets/images/resources/energy.svg'
 
 const PowerInfrasSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -13,7 +14,7 @@ const PowerInfrasSection = () => {
    const btnActionConfirmPosition = {
       bottom: '-5%',
       left: '50%',
-      transform: 'translate(-50%, 100%)',
+      transform: 'translate(-50%, 110%)',
    }
 
    const handleClickConfirmBtn = () => {
@@ -30,7 +31,10 @@ const PowerInfrasSection = () => {
          <div className="header">SELECT AMOUNT</div>
          {/* ENERGY */}
          <div className="card-decrease-cost">
-            <span>{energyAmount} ENERGY</span>
+            <div className="amount">{energyAmount}</div>
+            <div className="icon">
+               <img src={iconEnergy} alt="icon_energy" />
+            </div>
             {energyAmount > 0 && (
                <div
                   className="decrease-arrow pointer decrease-arrow-left"

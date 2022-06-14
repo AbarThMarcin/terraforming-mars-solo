@@ -59,19 +59,43 @@
    position: absolute;
 }
 .card .black-border {
-   background: rgb(102, 102, 102);
-   background: linear-gradient(
-      135deg,
-      rgba(100, 100, 100, 1) 0%,
-      rgb(161, 161, 161) 25%,
-      rgba(100, 100, 100, 1) 50%,
-      rgba(161, 161, 161, 1) 75%,
-      rgb(100, 100, 100) 100%
-   );
    overflow: hidden;
    inset: calc(var(--default-size) * 0.15);
    border: calc(var(--default-size) * 0.1) solid #000;
    border-radius: calc(var(--default-size) * 0.5 * 0.8);
+}
+.card.card-bg-green .black-border {
+   background: rgb(122, 153, 122);
+   background: linear-gradient(
+      135deg,
+      rgb(21, 150, 9) 0%,
+      rgb(161, 161, 161) 25%,
+      rgb(55, 99, 57) 50%,
+      rgb(161, 161, 161) 75%,
+      rgb(4, 48, 6) 100%
+   );
+}
+.card.card-bg-blue .black-border {
+   background: rgb(122, 128, 153);
+   background: linear-gradient(
+      135deg,
+      rgb(9, 47, 150) 0%,
+      rgb(161, 161, 161) 25%,
+      rgb(55, 67, 99) 50%,
+      rgb(161, 161, 161) 75%,
+      rgb(4, 14, 48) 100%
+   );
+}
+.card.card-bg-red .black-border {
+   background: rgb(153, 122, 122);
+   background: linear-gradient(
+      135deg,
+      rgb(150, 9, 9) 0%,
+      rgb(161, 161, 161) 25%,
+      rgb(99, 55, 55) 50%,
+      rgb(161, 161, 161) 75%,
+      rgb(48, 4, 4) 100%
+   );
 }
 .card-container.medium .card .black-border {
    inset: calc(var(--default-size) * 0.15 * var(--ratio-medium));
@@ -115,7 +139,7 @@
    left: 5%;
    width: 18%;
    aspect-ratio: 1;
-   opacity: 0.4;
+   opacity: 0.6;
    font-size: calc(var(--default-size) * 1.1 * 0.82);
 }
 .card-container.medium .card .original-cost {

@@ -111,6 +111,7 @@ const Field = ({ field }) => {
                i * ANIMATION_SPEED
             )
             // Execute bonus action
+            // eslint-disable-next-line
             setTimeout(() => {
                switch (uniqBonuses[i]) {
                   case RESOURCES.STEEL:

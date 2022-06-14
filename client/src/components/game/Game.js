@@ -94,6 +94,7 @@ function Game({ setGameOn }) {
             ...logItems,
             { type: logData.type, data: { text: logData.text, icon: logIcon } },
          ])
+         // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [updateVpTrigger])
 
    function setAnimationSpeed(id) {

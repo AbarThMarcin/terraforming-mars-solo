@@ -19,6 +19,7 @@ import BtnSelect from '../buttons/BtnSelect'
 import { LOG_TYPES } from '../../../../data/log'
 import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
+import DecreaseCostDraft from './modalsComponents/DecreaseCostDraft'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -33,7 +34,8 @@ const ModalDraft = () => {
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { cards, setCards } = useContext(CardsContext)
-   const [buyCost, setBuyCost] = useState(0)
+   const [toBuyMln, setToBuyMln] = useState(0)
+   const [toBuyHeat, setToBuyHeat] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
    const cardsDraft =
       stateGame.generation === 1
@@ -42,15 +44,16 @@ const ModalDraft = () => {
    const textConfirmation =
       stateGame.generation === 1
          ? 'Are you sure you want to choose this corporation and these project cards?'
-         : buyCost === 0
+         : toBuyMln === 0
          ? "Are you sure you don't want to buy any cards?"
          : 'Are you sure you want to buy these project cards?'
 
    const btnActionPosition = { bottom: '0.5%', left: '50%', transform: 'translateX(-50%)' }
 
    const onYesFunc = () => {
-      // Decrease corporation mln resources
-      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -buyCost })
+      // Decrease corporation resources
+      if (toBuyMln > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
+      if (toBuyHeat > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
       // Add selected cards to the hand
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -120,13 +123,20 @@ const ModalDraft = () => {
    }
 
    const handleClickBtnSelect = (card) => {
-      if (selectedCards.filter((selCard) => selCard.id === card.id).length === 0) {
-         setBuyCost((v) => v + 3)
+      let addCard = selectedCards.filter((selCard) => selCard.id === card.id).length === 0
+      let resMln = addCard ? toBuyMln + 3 : toBuyMln - 3
+      let resHeat = toBuyHeat
+      if (resMln < 0) {
+         resHeat -= 0 - resMln
+         resMln = 0
+      }
+      if (addCard) {
          setSelectedCards((cards) => [...cards, card])
       } else {
-         setBuyCost((v) => v - 3)
          setSelectedCards((cards) => cards.filter((c) => c.id !== card.id))
       }
+      setToBuyMln(resMln)
+      setToBuyHeat(resHeat)
    }
 
    return (
@@ -165,12 +175,23 @@ const ModalDraft = () => {
          {/* ACTION BUTTON */}
          <BtnAction
             text="DONE"
-            mln={buyCost}
+            mln={toBuyMln}
             textConfirmation={textConfirmation}
             onYesFunc={onYesFunc}
-            disabled={buyCost > statePlayer.resources.mln}
+            disabled={toBuyMln > statePlayer.resources.mln}
             position={btnActionPosition}
          />
+         {/* DECREASE COST IF HELION */}
+         {statePlayer.resources.heat > 0 &&
+            statePlayer.canPayWithHeat &&
+            selectedCards.length > 0 && (
+               <DecreaseCostDraft
+                  toBuyMln={toBuyMln}
+                  setToBuyMln={setToBuyMln}
+                  toBuyHeat={toBuyHeat}
+                  setToBuyHeat={setToBuyHeat}
+               />
+            )}
       </div>
    )
 }

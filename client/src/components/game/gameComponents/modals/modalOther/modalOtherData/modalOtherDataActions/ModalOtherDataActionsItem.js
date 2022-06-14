@@ -28,7 +28,6 @@ const ModalOtherDataActionsItem = ({
    const isAvailable = getAvailability()
 
    const btnActionPosition = { right: '-3%', transform: 'scale(0.65)' }
-
    function getAvailability() {
       if (isUnmi) {
          return actionRequirementsMet(item)

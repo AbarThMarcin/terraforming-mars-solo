@@ -12,7 +12,7 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    const btnActionConfirmPosition = {
       bottom: '-5%',
       left: '50%',
-      transform: 'translate(-50%, 100%)',
+      transform: 'translate(-50%, 110%)',
    }
 
    const handleClickConfirmBtn = () => {

@@ -69,7 +69,6 @@ export const INIT_MODALS = {
    modalSelectCard: {
       cardIdAction: null,
       card: null,
-      func: null,
    },
    // Info for modal other
    modalOther: {

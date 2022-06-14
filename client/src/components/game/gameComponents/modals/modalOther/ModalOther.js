@@ -1,11 +1,13 @@
 /* Used to view card resources, tags, vp, actions and effects */
 import { useState, useContext } from 'react'
-import { ModalsContext } from '../../../Game'
+import { CORP_NAMES } from '../../../../../data/corpNames'
+import { ModalsContext, StatePlayerContext } from '../../../Game'
 import BtnClose from '../../buttons/BtnClose'
 import Card from '../../Card'
 import ModalOtherData from './modalOtherData/ModalOtherData'
 
 const ModalOther = () => {
+   const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
@@ -40,7 +42,7 @@ const ModalOther = () => {
             onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
          />
          {/* DATA */}
-         {modals.modalOther.data.length === 0 ? (
+         {modals.modalOther.data.length === 0 && statePlayer.corporation.name !== CORP_NAMES.UNMI ? (
             <div className="modal-other-box-no-data center">
                {getTextWhenNoData(modals.modalOther.header)}
             </div>

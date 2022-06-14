@@ -5,7 +5,7 @@ import { StatePlayerContext, StateGameContext, StateBoardContext } from '../../G
 import iconTr from '../../../../assets/images/resources/tr.svg'
 import iconGreenery from '../../../../assets/images/tiles/greenery.svg'
 import iconCity from '../../../../assets/images/tiles/city.svg'
-import iconVp from '../../../../assets/images/vp/vp.svg'
+import iconVp from '../../../../assets/images/vp/any.svg'
 import BtnAction from '../buttons/BtnAction'
 
 const ModalEndStats = ({ setGameOn }) => {
@@ -96,9 +96,9 @@ const ModalEndStats = ({ setGameOn }) => {
                <span className="value value-total">{totalPoints}</span>
             </div>
          </div>
-         <BtnAction 
+         <BtnAction
             text="DONE"
-            textConfirmation='Leave the game and go back to main menu?'
+            textConfirmation="Leave the game and go back to main menu?"
             onYesFunc={onYesFunc}
             position={btnActionPosition}
          />

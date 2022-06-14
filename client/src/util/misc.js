@@ -565,10 +565,12 @@ export const sorted = (cards, id, requirementsMet) => {
                let tagsB = ''
                let foundTag = ''
                for (let i = 0; i < sortOrder.length; i++) {
+                  // eslint-disable-next-line
                   foundTag = a.tags.find((tag) => tag === sortOrder[i])
                   if (foundTag) tagsA += foundTag
                }
                for (let i = 0; i < sortOrder.length; i++) {
+                  // eslint-disable-next-line
                   foundTag = b.tags.find((tag) => tag === sortOrder[i])
                   if (foundTag) tagsB += foundTag
                }

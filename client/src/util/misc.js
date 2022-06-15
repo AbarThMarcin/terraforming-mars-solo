@@ -201,18 +201,18 @@ export function funcPerformSubActions(
             endAnimation(setModals)
             startAnimation(setModals)
             setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals)
-         }, longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000)
+         }, longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2))
          setTimeout(
             () => subActions[i].func(),
             subActions[i].name !== ANIMATIONS.SHORT_ANIMATION
-               ? (longAnimCount + 1) * ANIMATION_SPEED + shortAnimCount * 1000
-               : longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000
+               ? (longAnimCount + 1) * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2)
+               : longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2)
          )
       } else {
          // Subaction with user interaction
          setTimeout(
             () => subActions[i].func(),
-            longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000
+            longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2)
          )
       }
       // ============= End animation and remove performed actions from stateGame.actionsLeft
@@ -230,9 +230,9 @@ export function funcPerformSubActions(
             },
             subActions[i].name !== ANIMATIONS.USER_INTERACTION
                ? subActions[i].name !== ANIMATIONS.SHORT_ANIMATION
-                  ? (longAnimCount + 1) * ANIMATION_SPEED + shortAnimCount * 1000
-                  : longAnimCount * ANIMATION_SPEED + (shortAnimCount + 1) * 1000
-               : longAnimCount * ANIMATION_SPEED + shortAnimCount * 1000
+                  ? (longAnimCount + 1) * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2)
+                  : longAnimCount * ANIMATION_SPEED + (shortAnimCount + 1) * (ANIMATION_SPEED / 2)
+               : longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2)
          )
       }
       // ============= Increment animation speed counter

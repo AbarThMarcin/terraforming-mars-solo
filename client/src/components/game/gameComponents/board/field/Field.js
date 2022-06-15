@@ -268,7 +268,7 @@ const Field = ({ field }) => {
                startAnimation(setModals)
                setAnimation(ANIMATIONS.SHORT_ANIMATION, null, null, setModals)
             }, delay)
-            delay += 1000
+            delay += ANIMATION_SPEED / 2
             setTimeout(() => {
                // Proper action
                let newCards = field.bonus.includes(RESOURCES.CARD)
@@ -320,7 +320,7 @@ const Field = ({ field }) => {
                } else {
                   setModals((prevModals) => ({ ...prevModals, endStats: true }))
                }
-            }, 1000)
+            }, (ANIMATION_SPEED / 2))
          }
       }, delay)
    }

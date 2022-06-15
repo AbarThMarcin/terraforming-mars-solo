@@ -15,8 +15,15 @@ import { startAnimation } from '../../../data/animations'
 const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, setLogItems } =
-      useContext(StateGameContext)
+   const {
+      stateGame,
+      dispatchGame,
+      getImmEffects,
+      getEffect,
+      performSubActions,
+      setLogItems,
+      ANIMATION_SPEED,
+   } = useContext(StateGameContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
 
    const onYesFunc = () => {
@@ -58,7 +65,7 @@ const PassContainer = () => {
       }))
       // AFTER 1000 MS
       // Show Panel Corp
-      delay += 1000
+      delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
          setModals((prevModals) => ({
             ...prevModals,
@@ -68,7 +75,7 @@ const PassContainer = () => {
       }, delay)
       // AFTER 1250 MS
       // Move production amounts to resources (+ TR to mln resource AND energy res to heat res)
-      delay += 1250
+      delay += (ANIMATION_SPEED / 1.5) * (5 / 4)
       let newPlants = statePlayer.resources.plant
       setTimeout(() => {
          dispatchPlayer({
@@ -98,7 +105,7 @@ const PassContainer = () => {
       }, delay)
       // AFTER 750 MS
       // Hide Panel Corp
-      delay += 750
+      delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
       setTimeout(() => {
          setModals((prevModals) => ({ ...prevModals, panelCorp: false }))
       }, delay)
@@ -106,19 +113,19 @@ const PassContainer = () => {
       if (stateGame.generation < 14) {
          // AFTER 750 MS
          // Show Panel State Game
-         delay += 750
+         delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
          setTimeout(() => {
             setModals((prevModals) => ({ ...prevModals, panelStateGame: true }))
          }, delay)
          // AFTER 1250 MS
          // Move to next generation
-         delay += 1250
+         delay += (ANIMATION_SPEED / 1.5) * (5 / 4)
          setTimeout(() => {
             dispatchGame({ type: ACTIONS_GAME.INCREMENT_GEN })
          }, delay)
          // AFTER 750 MS
          // Hide Panel State Game
-         delay += 750
+         delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
          setTimeout(() => {
             setModals((prevModals) => ({
                ...prevModals,
@@ -130,7 +137,7 @@ const PassContainer = () => {
       if (stateGame.generation < 14) {
          // AFTER 1000 MS
          // Show Panel Corp
-         delay += 1000
+         delay += ANIMATION_SPEED / 1.5
          setTimeout(() => {
             setModals((prevModals) => ({ ...prevModals, panelCorp: true }))
          }, delay)
@@ -141,7 +148,7 @@ const PassContainer = () => {
       }
       // AFTER 1000 MS
       // Go to next generation or end the game (with greeneries or without them)
-      delay += 1000
+      delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
          // If passed in last generation
          if (stateGame.generation === 14) {
@@ -167,7 +174,7 @@ const PassContainer = () => {
                   )
                      actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
                   performSubActions(actions, null, null)
-               }, 500)
+               }, ANIMATION_SPEED / 1.5 / 2)
             } else {
                setModals((prevModals) => ({ ...prevModals, endStats: true }))
             }

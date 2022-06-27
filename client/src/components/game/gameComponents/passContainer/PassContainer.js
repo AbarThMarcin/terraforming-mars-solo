@@ -1,18 +1,19 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../Game'
-import { ACTIONS_PLAYER } from '../../../util/actionsPlayer'
-import { ACTIONS_GAME } from '../../../util/actionsGame'
-import { modifiedCards } from '../../../util/misc'
-import { getCorpLogoMini } from '../../../data/corporations'
-import { LOG_TYPES } from '../../../data/log'
-import { IMM_EFFECTS } from '../../../data/immEffects/immEffects'
-import { EFFECTS } from '../../../data/effects'
-import AnimProdRes from './animations/AnimProdRes'
-import passContBg from '../../../assets/images/other/passContBg.svg'
+import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
+import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import { modifiedCards } from '../../../../util/misc'
+import { getCorpLogoMini } from '../../../../data/corporations'
+import { LOG_TYPES } from '../../../../data/log'
+import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
+import { EFFECTS } from '../../../../data/effects'
+import AnimProdRes from '../animations/AnimProdRes'
+import passContBg from '../../../../assets/images/other/passContBg.svg'
 import { motion, AnimatePresence } from 'framer-motion'
-import { startAnimation } from '../../../data/animations'
+import { startAnimation } from '../../../../data/animations'
+import TotalVP from './TotalVP'
 
-const PassContainer = () => {
+const PassContainer = ({ showTotVP, totalVP }) => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const {
@@ -46,11 +47,11 @@ const PassContainer = () => {
       if (statePlayer.indenturedWorkersEffect) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: modifiedCards(statePlayer.cardsInHand, statePlayer, null, false),
+            payload: modifiedCards(statePlayer.cardsInHand, statePlayer, false),
          })
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-            payload: modifiedCards(statePlayer.cardsPlayed, statePlayer, null, false),
+            payload: modifiedCards(statePlayer.cardsPlayed, statePlayer, false),
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
       }
@@ -63,7 +64,6 @@ const PassContainer = () => {
          panelCorp: false,
          panelStateGame: false,
       }))
-      // AFTER 1000 MS
       // Show Panel Corp
       delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
@@ -73,7 +73,6 @@ const PassContainer = () => {
             panelStateGame: false,
          }))
       }, delay)
-      // AFTER 1250 MS
       // Move production amounts to resources (+ TR to mln resource AND energy res to heat res)
       delay += (ANIMATION_SPEED / 1.5) * (5 / 4)
       let newPlants = statePlayer.resources.plant
@@ -103,7 +102,6 @@ const PassContainer = () => {
             payload: statePlayer.production.energy - statePlayer.resources.energy,
          })
       }, delay)
-      // AFTER 750 MS
       // Hide Panel Corp
       delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
       setTimeout(() => {
@@ -111,19 +109,16 @@ const PassContainer = () => {
       }, delay)
 
       if (stateGame.generation < 14) {
-         // AFTER 750 MS
          // Show Panel State Game
          delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
          setTimeout(() => {
             setModals((prevModals) => ({ ...prevModals, panelStateGame: true }))
          }, delay)
-         // AFTER 1250 MS
          // Move to next generation
          delay += (ANIMATION_SPEED / 1.5) * (5 / 4)
          setTimeout(() => {
             dispatchGame({ type: ACTIONS_GAME.INCREMENT_GEN })
          }, delay)
-         // AFTER 750 MS
          // Hide Panel State Game
          delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
          setTimeout(() => {
@@ -135,7 +130,6 @@ const PassContainer = () => {
          }, delay)
       }
       if (stateGame.generation < 14) {
-         // AFTER 1000 MS
          // Show Panel Corp
          delay += ANIMATION_SPEED / 1.5
          setTimeout(() => {
@@ -146,7 +140,6 @@ const PassContainer = () => {
             setModals((prevModals) => ({ ...prevModals, panelStateGame: true }))
          }, delay)
       }
-      // AFTER 1000 MS
       // Go to next generation or end the game (with greeneries or without them)
       delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
@@ -156,7 +149,6 @@ const PassContainer = () => {
             if (newPlants >= statePlayer.valueGreenery) {
                // Show Panel Corp
                setModals((prevModals) => ({ ...prevModals, panelCorp: true }))
-               // AFTER 500 MS
                setTimeout(() => {
                   // Turn Phase After Gen 14 on
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
@@ -240,6 +232,8 @@ const PassContainer = () => {
          <div className="you-text">YOU</div>
          {/* TR */}
          <div className="tr">{stateGame.tr}</div>
+         {/* TOTAL POINTS */}
+         {showTotVP && <TotalVP totalVP={totalVP} />}
       </>
    )
 }

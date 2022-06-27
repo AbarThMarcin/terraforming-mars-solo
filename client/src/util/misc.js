@@ -93,7 +93,7 @@ export const getBoardWithNeutral = ([...initBoard]) => {
          initBoard[cityId].name !== 'GANYMEDE COLONY' &&
          !hasNeutralCityOrGreenery(neighbors)
       ) {
-         initBoard[cityId].object = 'city-neutral'
+         initBoard[cityId].object = TILES.CITY_NEUTRAL
          let greeneriesLeft = 1 // Greeneries amount per city
          while (greeneriesLeft > 0) {
             let greeneryId = randomInteger(0, neighbors.length - 1)
@@ -104,7 +104,7 @@ export const getBoardWithNeutral = ([...initBoard]) => {
             ) {
                initBoard.forEach((field) => {
                   if (field.x === neighbors[greeneryId].x && field.y === neighbors[greeneryId].y)
-                     field.object = 'greenery-neutral'
+                     field.object = TILES.GREENERY_NEUTRAL
                })
                greeneriesLeft--
             }
@@ -166,11 +166,12 @@ export function funcPerformSubActions(
    ANIMATION_SPEED,
    setModals,
    dispatchGame,
-   setUpdateVpTrigger,
+   setTrigger,
    logData,
    logIcon,
    setLogData,
-   setLogIcon
+   setLogIcon,
+   noTrigger = false
 ) {
    if (logData) {
       setLogData(logData)
@@ -187,7 +188,7 @@ export function funcPerformSubActions(
    }
    if (iLast === -1) {
       endAnimation(setModals)
-      setUpdateVpTrigger((prevValue) => !prevValue)
+      if (!noTrigger) setTrigger((prevValue) => !prevValue)
    }
 
    let longAnimCount = 0
@@ -225,7 +226,7 @@ export function funcPerformSubActions(
                   payload: subActions.slice(iLast + 1),
                })
                if (subActions[i].name !== ANIMATIONS.USER_INTERACTION) {
-                  setUpdateVpTrigger((prevValue) => !prevValue)
+                  if (!noTrigger) setTrigger((prevValue) => !prevValue)
                }
             },
             subActions[i].name !== ANIMATIONS.USER_INTERACTION
@@ -281,37 +282,13 @@ export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndentured
    return newCards
 }
 
-export function modifiedCardsEffect(cards, effect) {
-   return cards.map((card) => {
-      let costLess = 0
-      switch (effect) {
-         case EFFECTS.EFFECT_EARTH_OFFICE:
-            if (card.tags.includes(TAGS.EARTH)) costLess += 3
-            break
-         case EFFECTS.EFFECT_SPACE_STATION:
-         case EFFECTS.EFFECT_SHUTTLES:
-         case EFFECTS.EFFECT_MASS_CONVERTER:
-         case EFFECTS.EFFECT_QUANTUM_EXTRACTOR:
-            if (card.tags.includes(TAGS.SPACE)) costLess += 2
-            break
-         case EFFECTS.EFFECT_RESEARCH_OUTPOST:
-            costLess += 1
-            break
-         case EFFECTS.EFFECT_EARTH_CATAPULT:
-         case EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY:
-            costLess += 2
-            break
-         default:
-            break
-      }
-      return { ...card, currentCost: Math.max(card.currentCost - costLess, 0) }
-   })
-}
-
-export function updateVP(statePlayer, dispatchPlayer, stateBoard) {
+export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP) {
+   // Cards VP update
    statePlayer.cardsPlayed.forEach((card) =>
       updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard)
    )
+   // Total VP update
+   setTotalVP(getTotalPoints(statePlayer, stateGame, stateBoard))
 }
 
 function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
@@ -400,6 +377,48 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
          break
    }
    dispatchPlayer({ type: ACTIONS_PLAYER.UPDATE_VP, payload: { cardId: card.id, vp: newVp } })
+}
+
+export function getTotalPoints(statePlayer, stateGame, stateBoard) {
+   return (
+      getTrPoints(stateGame) +
+      getGreeneryPoints(stateBoard) +
+      getCityPoints(stateBoard) +
+      getVictoryPoints(statePlayer)
+   )
+}
+
+export function getTrPoints(stateGame) {
+   return stateGame.tr
+}
+export function getGreeneryPoints(stateBoard) {
+   let board = JSON.parse(JSON.stringify(stateBoard))
+   return board.filter((field) => field.object === TILES.GREENERY).length
+}
+export function getCityPoints(stateBoard) {
+   let points = 0
+   let board = JSON.parse(JSON.stringify(stateBoard))
+   let cities = board.filter(
+      (field) =>
+         (field.object === TILES.CITY || field.object === TILES.SPECIAL_CITY_CAPITAL) &&
+         field.name !== 'PHOBOS SPACE HAVEN' &&
+         field.name !== 'GANYMEDE COLONY'
+   )
+   cities.forEach((city) => {
+      let x = city.x
+      let y = city.y
+      let greeneries = getNeighbors(x, y, board).filter(
+         (field) => field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL
+      )
+      points += greeneries.length
+   })
+   return points
+}
+export function getVictoryPoints(statePlayer) {
+   const cards = statePlayer.cardsPlayed.filter((card) => card.vp !== 0)
+   const count = cards.length > 0 ? cards.reduce((total, card) => total + card.vp, 0) : 0
+
+   return count
 }
 
 export function scale(number, inMin, inMax, outMin, outMax) {
@@ -612,6 +631,12 @@ export const sorted = (cards, id, requirementsMet) => {
          case '4b':
             cards.sort((a, b) => (a.timeAdded <= b.timeAdded ? 1 : -1))
             return cards
+         case '4a-played':
+            cards.sort((a, b) => (a.timePlayed >= b.timePlayed ? 1 : -1))
+            return cards
+         case '4b-played':
+            cards.sort((a, b) => (a.timePlayed <= b.timePlayed ? 1 : -1))
+            return cards
          case '5a':
             cards.sort((a, b) => {
                let availabilityA = requirementsMet(a) ? 'available' : 'not-available'
@@ -636,4 +661,8 @@ export const sorted = (cards, id, requirementsMet) => {
 
 export const withTimeAdded = (cards) => {
    return cards.map((card, idx) => ({ ...card, timeAdded: Date.now() + idx }))
+}
+
+export const withTimePlayed = (cards) => {
+   return cards.map((card, idx) => ({ ...card, timePlayed: Date.now() + idx }))
 }

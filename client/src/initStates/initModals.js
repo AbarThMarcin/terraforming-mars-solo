@@ -26,6 +26,8 @@ export const INIT_ANIMATION_DATA = {
 }
 
 export const INIT_MODALS = {
+   // If a card has been played
+   cardPlayed: false,
    // Which modal to show
    cardWithAction: false,
    cardViewOnly: false,

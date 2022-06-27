@@ -17,6 +17,7 @@ const BtnSort = ({ id, text }) => {
             : sortId[cardsTypeId].slice(1, 2) === 'a'
             ? `${id}b`
             : `${id}a`
+      newSortId = cardsTypeId === 1 && id === '4' ? newSortId + '-played' : newSortId.slice(0, 2)
       setSortId((oldIds) => (cardsTypeId === 0 ? [newSortId, oldIds[1]] : [oldIds[0], newSortId]))
       cardsTypeId === 0
          ? dispatchPlayer({

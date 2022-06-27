@@ -11,7 +11,7 @@ const BtnConvertPlantsHeat = ({ textConfirmation, action, bg, bgBright }) => {
          modalConf: {
             text: textConfirmation,
             onYes: () => {
-               setModals({ ...modals, confirmation: false })
+               setModals({ ...modals, confirmation: false, cardPlayed: false })
                action()
             },
             onNo: () => setModals({ ...modals, confirmation: false }),

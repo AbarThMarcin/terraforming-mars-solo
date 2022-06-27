@@ -31,6 +31,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 2,
@@ -59,6 +60,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 3,
@@ -84,6 +86,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 4,
@@ -115,6 +118,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 5,
@@ -144,6 +148,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 6,
@@ -169,6 +174,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 7,
@@ -194,6 +200,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 8,
@@ -235,6 +242,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 9,
@@ -266,6 +274,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 10,
@@ -298,6 +307,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 11,
@@ -330,6 +340,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 12,
@@ -359,6 +370,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 13,
@@ -385,6 +397,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 14,
@@ -410,6 +423,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 15,
@@ -437,6 +451,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 16,
@@ -476,6 +491,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 17,
@@ -509,6 +525,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 18,
@@ -537,6 +554,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 19,
@@ -566,6 +584,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 20,
@@ -604,6 +623,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 21,
@@ -637,6 +657,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 22,
@@ -665,6 +686,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 23,
@@ -698,6 +720,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 24,
@@ -731,6 +754,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 25,
@@ -756,6 +780,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 26,
@@ -788,6 +813,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 27,
@@ -818,6 +844,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 28,
@@ -846,6 +873,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 29,
@@ -885,6 +913,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 30,
@@ -912,6 +941,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 31,
@@ -938,6 +968,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 32,
@@ -974,6 +1005,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 33,
@@ -1006,6 +1038,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 34,
@@ -1039,6 +1072,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 35,
@@ -1069,6 +1103,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 36,
@@ -1095,6 +1130,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 37,
@@ -1128,6 +1164,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 38,
@@ -1153,6 +1190,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 39,
@@ -1183,6 +1221,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 40,
@@ -1208,6 +1247,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 41,
@@ -1233,6 +1273,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 42,
@@ -1258,6 +1299,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 43,
@@ -1284,6 +1326,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 44,
@@ -1315,6 +1358,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 45,
@@ -1340,6 +1384,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 46,
@@ -1369,6 +1414,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 47,
@@ -1398,6 +1444,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 48,
@@ -1427,6 +1474,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 49,
@@ -1453,6 +1501,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 50,
@@ -1483,6 +1532,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 51,
@@ -1509,6 +1559,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 52,
@@ -1543,6 +1594,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 53,
@@ -1568,6 +1620,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 54,
@@ -1602,6 +1655,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 55,
@@ -1634,6 +1688,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 56,
@@ -1660,6 +1715,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 57,
@@ -1685,6 +1741,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 58,
@@ -1714,6 +1771,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 59,
@@ -1747,6 +1805,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 60,
@@ -1776,6 +1835,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 61,
@@ -1805,6 +1865,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 62,
@@ -1830,6 +1891,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 63,
@@ -1855,6 +1917,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 64,
@@ -1882,6 +1945,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 65,
@@ -1907,6 +1971,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 66,
@@ -1932,6 +1997,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 67,
@@ -1959,6 +2025,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 68,
@@ -1984,6 +2051,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 69,
@@ -2017,6 +2085,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 70,
@@ -2042,6 +2111,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 71,
@@ -2069,6 +2139,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 72,
@@ -2103,6 +2174,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 73,
@@ -2117,7 +2189,7 @@ export const CARDS = [
       vp: 1,
       tags: [TAGS.SCIENCE, TAGS.BUILDING],
       effect: EFFECTS.EFFECT_MARS_UNIVERSITY,
-      effectsToCall: [EFFECTS.EFFECT_OLYMPUS_CONFERENCE],
+      effectsToCall: [EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -2130,6 +2202,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 74,
@@ -2162,6 +2235,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 75,
@@ -2192,6 +2266,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 76,
@@ -2217,6 +2292,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 77,
@@ -2242,6 +2318,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 78,
@@ -2272,6 +2349,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 79,
@@ -2301,6 +2379,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 80,
@@ -2333,6 +2412,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 81,
@@ -2365,6 +2445,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 82,
@@ -2390,6 +2471,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 83,
@@ -2415,6 +2497,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 84,
@@ -2440,6 +2523,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 85,
@@ -2471,6 +2555,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 86,
@@ -2496,6 +2581,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 87,
@@ -2525,6 +2611,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 88,
@@ -2554,6 +2641,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 89,
@@ -2579,6 +2667,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 90,
@@ -2604,6 +2693,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 91,
@@ -2630,6 +2720,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 92,
@@ -2658,6 +2749,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 93,
@@ -2687,6 +2779,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 94,
@@ -2716,6 +2809,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 95,
@@ -2744,6 +2838,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 96,
@@ -2773,6 +2868,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 97,
@@ -2799,6 +2895,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 98,
@@ -2824,6 +2921,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 99,
@@ -2849,6 +2947,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 100,
@@ -2874,6 +2973,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 101,
@@ -2900,6 +3000,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 102,
@@ -2925,6 +3026,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 103,
@@ -2951,6 +3053,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 104,
@@ -2976,6 +3079,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 105,
@@ -3001,6 +3105,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 106,
@@ -3026,6 +3131,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 107,
@@ -3051,6 +3157,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 108,
@@ -3090,6 +3197,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 109,
@@ -3115,6 +3223,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 110,
@@ -3140,12 +3249,15 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 111,
       name: 'BUSINESS CONTACTS',
       description: 'Money and information are often interchangeable',
-      info: ['Look at the top 4 cards from the deck. Take 2 of them into hand and discard the other 2.'],
+      info: [
+         'Look at the top 4 cards from the deck. Take 2 of them into hand and discard the other 2.',
+      ],
       originalCost: 7,
       currentCost: 7,
       requirements: [],
@@ -3165,6 +3277,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 112,
@@ -3190,6 +3303,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 113,
@@ -3215,6 +3329,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 114,
@@ -3240,6 +3355,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 115,
@@ -3266,6 +3382,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 116,
@@ -3291,6 +3408,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 117,
@@ -3316,6 +3434,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 118,
@@ -3349,6 +3468,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 119,
@@ -3374,6 +3494,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 120,
@@ -3411,6 +3532,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 121,
@@ -3436,6 +3558,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 122,
@@ -3468,6 +3591,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 123,
@@ -3498,6 +3622,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 124,
@@ -3523,6 +3648,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 125,
@@ -3553,6 +3679,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 126,
@@ -3579,6 +3706,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 127,
@@ -3604,6 +3732,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 128,
@@ -3637,6 +3766,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 129,
@@ -3665,6 +3795,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 130,
@@ -3693,6 +3824,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 131,
@@ -3722,6 +3854,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 132,
@@ -3747,6 +3880,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 133,
@@ -3772,6 +3906,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 134,
@@ -3800,6 +3935,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 135,
@@ -3833,6 +3969,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 136,
@@ -3858,6 +3995,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 137,
@@ -3883,6 +4021,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 138,
@@ -3911,6 +4050,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 139,
@@ -3936,6 +4076,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 140,
@@ -3963,6 +4104,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 141,
@@ -3988,6 +4130,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 142,
@@ -4015,6 +4158,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 143,
@@ -4047,6 +4191,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 144,
@@ -4072,6 +4217,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 145,
@@ -4098,6 +4244,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 146,
@@ -4133,6 +4280,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 147,
@@ -4167,6 +4315,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 148,
@@ -4195,6 +4344,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 149,
@@ -4220,6 +4370,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 150,
@@ -4246,6 +4397,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 151,
@@ -4271,6 +4423,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 152,
@@ -4298,6 +4451,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 153,
@@ -4323,6 +4477,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 154,
@@ -4351,6 +4506,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 155,
@@ -4381,6 +4537,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 156,
@@ -4408,6 +4565,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 157,
@@ -4437,6 +4595,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 158,
@@ -4462,6 +4621,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 159,
@@ -4491,6 +4651,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 160,
@@ -4519,6 +4680,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 161,
@@ -4548,6 +4710,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 162,
@@ -4577,6 +4740,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 163,
@@ -4609,6 +4773,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 164,
@@ -4635,6 +4800,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 165,
@@ -4663,6 +4829,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 166,
@@ -4696,6 +4863,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 167,
@@ -4725,6 +4893,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 168,
@@ -4750,6 +4919,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 169,
@@ -4782,6 +4952,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 170,
@@ -4815,6 +4986,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 171,
@@ -4842,6 +5014,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 172,
@@ -4875,6 +5048,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 173,
@@ -4900,6 +5074,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 174,
@@ -4934,6 +5109,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 175,
@@ -4961,6 +5137,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 176,
@@ -4991,6 +5168,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 177,
@@ -5016,6 +5194,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 178,
@@ -5041,6 +5220,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 179,
@@ -5066,6 +5246,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 180,
@@ -5094,6 +5275,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 181,
@@ -5119,6 +5301,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 182,
@@ -5155,6 +5338,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 183,
@@ -5183,6 +5367,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 184,
@@ -5217,6 +5402,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 185,
@@ -5232,7 +5418,7 @@ export const CARDS = [
       vp: 1,
       tags: [TAGS.SCIENCE, TAGS.EARTH, TAGS.BUILDING],
       effect: EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-      effectsToCall: [EFFECTS.EFFECT_MARS_UNIVERSITY],
+      effectsToCall: [EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -5245,6 +5431,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 186,
@@ -5271,6 +5458,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 187,
@@ -5299,6 +5487,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 188,
@@ -5326,6 +5515,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 189,
@@ -5351,6 +5541,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 190,
@@ -5376,6 +5567,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 191,
@@ -5401,12 +5593,15 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 192,
       name: 'INVENTION CONTEST',
       description: 'Engaging the scientific community in a field of your choice',
-      info: ['Look at the top 3 cards from the deck. Take 1 of them into hand and discard the other 2.'],
+      info: [
+         'Look at the top 3 cards from the deck. Take 1 of them into hand and discard the other 2.',
+      ],
       originalCost: 2,
       currentCost: 2,
       requirements: [],
@@ -5431,6 +5626,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 193,
@@ -5465,6 +5661,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 194,
@@ -5490,6 +5687,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 195,
@@ -5516,6 +5714,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 196,
@@ -5541,6 +5740,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 197,
@@ -5566,6 +5766,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 198,
@@ -5591,6 +5792,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 199,
@@ -5619,6 +5821,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 200,
@@ -5658,6 +5861,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 201,
@@ -5683,6 +5887,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 202,
@@ -5709,6 +5914,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 203,
@@ -5734,6 +5940,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 204,
@@ -5765,6 +5972,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 205,
@@ -5790,6 +5998,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 206,
@@ -5822,6 +6031,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 207,
@@ -5849,6 +6059,7 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
    {
       id: 208,
@@ -5882,5 +6093,6 @@ export const CARDS = [
       },
       actionUsed: null,
       timeAdded: null,
+      timePlayed: null,
    },
 ]

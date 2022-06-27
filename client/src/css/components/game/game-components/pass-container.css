@@ -44,3 +44,12 @@
    font-weight: 600;
    text-shadow: 0 0 calc(var(--default-size) * 0.2) #000;
 }
+
+/* Total Points */
+.total-points {
+   position: absolute;
+   left: calc(var(--default-size) * 0.4);
+   top: calc(var(--default-size) * 1.8);
+   font-size: calc(var(--default-size) * 0.9);
+   font-weight: 500;
+}

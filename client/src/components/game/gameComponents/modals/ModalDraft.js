@@ -36,7 +36,7 @@ const ModalDraft = () => {
    const { cards, setCards } = useContext(CardsContext)
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
-   const [selectedCards, setSelectedCards] = useState([])
+   const [selectedCardsIds, setSelectedCardsIds] = useState([])
    const cardsDraft =
       stateGame.generation === 1
          ? modifiedCards(cards.slice(0, 10), statePlayer)
@@ -53,12 +53,16 @@ const ModalDraft = () => {
    const onYesFunc = () => {
       // Decrease corporation resources
       if (toBuyMln > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
-      if (toBuyHeat > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
+      if (toBuyHeat > 0)
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
       // Add selected cards to the hand
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
          payload: sorted(
-            [...statePlayer.cardsInHand, ...withTimeAdded(selectedCards)],
+            [
+               ...statePlayer.cardsInHand,
+               ...withTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id))),
+            ],
             sortId[0],
             requirementsMet
          ),
@@ -101,7 +105,7 @@ const ModalDraft = () => {
                            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                            payload: sorted(
                               [
-                                 ...selectedCards,
+                                 ...cardsDraft.filter(card => selectedCardsIds.includes(card.id)),
                                  ...modifiedCards(newCards.slice(0, 3), statePlayer),
                               ],
                               sortId[0],
@@ -123,7 +127,7 @@ const ModalDraft = () => {
    }
 
    const handleClickBtnSelect = (card) => {
-      let addCard = selectedCards.filter((selCard) => selCard.id === card.id).length === 0
+      let addCard = selectedCardsIds.includes(card.id) === false
       let resMln = addCard ? toBuyMln + 3 : toBuyMln - 3
       let resHeat = toBuyHeat
       if (resMln < 0) {
@@ -131,9 +135,9 @@ const ModalDraft = () => {
          resMln = 0
       }
       if (addCard) {
-         setSelectedCards((cards) => [...cards, card])
+         setSelectedCardsIds((ids) => [...ids, card.id])
       } else {
-         setSelectedCards((cards) => cards.filter((c) => c.id !== card.id))
+         setSelectedCardsIds((ids) => ids.filter((id) => id !== card.id))
       }
       setToBuyMln(resMln)
       setToBuyHeat(resHeat)
@@ -163,7 +167,7 @@ const ModalDraft = () => {
             <div
                key={idx}
                className={`card-container small ${
-                  selectedCards.find((selCard) => selCard.id === card.id) && 'selected'
+                  selectedCardsIds.includes(card.id) && 'selected'
                }`}
                style={getPosition(cardsDraft.length, idx)}
                onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
@@ -184,7 +188,7 @@ const ModalDraft = () => {
          {/* DECREASE COST IF HELION */}
          {statePlayer.resources.heat > 0 &&
             statePlayer.canPayWithHeat &&
-            selectedCards.length > 0 && (
+            selectedCardsIds.length > 0 && (
                <DecreaseCostDraft
                   toBuyMln={toBuyMln}
                   setToBuyMln={setToBuyMln}

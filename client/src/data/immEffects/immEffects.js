@@ -12,8 +12,8 @@ import {
    getCardsWithPossibleScience,
    hasTag,
    modifiedCards,
-   modifiedCardsEffect,
    withTimeAdded,
+   withTimePlayed,
 } from '../../util/misc'
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
@@ -338,7 +338,8 @@ export const funcGetImmEffects = (
          if (
             stateGame.globalParameters.oxygen >= 6 &&
             stateGame.globalParameters.oxygen <= 7 &&
-            stateGame.globalParameters.temperature < 8 && !stateGame.phaseAfterGen14
+            stateGame.globalParameters.temperature < 8 &&
+            !stateGame.phaseAfterGen14
          ) {
             subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          }
@@ -654,16 +655,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_SPACE_STATION
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_SPACE_STATION
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -1194,16 +1197,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_EARTH_CATAPULT
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_EARTH_CATAPULT
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -1221,19 +1226,6 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_VALUE_TITAN, payload: 1 })
             },
          })
-         break
-      // Mars University
-      case 73:
-         if (statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId).length > 0)
-            subActions.push({
-               name: ANIMATIONS.USER_INTERACTION,
-               type: null,
-               value: null,
-               func: () => {
-                  dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: true })
-                  setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
-               },
-            })
          break
       // Viral Enhancers
       case 74:
@@ -1283,16 +1275,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_QUANTUM_EXTRACTOR
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_QUANTUM_EXTRACTOR
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -1580,16 +1574,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_MASS_CONVERTER
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_MASS_CONVERTER
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -1686,16 +1682,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_EARTH_OFFICE
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_EARTH_OFFICE
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -2298,16 +2296,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -2535,16 +2535,18 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               let newCards = modifiedCardsEffect(
+               let newCards = modifiedCards(
                   statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  statePlayer,
                   EFFECTS.EFFECT_SHUTTLES
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_SHUTTLES
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -2755,19 +2757,6 @@ export const funcGetImmEffects = (
             type: RESOURCES.MLN,
             value: 2,
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 2 }),
-         })
-         break
-      // Olympus Conference
-      case 185:
-         subActions.push({
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.SCIENCE,
-            value: 1,
-            func: () =>
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.ADD_BIO_RES,
-                  payload: { cardId: actionOrCardId, resource: RESOURCES.SCIENCE, amount: 1 },
-               }),
          })
          break
       // Rad-Suits

@@ -6,7 +6,7 @@ const ModalLog = ({ logItems }) => {
    const botLogRef = useRef(null)
 
    useEffect(() => {
-      botLogRef.current?.scrollIntoView()
+      botLogRef.current?.scrollIntoView({ block: 'end' })
    }, [])
 
    return (

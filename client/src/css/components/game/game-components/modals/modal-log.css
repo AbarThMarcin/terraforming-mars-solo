@@ -2,7 +2,7 @@
 .modal-log {
    position: absolute;
    right: 0;
-   top: 0;
+   top: 0%;
    width: calc(var(--default-size) * 21);
    height: 100%;
    background-color: rgba(0, 0, 0, 0.85);

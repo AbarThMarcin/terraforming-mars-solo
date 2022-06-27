@@ -1,12 +1,11 @@
 import { useContext } from 'react'
-import { TILES } from '../../../../data/board'
-import { getNeighbors } from '../../../../util/misc'
 import { StatePlayerContext, StateGameContext, StateBoardContext } from '../../Game'
 import iconTr from '../../../../assets/images/resources/tr.svg'
 import iconGreenery from '../../../../assets/images/tiles/greenery.svg'
 import iconCity from '../../../../assets/images/tiles/city.svg'
 import iconVp from '../../../../assets/images/vp/any.svg'
 import BtnAction from '../buttons/BtnAction'
+import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../util/misc'
 
 const ModalEndStats = ({ setGameOn }) => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -18,49 +17,13 @@ const ModalEndStats = ({ setGameOn }) => {
       stateGame.globalParameters.oceans === 9
          ? 'YOU WIN!'
          : 'YOU LOSE!'
-   const trPoints = getTrPoints()
-   const greeneryPoints = getGreeneryPoints()
-   const cityPoints = getCityPoints()
-   const victoryPoints = getVictoryPoints()
-   const totalPoints = getTotalPoints()
+   const trPoints = getTrPoints(stateGame)
+   const greeneryPoints = getGreeneryPoints(stateBoard)
+   const cityPoints = getCityPoints(stateBoard)
+   const victoryPoints = getVictoryPoints(statePlayer)
+   const totalPoints = getTotalPoints(statePlayer, stateGame, stateBoard)
 
    const btnActionPosition = { bottom: '-20%', left: '50%', transform: 'translateX(-50%)' }
-
-   function getTrPoints() {
-      return stateGame.tr
-   }
-   function getGreeneryPoints() {
-      let board = JSON.parse(JSON.stringify(stateBoard))
-      return board.filter((field) => field.object === TILES.GREENERY).length
-   }
-   function getCityPoints() {
-      let points = 0
-      let board = JSON.parse(JSON.stringify(stateBoard))
-      let cities = board.filter(
-         (field) =>
-            (field.object === TILES.CITY || field.object === TILES.SPECIAL_CITY_CAPITAL) &&
-            field.name !== 'PHOBOS SPACE HAVEN' &&
-            field.name !== 'GANYMEDE COLONY'
-      )
-      cities.forEach((city) => {
-         let x = city.x
-         let y = city.y
-         let greeneries = getNeighbors(x, y, board).filter(
-            (field) => field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL
-         )
-         points += greeneries.length
-      })
-      return points
-   }
-   function getVictoryPoints() {
-      const cards = statePlayer.cardsPlayed.filter((card) => card.vp !== 0)
-      const count = cards.length > 0 ? cards.reduce((total, card) => total + card.vp, 0) : 0
-
-      return count
-   }
-   function getTotalPoints() {
-      return trPoints + greeneryPoints + cityPoints + victoryPoints
-   }
 
    const onYesFunc = () => {
       setGameOn(false)

@@ -3,7 +3,7 @@ import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../util/actionsGame'
-import { hasTag } from '../../../../util/misc'
+import { hasTag, withTimePlayed } from '../../../../util/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
@@ -158,6 +158,7 @@ const ModalCardWithAction = () => {
          confirmation: false,
          cardWithAction: false,
          cards: false,
+         cardPlayed: true
       }))
       startAnimation(setModals)
       for (let i = 0; i < animResPaidTypes.length; i++) {
@@ -183,14 +184,15 @@ const ModalCardWithAction = () => {
          )
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
          // Add this card to Cards Played
-         let newCardsPlayed = [...statePlayer.cardsPlayed, modals.modalCard]
+         let newCardsPlayed = [...statePlayer.cardsPlayed, ...withTimePlayed([modals.modalCard])]
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCardsPlayed })
          // Set special design effect to false (if applicable)
          if (statePlayer.specialDesignEffect) {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
             dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
          }
-         // ================== IMM_EFFECTS AND EFFECTS ================
+
+         // ============== IMMEDIATE EFFECTS AND EFFECTS ==============
          // Add Card immediate actions to the subActions list
          let actions = getImmEffects(modals.modalCard.id)
          // Add Effects to call that are included in the cardsPlayed effects (and corporation effects) list to the subActions list
@@ -201,6 +203,8 @@ const ModalCardWithAction = () => {
             )
                actions = [...actions, ...getEffect(effect)]
          })
+         // ===========================================================
+
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(
             actions,

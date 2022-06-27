@@ -51,11 +51,11 @@ const ModalProductionData = ({ setCardSnap }) => {
             `}
                onClick={() => handleClickProdCard(statePlayer.corporation.name)}
             >
-               <div>{statePlayer.corporation.name}</div>
-               <div>
+               <div className='copy'>{statePlayer.corporation.name}</div>
+               <div className='copy'>
                   <img
                      src={getProdImmEffectIcon(statePlayer.corporation.name)}
-                     className="img-res"
+                     className="img-prod"
                      alt="miningGuild_prodIcon"
                   />
                </div>
@@ -74,8 +74,8 @@ const ModalProductionData = ({ setCardSnap }) => {
                onMouseLeave={() => setCardSnap(null)}
                onClick={() => handleClickProdCard(item.id)}
             >
-               <div>{item.name}</div>
-               <div>
+               <div className='copy'>{item.name}</div>
+               <div className='copy'>
                   <img
                      src={getProdImmEffectIcon(item.id, modals)}
                      className="img-prod"

@@ -5,7 +5,7 @@ import { RESOURCES } from './resources'
 import { SP } from './StandardProjects'
 import { OPTION_ICONS } from './selectOneOptions'
 import { TAGS } from './tags'
-import { canCardHaveAnimals, canCardHaveMicrobes, modifiedCards, withTimeAdded } from '../util/misc'
+import { canCardHaveAnimals, canCardHaveMicrobes } from '../util/misc'
 // Corporation effects icons
 import effect_credicor from '../assets/images/effects/effect_credicor.svg'
 import effect_ecoline from '../assets/images/effects/effect_ecoline.svg'
@@ -176,7 +176,6 @@ export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) =
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_VALUE_TITAN, payload: 1 })
          break
       case CORP_NAMES.THORGATE:
-         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 1 })
          dispatchGame({ type: ACTIONS_GAME.SET_POWERPLANT_COST, payload: 8 })
          // The 'Power cards cost 3M less' effect is called in the modifiedCards function
          break
@@ -197,8 +196,6 @@ export const funcGetEffect = (
    dispatchGame,
    modals,
    setModals,
-   cards,
-   setCards
 ) => {
    let effect = []
    switch (effectName) {
@@ -291,22 +288,7 @@ export const funcGetEffect = (
          ]
          break
       case EFFECTS.EFFECT_MARS_UNIVERSITY:
-         if (statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
-            modals.modalCard.tags.forEach((tag) => {
-               if (tag === TAGS.SCIENCE)
-                  effect.push({
-                     name: ANIMATIONS.USER_INTERACTION,
-                     type: null,
-                     value: null,
-                     func: () => {
-                        dispatchGame({
-                           type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
-                           payload: true,
-                        })
-                        setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
-                     },
-                  })
-            })
+         // Immediate effect implemented in Game component (useEffect)
          break
       case EFFECTS.EFFECT_VIRAL_ENHANCERS:
          let getPlantEffect = {
@@ -489,38 +471,7 @@ export const funcGetEffect = (
          ]
          break
       case EFFECTS.EFFECT_OLYMPUS_CONFERENCE:
-         if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
-            effect = [
-               {
-                  name: ANIMATIONS.RESOURCES_IN,
-                  type: RESOURCES.SCIENCE,
-                  value: 1,
-                  func: () =>
-                     dispatchPlayer({
-                        type: ACTIONS_PLAYER.ADD_BIO_RES,
-                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
-                     }),
-               },
-            ]
-         } else {
-            effect = [
-               {
-                  name: ANIMATIONS.CARD_IN,
-                  type: RESOURCES.CARD,
-                  value: 1,
-                  func: () => {
-                     dispatchPlayer({
-                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: [
-                           ...statePlayer.cardsInHand,
-                           ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
-                        ],
-                     })
-                     setCards(cards.slice(1))
-                  },
-               },
-            ]
-         }
+         // Immediate effect implemented in Game component (useEffect)
          break
       case EFFECTS.EFFECT_IMMIGRANT_CITY:
          effect = [

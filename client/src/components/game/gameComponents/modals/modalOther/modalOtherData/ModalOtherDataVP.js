@@ -15,7 +15,7 @@ const ModalOtherDataVP = ({ setCardSnap }) => {
                onMouseLeave={() => setCardSnap(null)}
             >
                <span>
-                  {item.vp} {`${item.vp > 1 ? 'VPs' : 'VP'}`}
+                  {item.vp} {`${item.vp > 1 ? 'VPs' : 'VP'}`} {' - '} {item.name}
                </span>
                <img src={getVpIcon(item.iconNames.vp)} className='img-vp' alt={item.iconNames.vp} />
             </div>

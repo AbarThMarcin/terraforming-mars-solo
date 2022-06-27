@@ -1,31 +1,41 @@
 import { useReducer, createContext, useState, useEffect } from 'react'
+import '../../css/app.css'
 import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
 import { ACTIONS_PLAYER } from '../../util/actionsPlayer'
 import { INIT_STATE_GAME } from '../../initStates/initStateGame'
 import { INIT_MODALS } from '../../initStates/initModals'
-import { reducerGame } from '../../util/actionsGame'
+import { ACTIONS_GAME, reducerGame } from '../../util/actionsGame'
 import { reducerPlayer } from '../../util/actionsPlayer'
 import { reducerBoard } from '../../util/actionsBoard'
-import { funcPerformSubActions, modifiedCards, sorted, updateVP } from '../../util/misc'
-import { funcGetImmEffects } from '../../data/immEffects/immEffects'
-import { funcGetEffect } from '../../data/effects'
-import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
+import {
+   funcPerformSubActions,
+   modifiedCards,
+   sorted,
+   updateVP,
+   withTimeAdded,
+} from '../../util/misc'
 import {
    funcRequirementsMet,
    funcActionRequirementsMet,
    funcOptionRequirementsMet,
 } from '../../data/requirements'
+import { funcGetImmEffects } from '../../data/immEffects/immEffects'
+import { EFFECTS, funcGetEffect } from '../../data/effects'
+import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
 import { funcGetCardActions } from '../../data/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
+import { motion, AnimatePresence } from 'framer-motion'
+import { LOG_TYPES } from '../../data/log'
+import { RESOURCES } from '../../data/resources'
+import { ANIMATIONS } from '../../data/animations'
+import { TAGS } from '../../data/tags'
 import PanelCorp from './gameComponents/panelCorp/PanelCorp'
 import PanelStateGame from './gameComponents/PanelStateGame'
 import BtnStandardProjects from './gameComponents/buttons/BtnStandardProjects'
-import PassContainer from './gameComponents/PassContainer'
+import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
-import { LOG_TYPES } from '../../data/log'
-import { motion, AnimatePresence } from 'framer-motion'
-import '../../css/app.css'
+import { SPEED } from '../../data/settings'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -45,20 +55,22 @@ function Game({ setGameOn }) {
       { type: LOG_TYPES.LOG, data: null },
       { type: LOG_TYPES.GENERATION, data: { text: '1' } },
    ])
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(1500)
-   const [sortId, setSortId] = useState(['4a', '4a'])
-   const [updateVpTrigger, setUpdateVpTrigger] = useState(false)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(SPEED.VERY_FAST)
+   const [showTotVP, setShowTotVP] = useState(true)
+   const [totalVP, setTotalVP] = useState(14)
+   const [sortId, setSortId] = useState(['4a', '4a-played'])
+   const [updateTrigger, setTrigger] = useState(false)
    const [logData, setLogData] = useState(null)
    const [logIcon, setLogIcon] = useState(null)
 
    useEffect(() => {
-      // Update VP of all cards
-      updateVP(statePlayer, dispatchPlayer, stateBoard)
       // Turn off Special Design effect (if aplicable)
       if (statePlayer.specialDesignEffect && modals.modalCard.id !== 206) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
       }
+      // Call effect of Olympus Conference, THEN Mars University
+      if (modals.cardPlayed) callScienceEffects()
       // Sort Cards In Hand and Cards Played
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -73,7 +85,7 @@ function Game({ setGameOn }) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
             payload: sorted(
-               modifiedCards(statePlayer.cardsInHand, statePlayer, null, false),
+               modifiedCards(statePlayer.cardsInHand, statePlayer, false, false),
                sortId[0],
                requirementsMet
             ),
@@ -81,7 +93,7 @@ function Game({ setGameOn }) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
             payload: sorted(
-               modifiedCards(statePlayer.cardsPlayed, statePlayer, null, false),
+               modifiedCards(statePlayer.cardsPlayed, statePlayer, false, false),
                sortId[1],
                requirementsMet
             ),
@@ -94,22 +106,128 @@ function Game({ setGameOn }) {
             ...logItems,
             { type: logData.type, data: { text: logData.text, icon: logIcon } },
          ])
-         // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [updateVpTrigger])
+
+      // Update VP
+      updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [updateTrigger])
+
+   function callScienceEffects() {
+      if (!modals.modalCard) return
+      let effects = []
+      let cardsInHand = statePlayer.cardsInHand
+      let cardsInDeck = cards
+      // Call Olympus Conference effect
+      if (
+         statePlayer.cardsPlayed.some(
+            (card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE
+         ) &&
+         modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_OLYMPUS_CONFERENCE)
+      ) {
+         // if Research played, do not modify science resources count, just add card
+         if (modals.modalCard.id === 90) {
+            cardsInHand = [
+               ...cardsInHand,
+               ...modifiedCards(withTimeAdded(cardsInDeck.slice(0, 1)), statePlayer),
+            ]
+            cardsInDeck = cardsInDeck.slice(1)
+            effects.push({
+               name: ANIMATIONS.CARD_IN,
+               type: RESOURCES.CARD,
+               value: 1,
+               func: () => {
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                     payload: cardsInHand,
+                  })
+                  setCards(cardsInDeck)
+               },
+            })
+         } else {
+            if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
+               effects = [
+                  {
+                     name: ANIMATIONS.RESOURCES_IN,
+                     type: RESOURCES.SCIENCE,
+                     value: 1,
+                     func: () =>
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.ADD_BIO_RES,
+                           payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
+                        }),
+                  },
+               ]
+            } else {
+               effects = [
+                  {
+                     name: ANIMATIONS.RESOURCES_OUT,
+                     type: RESOURCES.SCIENCE,
+                     value: 1,
+                     func: () =>
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.ADD_BIO_RES,
+                           payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
+                        }),
+                  },
+               ]
+               cardsInHand = [
+                  ...cardsInHand,
+                  ...modifiedCards(withTimeAdded(cardsInDeck.slice(0, 1)), statePlayer),
+               ]
+               cardsInDeck = cardsInDeck.slice(1)
+               effects.push({
+                  name: ANIMATIONS.CARD_IN,
+                  type: RESOURCES.CARD,
+                  value: 1,
+                  func: () => {
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: cardsInHand,
+                     })
+                     setCards(cardsInDeck)
+                  },
+               })
+            }
+         }
+      }
+      // Call Mars University
+      if (
+         statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY) &&
+         modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_MARS_UNIVERSITY)
+      ) {
+         if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
+            modals.modalCard.tags.forEach((tag) => {
+               if (tag === TAGS.SCIENCE)
+                  effects.push({
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: null,
+                     value: null,
+                     func: () => {
+                        dispatchGame({
+                           type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
+                           payload: true,
+                        })
+                        setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                     },
+                  })
+            })
+      }
+      performSubActions(effects, null, null, true)
+   }
 
    function setAnimationSpeed(id) {
       switch (id) {
          case 1:
-            setANIMATION_SPEED(2300)
+            setANIMATION_SPEED(SPEED.SLOW)
             break
          case 2:
-            setANIMATION_SPEED(1500)
+            setANIMATION_SPEED(SPEED.NORMAL)
             break
          case 3:
-            setANIMATION_SPEED(1000)
+            setANIMATION_SPEED(SPEED.FAST)
             break
          case 4:
-            setANIMATION_SPEED(600)
+            setANIMATION_SPEED(SPEED.VERY_FAST)
             break
          default:
             break
@@ -153,16 +271,7 @@ function Game({ setGameOn }) {
       )
    }
    function getEffect(effect) {
-      return funcGetEffect(
-         effect,
-         statePlayer,
-         dispatchPlayer,
-         dispatchGame,
-         modals,
-         setModals,
-         cards,
-         setCards
-      )
+      return funcGetEffect(effect, statePlayer, dispatchPlayer, dispatchGame, modals, setModals)
    }
    function getOptionsActions(option, energyAmount, heatAmount) {
       return funcGetOptionsActions(
@@ -178,17 +287,18 @@ function Game({ setGameOn }) {
          heatAmount
       )
    }
-   function performSubActions(subActions, logNewData, logNewIcon) {
+   function performSubActions(subActions, logNewData, logNewIcon, noTrigger) {
       return funcPerformSubActions(
          subActions,
          ANIMATION_SPEED,
          setModals,
          dispatchGame,
-         setUpdateVpTrigger,
+         setTrigger,
          logNewData,
          logNewIcon,
          setLogData,
-         setLogIcon
+         setLogIcon,
+         noTrigger
       )
    }
    function requirementsMet(card) {
@@ -296,7 +406,7 @@ function Game({ setGameOn }) {
                                     transition={{ duration: 0.5 }}
                                     className="pass-container"
                                  >
-                                    <PassContainer />
+                                    <PassContainer showTotVP={showTotVP} totalVP={totalVP} />
                                  </motion.div>
                               )}
                            </AnimatePresence>
@@ -304,14 +414,14 @@ function Game({ setGameOn }) {
                            {/* Board */}
                            <AnimatePresence>
                               <motion.div
-                                    key="keyBoard"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 0.5, delay: 0.5 }}
-                                    className='board center'
-                                 >
-                                    <Board />
-                                 </motion.div>
+                                 key="keyBoard"
+                                 initial={{ opacity: 0 }}
+                                 animate={{ opacity: 1 }}
+                                 transition={{ duration: 0.5, delay: 0.5 }}
+                                 className="board center"
+                              >
+                                 <Board />
+                              </motion.div>
                            </AnimatePresence>
 
                            {/* Corporation Panel */}
@@ -334,6 +444,8 @@ function Game({ setGameOn }) {
                            <Modals
                               setGameOn={setGameOn}
                               setAnimationSpeed={setAnimationSpeed}
+                              showTotVP={showTotVP}
+                              setShowTotVP={setShowTotVP}
                               logItems={logItems}
                            />
 

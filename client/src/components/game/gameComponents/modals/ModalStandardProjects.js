@@ -95,6 +95,7 @@ const ModalStandardProjects = () => {
          confirmation: false,
          standardProjects: false,
          sellCards: false,
+         cardPlayed: false
       }))
       // ------------------------ ANIMATIONS ------------------------
       startAnimation(setModals)

@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, withTimeAdded } from '../../../../util/misc'
+import { getPosition, modifiedCards, withTimeAdded } from '../../../../util/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
@@ -37,7 +37,7 @@ const ModalMarsUniversity = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId),
+            payload: statePlayer.cardsInHand.filter((card) => card.id !== selectedCardId),
          })
          endAnimation(setModals)
       }, ANIMATION_SPEED)
@@ -49,13 +49,16 @@ const ModalMarsUniversity = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId), withTimeAdded(cards[0])],
+            payload: [
+               ...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId),
+               ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
+            ],
          })
          setCards(cards.slice(1))
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)
-         performSubActions(stateGame.actionsLeft)
+         performSubActions(stateGame.actionsLeft, null, null, true)
       }, ANIMATION_SPEED * 2)
    }
 
@@ -65,7 +68,7 @@ const ModalMarsUniversity = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
       // Continue remaining actions
       startAnimation(setModals)
-      performSubActions(stateGame.actionsLeft)
+      performSubActions(stateGame.actionsLeft, null, null, true)
    }
 
    const handleClickBtnSelect = (card) => {

@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, withTimeAdded } from '../../../../util/misc'
+import { getPosition, modifiedCards, withTimeAdded } from '../../../../util/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
@@ -38,7 +38,7 @@ const ModalBusinessContacts = () => {
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
             payload: [
                ...statePlayer.cardsInHand,
-               ...withTimeAdded(cards.filter((card) => selectedCardIds.includes(card.id))),
+               ...modifiedCards(withTimeAdded(cards.filter((card) => selectedCardIds.includes(card.id))), statePlayer),
             ],
          })
          setCards(cards.slice(modals.modalBusCont.cardsCount))
@@ -70,7 +70,7 @@ const ModalBusinessContacts = () => {
          <div className="modal-select-cards">
             <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
-               {cards.slice(0, modals.modalBusCont.cardsCount).map((card, idx) => (
+               {modifiedCards(cards.slice(0, modals.modalBusCont.cardsCount), statePlayer).map((card, idx) => (
                   <div
                      key={idx}
                      className={`card-container small ${selectedCardIds.includes(card.id) && 'selected'}`}

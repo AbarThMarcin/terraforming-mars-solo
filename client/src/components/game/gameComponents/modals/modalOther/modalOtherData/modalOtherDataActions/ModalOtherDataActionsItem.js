@@ -91,7 +91,7 @@ const ModalOtherDataActionsItem = ({
       })
       let subActions
       subActions = getCardActions(itemIdOrUnmi, toBuyResources)
-      setModals({ ...modals, confirmation: false, other: false })
+      setModals({ ...modals, confirmation: false, other: false, cardPlayed: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
       performSubActions(
          subActions,

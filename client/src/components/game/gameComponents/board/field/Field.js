@@ -22,8 +22,8 @@ import {
 import {
    getNeighbors,
    modifiedCards,
-   modifiedCardsEffect,
    withTimeAdded,
+   withTimePlayed,
 } from '../../../../../util/misc'
 import { RESOURCES } from '../../../../../data/resources'
 
@@ -274,16 +274,20 @@ const Field = ({ field }) => {
                let newCards = field.bonus.includes(RESOURCES.CARD)
                   ? [
                        ...statePlayer.cardsInHand.filter((card) => card.id !== 20),
-                       ...withTimeAdded(cards.slice(0, 1)),
+                       ...modifiedCards(
+                          withTimeAdded(cards.slice(0, 1)),
+                          statePlayer,
+                          EFFECTS.EFFECT_RESEARCH_OUTPOST
+                       ),
                     ]
                   : statePlayer.cardsInHand.filter((card) => card.id !== 20)
-               newCards = modifiedCardsEffect(newCards, EFFECTS.EFFECT_RESEARCH_OUTPOST)
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
-               newCards = modifiedCardsEffect(
+               newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     statePlayer.cardsInHand.find((card) => card.id === 20),
+                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === 20)]),
                   ],
+                  statePlayer,
                   EFFECTS.EFFECT_RESEARCH_OUTPOST
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
@@ -320,7 +324,7 @@ const Field = ({ field }) => {
                } else {
                   setModals((prevModals) => ({ ...prevModals, endStats: true }))
                }
-            }, (ANIMATION_SPEED / 2))
+            }, ANIMATION_SPEED / 2)
          }
       }, delay)
    }

@@ -21,7 +21,7 @@
 .modal-settings .settings:not(:last-of-type) {
    margin-bottom: calc(var(--default-size) * 0.5);
 }
-.modal-settings .settings .speed {
+.modal-settings .settings .item {
    position: relative;
    width: 40%;
    display: flex;
@@ -29,26 +29,26 @@
    align-items: center;
    font-size: calc(var(--default-size) * 0.9);
 }
-.modal-settings .settings .speed .arrow {
+.modal-settings .settings .item .arrow {
    position: absolute;
    top: 50%;
    transform: translateY(-50%);
    background-color: transparent;
 }
-.modal-settings .settings .speed .arrow-left:hover {
+.modal-settings .settings .item .arrow-left:hover {
    border-right: calc(var(--default-size) * 0.5) solid rgb(0, 255, 174);
 }
-.modal-settings .settings .speed .arrow-right:hover {
+.modal-settings .settings .item .arrow-right:hover {
    border-left: calc(var(--default-size) * 0.5) solid rgb(0, 255, 174);
 }
-.modal-settings .settings .speed .arrow-left {
+.modal-settings .settings .item .arrow-left {
    left: calc(var(--default-size) * -0.5);
    border-right: calc(var(--default-size) * 0.5) solid rgb(0, 133, 91);
    border-bottom: calc(var(--default-size) * 0.5) solid transparent;
    border-left: calc(var(--default-size) * 0.5) solid transparent;
    border-top: calc(var(--default-size) * 0.5) solid transparent;
 }
-.modal-settings .settings .speed .arrow-right {
+.modal-settings .settings .item .arrow-right {
    right: calc(var(--default-size) * -0.5);
    border-right: calc(var(--default-size) * 0.5) solid transparent;
    border-bottom: calc(var(--default-size) * 0.5) solid transparent;

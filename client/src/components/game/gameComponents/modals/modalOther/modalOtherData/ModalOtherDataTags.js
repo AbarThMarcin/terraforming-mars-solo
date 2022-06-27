@@ -23,9 +23,13 @@ const ModalOtherDataTags = () => {
          if (typeof item === 'string') {
             if (item === targetTag) tagsCount++
          } else {
-            item.tags.forEach((tag) => {
-               if (targetTag === tag && !hasTag(item, TAGS.EVENT)) tagsCount++
-            })
+            if (hasTag(item, TAGS.EVENT)) {
+               if (targetTag === TAGS.EVENT) tagsCount++
+            } else {
+               item.tags.forEach((tag) => {
+                  if (targetTag === tag) tagsCount++
+               })
+            }
          }
       })
       return tagsCount

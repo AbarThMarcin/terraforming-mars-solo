@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
             setCurrentUser(null)
          }
       })
-      console.log('new branch')
+      
       return unsubscribe
    }, [])
 

@@ -1,0 +1,11 @@
+.main-menu .login {
+   width: 25%;
+   height: 40%;
+   background-color: rgba(255, 0, 0, 0.1);
+}
+
+
+
+.main-menu .login span {
+   cursor: pointer;
+}

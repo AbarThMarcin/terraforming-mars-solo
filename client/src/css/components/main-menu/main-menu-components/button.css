@@ -1,0 +1,25 @@
+/* Button */
+.main-menu .buttons .btn-main-menu {
+   width: calc(var(--default-size) * 9);
+   height: calc(var(--default-size) * 2);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc(var(--default-size) * 1.2);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   font-weight: 500;
+   background-color: rgb(0, 90, 62);
+   border: calc(var(--default-size) * 0.1) solid rgb(0, 158, 108);
+   border-radius: calc(var(--default-size) * 0.3);
+}
+.main-menu .buttons .btn-main-menu:hover {
+   background-color: rgb(0, 133, 91);
+   border: calc(var(--default-size) * 0.1) solid rgb(132, 255, 216);
+   border-radius: calc(var(--default-size) * 0.3);
+}
+.main-menu .buttons .btn-main-menu.disabled {
+   background-color: rgb(55, 82, 73);
+   border: calc(var(--default-size) * 0.1) solid rgb(83, 134, 118);
+   color: #777;
+   cursor: default;
+}

@@ -3,8 +3,8 @@ import { TILES } from '../data/board'
 import { CORP_NAMES } from '../data/corpNames'
 import { EFFECTS } from '../data/effects'
 import { TAGS } from '../data/tags'
-import { ACTIONS_GAME } from './actionsGame'
-import { ACTIONS_PLAYER } from './actionsPlayer'
+import { ACTIONS_GAME } from '../initStates/actionsGame'
+import { ACTIONS_PLAYER } from '../initStates/actionsPlayer'
 
 // Shuffles array
 export const shuffle = (array) => {

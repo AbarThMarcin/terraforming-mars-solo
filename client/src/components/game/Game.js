@@ -1,15 +1,17 @@
 import { useReducer, createContext, useState, useEffect } from 'react'
 import '../../css/app.css'
 import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
-import { ACTIONS_PLAYER } from '../../util/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../initStates/actionsPlayer'
 import { INIT_STATE_GAME } from '../../initStates/initStateGame'
 import { INIT_MODALS } from '../../initStates/initModals'
-import { ACTIONS_GAME, reducerGame } from '../../util/actionsGame'
-import { reducerPlayer } from '../../util/actionsPlayer'
-import { reducerBoard } from '../../util/actionsBoard'
+import { ACTIONS_GAME, reducerGame } from '../../initStates/actionsGame'
+import { reducerPlayer } from '../../initStates/actionsPlayer'
+import { reducerBoard } from '../../initStates/actionsBoard'
 import {
    funcPerformSubActions,
+   getBoardWithNeutral,
    modifiedCards,
+   shuffle,
    sorted,
    updateVP,
    withTimeAdded,
@@ -21,7 +23,6 @@ import {
 } from '../../data/requirements'
 import { funcGetImmEffects } from '../../data/immEffects/immEffects'
 import { EFFECTS, funcGetEffect } from '../../data/effects'
-import { shuffledCorps, shuffledCards, randomBoard } from '../../App'
 import { funcGetCardActions } from '../../data/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -36,6 +37,9 @@ import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
 import { SPEED } from '../../data/settings'
+import { CARDS } from '../../data/cards'
+import { CORPORATIONS } from '../../data/corporations'
+import { INIT_STATE_BOARD } from '../../initStates/initStateBoard'
 
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
@@ -44,13 +48,13 @@ export const StateBoardContext = createContext()
 export const CorpsContext = createContext()
 export const CardsContext = createContext()
 
-function Game({ setGameOn }) {
+function Game({ shuffledCorps, shuffledCards, randomBoard }) {
    const [statePlayer, dispatchPlayer] = useReducer(reducerPlayer, INIT_STATE_PLAYER)
    const [stateGame, dispatchGame] = useReducer(reducerGame, INIT_STATE_GAME)
    const [modals, setModals] = useState(INIT_MODALS)
-   const [stateBoard, dispatchBoard] = useReducer(reducerBoard, randomBoard)
-   const corps = shuffledCorps
-   const [cards, setCards] = useState(shuffledCards)
+   const [stateBoard, dispatchBoard] = useReducer(reducerBoard, getInitRandBoard() || randomBoard)
+   const corps = shuffledCorps || shuffle(CORPORATIONS)
+   const [cards, setCards] = useState(shuffledCards || shuffle(CARDS))
    const [logItems, setLogItems] = useState([
       { type: LOG_TYPES.LOG, data: null },
       { type: LOG_TYPES.GENERATION, data: { text: '1' } },
@@ -111,6 +115,12 @@ function Game({ setGameOn }) {
       updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP)
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [updateTrigger])
+
+   function getInitRandBoard() {
+      let randomBoard = JSON.parse(JSON.stringify(INIT_STATE_BOARD))
+      randomBoard = getBoardWithNeutral(randomBoard)
+      return randomBoard
+   }
 
    function callScienceEffects() {
       if (!modals.modalCard) return
@@ -442,7 +452,6 @@ function Game({ setGameOn }) {
 
                            {/* Modals */}
                            <Modals
-                              setGameOn={setGameOn}
                               setAnimationSpeed={setAnimationSpeed}
                               showTotVP={showTotVP}
                               setShowTotVP={setShowTotVP}

@@ -1,8 +1,8 @@
 /* Used at the very beginning of the game to show two corps */
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, CorpsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/actionsGame'
-import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
 import Corp from '../Corp'
 import { performImmediateCorpEffect } from '../../../../data/effects'
 import BtnAction from '../buttons/BtnAction'
@@ -47,32 +47,36 @@ const ModalCorps = () => {
    return (
       <AnimatePresence>
          {modals.corps && (
-            <motion.div
-               key="keyModalCorpsBox"
-               initial={{ opacity: 0 }}
-               animate={{ opacity: 1 }}
-               exit={{ opacity: 0 }}
-               transition={{ duration: 0.5, delay: 0.5 }}
-               className="modal-corps center"
-            >
-               <Corp
-                  corp={corps[0]}
-                  selectedCorp={selectedCorp}
-                  setSelectedCorp={setSelectedCorp}
-                  id={0}
-               />
-               <Corp
-                  corp={corps[1]}
-                  selectedCorp={selectedCorp}
-                  setSelectedCorp={setSelectedCorp}
-                  id={1}
-               />
-               <BtnAction
-                  text="NEXT"
-                  onYesFunc={handleClickNext}
-                  position={btnActionNextPosition}
-               />
-            </motion.div>
+            <>
+               
+               <motion.div
+                  key="keyModalCorpsBox"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  className="modal-corps center"
+               >
+                  <div className="select-corporation-header">SELECT CORPORATION</div>
+                  <Corp
+                     corp={corps[0]}
+                     selectedCorp={selectedCorp}
+                     setSelectedCorp={setSelectedCorp}
+                     id={0}
+                  />
+                  <Corp
+                     corp={corps[1]}
+                     selectedCorp={selectedCorp}
+                     setSelectedCorp={setSelectedCorp}
+                     id={1}
+                  />
+                  <BtnAction
+                     text="NEXT"
+                     onYesFunc={handleClickNext}
+                     position={btnActionNextPosition}
+                  />
+               </motion.div>
+            </>
          )}
       </AnimatePresence>
    )

@@ -8,9 +8,9 @@ import {
 } from '../../../Game'
 import FieldBonus from './FieldBonus'
 import FieldLine from './FieldLine'
-import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
-import { ACTIONS_GAME } from '../../../../../util/actionsGame'
-import { ACTIONS_BOARD } from '../../../../../util/actionsBoard'
+import { ACTIONS_PLAYER } from '../../../../../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../../initStates/actionsGame'
+import { ACTIONS_BOARD } from '../../../../../initStates/actionsBoard'
 import { TILES } from '../../../../../data/board'
 import {
    ANIMATIONS,

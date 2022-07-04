@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
 import { sorted } from '../../../../util/misc'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 

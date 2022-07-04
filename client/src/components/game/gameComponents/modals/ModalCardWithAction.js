@@ -1,8 +1,8 @@
 /* Used to view one card for use only */
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
-import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
-import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
 import { hasTag, withTimePlayed } from '../../../../util/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'

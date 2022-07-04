@@ -11,9 +11,6 @@
 @import url('./game-components/buttons.css');
 
 .game {
-   background-image: url('../../../assets/images/background.png');
-   background-size: contain;
-   background-position: center center;
    height: var(--app-height);
    width: var(--app-width);
    color: #fff;
@@ -23,12 +20,4 @@
 
 .game > * {
    position: absolute;
-}
-
-@media (max-aspect-ratio: 16 / 9) {
-   .game {
-      --app-width: 100vw;
-      --app-height: calc(100vw / 16 * 9);
-      --default-size: calc(var(--app-width) * 0.015);
-   }
 }

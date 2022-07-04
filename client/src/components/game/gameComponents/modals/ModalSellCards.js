@@ -1,7 +1,7 @@
 /* Used to show window with cards to sell */
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
-import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'

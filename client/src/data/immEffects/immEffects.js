@@ -1,8 +1,8 @@
-import { ACTIONS_PLAYER } from '../../util/actionsPlayer'
-import { ACTIONS_GAME } from '../../util/actionsGame'
+import { ACTIONS_PLAYER } from '../../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../../initStates/actionsGame'
 import { ANIMATIONS } from '../animations'
 import { TILES } from '../board'
-import { ACTIONS_BOARD } from '../../util/actionsBoard'
+import { ACTIONS_BOARD } from '../../initStates/actionsBoard'
 import { RESOURCES } from '../resources'
 import { getOptions } from '../selectOneOptions'
 import {

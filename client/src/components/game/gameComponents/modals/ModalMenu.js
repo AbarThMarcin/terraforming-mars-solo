@@ -1,12 +1,14 @@
 /* Used to show the game menu window */
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ModalsContext } from '../../Game'
 
-const ModalMenu = ({ setGameOn }) => {
+const ModalMenu = () => {
    const { modals, setModals } = useContext(ModalsContext)
+   const navigate = useNavigate()
 
    const onYesFunc = () => {
-      setGameOn(false)
+      navigate('/')
    }
 
    const handleClickForfeit = () => {

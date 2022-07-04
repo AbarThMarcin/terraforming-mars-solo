@@ -1,5 +1,5 @@
-import { ACTIONS_GAME } from '../util/actionsGame'
-import { ACTIONS_PLAYER } from '../util/actionsPlayer'
+import { ACTIONS_GAME } from '../initStates/actionsGame'
+import { ACTIONS_PLAYER } from '../initStates/actionsPlayer'
 import { getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../util/misc'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'

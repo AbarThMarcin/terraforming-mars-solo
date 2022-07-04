@@ -1,11 +1,11 @@
 /* Used to choose a card with a resource addition / deduction */
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import { ACTIONS_GAME } from '../../../../../util/actionsGame'
+import { ACTIONS_GAME } from '../../../../../initStates/actionsGame'
 import Card from '../../Card'
 import { ANIMATIONS, endAnimation, setAnimation } from '../../../../../data/animations'
 import ModalResourceData from './ModalResourceData'
-import { ACTIONS_PLAYER } from '../../../../../util/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../../../../initStates/actionsPlayer'
 import { RESOURCES } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
 

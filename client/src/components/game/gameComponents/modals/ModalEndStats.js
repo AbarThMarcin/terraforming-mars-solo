@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { StatePlayerContext, StateGameContext, StateBoardContext } from '../../Game'
 import iconTr from '../../../../assets/images/resources/tr.svg'
 import iconGreenery from '../../../../assets/images/tiles/greenery.svg'
@@ -7,7 +8,7 @@ import iconVp from '../../../../assets/images/vp/any.svg'
 import BtnAction from '../buttons/BtnAction'
 import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../util/misc'
 
-const ModalEndStats = ({ setGameOn }) => {
+const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
@@ -22,11 +23,12 @@ const ModalEndStats = ({ setGameOn }) => {
    const cityPoints = getCityPoints(stateBoard)
    const victoryPoints = getVictoryPoints(statePlayer)
    const totalPoints = getTotalPoints(statePlayer, stateGame, stateBoard)
+   const navigate = useNavigate()
 
    const btnActionPosition = { bottom: '-20%', left: '50%', transform: 'translateX(-50%)' }
 
    const onYesFunc = () => {
-      setGameOn(false)
+      navigate('/', )
    }
 
    return (

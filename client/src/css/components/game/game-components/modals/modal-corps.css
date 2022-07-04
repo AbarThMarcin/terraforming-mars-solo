@@ -4,3 +4,26 @@
    align-items: center;
    width: 100%;
 }
+
+.modal-corps .select-corporation-header {
+   position: absolute;
+   left: 50%;
+   top: -36%;
+   transform: translateX(-50%);
+   width: 70%;
+   height: 10%;
+   background: rgb(255, 255, 255);
+   background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(80, 80, 80, 0.7) 25%,
+      rgba(80, 80, 80, 1) 50%,
+      rgba(80, 80, 80, 0.7) 75%,
+      rgba(255, 255, 255, 0) 100%
+   );
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc(var(--default-size) * 1.8);
+   letter-spacing: calc(var(--default-size) * 0.05);
+}

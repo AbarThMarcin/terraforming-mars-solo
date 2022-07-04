@@ -1,7 +1,7 @@
 /* A container of all possible modals */
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/actionsGame'
+import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
 import ModalCards from './ModalCards'
 import ModalCardViewOnly from './ModalCardViewOnly'
 import ModalCardWithAction from './ModalCardWithAction'
@@ -25,7 +25,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Corp from '../Corp'
 import ModalEndStats from './ModalEndStats'
 
-const Modals = ({ setGameOn, setAnimationSpeed, showTotVP, setShowTotVP, logItems }) => {
+const Modals = ({ setAnimationSpeed, showTotVP, setShowTotVP, logItems }) => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -355,7 +355,7 @@ const Modals = ({ setGameOn, setAnimationSpeed, showTotVP, setShowTotVP, logItem
          {modals.animation && <div className="full-size"></div>}
 
          {/* Modal Menu */}
-         {modals.menu && <ModalMenu setGameOn={setGameOn} />}
+         {modals.menu && <ModalMenu />}
 
          {/* Modal Settings */}
          {modals.settings && (
@@ -379,7 +379,7 @@ const Modals = ({ setGameOn, setAnimationSpeed, showTotVP, setShowTotVP, logItem
                   transition={{ duration: 0.5 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
                >
-                  <ModalEndStats setGameOn={setGameOn} />
+                  <ModalEndStats />
                </motion.div>
             )}
          </AnimatePresence>

@@ -1,7 +1,7 @@
 /* Used to choose a card with a resource addition / deduction */
 import { useState, useContext } from 'react'
 import { StateGameContext, ModalsContext } from '../../../Game'
-import { ACTIONS_GAME } from '../../../../../util/actionsGame'
+import { ACTIONS_GAME } from '../../../../../initStates/actionsGame'
 import Card from '../../Card'
 import ModalProductionData from './ModalProductionData'
 import BtnAction from '../../buttons/BtnAction'

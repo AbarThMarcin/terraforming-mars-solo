@@ -3,8 +3,8 @@ window with cards to sell and window with cards to select due
 to any effect/action */
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../util/actionsGame'
-import { ACTIONS_PLAYER } from '../../../../util/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'

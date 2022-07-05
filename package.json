@@ -1,0 +1,24 @@
+{
+  "name": "terraforming-mars-solo",
+  "version": "1.0.0",
+  "description": "Terraforming Mars - full app",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.18"
+  },
+  "scripts": {
+    "client": "npm start client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbarThMarcin/terraforming-mars-solo.git"
+  },
+  "author": "Marcin Wesolowski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbarThMarcin/terraforming-mars-solo/issues"
+  },
+  "homepage": "https://github.com/AbarThMarcin/terraforming-mars-solo#readme"
+}

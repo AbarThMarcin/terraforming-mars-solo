@@ -12,7 +12,7 @@ const Register = ({ setPage }) => {
    const emailRef = useRef()
    const passwordRef = useRef()
    const passwordConfRef = useRef()
-   const { register } = useAuth()
+   const { register, updProfile } = useAuth()
    const [error, setError] = useState('')
    const [loading, setLoading] = useState(false)
 
@@ -26,7 +26,10 @@ const Register = ({ setPage }) => {
       setError('')
       setLoading(true)
       register(emailRef.current.value, passwordRef.current.value)
-         .then((userCred) => setPage(PAGES.BUTTONS))
+         .then((userCred) => {
+            // updProfile(userCred, "Marcin")
+            setPage(PAGES.BUTTONS)
+         })
          .catch((err) => {
             setError(getRegisterErrorMessage(err.code))
             setLoading(false)

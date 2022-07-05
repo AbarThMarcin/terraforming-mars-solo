@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect, createContext } from 'react'
 import {
    createUserWithEmailAndPassword,
+   updateProfile,
    signInWithEmailAndPassword,
    signOut,
    onAuthStateChanged,
@@ -22,22 +23,24 @@ export function AuthProvider({ children }) {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
          if (user) {
             user.getIdToken().then((token) => {
-               validateUser(token)
-                  .then((data) => {
-                     setCurrentUser(data)
-                  })
-                  .catch((error) => {})
+               validateUser(token).then((data) => {
+                  setCurrentUser(data)
+               })
             })
          } else {
             setCurrentUser(null)
          }
       })
-      
+
       return unsubscribe
    }, [])
 
    function register(email, password) {
       return createUserWithEmailAndPassword(auth, email, password)
+   }
+
+   function updProfile(user, displayName) {
+      return updateProfile(user, { displayName })
    }
 
    function login(email, password) {
@@ -61,6 +64,7 @@ export function AuthProvider({ children }) {
       currentUser,
       login,
       register,
+      updProfile,
       logout,
       resetPassword,
       getToken,

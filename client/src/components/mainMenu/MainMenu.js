@@ -9,17 +9,19 @@ import Settings from './pages/Settings'
 import Stats from './pages/Stats'
 import Account from './pages/Account'
 import ResetPassword from './pages/login-components/ResetPassword'
+import { useAuth } from '../../contexts/AuthContext'
 
 const MainMenu = ({ qmAction }) => {
    const [page, setPage] = useState(PAGES.BUTTONS)
    const [logoutConfirmation, setLogoutConfirmation] = useState('')
+   const { currentUser } = useAuth()
 
    return (
       <div className="main-menu">
          {/* Background, Header & Message */}
          <div className="bg"></div>
          <div className="header">
-            TERRAFORMING MARS <span>SOLO</span>
+            TERRAFORMING MARS <span>{currentUser?.displayName}</span>
          </div>
          {logoutConfirmation && <div className='logout-msg'>{logoutConfirmation}</div>}
          {/* Pages */}

@@ -52,7 +52,7 @@ router.get('/login', async (req, res) => {
       }
 
       // Check if user already exists
-      const foundUser = await users.findOne({ userId: decodeValue.user_id })
+      const userFound = await users.findOne({ userId: decodeValue.user_id })
       if (!foundUser) {
          createUser(decodeValue, req, res)
       } else {

@@ -1,16 +1,7 @@
 import Button from '../Button'
 import { PAGES } from '../../../data/pages'
-import { useAuth } from '../../../contexts/AuthContext'
 
-const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
-   const { currentUser, logout } = useAuth()
-
-   function handleLogout() {
-      logout()
-         .then(() => setLogoutConfirmation('You have successfully logged out!'))
-         .catch((err) => console.log('Failed to logout'))
-   }
-
+const Menu = ({ setPage, qmAction }) => {
    return (
       <div className="buttons center">
          {/* Quick Match */}
@@ -18,7 +9,6 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
             text="QUICK MATCH"
             action={() => {
                qmAction()
-               setLogoutConfirmation('')
             }}
             path="quick-match"
          />
@@ -27,7 +17,6 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
             text="STATS"
             action={() => {
                setPage(PAGES.STATS)
-               setLogoutConfirmation('')
             }}
          />
          {/* Ranked */}
@@ -35,7 +24,6 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
             text="RANKED MATCH"
             action={() => {
                qmAction()
-               setLogoutConfirmation('')
             }}
             path="ranked-match"
             forUser={true}
@@ -45,7 +33,6 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
             text="SETTINGS"
             action={() => {
                setPage(PAGES.SETTINGS)
-               setLogoutConfirmation('')
             }}
             forUser={true}
          />
@@ -54,7 +41,6 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
             text="RANK RULES"
             action={() => {
                setPage(PAGES.RULES)
-               setLogoutConfirmation('')
             }}
          />
          {/* Credits */}
@@ -62,26 +48,19 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
             text="CREDITS"
             action={() => {
                setPage(PAGES.CREDITS)
-               setLogoutConfirmation('')
             }}
          />
-         {/* Login / Logout */}
-         {currentUser ? (
-            <Button text="LOGOUT" action={handleLogout} />
-         ) : (
-            <Button
-               text="LOGIN"
-               action={() => {
-                  setPage(PAGES.LOGIN)
-                  setLogoutConfirmation('')
-               }}
-            />
-         )}
+         {/* Login */}
+         <Button
+            text="LOGIN"
+            action={() => {
+               setPage(PAGES.LOGIN)
+            }}
+         />
          <Button
             text="ACCOUNT"
             action={() => {
                setPage(PAGES.ACCOUNT)
-               setLogoutConfirmation('')
             }}
             forUser={true}
          />
@@ -89,4 +68,4 @@ const Buttons = ({ setPage, qmAction, setLogoutConfirmation }) => {
    )
 }
 
-export default Buttons
+export default Menu

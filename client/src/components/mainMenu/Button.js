@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
 
 const Button = ({ text, action, path, forUser }) => {
-   const { currentUser } = useAuth()
-   const disabled = forUser && !currentUser
+   const disabled = forUser
    let navigate = useNavigate()
 
    const handleClickBtn = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const GoBack = ({ action }) => {
+const BtnGoBack = ({ action }) => {
    const text = '<'
    return (
       <div className="go-back" onClick={action}>
@@ -9,4 +9,4 @@ const GoBack = ({ action }) => {
    )
 }
 
-export default GoBack
+export default BtnGoBack

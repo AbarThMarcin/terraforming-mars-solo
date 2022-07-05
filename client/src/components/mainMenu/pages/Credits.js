@@ -1,11 +1,11 @@
 import { PAGES } from '../../../data/pages'
-import GoBack from '../GoBack'
+import BtnGoBack from '../BtnGoBack'
 
 const Credits = ({ setPage }) => {
    return (
       <div className="credits center">
          Credits
-         <GoBack action={() => setPage(PAGES.BUTTONS)} />
+         <BtnGoBack action={() => setPage(PAGES.BUTTONS)} />
       </div>
    )
 }

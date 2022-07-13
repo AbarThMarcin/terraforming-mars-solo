@@ -1,11 +1,11 @@
-import { ACTIONS_GAME } from '../initStates/actionsGame'
-import { ACTIONS_PLAYER } from '../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../stateActions/actionsGame'
+import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
 import { SP } from './StandardProjects'
 import { OPTION_ICONS } from './selectOneOptions'
 import { TAGS } from './tags'
-import { canCardHaveAnimals, canCardHaveMicrobes } from '../util/misc'
+import { canCardHaveAnimals, canCardHaveMicrobes } from '../utils/misc'
 // Corporation effects icons
 import effect_credicor from '../assets/images/effects/effect_credicor.svg'
 import effect_ecoline from '../assets/images/effects/effect_ecoline.svg'
@@ -195,7 +195,7 @@ export const funcGetEffect = (
    dispatchPlayer,
    dispatchGame,
    modals,
-   setModals,
+   setModals
 ) => {
    let effect = []
    switch (effectName) {

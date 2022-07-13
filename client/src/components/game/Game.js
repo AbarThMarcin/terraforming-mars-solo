@@ -1,21 +1,16 @@
-import { useReducer, createContext, useState, useEffect } from 'react'
+import { useReducer, createContext, useState, useEffect, useMemo } from 'react'
 import '../../css/app.css'
-import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
-import { ACTIONS_PLAYER } from '../../initStates/actionsPlayer'
-import { INIT_STATE_GAME } from '../../initStates/initStateGame'
-import { INIT_MODALS } from '../../initStates/initModals'
-import { ACTIONS_GAME, reducerGame } from '../../initStates/actionsGame'
-import { reducerPlayer } from '../../initStates/actionsPlayer'
-import { reducerBoard } from '../../initStates/actionsBoard'
+import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
+import { ACTIONS_GAME, reducerGame } from '../../stateActions/actionsGame'
+import { reducerPlayer } from '../../stateActions/actionsPlayer'
+import { reducerBoard } from '../../stateActions/actionsBoard'
 import {
    funcPerformSubActions,
-   getBoardWithNeutral,
    modifiedCards,
-   shuffle,
    sorted,
    updateVP,
    withTimeAdded,
-} from '../../util/misc'
+} from '../../utils/misc'
 import {
    funcRequirementsMet,
    funcActionRequirementsMet,
@@ -26,7 +21,6 @@ import { EFFECTS, funcGetEffect } from '../../data/effects'
 import { funcGetCardActions } from '../../data/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LOG_TYPES } from '../../data/log'
 import { RESOURCES } from '../../data/resources'
 import { ANIMATIONS } from '../../data/animations'
 import { TAGS } from '../../data/tags'
@@ -37,10 +31,16 @@ import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
 import { SPEED } from '../../data/settings'
-import { CARDS } from '../../data/cards'
+import { useNavigate } from 'react-router-dom'
+import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
+import { INIT_STATE_GAME } from '../../initStates/initStateGame'
+import { INIT_MODALS } from '../../initStates/initModals'
+import { INIT_BOARD } from '../../initStates/initBoard'
 import { CORPORATIONS } from '../../data/corporations'
-import { INIT_STATE_BOARD } from '../../initStates/initStateBoard'
+import { CARDS } from '../../data/cards'
+import { updateGameData } from '../../api/apiGame'
 
+export const UserContext = createContext()
 export const StatePlayerContext = createContext()
 export const StateGameContext = createContext()
 export const ModalsContext = createContext()
@@ -48,24 +48,51 @@ export const StateBoardContext = createContext()
 export const CorpsContext = createContext()
 export const CardsContext = createContext()
 
-function Game({ shuffledCorps, shuffledCards, randomBoard }) {
-   const [statePlayer, dispatchPlayer] = useReducer(reducerPlayer, INIT_STATE_PLAYER)
-   const [stateGame, dispatchGame] = useReducer(reducerGame, INIT_STATE_GAME)
-   const [modals, setModals] = useState(INIT_MODALS)
-   const [stateBoard, dispatchBoard] = useReducer(reducerBoard, getInitRandBoard() || randomBoard)
-   const corps = shuffledCorps || shuffle(CORPORATIONS)
-   const [cards, setCards] = useState(shuffledCards || shuffle(CARDS))
-   const [logItems, setLogItems] = useState([
-      { type: LOG_TYPES.LOG, data: null },
-      { type: LOG_TYPES.GENERATION, data: { text: '1' } },
-   ])
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(SPEED.VERY_FAST)
-   const [showTotVP, setShowTotVP] = useState(true)
+function Game({
+   initStatePlayer,
+   initStateGame,
+   initStateModals,
+   initStateBoard,
+   initCorpsIds,
+   initCardsIds,
+   initLogItems,
+   user,
+   setUser,
+   isRanked,
+}) {
+   const navigate = useNavigate()
+   const [statePlayer, dispatchPlayer] = useReducer(
+      reducerPlayer,
+      initStatePlayer || INIT_STATE_PLAYER
+   )
+   const [stateGame, dispatchGame] = useReducer(reducerGame, initStateGame || INIT_STATE_GAME)
+   const [modals, setModals] = useState(initStateModals || INIT_MODALS)
+   const [stateBoard, dispatchBoard] = useReducer(reducerBoard, initStateBoard || INIT_BOARD)
+   const corps = useMemo(
+      () =>
+         initCorpsIds ? [CORPORATIONS[initCorpsIds[0] - 1], CORPORATIONS[initCorpsIds[1] - 1]] : [],
+      [initCorpsIds]
+   )
+   const [cards, setCards] = useState(getInitCards())
+   const [logItems, setLogItems] = useState(initLogItems)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(
+      user ? getAnimationSpeed(user.settings.gameSpeed) : SPEED.NORMAL
+   )
+   const [showTotVP, setShowTotVP] = useState(user ? user.settings.showTotalVP : false)
    const [totalVP, setTotalVP] = useState(14)
-   const [sortId, setSortId] = useState(['4a', '4a-played'])
+   const [sortId, setSortId] = useState(
+      user ? [user.settings.handSortId, user.settings.playedSortId] : ['4a', '4a-played']
+   )
    const [updateTrigger, setTrigger] = useState(false)
+   const [saveToServerTrigger, setSaveToServerTrigger] = useState(false)
    const [logData, setLogData] = useState(null)
    const [logIcon, setLogIcon] = useState(null)
+
+   useEffect(() => {
+      // If game started by placing 'quick-match' or 'ranked-match' in the url manually
+      // (not by pressing buttons in main menu)
+      if (corps.length === 0) navigate('/')
+   }, [corps, navigate])
 
    useEffect(() => {
       // Turn off Special Design effect (if aplicable)
@@ -113,13 +140,34 @@ function Game({ shuffledCorps, shuffledCards, randomBoard }) {
 
       // Update VP
       updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP)
+
+      // Update Game on server
+      setSaveToServerTrigger((prev) => !prev)
+
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [updateTrigger])
 
-   function getInitRandBoard() {
-      let randomBoard = JSON.parse(JSON.stringify(INIT_STATE_BOARD))
-      randomBoard = getBoardWithNeutral(randomBoard)
-      return randomBoard
+   useEffect(() => {
+      // Update Game Data on server
+      if (user) {
+         const updatedData = {
+            statePlayer,
+            stateGame,
+            stateModals: modals,
+            stateBoard,
+            corps: initCorpsIds,
+            logItems,
+         }
+         updateGameData(user.token, updatedData, isRanked)
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [saveToServerTrigger])
+
+   function getInitCards() {
+      if (!initCardsIds) return []
+      let initCards = []
+      initCardsIds.forEach((id) => initCards.push(CARDS[id - 1]))
+      return initCards
    }
 
    function callScienceEffects() {
@@ -244,6 +292,21 @@ function Game({ shuffledCorps, shuffledCards, randomBoard }) {
       }
    }
 
+   function getAnimationSpeed(id) {
+      switch (id) {
+         case 1:
+            return 2300
+         case 2:
+            return 1500
+         case 3:
+            return 1000
+         case 4:
+            return 600
+         default:
+            return
+      }
+   }
+
    function getImmEffects(typeOrCardId) {
       return funcGetImmEffects(
          typeOrCardId,
@@ -329,159 +392,166 @@ function Game({ shuffledCorps, shuffledCards, randomBoard }) {
 
    return (
       <div className="game">
-         <StatePlayerContext.Provider value={{ statePlayer, dispatchPlayer }}>
-            <StateGameContext.Provider
-               value={{
-                  stateGame,
-                  dispatchGame,
-                  logItems,
-                  setLogItems,
-                  getImmEffects,
-                  getCardActions,
-                  getEffect,
-                  getOptionsActions,
-                  performSubActions,
-                  requirementsMet,
-                  actionRequirementsMet,
-                  optionRequirementsMet,
-                  ANIMATION_SPEED,
-                  setANIMATION_SPEED,
-                  sortId,
-                  setSortId,
-               }}
-            >
-               <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
-                  <CorpsContext.Provider value={corps}>
-                     <CardsContext.Provider value={{ cards, setCards }}>
-                        <ModalsContext.Provider value={{ modals, setModals }}>
-                           {/* Standard Projects Button */}
-                           <AnimatePresence>
-                              {!stateGame.phaseCorporation &&
-                                 !stateGame.phaseDraft &&
-                                 !stateGame.phaseViewGameState &&
-                                 !stateGame.phaseAfterGen14 &&
-                                 !modals.endStats && (
+         <UserContext.Provider value={{ user, setUser, isRanked }}>
+            <StatePlayerContext.Provider value={{ statePlayer, dispatchPlayer }}>
+               <StateGameContext.Provider
+                  value={{
+                     stateGame,
+                     dispatchGame,
+                     logItems,
+                     setLogItems,
+                     getImmEffects,
+                     getCardActions,
+                     getEffect,
+                     getOptionsActions,
+                     performSubActions,
+                     requirementsMet,
+                     actionRequirementsMet,
+                     optionRequirementsMet,
+                     ANIMATION_SPEED,
+                     setANIMATION_SPEED,
+                     sortId,
+                     setSortId,
+                     setSaveToServerTrigger,
+                  }}
+               >
+                  <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
+                     <CorpsContext.Provider value={corps}>
+                        <CardsContext.Provider value={{ cards, setCards }}>
+                           <ModalsContext.Provider value={{ modals, setModals }}>
+                              {/* Standard Projects Button */}
+                              <AnimatePresence>
+                                 {!stateGame.phaseCorporation &&
+                                    !stateGame.phaseDraft &&
+                                    !stateGame.phaseViewGameState &&
+                                    !stateGame.phaseAfterGen14 &&
+                                    !modals.endStats && (
+                                       <motion.div
+                                          key="keyBtnStandardProjects"
+                                          initial={{ opacity: 0 }}
+                                          animate={{ opacity: 1 }}
+                                          exit={{ opacity: 0 }}
+                                          transition={{ duration: 0.5 }}
+                                          className="btn-standard-projects-container"
+                                       >
+                                          <BtnStandardProjects />
+                                       </motion.div>
+                                    )}
+                              </AnimatePresence>
+
+                              {/* Viewing State Game Header */}
+                              {stateGame.phaseViewGameState && (
+                                 <div className="view-game-state-header">VIEWING GAME STATE</div>
+                              )}
+
+                              {/* You can convert plants to greeneries Header */}
+                              {stateGame.phaseAfterGen14 && !modals.endStats && (
+                                 <div className="view-game-state-header">
+                                    YOU CAN CONVERT PLANTS TO GREENERIES
+                                 </div>
+                              )}
+
+                              {/* Panel State Game */}
+                              <AnimatePresence>
+                                 {modals.panelStateGame &&
+                                    !stateGame.phaseCorporation &&
+                                    !stateGame.phaseAfterGen14 &&
+                                    !modals.endStats && (
+                                       <motion.div
+                                          key="keyPanelStateGame"
+                                          initial={{ opacity: 0 }}
+                                          animate={{ opacity: 1 }}
+                                          exit={{ opacity: 0 }}
+                                          transition={{ duration: 0.5 }}
+                                          className="panel-state-game"
+                                       >
+                                          <PanelStateGame />
+                                       </motion.div>
+                                    )}
+                              </AnimatePresence>
+
+                              {/* Pass Container */}
+                              <AnimatePresence>
+                                 {!stateGame.phaseCorporation && !modals.endStats && (
                                     <motion.div
-                                       key="keyBtnStandardProjects"
+                                       key="keyPassContainer"
                                        initial={{ opacity: 0 }}
                                        animate={{ opacity: 1 }}
                                        exit={{ opacity: 0 }}
                                        transition={{ duration: 0.5 }}
-                                       className="btn-standard-projects-container"
+                                       className="pass-container"
                                     >
-                                       <BtnStandardProjects />
+                                       <PassContainer showTotVP={showTotVP} totalVP={totalVP} />
                                     </motion.div>
                                  )}
-                           </AnimatePresence>
+                              </AnimatePresence>
 
-                           {/* Viewing State Game Header */}
-                           {stateGame.phaseViewGameState && (
-                              <div className="view-game-state-header">VIEWING GAME STATE</div>
-                           )}
+                              {/* Board */}
+                              <AnimatePresence>
+                                 <motion.div
+                                    key="keyBoard"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.5 }}
+                                    className="board center"
+                                 >
+                                    <Board />
+                                 </motion.div>
+                              </AnimatePresence>
 
-                           {/* You can convert plants to greeneries Header */}
-                           {stateGame.phaseAfterGen14 && !modals.endStats && (
-                              <div className="view-game-state-header">
-                                 YOU CAN CONVERT PLANTS TO GREENERIES
-                              </div>
-                           )}
+                              {/* Corporation Panel */}
+                              <AnimatePresence>
+                                 {modals.panelCorp &&
+                                    !stateGame.phaseCorporation &&
+                                    !modals.endStats && (
+                                       <motion.div
+                                          key="keyPanelCorp"
+                                          initial={{ opacity: 0 }}
+                                          animate={{ opacity: 1 }}
+                                          exit={{ opacity: 0 }}
+                                          transition={{ duration: 0.5 }}
+                                          className="panel-corp"
+                                       >
+                                          <PanelCorp />
+                                       </motion.div>
+                                    )}
+                              </AnimatePresence>
 
-                           {/* Panel State Game */}
-                           <AnimatePresence>
-                              {modals.panelStateGame &&
-                                 !stateGame.phaseCorporation &&
-                                 !stateGame.phaseAfterGen14 &&
-                                 !modals.endStats && (
+                              {/* Modals */}
+                              <Modals
+                                 setAnimationSpeed={setAnimationSpeed}
+                                 showTotVP={showTotVP}
+                                 setShowTotVP={setShowTotVP}
+                                 sortId={sortId}
+                                 setSortId={setSortId}
+                                 logItems={logItems}
+                              />
+
+                              {/* Menu Button */}
+                              <AnimatePresence>
+                                 {!modals.endStats && (
                                     <motion.div
-                                       key="keyPanelStateGame"
+                                       key="keyBtnMenu"
                                        initial={{ opacity: 0 }}
                                        animate={{ opacity: 1 }}
                                        exit={{ opacity: 0 }}
                                        transition={{ duration: 0.5 }}
-                                       className="panel-state-game"
+                                       className="btn-menu pointer"
+                                       onClick={handleClickMenuIcon}
                                     >
-                                       <PanelStateGame />
+                                       <div className="btn-menu-line btn-menu-line1"></div>
+                                       <div className="btn-menu-line btn-menu-line2"></div>
+                                       <div className="btn-menu-line btn-menu-line3"></div>
                                     </motion.div>
                                  )}
-                           </AnimatePresence>
-
-                           {/* Pass Container */}
-                           <AnimatePresence>
-                              {!stateGame.phaseCorporation && !modals.endStats && (
-                                 <motion.div
-                                    key="keyPassContainer"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="pass-container"
-                                 >
-                                    <PassContainer showTotVP={showTotVP} totalVP={totalVP} />
-                                 </motion.div>
-                              )}
-                           </AnimatePresence>
-
-                           {/* Board */}
-                           <AnimatePresence>
-                              <motion.div
-                                 key="keyBoard"
-                                 initial={{ opacity: 0 }}
-                                 animate={{ opacity: 1 }}
-                                 transition={{ duration: 0.5, delay: 0.5 }}
-                                 className="board center"
-                              >
-                                 <Board />
-                              </motion.div>
-                           </AnimatePresence>
-
-                           {/* Corporation Panel */}
-                           <AnimatePresence>
-                              {modals.panelCorp && !stateGame.phaseCorporation && !modals.endStats && (
-                                 <motion.div
-                                    key="keyPanelCorp"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="panel-corp"
-                                 >
-                                    <PanelCorp />
-                                 </motion.div>
-                              )}
-                           </AnimatePresence>
-
-                           {/* Modals */}
-                           <Modals
-                              setAnimationSpeed={setAnimationSpeed}
-                              showTotVP={showTotVP}
-                              setShowTotVP={setShowTotVP}
-                              logItems={logItems}
-                           />
-
-                           {/* Menu Button */}
-                           <AnimatePresence>
-                              {!modals.endStats && (
-                                 <motion.div
-                                    key="keyBtnMenu"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="btn-menu pointer"
-                                    onClick={handleClickMenuIcon}
-                                 >
-                                    <div className="btn-menu-line btn-menu-line1"></div>
-                                    <div className="btn-menu-line btn-menu-line2"></div>
-                                    <div className="btn-menu-line btn-menu-line3"></div>
-                                 </motion.div>
-                              )}
-                           </AnimatePresence>
-                        </ModalsContext.Provider>
-                     </CardsContext.Provider>
-                  </CorpsContext.Provider>
-               </StateBoardContext.Provider>
-            </StateGameContext.Provider>
-         </StatePlayerContext.Provider>
+                              </AnimatePresence>
+                           </ModalsContext.Provider>
+                        </CardsContext.Provider>
+                     </CorpsContext.Provider>
+                  </StateBoardContext.Provider>
+               </StateGameContext.Provider>
+            </StatePlayerContext.Provider>
+         </UserContext.Provider>
       </div>
    )
 }

@@ -1,4 +1,4 @@
-import { getNeighbors } from '../util/misc'
+import { getNeighbors } from '../utils/misc'
 import { RESOURCES } from './resources'
 
 export const TILES = {

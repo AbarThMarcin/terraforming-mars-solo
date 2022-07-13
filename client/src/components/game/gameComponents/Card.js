@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { StateGameContext, ModalsContext } from '../Game'
-import { getCardType, hasTag } from '../../../util/misc'
+import { getCardType, hasTag } from '../../../utils/misc'
 import { getTagIcon, TAGS } from '../../../data/tags'
 import { REQUIREMENTS } from '../../../data/requirements'
 import { getResIcon, RESOURCES } from '../../../data/resources'

@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 
-const Button = ({ text, action, path, forUser }) => {
-   const disabled = forUser
+const Button = ({ text, path, disabled, action }) => {
    let navigate = useNavigate()
 
    const handleClickBtn = () => {
       if (disabled) return
-      action()
+      if (action) action()
       if (path) navigate(path)
    }
 

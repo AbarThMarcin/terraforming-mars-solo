@@ -33,7 +33,8 @@ const LogItem = ({ item }) => {
       <div className={itemDetails.styles}>
          {item.type !== LOG_TYPES.LOG &&
             item.type !== LOG_TYPES.GENERATION &&
-            item.type !== LOG_TYPES.PASS && item.data.icon && (
+            item.type !== LOG_TYPES.PASS &&
+            item.data.icon && (
                <div className={`icon ${item.data.text === CORP_NAMES.UNMI && 'icon-unmi'}`}>
                   <img className="full-size" src={item.data.icon} alt="icon" />
                </div>

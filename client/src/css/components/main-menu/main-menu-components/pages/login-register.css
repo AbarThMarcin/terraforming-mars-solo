@@ -1,0 +1,80 @@
+/* Size */
+.main-menu .login-register {
+   width: 25%;
+}
+
+/* Containers (email and password) */
+.main-menu .login-register form .container {
+   display: flex;
+   flex-direction: column;
+   margin-block-end: calc(var(--default-size) * 0.5);
+}
+
+/* Input */
+.main-menu .login-register form .container input {
+   background-color: rgb(0, 0, 0);
+   border: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.7);
+   color: #fff;
+   font-size: calc(var(--default-size) * 1);
+   height: calc(var(--default-size) * 1.7);
+   line-height: calc(var(--default-size) * 1.1);
+   padding: calc(var(--default-size) * 0.3);
+}
+.main-menu .login-register form .container input:valid,
+.main-menu .login-register form .container input:focus {
+   outline: none;
+}
+
+.main-menu .login-register form .container input:-webkit-autofill {
+   border: 1px solid #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 1) inset;
+}
+
+/* Label */
+.main-menu .login-register form .container label,
+.main-menu .login-register .text {
+   font-style: italic;
+}
+
+/* Button */
+.main-menu .login-register form button,
+.settings-container button {
+   width: 100%;
+   height: calc(var(--default-size) * 1.5);
+   margin-block: calc(var(--default-size) * 1) 0;
+   border: calc(var(--default-size) * 0.1) solid rgb(0, 158, 108);
+   border-radius: calc(var(--default-size) * 0.3);
+   background-color: rgb(0, 90, 62);
+   font-size: calc(var(--default-size) * 1.2);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   font-weight: 500;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #fff;
+   position: relative;
+}
+.main-menu .login-register form button:hover,
+.settings-container button:hover {
+   background-color: rgb(0, 133, 91);
+   border: calc(var(--default-size) * 0.1) solid rgb(132, 255, 216);
+}
+.main-menu .login-register form button.disabled,
+.settings-container button:disabled {
+   background-color: rgb(55, 82, 73);
+   border: calc(var(--default-size) * 0.1) solid rgb(83, 134, 118);
+   color: #777;
+   cursor: default;
+}
+
+/* Don't have an account text */
+.main-menu .login-register .text {
+   margin-block: calc(var(--default-size) * 1);
+}
+.main-menu .login-register .text span {
+   color: rgb(0, 133, 91);
+}
+.main-menu .login-register .text span:hover {
+   color: rgb(0, 200, 135);
+}

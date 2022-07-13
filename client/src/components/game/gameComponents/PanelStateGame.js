@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { StateGameContext } from '../Game'
 import panelStateGame from '../../../assets/images/panelStateGame.svg'
-import { scale } from '../../../util/misc'
+import { scale } from '../../../utils/misc'
 
 const PanelStateGame = () => {
    const { stateGame } = useContext(StateGameContext)

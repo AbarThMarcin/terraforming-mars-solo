@@ -1,6 +1,6 @@
-import { RESOURCES } from '../data/resources'
+const { RESOURCES } = require('./resources')
 
-export const INIT_STATE_BOARD = [
+const INIT_BOARD = [
    // Phobos Space Haven
    {
       x: 0,
@@ -404,3 +404,5 @@ export const INIT_STATE_BOARD = [
       bonus: [RESOURCES.TITAN, RESOURCES.TITAN],
    },
 ]
+
+module.exports = { INIT_BOARD }

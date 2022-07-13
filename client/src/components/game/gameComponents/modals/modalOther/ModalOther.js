@@ -42,7 +42,8 @@ const ModalOther = () => {
             onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
          />
          {/* DATA */}
-         {modals.modalOther.data.length === 0 && statePlayer.corporation.name !== CORP_NAMES.UNMI ? (
+         {modals.modalOther.data.length === 0 &&
+         statePlayer.corporation.name !== CORP_NAMES.UNMI ? (
             <div className="modal-other-box-no-data center">
                {getTextWhenNoData(modals.modalOther.header)}
             </div>

@@ -1,8 +1,8 @@
-import { ACTIONS_PLAYER } from '../../initStates/actionsPlayer'
-import { ACTIONS_GAME } from '../../initStates/actionsGame'
+import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
+import { ACTIONS_GAME } from '../../stateActions/actionsGame'
 import { ANIMATIONS } from '../animations'
 import { TILES } from '../board'
-import { ACTIONS_BOARD } from '../../initStates/actionsBoard'
+import { ACTIONS_BOARD } from '../../stateActions/actionsBoard'
 import { RESOURCES } from '../resources'
 import { getOptions } from '../selectOneOptions'
 import {
@@ -14,7 +14,7 @@ import {
    modifiedCards,
    withTimeAdded,
    withTimePlayed,
-} from '../../util/misc'
+} from '../../utils/misc'
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
 import { EFFECTS } from '../effects'
@@ -664,7 +664,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_SPACE_STATION
@@ -1206,7 +1208,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_CATAPULT
@@ -1284,7 +1288,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_QUANTUM_EXTRACTOR
@@ -1583,7 +1589,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_MASS_CONVERTER
@@ -1691,7 +1699,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_OFFICE
@@ -2305,7 +2315,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
@@ -2544,7 +2556,9 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === actionOrCardId)]),
+                     ...withTimePlayed([
+                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     ]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_SHUTTLES

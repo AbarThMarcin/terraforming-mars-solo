@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "Terraforming Mars - full app",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1"
+  },
   "devDependencies": {
     "concurrently": "^7.2.2",
     "nodemon": "^2.0.18"
   },
   "scripts": {
-    "client": "npm start client"
+    "server": "nodemon server/index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",

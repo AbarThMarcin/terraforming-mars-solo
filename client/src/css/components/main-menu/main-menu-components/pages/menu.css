@@ -1,5 +1,5 @@
-/* Buttons */
-.main-menu .buttons {
+/* General */
+.main-menu .menu {
    position: absolute;
    width: 35%;
    display: grid;
@@ -7,10 +7,10 @@
    grid-auto-rows: calc(var(--default-size) * 4);
    align-items: center;
    justify-items: center;
-   /* animation: animate-buttons 1800ms ease-in-out; */
+   /* animation: animate-menu 1800ms ease-in-out; */
 }
 
-@keyframes animate-buttons {
+@keyframes animate-menu {
    0% {
       opacity: 0;
       width: 50%;

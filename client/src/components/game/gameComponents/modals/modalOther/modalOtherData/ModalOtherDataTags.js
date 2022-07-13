@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { getTagIcon, TAGS } from '../../../../../../data/tags'
 import { ModalsContext } from '../../../../Game'
-import { hasTag } from '../../../../../../util/misc'
+import { hasTag } from '../../../../../../utils/misc'
 
 const ModalOtherDataTags = () => {
    const { modals } = useContext(ModalsContext)

@@ -1,7 +1,7 @@
 /* A container of all possible modals */
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
+import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalCards from './ModalCards'
 import ModalCardViewOnly from './ModalCardViewOnly'
 import ModalCardWithAction from './ModalCardWithAction'
@@ -25,7 +25,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Corp from '../Corp'
 import ModalEndStats from './ModalEndStats'
 
-const Modals = ({ setAnimationSpeed, showTotVP, setShowTotVP, logItems }) => {
+const Modals = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, setSortId, logItems }) => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -363,6 +363,8 @@ const Modals = ({ setAnimationSpeed, showTotVP, setShowTotVP, logItems }) => {
                setAnimationSpeed={setAnimationSpeed}
                showTotVP={showTotVP}
                setShowTotVP={setShowTotVP}
+               sortId={sortId}
+               setSortId={setSortId}
             />
          )}
 

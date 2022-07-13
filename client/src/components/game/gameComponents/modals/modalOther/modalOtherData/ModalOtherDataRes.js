@@ -6,7 +6,7 @@ import {
    getCardsWithPossibleFighters,
    getCardsWithPossibleMicrobes,
    getCardsWithPossibleScience,
-} from '../../../../../../util/misc'
+} from '../../../../../../utils/misc'
 
 const ModalOtherDataRes = ({ setCardSnap, selectedCardId, setSelectedCardId }) => {
    const { statePlayer } = useContext(StatePlayerContext)

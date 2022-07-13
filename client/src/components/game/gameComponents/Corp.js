@@ -36,11 +36,17 @@ const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
          {corp.name === CORP_NAMES.CREDICOR && <img src={iconCredicor} alt="credicor_icon" />}
          {corp.name === CORP_NAMES.ECOLINE && <img src={iconEcoline} alt="ecoline_icon" />}
          {corp.name === CORP_NAMES.HELION && <img src={iconHelion} alt="helion_icon" />}
-         {corp.name === CORP_NAMES.INTERPLANETARY && <img src={iconInterplanetary} alt="interplanetary_icon" />}
+         {corp.name === CORP_NAMES.INTERPLANETARY && (
+            <img src={iconInterplanetary} alt="interplanetary_icon" />
+         )}
          {corp.name === CORP_NAMES.INVENTRIX && <img src={iconInventrix} alt="inventrix_icon" />}
-         {corp.name === CORP_NAMES.MINING_GUILD && <img src={iconMiningGuild} alt="miningGuild_icon" />}
+         {corp.name === CORP_NAMES.MINING_GUILD && (
+            <img src={iconMiningGuild} alt="miningGuild_icon" />
+         )}
          {corp.name === CORP_NAMES.PHOBOLOG && <img src={iconPhobolog} alt="phobolog_icon" />}
-         {corp.name === CORP_NAMES.SATURN_SYSTEMS && <img src={iconSaturnSystems} alt="saturnSystems_icon" />}
+         {corp.name === CORP_NAMES.SATURN_SYSTEMS && (
+            <img src={iconSaturnSystems} alt="saturnSystems_icon" />
+         )}
          {corp.name === CORP_NAMES.TERACTOR && <img src={iconTeractor} alt="teractor_icon" />}
          {corp.name === CORP_NAMES.THARSIS_REPUBLIC && <img src={iconTharsis} alt="tharsis_icon" />}
          {corp.name === CORP_NAMES.THORGATE && <img src={iconThorgate} alt="thorgate_icon" />}

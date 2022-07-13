@@ -1,6 +1,6 @@
 export const INIT_STATE_PLAYER = {
    // Choosen Corporation Details
-   corporation: {},
+   corporation: null,
    // Current Productions Levels
    production: {
       mln: 0,

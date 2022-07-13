@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
-import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
-import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
-import { modifiedCards } from '../../../../util/misc'
+import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
+import { modifiedCards } from '../../../../utils/misc'
 import { getCorpLogoMini } from '../../../../data/corporations'
 import { LOG_TYPES } from '../../../../data/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
@@ -24,6 +24,7 @@ const PassContainer = ({ showTotVP, totalVP }) => {
       performSubActions,
       setLogItems,
       ANIMATION_SPEED,
+      setSaveToServerTrigger,
    } = useContext(StateGameContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
 
@@ -169,10 +170,14 @@ const PassContainer = ({ showTotVP, totalVP }) => {
                }, ANIMATION_SPEED / 1.5 / 2)
             } else {
                setModals((prevModals) => ({ ...prevModals, endStats: true }))
+               // Update Server Data
+               setSaveToServerTrigger((prev) => !prev)
             }
          } else {
             setModals((prevModals) => ({ ...prevModals, animation: false, draft: true }))
             dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
+            // Update Server Data
+            setSaveToServerTrigger((prev) => !prev)
          }
       }, delay)
    }

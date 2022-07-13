@@ -3,13 +3,13 @@ window with cards to sell and window with cards to select due
 to any effect/action */
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
-import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../util/misc'
+import { getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects'
 import { ANIMATIONS } from '../../../../data/animations'
@@ -31,6 +31,7 @@ const ModalDraft = () => {
       getEffect,
       sortId,
       requirementsMet,
+      setSaveToServerTrigger,
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { cards, setCards } = useContext(CardsContext)
@@ -74,6 +75,8 @@ const ModalDraft = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
       setModals({ ...modals, confirmation: false, draft: false })
+      // Update Server Data
+      setSaveToServerTrigger((prev) => !prev)
       // Perform forced action for Tharsis or Inventrix in GEN 1
       if (stateGame.generation === 1) {
          let actions = []
@@ -105,7 +108,7 @@ const ModalDraft = () => {
                            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                            payload: sorted(
                               [
-                                 ...cardsDraft.filter(card => selectedCardsIds.includes(card.id)),
+                                 ...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)),
                                  ...modifiedCards(newCards.slice(0, 3), statePlayer),
                               ],
                               sortId[0],

@@ -5,7 +5,7 @@ import {
    setAvailFieldsAdjacent,
 } from '../data/board'
 import { RESOURCES } from '../data/resources'
-import { getNeighbors } from '../util/misc'
+import { getNeighbors } from '../utils/misc'
 
 export const ACTIONS_BOARD = {
    // Set available all fields based on the tile in payload

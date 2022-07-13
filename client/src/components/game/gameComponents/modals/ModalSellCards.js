@@ -1,11 +1,11 @@
 /* Used to show window with cards to sell */
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
-import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition } from '../../../../util/misc'
+import { getPosition } from '../../../../utils/misc'
 import { SP } from '../../../../data/StandardProjects'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'

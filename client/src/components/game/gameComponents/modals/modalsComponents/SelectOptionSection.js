@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ACTIONS_GAME } from '../../../../../initStates/actionsGame'
+import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { StateGameContext, ModalsContext } from '../../../Game'
 import BtnAction from '../../buttons/BtnAction'
 import SelectOption from './SelectOption'

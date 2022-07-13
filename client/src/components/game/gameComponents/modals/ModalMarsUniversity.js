@@ -1,15 +1,15 @@
 // Modal for viewing and selecting cards when Mars University has been played
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, CardsContext } from '../../Game'
-import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, modifiedCards, withTimeAdded } from '../../../../util/misc'
+import { getPosition, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
-import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
+import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)

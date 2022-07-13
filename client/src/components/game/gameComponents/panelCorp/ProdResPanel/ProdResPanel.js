@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
-import { ACTIONS_PLAYER } from '../../../../../initStates/actionsPlayer'
+import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import ProdResSnap from './ProdResSnap'
-import { ACTIONS_GAME } from '../../../../../initStates/actionsGame'
+import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import {
    ANIMATIONS,
    endAnimation,

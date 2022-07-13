@@ -1,6 +1,3 @@
-import { EFFECTS } from './effects'
-import { TAGS } from './tags'
-import { CORP_NAMES } from './corpNames'
 import logoMiniCredicor from '../assets/images/corps/passContainer/credicor.svg'
 import logoMiniEcoline from '../assets/images/corps/passContainer/ecoline.svg'
 import logoMiniHelion from '../assets/images/corps/passContainer/helion.svg'
@@ -13,6 +10,9 @@ import logoMiniTeractor from '../assets/images/corps/passContainer/teractor.svg'
 import logoMiniTharsis from '../assets/images/corps/passContainer/tharsis.svg'
 import logoMiniThorgate from '../assets/images/corps/passContainer/thorgate.svg'
 import logoMiniUnmi from '../assets/images/corps/passContainer/unmi.svg'
+import { CORP_NAMES } from './corpNames'
+import { EFFECTS } from './effects'
+import { TAGS } from './tags'
 
 export const getCorpLogoMini = (corpName) => {
    switch (corpName) {

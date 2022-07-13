@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
-import { sorted } from '../../../../util/misc'
+import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
+import { sorted } from '../../../../utils/misc'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 
 const BtnSort = ({ id, text }) => {

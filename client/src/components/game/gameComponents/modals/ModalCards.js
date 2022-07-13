@@ -3,7 +3,7 @@ import { useState, useContext } from 'react'
 import { ModalsContext } from '../../Game'
 import Arrows from './modalsComponents/Arrows'
 import Card from '../Card'
-import { getPosition } from '../../../../util/misc'
+import { getPosition } from '../../../../utils/misc'
 import SortBtns from './modalsComponents/SortBtns'
 
 const ModalCards = () => {

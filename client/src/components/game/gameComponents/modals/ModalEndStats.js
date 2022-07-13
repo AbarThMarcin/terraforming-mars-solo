@@ -6,7 +6,7 @@ import iconGreenery from '../../../../assets/images/tiles/greenery.svg'
 import iconCity from '../../../../assets/images/tiles/city.svg'
 import iconVp from '../../../../assets/images/vp/any.svg'
 import BtnAction from '../buttons/BtnAction'
-import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../util/misc'
+import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../utils/misc'
 
 const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)

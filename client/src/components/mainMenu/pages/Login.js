@@ -1,36 +1,93 @@
-import { useRef } from 'react'
-import { PAGES } from '../../../data/pages'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import BtnGoBack from '../BtnGoBack'
+import { login } from '../../../api/apiUser'
+import spinner from '../../../assets/other/spinner.gif'
 
-const Login = ({ setPage }) => {
+const Login = ({ setUser }) => {
+   const navigate = useNavigate()
    const emailRef = useRef()
    const passwordRef = useRef()
+   const [loading, setLoading] = useState(false)
+   const [error, setError] = useState(null)
 
-   function handleLogin(e) {
-      
+   useEffect(() => {
+      const userInfo = localStorage.getItem('user')
+      if (userInfo) {
+         setUser(JSON.parse(userInfo))
+         navigate('/')
+      }
+   }, [setUser, navigate])
+
+   async function handleLogin(e) {
+      e.preventDefault()
+
+      if (loading) return
+
+      try {
+         setError(null)
+         setLoading(true)
+
+         const { data } = await login(emailRef.current.value, passwordRef.current.value)
+
+         localStorage.setItem('user', JSON.stringify(data))
+         setUser(data)
+         navigate('/')
+
+         setLoading(false)
+      } catch (error) {
+         setError('INVALID EMAIL ADDRESS AND/OR PASSWORD')
+         setLoading(false)
+      }
    }
 
    return (
-      <div className="login center">
-         <div className="form-header">LOGIN</div>
+      <div className="login-register center">
+         <div className="window-header">LOGIN</div>
          <form onSubmit={handleLogin}>
-            <div className="email-container">
+            <div className="container">
                <label htmlFor="email">EMAIL</label>
-               <input type="email" name="email" id="email" ref={emailRef} required />
+               <input
+                  type="email"
+                  id="email"
+                  ref={emailRef}
+                  required
+               />
             </div>
-            <div className="password-container">
+            <div className="container">
                <label htmlFor="password">PASSWORD</label>
-               <input type="password" name="password" id="password" ref={passwordRef} required />
+               <input
+                  type="password"
+                  id="password"
+                  ref={passwordRef}
+                  required
+               />
             </div>
-            <button type="submit">
-               LOGIN
+            <button className={`pointer ${loading && 'disabled'}`} type="submit">
+               {/* Loading Spinner */}
+               {loading ? (
+                  <div className="spinner">
+                     <img className="full-size" src={spinner} alt="loading_spinner" />
+                  </div>
+               ) : (
+                  <span>LOGIN</span>
+               )}
             </button>
          </form>
-         <div onClick={() => setPage(PAGES.RESET_PASSWORD)}>FORGOT PASSWORD?</div>
-         <div>
-            {`DON'T HAVE AN ACCOUNT?`} <span onClick={() => setPage(PAGES.REGISTER)}>REGISTER</span>
+         <div className="text">
+            {`DON'T HAVE AN ACCOUNT?`}{' '}
+            <span
+               className="pointer"
+               onClick={() => {
+                  if (loading) return
+                  navigate('/register')
+               }}
+            >
+               REGISTER
+            </span>
          </div>
-         <BtnGoBack action={() => setPage(PAGES.BUTTONS)} />
+         {error && <div className='main-menu-error'>{error}</div>}
+         <BtnGoBack />
       </div>
    )
 }

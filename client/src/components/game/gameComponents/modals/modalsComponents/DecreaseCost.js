@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
-import { hasTag } from '../../../../../util/misc'
+import { hasTag } from '../../../../../utils/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import iconSteel from '../../../../../assets/images/resources/steel.svg'

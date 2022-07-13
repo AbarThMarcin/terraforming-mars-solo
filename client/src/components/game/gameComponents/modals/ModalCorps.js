@@ -1,8 +1,8 @@
 /* Used at the very beginning of the game to show two corps */
 import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, CorpsContext } from '../../Game'
-import { ACTIONS_GAME } from '../../../../initStates/actionsGame'
-import { ACTIONS_PLAYER } from '../../../../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
+import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import Corp from '../Corp'
 import { performImmediateCorpEffect } from '../../../../data/effects'
 import BtnAction from '../buttons/BtnAction'
@@ -22,6 +22,7 @@ const ModalCorps = () => {
    }
 
    function initSelectedCorp() {
+      if (!statePlayer.corporation) return 0
       if (Object.keys(statePlayer.corporation).length === 0) {
          return 0
       } else {
@@ -48,7 +49,6 @@ const ModalCorps = () => {
       <AnimatePresence>
          {modals.corps && (
             <>
-               
                <motion.div
                   key="keyModalCorpsBox"
                   initial={{ opacity: 0 }}
@@ -58,23 +58,27 @@ const ModalCorps = () => {
                   className="modal-corps center"
                >
                   <div className="select-corporation-header">SELECT CORPORATION</div>
-                  <Corp
-                     corp={corps[0]}
-                     selectedCorp={selectedCorp}
-                     setSelectedCorp={setSelectedCorp}
-                     id={0}
-                  />
-                  <Corp
-                     corp={corps[1]}
-                     selectedCorp={selectedCorp}
-                     setSelectedCorp={setSelectedCorp}
-                     id={1}
-                  />
-                  <BtnAction
-                     text="NEXT"
-                     onYesFunc={handleClickNext}
-                     position={btnActionNextPosition}
-                  />
+                  {corps.length > 0 && (
+                     <>
+                        <Corp
+                           corp={corps[0]}
+                           selectedCorp={selectedCorp}
+                           setSelectedCorp={setSelectedCorp}
+                           id={0}
+                        />
+                        <Corp
+                           corp={corps[1]}
+                           selectedCorp={selectedCorp}
+                           setSelectedCorp={setSelectedCorp}
+                           id={1}
+                        />
+                        <BtnAction
+                           text="NEXT"
+                           onYesFunc={handleClickNext}
+                           position={btnActionNextPosition}
+                        />
+                     </>
+                  )}
                </motion.div>
             </>
          )}

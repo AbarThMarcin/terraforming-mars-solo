@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { StatePlayerContext, ModalsContext } from '../../../Game'
-import { getActionCost, hasTag } from '../../../../../util/misc'
+import { getActionCost, hasTag } from '../../../../../utils/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import iconMln from '../../../../../assets/images/resources/mln.svg'

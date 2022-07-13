@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { TAGS } from '../../../../../data/tags'
-import { getActionCost, getActionIdsWithCost, hasTag } from '../../../../../util/misc'
+import { getActionCost, getActionIdsWithCost, hasTag } from '../../../../../utils/misc'
 import { StatePlayerContext, StateGameContext } from '../../../Game'
 import OtherSnap from './OtherSnap'
 import iconCardRes from '../../../../../assets/images/resources/any.svg'

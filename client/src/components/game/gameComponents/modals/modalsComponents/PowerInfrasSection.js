@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
-import { ACTIONS_GAME } from '../../../../../initStates/actionsGame'
+import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../Game'
 import BtnAction from '../../buttons/BtnAction'
 import iconEnergy from '../../../../../assets/images/resources/energy.svg'

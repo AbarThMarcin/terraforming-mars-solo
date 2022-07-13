@@ -4,7 +4,7 @@ import {
    getCardsWithPossibleMicrobes,
    getNeighbors,
    hasTag,
-} from '../util/misc'
+} from '../utils/misc'
 import { ANIMATIONS } from './animations'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from './board'
 import { CORP_NAMES } from './corpNames'

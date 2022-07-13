@@ -3,8 +3,8 @@ import { TILES } from '../data/board'
 import { CORP_NAMES } from '../data/corpNames'
 import { EFFECTS } from '../data/effects'
 import { TAGS } from '../data/tags'
-import { ACTIONS_GAME } from '../initStates/actionsGame'
-import { ACTIONS_PLAYER } from '../initStates/actionsPlayer'
+import { ACTIONS_GAME } from '../stateActions/actionsGame'
+import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 
 // Shuffles array
 export const shuffle = (array) => {
@@ -78,8 +78,10 @@ export const hasTag = (card, type) => {
    return card.tags.includes(type)
 }
 
-// returns initial board with randomly positioned two cities with two greeneries
-export const getBoardWithNeutral = ([...initBoard]) => {
+// Returns initial board with randomly positioned two cities with two greeneries
+export const addNeutralTiles = ([...initBoard]) => {
+   if (initBoard.length === 0) return initBoard
+   
    let citiesLeft = 2 // Neutral cities amount per board
 
    while (citiesLeft > 0) {

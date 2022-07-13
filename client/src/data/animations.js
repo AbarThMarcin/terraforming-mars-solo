@@ -1,4 +1,4 @@
-import { INIT_ANIMATION_DATA } from '../initStates/initModals'
+import { INIT_ANIMATION_DATA } from '../initStates/initAnimation'
 import { RESOURCES } from './resources'
 
 export const ANIMATIONS = {

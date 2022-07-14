@@ -67,7 +67,7 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
       // Change on Front-end
       let digit =
          type === 'hand' ? parseInt(sortId[0].slice(0, 1)) : parseInt(sortId[1].slice(0, 1))
-         let sign = type === 'hand' ? sortId[0].slice(1, 2) : sortId[1].slice(1, 2)
+      let sign = type === 'hand' ? sortId[0].slice(1, 2) : sortId[1].slice(1, 2)
       const maxIdDigit = type === 'hand' ? 5 : 4
       let newSortId
       if (sign === 'a') {
@@ -78,10 +78,7 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
          if (arrow === 'right') digit = newDigit(arrow, digit, maxIdDigit)
       }
       if (type === 'played' && digit === 4) sign += '-played'
-      newSortId =
-         type === 'hand'
-            ? [`${digit}${sign}`, sortId[1]]
-            : [sortId[0], `${digit}${sign}`]
+      newSortId = type === 'hand' ? [`${digit}${sign}`, sortId[1]] : [sortId[0], `${digit}${sign}`]
       setSortId(newSortId)
       type === 'hand'
          ? dispatchPlayer({

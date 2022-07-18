@@ -4,7 +4,7 @@ import { StateGameContext, StatePlayerContext, ModalsContext, CorpsContext } fro
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import Corp from '../Corp'
-import { performImmediateCorpEffect } from '../../../../data/effects'
+import { performImmediateCorpEffect } from '../../../../data/effects/effects'
 import BtnAction from '../buttons/BtnAction'
 import { motion, AnimatePresence } from 'framer-motion'
 

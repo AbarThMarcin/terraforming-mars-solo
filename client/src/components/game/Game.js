@@ -6,7 +6,10 @@ import { reducerPlayer } from '../../stateActions/actionsPlayer'
 import { reducerBoard } from '../../stateActions/actionsBoard'
 import {
    funcPerformSubActions,
+   getCards,
+   getNewCardsDrawIds,
    modifiedCards,
+   range,
    sorted,
    updateVP,
    withTimeAdded,
@@ -15,10 +18,9 @@ import {
    funcRequirementsMet,
    funcActionRequirementsMet,
    funcOptionRequirementsMet,
-} from '../../data/requirements'
+} from '../../data/requirements/requirements'
 import { funcGetImmEffects } from '../../data/immEffects/immEffects'
-import { EFFECTS, funcGetEffect } from '../../data/effects'
-import { funcGetCardActions } from '../../data/cardActions'
+import { funcGetCardActions } from '../../data/cardActions/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import { motion, AnimatePresence } from 'framer-motion'
 import { RESOURCES } from '../../data/resources'
@@ -38,7 +40,9 @@ import { INIT_MODALS } from '../../initStates/initModals'
 import { INIT_BOARD } from '../../initStates/initBoard'
 import { CORPORATIONS } from '../../data/corporations'
 import { CARDS } from '../../data/cards'
-import { updateGameData } from '../../api/apiGame'
+import { updateGameData } from '../../api/apiActiveGame'
+import { EFFECTS } from '../../data/effects/effectIcons'
+import { funcGetEffect } from '../../data/effects/effects'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -68,12 +72,10 @@ function Game({
    const [stateGame, dispatchGame] = useReducer(reducerGame, initStateGame || INIT_STATE_GAME)
    const [modals, setModals] = useState(initStateModals || INIT_MODALS)
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, initStateBoard || INIT_BOARD)
-   const corps = useMemo(
-      () =>
-         initCorpsIds ? [CORPORATIONS[initCorpsIds[0] - 1], CORPORATIONS[initCorpsIds[1] - 1]] : [],
-      [initCorpsIds]
-   )
-   const [cards, setCards] = useState(getInitCards())
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+   const corps = useMemo(() => getInitCorps(), [initCorpsIds])
+   const [cardsDeckIds, setCardsDeckIds] = useState(getInitCardsDeckIds())
+   const [cardsDrawIds, setCardsDrawIds] = useState(initCardsIds)
    const [logItems, setLogItems] = useState(initLogItems)
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(
       user ? getAnimationSpeed(user.settings.gameSpeed) : SPEED.NORMAL
@@ -92,7 +94,8 @@ function Game({
       // If game started by placing 'quick-match' or 'ranked-match' in the url manually
       // (not by pressing buttons in main menu)
       if (corps.length === 0) navigate('/')
-   }, [corps, navigate])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
 
    useEffect(() => {
       // Turn off Special Design effect (if aplicable)
@@ -147,9 +150,9 @@ function Game({
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [updateTrigger])
 
+   // Update Game Data on server
    useEffect(() => {
-      // Update Game Data on server
-      if (user) {
+      if (user && !modals.corps && !modals.endStats) {
          const updatedData = {
             statePlayer,
             stateGame,
@@ -163,18 +166,21 @@ function Game({
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [saveToServerTrigger])
 
-   function getInitCards() {
-      if (!initCardsIds) return []
-      let initCards = []
-      initCardsIds.forEach((id) => initCards.push(CARDS[id - 1]))
-      return initCards
+   function getInitCardsDeckIds() {
+      if (!initCardsIds) return range(1, 208)
+      return range(1, 208).filter((id) => !initCardsIds.includes(id))
    }
 
-   function callScienceEffects() {
+   function getInitCorps() {
+      if (!initCorpsIds) return []
+      return [CORPORATIONS[initCorpsIds[0] - 1], CORPORATIONS[initCorpsIds[1] - 1]]
+   }
+
+   async function callScienceEffects() {
       if (!modals.modalCard) return
       let effects = []
       let cardsInHand = statePlayer.cardsInHand
-      let cardsInDeck = cards
+      let newCardsDrawIds
       // Call Olympus Conference effect
       if (
          statePlayer.cardsPlayed.some(
@@ -184,11 +190,16 @@ function Game({
       ) {
          // if Research played, do not modify science resources count, just add card
          if (modals.modalCard.id === 90) {
+            newCardsDrawIds = await getNewCardsDrawIds(
+               1,
+               cardsDeckIds,
+               setCardsDeckIds,
+               setCardsDrawIds
+            )
             cardsInHand = [
                ...cardsInHand,
-               ...modifiedCards(withTimeAdded(cardsInDeck.slice(0, 1)), statePlayer),
+               ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
             ]
-            cardsInDeck = cardsInDeck.slice(1)
             effects.push({
                name: ANIMATIONS.CARD_IN,
                type: RESOURCES.CARD,
@@ -198,7 +209,6 @@ function Game({
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                      payload: cardsInHand,
                   })
-                  setCards(cardsInDeck)
                },
             })
          } else {
@@ -216,6 +226,12 @@ function Game({
                   },
                ]
             } else {
+               newCardsDrawIds = await getNewCardsDrawIds(
+                  1,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
                effects = [
                   {
                      name: ANIMATIONS.RESOURCES_OUT,
@@ -230,9 +246,8 @@ function Game({
                ]
                cardsInHand = [
                   ...cardsInHand,
-                  ...modifiedCards(withTimeAdded(cardsInDeck.slice(0, 1)), statePlayer),
+                  ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                ]
-               cardsInDeck = cardsInDeck.slice(1)
                effects.push({
                   name: ANIMATIONS.CARD_IN,
                   type: RESOURCES.CARD,
@@ -242,7 +257,6 @@ function Game({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: cardsInHand,
                      })
-                     setCards(cardsInDeck)
                   },
                })
             }
@@ -314,14 +328,14 @@ function Game({
          dispatchPlayer,
          stateGame,
          dispatchGame,
-         getImmEffects,
          stateBoard,
          dispatchBoard,
          modals,
          setModals,
-         cards,
-         setCards,
-         requirementsMet
+         cardsDeckIds,
+         setCardsDeckIds,
+         setCardsDrawIds,
+         getImmEffects
       )
    }
    function getCardActions(cardId, toBuyResources) {
@@ -331,16 +345,14 @@ function Game({
          dispatchPlayer,
          stateGame,
          dispatchGame,
-         performSubActions,
          stateBoard,
-         dispatchBoard,
-         modals,
          setModals,
-         cards,
-         setCards,
          getEffect,
          getImmEffects,
-         toBuyResources
+         toBuyResources,
+         cardsDeckIds,
+         setCardsDeckIds,
+         setCardsDrawIds
       )
    }
    function getEffect(effect) {
@@ -417,7 +429,9 @@ function Game({
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
                      <CorpsContext.Provider value={corps}>
-                        <CardsContext.Provider value={{ cards, setCards }}>
+                        <CardsContext.Provider
+                           value={{ cardsDrawIds, setCardsDrawIds, cardsDeckIds, setCardsDeckIds }}
+                        >
                            <ModalsContext.Provider value={{ modals, setModals }}>
                               {/* Standard Projects Button */}
                               <AnimatePresence>

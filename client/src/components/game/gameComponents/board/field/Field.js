@@ -20,12 +20,19 @@ import {
    startAnimation,
 } from '../../../../../data/animations'
 import {
+   getCards,
    getNeighbors,
+   getNewCardsDrawIds,
    modifiedCards,
    withTimeAdded,
    withTimePlayed,
 } from '../../../../../utils/misc'
 import { RESOURCES } from '../../../../../data/resources'
+import { CORP_NAMES } from '../../../../../data/corpNames'
+import { EFFECTS } from '../../../../../data/effects/effectIcons'
+import { LOG_TYPES } from '../../../../../data/log'
+import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
+import { CARDS } from '../../../../../data/cards'
 
 import city from '../../../../../assets/images/tiles/city.svg'
 import cityNeutral from '../../../../../assets/images/tiles/cityNeutral.svg'
@@ -42,10 +49,6 @@ import commercialDistrict from '../../../../../assets/images/tiles/commercialDis
 import nuclearZone from '../../../../../assets/images/tiles/nuclearZone.svg'
 import industrialCenter from '../../../../../assets/images/tiles/industrialCenter.svg'
 import lavaFlows from '../../../../../assets/images/tiles/lavaFlows.svg'
-import { CORP_NAMES } from '../../../../../data/corpNames'
-import { EFFECTS } from '../../../../../data/effects'
-import { LOG_TYPES } from '../../../../../data/log'
-import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 
 const Field = ({ field }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -59,7 +62,7 @@ const Field = ({ field }) => {
       getEffect,
       ANIMATION_SPEED,
    } = useContext(StateGameContext)
-   const { cards, setCards } = useContext(CardsContext)
+   const { setCardsDrawIds, cardsDeckIds, setCardsDeckIds } = useContext(CardsContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const styles = {
@@ -77,7 +80,7 @@ const Field = ({ field }) => {
             : 'translate(0, 0)',
    }
 
-   const handleClickField = () => {
+   const handleClickField = async () => {
       // If clicked on unavailable field, do nothing
       if (!field.available) return
       // Set field's object to phasePlaceTileData
@@ -85,6 +88,17 @@ const Field = ({ field }) => {
          type: ACTIONS_BOARD.SET_OBJECT,
          payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
       })
+      // Get Random Cards Ids
+      let newCardsDrawIds
+      if (field.bonus.includes(RESOURCES.CARD)) {
+         newCardsDrawIds = await getNewCardsDrawIds(
+            field.bonus.length,
+            cardsDeckIds,
+            setCardsDeckIds,
+            setCardsDrawIds
+         )
+      }
+
       // Update log for Forced Action of Tharsis
       if (logItems.length === 2 && statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC)
          setLogItems((currentLogItems) => [
@@ -95,8 +109,8 @@ const Field = ({ field }) => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: null })
       // Receive tile bonus
-      let uniqBonuses = [...new Set(field.bonus)]
       let newPlants = statePlayer.resources.plant
+      let uniqBonuses = [...new Set(field.bonus)]
       if (uniqBonuses.length > 0) {
          // Start Animation
          startAnimation(setModals)
@@ -129,10 +143,12 @@ const Field = ({ field }) => {
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: [
                            ...statePlayer.cardsInHand,
-                           ...modifiedCards(withTimeAdded(cards.slice(0, countBonus)), statePlayer),
+                           ...modifiedCards(
+                              withTimeAdded(getCards(CARDS, newCardsDrawIds)),
+                              statePlayer
+                           ),
                         ],
                      })
-                     setCards(cards.slice(countBonus))
                      break
                   default:
                      break
@@ -270,23 +286,21 @@ const Field = ({ field }) => {
             }, delay)
             delay += ANIMATION_SPEED / 2
             setTimeout(() => {
-               // Proper action
-               let newCards = field.bonus.includes(RESOURCES.CARD)
-                  ? [
-                       ...statePlayer.cardsInHand.filter((card) => card.id !== 20),
-                       ...modifiedCards(
-                          withTimeAdded(cards.slice(0, 1)),
-                          statePlayer,
-                          EFFECTS.EFFECT_RESEARCH_OUTPOST
-                       ),
-                    ]
-                  : statePlayer.cardsInHand.filter((card) => card.id !== 20)
+               // Modify Cards In Hand
+               let newCards = modifiedCards(
+                  !field.bonus.includes(RESOURCES.CARD)
+                     ? statePlayer.cardsInHand
+                     : [
+                          ...statePlayer.cardsInHand,
+                          ...withTimeAdded(getCards(CARDS, newCardsDrawIds)),
+                       ],
+                  statePlayer,
+                  EFFECTS.EFFECT_RESEARCH_OUTPOST
+               )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
+               // Modify Cards Played
                newCards = modifiedCards(
-                  [
-                     ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([statePlayer.cardsInHand.find((card) => card.id === 20)]),
-                  ],
+                  statePlayer.cardsPlayed,
                   statePlayer,
                   EFFECTS.EFFECT_RESEARCH_OUTPOST
                )

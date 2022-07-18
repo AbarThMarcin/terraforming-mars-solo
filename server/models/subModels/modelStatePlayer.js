@@ -3,9 +3,7 @@ const { corporationSchema } = require('./modelCorporation')
 const { cardSchema } = require('./modelCard')
 
 const statePlayerSchema = mongoose.Schema({
-   corporation: {
-      type: corporationSchema
-   },
+   corporation: corporationSchema,
    production: {
       mln: Number,
       steel: Number,

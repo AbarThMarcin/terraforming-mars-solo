@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../../Game'
-import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions'
 import { ACTIONS_GAME } from '../../../../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../utils/misc'
@@ -8,6 +7,7 @@ import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
 import { LOG_TYPES } from '../../../../../../../data/log'
 import { getImmEffectIcon } from '../../../../../../../data/immEffects/immEffectsIcons'
+import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
 const ModalOtherDataActionsItem = ({
    item,

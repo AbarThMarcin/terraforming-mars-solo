@@ -7,16 +7,13 @@
    grid-auto-rows: calc(var(--default-size) * 4);
    align-items: center;
    justify-items: center;
-   /* animation: animate-menu 1800ms ease-in-out; */
+   animation: animate-menu 300ms ease-in-out;
 }
 
 @keyframes animate-menu {
    0% {
       opacity: 0;
-      width: 50%;
-   }
-   70% {
-      opacity: 0;
+      width: 40%;
    }
    100% {
       opacity: 1;

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { getEffectIcon } from '../../../../../../data/effects'
+import { getEffectIcon } from '../../../../../../data/effects/effectIcons'
 import { ModalsContext } from '../../../../Game'
 
 const ModalOtherDataEffects = ({ setCardSnap }) => {

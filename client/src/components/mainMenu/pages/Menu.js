@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../Button'
 import spinner from '../../../assets/other/spinner.gif'
 import MainMenuConfirmation from '../MainMenuConfirmation'
-import { deleteGameData } from '../../../api/apiGame'
+import { deleteActiveGameData } from '../../../api/apiActiveGame'
 
 const Menu = ({ user, setData, logout }) => {
    let navigate = useNavigate()
@@ -38,7 +38,7 @@ const Menu = ({ user, setData, logout }) => {
    async function onNo() {
       setModalConfirmation(false)
       setLoading(true)
-      await deleteGameData(user.token, false)
+      await deleteActiveGameData(user.token, false)
       await setData(false, true)
       setLoading(false)
       navigate('/match')

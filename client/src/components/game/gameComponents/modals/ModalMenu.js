@@ -1,27 +1,40 @@
 /* Used to show the game menu window */
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { deleteGameData } from '../../../../api/apiGame'
+import { deleteActiveGameData } from '../../../../api/apiActiveGame'
+import { createEndedGameData } from '../../../../api/apiEndedGame'
 import { updateUser } from '../../../../api/apiUser'
-import { ModalsContext, UserContext } from '../../Game'
+import { StatePlayerContext, ModalsContext, UserContext } from '../../Game'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
+   const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { user, setUser, isRanked } = useContext(UserContext)
 
    const onYes = async (withForfeit) => {
+      // If Logged and pressed Forfeit
       if (user && withForfeit) {
-         // Delete Game
-         await deleteGameData(user.token, isRanked)
+         // Delete Game from active games
+         await deleteActiveGameData(user.token, isRanked)
+         // Create forfeited game (endedGame) if isRanked === true
+         if (isRanked) {
+            const gameData = {
+               corporation: statePlayer.corporation,
+               cardsPlayed: statePlayer.cardsPlayed,
+            }
+            await createEndedGameData(user.token, gameData)
+         }
          // Update user by changing quickMatchOn or rankedMatchOn
-         const { data } = await updateUser(user.token, {
+         const userMatches = {
             quickMatchOn: isRanked ? user.quickMatchOn : false,
             rankedMatchOn: isRanked ? false : user.rankedMatchOn,
-         })
+         }
+         const { data } = await updateUser(user.token, userMatches)
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
       }
+      // Go to Main Menu
       navigate('/')
    }
 

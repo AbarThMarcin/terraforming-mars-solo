@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler')
-const Game = require('../models/modelGame')
+const ActiveGame = require('../models/modelActiveGame')
 
-const getGame = asyncHandler(async (req, res) => {
-   const game = await Game.findOne({ user: req.user._id, isRanked: req.body.isRanked })
+const getActiveGame = asyncHandler(async (req, res) => {
+   const game = await ActiveGame.findOne({ user: req.user._id, isRanked: req.body.isRanked })
 
    if (game) {
       res.status(200).json(game)
@@ -12,7 +12,7 @@ const getGame = asyncHandler(async (req, res) => {
    }
 })
 
-const createGame = asyncHandler(async (req, res) => {
+const createActiveGame = asyncHandler(async (req, res) => {
    const {
       statePlayer,
       stateGame,
@@ -20,12 +20,11 @@ const createGame = asyncHandler(async (req, res) => {
       stateBoard,
       corps,
       initCards,
-      cardsLeft,
       logItems,
    } = req.body.gameData
    const isRanked = req.body.isRanked
 
-   const newGame = new Game({
+   const newGame = new ActiveGame({
       user: req.user._id,
       statePlayer,
       stateGame,
@@ -33,7 +32,6 @@ const createGame = asyncHandler(async (req, res) => {
       stateBoard,
       corps,
       initCards,
-      cardsLeft,
       logItems,
       isRanked,
    })
@@ -42,8 +40,8 @@ const createGame = asyncHandler(async (req, res) => {
    res.status(201).json(createdGame)
 })
 
-const deleteGame = asyncHandler(async (req, res) => {
-   const game = await Game.findOne({ user: req.user._id, isRanked: req.body.isRanked })
+const deleteActiveGame = asyncHandler(async (req, res) => {
+   const game = await ActiveGame.findOne({ user: req.user._id, isRanked: req.body.isRanked })
 
    if (game) {
       await game.remove()
@@ -54,7 +52,7 @@ const deleteGame = asyncHandler(async (req, res) => {
    }
 })
 
-const updateGame = asyncHandler(async (req, res) => {
+const updateActiveGame = asyncHandler(async (req, res) => {
    const {
       statePlayer,
       stateGame,
@@ -62,12 +60,11 @@ const updateGame = asyncHandler(async (req, res) => {
       stateBoard,
       corps,
       initCards,
-      cardsLeft,
       logItems,
    } = req.body.gameData
    const isRanked = req.body.isRanked
 
-   const game = await Game.findOne({ user: req.user._id, isRanked })
+   const game = await ActiveGame.findOne({ user: req.user._id, isRanked })
 
    if (game) {
       game.statePlayer = statePlayer === undefined ? game.statePlayer : statePlayer
@@ -76,7 +73,6 @@ const updateGame = asyncHandler(async (req, res) => {
       game.stateBoard = stateBoard === undefined ? game.stateBoard : stateBoard
       game.corps = corps === undefined ? game.corps : corps
       game.initCards = initCards === undefined ? game.initCards : initCards
-      game.cardsLeft = cardsLeft === undefined ? game.cardsLeft : cardsLeft
       game.logItems = logItems === undefined ? game.logItems : logItems
 
       const updatedGame = await game.save()
@@ -87,4 +83,4 @@ const updateGame = asyncHandler(async (req, res) => {
    }
 })
 
-module.exports = { getGame, createGame, deleteGame, updateGame }
+module.exports = { getActiveGame, createActiveGame, deleteActiveGame, updateActiveGame }

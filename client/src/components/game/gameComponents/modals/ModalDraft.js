@@ -1,7 +1,7 @@
 /* Used to show window with cards to buy in the draft phase,
 window with cards to sell and window with cards to select due
 to any effect/action */
-import { useContext, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
@@ -9,9 +9,9 @@ import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
+import { getCards, getNewCardsDrawIds, getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
-import { EFFECTS } from '../../../../data/effects'
+import { EFFECTS } from '../../../../data/effects/effectIcons'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
@@ -20,6 +20,7 @@ import { LOG_TYPES } from '../../../../data/log'
 import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 import DecreaseCostDraft from './modalsComponents/DecreaseCostDraft'
+import { CARDS } from '../../../../data/cards'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -34,14 +35,15 @@ const ModalDraft = () => {
       setSaveToServerTrigger,
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { cards, setCards } = useContext(CardsContext)
+   const { cardsDeckIds, cardsDrawIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [selectedCardsIds, setSelectedCardsIds] = useState([])
-   const cardsDraft =
-      stateGame.generation === 1
-         ? modifiedCards(cards.slice(0, 10), statePlayer)
-         : modifiedCards(cards.slice(0, 4), statePlayer)
+   const cardsDraft = useMemo(
+      () => modifiedCards(getCards(CARDS, cardsDrawIds), statePlayer),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [cardsDrawIds]
+   )
    const textConfirmation =
       stateGame.generation === 1
          ? 'Are you sure you want to choose this corporation and these project cards?'
@@ -51,7 +53,7 @@ const ModalDraft = () => {
 
    const btnActionPosition = { bottom: '0.5%', left: '50%', transform: 'translateX(-50%)' }
 
-   const onYesFunc = () => {
+   const onYesFunc = async () => {
       // Decrease corporation resources
       if (toBuyMln > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
       if (toBuyHeat > 0)
@@ -68,9 +70,6 @@ const ModalDraft = () => {
             requirementsMet
          ),
       })
-      // Remove all 4 (10 if gen = 1) cards from the CardsContext
-      let newCards = stateGame.generation === 1 ? cards.slice(10) : cards.slice(4)
-      setCards(newCards)
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
@@ -97,6 +96,8 @@ const ModalDraft = () => {
             )
          }
          if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
+            // Get Random Cards Ids
+            let newCardsDrawIds = await getNewCardsDrawIds(3, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
             performSubActions(
                [
                   {
@@ -109,13 +110,12 @@ const ModalDraft = () => {
                            payload: sorted(
                               [
                                  ...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)),
-                                 ...modifiedCards(newCards.slice(0, 3), statePlayer),
+                                 ...modifiedCards(getCards(CARDS, newCardsDrawIds), statePlayer),
                               ],
                               sortId[0],
                               requirementsMet
                            ),
                         })
-                        setCards(newCards.slice(3))
                      },
                   },
                ],

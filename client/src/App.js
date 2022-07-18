@@ -16,7 +16,7 @@ import Register from './components/mainMenu/pages/Register'
 import Account from './components/mainMenu/pages/Account'
 import Game from './components/game/Game'
 import MainMenu from './components/mainMenu/MainMenu'
-import { createGameData, getGameData, getRandIntNumbers } from './api/apiGame'
+import { createActiveGameData, getActiveGameData, getRandIntNumbers } from './api/apiActiveGame'
 import { updateUser } from './api/apiUser'
 
 function App() {
@@ -44,7 +44,6 @@ function App() {
          stateBoard: null,
          corps: null,
          initCards: null,
-         cardsLeft: null,
          logItems: null,
       }
       let token = user?.token
@@ -57,8 +56,7 @@ function App() {
             // Game not started
             await initNewGame(gameData)
             // Save init game data to the server
-            console.log(gameData.initCards)
-            await createGameData(
+            await createActiveGameData(
                user.token,
                {
                   statePlayer: gameData.statePlayer,
@@ -67,7 +65,6 @@ function App() {
                   stateBoard: gameData.stateBoard,
                   corps: gameData.corps,
                   initCards: gameData.initCards,
-                  cardsLeft: gameData.cardsLeft,
                   logItems: gameData.logItems,
                },
                isRanked
@@ -81,7 +78,7 @@ function App() {
             setUser(data)
          } else {
             // Game already started
-            gameData = await getGameData(user.token, isRanked)
+            gameData = await getActiveGameData(user.token, isRanked)
          }
       }
 
@@ -103,16 +100,10 @@ function App() {
       gameData.stateBoard = addNeutralTiles(INIT_BOARD)
       gameData.corps = await getRandIntNumbers(2, 1, 12)
       gameData.initCards = await getRandIntNumbers(10, 1, 208)
-      gameData.cardsLeft = range(1, 208).filter((id) => !gameData.initCards.includes(id))
       gameData.logItems = [
          { type: LOG_TYPES.LOG, data: null },
          { type: LOG_TYPES.GENERATION, data: { text: '1' } },
       ]
-   }
-   function range(start, end) {
-      return Array(end - start + 1)
-         .fill()
-         .map((_, idx) => start + idx)
    }
 
    function logout() {

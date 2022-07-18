@@ -1,7 +1,8 @@
+import { getRandIntNumbers } from '../api/apiActiveGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
 import { TILES } from '../data/board'
 import { CORP_NAMES } from '../data/corpNames'
-import { EFFECTS } from '../data/effects'
+import { EFFECTS } from '../data/effects/effectIcons'
 import { TAGS } from '../data/tags'
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
@@ -81,7 +82,7 @@ export const hasTag = (card, type) => {
 // Returns initial board with randomly positioned two cities with two greeneries
 export const addNeutralTiles = ([...initBoard]) => {
    if (initBoard.length === 0) return initBoard
-   
+
    let citiesLeft = 2 // Neutral cities amount per board
 
    while (citiesLeft > 0) {
@@ -667,4 +668,26 @@ export const withTimeAdded = (cards) => {
 
 export const withTimePlayed = (cards) => {
    return cards.map((card, idx) => ({ ...card, timePlayed: Date.now() + idx }))
+}
+
+export const getCards = (cards, ids) => {
+   if (!ids) return []
+   let initCards = []
+   ids.forEach((id) => initCards.push(cards[id - 1]))
+   return initCards
+}
+
+export const range = (start, end) => {
+   return Array(end - start + 1)
+      .fill()
+      .map((_, idx) => start + idx)
+}
+
+export const getNewCardsDrawIds = async (count, cardsDeckIds, setCardsDeckIds, setCardsDrawIds) => {
+   let randomDrawIds = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
+   let newCardsDrawIds = cardsDeckIds.filter((_, idx) => randomDrawIds.includes(idx))
+   let newCardsDeckIds = cardsDeckIds.filter((_, idx) => !randomDrawIds.includes(idx))
+   setCardsDeckIds(newCardsDeckIds)
+   setCardsDrawIds(newCardsDrawIds)
+   return newCardsDrawIds
 }

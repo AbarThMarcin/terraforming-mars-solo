@@ -113,7 +113,7 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
 
    const updateBackend = async (settings) => {
       try {
-         const { data } = await updateUser(user.token, { settings })
+         const { data } = await updateUser(user.token, settings)
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
       } catch (error) {

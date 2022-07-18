@@ -190,7 +190,7 @@ export const INIT_BOARD = [
       x: 4,
       y: 4,
       available: false,
-      name: 'NOCTIC CITY',
+      name: 'NOCTIS CITY',
       oceanOnly: false,
       object: null,
       bonus: [RESOURCES.PLANT, RESOURCES.PLANT],

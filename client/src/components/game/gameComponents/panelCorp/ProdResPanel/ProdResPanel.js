@@ -11,7 +11,7 @@ import {
    startAnimation,
 } from '../../../../../data/animations'
 import { getResIcon, RESOURCES } from '../../../../../data/resources'
-import { EFFECTS } from '../../../../../data/effects'
+import { EFFECTS } from '../../../../../data/effects/effectIcons'
 import { LOG_TYPES } from '../../../../../data/log'
 import logConvertPlants from '../../../../../assets/images/other/logConvertPlants.svg'
 import logConvertHeat from '../../../../../assets/images/other/logConvertHeat.svg'

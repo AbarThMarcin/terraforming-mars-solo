@@ -5,18 +5,25 @@ import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getPosition, modifiedCards, withTimeAdded } from '../../../../utils/misc'
+import {
+   getCards,
+   getNewCardsDrawIds,
+   getPosition,
+   modifiedCards,
+   withTimeAdded,
+} from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
+import { CARDS } from '../../../../data/cards'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { cards, setCards } = useContext(CardsContext)
+   const { setCardsDrawIds, cardsDeckIds, setCardsDeckIds } = useContext(CardsContext)
    const [selectedCardId, setSelectedCardId] = useState(0)
    const [page, setPage] = useState(1)
 
@@ -27,10 +34,17 @@ const ModalMarsUniversity = () => {
       return `${(1 - page) * 100}%`
    }
 
-   const onYesFunc = () => {
+   const onYesFunc = async () => {
       // Turn mars university phase off
       setModals((prevModals) => ({ ...prevModals, marsUniversity: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
+      // Get Random Cards Ids
+      let newCardsDrawIds = await getNewCardsDrawIds(
+         1,
+         cardsDeckIds,
+         setCardsDeckIds,
+         setCardsDrawIds
+      )
       // Discard selected card
       startAnimation(setModals)
       setAnimation(ANIMATIONS.CARD_OUT, RESOURCES.CARD, 1, setModals)
@@ -51,10 +65,9 @@ const ModalMarsUniversity = () => {
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
             payload: [
                ...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId),
-               ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
+               ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
             ],
          })
-         setCards(cards.slice(1))
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)

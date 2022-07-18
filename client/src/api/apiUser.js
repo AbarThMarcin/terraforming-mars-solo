@@ -14,7 +14,7 @@ export const login = async (email, password) => {
 }
 
 export const register = async (name, email, password) => {
-   const URI = 'http://localhost:5000/api/users'
+   const URI = 'http://localhost:5000/api/users/register'
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const register = async (name, email, password) => {
 }
 
 export const updateUser = async (token, details) => {
-   const URI = 'http://localhost:5000/api/users/user'
+   const URI = 'http://localhost:5000/api/users/update'
    const config = {
       headers: {
          'Content-Type': 'application/json',

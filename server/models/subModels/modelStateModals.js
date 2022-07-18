@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { INIT_ANIMATION_DATA } = require('../data/initStates/initAnimation')
 const { animationSchema } = require('./modelAnimation')
 const { cardSchema } = require('./modelCard')
 
@@ -31,7 +30,7 @@ const stateModalsSchema = mongoose.Schema({
    endStats: Boolean,
    modalBusCont: {
       cardsCount: Number,
-      selectCount: Number
+      selectCount: Number,
    },
    modalCard: cardSchema,
    modalCards: [cardSchema],
@@ -67,10 +66,7 @@ const stateModalsSchema = mongoose.Schema({
       onYes: String,
       onNo: String,
    },
-   animationData: {
-      type: animationSchema,
-      default: INIT_ANIMATION_DATA
-   },
+   animationData: animationSchema,
 })
 
 module.exports = { stateModalsSchema }

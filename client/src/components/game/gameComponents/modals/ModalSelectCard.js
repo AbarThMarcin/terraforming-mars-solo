@@ -5,7 +5,7 @@ import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { hasTag, modifiedCards, withTimeAdded } from '../../../../utils/misc'
-import { StatePlayerContext, StateGameContext, ModalsContext, CardsContext } from '../../Game'
+import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
 import BtnAction from '../buttons/BtnAction'
 import BtnSelect from '../buttons/BtnSelect'
 import Card from '../Card'
@@ -15,8 +15,7 @@ const ModalSelectCard = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { cards, setCards } = useContext(CardsContext)
-   const [selected, setSelected] = useState(getInitSelected)
+   const [selected, setSelected] = useState(getInitSelected())
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const resources = getResources()
@@ -41,7 +40,7 @@ const ModalSelectCard = () => {
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MICROBE,
                value: 1,
-               func: () => {
+               func: () =>
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: {
@@ -49,9 +48,7 @@ const ModalSelectCard = () => {
                         resource: RESOURCES.MICROBE,
                         amount: 1,
                      },
-                  })
-                  setCards(cards.slice(1))
-               },
+                  }),
             })
          } else {
             // Inventors' Guild / Business Network
@@ -86,10 +83,9 @@ const ModalSelectCard = () => {
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                      payload: [
                         ...statePlayer.cardsInHand,
-                        ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
+                        ...modifiedCards(withTimeAdded(modals.modalSelectCard.card), statePlayer),
                      ],
                   })
-                  setCards(cards.slice(1))
                },
             })
          }

@@ -1,17 +1,27 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { StatePlayerContext, StateGameContext, StateBoardContext } from '../../Game'
+import { StatePlayerContext, StateGameContext, StateBoardContext, UserContext } from '../../Game'
 import iconTr from '../../../../assets/images/resources/tr.svg'
 import iconGreenery from '../../../../assets/images/tiles/greenery.svg'
 import iconCity from '../../../../assets/images/tiles/city.svg'
 import iconVp from '../../../../assets/images/vp/any.svg'
 import BtnAction from '../buttons/BtnAction'
-import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../utils/misc'
+import {
+   getCityPoints,
+   getGreeneryPoints,
+   getTotalPoints,
+   getTrPoints,
+   getVictoryPoints,
+} from '../../../../utils/misc'
+import { createEndedGameData } from '../../../../api/apiEndedGame'
+import { deleteActiveGameData } from '../../../../api/apiActiveGame'
+import { updateUser } from '../../../../api/apiUser'
 
 const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
+   const { user, setUser, isRanked } = useContext(UserContext)
    const victoryLossText =
       stateGame.globalParameters.temperature === 8 &&
       stateGame.globalParameters.oxygen === 14 &&
@@ -24,11 +34,52 @@ const ModalEndStats = () => {
    const victoryPoints = getVictoryPoints(statePlayer)
    const totalPoints = getTotalPoints(statePlayer, stateGame, stateBoard)
    const navigate = useNavigate()
+   const [addRankedGame, setAddRankedGame] = useState(false)
+
+   const gameData = {
+      victory: victoryLossText === 'YOU WIN' ? true : false,
+      corporation: statePlayer.corporation,
+      cardsPlayed: statePlayer.cardsPlayed,
+      points: {
+         tr: trPoints,
+         greenery: greeneryPoints,
+         city: cityPoints,
+         vp: victoryPoints,
+         total: totalPoints,
+      },
+   }
+
+   useEffect(() => {
+      const updateBackend = async () => {
+         // If not logged, do nothing
+         if (!user) return
+         // Remove game from active games
+         await deleteActiveGameData(user.token, isRanked)
+         // Also update user's profile (quickMatchOn or rankedMatchOn)
+         const userMatches = {
+            quickMatchOn: isRanked ? user.quickMatchOn : false,
+            rankedMatchOn: isRanked ? false : user.rankedMatchOn,
+         }
+         const { data } = await updateUser(user.token, userMatches)
+         localStorage.setItem('user', JSON.stringify(data))
+         setUser(data)
+         // Create ended game if isRanked === true
+         if (isRanked) setAddRankedGame(true)
+      }
+
+      updateBackend()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
+
+   useEffect(() => {
+      if (addRankedGame) createEndedGameData(user.token, gameData)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [addRankedGame])
 
    const btnActionPosition = { bottom: '-20%', left: '50%', transform: 'translateX(-50%)' }
 
    const onYesFunc = () => {
-      navigate('/', )
+      navigate('/')
    }
 
    return (

@@ -1,5 +1,11 @@
 const mongoose = require('mongoose')
 
+const requirementSchema = mongoose.Schema({
+   type: String,
+   value: Number,
+   other: String,
+})
+
 const cardSchema = mongoose.Schema({
    id: Number,
    name: String,
@@ -7,7 +13,7 @@ const cardSchema = mongoose.Schema({
    info: [String],
    originalCost: Number,
    currentCost: Number,
-   requirements: [{ type: String, value: Number, other: String }],
+   requirements: [requirementSchema],
    vp: Number,
    tags: [String],
    effect: String,

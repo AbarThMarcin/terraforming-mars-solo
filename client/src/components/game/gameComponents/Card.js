@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { StateGameContext, ModalsContext } from '../Game'
 import { getCardType, hasTag } from '../../../utils/misc'
 import { getTagIcon, TAGS } from '../../../data/tags'
-import { REQUIREMENTS } from '../../../data/requirements'
+import { REQUIREMENTS } from '../../../data/requirements/requirementsNames'
 import { getResIcon, RESOURCES } from '../../../data/resources'
 import { getVpIcon } from '../../../data/vp'
 import { getImmEffectIcon } from '../../../data/immEffects/immEffectsIcons'
@@ -69,7 +69,7 @@ const Card = ({ card, isBig }) => {
    // cardsPlayer/cardsInHand) AND when a card is not clicked because then
    // both modals: cards and cardWithAction are shown [cards = display-none]
    const pointer =
-      (modals.draft || modals.sellCards || modals.cards) &&
+      (modals.draft || modals.sellCards || modals.cards || modals.businessContacts || modals.marsUniversity) &&
       !modals.cardWithAction &&
       !modals.cardViewOnly
 

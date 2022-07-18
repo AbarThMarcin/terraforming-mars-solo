@@ -37,7 +37,7 @@
    font-size: calc(var(--default-size) * 2.6);
    font-weight: 400;
    font-style: italic;
-   /* animation: animate-header 800ms ease-in-out; */
+   animation: animate-header 400ms ease-in-out;
    text-shadow: 0 0 calc(var(--default-size) * 0.8) rgb(0, 68, 26);
 }
 
@@ -49,13 +49,15 @@
    0% {
       opacity: 0;
       letter-spacing: calc(var(--default-size) * 2.6);
+      width: 150%;
    }
-   50% {
+   30% {
       opacity: 0;
    }
    100% {
       opacity: 1;
       letter-spacing: calc(var(--default-size) * 0);
+      width: 49%;
    }
 }
 

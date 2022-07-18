@@ -1,12 +1,12 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
+import { StatePlayerContext, StateGameContext, ModalsContext, CardsContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
-import { modifiedCards } from '../../../../utils/misc'
+import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
 import { getCorpLogoMini } from '../../../../data/corporations'
 import { LOG_TYPES } from '../../../../data/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
-import { EFFECTS } from '../../../../data/effects'
+import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'
 import passContBg from '../../../../assets/images/other/passContBg.svg'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -26,9 +26,10 @@ const PassContainer = ({ showTotVP, totalVP }) => {
       ANIMATION_SPEED,
       setSaveToServerTrigger,
    } = useContext(StateGameContext)
+   const { cardsDeckIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
 
-   const onYesFunc = () => {
+   const onYesFunc = async () => {
       // Update log (pass)
       setLogItems((currentLogItems) => [
          ...currentLogItems,
@@ -56,7 +57,8 @@ const PassContainer = ({ showTotVP, totalVP }) => {
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
       }
-
+      // Get new 4 random cards
+      await getNewCardsDrawIds(4, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
       // Phase Pass None - do NOT display Panel State Game AND Panel Corp
       let delay = 0
       startAnimation(setModals)

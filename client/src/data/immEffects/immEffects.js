@@ -6,10 +6,12 @@ import { ACTIONS_BOARD } from '../../stateActions/actionsBoard'
 import { RESOURCES } from '../resources'
 import { getOptions } from '../selectOneOptions'
 import {
+   getCards,
    getCardsWithPossibleAnimals,
    getCardsWithPossibleFighters,
    getCardsWithPossibleMicrobes,
    getCardsWithPossibleScience,
+   getNewCardsDrawIds,
    hasTag,
    modifiedCards,
    withTimeAdded,
@@ -17,7 +19,8 @@ import {
 } from '../../utils/misc'
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
-import { EFFECTS } from '../effects'
+import { EFFECTS } from '../effects/effectIcons'
+import { CARDS } from '../cards'
 
 export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',
@@ -40,13 +43,14 @@ export const funcGetImmEffects = (
    dispatchPlayer,
    stateGame,
    dispatchGame,
-   getImmEffects,
    stateBoard,
    dispatchBoard,
    modals,
    setModals,
-   cards,
-   setCards
+   cardsDeckIds,
+   setCardsDeckIds,
+   setCardsDrawIds,
+   getImmEffects,
 ) => {
    let subActions = []
    let dataCards = []
@@ -1516,15 +1520,15 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 2,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(2, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
+                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
                })
-               setCards(cards.slice(2))
             },
          })
          break
@@ -1785,11 +1789,17 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.USER_INTERACTION,
             type: null,
             value: null,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(
+                  4,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
                setModals((prevModals) => ({
                   ...prevModals,
-                  modalBusCont: { cardsCount: 4, selectCount: 2 },
+                  modalBusCont: { cards: newCardsDrawIds, selectCount: 2 },
                   businessContacts: true,
                }))
             },
@@ -2170,15 +2180,15 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 2,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(2, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
+                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
                })
-               setCards(cards.slice(2))
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
@@ -2417,15 +2427,15 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 1,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(1, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
+                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
                })
-               setCards(cards.slice(1))
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
@@ -2835,11 +2845,17 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.USER_INTERACTION,
             type: null,
             value: null,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(
+                  3,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
                setModals((prevModals) => ({
                   ...prevModals,
-                  modalBusCont: { cardsCount: 3, selectCount: 1 },
+                  modalBusCont: { cards: newCardsDrawIds, selectCount: 1 },
                   businessContacts: true,
                }))
             },
@@ -2860,15 +2876,15 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 1,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(1, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(cards.slice(0, 1)), statePlayer),
+                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
                })
-               setCards(cards.slice(1))
             },
          })
          break
@@ -2973,15 +2989,15 @@ export const funcGetImmEffects = (
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 2,
-            func: () => {
+            func: async () => {
+               let newCardsDrawIds = await getNewCardsDrawIds(2, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
                      ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(cards.slice(0, 2)), statePlayer),
+                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
                })
-               setCards(cards.slice(2))
             },
          })
          break

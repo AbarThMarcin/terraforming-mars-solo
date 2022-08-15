@@ -25,7 +25,6 @@ import {
    getNewCardsDrawIds,
    modifiedCards,
    withTimeAdded,
-   withTimePlayed,
 } from '../../../../../utils/misc'
 import { RESOURCES } from '../../../../../data/resources'
 import { CORP_NAMES } from '../../../../../data/corpNames'
@@ -148,6 +147,10 @@ const Field = ({ field }) => {
                               statePlayer
                            ),
                         ],
+                     })
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                        payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                      })
                      break
                   default:

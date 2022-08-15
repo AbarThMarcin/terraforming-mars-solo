@@ -1,5 +1,5 @@
 /* Used to show ONE card with selection */
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
@@ -25,6 +25,17 @@ const ModalSelectCard = () => {
       left: '50%',
       transform: 'translate(-50%, 100%) scale(1.2)',
    }
+
+   // Add card to the cardsSeen
+   useEffect(() => {
+      if (!statePlayer.cardsSeen.map((c) => c.id).includes(modals.modalSelectCard.card.id)) {
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+            payload: [...statePlayer.cardsSeen, modals.modalSelectCard.card],
+         })
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
 
    const handleClickConfirmBtn = () => {
       // Close selectCard modal
@@ -83,8 +94,12 @@ const ModalSelectCard = () => {
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                      payload: [
                         ...statePlayer.cardsInHand,
-                        ...modifiedCards(withTimeAdded(modals.modalSelectCard.card), statePlayer),
+                        ...modifiedCards(withTimeAdded([modals.modalSelectCard.card]), statePlayer),
                      ],
+                  })
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
+                     payload: [...statePlayer.cardsPurchased, modals.modalSelectCard.card],
                   })
                },
             })

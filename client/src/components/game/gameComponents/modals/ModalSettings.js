@@ -122,7 +122,7 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
    }
 
    return (
-      <div className="settings-container">
+      <div className="menu-container">
          {/* Animation Speed */}
          <div className="settings">
             <span>ANIMATION SPEED</span>

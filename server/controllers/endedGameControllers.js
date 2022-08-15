@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler')
-const SEASON = 1
+const { SEASON } = require('../config/season')
 const EndedGame = require('../models/modelEndedGame')
 
 const getEndedGames = asyncHandler(async (req, res) => {
@@ -14,19 +14,47 @@ const getEndedGames = asyncHandler(async (req, res) => {
 })
 
 const createEndedGame = asyncHandler(async (req, res) => {
-   const { victory, corporation, cardsPlayed, points } = req.body
-   
+   const { victory, forfeited, corporation, cards, points } = req.body
+
    const newGame = new EndedGame({
       user: req.user._id,
       season: SEASON,
+      forfeited,
       victory,
       corporation,
-      cardsPlayed,
-      points
+      cards,
+      points,
    })
 
    const createdGame = await newGame.save()
    res.status(201).json(createdGame)
 })
 
-module.exports = { getEndedGames, createEndedGame }
+const updateEndedGame = asyncHandler(async (req, res) => {
+   const game = await EndedGame.findById(req.body.gameId)
+
+   if (game) {
+      game.link = req.body.link !== undefined ? req.body.link : game.link
+      game.comment = req.body.comment !== undefined ? req.body.comment : game.comment
+
+      const updatedGame = await game.save()
+
+      res.json({
+         _id: updatedGame._id,
+         user: updatedGame.user,
+         season: updatedGame.user,
+         forfeited: updatedGame.forfeited,
+         victory: updatedGame.victory,
+         corporation: updatedGame.corporation,
+         cards: updatedGame.cards,
+         points: updatedGame.points,
+         link: updatedGame.link,
+         comment: updatedGame.comment,
+      })
+   } else {
+      res.status(404)
+      throw new Error('Game Not Found')
+   }
+})
+
+module.exports = { getEndedGames, createEndedGame, updateEndedGame }

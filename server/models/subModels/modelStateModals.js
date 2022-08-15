@@ -29,7 +29,7 @@ const stateModalsSchema = mongoose.Schema({
    panelStateGame: Boolean,
    endStats: Boolean,
    modalBusCont: {
-      cardsCount: Number,
+      cards: [Number],
       selectCount: Number,
    },
    modalCard: cardSchema,
@@ -57,7 +57,7 @@ const stateModalsSchema = mongoose.Schema({
    modalProduction: {
       cardIdOrCorpName: mongoose.Schema.Types.Mixed,
       data: [mongoose.Schema.Types.Mixed],
-      immProdEffects: [String],
+      immProdEffects: [mongoose.Schema.Types.Mixed],
       miningRights: [mongoose.Schema.Types.Mixed],
       miningArea: [mongoose.Schema.Types.Mixed],
    },

@@ -37,9 +37,13 @@ const ModalEndStats = () => {
    const [addRankedGame, setAddRankedGame] = useState(false)
 
    const gameData = {
-      victory: victoryLossText === 'YOU WIN' ? true : false,
+      victory: victoryLossText === 'YOU WIN!' ? true : false,
       corporation: statePlayer.corporation,
-      cardsPlayed: statePlayer.cardsPlayed,
+      cards: {
+         played: statePlayer.cardsPlayed,
+         seen: statePlayer.cardsSeen,
+         purchased: statePlayer.cardsPurchased,
+      },
       points: {
          tr: trPoints,
          greenery: greeneryPoints,

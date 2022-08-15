@@ -104,7 +104,7 @@ const Settings = ({ user, setUser }) => {
    }
 
    return (
-      <div className="window-container settings-container center">
+      <div className="menu-container green-border center">
          <div className="window-header">SETTINGS</div>
          {/* Animation Speed */}
          <div className="settings">

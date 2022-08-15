@@ -22,6 +22,8 @@ const statePlayerSchema = mongoose.Schema({
    },
    cardsInHand: [cardSchema],
    cardsPlayed: [cardSchema],
+   cardsSeen: [cardSchema],
+   cardsPurchased: [cardSchema],
    valueSteel: Number,
    valueTitan: Number,
    valueGreenery: Number,

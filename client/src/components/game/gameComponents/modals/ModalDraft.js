@@ -1,7 +1,7 @@
 /* Used to show window with cards to buy in the draft phase,
 window with cards to sell and window with cards to select due
 to any effect/action */
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
@@ -9,7 +9,14 @@ import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../Card'
-import { getCards, getNewCardsDrawIds, getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
+import {
+   getCards,
+   getNewCardsDrawIds,
+   getPosition,
+   modifiedCards,
+   sorted,
+   withTimeAdded,
+} from '../../../../utils/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import { ANIMATIONS } from '../../../../data/animations'
@@ -53,12 +60,21 @@ const ModalDraft = () => {
 
    const btnActionPosition = { bottom: '0.5%', left: '50%', transform: 'translateX(-50%)' }
 
+   // Add draft cards to the cardsSeen
+   useEffect(() => {
+      if (!statePlayer.cardsSeen.map((c) => c.id).includes(cardsDraft[0].id)) {
+         const newCards = [...statePlayer.cardsSeen, ...cardsDraft]
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
+
    const onYesFunc = async () => {
       // Decrease corporation resources
       if (toBuyMln > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
       if (toBuyHeat > 0)
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-      // Add selected cards to the hand
+      // Add selected cards to the hand and cards purchased
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
          payload: sorted(
@@ -69,6 +85,13 @@ const ModalDraft = () => {
             sortId[0],
             requirementsMet
          ),
+      })
+      dispatchPlayer({
+         type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
+         payload: [
+            ...statePlayer.cardsPurchased,
+            ...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)),
+         ],
       })
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
@@ -97,7 +120,12 @@ const ModalDraft = () => {
          }
          if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
             // Get Random Cards Ids
-            let newCardsDrawIds = await getNewCardsDrawIds(3, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
+            let newCardsDrawIds = await getNewCardsDrawIds(
+               3,
+               cardsDeckIds,
+               setCardsDeckIds,
+               setCardsDrawIds
+            )
             performSubActions(
                [
                   {
@@ -115,6 +143,10 @@ const ModalDraft = () => {
                               sortId[0],
                               requirementsMet
                            ),
+                        })
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                           payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                         })
                      },
                   },

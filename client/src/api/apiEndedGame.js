@@ -1,12 +1,9 @@
 import axios from 'axios'
 
-export const getEndedGameData = async (token) => {
+export const getEndedGameData = async () => {
    const URI = 'http://localhost:5000/api/games/ended'
    const config = {
-      headers: {
-         'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
    }
 
    try {
@@ -31,6 +28,25 @@ export const createEndedGameData = async (token, gameData) => {
    try {
       const res = await axios.post(URI, gameData, config)
       return res.data
+   } catch (error) {
+      console.log(
+         error.response && error.response.data.message ? error.response.data.message : error.message
+      )
+   }
+}
+
+export const updateEndedGameData = async (token, details) => {
+   const URI = 'http://localhost:5000/api/games/ended/update'
+   const config = {
+      headers: {
+         'Content-Type': 'application/json',
+         Authorization: `Bearer ${token}`,
+      },
+   }
+
+   try {
+      const res = await axios.post(URI, details, config)
+      return res
    } catch (error) {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message

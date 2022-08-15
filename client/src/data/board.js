@@ -36,7 +36,7 @@ export const setAvailFieldsAny = (board) => {
          !field.oceanOnly &&
          field.name !== 'PHOBOS SPACE HAVEN' &&
          field.name !== 'GANYMEDE COLONY' &&
-         field.name !== 'NOCTIC CITY',
+         field.name !== 'NOCTIS CITY',
    }))
 }
 
@@ -72,7 +72,7 @@ export const setAvailFieldsAdjacent = (board, tiles, adjacent, isMiningArea = fa
             !field.object &&
             field.name !== 'PHOBOS SPACE HAVEN' &&
             field.name !== 'GANYMEDE COLONY' &&
-            field.name !== 'NOCTIC CITY' &&
+            field.name !== 'NOCTIS CITY' &&
             isIncluded(allNeighbors, field),
       }))
    } else {
@@ -83,7 +83,7 @@ export const setAvailFieldsAdjacent = (board, tiles, adjacent, isMiningArea = fa
             !field.object &&
             field.name !== 'PHOBOS SPACE HAVEN' &&
             field.name !== 'GANYMEDE COLONY' &&
-            field.name !== 'NOCTIC CITY' &&
+            field.name !== 'NOCTIS CITY' &&
             !isIncluded(allNeighbors, field),
       }))
    }

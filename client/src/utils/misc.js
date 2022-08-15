@@ -91,7 +91,7 @@ export const addNeutralTiles = ([...initBoard]) => {
       if (
          !initBoard[cityId].oceanOnly &&
          !initBoard[cityId].object &&
-         initBoard[cityId].name !== 'NOCTIC CITY' &&
+         initBoard[cityId].name !== 'NOCTIS CITY' &&
          initBoard[cityId].name !== 'PHOBOS SPACE HAVEN' &&
          initBoard[cityId].name !== 'GANYMEDE COLONY' &&
          !hasNeutralCityOrGreenery(neighbors)
@@ -103,7 +103,7 @@ export const addNeutralTiles = ([...initBoard]) => {
             if (
                !neighbors[greeneryId].oceanOnly &&
                !neighbors[greeneryId].object &&
-               neighbors[greeneryId].name !== 'NOCTIC CITY'
+               neighbors[greeneryId].name !== 'NOCTIS CITY'
             ) {
                initBoard.forEach((field) => {
                   if (field.x === neighbors[greeneryId].x && field.y === neighbors[greeneryId].y)

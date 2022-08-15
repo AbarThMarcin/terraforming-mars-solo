@@ -1,13 +1,13 @@
-.settings-container {
+.menu-container {
    left: 25%;
-   top: 8.4%;
+   top: 6.55%;
    background-color: rgba(10, 10, 10, 0.95);
    width: 32%;
    border-top-right-radius: calc(var(--default-size) * 0.5);
    border-bottom-right-radius: calc(var(--default-size) * 0.5);
    padding: calc(var(--default-size) * 0.7);
 }
-.settings-container .settings {
+.menu-container .settings {
    width: 100%;
    height: calc(var(--default-size) * 2);
    background-color: rgba(0, 0, 0, 0.3);
@@ -18,10 +18,10 @@
    font-size: var(--default-size);
    line-height: var(--default-size);
 }
-.settings-container .settings {
+.menu-container .settings {
    margin-block: calc(var(--default-size) * 0.5);
 }
-.settings-container .settings .item {
+.menu-container .settings .item {
    position: relative;
    width: 50%;
    display: flex;
@@ -29,26 +29,26 @@
    align-items: center;
    font-size: calc(var(--default-size) * 0.9);
 }
-.settings-container .settings .item .arrow {
+.menu-container .settings .item .arrow {
    position: absolute;
    top: 50%;
    transform: translateY(-50%);
    background-color: transparent;
 }
-.settings-container .settings .item .arrow-left:hover {
+.menu-container .settings .item .arrow-left:hover {
    border-right: calc(var(--default-size) * 0.5) solid rgb(0, 255, 174);
 }
-.settings-container .settings .item .arrow-right:hover {
+.menu-container .settings .item .arrow-right:hover {
    border-left: calc(var(--default-size) * 0.5) solid rgb(0, 255, 174);
 }
-.settings-container .settings .item .arrow-left {
+.menu-container .settings .item .arrow-left {
    left: calc(var(--default-size) * -0.5);
    border-right: calc(var(--default-size) * 0.5) solid rgb(0, 133, 91);
    border-bottom: calc(var(--default-size) * 0.5) solid transparent;
    border-left: calc(var(--default-size) * 0.5) solid transparent;
    border-top: calc(var(--default-size) * 0.5) solid transparent;
 }
-.settings-container .settings .item .arrow-right {
+.menu-container .settings .item .arrow-right {
    right: calc(var(--default-size) * -0.5);
    border-right: calc(var(--default-size) * 0.5) solid transparent;
    border-bottom: calc(var(--default-size) * 0.5) solid transparent;

@@ -50,11 +50,14 @@ export const funcGetImmEffects = (
    cardsDeckIds,
    setCardsDeckIds,
    setCardsDrawIds,
-   getImmEffects,
+   getImmEffects
 ) => {
    let subActions = []
    let dataCards = []
    let value = 0
+   let newCardsDrawIds = []
+   let cardsInHand = statePlayer.cardsInHand
+   let cardsSeen = statePlayer.cardsSeen
    switch (actionOrCardId) {
       // ============================= SP POWER PLANT ============================
       // cards: Solar Power, Wave Power, Power Plant, Power Supply Consortium, Windmills,
@@ -575,7 +578,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -660,7 +663,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_SPACE_STATION
                )
@@ -668,9 +671,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_SPACE_STATION
@@ -1204,7 +1205,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_CATAPULT
                )
@@ -1212,9 +1213,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_CATAPULT
@@ -1284,7 +1283,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_QUANTUM_EXTRACTOR
                )
@@ -1292,9 +1291,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_QUANTUM_EXTRACTOR
@@ -1521,16 +1518,72 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(2, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [
-                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-                  ],
-               })
+               newCardsDrawIds = await getNewCardsDrawIds(
+                  2,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
+               cardsInHand = [
+                  ...cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
+               ]
+               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
             },
          })
+         // Call Olympus Conference effect
+         if (
+            statePlayer.cardsPlayed.some(
+               (card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE
+            )
+         ) {
+            subActions.push({
+               name: ANIMATIONS.CARD_IN,
+               type: RESOURCES.CARD,
+               value: 1,
+               func: async () => {
+                  newCardsDrawIds = await getNewCardsDrawIds(
+                     1,
+                     cardsDeckIds,
+                     setCardsDeckIds,
+                     setCardsDrawIds
+                  )
+                  cardsInHand = [
+                     ...cardsInHand,
+                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
+                  ]
+                  cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                     payload: cardsInHand,
+                  })
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
+               },
+            })
+         }
+         // Call Mars University
+         if (
+            statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)
+         ) {
+            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
+               modals.modalCard.tags.forEach((tag) => {
+                  if (tag === TAGS.SCIENCE)
+                     subActions.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           dispatchGame({
+                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
+                              payload: true,
+                           })
+                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                        },
+                     })
+               })
+         }
          break
       // Gene Repair
       case 91:
@@ -1585,7 +1638,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_MASS_CONVERTER
                )
@@ -1593,9 +1646,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_MASS_CONVERTER
@@ -1695,7 +1746,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_OFFICE
                )
@@ -1703,9 +1754,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_OFFICE
@@ -1829,7 +1878,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2181,13 +2230,22 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(2, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
+               let newCardsDrawIds = await getNewCardsDrawIds(
+                  2,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                     ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
+               })
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                  payload: [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
             },
          })
@@ -2201,7 +2259,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2317,7 +2375,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
                )
@@ -2325,9 +2383,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
@@ -2362,7 +2418,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: null,
                   },
                   selectOne: true,
@@ -2428,13 +2484,22 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(1, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
+               let newCardsDrawIds = await getNewCardsDrawIds(
+                  1,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                   payload: [
-                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                     ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                      ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
+               })
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                  payload: [...cardsSeen, getCards(CARDS, newCardsDrawIds)],
                })
             },
          })
@@ -2558,7 +2623,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                let newCards = modifiedCards(
-                  statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  cardsInHand.filter((card) => card.id !== actionOrCardId),
                   statePlayer,
                   EFFECTS.EFFECT_SHUTTLES
                )
@@ -2566,9 +2631,7 @@ export const funcGetImmEffects = (
                newCards = modifiedCards(
                   [
                      ...statePlayer.cardsPlayed,
-                     ...withTimePlayed([
-                        statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
-                     ]),
+                     ...withTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)]),
                   ],
                   statePlayer,
                   EFFECTS.EFFECT_SHUTTLES
@@ -2831,7 +2894,7 @@ export const funcGetImmEffects = (
                setModals((prevModals) => ({
                   ...prevModals,
                   modalSelectOne: {
-                     card: statePlayer.cardsInHand.find((card) => card.id === actionOrCardId),
+                     card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2841,6 +2904,66 @@ export const funcGetImmEffects = (
          break
       // Invention Contest
       case 192:
+         // Call Olympus Conference effect FIRST
+         if (
+            statePlayer.cardsPlayed.some(
+               (card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE
+            )
+         ) {
+            if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
+                     }),
+               })
+            } else {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_OUT,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
+                     }),
+               })
+               subActions.push({
+                  name: ANIMATIONS.CARD_IN,
+                  type: RESOURCES.CARD,
+                  value: 1,
+                  func: async () => {
+                     newCardsDrawIds = await getNewCardsDrawIds(
+                        1,
+                        cardsDeckIds,
+                        setCardsDeckIds,
+                        setCardsDrawIds
+                     )
+                     cardsInHand = [
+                        ...cardsInHand.filter((card) => card.id !== actionOrCardId),
+                        ...modifiedCards(
+                           withTimeAdded(getCards(CARDS, newCardsDrawIds)),
+                           statePlayer
+                        ),
+                     ]
+                     cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: cardsInHand,
+                     })
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                        payload: cardsSeen,
+                     })
+                  },
+               })
+            }
+         }
+         // Proper Action
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
             type: null,
@@ -2860,6 +2983,28 @@ export const funcGetImmEffects = (
                }))
             },
          })
+         // Call Mars University
+         if (
+            statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)
+         ) {
+            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0) {
+               modals.modalCard.tags.forEach((tag) => {
+                  if (tag === TAGS.SCIENCE) {
+                     subActions.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        value: null,
+                        func: () => {
+                           dispatchGame({
+                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
+                              payload: true,
+                           })
+                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                        },
+                     })
+                  }
+               })
+            }
+         }
          break
       // Indentured Workers
       case 195:
@@ -2877,16 +3022,98 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(1, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [
-                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-                  ],
-               })
+               newCardsDrawIds = await getNewCardsDrawIds(
+                  1,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
+               cardsInHand = [
+                  ...cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
+               ]
+               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
             },
          })
+         // Call Olympus Conference effect
+         if (
+            statePlayer.cardsPlayed.some(
+               (card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE
+            )
+         ) {
+            if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
+                     }),
+               })
+            } else {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_OUT,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
+                     }),
+               })
+               subActions.push({
+                  name: ANIMATIONS.CARD_IN,
+                  type: RESOURCES.CARD,
+                  value: 1,
+                  func: async () => {
+                     newCardsDrawIds = await getNewCardsDrawIds(
+                        1,
+                        cardsDeckIds,
+                        setCardsDeckIds,
+                        setCardsDrawIds
+                     )
+                     cardsInHand = [
+                        ...cardsInHand,
+                        ...modifiedCards(
+                           withTimeAdded(getCards(CARDS, newCardsDrawIds)),
+                           statePlayer
+                        ),
+                     ]
+                     cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: cardsInHand,
+                     })
+                     dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
+                  },
+               })
+            }
+         }
+         // Call Mars University
+         if (
+            statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)
+         ) {
+            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
+               modals.modalCard.tags.forEach((tag) => {
+                  if (tag === TAGS.SCIENCE)
+                     subActions.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           dispatchGame({
+                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
+                              payload: true,
+                           })
+                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                        },
+                     })
+               })
+         }
          break
       // Terraforming Ganymede
       case 197:
@@ -2990,16 +3217,98 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(2, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [
-                     ...statePlayer.cardsInHand.filter((card) => card.id !== actionOrCardId),
-                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-                  ],
-               })
+               newCardsDrawIds = await getNewCardsDrawIds(
+                  2,
+                  cardsDeckIds,
+                  setCardsDeckIds,
+                  setCardsDrawIds
+               )
+               cardsInHand = [
+                  ...cardsInHand.filter((card) => card.id !== actionOrCardId),
+                  ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
+               ]
+               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
             },
          })
+         // Call Olympus Conference effect
+         if (
+            statePlayer.cardsPlayed.some(
+               (card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE
+            )
+         ) {
+            if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
+                     }),
+               })
+            } else {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_OUT,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
+                     }),
+               })
+               subActions.push({
+                  name: ANIMATIONS.CARD_IN,
+                  type: RESOURCES.CARD,
+                  value: 1,
+                  func: async () => {
+                     newCardsDrawIds = await getNewCardsDrawIds(
+                        1,
+                        cardsDeckIds,
+                        setCardsDeckIds,
+                        setCardsDrawIds
+                     )
+                     cardsInHand = [
+                        ...cardsInHand,
+                        ...modifiedCards(
+                           withTimeAdded(getCards(CARDS, newCardsDrawIds)),
+                           statePlayer
+                        ),
+                     ]
+                     cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: cardsInHand,
+                     })
+                     dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
+                  },
+               })
+            }
+         }
+         // Call Mars University
+         if (
+            statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)
+         ) {
+            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
+               modals.modalCard.tags.forEach((tag) => {
+                  if (tag === TAGS.SCIENCE)
+                     subActions.push({
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           dispatchGame({
+                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
+                              payload: true,
+                           })
+                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                        },
+                     })
+               })
+         }
          break
       // Rad-Chem Factory
       case 205:

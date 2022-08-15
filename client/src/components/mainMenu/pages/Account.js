@@ -55,7 +55,7 @@ const Account = ({ user, setUser }) => {
          <div className="window-header">ACCOUNT</div>
          <form onSubmit={handleUpdateUser}>
             <div className="container">
-               <label>USERNAME</label>
+               <label>PLAYER NAME</label>
                <input style={disabled} type="text" value={user ? user.name : ''} required disabled />
             </div>
             <div className="container">

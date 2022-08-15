@@ -1,0 +1,47 @@
+/* General */
+.main-menu .filters {
+   position: absolute;
+   left: 50%;
+   top: calc(var(--default-size) * 0.3);
+   transform: translateX(-50%);
+}
+.main-menu .filter {
+   font-size: calc(var(--default-size) * 0.8);
+}
+.main-menu .filter:not(:first-child) {
+   margin-left: var(--default-size);
+}
+
+/* Season */
+.main-menu .filter-season-corp {
+   background-color: #000;
+   color: #fff;
+   border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.5);
+   border-radius: calc(var(--default-size) * 0.2);
+   outline: none;
+   padding: 0 calc(var(--default-size) * 0.15)
+}
+.main-menu .filter-season-corp:hover,
+.main-menu .filter-season-corp:focus {
+   background-color: #000
+}
+.main-menu .filter-season-corp:hover {
+   border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.8);
+}
+
+/* User */
+.main-menu .filter-user {
+   background-color: #000;
+   border-radius: calc(var(--default-size) * 0.2);
+   color: #fff;
+   padding: 0 calc(var(--default-size) * 0.3);
+   border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.5);
+   outline: none;
+}
+.main-menu .filter-user:hover,
+.main-menu .filter-user:focus {
+   background-color: #000
+}
+.main-menu .filter-user:hover {
+   border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.8);
+}

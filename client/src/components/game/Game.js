@@ -104,7 +104,16 @@ function Game({
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
       }
       // Call effect of Olympus Conference, THEN Mars University
-      if (modals.cardPlayed) callScienceEffects()
+      if (modals.cardPlayed) {
+         if (
+            modals.modalCard.id !== 90 &&
+            modals.modalCard.id !== 192 &&
+            modals.modalCard.id !== 196 &&
+            modals.modalCard.id !== 204
+         ) {
+            callScienceEffects()
+         }
+      }
       // Sort Cards In Hand and Cards Played
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -188,14 +197,38 @@ function Game({
          ) &&
          modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_OLYMPUS_CONFERENCE)
       ) {
-         // if Research played, do not modify science resources count, just add card
-         if (modals.modalCard.id === 90) {
+         if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
+            effects = [
+               {
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
+                     }),
+               },
+            ]
+         } else {
             newCardsDrawIds = await getNewCardsDrawIds(
                1,
                cardsDeckIds,
                setCardsDeckIds,
                setCardsDrawIds
             )
+            effects = [
+               {
+                  name: ANIMATIONS.RESOURCES_OUT,
+                  type: RESOURCES.SCIENCE,
+                  value: 1,
+                  func: () =>
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.ADD_BIO_RES,
+                        payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
+                     }),
+               },
+            ]
             cardsInHand = [
                ...cardsInHand,
                ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
@@ -209,57 +242,12 @@ function Game({
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                      payload: cardsInHand,
                   })
+                  dispatchPlayer({
+                     type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                     payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
+                  })
                },
             })
-         } else {
-            if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
-               effects = [
-                  {
-                     name: ANIMATIONS.RESOURCES_IN,
-                     type: RESOURCES.SCIENCE,
-                     value: 1,
-                     func: () =>
-                        dispatchPlayer({
-                           type: ACTIONS_PLAYER.ADD_BIO_RES,
-                           payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
-                        }),
-                  },
-               ]
-            } else {
-               newCardsDrawIds = await getNewCardsDrawIds(
-                  1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds
-               )
-               effects = [
-                  {
-                     name: ANIMATIONS.RESOURCES_OUT,
-                     type: RESOURCES.SCIENCE,
-                     value: 1,
-                     func: () =>
-                        dispatchPlayer({
-                           type: ACTIONS_PLAYER.ADD_BIO_RES,
-                           payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
-                        }),
-                  },
-               ]
-               cardsInHand = [
-                  ...cardsInHand,
-                  ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-               ]
-               effects.push({
-                  name: ANIMATIONS.CARD_IN,
-                  type: RESOURCES.CARD,
-                  value: 1,
-                  func: () => {
-                     dispatchPlayer({
-                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: cardsInHand,
-                     })
-                  },
-               })
-            }
          }
       }
       // Call Mars University

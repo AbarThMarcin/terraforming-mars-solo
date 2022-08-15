@@ -1,0 +1,170 @@
+/* STATISTICS */
+/* General */
+.statistics {
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+}
+.statistics .table {
+   font-size: calc(var(--default-size) * 0.9);
+   width: 100%;
+   height: 100%;
+   overflow-y: auto;
+}
+.statistics .table.with-scrollbar {
+   width: calc(100% + var(--default-size) * 0.5);
+}
+.statistics .table::-webkit-scrollbar {
+   position: absolute;
+   width: calc(var(--default-size) * 0.5);
+}
+.statistics .table::-webkit-scrollbar-track {
+   background-color: transparent;
+   border-radius: calc(var(--default-size) * 0.5);
+   margin-left: 10px;
+}
+.statistics .table::-webkit-scrollbar-thumb {
+   background-color: rgba(255, 255, 255, 0.05);
+   border: calc(var(--default-size) * 0.08) solid rgba(0, 0, 0, 0.5);
+   border-radius: calc(var(--default-size) * 0.5);
+}
+
+/* Headers */
+.statistics .row.headers {
+   background: rgb(30, 30, 30);
+   background: linear-gradient(
+      0deg,
+      rgba(30, 30, 30, 0.5) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(30, 30, 30, 0.5) 100%
+   );
+}
+.statistics .row.headers > * {
+   height: calc(var(--default-size) * 2.2);
+}
+
+/* Rows */
+.statistics .row {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.statistics .row > * {
+   line-height: var(--default-size);
+   height: calc(var(--default-size) * 2);
+   width: calc(100% / 9);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   border-right: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.03);
+   border-bottom: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.03);
+}
+.statistics .row > div:first-of-type {
+   width: 15%;
+   border-left: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.03);
+}
+
+/* ACHIEVEMENTS */
+/* General */
+.achievements {
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: center;
+   font-size: calc(var(--default-size) * 0.9);
+   line-height: calc(var(--default-size) * 0.9);
+}
+
+/* Table */
+.achievements .table {
+   background-color: rgba(255, 0, 0, 0, 0.2);
+   height: 100%;
+   overflow-y: auto;
+}
+.achievements .table::-webkit-scrollbar {
+   width: calc(var(--default-size) * 0.5);
+}
+.achievements .table::-webkit-scrollbar-track {
+   background-color: transparent;
+   border-radius: calc(var(--default-size) * 0.5);
+   margin-left: 10px;
+}
+.achievements .table::-webkit-scrollbar-thumb {
+   background-color: rgba(255, 255, 255, 0.02);
+   border: calc(var(--default-size) * 0.08) solid rgba(0, 0, 0, 0.5);
+   border-radius: calc(var(--default-size) * 0.5);
+}
+
+/* Line */
+.achievements .line {
+   height: calc(var(--default-size) * 0.15);
+   width: 80%;
+   background: rgb(255,255,255);
+   background: linear-gradient(90deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.01) 100%);
+   border-radius: 50%;
+   box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.1);
+   transform: translateY(calc(var(--default-size) * -0.5));
+}
+
+/* Section */
+.achievements .section {
+   display: grid;
+   grid-template-columns: calc(var(--default-size) * 14) repeat(3, calc(var(--default-size) * 4));
+   grid-template-rows: calc(var(--default-size) * 1.2) repeat(4, var(--default-size));
+   gap: calc(var(--default-size) * 0.15);
+   margin-block-end: var(--default-size);
+   background: rgb(83, 83, 83);
+   background: linear-gradient(
+      0deg,
+      rgba(253, 83, 83, 0.03) 0%,
+      transparent 50%,
+      rgba(253, 83, 83, 0.07) 100%
+   );
+}
+.achievements .section.legend {
+   background: rgb(83, 83, 83);
+   background: linear-gradient(
+      0deg,
+      rgba(253, 163, 163, 0.03) 0%,
+      transparent 50%,
+      rgba(253, 163, 163, 0.07) 100%
+   );
+   color: rgba(255, 255, 255, 0.7);
+}
+.achievements .section > * {
+   background-color: rgba(255, 255, 255, 0.01);
+   padding: calc(var(--default-size) * 0.1);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.achievements .section > *:nth-of-type(1) {
+   grid-row: 1 / 3;
+}
+.achievements .section > *:nth-of-type(2) {
+   grid-column: 2 / 5;
+}
+.achievements .section:not(.legend) > *:nth-of-type(2) {
+   color: rgba(150, 255, 241, 0.9);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   font-weight: 600;
+}
+.achievements .section > *:nth-of-type(1),
+.achievements .section > *:nth-of-type(2) {
+   font-size: calc(var(--default-size) * 0.9);
+}
+.achievements .section > *:nth-of-type(3),
+.achievements .section > *:nth-of-type(4),
+.achievements .section > *:nth-of-type(5) {
+   font-size: calc(var(--default-size) * 0.7);
+}
+.achievements .section > *:nth-of-type(4n + 6) {
+   justify-content: flex-start;
+   font-size: calc(var(--default-size) * 0.8);
+}
+.achievements .section .met {
+   background-color: rgba(42, 211, 93, 0.5);
+}

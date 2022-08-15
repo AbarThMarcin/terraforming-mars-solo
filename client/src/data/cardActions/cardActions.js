@@ -104,7 +104,10 @@ export const funcGetCardActions = (
                )
                setModals((prevModals) => ({
                   ...prevModals,
-                  modalSelectCard: { cardIdAction: cardId, card: getCards(CARDS, newCardsDrawIds)[0] },
+                  modalSelectCard: {
+                     cardIdAction: cardId,
+                     card: getCards(CARDS, newCardsDrawIds)[0],
+                  },
                   selectCard: true,
                }))
             },
@@ -126,7 +129,7 @@ export const funcGetCardActions = (
                )
                setModals((prevModals) => ({
                   ...prevModals,
-                  modalSelectCard: { cardIdAction: cardId, card: getCards(CARDS, newCardsDrawIds) },
+                  modalSelectCard: { cardIdAction: cardId, card: getCards(CARDS, newCardsDrawIds)[0] },
                   selectCard: true,
                }))
             },
@@ -245,6 +248,10 @@ export const funcGetCardActions = (
                      ...statePlayer.cardsInHand,
                      ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
+               })
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                  payload: [...statePlayer.cardsSeen, getCards(CARDS, newCardsDrawIds)],
                })
             },
          })
@@ -622,6 +629,10 @@ export const funcGetCardActions = (
                      ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
                })
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                  payload: [...statePlayer.cardsSeen, getCards(CARDS, newCardsDrawIds)],
+               })
             },
          })
          break
@@ -675,6 +686,10 @@ export const funcGetCardActions = (
                      ...statePlayer.cardsInHand,
                      ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
                   ],
+               })
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                  payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
             },
          })

@@ -1,17 +1,28 @@
 /* Used to show ONE card with possible options to select */
 import { useContext, useState } from 'react'
 import { getOptions } from '../../../../data/selectOneOptions'
-import { ModalsContext } from '../../Game'
+import { StateGameContext, ModalsContext } from '../../Game'
 import Card from '../Card'
 import InsulationSection from './modalsComponents/InsulationSection'
 import PowerInfrasSection from './modalsComponents/PowerInfrasSection'
 import SelectOptionSection from './modalsComponents/SelectOptionSection'
 
 const ModalSelectOptions = () => {
+   const { optionRequirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
-   const [selectedOption, setSelectedOption] = useState(
-      getOptions(modals.modalSelectOne.card.id)[0]
-   )
+   const [selectedOption, setSelectedOption] = useState(getDefaultOption())
+
+   function getDefaultOption() {
+      let defaultOption
+      const options = getOptions(modals.modalSelectOne.card.id)
+      options.forEach(option => {
+         const isAvailable = optionRequirementsMet(option)
+         if (isAvailable) {
+            if (!defaultOption) defaultOption = option
+         }
+      })
+      return defaultOption
+   }
 
    return (
       <div className="card-container big center">

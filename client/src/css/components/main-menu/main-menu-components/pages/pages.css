@@ -1,13 +1,12 @@
 @import url('./account.css');
 @import url('./menu.css');
-@import url('./credits.css');
 @import url('./login-register.css');
 @import url('./rules.css');
 @import url('./settings.css');
-@import url('./stats.css');
+@import url('./stats/stats.css');
 
 /* Container of the page */
-.main-menu .window-container::before {
+.main-menu .green-border::before {
    content: '';
    position: absolute;
    background-color: transparent;
@@ -20,7 +19,7 @@
    z-index: -1;
 }
 
-.main-menu .window-container::after {
+.main-menu .green-border::after {
    content: '';
    position: absolute;
    background-color: transparent;

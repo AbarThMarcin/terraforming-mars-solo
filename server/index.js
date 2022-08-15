@@ -4,21 +4,16 @@ const dotenv = require('dotenv')
 const connectDB = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
 const gameRoutes = require('./routes/gameRoutes')
+const otherRoutes = require('./routes/otherRoutes')
 const cors = require('cors')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 const app = express()
 
 dotenv.config()
 
-app.use(
-   cors({
-      origin: true,
-   })
-)
-app.use(express.json())
-var bodyParser = require('body-parser')
-app.use(bodyParser.json({ limit: '50mb' }))
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }))
+app.use(cors({ origin: true }))
+app.use(express.json({ limit: '500mb' }))
+app.use(express.urlencoded({ limit: '500mb', extended: true, parameterLimit: 100000 }))
 
 // Connect to Mongo DB
 connectDB()
@@ -26,8 +21,9 @@ connectDB()
 // Routes
 app.use('/api/users', userRoutes)
 app.use('/api/games', gameRoutes)
+app.use('/api/other', otherRoutes)
 
-// Error handler
+// Error handlers
 app.use(notFound)
 app.use(errorHandler)
 

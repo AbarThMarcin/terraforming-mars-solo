@@ -23,6 +23,9 @@ export const INIT_STATE_PLAYER = {
    cardsInHand: [],
    // Cards Played
    cardsPlayed: [],
+   // For Statistics
+   cardsSeen: [],
+   cardsPurchased: [],
    // Steel / Titan / Greenery value
    valueSteel: 2,
    valueTitan: 3,

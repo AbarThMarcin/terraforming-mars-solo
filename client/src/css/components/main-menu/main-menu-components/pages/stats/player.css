@@ -1,0 +1,431 @@
+/* Overview */
+.overview {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   column-gap: calc(var(--default-size) * 0.6);
+}
+.overview > div {
+   width: 100%;
+}
+.overview .table,
+.overview .chart-container {
+   border: calc(var(--default-size) * 0.12) solid rgba(255, 255, 255, 0.05);
+}
+
+/* Overview - Table - General */
+.overview .table {
+   margin-top: calc(var(--default-size) * 2);
+   font-size: calc(var(--default-size) * 0.85);
+   display: flex;
+   justify-content: center;
+   padding: calc(var(--default-size) * 0.1);
+}
+.overview .table table {
+   border-spacing: 0;
+}
+/* Overview - Table - Player Name */
+.overview .table .player-name {
+   position: absolute;
+   left: calc(var(--default-size) * 0.6);
+   top: 2%;
+   text-align: center;
+   font-size: calc(var(--default-size) * 1.3);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   color: rgba(150, 255, 241, 0.9);
+}
+/* Overview - Table - Headers */
+.overview .table thead tr {
+   line-height: var(--default-size);
+   background: rgb(30, 30, 30);
+   background: linear-gradient(
+      0deg,
+      rgba(30, 30, 30, 0.5) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(30, 30, 30, 0.5) 100%
+   );
+}
+.overview .table thead td:first-of-type,
+.overview .table td,
+.overview .table tfoot td:first-of-type {
+   text-align: center;
+}
+/* Overview - Table - Body */
+.overview .table td {
+   width: 11%;
+}
+.overview .table tr:nth-of-type(n + 1) td {
+   border-bottom: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.06);
+}
+.overview .table tr:nth-last-of-type(1) td {
+   border-bottom: none;
+}
+/* Overview - Table - Body (corporations) */
+.overview .table td:first-of-type {
+   width: 34%;
+   padding: 0 calc(var(--default-size) * 0.3);
+   text-align: left;
+}
+/* Overview - Table - Total Line */
+.overview .table tfoot tr {
+   background: rgb(30, 30, 30);
+   background: linear-gradient(
+      0deg,
+      rgba(30, 30, 30, 0.5) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(30, 30, 30, 0.5) 100%
+   );
+}
+
+/* Overview - Charts */
+.overview .charts {
+   height: calc(100% - var(--default-size) * 2);
+}
+.overview .charts .charts-title {
+   height: calc(var(--default-size) * 2);
+   display: flex;
+   justify-content: center;
+   align-items: flex-end;
+}
+.overview .chart-container {
+   position: relative;
+   overflow-x: hidden;
+}
+.overview .chart-container-1 {
+   height: 65%;
+   margin-block-end: calc(var(--default-size) * 0.6);
+}
+.overview .chart-container-2 {
+   height: calc(35% - var(--default-size) * 0.6);
+}
+
+/* Overview - Chart - background */
+.overview .chart-container .chart-bg {
+   position: absolute;
+   left: 12%;
+   top: calc(var(--default-size) * 0.5);
+   width: 80%;
+   height: calc(100% - var(--default-size) * 2);
+}
+
+/* Overview - Chart - ranges (axisY legend) */
+.overview .chart-container .chart-bg .ranges {
+   position: absolute;
+   left: 0;
+   height: 100%;
+   transform: translateX(-120%);
+   font-size: calc(var(--default-size) * 0.75);
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+   align-items: flex-end;
+}
+.overview .chart-container .chart-bg .ranges div {
+   text-align: end;
+   display: flex;
+   align-items: center;
+   height: calc(var(--default-size) * 0.8);
+}
+
+/* Overview - Chart - vertical lines */
+.overview .chart-container .chart-bg .axisY {
+   position: absolute;
+   top: 0;
+   width: calc(var(--default-size) * 0.1);
+   height: 100%;
+   background-color: rgba(255, 255, 255, 0.2);
+}
+.overview .chart-container .chart-bg .axisY.axisY-help {
+   background-color: rgba(255, 255, 255, 0.06);
+}
+.overview .chart-container .chart-bg .axisY > span {
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 100%);
+   font-size: calc(var(--default-size) * 0.8);
+}
+.overview .chart-container .chart-bg .axisY.axisY-help.hidden {
+   display: none;
+}
+
+/* Overview - Chart - bars */
+.overview .chart-container .chart-bg .bars {
+   position: absolute;
+   left: calc(var(--default-size) * 0.1);
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+}
+.overview .chart-container .chart-bg .bar-percentage {
+   position: absolute;
+   right: 0;
+   top: 50%;
+   transform: translate(120%, -50%);
+}
+
+/* Details - General*/
+.details {
+   margin-top: calc(var(--default-size) * 3);
+}
+.details .stats-box {
+   display: grid;
+   grid-template-columns: repeat(2, calc(var(--default-size) * 18));
+   grid-template-rows: repeat(2, calc(var(--default-size) * 10));
+   gap: calc(var(--default-size) * 2);
+}
+/* Details - Player Name */
+.details .player-name {
+   position: absolute;
+   left: calc(var(--default-size) * 0.6);
+   top: 2%;
+   text-align: center;
+   font-size: calc(var(--default-size) * 1.3);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   color: rgba(150, 255, 241, 0.9);
+}
+/* Details - One Stat Box */
+.details .stats-box > * {
+   width: 100%;
+   height: 100%;
+   border: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.04);
+   padding: calc(var(--default-size) * 0.2);
+   padding-bottom: 0;
+   border-radius: calc(var(--default-size) * 0.5);
+}
+/* Content Section (Title, Card, Value and "And More" Section) */
+.details .stats-box > * .content {
+   width: 100%;
+   height: 85%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+/* No Cards section */
+.details .stats-box > * .content .no-cards {
+   height: 100%;
+   width: 55%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+/* Title + right border */
+.details .stats-box > * .content .content-title {
+   position: relative;
+   height: 100%;
+   width: 45%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   word-spacing: calc(var(--default-size) * 0.15);
+   line-height: calc(var(--default-size) * 1.3);
+}
+.details .stats-box > * .content .content-title span {
+   font-weight: 600;
+   font-size: calc(var(--default-size) * 1.2);
+   color: rgb(150, 255, 255);
+   letter-spacing: calc(var(--default-size) * 0.1);
+}
+.details .stats-box > * .content .content-title::after {
+   content: '';
+   position: absolute;
+   top: 50%;
+   right: 3%;
+   transform: translateY(-50%);
+   height: 80%;
+   width: calc(var(--default-size) * 0.15);
+   background: rgb(255, 255, 255);
+   background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.01) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.01) 100%
+   );
+   border-radius: 50%;
+   box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.1);
+}
+/* Card, Value and "And More" Section */
+.details .stats-box > * .content .content-cards {
+   height: 100%;
+   width: 55%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+/* Card with value */
+.details .stats-box > * .content .content-cards .top-card-with-value {
+   height: 100%;
+   flex: 1.3;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   position: relative;
+}
+/* Card only */
+.details .stats-box > * .content .content-cards .top-card-with-value .stats-card-container {
+   position: absolute;
+   left: 50%;
+   top: 45%;
+   transform: translate(-50%, -50%);
+   height: 70%;
+   aspect-ratio: 1 / 1.4;
+   text-align: center;
+}
+/* Value only */
+.details .stats-box > * .content .content-cards .top-card-with-value .value {
+   position: absolute;
+   left: 50%;
+   bottom: 0;
+   transform: translateX(-50%);
+   width: 100%;
+   text-align: center;
+   word-spacing: calc(var(--default-size) * 0.15);
+   line-height: calc(var(--default-size) * 1.3);
+}
+.details .stats-box > * .content .content-cards .top-card-with-value .value span {
+   font-weight: 600;
+   font-size: calc(var(--default-size) * 1.05);
+   letter-spacing: calc(var(--default-size) * 0.1);
+}
+/* And more... section */
+.details .stats-box > * .content .content-cards .and-more {
+   height: 100%;
+   flex: 1;
+   display: flex;
+   align-items: center;
+   word-spacing: calc(var(--default-size) * 0.15);
+   line-height: calc(var(--default-size) * 1.3);
+}
+.details .stats-box > * .content .content-cards .and-more span {
+   font-weight: 600;
+   font-size: calc(var(--default-size) * 1.2);
+   color: rgb(150, 255, 255);
+   letter-spacing: calc(var(--default-size) * 0.1);
+}
+/* See All Section */
+.details .stats-box > * .see-all {
+   width: 100%;
+   height: 15%;
+   border-top: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.04);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.details .stats-box > * .see-all span {
+   font-size: calc(var(--default-size) * 0.9);
+   font-weight: 600;
+}
+.details .stats-box > * .see-all:hover {
+   background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(255, 255, 255, 0.03) 50%,
+      transparent 100%
+   );
+}
+.details .stats-box > * .see-all:hover span {
+   font-size: calc(var(--default-size) * 0.9);
+   font-weight: 600;
+   color: rgb(150, 255, 255);
+}
+/* See All Cards Modal - General */
+.see-all-cards-container {
+   width: 30%;
+   height: 80%;
+   border: calc(var(--default-size) * 0.15) solid rgba(0, 255, 191, 0.5);
+   border-radius: calc(var(--default-size) * 1);
+   background-color: rgba(0, 0, 0, 0.8);
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: calc(var(--default-size) * 0.2);
+}
+/* See All Cards Modal - Title */
+.see-all-cards-container .title-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 7%;
+   font-size: calc(var(--default-size) * 1.7);
+   border-bottom: calc(var(--default-size) * 0.1) solid rgba(0, 255, 191, 0.5);
+}
+/* See All Cards Modal - Search Bar */
+.see-all-cards-container .search-container {
+   width: 100%;
+   height: 6%;
+   font-size: calc(var(--default-size) * 1.4);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+/* See All Cards Modal - Search Bar */
+.see-all-cards-container .content-container {
+   width: 100%;
+   height: 87%;
+   font-size: calc(var(--default-size) * 1.4);
+   padding: calc(var(--default-size) * 0.4);
+   text-align: center;
+}
+/* See All Cards Modal - Headers */
+.see-all-cards-container .content-container .headers {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: var(--default-size);
+   line-height: var(--default-size);
+   height: 10%;
+   background: linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+}
+.see-all-cards-container .content-container .headers > div {
+   flex: 1;
+}
+/* See All Cards Modal - Table */
+.see-all-cards-container .content-container .table {
+   height: 90%;
+   overflow: auto;
+}
+.see-all-cards-container .content-container .table.with-scrollbar {
+   width: calc(100% + var(--default-size) * 0.5);
+}
+.see-all-cards-container .content-container .table::-webkit-scrollbar {
+   position: absolute;
+   width: calc(var(--default-size) * 0.5);
+}
+.see-all-cards-container .content-container .table::-webkit-scrollbar-track {
+   background-color: transparent;
+   border-radius: calc(var(--default-size) * 0.5);
+   margin-left: 10px;
+}
+.see-all-cards-container .content-container .table::-webkit-scrollbar-thumb {
+   background-color: rgba(255, 255, 255, 0.15);
+   border: calc(var(--default-size) * 0.08) solid rgba(0, 0, 0, 0.5);
+   border-radius: calc(var(--default-size) * 0.5);
+}
+/* See All Cards Modal - Table - Card Row */
+.see-all-cards-container .content-container .table .card-row {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   position: relative;
+}
+.see-all-cards-container .content-container .table .card-row > div {
+   height: calc(var(--default-size) * 6);
+   flex: 1;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.see-all-cards-container .content-container .table .card-row > div:first-of-type {
+   font-size: calc(var(--default-size) * 1.8);
+   color: rgba(0, 255, 191, 0.9);
+}
+.see-all-cards-container .content-container .table .card-row > div:last-of-type {
+   font-size: calc(var(--default-size) * 1.5);
+}

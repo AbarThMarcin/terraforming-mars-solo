@@ -30,7 +30,7 @@ export const INIT_MODALS = {
    endStats: false,
    // Info for business contacts or invention contest
    modalBusCont: {
-      cardsCount: null,
+      cards: [],
       selectCount: null
    },
    // Info for cards modal

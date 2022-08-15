@@ -27,8 +27,8 @@
 
 .main-menu .login-register form .container input:-webkit-autofill {
    border: 1px solid #fff;
-  -webkit-text-fill-color: #fff;
-  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 1) inset;
+   -webkit-text-fill-color: #fff;
+   -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 1) inset;
 }
 
 /* Label */
@@ -39,7 +39,7 @@
 
 /* Button */
 .main-menu .login-register form button,
-.settings-container button {
+.menu-container button {
    width: 100%;
    height: calc(var(--default-size) * 1.5);
    margin-block: calc(var(--default-size) * 1) 0;
@@ -56,12 +56,12 @@
    position: relative;
 }
 .main-menu .login-register form button:hover,
-.settings-container button:hover {
+.menu-container button:hover {
    background-color: rgb(0, 133, 91);
    border: calc(var(--default-size) * 0.1) solid rgb(132, 255, 216);
 }
 .main-menu .login-register form button.disabled,
-.settings-container button:disabled {
+.menu-container button:disabled {
    background-color: rgb(55, 82, 73);
    border: calc(var(--default-size) * 0.1) solid rgb(83, 134, 118);
    color: #777;

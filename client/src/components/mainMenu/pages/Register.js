@@ -56,7 +56,7 @@ const Register = ({ setUser }) => {
          <div className="window-header">REGISTER</div>
          <form onSubmit={handleRegister}>
             <div className="container">
-               <label htmlFor="name">USERNAME</label>
+               <label htmlFor="name">PLAYER NAME</label>
                <input
                   type="text"
                   id="name"
@@ -75,7 +75,7 @@ const Register = ({ setUser }) => {
             </div>
             <div className="container">
                <label htmlFor="password">PASSWORD</label>
-               <input type="password" id="password" ref={passwordRef} placeholder="Enter password" required />
+               <input type="password" id="password" ref={passwordRef} required />
             </div>
             <div className="container">
                <label htmlFor="password-conf">PASSWORD CONFIRMATION</label>

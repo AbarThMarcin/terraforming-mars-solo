@@ -33,7 +33,7 @@ const ModalSPaction = ({
          ? { transform: 'translateX(4%)' }
          : {}
 
-   const btnSPActionPosition = { right: '8%', top: '50%', transform: 'translateY(-50%) scale(0.9)'}
+   const btnSPActionPosition = { right: '8%', top: '50%', transform: 'translateY(-50%) scale(0.9)' }
 
    const handleClickBtn = () => {
       // No action if cost is higher than resources
@@ -89,9 +89,9 @@ const ModalSPaction = ({
                (field) =>
                   !field.oceanOnly &&
                   !field.object &&
-                  field.name !== 'NOCTIC CITY' &&
                   field.name !== 'PHOBOS SPACE HAVEN' &&
-                  field.name !== 'GANYMEDE COLONY'
+                  field.name !== 'GANYMEDE COLONY' &&
+                  field.name !== 'NOCTIS CITY'
             )
             if (availFields.length === 0) v = false
             break

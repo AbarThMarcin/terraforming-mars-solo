@@ -33,7 +33,13 @@ const ModalSellCards = () => {
    const onYesFunc = () => {
       let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals
-      setModals({ ...modals, confirmation: false, sellCards: false, standardProjects: false })
+      setModals({
+         ...modals,
+         confirmation: false,
+         sellCards: false,
+         standardProjects: false,
+         cardPlayed: false,
+      })
       // Add removal of selected cards to the subActions
       subActions.push({
          name: ANIMATIONS.CARD_OUT,
@@ -84,7 +90,7 @@ const ModalSellCards = () => {
             />
          )}
          <div className="modal-select-cards">
-            <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
+            <div className="box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
                {statePlayer.cardsInHand.map((card, idx) => (
                   <div

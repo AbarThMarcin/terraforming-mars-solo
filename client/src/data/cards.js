@@ -290,6 +290,7 @@ export const CARDS = [
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_CREDICOR,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
@@ -568,6 +569,7 @@ export const CARDS = [
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
          EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
@@ -673,7 +675,7 @@ export const CARDS = [
       vp: 0,
       tags: [],
       effect: null,
-      effectsToCall: [],
+      effectsToCall: [EFFECTS.EFFECT_ARCTIC_ALGAE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1607,7 +1609,7 @@ export const CARDS = [
       vp: 2,
       tags: [],
       effect: null,
-      effectsToCall: [],
+      effectsToCall: [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_ARCTIC_ALGAE],
       units: {
          microbe: 0,
          animal: 0,
@@ -2071,7 +2073,7 @@ export const CARDS = [
       ],
       vp: 1,
       tags: [TAGS.BUILDING],
-      effect: EFFECTS.EFFECT_EARTH_CATAPULT,
+      effect: null,
       effectsToCall: [],
       units: {
          microbe: 0,
@@ -2249,6 +2251,7 @@ export const CARDS = [
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_CREDICOR,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
@@ -2332,6 +2335,8 @@ export const CARDS = [
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_CREDICOR,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
@@ -2395,6 +2400,8 @@ export const CARDS = [
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_CREDICOR,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
@@ -3395,7 +3402,7 @@ export const CARDS = [
       vp: 1,
       tags: [TAGS.BUILDING],
       effect: null,
-      effectsToCall: [],
+      effectsToCall: [EFFECTS.EFFECT_ARCTIC_ALGAE],
       units: {
          microbe: 0,
          animal: 0,
@@ -3719,7 +3726,11 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
+      effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
+         EFFECTS.EFFECT_INTERPLANETARY,
+         EFFECTS.EFFECT_MEDIA_GROUP,
+      ],
       units: {
          microbe: 0,
          animal: 0,
@@ -4174,6 +4185,7 @@ export const CARDS = [
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_CREDICOR,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
@@ -4694,6 +4706,7 @@ export const CARDS = [
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
       effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
          EFFECTS.EFFECT_INTERPLANETARY,
          EFFECTS.EFFECT_MEDIA_GROUP,
          EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
@@ -5288,7 +5301,11 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
+      effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
+         EFFECTS.EFFECT_INTERPLANETARY,
+         EFFECTS.EFFECT_MEDIA_GROUP,
+      ],
       units: {
          microbe: 0,
          animal: 0,
@@ -5502,7 +5519,11 @@ export const CARDS = [
       vp: -1,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
+      effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
+         EFFECTS.EFFECT_INTERPLANETARY,
+         EFFECTS.EFFECT_MEDIA_GROUP,
+      ],
       units: {
          microbe: 0,
          animal: 0,
@@ -5580,7 +5601,11 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
+      effectsToCall: [
+         EFFECTS.EFFECT_ARCTIC_ALGAE,
+         EFFECTS.EFFECT_INTERPLANETARY,
+         EFFECTS.EFFECT_MEDIA_GROUP,
+      ],
       units: {
          microbe: 0,
          animal: 0,
@@ -6072,7 +6097,10 @@ export const CARDS = [
       ],
       originalCost: 21,
       currentCost: 21,
-      requirements: [{ type: REQUIREMENTS.TAGS, value: 3, other: TAGS.SCIENCE }],
+      requirements: [
+         { type: REQUIREMENTS.TAGS, value: 3, other: TAGS.SCIENCE },
+         { type: REQUIREMENTS.PRODUCTION, value: 1, other: RESOURCES.ENERGY },
+      ],
       vp: 1,
       tags: [TAGS.SCIENCE, TAGS.BUILDING],
       effect: null,

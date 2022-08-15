@@ -21,6 +21,11 @@ const endedGameSchema = mongoose.Schema(
          type: Number,
          required: true,
       },
+      forfeited: {
+         type: Boolean,
+         required: true,
+         default: false,
+      },
       victory: {
          type: Boolean,
          required: true,
@@ -28,11 +33,21 @@ const endedGameSchema = mongoose.Schema(
       },
       corporation: {
          type: corporationSchema,
-         required: true,
+         required: false,
       },
-      cardsPlayed: {
-         type: [cardSchema],
-         required: true,
+      cards: {
+         played: {
+            type: [cardSchema],
+            required: true,
+         },
+         seen: {
+            type: [cardSchema],
+            required: true,
+         },
+         purchased: {
+            type: [cardSchema],
+            required: true,
+         },
       },
       points: {
          type: pointsSchema,

@@ -7,10 +7,9 @@ import { INIT_MODALS } from './initStates/initModals'
 import { INIT_BOARD } from './initStates/initBoard'
 import { LOG_TYPES } from './data/log'
 import Menu from './components/mainMenu/pages/Menu'
-import Stats from './components/mainMenu/pages/Stats'
+import Stats from './components/mainMenu/pages/stats/Stats'
 import Settings from './components/mainMenu/pages/Settings'
 import Rules from './components/mainMenu/pages/Rules'
-import Credits from './components/mainMenu/pages/Credits'
 import Login from './components/mainMenu/pages/Login'
 import Register from './components/mainMenu/pages/Register'
 import Account from './components/mainMenu/pages/Account'
@@ -94,12 +93,14 @@ function App() {
    }
 
    async function initNewGame(gameData) {
+      const board = JSON.parse(JSON.stringify(INIT_BOARD))
       gameData.statePlayer = INIT_STATE_PLAYER
       gameData.stateGame = INIT_STATE_GAME
       gameData.stateModals = INIT_MODALS
-      gameData.stateBoard = addNeutralTiles(INIT_BOARD)
+      gameData.stateBoard = addNeutralTiles(board)
       gameData.corps = await getRandIntNumbers(2, 1, 12)
-      gameData.initCards = await getRandIntNumbers(10, 1, 208)
+      // gameData.initCards = await getRandIntNumbers(10, 1, 208)
+      gameData.initCards = [111, 20, 192, 196, 204, 156, 73, 3, 4, 5]
       gameData.logItems = [
          { type: LOG_TYPES.LOG, data: null },
          { type: LOG_TYPES.GENERATION, data: { text: '1' } },
@@ -117,10 +118,9 @@ function App() {
             <Routes>
                <Route path="/" element={<MainMenu />}>
                   <Route index element={<Menu user={user} setData={setData} logout={logout} />} />
-                  <Route path="stats" element={<Stats />} />
+                  <Route path="stats" element={<Stats user={user} />} />
                   <Route path="settings" element={<Settings user={user} setUser={setUser} />} />
                   <Route path="rules" element={<Rules />} />
-                  <Route path="credits" element={<Credits />} />
                   <Route path="login" element={<Login setUser={setUser} />} />
                   <Route path="register" element={<Register setUser={setUser} />} />
                   <Route path="account" element={<Account user={user} setUser={setUser} />} />

@@ -295,35 +295,31 @@ export function funcGetOptionsActions(
          break
       // Electro Catapult
       case OPTION_ICONS.CARD69_OPTION1:
-         value = 1
-         subActions.push({
-            name: ANIMATIONS.RESOURCES_OUT,
-            type: RESOURCES.PLANT,
-            value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -value }),
-         })
-         value = 7
-         subActions.push({
-            name: ANIMATIONS.RESOURCES_IN,
-            type: RESOURCES.MLN,
-            value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value }),
-         })
-         break
-      case OPTION_ICONS.CARD69_OPTION2:
-         value = 1
          subActions.push({
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.STEEL,
-            value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -value }),
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 }),
          })
-         value = 7
          subActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,
-            value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value }),
+            value: 7,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 }),
+         })
+         break
+      case OPTION_ICONS.CARD69_OPTION2:
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_OUT,
+            type: RESOURCES.PLANT,
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -1 }),
+         })
+         subActions.push({
+            name: ANIMATIONS.RESOURCES_IN,
+            type: RESOURCES.MLN,
+            value: 7,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 }),
          })
          break
       // Viral Enhancers

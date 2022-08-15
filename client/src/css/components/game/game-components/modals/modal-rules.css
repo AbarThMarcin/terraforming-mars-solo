@@ -1,22 +1,18 @@
-.modal-rules {
-   width: 48%;
-   height: 75%;
-   background-color: rgba(0, 10, 7, 0.98);
-   padding: calc(var(--default-size) * 0.7);
-   letter-spacing: calc(var(--default-size) * 0.12);
-   font-weight: 500;
-   border-radius: calc(var(--default-size) * 0.5);
+.menu-container a:link {
+   color: #fff;
+   text-decoration: none;
 }
 
-.modal-rules .header {
-   width: 100%;
-   text-align: center;
-   font-size: calc(var(--default-size) * 1.5);
+.menu-container a:visited {
+   color: #fff;
 }
-.modal-rules .data {
-   width: 100%;
-   height: 91%;
-   background-color: rgba(0,0,0, 0.4);
-   border-radius: calc(var(--default-size) * 0.3);
-   padding: calc(var(--default-size) * 0.5);
+
+.menu-container a:hover {
+   color: #ddd;
+
+}
+
+.menu-container a:active {
+   color: #fff;
+
 }

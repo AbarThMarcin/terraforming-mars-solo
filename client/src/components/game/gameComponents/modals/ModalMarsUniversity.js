@@ -68,6 +68,10 @@ const ModalMarsUniversity = () => {
                ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
             ],
          })
+         dispatchPlayer({
+            type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+            payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
+         })
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)
@@ -101,7 +105,7 @@ const ModalMarsUniversity = () => {
             />
          )}
          <div className="modal-select-cards">
-            <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
+            <div className="box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
                {statePlayer.cardsInHand.map((card, idx) => (
                   <div

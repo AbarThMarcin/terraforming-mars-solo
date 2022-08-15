@@ -69,7 +69,11 @@ const Card = ({ card, isBig }) => {
    // cardsPlayer/cardsInHand) AND when a card is not clicked because then
    // both modals: cards and cardWithAction are shown [cards = display-none]
    const pointer =
-      (modals.draft || modals.sellCards || modals.cards || modals.businessContacts || modals.marsUniversity) &&
+      (modals.draft ||
+         modals.sellCards ||
+         modals.cards ||
+         modals.businessContacts ||
+         modals.marsUniversity) &&
       !modals.cardWithAction &&
       !modals.cardViewOnly
 
@@ -77,19 +81,19 @@ const Card = ({ card, isBig }) => {
       <>
          <div
             className={`
-            card full-size ${disabled && 'disabled'}
-            ${pointer && 'pointer'}
-            ${
-               getCardType(card) === 'green'
-                  ? 'card-bg-green'
-                  : getCardType(card) === 'blue'
-                  ? 'card-bg-blue'
-                  : 'card-bg-red'
-            }
-         `}
+               card full-size ${disabled && 'disabled'}
+               ${pointer && 'pointer'}
+               ${
+                  getCardType(card) === 'green'
+                     ? 'card-bg-green'
+                     : getCardType(card) === 'blue'
+                     ? 'card-bg-blue'
+                     : 'card-bg-red'
+               }
+            `}
          >
             {/* BLACK INSET BORDER */}
-            <div className='black-border'>
+            <div className="black-border">
                {/* NAME */}
                <div
                   className={`

@@ -21,7 +21,12 @@ const ModalMenu = () => {
          if (isRanked) {
             const gameData = {
                corporation: statePlayer.corporation,
-               cardsPlayed: statePlayer.cardsPlayed,
+               cards: {
+                  played: statePlayer.cardsPlayed,
+                  seen: statePlayer.cardsSeen,
+                  purchased: statePlayer.cardsPurchased,
+               },
+               forfeited: true,
             }
             await createEndedGameData(user.token, gameData)
          }
@@ -56,27 +61,27 @@ const ModalMenu = () => {
       <>
          <div
             className="full-size"
-            onClick={() => setModals({ ...modals, menu: false, settings: false })}
+            onClick={() => setModals({ ...modals, menu: false, settings: false, rules: false })}
          >
             <div className="modal-menu" onClick={(e) => e.stopPropagation()}>
                <ul>
                   <li
                      className="pointer"
-                     onClick={() => setModals({ ...modals, settings: !modals.settings })}
+                     onClick={() => setModals({ ...modals, settings: !modals.settings, rules: false })}
                   >
                      SETTINGS
+                  </li>
+                  <li
+                     className="pointer"
+                     onClick={() => setModals({ ...modals, rules: !modals.rules, settings: false })}
+                  >
+                     RULES
                   </li>
                   {user && (
                      <li className="pointer" onClick={() => handleClickForfeitOrMainMenu(true)}>
                         FORFEIT
                      </li>
                   )}
-                  <li
-                     className="pointer"
-                     onClick={() => setModals({ ...modals, rules: true, settings: false })}
-                  >
-                     RULES
-                  </li>
                   <li className="pointer" onClick={() => handleClickForfeitOrMainMenu()}>
                      MAIN MENU
                   </li>

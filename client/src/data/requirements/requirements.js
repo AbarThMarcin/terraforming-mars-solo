@@ -201,7 +201,10 @@ export const funcRequirementsMet = (
                            nb.object === TILES.CITY ||
                            nb.object === TILES.CITY_NEUTRAL ||
                            nb.object === TILES.SPECIAL_CITY_CAPITAL
-                     ).length >= 2
+                     ).length >= 2 &&
+                     field.name !== 'PHOBOS SPACE HAVEN' &&
+                     field.name !== 'GANYMEDE COLONY' &&
+                     field.name !== 'NOCTIS CITY'
                   )
                })
                availFields = setAvailFieldsSpecific(board, tiles)
@@ -511,10 +514,10 @@ export const funcOptionRequirementsMet = (option, statePlayer) => {
          if (card.units.microbe < 2) reqMet = false
          break
       case OPTION_ICONS.CARD69_OPTION1:
-         if (statePlayer.resources.plant === 0) reqMet = false
+         if (statePlayer.resources.steel === 0) reqMet = false
          break
       case OPTION_ICONS.CARD69_OPTION2:
-         if (statePlayer.resources.steel === 0) reqMet = false
+         if (statePlayer.resources.plant === 0) reqMet = false
          break
       case OPTION_ICONS.CARD157_OPTION2:
          card = statePlayer.cardsPlayed.find((card) => card.id === 157)

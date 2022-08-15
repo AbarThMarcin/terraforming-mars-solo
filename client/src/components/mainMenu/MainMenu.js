@@ -1,5 +1,4 @@
 import { Outlet, useNavigate } from 'react-router-dom'
-import MainMenuConfirmation from './MainMenuConfirmation'
 
 const MainMenu = () => {
    const navigate = useNavigate()

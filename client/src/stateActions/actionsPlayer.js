@@ -18,9 +18,11 @@ export const ACTIONS_PLAYER = {
    CHANGE_RES_PLANT: 'Increase amount of plants',
    CHANGE_RES_ENERGY: 'Increase amount of energy',
    CHANGE_RES_HEAT: 'Increase amount of heat',
-   // Cards in Hand and Cards Played utils
+   // Cardsutils
    SET_CARDS_IN_HAND: 'Set cards in hand',
    SET_CARDS_PLAYED: 'Set cards played',
+   SET_CARDS_SEEN: 'Set cards seen',
+   SET_CARDS_PURCHASED: 'Set cards purchase',
    SET_ACTION_USED: 'Set actionUsed parameter for aspecific card in played cards',
    ADD_BIO_RES: 'Add specific amount of specific bio resource to a specific card in played cards',
    SET_TRRAISED: 'Set trRaised parameter for UNMI only',
@@ -166,7 +168,7 @@ export const reducerPlayer = (state, action) => {
                heat: state.resources.heat + action.payload,
             },
          }
-      // SET CARDS IN HAND AND CARDS PLAYED
+      // SET CARDS IN HAND, CARDS PLAYED, CARDS SEEN AND CARDS PURCHASED
       case ACTIONS_PLAYER.SET_CARDS_IN_HAND:
          return {
             ...state,
@@ -176,6 +178,16 @@ export const reducerPlayer = (state, action) => {
          return {
             ...state,
             cardsPlayed: action.payload,
+         }
+      case ACTIONS_PLAYER.SET_CARDS_SEEN:
+         return {
+            ...state,
+            cardsSeen: action.payload,
+         }
+      case ACTIONS_PLAYER.SET_CARDS_PURCHASED:
+         return {
+            ...state,
+            cardsPurchased: action.payload,
          }
       case ACTIONS_PLAYER.SET_ACTION_USED:
          // If payload.cardId === 'UNMI'

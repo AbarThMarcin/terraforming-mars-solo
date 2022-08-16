@@ -1,24 +1,33 @@
 import { useContext } from 'react'
+import { updateUser } from '../../../../api/apiUser'
+import { SettingsContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { sorted } from '../../../../utils/misc'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../Game'
+import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../Game'
 
 const BtnSort = ({ id, text }) => {
+   const { user, setUser } = useContext(UserContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { sortId, setSortId, requirementsMet } = useContext(StateGameContext)
+   const { requirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
+   const { settings, setSettings } = useContext(SettingsContext)
    const cardsTypeId = modals.modalCardsType === 'Cards In Hand' ? 0 : 1
 
    const handleClickSortBtn = (e) => {
       e.stopPropagation()
+      // Change in Frontend
       let newSortId =
-         sortId[cardsTypeId].slice(0, 1) !== id
+         settings.sortId[cardsTypeId].slice(0, 1) !== id
             ? `${id}a`
-            : sortId[cardsTypeId].slice(1, 2) === 'a'
+            : settings.sortId[cardsTypeId].slice(1, 2) === 'a'
             ? `${id}b`
             : `${id}a`
       newSortId = cardsTypeId === 1 && id === '4' ? newSortId + '-played' : newSortId.slice(0, 2)
-      setSortId((oldIds) => (cardsTypeId === 0 ? [newSortId, oldIds[1]] : [oldIds[0], newSortId]))
+      setSettings({
+         ...settings,
+         sortId:
+            cardsTypeId === 0 ? [newSortId, settings.sortId[1]] : [settings.sortId[0], newSortId],
+      })
       cardsTypeId === 0
          ? dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -28,12 +37,32 @@ const BtnSort = ({ id, text }) => {
               type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
               payload: sorted(statePlayer.cardsPlayed, newSortId, requirementsMet),
            })
+      // Change in Backend
+      if (user) {
+         const settingsObj = {
+            gameSpeed: settings.speedId,
+            showTotalVP: settings.showTotVP,
+            handSortId: cardsTypeId === 0 ? newSortId : settings.sortId[1],
+            playedSortId: cardsTypeId === 1 ? newSortId : settings.sortId[0],
+         }
+         updateBackend(settingsObj)
+      }
+   }
+
+   async function updateBackend(settings) {
+      try {
+         const { data } = await updateUser(user.token, { settings })
+         localStorage.setItem('user', JSON.stringify(data))
+         setUser(data)
+      } catch (error) {
+         console.log('Something went wrong.')
+      }
    }
 
    return (
       <div
          className={`btn-sort pointer ${
-            id === sortId[cardsTypeId].slice(0, 1) ? 'selected' : 'not-selected'
+            id === settings.sortId[cardsTypeId].slice(0, 1) ? 'selected' : 'not-selected'
          }`}
          onClick={handleClickSortBtn}
       >

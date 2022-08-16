@@ -38,15 +38,22 @@ const userSchema = mongoose.Schema(
             default: '4a-played',
          },
       },
-      quickMatchOn: {
-         type: Boolean,
-         required: true,
-         default: false,
-      },
-      rankedMatchOn: {
-         type: Boolean,
-         required: true,
-         default: false,
+      activeMatches: {
+         quickMatch: {
+            type: Boolean,
+            required: true,
+            default: false,
+         },
+         quickMatchId: {
+            type: Boolean,
+            required: true,
+            default: false,
+         },
+         ranked: {
+            type: Boolean,
+            required: true,
+            default: false,
+         },
       },
       isAdmin: {
          type: Boolean,

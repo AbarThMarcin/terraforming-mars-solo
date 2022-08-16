@@ -4,6 +4,7 @@
 @import url('./rules.css');
 @import url('./settings.css');
 @import url('./stats/stats.css');
+@import url('./qm-type.css');
 
 /* Container of the page */
 .main-menu .green-border::before {

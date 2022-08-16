@@ -1,0 +1,7 @@
+.main-menu .qm-type-container {
+   width: 80%;
+   height: 60%;
+   top: 57%;
+   background-color: transparent;
+   padding: calc(var(--default-size) * 0.7);
+}

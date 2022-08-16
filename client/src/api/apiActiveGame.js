@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const getActiveGameData = async (token, isRanked) => {
+export const getActiveGameData = async (token, type) => {
    const URI = 'http://localhost:5000/api/games/active'
-   const body = { isRanked }
+   const body = { type }
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -20,9 +20,9 @@ export const getActiveGameData = async (token, isRanked) => {
    }
 }
 
-export const createActiveGameData = async (token, gameData, isRanked) => {
+export const createActiveGameData = async (token, gameData, type) => {
    const URI = 'http://localhost:5000/api/games/active/create'
-   const body = { gameData, isRanked }
+   const body = { gameData, type }
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -40,9 +40,9 @@ export const createActiveGameData = async (token, gameData, isRanked) => {
    }
 }
 
-export const deleteActiveGameData = async (token, isRanked) => {
+export const deleteActiveGameData = async (token, type) => {
    const URI = 'http://localhost:5000/api/games/active/delete'
-   const body = { isRanked }
+   const body = { type }
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -60,9 +60,9 @@ export const deleteActiveGameData = async (token, isRanked) => {
    }
 }
 
-export const updateGameData = async (token, gameData, isRanked) => {
+export const updateGameData = async (token, gameData, type) => {
    const URI = 'http://localhost:5000/api/games/active/update'
-   const body = { gameData, isRanked }
+   const body = { gameData, type }
    const config = {
       headers: {
          'Content-Type': 'application/json',

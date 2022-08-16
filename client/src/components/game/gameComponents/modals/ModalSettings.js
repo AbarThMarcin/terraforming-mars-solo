@@ -1,73 +1,62 @@
 /* Used to show the settings sub-menu window */
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { updateUser } from '../../../../api/apiUser'
-import { SPEED } from '../../../../data/settings'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { sorted } from '../../../../utils/misc'
 import { UserContext, StatePlayerContext, StateGameContext } from '../../Game'
+import { SettingsContext } from '../../../../App'
 
-const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, setSortId }) => {
+const ModalSettings = () => {
    const { user, setUser } = useContext(UserContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { ANIMATION_SPEED, requirementsMet } = useContext(StateGameContext)
-   const [speedId, setSpeedId] = useState(getAnimationId())
+   const { settings, setSettings } = useContext(SettingsContext)
+   const { requirementsMet } = useContext(StateGameContext)
 
-   function getAnimationId() {
-      switch (ANIMATION_SPEED) {
-         case SPEED.SLOW:
-            return 1
-         case SPEED.NORMAL:
-            return 2
-         case SPEED.FAST:
-            return 3
-         case SPEED.VERY_FAST:
-            return 4
-         default:
-            break
-      }
-   }
-
-   const handleClickArrow_speed = (arrow) => {
+   function handleClickArrow_speed(arrow) {
       // Change on Front-end
       let newId
       if (arrow === 'left') {
-         newId = speedId - 1
+         newId = settings.speedId - 1
          if (newId < 1) newId = 4
       } else {
-         newId = speedId + 1
+         newId = settings.speedId + 1
          if (newId > 4) newId = 1
       }
-      setSpeedId(newId)
-      setAnimationSpeed(newId)
+      setSettings({ ...settings, speedId: newId })
       // Change in Backend
       if (user) {
-         const settings = {
+         const settingsObj = {
             gameSpeed: newId,
-            showTotalVP: user.settings.showTotalVP,
+            showTotalVP: settings.showTotVP,
+            handSortId: settings.sortId[0],
+            playedSortId: settings.sortId[1],
          }
-         updateBackend(settings)
+         updateBackend(settingsObj)
       }
    }
 
-   const handleClickArrow_totVP = () => {
+   function handleClickArrow_totVP() {
       // Change on Front-end
-      let newShowTotVP = !showTotVP
-      setShowTotVP(newShowTotVP)
+      setSettings({ ...settings, showTotVP: !settings.showTotVP })
       // Change in Backend
       if (user) {
-         const settings = {
-            gameSpeed: user.settings.gameSpeed,
-            showTotalVP: newShowTotVP,
+         const settingsObj = {
+            gameSpeed: settings.speedId,
+            showTotalVP: !settings.showTotVP,
+            handSortId: settings.sortId[0],
+            playedSortId: settings.sortId[1],
          }
-         updateBackend(settings)
+         updateBackend(settingsObj)
       }
    }
 
-   const handleClickArrow_sort = (type, arrow) => {
+   function handleClickArrow_sort(type, arrow) {
       // Change on Front-end
       let digit =
-         type === 'hand' ? parseInt(sortId[0].slice(0, 1)) : parseInt(sortId[1].slice(0, 1))
-      let sign = type === 'hand' ? sortId[0].slice(1, 2) : sortId[1].slice(1, 2)
+         type === 'hand'
+            ? parseInt(settings.sortId[0].slice(0, 1))
+            : parseInt(settings.sortId[1].slice(0, 1))
+      let sign = type === 'hand' ? settings.sortId[0].slice(1, 2) : settings.sortId[1].slice(1, 2)
       const maxIdDigit = type === 'hand' ? 5 : 4
       let newSortId
       if (sign === 'a') {
@@ -78,8 +67,11 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
          if (arrow === 'right') digit = newDigit(arrow, digit, maxIdDigit)
       }
       if (type === 'played' && digit === 4) sign += '-played'
-      newSortId = type === 'hand' ? [`${digit}${sign}`, sortId[1]] : [sortId[0], `${digit}${sign}`]
-      setSortId(newSortId)
+      newSortId =
+         type === 'hand'
+            ? [`${digit}${sign}`, settings.sortId[1]]
+            : [settings.sortId[0], `${digit}${sign}`]
+      setSettings({ ...settings, sortId: newSortId })
       type === 'hand'
          ? dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -91,13 +83,13 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
            })
       // Change in Backend
       if (user) {
-         const settings = {
-            gameSpeed: user.settings.gameSpeed,
-            showTotalVP: user.settings.showTotalVP,
+         const settingsObj = {
+            gameSpeed: settings.speedId,
+            showTotalVP: settings.showTotVP,
             handSortId: newSortId[0],
             playedSortId: newSortId[1],
          }
-         updateBackend(settings)
+         updateBackend(settingsObj)
       }
    }
    function newDigit(arrow, digit, maxIdDigit) {
@@ -111,9 +103,9 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
       return digit
    }
 
-   const updateBackend = async (settings) => {
+   async function updateBackend(settings) {
       try {
-         const { data } = await updateUser(user.token, settings)
+         const { data } = await updateUser(user.token, { settings })
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
       } catch (error) {
@@ -131,10 +123,10 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
                   className="arrow arrow-left pointer"
                   onClick={() => handleClickArrow_speed('left')}
                ></div>
-               {speedId === 1 && <span>SLOW</span>}
-               {speedId === 2 && <span>NORMAL</span>}
-               {speedId === 3 && <span>FAST</span>}
-               {speedId === 4 && <span>VERY FAST</span>}
+               {settings.speedId === 1 && <span>SLOW</span>}
+               {settings.speedId === 2 && <span>NORMAL</span>}
+               {settings.speedId === 3 && <span>FAST</span>}
+               {settings.speedId === 4 && <span>VERY FAST</span>}
                <div
                   className="arrow arrow-right pointer"
                   onClick={() => handleClickArrow_speed('right')}
@@ -146,7 +138,7 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
             <span>SHOW TOTAL POINTS</span>
             <div className="item">
                <div className="arrow arrow-left pointer" onClick={handleClickArrow_totVP}></div>
-               <span>{showTotVP ? 'YES' : 'NO'}</span>
+               <span>{settings.showTotVP ? 'YES' : 'NO'}</span>
                <div className="arrow arrow-right pointer" onClick={handleClickArrow_totVP}></div>
             </div>
          </div>
@@ -158,16 +150,16 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
                   className="arrow arrow-left pointer"
                   onClick={() => handleClickArrow_sort('hand', 'left')}
                ></div>
-               {sortId[0] === '1a' && <span>{`COST (ASC)`}</span>}
-               {sortId[0] === '1b' && <span>{`COST (DESC)`}</span>}
-               {sortId[0] === '2a' && <span>{`CARD TYPE (ASC)`}</span>}
-               {sortId[0] === '2b' && <span>{`CARD TYPE (DESC)`}</span>}
-               {sortId[0] === '3a' && <span>{`TAGS (ASC)`}</span>}
-               {sortId[0] === '3b' && <span>{`TAGS (DESC)`}</span>}
-               {sortId[0] === '4a' && <span>{`CHRONOLOGICAL (ASC)`}</span>}
-               {sortId[0] === '4b' && <span>{`CHRONOLOGICAL (DESC)`}</span>}
-               {sortId[0] === '5a' && <span>{`PLAYABILITY (ASC)`}</span>}
-               {sortId[0] === '5b' && <span>{`PLAYABILITY (DESC)`}</span>}
+               {settings.sortId[0] === '1a' && <span>{`COST (ASC)`}</span>}
+               {settings.sortId[0] === '1b' && <span>{`COST (DESC)`}</span>}
+               {settings.sortId[0] === '2a' && <span>{`CARD TYPE (ASC)`}</span>}
+               {settings.sortId[0] === '2b' && <span>{`CARD TYPE (DESC)`}</span>}
+               {settings.sortId[0] === '3a' && <span>{`TAGS (ASC)`}</span>}
+               {settings.sortId[0] === '3b' && <span>{`TAGS (DESC)`}</span>}
+               {settings.sortId[0] === '4a' && <span>{`CHRONOLOGICAL (ASC)`}</span>}
+               {settings.sortId[0] === '4b' && <span>{`CHRONOLOGICAL (DESC)`}</span>}
+               {settings.sortId[0] === '5a' && <span>{`PLAYABILITY (ASC)`}</span>}
+               {settings.sortId[0] === '5b' && <span>{`PLAYABILITY (DESC)`}</span>}
                <div
                   className="arrow arrow-right pointer"
                   onClick={() => handleClickArrow_sort('hand', 'right')}
@@ -182,14 +174,14 @@ const ModalSettings = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, set
                   className="arrow arrow-left pointer"
                   onClick={() => handleClickArrow_sort('played', 'left')}
                ></div>
-               {sortId[1] === '1a' && <span>{`COST (ASC)`}</span>}
-               {sortId[1] === '1b' && <span>{`COST (DESC)`}</span>}
-               {sortId[1] === '2a' && <span>{`CARD TYPE (ASC)`}</span>}
-               {sortId[1] === '2b' && <span>{`CARD TYPE (DESC)`}</span>}
-               {sortId[1] === '3a' && <span>{`TAGS (ASC)`}</span>}
-               {sortId[1] === '3b' && <span>{`TAGS (DESC)`}</span>}
-               {sortId[1] === '4a-played' && <span>{`CHRONOLOGICAL (ASC)`}</span>}
-               {sortId[1] === '4b-played' && <span>{`CHRONOLOGICAL (DESC)`}</span>}
+               {settings.sortId[1] === '1a' && <span>{`COST (ASC)`}</span>}
+               {settings.sortId[1] === '1b' && <span>{`COST (DESC)`}</span>}
+               {settings.sortId[1] === '2a' && <span>{`CARD TYPE (ASC)`}</span>}
+               {settings.sortId[1] === '2b' && <span>{`CARD TYPE (DESC)`}</span>}
+               {settings.sortId[1] === '3a' && <span>{`TAGS (ASC)`}</span>}
+               {settings.sortId[1] === '3b' && <span>{`TAGS (DESC)`}</span>}
+               {settings.sortId[1] === '4a-played' && <span>{`CHRONOLOGICAL (ASC)`}</span>}
+               {settings.sortId[1] === '4b-played' && <span>{`CHRONOLOGICAL (DESC)`}</span>}
                <div
                   className="arrow arrow-right pointer"
                   onClick={() => handleClickArrow_sort('played', 'right')}

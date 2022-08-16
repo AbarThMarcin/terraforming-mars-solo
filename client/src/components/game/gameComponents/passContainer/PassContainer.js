@@ -12,8 +12,9 @@ import passContBg from '../../../../assets/images/other/passContBg.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { startAnimation } from '../../../../data/animations'
 import TotalVP from './TotalVP'
+import { SettingsContext } from '../../../../App'
 
-const PassContainer = ({ showTotVP, totalVP }) => {
+const PassContainer = ({ totalVP }) => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const {
@@ -27,6 +28,7 @@ const PassContainer = ({ showTotVP, totalVP }) => {
       setSaveToServerTrigger,
    } = useContext(StateGameContext)
    const { cardsDeckIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
+   const { settings } = useContext(SettingsContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
 
    const onYesFunc = async () => {
@@ -240,7 +242,7 @@ const PassContainer = ({ showTotVP, totalVP }) => {
          {/* TR */}
          <div className="tr">{stateGame.tr}</div>
          {/* TOTAL POINTS */}
-         {showTotVP && <TotalVP totalVP={totalVP} />}
+         {settings.showTotVP && <TotalVP totalVP={totalVP} />}
       </>
    )
 }

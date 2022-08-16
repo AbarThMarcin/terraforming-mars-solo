@@ -3,8 +3,6 @@ const { statePlayerSchema } = require('./subModels/modelStatePlayer')
 const { stateGameSchema } = require('./subModels/modelStateGame')
 const { stateModalsSchema } = require('./subModels/modelStateModals')
 const { boardFieldSchema } = require('./subModels/modelBoardField')
-const { corporationSchema } = require('./subModels/modelCorporation')
-const { cardSchema } = require('./subModels/modelCard')
 const { logTypeSchema } = require('./subModels/modelLogType')
 
 const activeGameSchema = mongoose.Schema(
@@ -21,11 +19,15 @@ const activeGameSchema = mongoose.Schema(
       corps: [Number],
       initCards: [Number],
       logItems: [logTypeSchema],
-      isRanked: {
-         type: Boolean,
+      type: {
+         type: String,
          required: true,
-         default: false,
+         default: 'quickMatch',
       },
+      createdAt_ms: {
+         type: Number,
+         default: Date.now()
+      }
    },
    {
       timestamps: true,

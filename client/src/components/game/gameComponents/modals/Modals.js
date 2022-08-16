@@ -25,7 +25,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Corp from '../Corp'
 import ModalEndStats from './ModalEndStats'
 
-const Modals = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, setSortId, logItems }) => {
+const Modals = ({ logItems }) => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -358,15 +358,7 @@ const Modals = ({ setAnimationSpeed, showTotVP, setShowTotVP, sortId, setSortId,
          {modals.menu && <ModalMenu />}
 
          {/* Modal Settings */}
-         {modals.settings && (
-            <ModalSettings
-               setAnimationSpeed={setAnimationSpeed}
-               showTotVP={showTotVP}
-               setShowTotVP={setShowTotVP}
-               sortId={sortId}
-               setSortId={setSortId}
-            />
-         )}
+         {modals.settings && <ModalSettings />}
 
          {/* Modal Rules */}
          {modals.rules && <ModalRules />}

@@ -32,7 +32,6 @@ import BtnStandardProjects from './gameComponents/buttons/BtnStandardProjects'
 import PassContainer from './gameComponents/passContainer/PassContainer'
 import Board from './gameComponents/board/Board'
 import Modals from './gameComponents/modals/Modals'
-import { SPEED } from '../../data/settings'
 import { useNavigate } from 'react-router-dom'
 import { INIT_STATE_PLAYER } from '../../initStates/initStatePlayer'
 import { INIT_STATE_GAME } from '../../initStates/initStateGame'
@@ -43,6 +42,8 @@ import { CARDS } from '../../data/cards'
 import { updateGameData } from '../../api/apiActiveGame'
 import { EFFECTS } from '../../data/effects/effectIcons'
 import { funcGetEffect } from '../../data/effects/effects'
+import { useContext } from 'react'
+import { SettingsContext } from '../../App'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -62,9 +63,10 @@ function Game({
    initLogItems,
    user,
    setUser,
-   isRanked,
+   type,
 }) {
    const navigate = useNavigate()
+   const { settings } = useContext(SettingsContext)
    const [statePlayer, dispatchPlayer] = useReducer(
       reducerPlayer,
       initStatePlayer || INIT_STATE_PLAYER
@@ -77,14 +79,8 @@ function Game({
    const [cardsDeckIds, setCardsDeckIds] = useState(getInitCardsDeckIds())
    const [cardsDrawIds, setCardsDrawIds] = useState(initCardsIds)
    const [logItems, setLogItems] = useState(initLogItems)
-   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(
-      user ? getAnimationSpeed(user.settings.gameSpeed) : SPEED.NORMAL
-   )
-   const [showTotVP, setShowTotVP] = useState(user ? user.settings.showTotalVP : false)
+   const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(getAnimationSpeed(settings.speedId))
    const [totalVP, setTotalVP] = useState(14)
-   const [sortId, setSortId] = useState(
-      user ? [user.settings.handSortId, user.settings.playedSortId] : ['4a', '4a-played']
-   )
    const [updateTrigger, setTrigger] = useState(false)
    const [saveToServerTrigger, setSaveToServerTrigger] = useState(false)
    const [logData, setLogData] = useState(null)
@@ -117,11 +113,11 @@ function Game({
       // Sort Cards In Hand and Cards Played
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: sorted(statePlayer.cardsInHand, sortId[0], requirementsMet),
+         payload: sorted(statePlayer.cardsInHand, settings.sortId[0], requirementsMet),
       })
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-         payload: sorted(statePlayer.cardsPlayed, sortId[1], requirementsMet),
+         payload: sorted(statePlayer.cardsPlayed, settings.sortId[1], requirementsMet),
       })
       // Turn off Indentured Workers effect (if aplicable)
       if (statePlayer.indenturedWorkersEffect && modals.modalCard.id !== 195) {
@@ -129,7 +125,7 @@ function Game({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
             payload: sorted(
                modifiedCards(statePlayer.cardsInHand, statePlayer, false, false),
-               sortId[0],
+               settings.sortId[0],
                requirementsMet
             ),
          })
@@ -137,7 +133,7 @@ function Game({
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
             payload: sorted(
                modifiedCards(statePlayer.cardsPlayed, statePlayer, false, false),
-               sortId[1],
+               settings.sortId[1],
                requirementsMet
             ),
          })
@@ -170,10 +166,16 @@ function Game({
             corps: initCorpsIds,
             logItems,
          }
-         updateGameData(user.token, updatedData, isRanked)
+         updateGameData(user.token, updatedData, type)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [saveToServerTrigger])
+
+   // Update Animation Speed when settings are changed
+   useEffect(() => {
+      setANIMATION_SPEED(getAnimationSpeed(settings.speedId))
+   }, [settings.speedId])
+   
 
    function getInitCardsDeckIds() {
       if (!initCardsIds) return range(1, 208)
@@ -275,24 +277,24 @@ function Game({
       performSubActions(effects, null, null, true)
    }
 
-   function setAnimationSpeed(id) {
-      switch (id) {
-         case 1:
-            setANIMATION_SPEED(SPEED.SLOW)
-            break
-         case 2:
-            setANIMATION_SPEED(SPEED.NORMAL)
-            break
-         case 3:
-            setANIMATION_SPEED(SPEED.FAST)
-            break
-         case 4:
-            setANIMATION_SPEED(SPEED.VERY_FAST)
-            break
-         default:
-            break
-      }
-   }
+   // function setAnimationSpeed(id) {
+   //    switch (id) {
+   //       case 1:
+   //          setANIMATION_SPEED(SPEED.SLOW)
+   //          break
+   //       case 2:
+   //          setANIMATION_SPEED(SPEED.NORMAL)
+   //          break
+   //       case 3:
+   //          setANIMATION_SPEED(SPEED.FAST)
+   //          break
+   //       case 4:
+   //          setANIMATION_SPEED(SPEED.VERY_FAST)
+   //          break
+   //       default:
+   //          break
+   //    }
+   // }
 
    function getAnimationSpeed(id) {
       switch (id) {
@@ -392,7 +394,7 @@ function Game({
 
    return (
       <div className="game">
-         <UserContext.Provider value={{ user, setUser, isRanked }}>
+         <UserContext.Provider value={{ user, setUser, type }}>
             <StatePlayerContext.Provider value={{ statePlayer, dispatchPlayer }}>
                <StateGameContext.Provider
                   value={{
@@ -410,8 +412,6 @@ function Game({
                      optionRequirementsMet,
                      ANIMATION_SPEED,
                      setANIMATION_SPEED,
-                     sortId,
-                     setSortId,
                      setSaveToServerTrigger,
                   }}
                >
@@ -483,7 +483,7 @@ function Game({
                                        transition={{ duration: 0.5 }}
                                        className="pass-container"
                                     >
-                                       <PassContainer showTotVP={showTotVP} totalVP={totalVP} />
+                                       <PassContainer totalVP={totalVP} />
                                     </motion.div>
                                  )}
                               </AnimatePresence>
@@ -520,14 +520,7 @@ function Game({
                               </AnimatePresence>
 
                               {/* Modals */}
-                              <Modals
-                                 setAnimationSpeed={setAnimationSpeed}
-                                 showTotVP={showTotVP}
-                                 setShowTotVP={setShowTotVP}
-                                 sortId={sortId}
-                                 setSortId={setSortId}
-                                 logItems={logItems}
-                              />
+                              <Modals logItems={logItems} />
 
                               {/* Menu Button */}
                               <AnimatePresence>

@@ -1,11 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BtnGoBack from '../BtnGoBack'
 import { login } from '../../../api/apiUser'
 import spinner from '../../../assets/other/spinner.gif'
+import { SettingsContext } from '../../../App'
 
 const Login = ({ setUser }) => {
    const navigate = useNavigate()
+   const { setSettings } = useContext(SettingsContext)
    const emailRef = useRef()
    const passwordRef = useRef()
    const [loading, setLoading] = useState(false)
@@ -32,6 +34,11 @@ const Login = ({ setUser }) => {
 
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
+         setSettings({
+            speedId: data.settings.gameSpeed,
+            showTotVP: data.settings.showTotalVP,
+            sortId: [data.settings.handSortId, data.settings.playedSortId],
+         })
          navigate('/')
 
          setLoading(false)

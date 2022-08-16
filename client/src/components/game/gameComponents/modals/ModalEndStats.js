@@ -21,7 +21,7 @@ const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
-   const { user, setUser, isRanked } = useContext(UserContext)
+   const { user, setUser, type } = useContext(UserContext)
    const victoryLossText =
       stateGame.globalParameters.temperature === 8 &&
       stateGame.globalParameters.oxygen === 14 &&
@@ -58,17 +58,20 @@ const ModalEndStats = () => {
          // If not logged, do nothing
          if (!user) return
          // Remove game from active games
-         await deleteActiveGameData(user.token, isRanked)
-         // Also update user's profile (quickMatchOn or rankedMatchOn)
+         await deleteActiveGameData(user.token, type)
+         // Also update user's profile (activeMatches)
          const userMatches = {
-            quickMatchOn: isRanked ? user.quickMatchOn : false,
-            rankedMatchOn: isRanked ? false : user.rankedMatchOn,
+            activeMatches: {
+               quickMatch: type === 'quickMatch' ? false : user.activeMatches.quickMatch,
+               quickMatchId: type === 'quickMatchId' ? false : user.activeMatches.quickMatchId,
+               ranked: type === 'ranked' ? false : user.activeMatches.ranked,
+            },
          }
          const { data } = await updateUser(user.token, userMatches)
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
-         // Create ended game if isRanked === true
-         if (isRanked) setAddRankedGame(true)
+         // Create ended game if type = ranked
+         if (type === 'ranked') setAddRankedGame(true)
       }
 
       updateBackend()

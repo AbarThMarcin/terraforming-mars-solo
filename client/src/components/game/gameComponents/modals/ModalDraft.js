@@ -28,16 +28,17 @@ import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 import DecreaseCostDraft from './modalsComponents/DecreaseCostDraft'
 import { CARDS } from '../../../../data/cards'
+import { SettingsContext } from '../../../../App'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
+   const { settings } = useContext(SettingsContext)
    const {
       stateGame,
       dispatchGame,
       performSubActions,
       getImmEffects,
       getEffect,
-      sortId,
       requirementsMet,
       setSaveToServerTrigger,
    } = useContext(StateGameContext)
@@ -82,7 +83,7 @@ const ModalDraft = () => {
                ...statePlayer.cardsInHand,
                ...withTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id))),
             ],
-            sortId[0],
+            settings.sortId[0],
             requirementsMet
          ),
       })
@@ -140,7 +141,7 @@ const ModalDraft = () => {
                                  ...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)),
                                  ...modifiedCards(getCards(CARDS, newCardsDrawIds), statePlayer),
                               ],
-                              sortId[0],
+                              settings.sortId[0],
                               requirementsMet
                            ),
                         })

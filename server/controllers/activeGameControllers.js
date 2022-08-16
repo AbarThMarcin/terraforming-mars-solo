@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler')
 const ActiveGame = require('../models/modelActiveGame')
 
 const getActiveGame = asyncHandler(async (req, res) => {
-   const game = await ActiveGame.findOne({ user: req.user._id, isRanked: req.body.isRanked })
+   const game = await ActiveGame.findOne({ user: req.user._id, type: req.body.type })
 
    if (game) {
       res.status(200).json(game)
@@ -22,7 +22,7 @@ const createActiveGame = asyncHandler(async (req, res) => {
       initCards,
       logItems,
    } = req.body.gameData
-   const isRanked = req.body.isRanked
+   const type = req.body.type
 
    const newGame = new ActiveGame({
       user: req.user._id,
@@ -33,7 +33,7 @@ const createActiveGame = asyncHandler(async (req, res) => {
       corps,
       initCards,
       logItems,
-      isRanked,
+      type,
    })
 
    const createdGame = await newGame.save()
@@ -41,7 +41,7 @@ const createActiveGame = asyncHandler(async (req, res) => {
 })
 
 const deleteActiveGame = asyncHandler(async (req, res) => {
-   const game = await ActiveGame.findOne({ user: req.user._id, isRanked: req.body.isRanked })
+   const game = await ActiveGame.findOne({ user: req.user._id, type: req.body.type })
 
    if (game) {
       await game.remove()
@@ -62,9 +62,9 @@ const updateActiveGame = asyncHandler(async (req, res) => {
       initCards,
       logItems,
    } = req.body.gameData
-   const isRanked = req.body.isRanked
+   const type = req.body.type
 
-   const game = await ActiveGame.findOne({ user: req.user._id, isRanked })
+   const game = await ActiveGame.findOne({ user: req.user._id, type })
 
    if (game) {
       game.statePlayer = statePlayer === undefined ? game.statePlayer : statePlayer

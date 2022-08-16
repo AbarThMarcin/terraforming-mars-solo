@@ -34,8 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
          name: newUser.name,
          email: newUser.email,
          settings: newUser.settings,
-         quickMatchOn: newUser.quickMatchOn,
-         rankedMatchOn: newUser.rankedMatchOn,
+         activeMatches: newUser.activeMatches,
          isAdmin: newUser.isAdmin,
          token: generateToken(newUser._id),
       })
@@ -56,8 +55,7 @@ const loginUser = asyncHandler(async (req, res) => {
          name: foundUser.name,
          email: foundUser.email,
          settings: foundUser.settings,
-         quickMatchOn: foundUser.quickMatchOn,
-         rankedMatchOn: foundUser.rankedMatchOn,
+         activeMatches: foundUser.activeMatches,
          isAdmin: foundUser.isAdmin,
          token: generateToken(foundUser._id),
       })
@@ -74,13 +72,8 @@ const updateUser = asyncHandler(async (req, res) => {
       user.name = req.body.name || user.name
       user.email = req.body.email || user.email
       user.settings = req.body.settings || user.settings
-      user.quickMatchOn =
-         req.body.quickMatchOn !== undefined ? req.body.quickMatchOn : user.quickMatchOn
-      user.rankedMatchOn =
-         req.body.rankedMatchOn !== undefined ? req.body.rankedMatchOn : user.rankedMatchOn
-      if (req.body.password) {
-         user.password = req.body.password
-      }
+      user.activeMatches = req.body.activeMatches || user.activeMatches
+      if (req.body.password) user.password = req.body.password
 
       const updatedUser = await user.save()
 
@@ -89,8 +82,7 @@ const updateUser = asyncHandler(async (req, res) => {
          name: updatedUser.name,
          email: updatedUser.email,
          settings: updatedUser.settings,
-         quickMatchOn: updatedUser.quickMatchOn,
-         rankedMatchOn: updatedUser.rankedMatchOn,
+         activeMatches: updatedUser.activeMatches,
          isAdmin: updatedUser.isAdmin,
          token: generateToken(updatedUser._id),
       })

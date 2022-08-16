@@ -10,15 +10,15 @@ const ModalMenu = () => {
    const navigate = useNavigate()
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { user, setUser, isRanked } = useContext(UserContext)
+   const { user, setUser, type } = useContext(UserContext)
 
    const onYes = async (withForfeit) => {
       // If Logged and pressed Forfeit
       if (user && withForfeit) {
          // Delete Game from active games
-         await deleteActiveGameData(user.token, isRanked)
-         // Create forfeited game (endedGame) if isRanked === true
-         if (isRanked) {
+         await deleteActiveGameData(user.token, type)
+         // Create forfeited game (endedGame) if type is ranked
+         if (type === 'ranked') {
             const gameData = {
                corporation: statePlayer.corporation,
                cards: {
@@ -30,12 +30,14 @@ const ModalMenu = () => {
             }
             await createEndedGameData(user.token, gameData)
          }
-         // Update user by changing quickMatchOn or rankedMatchOn
-         const userMatches = {
-            quickMatchOn: isRanked ? user.quickMatchOn : false,
-            rankedMatchOn: isRanked ? false : user.rankedMatchOn,
-         }
-         const { data } = await updateUser(user.token, userMatches)
+         // Update user by changing activeMatches
+         const { data } = await updateUser(user.token, {
+            activeMatches: {
+               quickMatch: type === 'quickMatch' ? false : user.activeMatches.quickMatch,
+               quickMatchId: type === 'quickMatchId' ? false : user.activeMatches.quickMatchId,
+               ranked: type === 'ranked' ? false : user.activeMatches.ranked,
+            },
+         })
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
       }
@@ -67,7 +69,9 @@ const ModalMenu = () => {
                <ul>
                   <li
                      className="pointer"
-                     onClick={() => setModals({ ...modals, settings: !modals.settings, rules: false })}
+                     onClick={() =>
+                        setModals({ ...modals, settings: !modals.settings, rules: false })
+                     }
                   >
                      SETTINGS
                   </li>

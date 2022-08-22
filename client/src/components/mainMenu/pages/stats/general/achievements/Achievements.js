@@ -1,13 +1,27 @@
-import { useContext, useMemo } from 'react'
+import { useContext, useEffect, useMemo, useRef } from 'react'
 import { PlayersContext } from '../../Stats'
 import TableAchievementsRow from './TableAchievementsRow'
 
 const Achievements = () => {
+   const refTable = useRef()
    const { currPlayers } = useContext(PlayersContext)
    const currPlayersWithGames = useMemo(
       () => currPlayers.filter((player) => player.games.length > 0),
       [currPlayers]
    )
+
+   useEffect(() => {
+      const table = refTable.current
+      if (hasScrollbar(table)) {
+         table.classList.add('with-scrollbar')
+      } else {
+         table.classList.remove('with-scrollbar')
+      }
+   }, [currPlayers])
+
+   const hasScrollbar = (el) => {
+      return el.scrollHeight > el.clientHeight
+   }
 
    return (
       <div className="achievements">
@@ -15,7 +29,7 @@ const Achievements = () => {
          <TableAchievementsRow isLegend={true} />
          <div className="line"></div>
          {/* Players */}
-         <div className="table">
+         <div ref={refTable} className="table">
             {currPlayersWithGames.length > 0 ? (
                currPlayersWithGames.map((player, idx) => (
                   <TableAchievementsRow key={idx} player={player} />

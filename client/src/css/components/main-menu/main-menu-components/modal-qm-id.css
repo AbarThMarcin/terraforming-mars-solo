@@ -1,0 +1,63 @@
+/* General */
+.modal-confirmation .qmid-play-container {
+   position: absolute;
+   left: 70%;
+   top: 45%;
+   transform: translate(-50%, -50%);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+/* Title Text */
+.modal-confirmation .title {
+   position: absolute;
+   left: 50%;
+   top: 8%;
+   transform: translate(-50%, 0%)
+}
+/* Tip Text */
+.modal-confirmation .tip {
+   position: absolute;
+   left: 50%;
+   bottom: 2%;
+   transform: translate(-50%, 0%);
+   font-size: calc(var(--default-size) * 0.8);
+}
+/* Play (given Id) section */
+.modal-confirmation .qmid-play-container input {
+   margin-right: calc(var(--default-size) * 0.5);
+   height: calc(var(--default-size) * 1.7);
+   width: calc(var(--default-size) * 10);
+   border-radius: calc(var(--default-size) * 0.4);
+   background-color: #000;
+   color: #fff;
+   padding: 0 calc(var(--default-size) * 0.3);
+   border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.5);
+   outline: none;
+   font-size: calc(var(--default-size) * 0.9);
+}
+.modal-confirmation .qmid-play-container input:hover,
+.modal-confirmation .qmid-play-container input:focus {
+   background-color: #000
+}
+.modal-confirmation .qmid-play-container input:hover {
+   border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.8);
+}
+/* Error Message */
+.modal-confirmation .qmid-play-container .error {
+   position: absolute;
+   bottom: -80%;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 100%;
+   text-align: center;
+   background: rgb(136, 0, 0);
+   background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(136, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0) 100%
+   );
+   font-size: calc(var(--default-size) * 0.9);
+   overflow: hidden;
+}

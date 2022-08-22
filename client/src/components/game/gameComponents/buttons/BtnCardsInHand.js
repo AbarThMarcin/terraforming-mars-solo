@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { StatePlayerContext, ModalsContext } from '../../Game'
+import { SoundContext } from '../../../../App'
 import AnimCard from '../animations/AnimCard'
 import iconCardsInHandBtn from '../../../../assets/images/panelCorp/cardsInHandBtn.png'
 import iconCardsInHandBtnBright from '../../../../assets/images/panelCorp/cardsInHandBtnBright.png'
@@ -8,15 +9,17 @@ const BtnCardsInHand = () => {
    const [hovered, setHovered] = useState(false)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    const handleClickBtnCardsInHand = () => {
       if (statePlayer.cardsInHand.length > 0) {
-         setModals({
-            ...modals,
+         sound.btnCardsClick.play()
+         setModals((prev) => ({
+            ...prev,
             modalCards: statePlayer.cardsInHand,
             modalCardsType: 'Cards In Hand',
             cards: true,
-         })
+         }))
       }
    }
 

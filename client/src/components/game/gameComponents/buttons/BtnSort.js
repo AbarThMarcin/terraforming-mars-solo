@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { updateUser } from '../../../../api/apiUser'
-import { SettingsContext } from '../../../../App'
+import { SettingsContext, SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { sorted } from '../../../../utils/misc'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../Game'
@@ -11,10 +11,12 @@ const BtnSort = ({ id, text }) => {
    const { requirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
    const { settings, setSettings } = useContext(SettingsContext)
+   const { sound } = useContext(SoundContext)
    const cardsTypeId = modals.modalCardsType === 'Cards In Hand' ? 0 : 1
 
    const handleClickSortBtn = (e) => {
       e.stopPropagation()
+      sound.btnGeneralClick.play()
       // Change in Frontend
       let newSortId =
          settings.sortId[cardsTypeId].slice(0, 1) !== id
@@ -44,6 +46,8 @@ const BtnSort = ({ id, text }) => {
             showTotalVP: settings.showTotVP,
             handSortId: cardsTypeId === 0 ? newSortId : settings.sortId[1],
             playedSortId: cardsTypeId === 1 ? newSortId : settings.sortId[0],
+            musicVolume: settings.musicVolume,
+            gameVolume: settings.gameVolume,
          }
          updateBackend(settingsObj)
       }

@@ -1,6 +1,7 @@
 /* Used to show window with cards to sell */
 import { useContext, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
+import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
@@ -18,6 +19,7 @@ const ModalSellCards = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { performSubActions } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
    const [mlnBack, setMlnBack] = useState(0)
    const [selectedCards, setSelectedCards] = useState([])
    const textConfirmation = 'Are you sure you want to sell these project cards?'
@@ -33,13 +35,13 @@ const ModalSellCards = () => {
    const onYesFunc = () => {
       let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals
-      setModals({
-         ...modals,
+      setModals((prev) => ({
+         ...prev,
          confirmation: false,
          sellCards: false,
          standardProjects: false,
          cardPlayed: false,
-      })
+      }))
       // Add removal of selected cards to the subActions
       subActions.push({
          name: ANIMATIONS.CARD_OUT,
@@ -99,7 +101,10 @@ const ModalSellCards = () => {
                         selectedCards.includes(card) && 'selected'
                      }`}
                      style={getPosition(statePlayer.cardsInHand.length, idx)}
-                     onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+                     onClick={() => {
+                        sound.btnCardsClick.play()
+                        setModals({ ...modals, modalCard: card, cardViewOnly: true })
+                     }}
                   >
                      <Card card={card} />
                      <BtnSelect

@@ -24,7 +24,7 @@ const ModalSPaction = ({
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
    const isAvailable = SPrequirementsMet()
    const styles =
       name === SP.GREENERY
@@ -40,7 +40,7 @@ const ModalSPaction = ({
       if (!isAvailable) return
       // If clicked SELL PATENT
       if (name === SP.SELL_PATENT) {
-         setModals({ ...modals, sellCards: true, modalCards: statePlayer.cardsInHand })
+         setModals((prev) => ({ ...prev, sellCards: true, modalCards: statePlayer.cardsInHand }))
          return
       }
       // For Helion only: first click turns 'Decrease Cost with heat' minimodal,
@@ -52,15 +52,15 @@ const ModalSPaction = ({
             return
          }
       }
-      setModals({
-         ...modals,
+      setModals((prev) => ({
+         ...prev,
          modalConf: {
             text: textConfirmation,
             onYes: () => handleUseSP(name),
-            onNo: () => setModals({ ...modals, confirmation: false }),
+            onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },
          confirmation: true,
-      })
+      }))
    }
 
    function SPrequirementsMet() {

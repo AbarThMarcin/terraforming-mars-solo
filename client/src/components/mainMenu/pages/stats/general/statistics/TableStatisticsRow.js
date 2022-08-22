@@ -1,10 +1,11 @@
 import { useContext } from 'react'
+import { TABS } from '../../../../../../App'
 import BtnGoTo from '../../BtnGoTo'
-import { PlayersContext, StatsTypeContext, STATS_TYPE } from '../../Stats'
+import { PlayersContext, TabTypeContext } from '../../Stats'
 
 const TableStatisticsRow = ({ player }) => {
    const { setCurrPlayerId } = useContext(PlayersContext)
-   const { setType } = useContext(StatsTypeContext)
+   const { setType } = useContext(TabTypeContext)
    const gamesCount = getGamesCount()
    const avgPoints = getAvgPoints()
    const winRate = getWinRate()
@@ -51,11 +52,11 @@ const TableStatisticsRow = ({ player }) => {
 
    function handleClickBtnGames() {
       setCurrPlayerId(player._id)
-      setType(STATS_TYPE.GAMES)
+      setType(TABS.GAMES)
    }
    function handleClickBtnMoreStats() {
       setCurrPlayerId(player._id)
-      setType(STATS_TYPE.PLAYER_OVERVIEW)
+      setType(TABS.PLAYER_OVERVIEW)
    }
 
    return (

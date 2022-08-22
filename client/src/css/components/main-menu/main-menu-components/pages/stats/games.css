@@ -50,6 +50,7 @@
 
 /* Headers */
 .games .row.headers {
+   height: calc(var(--default-size) * 2.6);
    margin-top: calc(var(--default-size) * 2);
    background: rgb(30, 30, 30);
    background: linear-gradient(
@@ -59,19 +60,17 @@
       rgba(30, 30, 30, 0.5) 100%
    );
 }
-.games .row.headers > * {
-   height: calc(var(--default-size) * 2.2);
-}
 
 /* Rows */
 .games .row {
    display: flex;
    justify-content: space-between;
    align-items: center;
+   height: calc(var(--default-size) * 2);
 }
 .games .row > * {
    line-height: var(--default-size);
-   height: calc(var(--default-size) * 2);
+   height: 100%;
    width: calc(100% / 11);
    display: flex;
    justify-content: center;

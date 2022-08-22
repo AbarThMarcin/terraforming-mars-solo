@@ -6,6 +6,23 @@
    flex-direction: column;
    justify-content: flex-start;
 }
+
+/* Headers */
+.statistics .row.headers {
+   height: calc(var(--default-size) * 2.2);
+   background: rgb(30, 30, 30);
+   background: linear-gradient(
+      0deg,
+      rgba(30, 30, 30, 0.5) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(30, 30, 30, 0.5) 100%
+   );
+}
+.statistics .row.headers > * {
+   height: 100%
+}
+
+/* Table */
 .statistics .table {
    font-size: calc(var(--default-size) * 0.9);
    width: 100%;
@@ -14,6 +31,7 @@
 }
 .statistics .table.with-scrollbar {
    width: calc(100% + var(--default-size) * 0.5);
+   /* transform: translateX(calc(var(--default-size) * 0.25)) */
 }
 .statistics .table::-webkit-scrollbar {
    position: absolute;
@@ -30,29 +48,19 @@
    border-radius: calc(var(--default-size) * 0.5);
 }
 
-/* Headers */
-.statistics .row.headers {
-   background: rgb(30, 30, 30);
-   background: linear-gradient(
-      0deg,
-      rgba(30, 30, 30, 0.5) 0%,
-      rgba(0, 0, 0, 0) 50%,
-      rgba(30, 30, 30, 0.5) 100%
-   );
-}
-.statistics .row.headers > * {
-   height: calc(var(--default-size) * 2.2);
-}
-
 /* Rows */
 .statistics .row {
    display: flex;
    justify-content: space-between;
    align-items: center;
+   height: calc(var(--default-size) * 2);
+}
+.statistics .row.first-rank {
+   color: rgba(150, 255, 241, 0.9);
 }
 .statistics .row > * {
    line-height: var(--default-size);
-   height: calc(var(--default-size) * 2);
+   height: 100%;
    width: calc(100% / 9);
    display: flex;
    justify-content: center;
@@ -86,6 +94,9 @@
 }
 .achievements .table::-webkit-scrollbar {
    width: calc(var(--default-size) * 0.5);
+}
+.achievements .table.with-scrollbar {
+   transform: translateX(calc(var(--default-size) * 0.25))
 }
 .achievements .table::-webkit-scrollbar-track {
    background-color: transparent;

@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import BtnGoBack from '../BtnGoBack'
 import { login } from '../../../api/apiUser'
 import spinner from '../../../assets/other/spinner.gif'
-import { SettingsContext } from '../../../App'
+import { SettingsContext, SoundContext } from '../../../App'
 
 const Login = ({ setUser }) => {
    const navigate = useNavigate()
    const { setSettings } = useContext(SettingsContext)
+   const { music, sound } = useContext(SoundContext)
    const emailRef = useRef()
    const passwordRef = useRef()
    const [loading, setLoading] = useState(false)
@@ -26,6 +27,7 @@ const Login = ({ setUser }) => {
 
       if (loading) return
 
+      sound.btnGeneralClick.play()
       try {
          setError(null)
          setLoading(true)
@@ -38,7 +40,11 @@ const Login = ({ setUser }) => {
             speedId: data.settings.gameSpeed,
             showTotVP: data.settings.showTotalVP,
             sortId: [data.settings.handSortId, data.settings.playedSortId],
+            musicVolume: data.settings.musicVolume,
+            gameVolume: data.settings.gameVolume,
          })
+         music.volume(data.settings.musicVolume)
+         Object.keys(sound).forEach((key) => sound[key].volume(data.settings.gameVolume))
          navigate('/')
 
          setLoading(false)
@@ -54,21 +60,11 @@ const Login = ({ setUser }) => {
          <form onSubmit={handleLogin}>
             <div className="container">
                <label htmlFor="email">EMAIL</label>
-               <input
-                  type="email"
-                  id="email"
-                  ref={emailRef}
-                  required
-               />
+               <input type="email" id="email" ref={emailRef} required />
             </div>
             <div className="container">
                <label htmlFor="password">PASSWORD</label>
-               <input
-                  type="password"
-                  id="password"
-                  ref={passwordRef}
-                  required
-               />
+               <input type="password" id="password" ref={passwordRef} required />
             </div>
             <button className={`pointer ${loading && 'disabled'}`} type="submit">
                {/* Loading Spinner */}
@@ -93,7 +89,7 @@ const Login = ({ setUser }) => {
                REGISTER
             </span>
          </div>
-         {error && <div className='main-menu-error'>{error}</div>}
+         {error && <div className="main-menu-error">{error}</div>}
          <BtnGoBack />
       </div>
    )

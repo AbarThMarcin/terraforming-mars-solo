@@ -4,8 +4,10 @@ import { useContext } from 'react'
 import { CARDS } from '../../../../../../data/cards'
 import { ModalsContext } from '../../Stats'
 import CardForStats from './CardForStats'
+import { SoundContext } from '../../../../../../App'
 
 const ModalSeeAllCards = () => {
+   const { sound } = useContext(SoundContext)
    const refTable = useRef()
    const { modalCardsIds, modalCardsTitle, setShowModalCard, setModalCard } =
       useContext(ModalsContext)
@@ -122,6 +124,7 @@ const ModalSeeAllCards = () => {
                            className="card-container small"
                            style={{ transform: 'translate(0) scale(0.52)' }}
                            onClick={() => {
+                              sound.btnCardsClick.play()
                               setModalCard(card)
                               setShowModalCard(true)
                            }}

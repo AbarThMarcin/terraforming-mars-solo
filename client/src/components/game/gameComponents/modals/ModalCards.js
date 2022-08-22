@@ -1,5 +1,6 @@
 /* Used to view cards in hand or cards played */
 import { useState, useContext } from 'react'
+import { SoundContext } from '../../../../App'
 import { ModalsContext } from '../../Game'
 import Arrows from './modalsComponents/Arrows'
 import Card from '../Card'
@@ -8,6 +9,7 @@ import SortBtns from './modalsComponents/SortBtns'
 
 const ModalCards = () => {
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
    const [page, setPage] = useState(1)
 
    const getBoxPosition = () => {
@@ -16,9 +18,9 @@ const ModalCards = () => {
 
    const handleClickCard = (card) => {
       if (modals.modalCardsType === 'Cards In Hand') {
-         setModals({ ...modals, modalCard: card, cardWithAction: true })
+         setModals((prev) => ({ ...prev, modalCard: card, cardWithAction: true }))
       } else if (modals.modalCardsType === 'Cards Played') {
-         setModals({ ...modals, modalCard: card, cardViewOnly: true })
+         setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
       }
    }
 
@@ -43,7 +45,10 @@ const ModalCards = () => {
                         key={idx}
                         className="card-container small"
                         style={getPosition(modals.modalCards.length, idx)}
-                        onClick={() => handleClickCard(card)}
+                        onClick={() => {
+                           sound.btnCardsClick.play()
+                           handleClickCard(card)
+                        }}
                      >
                         <Card card={card} />
                      </div>

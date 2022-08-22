@@ -20,7 +20,7 @@ const InsulationSection = () => {
 
    const handleClickConfirmBtn = () => {
       let subActions = getOptionsActions(OPTION_ICONS.CARD152_OPTION1, 0, heatAmount)
-      setModals((prevModals) => ({ ...prevModals, selectOne: false }))
+      setModals((prev) => ({ ...prev, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
       performSubActions(subActions)
@@ -32,7 +32,7 @@ const InsulationSection = () => {
          <div className="header">SELECT AMOUNT</div>
          {/* HEAT */}
          <div className="card-decrease-cost">
-            <div className='amount'>{heatAmount}</div>
+            <div className="amount">{heatAmount}</div>
             <div className="icon">
                <img src={iconProdBg} alt="icon_prodBg" />
                <img src={iconHeat} alt="icon_heat" />

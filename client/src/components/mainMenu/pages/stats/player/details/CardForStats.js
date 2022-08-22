@@ -12,7 +12,7 @@ import oceanIcon from '../../../../../../assets/images/tiles/ocean.svg'
 import greenery from '../../../../../../assets/images/tiles/greenery.svg'
 import cityAnyIcon from '../../../../../../assets/images/other/cityAny.svg'
 
-const CardForStats = ({ card, isBig  }) => {
+const CardForStats = ({ card, isBig }) => {
    const [info, setInfo] = useState(false)
    // If card is playable (all requirements met)
    const immEffectIcon = getImmEffectIcon(card.id)

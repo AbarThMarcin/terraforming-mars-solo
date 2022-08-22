@@ -43,7 +43,7 @@ import { updateGameData } from '../../api/apiActiveGame'
 import { EFFECTS } from '../../data/effects/effectIcons'
 import { funcGetEffect } from '../../data/effects/effects'
 import { useContext } from 'react'
-import { SettingsContext } from '../../App'
+import { SettingsContext, SoundContext } from '../../App'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -54,6 +54,7 @@ export const CorpsContext = createContext()
 export const CardsContext = createContext()
 
 function Game({
+   id,
    initStatePlayer,
    initStateGame,
    initStateModals,
@@ -85,6 +86,7 @@ function Game({
    const [saveToServerTrigger, setSaveToServerTrigger] = useState(false)
    const [logData, setLogData] = useState(null)
    const [logIcon, setLogIcon] = useState(null)
+   const { music, sound } = useContext(SoundContext)
 
    useEffect(() => {
       // If game started by placing 'quick-match' or 'ranked-match' in the url manually
@@ -175,11 +177,17 @@ function Game({
    useEffect(() => {
       setANIMATION_SPEED(getAnimationSpeed(settings.speedId))
    }, [settings.speedId])
-   
 
    function getInitCardsDeckIds() {
-      if (!initCardsIds) return range(1, 208)
-      return range(1, 208).filter((id) => !initCardsIds.includes(id))
+      const allIds = range(1, 208)
+      if (!initCardsIds) return allIds
+      if (initStatePlayer.cardsSeen.length === 0) {
+         return allIds.filter((id) => !initCardsIds.includes(id))
+      } else {
+         return allIds.filter(
+            (id) => !initStatePlayer.cardsSeen.map((card) => card.id).includes(id)
+         )
+      }
    }
 
    function getInitCorps() {
@@ -217,7 +225,10 @@ function Game({
                1,
                cardsDeckIds,
                setCardsDeckIds,
-               setCardsDrawIds
+               setCardsDrawIds,
+               type,
+               id,
+               user?.token
             )
             effects = [
                {
@@ -269,32 +280,13 @@ function Game({
                            type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
                            payload: true,
                         })
-                        setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                        setModals((prev) => ({ ...prev, marsUniversity: true }))
                      },
                   })
             })
       }
       performSubActions(effects, null, null, true)
    }
-
-   // function setAnimationSpeed(id) {
-   //    switch (id) {
-   //       case 1:
-   //          setANIMATION_SPEED(SPEED.SLOW)
-   //          break
-   //       case 2:
-   //          setANIMATION_SPEED(SPEED.NORMAL)
-   //          break
-   //       case 3:
-   //          setANIMATION_SPEED(SPEED.FAST)
-   //          break
-   //       case 4:
-   //          setANIMATION_SPEED(SPEED.VERY_FAST)
-   //          break
-   //       default:
-   //          break
-   //    }
-   // }
 
    function getAnimationSpeed(id) {
       switch (id) {
@@ -325,7 +317,11 @@ function Game({
          cardsDeckIds,
          setCardsDeckIds,
          setCardsDrawIds,
-         getImmEffects
+         type,
+         id,
+         user?.token,
+         getImmEffects,
+         sound
       )
    }
    function getCardActions(cardId, toBuyResources) {
@@ -342,7 +338,11 @@ function Game({
          toBuyResources,
          cardsDeckIds,
          setCardsDeckIds,
-         setCardsDrawIds
+         setCardsDrawIds,
+         type,
+         id,
+         user?.token,
+         sound
       )
    }
    function getEffect(effect) {
@@ -373,6 +373,7 @@ function Game({
          logNewIcon,
          setLogData,
          setLogIcon,
+         sound,
          noTrigger
       )
    }
@@ -387,14 +388,17 @@ function Game({
    }
 
    const handleClickMenuIcon = () => {
+      sound.btnGeneralClick.play()
       modals.menu
-         ? setModals({ ...modals, menu: false, settings: false, rules: false })
-         : setModals({ ...modals, menu: true })
+         ? setModals((prev) => ({ ...prev, menu: false, settings: false, rules: false }))
+         : setModals((prev) => ({ ...prev, menu: true }))
+      music.volume(settings.musicVolume)
+      Object.keys(sound).forEach((key) => sound[key].volume(settings.gameVolume))
    }
 
    return (
       <div className="game">
-         <UserContext.Provider value={{ user, setUser, type }}>
+         <UserContext.Provider value={{ user, setUser, type, id }}>
             <StatePlayerContext.Provider value={{ statePlayer, dispatchPlayer }}>
                <StateGameContext.Provider
                   value={{

@@ -5,7 +5,9 @@ import {
    CardsContext,
    StateBoardContext,
    ModalsContext,
+   UserContext,
 } from '../../../Game'
+import { SoundContext } from '../../../../../App'
 import FieldBonus from './FieldBonus'
 import FieldLine from './FieldLine'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
@@ -64,6 +66,8 @@ const Field = ({ field }) => {
    const { setCardsDrawIds, cardsDeckIds, setCardsDeckIds } = useContext(CardsContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { type, id, user } = useContext(UserContext)
+   const { sound } = useContext(SoundContext)
    const styles = {
       left:
          field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
@@ -83,6 +87,7 @@ const Field = ({ field }) => {
       // If clicked on unavailable field, do nothing
       if (!field.available) return
       // Set field's object to phasePlaceTileData
+      sound.objectPut.play()
       dispatchBoard({
          type: ACTIONS_BOARD.SET_OBJECT,
          payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
@@ -94,7 +99,10 @@ const Field = ({ field }) => {
             field.bonus.length,
             cardsDeckIds,
             setCardsDeckIds,
-            setCardsDrawIds
+            setCardsDrawIds,
+            type,
+            id,
+            user?.token
          )
       }
 
@@ -120,7 +128,7 @@ const Field = ({ field }) => {
             )
             const animName = getAnimNameBasedOnBonus(uniqBonuses[i])
             setTimeout(
-               () => setAnimation(animName, uniqBonuses[i], countBonus, setModals),
+               () => setAnimation(animName, uniqBonuses[i], countBonus, setModals, sound),
                i * ANIMATION_SPEED
             )
             // Execute bonus action
@@ -174,7 +182,7 @@ const Field = ({ field }) => {
          bonusMln = oceanNeighbors.length * 2
          setTimeout(() => {
             startAnimation(setModals)
-            setAnimation(ANIMATIONS.RESOURCES_IN, RESOURCES.MLN, bonusMln, setModals)
+            setAnimation(ANIMATIONS.RESOURCES_IN, RESOURCES.MLN, bonusMln, setModals, sound)
          }, delay)
          delay += ANIMATION_SPEED
          setTimeout(() => {
@@ -205,15 +213,15 @@ const Field = ({ field }) => {
          if (field.bonus.includes(RESOURCES.STEEL)) {
             // Add this action to modals.modalProduction.miningRights / miningArea
             stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS
-               ? setModals((prevModals) => ({
-                    ...prevModals,
+               ? setModals((prev) => ({
+                    ...prev,
                     modalProduction: {
                        ...modals.modalProduction,
                        miningRights: actionSteel,
                     },
                  }))
-               : setModals((prevModals) => ({
-                    ...prevModals,
+               : setModals((prev) => ({
+                    ...prev,
                     modalProduction: {
                        ...modals.modalProduction,
                        miningArea: actionSteel,
@@ -222,7 +230,7 @@ const Field = ({ field }) => {
             // Animation
             setTimeout(() => {
                startAnimation(setModals)
-               setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals)
+               setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals, sound)
             }, delay)
             // Action
             delay += ANIMATION_SPEED
@@ -233,15 +241,15 @@ const Field = ({ field }) => {
          } else if (field.bonus.includes(RESOURCES.TITAN)) {
             // Add this action to modals.modalProduction.miningRights / miningArea
             stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS
-               ? setModals((prevModals) => ({
-                    ...prevModals,
+               ? setModals((prev) => ({
+                    ...prev,
                     modalProduction: {
                        ...modals.modalProduction,
                        miningRights: actionTitan,
                     },
                  }))
-               : setModals((prevModals) => ({
-                    ...prevModals,
+               : setModals((prev) => ({
+                    ...prev,
                     modalProduction: {
                        ...modals.modalProduction,
                        miningArea: actionTitan,
@@ -250,7 +258,7 @@ const Field = ({ field }) => {
             // Animation
             setTimeout(() => {
                startAnimation(setModals)
-               setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.TITAN, 1, setModals)
+               setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.TITAN, 1, setModals, sound)
             }, delay)
             // Action
             delay += ANIMATION_SPEED
@@ -268,7 +276,7 @@ const Field = ({ field }) => {
       ) {
          setTimeout(() => {
             startAnimation(setModals)
-            setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals)
+            setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals, sound)
          }, delay)
          delay += ANIMATION_SPEED
          setTimeout(() => {
@@ -339,7 +347,7 @@ const Field = ({ field }) => {
                      actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
                   performSubActions(actions, null, null)
                } else {
-                  setModals((prevModals) => ({ ...prevModals, endStats: true }))
+                  setModals((prev) => ({ ...prev, endStats: true }))
                }
             }, ANIMATION_SPEED / 2)
          }

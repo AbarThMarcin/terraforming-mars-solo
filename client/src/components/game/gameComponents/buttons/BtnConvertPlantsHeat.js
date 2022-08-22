@@ -1,40 +1,38 @@
 import { useContext, useState } from 'react'
 import { ModalsContext } from '../../Game'
+import { SoundContext } from '../../../../App'
 
 const BtnConvertPlantsHeat = ({ textConfirmation, action, bg, bgBright }) => {
    const [hovered, setHovered] = useState(false)
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    const handleClickCorpAction = () => {
-      setModals({
-         ...modals,
+      sound.btnGeneralClick.play()
+      setModals((prev) => ({
+         ...prev,
          modalConf: {
             text: textConfirmation,
             onYes: () => {
-               setModals({ ...modals, confirmation: false, cardPlayed: false })
+               setModals((prev) => ({ ...prev, confirmation: false, cardPlayed: false }))
                action()
             },
-            onNo: () => setModals({ ...modals, confirmation: false }),
+            onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },
          confirmation: true,
-      })
+      }))
    }
 
    return (
-      <div className="btn-convert-plants-heat pointer"
-      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+      <div
+         className="btn-convert-plants-heat pointer"
+         onMouseEnter={() => setHovered(true)}
+         onMouseLeave={() => setHovered(false)}
+      >
          {hovered ? (
-            <img
-               src={bgBright}
-               alt="btn-convert-plants-heat"
-               onClick={handleClickCorpAction}
-            />
+            <img src={bgBright} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
          ) : (
-            <img
-               src={bg}
-               alt="btn-convert-plants-heat"
-               onClick={handleClickCorpAction}
-            />
+            <img src={bg} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
          )}
       </div>
    )

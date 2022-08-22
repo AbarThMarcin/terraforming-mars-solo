@@ -21,9 +21,7 @@ const ModalOtherDataEffects = ({ setCardSnap }) => {
                <div className="effect">
                   <img
                      src={
-                        typeof item === 'string'
-                           ? getEffectIcon(item)
-                           : getEffectIcon(item.effect)
+                        typeof item === 'string' ? getEffectIcon(item) : getEffectIcon(item.effect)
                      }
                      alt={typeof item !== 'string' ? item.effect : 'corp_effect'}
                   />

@@ -39,7 +39,7 @@ const ModalSelectCard = () => {
 
    const handleClickConfirmBtn = () => {
       // Close selectCard modal
-      setModals((prevModals) => ({ ...prevModals, selectCard: false }))
+      setModals((prev) => ({ ...prev, selectCard: false }))
       // If not selected, do nothing, else do search for life or buy a card
       if (!selected) {
          performSubActions([])

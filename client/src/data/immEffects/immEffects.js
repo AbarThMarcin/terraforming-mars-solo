@@ -50,7 +50,11 @@ export const funcGetImmEffects = (
    cardsDeckIds,
    setCardsDeckIds,
    setCardsDrawIds,
-   getImmEffects
+   type,
+   id,
+   token,
+   getImmEffects,
+   sound
 ) => {
    let subActions = []
    let dataCards = []
@@ -85,6 +89,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
@@ -115,6 +120,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   if (stateGame.globalParameters.temperature < 6) {
@@ -154,6 +160,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   if (stateGame.globalParameters.temperature < 6) {
@@ -226,6 +233,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
@@ -270,6 +278,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   if (stateGame.globalParameters.oceans < 8) {
@@ -309,6 +318,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
@@ -331,6 +341,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   if (stateGame.globalParameters.oxygen < 13) {
@@ -374,6 +385,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
@@ -575,8 +587,8 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
@@ -702,8 +714,8 @@ export const funcGetImmEffects = (
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-                  setModals((prevModals) => ({
-                     ...prevModals,
+                  setModals((prev) => ({
+                     ...prev,
                      modalResource: {
                         cardId: dataCards[0].id,
                         amount: 1,
@@ -806,6 +818,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 2 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
@@ -843,6 +856,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 2 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
@@ -1450,10 +1464,10 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalProduction: {
-                     ...prevModals.modalProduction,
+                     ...prev.modalProduction,
                      cardIdOrCorpName:
                         statePlayer.corporation.name === CORP_NAMES.MINING_GUILD
                            ? CORP_NAMES.MINING_GUILD
@@ -1522,7 +1536,10 @@ export const funcGetImmEffects = (
                   2,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
@@ -1548,7 +1565,10 @@ export const funcGetImmEffects = (
                      1,
                      cardsDeckIds,
                      setCardsDeckIds,
-                     setCardsDrawIds
+                     setCardsDrawIds,
+                     type,
+                     id,
+                     token
                   )
                   cardsInHand = [
                      ...cardsInHand,
@@ -1579,7 +1599,7 @@ export const funcGetImmEffects = (
                               type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
                               payload: true,
                            })
-                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                           setModals((prev) => ({ ...prev, marsUniversity: true }))
                         },
                      })
                })
@@ -1843,11 +1863,14 @@ export const funcGetImmEffects = (
                   4,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalBusCont: { cards: newCardsDrawIds, selectCount: 2 },
                   businessContacts: true,
                }))
@@ -1861,6 +1884,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 2 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
@@ -1875,8 +1899,8 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
@@ -1911,6 +1935,7 @@ export const funcGetImmEffects = (
                type: null,
                value: null,
                func: () => {
+                  sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
@@ -2234,7 +2259,10 @@ export const funcGetImmEffects = (
                   2,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -2256,8 +2284,8 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
@@ -2354,8 +2382,8 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: 1,
@@ -2415,8 +2443,8 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: null,
@@ -2488,7 +2516,10 @@ export const funcGetImmEffects = (
                   1,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -2537,8 +2568,8 @@ export const funcGetImmEffects = (
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-                  setModals((prevModals) => ({
-                     ...prevModals,
+                  setModals((prev) => ({
+                     ...prev,
                      modalResource: {
                         cardId: dataCards[0].id,
                         amount: 3,
@@ -2549,20 +2580,20 @@ export const funcGetImmEffects = (
                   }))
                },
             })
-         dataCards = getCardsWithPossibleAnimals(statePlayer)
-         if (dataCards.length > 0)
+         let newDataCards = getCardsWithPossibleAnimals(statePlayer)
+         if (newDataCards.length > 0)
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
                type: null,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-                  setModals((prevModals) => ({
-                     ...prevModals,
+                  setModals((prev) => ({
+                     ...prev,
                      modalResource: {
-                        cardId: dataCards[0].id,
+                        cardId: newDataCards[0].id,
                         amount: 2,
-                        data: dataCards,
+                        data: newDataCards,
                         resType: RESOURCES.ANIMAL,
                      },
                      resource: true,
@@ -2598,6 +2629,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 3 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
@@ -2692,8 +2724,8 @@ export const funcGetImmEffects = (
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-                  setModals((prevModals) => ({
-                     ...prevModals,
+                  setModals((prev) => ({
+                     ...prev,
                      modalResource: {
                         cardId: dataCards[0].id,
                         amount: 2,
@@ -2891,8 +2923,8 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: cardsInHand.find((card) => card.id === actionOrCardId),
                      options: getOptions(actionOrCardId),
@@ -2941,7 +2973,10 @@ export const funcGetImmEffects = (
                         1,
                         cardsDeckIds,
                         setCardsDeckIds,
-                        setCardsDrawIds
+                        setCardsDrawIds,
+                        type,
+                        id,
+                        token
                      )
                      cardsInHand = [
                         ...cardsInHand.filter((card) => card.id !== actionOrCardId),
@@ -2973,11 +3008,14 @@ export const funcGetImmEffects = (
                   3,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalBusCont: { cards: newCardsDrawIds, selectCount: 1 },
                   businessContacts: true,
                }))
@@ -2998,7 +3036,7 @@ export const funcGetImmEffects = (
                               type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
                               payload: true,
                            })
-                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                           setModals((prev) => ({ ...prev, marsUniversity: true }))
                         },
                      })
                   }
@@ -3026,7 +3064,10 @@ export const funcGetImmEffects = (
                   1,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
@@ -3074,7 +3115,10 @@ export const funcGetImmEffects = (
                         1,
                         cardsDeckIds,
                         setCardsDeckIds,
-                        setCardsDrawIds
+                        setCardsDrawIds,
+                        type,
+                        id,
+                        token
                      )
                      cardsInHand = [
                         ...cardsInHand,
@@ -3109,7 +3153,7 @@ export const funcGetImmEffects = (
                               type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
                               payload: true,
                            })
-                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                           setModals((prev) => ({ ...prev, marsUniversity: true }))
                         },
                      })
                })
@@ -3131,6 +3175,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: value })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },
@@ -3221,7 +3266,10 @@ export const funcGetImmEffects = (
                   2,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
@@ -3269,7 +3317,10 @@ export const funcGetImmEffects = (
                         1,
                         cardsDeckIds,
                         setCardsDeckIds,
-                        setCardsDrawIds
+                        setCardsDrawIds,
+                        type,
+                        id,
+                        token
                      )
                      cardsInHand = [
                         ...cardsInHand,
@@ -3304,7 +3355,7 @@ export const funcGetImmEffects = (
                               type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
                               payload: true,
                            })
-                           setModals((prevModals) => ({ ...prevModals, marsUniversity: true }))
+                           setModals((prev) => ({ ...prev, marsUniversity: true }))
                         },
                      })
                })
@@ -3323,6 +3374,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
+               sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 2 })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
             },

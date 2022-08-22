@@ -12,6 +12,7 @@ import DecreaseCost from './modalsComponents/DecreaseCost'
 import BtnAction from '../buttons/BtnAction'
 import { LOG_TYPES } from '../../../../data/log'
 import { getImmEffectIcon } from '../../../../data/immEffects/immEffectsIcons'
+import { SoundContext } from '../../../../App'
 
 const ModalCardWithAction = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -25,6 +26,7 @@ const ModalCardWithAction = () => {
       ANIMATION_SPEED,
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
    const [toBuyTitan, setToBuyTitan] = useState(getInitToBuyTitan())
    const [toBuySteel, setToBuySteel] = useState(getInitToBuySteel())
    const [toBuyHeat, setToBuyHeat] = useState(getInitToBuyHeat())
@@ -153,12 +155,12 @@ const ModalCardWithAction = () => {
       if (toBuyTitan) animResPaidTypes.push([RESOURCES.TITAN, toBuyTitan])
       if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
       // Close all modals
-      setModals((prevModals) => ({
-         ...prevModals,
+      setModals((prev) => ({
+         ...prev,
          confirmation: false,
          cardWithAction: false,
          cards: false,
-         cardPlayed: true
+         cardPlayed: true,
       }))
       startAnimation(setModals)
       for (let i = 0; i < animResPaidTypes.length; i++) {
@@ -167,7 +169,8 @@ const ModalCardWithAction = () => {
                ANIMATIONS.RESOURCES_OUT,
                animResPaidTypes[i][0],
                animResPaidTypes[i][1],
-               setModals
+               setModals,
+               sound
             )
          }, i * ANIMATION_SPEED)
       }

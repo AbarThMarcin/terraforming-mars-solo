@@ -1,9 +1,11 @@
-import { memo, useContext, useMemo } from 'react'
-import { DataContext } from '../Stats'
+import { memo, useMemo } from 'react'
 
-const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue }) => {
-   const { data } = useContext(DataContext)
-   const seasons = useMemo(() => getSeasons(), [])
+const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, data }) => {
+   const seasons = useMemo(
+      () => getSeasons(),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      []
+   )
 
    function getSeasons() {
       return Array(data.season)
@@ -14,7 +16,7 @@ const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue }) => 
    function handleClick(e) {
       const newSeason = e.target.value === 'lifetime' ? 'lifetime' : parseInt(e.target.value)
       setSeason(newSeason)
-      filterPlayers(newSeason, corp, userValue)
+      filterPlayers(newSeason, userValue, corp)
    }
 
    return (

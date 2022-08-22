@@ -4,11 +4,11 @@ import styled, { keyframes } from 'styled-components'
 const StyledBar = styled.div`
    position: relative;
    height: calc(var(--default-size) * 0.8);
-   background: rgb(15,85,52);
-   background: linear-gradient(90deg, rgba(15,85,52,1) 0%, rgba(0,209,115,1) 100%);
+   background: rgb(15, 85, 52);
+   background: linear-gradient(90deg, rgba(15, 85, 52, 1) 0%, rgba(0, 209, 115, 1) 100%);
    font-size: calc(var(--default-size) * 0.8);
    line-height: var(--default-size);
-   animation: ${({ width }) => barAnimation(width)} 0.5s cubic-bezier(.72,0,.36,1.1);
+   animation: ${({ width }) => barAnimation(width)} 0.5s cubic-bezier(0.72, 0, 0.36, 1.1);
    width: ${({ width }) => width}%;
 `
 const barAnimation = (width) => keyframes`

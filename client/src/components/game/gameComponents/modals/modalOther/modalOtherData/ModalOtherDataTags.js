@@ -42,7 +42,7 @@ const ModalOtherDataTags = () => {
                <span>BUILDING</span>
                <div>
                   <span>{building}</span>
-                  <img src={getTagIcon(TAGS.BUILDING)} className='img-tag' alt="building_tag" />
+                  <img src={getTagIcon(TAGS.BUILDING)} className="img-tag" alt="building_tag" />
                </div>
             </div>
          )}
@@ -51,7 +51,7 @@ const ModalOtherDataTags = () => {
                <span>SPACE</span>
                <div>
                   <span>{space}</span>
-                  <img src={getTagIcon(TAGS.SPACE)} className='img-tag' alt="space_tag" />
+                  <img src={getTagIcon(TAGS.SPACE)} className="img-tag" alt="space_tag" />
                </div>
             </div>
          )}
@@ -60,7 +60,7 @@ const ModalOtherDataTags = () => {
                <span>POWER</span>
                <div>
                   <span>{power}</span>
-                  <img src={getTagIcon(TAGS.POWER)} className='img-tag' alt="power_tag" />
+                  <img src={getTagIcon(TAGS.POWER)} className="img-tag" alt="power_tag" />
                </div>
             </div>
          )}
@@ -69,7 +69,7 @@ const ModalOtherDataTags = () => {
                <span>SCIENCE</span>
                <div>
                   <span>{science}</span>
-                  <img src={getTagIcon(TAGS.SCIENCE)} className='img-tag' alt="science_tag" />
+                  <img src={getTagIcon(TAGS.SCIENCE)} className="img-tag" alt="science_tag" />
                </div>
             </div>
          )}
@@ -78,7 +78,7 @@ const ModalOtherDataTags = () => {
                <span>JOVIAN</span>
                <div>
                   <span>{jovian}</span>
-                  <img src={getTagIcon(TAGS.JOVIAN)} className='img-tag' alt="jovian_tag" />
+                  <img src={getTagIcon(TAGS.JOVIAN)} className="img-tag" alt="jovian_tag" />
                </div>
             </div>
          )}
@@ -87,7 +87,7 @@ const ModalOtherDataTags = () => {
                <span>EARTH</span>
                <div>
                   <span>{earth}</span>
-                  <img src={getTagIcon(TAGS.EARTH)} className='img-tag' alt="earth_tag" />
+                  <img src={getTagIcon(TAGS.EARTH)} className="img-tag" alt="earth_tag" />
                </div>
             </div>
          )}
@@ -96,7 +96,7 @@ const ModalOtherDataTags = () => {
                <span>PLANT</span>
                <div>
                   <span>{plant}</span>
-                  <img src={getTagIcon(TAGS.PLANT)} className='img-tag' alt="plant_tag" />
+                  <img src={getTagIcon(TAGS.PLANT)} className="img-tag" alt="plant_tag" />
                </div>
             </div>
          )}
@@ -105,7 +105,7 @@ const ModalOtherDataTags = () => {
                <span>MICROBE</span>
                <div>
                   <span>{microbe}</span>
-                  <img src={getTagIcon(TAGS.MICROBE)} className='img-tag' alt="microbe_tag" />
+                  <img src={getTagIcon(TAGS.MICROBE)} className="img-tag" alt="microbe_tag" />
                </div>
             </div>
          )}
@@ -114,7 +114,7 @@ const ModalOtherDataTags = () => {
                <span>ANIMAL</span>
                <div>
                   <span>{animal}</span>
-                  <img src={getTagIcon(TAGS.ANIMAL)} className='img-tag' alt="animal_tag" />
+                  <img src={getTagIcon(TAGS.ANIMAL)} className="img-tag" alt="animal_tag" />
                </div>
             </div>
          )}
@@ -123,7 +123,7 @@ const ModalOtherDataTags = () => {
                <span>CITY</span>
                <div>
                   <span>{city}</span>
-                  <img src={getTagIcon(TAGS.CITY)} className='img-tag' alt="city_tag" />
+                  <img src={getTagIcon(TAGS.CITY)} className="img-tag" alt="city_tag" />
                </div>
             </div>
          )}
@@ -132,7 +132,7 @@ const ModalOtherDataTags = () => {
                <span>EVENT</span>
                <div>
                   <span>{event}</span>
-                  <img src={getTagIcon(TAGS.EVENT)} className='img-tag' alt="event_tag" />
+                  <img src={getTagIcon(TAGS.EVENT)} className="img-tag" alt="event_tag" />
                </div>
             </div>
          )}

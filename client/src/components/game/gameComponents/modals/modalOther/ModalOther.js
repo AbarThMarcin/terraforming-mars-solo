@@ -38,9 +38,7 @@ const ModalOther = () => {
             {modals.modalOther.header} {modals.modalOther.amount}
          </div>
          {/* CLOSE BUTTON */}
-         <BtnClose
-            onCloseClick={() => setModals((prevModals) => ({ ...prevModals, other: false }))}
-         />
+         <BtnClose onCloseClick={() => setModals((prev) => ({ ...prev, other: false }))} />
          {/* DATA */}
          {modals.modalOther.data.length === 0 &&
          statePlayer.corporation.name !== CORP_NAMES.UNMI ? (

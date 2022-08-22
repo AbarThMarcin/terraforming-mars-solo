@@ -59,7 +59,7 @@ export const updateUser = async (token, details) => {
    const config = {
       headers: {
          'Content-Type': 'application/json',
-         Authorization: `Bearer ${token}`
+         Authorization: `Bearer ${token}`,
       },
    }
 

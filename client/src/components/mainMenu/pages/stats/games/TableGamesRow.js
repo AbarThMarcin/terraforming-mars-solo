@@ -3,7 +3,8 @@ import BtnGoTo from '../BtnGoTo'
 import { ModalsContext } from '../Stats'
 
 const TableGamesRow = ({ id, game, currPlayer, user }) => {
-   const { setShowModal, setModalText, setEditMode, setLinkOrComment, setGameId } = useContext(ModalsContext)
+   const { setShowModal, setModalText, setEditMode, setLinkOrComment, setGameId } =
+      useContext(ModalsContext)
 
    function handleClickAddLink() {
       setModalText(game.link)
@@ -39,12 +40,12 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
 
    const btnAddLinkStyles = {
       width: 'calc(var(--default-size) * 4.3)',
-      fontSize: 'calc(var(--default-size) * 0.8)'
+      fontSize: 'calc(var(--default-size) * 0.8)',
    }
 
    const btnAddCommentStyles = {
       width: 'calc(var(--default-size) * 5)',
-      fontSize: 'calc(var(--default-size) * 0.6)'
+      fontSize: 'calc(var(--default-size) * 0.6)',
    }
 
    return (
@@ -63,17 +64,21 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
                <BtnGoTo text="ADD LINK" action={handleClickAddLink} styles={btnAddLinkStyles} />
             ) : (
                <>
-                  <span className='too-long'>{game.link}</span>
+                  <span className="too-long">{game.link}</span>
                   {game.link && <span>...</span>}
                </>
             )}
          </div>
          <div className={`${game.comment && 'pointer'}`} onClick={handleClickComment}>
             {currPlayer?._id === user?._id && !game.comment ? (
-               <BtnGoTo text="ADD COMMENT" action={handleClickAddComment} styles={btnAddCommentStyles} />
+               <BtnGoTo
+                  text="ADD COMMENT"
+                  action={handleClickAddComment}
+                  styles={btnAddCommentStyles}
+               />
             ) : (
                <>
-                  <span className='too-long'>{game.comment}</span>
+                  <span className="too-long">{game.comment}</span>
                   {game.comment && <span>...</span>}
                </>
             )}

@@ -1,6 +1,13 @@
 // Modal for viewing and selecting cards when Mars University has been played
 import { useContext, useState } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext, CardsContext } from '../../Game'
+import {
+   StateGameContext,
+   StatePlayerContext,
+   ModalsContext,
+   CardsContext,
+   UserContext,
+} from '../../Game'
+import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
@@ -24,6 +31,8 @@ const ModalMarsUniversity = () => {
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { setCardsDrawIds, cardsDeckIds, setCardsDeckIds } = useContext(CardsContext)
+   const { type, id, user } = useContext(UserContext)
+   const { sound } = useContext(SoundContext)
    const [selectedCardId, setSelectedCardId] = useState(0)
    const [page, setPage] = useState(1)
 
@@ -36,14 +45,17 @@ const ModalMarsUniversity = () => {
 
    const onYesFunc = async () => {
       // Turn mars university phase off
-      setModals((prevModals) => ({ ...prevModals, marsUniversity: false }))
+      setModals((prev) => ({ ...prev, marsUniversity: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
       // Get Random Cards Ids
       let newCardsDrawIds = await getNewCardsDrawIds(
          1,
          cardsDeckIds,
          setCardsDeckIds,
-         setCardsDrawIds
+         setCardsDrawIds,
+         type,
+         id,
+         user?.token
       )
       // Discard selected card
       startAnimation(setModals)
@@ -81,7 +93,7 @@ const ModalMarsUniversity = () => {
 
    const onCancelFunc = () => {
       // Turn mars university phase off
-      setModals((prevModals) => ({ ...prevModals, marsUniversity: false }))
+      setModals((prev) => ({ ...prev, marsUniversity: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
       // Continue remaining actions
       startAnimation(setModals)
@@ -112,7 +124,10 @@ const ModalMarsUniversity = () => {
                      key={idx}
                      className={`card-container small ${selectedCardId === card.id && 'selected'}`}
                      style={getPosition(statePlayer.cardsInHand.length, idx)}
-                     onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+                     onClick={() => {
+                        sound.btnCardsClick.play()
+                        setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
+                     }}
                   >
                      {/* CARD */}
                      <Card card={card} />

@@ -5,12 +5,15 @@ import { deleteActiveGameData } from '../../../../api/apiActiveGame'
 import { createEndedGameData } from '../../../../api/apiEndedGame'
 import { updateUser } from '../../../../api/apiUser'
 import { StatePlayerContext, ModalsContext, UserContext } from '../../Game'
+import { SettingsContext, SoundContext } from '../../../../App'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { user, setUser, type } = useContext(UserContext)
+   const { user, setUser, type, id } = useContext(UserContext)
+   const { settings } = useContext(SettingsContext)
+   const { music, sound } = useContext(SoundContext)
 
    const onYes = async (withForfeit) => {
       // If Logged and pressed Forfeit
@@ -42,54 +45,88 @@ const ModalMenu = () => {
          setUser(data)
       }
       // Go to Main Menu
+      music.volume(settings.musicVolume)
+      Object.keys(sound).forEach((key) => sound[key].volume(settings.gameVolume))
       navigate('/')
    }
 
    const handleClickForfeitOrMainMenu = (withForfeit = false) => {
-      setModals({
-         ...modals,
+      setModals((prev) => ({
+         ...prev,
          modalConf: {
             text: withForfeit
                ? 'Do you want to forfeit the game?'
                : 'Do you want to go to main menu?',
             onYes: () => onYes(withForfeit),
-            onNo: () => setModals({ ...modals, confirmation: false }),
+            onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },
          confirmation: true,
-      })
+      }))
    }
 
    return (
       <>
          <div
             className="full-size"
-            onClick={() => setModals({ ...modals, menu: false, settings: false, rules: false })}
+            onClick={() => {
+               setModals((prev) => ({ ...prev, menu: false, settings: false, rules: false }))
+               music.volume(settings.musicVolume)
+               Object.keys(sound).forEach((key) => sound[key].volume(settings.gameVolume))
+            }}
          >
             <div className="modal-menu" onClick={(e) => e.stopPropagation()}>
+               {/* Menu List */}
                <ul>
                   <li
                      className="pointer"
-                     onClick={() =>
-                        setModals({ ...modals, settings: !modals.settings, rules: false })
-                     }
+                     onClick={() => {
+                        sound.btnGeneralClick.play()
+                        setModals((prev) => ({ ...prev, settings: !modals.settings, rules: false }))
+                        music.volume(settings.musicVolume)
+                        Object.keys(sound).forEach((key) => sound[key].volume(settings.gameVolume))
+                     }}
                   >
                      SETTINGS
                   </li>
                   <li
                      className="pointer"
-                     onClick={() => setModals({ ...modals, rules: !modals.rules, settings: false })}
+                     onClick={() => {
+                        sound.btnGeneralClick.play()
+                        setModals((prev) => ({ ...prev, rules: !modals.rules, settings: false }))
+                        music.volume(settings.musicVolume)
+                        Object.keys(sound).forEach((key) => sound[key].volume(settings.gameVolume))
+                     }}
                   >
                      RULES
                   </li>
                   {user && (
-                     <li className="pointer" onClick={() => handleClickForfeitOrMainMenu(true)}>
+                     <li
+                        className="pointer"
+                        onClick={() => {
+                           sound.btnGeneralClick.play()
+                           handleClickForfeitOrMainMenu(true)
+                        }}
+                     >
                         FORFEIT
                      </li>
                   )}
-                  <li className="pointer" onClick={() => handleClickForfeitOrMainMenu()}>
+                  <li
+                     className="pointer"
+                     onClick={() => {
+                        sound.btnGeneralClick.play()
+                        handleClickForfeitOrMainMenu()
+                     }}
+                  >
                      MAIN MENU
                   </li>
                </ul>
+               {/* Game Id */}
+               {type === 'quickMatchId' && (
+                  <div className="game-id">
+                     <span>MATCH ID: </span>
+                     <span className="id">{id}</span>
+                  </div>
+               )}
             </div>
          </div>
       </>

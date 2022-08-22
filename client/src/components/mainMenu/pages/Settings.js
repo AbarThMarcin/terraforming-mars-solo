@@ -1,21 +1,29 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect, useRef } from 'react'
 import BtnGoBack from '../BtnGoBack'
 import spinner from '../../../assets/other/spinner.gif'
 import { updateUser } from '../../../api/apiUser'
 import { SettingsContext } from '../../../App'
-import { useEffect } from 'react'
+import { SoundContext } from '../../../App'
 
 const Settings = ({ user, setUser }) => {
    const { settings, setSettings } = useContext(SettingsContext)
+   const { music, sound } = useContext(SoundContext)
    const [newSettings, setNewSettings] = useState(settings)
    const [loading, setLoading] = useState(false)
    const [error, setError] = useState(null)
-   const [success, setSuccess] = useState(null)   
+   const [success, setSuccess] = useState(null)
+   const musicRange = useRef()
+   const gameRange = useRef()
 
    useEffect(() => {
       setNewSettings(settings)
+      if (settings) {
+         musicRange.current.value = settings.musicVolume * 100
+         musicRange.current.style.backgroundSize = `${settings.musicVolume * 100}%`
+         gameRange.current.value = settings.gameVolume * 100
+         gameRange.current.style.backgroundSize = `${settings.gameVolume * 100}%`
+      }
    }, [settings])
-   
 
    const handleClickLeftArrow_speed = () => {
       setSuccess(null)
@@ -78,6 +86,7 @@ const Settings = ({ user, setUser }) => {
    const handleClickApply = async () => {
       if (loading) return
 
+      sound.btnGeneralClick.play()
       try {
          setError(null)
          setSuccess(null)
@@ -88,6 +97,8 @@ const Settings = ({ user, setUser }) => {
             showTotalVP: newSettings.showTotVP,
             handSortId: newSettings.sortId[0],
             playedSortId: newSettings.sortId[1],
+            musicVolume: newSettings.musicVolume,
+            gameVolume: newSettings.gameVolume,
          }
          // Update Server Data
          if (user) {
@@ -104,6 +115,21 @@ const Settings = ({ user, setUser }) => {
          setError('FAILED TO SAVE CHANGES')
          setLoading(false)
       }
+   }
+
+   function handleRangeInput(e) {
+      setSuccess(null)
+      setError(null)
+      const range = e.target
+      const value = range.value
+      if (e.target.name === 'musicVolume') {
+         setNewSettings({ ...newSettings, musicVolume: value / 100 })
+         music.volume(value / 100)
+      } else {
+         setNewSettings({ ...newSettings, gameVolume: value / 100 })
+         Object.keys(sound).forEach((key) => sound[key].volume(value / 100))
+      }
+      range.style.backgroundSize = `${value}%`
    }
 
    return (
@@ -179,6 +205,38 @@ const Settings = ({ user, setUser }) => {
                ></div>
             </div>
          </div>
+         {/* Music Volume */}
+         <div className="settings">
+            <span>MUSIC VOLUME</span>
+            <div className="item">
+               <input
+                  ref={musicRange}
+                  className="volume pointer"
+                  type="range"
+                  name="musicVolume"
+                  min="0"
+                  max="100"
+                  onInput={handleRangeInput}
+               />
+            </div>
+         </div>
+         {/* Game Volume */}
+         <div className="settings">
+            <span>GAME VOLUME</span>
+            <div className="item">
+               <input
+                  ref={gameRange}
+                  className="volume pointer"
+                  type="range"
+                  name="gameVolume"
+                  min="0"
+                  max="100"
+                  onInput={handleRangeInput}
+                  onMouseUp={() => sound.btnGeneralClick.play()}
+               />
+            </div>
+         </div>
+         {/* Apply Changes Button */}
          <button className={`pointer ${loading && 'disabled'}`} onClick={handleClickApply}>
             {/* Loading Spinner */}
             {loading ? (
@@ -189,9 +247,10 @@ const Settings = ({ user, setUser }) => {
                <span>APPLY CHANGES</span>
             )}
          </button>
+         {/* Error Or Success Message */}
          {error && <div className="main-menu-error">{error}</div>}
          {success && <div className="main-menu-success">{success}</div>}
-         <BtnGoBack />
+         <BtnGoBack music={music} soundCopy={sound} />
       </div>
    )
 }

@@ -19,7 +19,7 @@ const PowerInfrasSection = () => {
 
    const handleClickConfirmBtn = () => {
       let subActions = getOptionsActions(OPTION_ICONS.CARD194_OPTION1, energyAmount, 0)
-      setModals((prevModals) => ({ ...prevModals, selectOne: false }))
+      setModals((prev) => ({ ...prev, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
       performSubActions(subActions)

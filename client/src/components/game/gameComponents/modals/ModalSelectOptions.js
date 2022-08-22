@@ -15,7 +15,7 @@ const ModalSelectOptions = () => {
    function getDefaultOption() {
       let defaultOption
       const options = getOptions(modals.modalSelectOne.card.id)
-      options.forEach(option => {
+      options.forEach((option) => {
          const isAvailable = optionRequirementsMet(option)
          if (isAvailable) {
             if (!defaultOption) defaultOption = option

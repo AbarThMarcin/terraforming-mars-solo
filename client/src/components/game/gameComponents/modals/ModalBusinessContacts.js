@@ -1,6 +1,7 @@
 // Modal for viewing and selecting cards when Business Contacts OR Invention Contest has been played
 import { useContext, useEffect, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
+import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalHeader from './modalsComponents/ModalHeader'
@@ -17,6 +18,7 @@ const ModalBusinessContacts = () => {
    const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
    const [selectedCardIds, setSelectedCardIds] = useState([])
    const [page, setPage] = useState(1)
    const cardsSeen = getCards(CARDS, modals.modalBusCont.cards)
@@ -40,7 +42,7 @@ const ModalBusinessContacts = () => {
 
    const onYesFunc = () => {
       // Turn business contacts phase off
-      setModals((prevModals) => ({ ...prevModals, businessContacts: false }))
+      setModals((prev) => ({ ...prev, businessContacts: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: false })
       // Draw card(s)
       startAnimation(setModals)
@@ -88,7 +90,10 @@ const ModalBusinessContacts = () => {
                         selectedCardIds.includes(card.id) && 'selected'
                      }`}
                      style={getPosition(modals.modalBusCont.cards.length, idx)}
-                     onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+                     onClick={() => {
+                        sound.btnCardsClick.play()
+                        setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
+                     }}
                   >
                      {/* CARD */}
                      <Card card={card} />

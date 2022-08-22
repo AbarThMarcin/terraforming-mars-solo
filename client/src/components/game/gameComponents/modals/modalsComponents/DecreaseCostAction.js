@@ -64,8 +64,8 @@ const DecreaseCostAction = ({
    return (
       <div className="card-decrease-cost-container">
          <div className="mln">
-            <img className='center full-size' src={iconMln} alt="icon_mln" />
-            <span className='center'>{toBuyMln}</span>
+            <img className="center full-size" src={iconMln} alt="icon_mln" />
+            <span className="center">{toBuyMln}</span>
          </div>
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.steel > 0 &&

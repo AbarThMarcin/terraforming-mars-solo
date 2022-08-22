@@ -8,11 +8,14 @@ import ModalResourceData from './ModalResourceData'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { RESOURCES } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
+import { SoundContext } from '../../../../../App'
 
 const ModalResource = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, ANIMATION_SPEED } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
+      useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
    const [cardSnap, setCardSnap] = useState(null)
 
    const btnActionConfirmPosition = {
@@ -23,7 +26,7 @@ const ModalResource = () => {
 
    const handleClickConfirmBtn = () => {
       // Turn addRemoveRes phase on
-      setModals({ ...modals, resource: false })
+      setModals((prev) => ({ ...prev, resource: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
       // Add Resource
       let resource
@@ -36,7 +39,8 @@ const ModalResource = () => {
          ANIMATIONS.RESOURCES_IN,
          modals.modalResource.resType === null ? resource : modals.modalResource.resType,
          modals.modalResource.amount,
-         setModals
+         setModals,
+         sound
       )
       setTimeout(() => {
          dispatchPlayer({
@@ -48,6 +52,7 @@ const ModalResource = () => {
                amount: modals.modalResource.amount,
             },
          })
+         performSubActions(stateGame.actionsLeft)
          endAnimation(setModals)
       }, ANIMATION_SPEED)
    }

@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { StateGameContext, ModalsContext } from '../Game'
+import { SoundContext } from '../../../App'
 import { CORP_NAMES } from '../../../data/corpNames'
 import iconCredicor from '../../../assets/images/corps/cards/credicor.png'
 import iconEcoline from '../../../assets/images/corps/cards/ecoline.png'
@@ -17,10 +18,12 @@ import iconUnmi from '../../../assets/images/corps/cards/unmi.png'
 const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
    const { stateGame } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    const handleCorpClick = (e) => {
       e.stopPropagation()
       if (!stateGame.phaseCorporation) return
+      sound.btnGeneralClick.play()
       setSelectedCorp(id)
    }
 

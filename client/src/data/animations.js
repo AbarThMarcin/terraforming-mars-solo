@@ -29,24 +29,25 @@ export function getAnimNameBasedOnBonus(bonus) {
 }
 
 export function startAnimation(setModals) {
-   setModals((prevModals) => ({
-      ...prevModals,
+   setModals((prev) => ({
+      ...prev,
       animation: true,
    }))
 }
 export function endAnimation(setModals) {
-   setModals((prevModals) => ({
-      ...prevModals,
+   setModals((prev) => ({
+      ...prev,
       animationData: INIT_ANIMATION_DATA,
       animation: false,
    }))
 }
 
-export function setAnimation(name, type, value, setModals) {
+export function setAnimation(name, type, value, setModals, sound) {
    switch (name) {
       case ANIMATIONS.RESOURCES_IN:
-         setModals((prevModals) => ({
-            ...prevModals,
+         sound.getResProd.play()
+         setModals((prev) => ({
+            ...prev,
             animationData: {
                ...INIT_ANIMATION_DATA,
                resourcesIn: {
@@ -58,8 +59,9 @@ export function setAnimation(name, type, value, setModals) {
          }))
          break
       case ANIMATIONS.RESOURCES_OUT:
-         setModals((prevModals) => ({
-            ...prevModals,
+         sound.payResProd.play()
+         setModals((prev) => ({
+            ...prev,
             animationData: {
                ...INIT_ANIMATION_DATA,
                resourcesOut: {
@@ -71,8 +73,9 @@ export function setAnimation(name, type, value, setModals) {
          }))
          break
       case ANIMATIONS.PRODUCTION_IN:
-         setModals((prevModals) => ({
-            ...prevModals,
+         sound.getResProd.play()
+         setModals((prev) => ({
+            ...prev,
             animationData: {
                ...INIT_ANIMATION_DATA,
                productionIn: {
@@ -84,8 +87,9 @@ export function setAnimation(name, type, value, setModals) {
          }))
          break
       case ANIMATIONS.PRODUCTION_OUT:
-         setModals((prevModals) => ({
-            ...prevModals,
+         sound.payResProd.play()
+         setModals((prev) => ({
+            ...prev,
             animationData: {
                ...INIT_ANIMATION_DATA,
                productionOut: {
@@ -97,8 +101,8 @@ export function setAnimation(name, type, value, setModals) {
          }))
          break
       case ANIMATIONS.CARD_IN:
-         setModals((prevModals) => ({
-            ...prevModals,
+         setModals((prev) => ({
+            ...prev,
             animationData: {
                ...INIT_ANIMATION_DATA,
                cardIn: {
@@ -110,8 +114,8 @@ export function setAnimation(name, type, value, setModals) {
          }))
          break
       case ANIMATIONS.CARD_OUT:
-         setModals((prevModals) => ({
-            ...prevModals,
+         setModals((prev) => ({
+            ...prev,
             animationData: {
                ...INIT_ANIMATION_DATA,
                cardOut: {

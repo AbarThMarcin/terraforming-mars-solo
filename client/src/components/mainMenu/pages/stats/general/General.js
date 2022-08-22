@@ -1,45 +1,50 @@
 import { useContext } from 'react'
-import { StatsTypeContext, STATS_TYPE } from '../Stats'
+import { TabTypeContext } from '../Stats'
+import { TABS } from '../../../../../App'
+import { SoundContext } from '../../../../../App'
 import Achievements from './achievements/Achievements'
 import Statistics from './statistics/Statistics'
 
 const General = ({ filterPlayers, season, setSeason, setCorp, userValue }) => {
-   const { type, setType } = useContext(StatsTypeContext)
+   const { type, setType } = useContext(TabTypeContext)
+   const { sound } = useContext(SoundContext)
 
    const handleClickStatistics = () => {
-      filterPlayers(season, 'ALL CORPORATIONS', userValue)
-      setType(STATS_TYPE.GENERAL_STATISTICS)
+      sound.btnGeneralClick.play()
+      filterPlayers(season, userValue, 'ALL CORPORATIONS')
+      setType(TABS.GENERAL_STATISTICS)
    }
 
    const handleClickAchievements = () => {
+      sound.btnGeneralClick.play()
       const newSeason = 'lifetime'
       setSeason(newSeason)
       const newCorp = 'ALL CORPORATIONS'
       setCorp(newCorp)
-      filterPlayers(newSeason, newCorp, userValue)
-      setType(STATS_TYPE.GENERAL_ACHIEVEMENTS)
+      filterPlayers(newSeason, userValue, newCorp)
+      setType(TABS.GENERAL_ACHIEVEMENTS)
    }
 
    return (
-      <div className={`stats${type === STATS_TYPE.GENERAL_ACHIEVEMENTS ? ' second-tab' : ''}`}>
+      <div className={`stats${type === TABS.GENERAL_ACHIEVEMENTS ? ' second-tab' : ''}`}>
          {/* Tabs */}
          <div className="tabs">
             <div
-               className={`tab pointer${type === STATS_TYPE.GENERAL_STATISTICS ? ' active' : ''}`}
+               className={`tab pointer${type === TABS.GENERAL_STATISTICS ? ' active' : ''}`}
                onClick={handleClickStatistics}
             >
                STATISTICS
             </div>
             <div
-               className={`tab pointer${type === STATS_TYPE.GENERAL_ACHIEVEMENTS ? ' active' : ''}`}
+               className={`tab pointer${type === TABS.GENERAL_ACHIEVEMENTS ? ' active' : ''}`}
                onClick={handleClickAchievements}
             >
                ACHIEVEMENTS
             </div>
          </div>
          {/* Data */}
-         {type === STATS_TYPE.GENERAL_STATISTICS && <Statistics />}
-         {type === STATS_TYPE.GENERAL_ACHIEVEMENTS && <Achievements />}
+         {type === TABS.GENERAL_STATISTICS && <Statistics />}
+         {type === TABS.GENERAL_ACHIEVEMENTS && <Achievements />}
       </div>
    )
 }

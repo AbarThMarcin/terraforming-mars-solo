@@ -64,6 +64,7 @@ export const reducerBoard = (state, action) => {
                            nb.object === TILES.CITY_NEUTRAL ||
                            nb.object === TILES.SPECIAL_CITY_CAPITAL
                      ).length >= 2 &&
+                     !field.oceanOnly &&
                      field.name !== 'PHOBOS SPACE HAVEN' &&
                      field.name !== 'GANYMEDE COLONY' &&
                      field.name !== 'NOCTIS CITY'

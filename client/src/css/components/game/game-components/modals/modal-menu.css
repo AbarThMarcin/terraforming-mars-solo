@@ -41,3 +41,11 @@
       rgba(0, 255, 175, 0.4) 100%
    );
 }
+
+.modal-menu .game-id {
+   font-size: calc(var(--default-size) * 0.8);
+   text-align: center;
+}
+.modal-menu .game-id .id {
+   user-select: all !important;
+}

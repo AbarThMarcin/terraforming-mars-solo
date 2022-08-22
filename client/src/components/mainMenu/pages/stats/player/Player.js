@@ -1,49 +1,54 @@
 import { useContext, useMemo } from 'react'
-import { PlayersContext, StatsTypeContext, STATS_TYPE } from '../Stats'
+import { PlayersContext, TabTypeContext } from '../Stats'
+import { SoundContext, TABS } from '../../../../../App'
 import Overview from './overview/Overview'
 import Details from './details/Details'
 
 const Player = ({ filterPlayers, season, corp, setCorp, userValue }) => {
-   const { type, setType } = useContext(StatsTypeContext)
+   const { type, setType } = useContext(TabTypeContext)
    const { currPlayers, currPlayerId } = useContext(PlayersContext)
    const currPlayer = useMemo(
       () => currPlayers.find((player) => player._id === currPlayerId),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [currPlayers]
    )
+   const { sound } = useContext(SoundContext)
 
    const handleClickOverview = () => {
+      sound.btnGeneralClick.play()
       if (corp !== 'ALL CORPORATIONS') {
          const newCorp = 'ALL CORPORATIONS'
          setCorp(newCorp)
-         filterPlayers(season, newCorp, userValue)
+         filterPlayers(season, userValue, newCorp)
       }
-      setType(STATS_TYPE.PLAYER_OVERVIEW)
+      setType(TABS.PLAYER_OVERVIEW)
    }
 
    const handleClickDetails = () => {
-      setType(STATS_TYPE.PLAYER_DETAILS)
+      sound.btnGeneralClick.play()
+      setType(TABS.PLAYER_DETAILS)
    }
 
    return (
-      <div className={`stats${type === STATS_TYPE.PLAYER_DETAILS ? ' second-tab' : ''}`}>
+      <div className={`stats${type === TABS.PLAYER_DETAILS ? ' second-tab' : ''}`}>
          {/* Tabs */}
          <div className="tabs">
             <div
-               className={`tab pointer${type === STATS_TYPE.PLAYER_OVERVIEW ? ' active' : ''}`}
+               className={`tab pointer${type === TABS.PLAYER_OVERVIEW ? ' active' : ''}`}
                onClick={handleClickOverview}
             >
                OVERVIEW
             </div>
             <div
-               className={`tab pointer${type === STATS_TYPE.PLAYER_DETAILS ? ' active' : ''}`}
+               className={`tab pointer${type === TABS.PLAYER_DETAILS ? ' active' : ''}`}
                onClick={handleClickDetails}
             >
                DETAILS
             </div>
          </div>
          {/* Data */}
-         {type === STATS_TYPE.PLAYER_OVERVIEW && <Overview currPlayer={currPlayer} />}
-         {type === STATS_TYPE.PLAYER_DETAILS && <Details currPlayer={currPlayer} />}
+         {type === TABS.PLAYER_OVERVIEW && <Overview currPlayer={currPlayer} />}
+         {type === TABS.PLAYER_DETAILS && <Details currPlayer={currPlayer} />}
       </div>
    )
 }

@@ -23,7 +23,7 @@ const ModalOtherDataActionsItem = ({
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } =
       useContext(StateGameContext)
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
    const isUnmi = item.name === CORP_NAMES.UNMI
    const isAvailable = getAvailability()
 
@@ -68,13 +68,13 @@ const ModalOtherDataActionsItem = ({
       }
       // Other actions
       if (!getActionIdsWithCost().includes(itemIdOrUnmi)) setActionClicked(null)
-      setModals((prevModals) => ({
-         ...prevModals,
+      setModals((prev) => ({
+         ...prev,
          modalConf: {
             text: 'Do you want to use this action?',
             onYes: () => performAction(toBuyResources),
             onNo: () => {
-               setModals({ ...modals, confirmation: false })
+               setModals((prev) => ({ ...prev, confirmation: false }))
                setActionClicked(null)
             },
          },
@@ -91,7 +91,7 @@ const ModalOtherDataActionsItem = ({
       })
       let subActions
       subActions = getCardActions(itemIdOrUnmi, toBuyResources)
-      setModals({ ...modals, confirmation: false, other: false, cardPlayed: false })
+      setModals((prev) => ({ ...prev, confirmation: false, other: false, cardPlayed: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
       performSubActions(
          subActions,

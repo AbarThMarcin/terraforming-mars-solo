@@ -16,9 +16,9 @@ const ModalResourceData = ({ setCardSnap }) => {
    }
 
    const handleClickResCard = (itemId) => {
-      setModals((prevModals) => ({
-         ...prevModals,
-         modalResource: { ...prevModals.modalResource, cardId: itemId },
+      setModals((prev) => ({
+         ...prev,
+         modalResource: { ...prev.modalResource, cardId: itemId },
       }))
    }
 

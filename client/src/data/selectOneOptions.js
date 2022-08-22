@@ -186,8 +186,8 @@ export function funcGetOptionsActions(
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: value,
@@ -208,8 +208,8 @@ export function funcGetOptionsActions(
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: value,
@@ -423,8 +423,8 @@ export function funcGetOptionsActions(
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: value,
@@ -455,8 +455,8 @@ export function funcGetOptionsActions(
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: value,
@@ -523,8 +523,8 @@ export function funcGetOptionsActions(
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: value,

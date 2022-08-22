@@ -1,11 +1,17 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useMemo } from 'react'
 import { CARDS } from '../../../../../../data/cards'
 import { range } from '../../../../../../utils/misc'
 import { ModalsContext } from '../../Stats'
 import CardForStats from './CardForStats'
+import { SoundContext } from '../../../../../../App'
+
+const tipText =
+   'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%.'
 
 const Details = ({ currPlayer }) => {
+   const { sound } = useContext(SoundContext)
+   const [showTipOnPercPlayed, setShowTipOnPercPlayed] = useState(false)
    const {
       setShowModalCard,
       setModalCard,
@@ -100,7 +106,8 @@ const Details = ({ currPlayer }) => {
             (tot, card) => (card.id === id ? tot + 1 : tot),
             0
          )
-         if (currentCardSeen) most.push([id, ((currentCardPlayed / currentCardSeen) * 100).toFixed(0)])
+         if (currentCardSeen)
+            most.push([id, ((currentCardPlayed / currentCardSeen) * 100).toFixed(0)])
       })
 
       most = most.sort((a, b) => b[1] - a[1])
@@ -134,6 +141,7 @@ const Details = ({ currPlayer }) => {
                               className="card-container small"
                               style={{ transform: 'translateY(-5%) scale(0.62)' }}
                               onClick={() => {
+                                 sound.btnCardsClick.play()
                                  setModalCard(CARDS.find((card) => card.id === mostPlayed[0][0]))
                                  setShowModalCard(true)
                               }}
@@ -196,6 +204,7 @@ const Details = ({ currPlayer }) => {
                               className="card-container small"
                               style={{ transform: 'translateY(-5%) scale(0.62)' }}
                               onClick={() => {
+                                 sound.btnCardsClick.play()
                                  setModalCard(CARDS.find((card) => card.id === mostSeen[0][0]))
                                  setShowModalCard(true)
                               }}
@@ -257,6 +266,7 @@ const Details = ({ currPlayer }) => {
                               className="card-container small"
                               style={{ transform: 'translateY(-5%) scale(0.62)' }}
                               onClick={() => {
+                                 sound.btnCardsClick.play()
                                  setModalCard(CARDS.find((card) => card.id === mostPurchased[0][0]))
                                  setShowModalCard(true)
                               }}
@@ -307,6 +317,16 @@ const Details = ({ currPlayer }) => {
                         <span>% PLAYED</span>
                         <br />
                         CARD(S):
+                        {/* Question Mark */}
+                        <div
+                           className="question pointer"
+                           onClick={() => setShowTipOnPercPlayed(true)}
+                           onMouseLeave={() => setShowTipOnPercPlayed(false)}
+                        >
+                           <span>?</span>
+                        </div>
+                        {/* Tip */}
+                        {showTipOnPercPlayed && <div className="tip">{tipText}</div>}
                      </div>
                   </div>
                   {mostPlayedPerc.length > 0 ? (
@@ -320,6 +340,7 @@ const Details = ({ currPlayer }) => {
                                  className="card-container small"
                                  style={{ transform: 'translateY(-5%) scale(0.62)' }}
                                  onClick={() => {
+                                    sound.btnCardsClick.play()
                                     setModalCard(
                                        CARDS.find((card) => card.id === mostPlayedPerc[0][0])
                                     )

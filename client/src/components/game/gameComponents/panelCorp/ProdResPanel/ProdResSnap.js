@@ -11,6 +11,7 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
+
    return (
       <>
          <div className="prod-res-snap-container">

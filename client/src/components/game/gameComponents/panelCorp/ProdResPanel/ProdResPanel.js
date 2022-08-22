@@ -15,17 +15,25 @@ import { EFFECTS } from '../../../../../data/effects/effectIcons'
 import { LOG_TYPES } from '../../../../../data/log'
 import logConvertPlants from '../../../../../assets/images/other/logConvertPlants.svg'
 import logConvertHeat from '../../../../../assets/images/other/logConvertHeat.svg'
+import { SoundContext } from '../../../../../App'
 
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED } =
       useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    const actionGreenery = () => {
       // Cost animation
       startAnimation(setModals)
-      setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals)
+      setAnimation(
+         ANIMATIONS.RESOURCES_OUT,
+         RESOURCES.PLANT,
+         statePlayer.valueGreenery,
+         setModals,
+         sound
+      )
       // Proper convert plants to greenery action
       setTimeout(() => {
          endAnimation(setModals)
@@ -64,7 +72,7 @@ const ProdResPanel = () => {
    const actionTemperature = () => {
       // Cost animation
       startAnimation(setModals)
-      setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals)
+      setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals, sound)
       // Proper convert heat to temperature action
       setTimeout(() => {
          endAnimation(setModals)

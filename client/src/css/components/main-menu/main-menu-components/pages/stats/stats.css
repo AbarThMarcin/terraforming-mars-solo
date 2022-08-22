@@ -5,14 +5,14 @@
 @import url('./btn-goto.css');
 
 /* General */
-.main-menu .stats-container {
+.main-menu .tabs-container {
    width: 95%;
    height: 80%;
    top: 56%;
    background-color: transparent;
    padding: calc(var(--default-size) * 0.6);
 }
-.stats-container .stats {
+.tabs-container .stats {
    position: relative;
    width: 100%;
    height: calc(100% - var(--default-size) * 1.6);
@@ -23,41 +23,56 @@
    border-right: calc(var(--default-size) * 0.12) solid #111;
    padding: calc(var(--default-size) * 0.5);
 }
-.stats-container span {
+.tabs-container span {
    transform: translateY(4%);
 }
 
 /* General Borders */
-.stats-container .stats::after {
+.tabs-container .stats::after,
+.tabs-container .stats::before {
    content: '';
    position: absolute;
    top: 0;
-   left: 12.2%;
    background-color: #111;
    height: calc(var(--default-size) * 0.12);
+}
+/* Two tabs */
+.tabs-container .stats::after {
+   left: 12.2%;
    width: 87.9%;
 }
-.stats-container .stats.second-tab::after {
-   content: '';
-   position: absolute;
-   top: 0;
+.tabs-container .stats.second-tab::before {
+   left: 0;
+   width: 12.45%;
+}
+.tabs-container .stats.second-tab::after {
    left: 24.65%;
-   background-color: #111;
-   height: calc(var(--default-size) * 0.12);
    width: 75.5%;
 }
-.stats-container .stats.second-tab::before {
-   content: '';
-   position: absolute;
-   top: 0;
+/* Three Tabs */
+.tabs-container .stats.three-tabs::after {
+   left: 13.5%;
+   width: 86.6%;
+}
+.tabs-container .stats.three-tabs.second-tab::before {
    left: 0;
-   background-color: #111;
-   height: calc(var(--default-size) * 0.12);
-   width: 12.45%;
+   width: 13.8%;
+}
+.tabs-container .stats.three-tabs.second-tab::after {
+   left: 27.4%;
+   width: 72.7%;
+}
+.tabs-container .stats.three-tabs.third-tab::before {
+   left: 0;
+   width: 27.6%;
+}
+.tabs-container .stats.three-tabs.third-tab::after {
+   left: 41.3%;
+   width: 58.8%;
 }
 
 /* Tabs */
-.stats-container .stats .tabs {
+.tabs-container .stats .tabs {
    position: absolute;
    left: calc(var(--default-size) * -0.12);
    top: 0;
@@ -66,14 +81,19 @@
    height: calc(var(--default-size) * 1.6);
    display: flex;
 }
-.stats-container .stats .tabs .tab {
+.tabs-container .stats.three-tabs .tabs {
+   width: 42%
+}
+.tabs-container .stats .tabs .tab {
    width: 50%;
    display: flex;
    justify-content: center;
    align-items: flex-end;
 }
-.stats-container .stats .tabs .tab.active {
-   background-color: rgba(0, 0, 0, 0.5);
+.tabs-container .stats.three-tabs .tabs .tab {
+   width: 33%
+}
+.tabs-container .stats .tabs .tab.active {
    border-left: calc(var(--default-size) * 0.12) solid #111;
    border-top: calc(var(--default-size) * 0.12) solid #111;
    border-right: calc(var(--default-size) * 0.12) solid #111;

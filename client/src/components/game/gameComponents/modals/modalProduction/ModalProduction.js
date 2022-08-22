@@ -19,7 +19,7 @@ const ModalProduction = () => {
 
    const handleClickConfirmBtn = () => {
       // Turn addRemoveRes phase on
-      setModals({ ...modals, production: false })
+      setModals((prev) => ({ ...prev, production: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
       // Perform subactions
       performSubActions(modals.modalProduction.immProdEffects)

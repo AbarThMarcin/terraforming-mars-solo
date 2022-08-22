@@ -1,14 +1,9 @@
-import { useState } from 'react'
-// import { Howl } from 'howler'
-// import selectBtn from '../../../../assets/audio/select-btn.wav'
+import { useContext, useState } from 'react'
+import { SoundContext } from '../../../../App'
 
 const BtnSelect = ({ initBtnText, handleClick, sourceCardId, resources }) => {
    const [btnText, setBtnText] = useState(initBtnText)
-
-   // const callSound = () => {
-   //    const sound = new Howl({ src: selectBtn })
-   //    return sound.play()
-   // }
+   const { sound } = useContext(SoundContext)
 
    return (
       <div
@@ -22,9 +17,9 @@ const BtnSelect = ({ initBtnText, handleClick, sourceCardId, resources }) => {
             if (resources !== undefined) {
                if (resources < 3) return
             }
+            sound.btnSelectClick.play()
             handleClick()
             btnText === 'SELECT' ? setBtnText('SELECTED') : setBtnText('SELECT')
-            // callSound()
          }}
       >
          {btnText}

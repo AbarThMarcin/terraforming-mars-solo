@@ -29,7 +29,11 @@ export const funcGetCardActions = (
    toBuyResources,
    cardsDeckIds,
    setCardsDeckIds,
-   setCardsDrawIds
+   setCardsDrawIds,
+   type,
+   id,
+   token,
+   sound
 ) => {
    let subCardActions = []
    let dataCards = []
@@ -63,7 +67,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.SHORT_ANIMATION,
             type: null,
             value: null,
-            func: () => dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 }),
+            func: () => {
+               sound.getTR.play()
+               dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+            },
          })
          break
       // =========================== CARDS ==========================
@@ -100,10 +107,13 @@ export const funcGetCardActions = (
                   1,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectCard: {
                      cardIdAction: cardId,
                      card: getCards(CARDS, newCardsDrawIds)[0],
@@ -125,11 +135,17 @@ export const funcGetCardActions = (
                   1,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
-               setModals((prevModals) => ({
-                  ...prevModals,
-                  modalSelectCard: { cardIdAction: cardId, card: getCards(CARDS, newCardsDrawIds)[0] },
+               setModals((prev) => ({
+                  ...prev,
+                  modalSelectCard: {
+                     cardIdAction: cardId,
+                     card: getCards(CARDS, newCardsDrawIds)[0],
+                  },
                   selectCard: true,
                }))
             },
@@ -240,7 +256,10 @@ export const funcGetCardActions = (
                   1,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -268,7 +287,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.SHORT_ANIMATION,
             type: null,
             value: null,
-            func: () => dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 }),
+            func: () => {
+               sound.getTR.play()
+               dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+            },
          })
          break
       // Predators, Fish, Small Animals, Birds and Livestock
@@ -276,7 +298,7 @@ export const funcGetCardActions = (
       case 52:
       case 54:
       case 72:
-      case 128:
+      case 184:
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.ANIMAL,
@@ -312,8 +334,8 @@ export const funcGetCardActions = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: statePlayer.cardsPlayed.find((card) => card.id === cardId),
                      options: getOptions(cardId),
@@ -502,8 +524,8 @@ export const funcGetCardActions = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalResource: {
                      cardId: dataCards[0].id,
                      amount: 1,
@@ -523,8 +545,8 @@ export const funcGetCardActions = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: statePlayer.cardsPlayed.find((card) => card.id === cardId),
                      options: getOptions(cardId),
@@ -546,7 +568,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.SHORT_ANIMATION,
             type: null,
             value: null,
-            func: () => dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 }),
+            func: () => {
+               sound.getTR.play()
+               dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+            },
          })
          break
       // Water Splitting Plant
@@ -576,8 +601,8 @@ export const funcGetCardActions = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-               setModals((prevModals) => ({
-                  ...prevModals,
+               setModals((prev) => ({
+                  ...prev,
                   modalSelectOne: {
                      card: statePlayer.cardsPlayed.find((card) => card.id === cardId),
                      options: null,
@@ -620,7 +645,10 @@ export const funcGetCardActions = (
                   1,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -678,7 +706,10 @@ export const funcGetCardActions = (
                   2,
                   cardsDeckIds,
                   setCardsDeckIds,
-                  setCardsDrawIds
+                  setCardsDrawIds,
+                  type,
+                  id,
+                  token
                )
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,

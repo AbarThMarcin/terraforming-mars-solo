@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { SoundContext } from '../../App'
 
 const Button = ({ text, path, disabled, action, tipText }) => {
    let navigate = useNavigate()
+   const { sound } = useContext(SoundContext)
    const [showTipText, setShowTipText] = useState(false)
    const [tipTop, setTipTop] = useState(0)
    const [tipLeft, setTipLeft] = useState(0)
@@ -11,6 +13,7 @@ const Button = ({ text, path, disabled, action, tipText }) => {
 
    const handleClickBtn = () => {
       if (disabled) return
+      sound.btnGeneralClick.play()
       if (action) action()
       if (path) navigate(path)
    }

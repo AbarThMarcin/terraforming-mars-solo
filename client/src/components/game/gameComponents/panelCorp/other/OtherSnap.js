@@ -1,23 +1,26 @@
 import { useContext } from 'react'
+import { SoundContext } from '../../../../../App'
 import { ModalsContext } from '../../../Game'
 
 const OtherSnap = ({ icon, headerForModal, amountForModal, dataForModal }) => {
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    return (
       <div
          className="other-snap pointer"
-         onClick={() =>
-            setModals({
-               ...modals,
+         onClick={() => {
+            sound.btnSPorOtherSnap.play()
+            setModals((prev) => ({
+               ...prev,
                modalOther: {
                   header: headerForModal,
                   amount: amountForModal,
                   data: dataForModal,
                },
                other: true,
-            })
-         }
+            }))
+         }}
       >
          <div className="header">{headerForModal}</div>
          <div className="data">

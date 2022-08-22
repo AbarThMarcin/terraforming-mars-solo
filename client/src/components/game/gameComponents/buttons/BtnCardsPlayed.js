@@ -1,12 +1,20 @@
 import { useContext } from 'react'
+import { SoundContext } from '../../../../App'
 import { StatePlayerContext, ModalsContext } from '../../Game'
 
 const BtnCardsPlayed = () => {
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
    const { statePlayer } = useContext(StatePlayerContext)
+   const { sound } = useContext(SoundContext)
 
    const handleClickBtnCardsPlayed = () => {
-      setModals({ ...modals, modalCards: statePlayer.cardsPlayed, modalCardsType: 'Cards Played', cards: true })
+      sound.btnCardsClick.play()
+      setModals((prev) => ({
+         ...prev,
+         modalCards: statePlayer.cardsPlayed,
+         modalCardsType: 'Cards Played',
+         cards: true,
+      }))
    }
 
    return (

@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { register } from '../../../api/apiUser'
 import BtnGoBack from '../BtnGoBack'
 import spinner from '../../../assets/other/spinner.gif'
+import { SettingsContext, SoundContext } from '../../../App'
 
 const Register = ({ setUser }) => {
    const navigate = useNavigate()
+   const { setSettings } = useContext(SettingsContext)
+   const { sound } = useContext(SoundContext)
    const nameRef = useRef()
    const emailRef = useRef()
    const passwordRef = useRef()
@@ -26,6 +29,7 @@ const Register = ({ setUser }) => {
 
       if (loading) return
 
+      sound.btnGeneralClick.play()
       // Passwords do not match
       if (passwordRef.current.value !== passwordConfRef.current.value)
          return setError('Passwords do not match')
@@ -42,6 +46,13 @@ const Register = ({ setUser }) => {
 
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
+         setSettings({
+            speedId: data.settings.gameSpeed,
+            showTotVP: data.settings.showTotalVP,
+            sortId: [data.settings.handSortId, data.settings.playedSortId],
+            musicVolume: data.settings.musicVolume,
+            gameVolume: data.settings.gameVolume,
+         })
          navigate('/')
 
          setLoading(false)
@@ -57,21 +68,11 @@ const Register = ({ setUser }) => {
          <form onSubmit={handleRegister}>
             <div className="container">
                <label htmlFor="name">PLAYER NAME</label>
-               <input
-                  type="text"
-                  id="name"
-                  ref={nameRef}
-                  required
-               />
+               <input type="text" id="name" ref={nameRef} required />
             </div>
             <div className="container">
                <label htmlFor="email">EMAIL</label>
-               <input
-                  type="email"
-                  id="email"
-                  ref={emailRef}
-                  required
-               />
+               <input type="email" id="email" ref={emailRef} required />
             </div>
             <div className="container">
                <label htmlFor="password">PASSWORD</label>
@@ -79,12 +80,7 @@ const Register = ({ setUser }) => {
             </div>
             <div className="container">
                <label htmlFor="password-conf">PASSWORD CONFIRMATION</label>
-               <input
-                  type="password"
-                  id="password-conf"
-                  ref={passwordConfRef}
-                  required
-               />
+               <input type="password" id="password-conf" ref={passwordConfRef} required />
             </div>
             <button className={`pointer ${loading && 'disabled'}`} type="submit">
                {/* Loading Spinner */}

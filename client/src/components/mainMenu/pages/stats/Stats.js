@@ -14,22 +14,15 @@ import Modal from './games/Modal'
 import { motion, AnimatePresence } from 'framer-motion'
 import ModalCard from './player/details/ModalCard'
 import ModalSeeAllCards from './player/details/ModalSeeAllCards'
+import { TABS } from '../../../../App'
 
-export const StatsTypeContext = createContext()
+export const TabTypeContext = createContext()
 export const DataContext = createContext()
 export const PlayersContext = createContext()
 export const ModalsContext = createContext()
 
-export const STATS_TYPE = {
-   GENERAL_STATISTICS: 'General Statistics',
-   GENERAL_ACHIEVEMENTS: 'General Achievements',
-   PLAYER_OVERVIEW: 'Player Overview',
-   PLAYER_DETAILS: 'Player Details',
-   GAMES: 'Games',
-}
-
 const Stats = ({ user }) => {
-   const [type, setType] = useState(STATS_TYPE.GENERAL_STATISTICS)
+   const [type, setType] = useState(TABS.GENERAL_STATISTICS)
    const [data, setData] = useState()
    const [allPlayers, setAllPlayers] = useState()
    const [currPlayers, setCurrPlayers] = useState()
@@ -86,7 +79,7 @@ const Stats = ({ user }) => {
       return players
    }
 
-   function filterPlayers(season, corp, userValue) {
+   function filterPlayers(season, userValue, corp) {
       const newCurrPlayers = []
       // Filter by user
       const filteredPlayers = allPlayers.filter((player) =>
@@ -132,10 +125,10 @@ const Stats = ({ user }) => {
                setModalCardsIds,
                setShowModalAllCards,
                modalCardsTitle,
-               setModalCardsTitle
+               setModalCardsTitle,
             }}
          >
-            <StatsTypeContext.Provider value={{ type, setType }}>
+            <TabTypeContext.Provider value={{ type, setType }}>
                <DataContext.Provider value={{ data }}>
                   <PlayersContext.Provider
                      value={{
@@ -145,12 +138,12 @@ const Stats = ({ user }) => {
                         setCurrPlayerId,
                      }}
                   >
-                     <div className="stats-container green-border center">
+                     <div className="tabs-container green-border center">
                         {currPlayers ? (
                            <>
                               {/* Data */}
-                              {(type === STATS_TYPE.GENERAL_STATISTICS ||
-                                 type === STATS_TYPE.GENERAL_ACHIEVEMENTS) && (
+                              {(type === TABS.GENERAL_STATISTICS ||
+                                 type === TABS.GENERAL_ACHIEVEMENTS) && (
                                  <General
                                     filterPlayers={filterPlayers}
                                     season={season}
@@ -159,8 +152,7 @@ const Stats = ({ user }) => {
                                     userValue={userValue}
                                  />
                               )}
-                              {(type === STATS_TYPE.PLAYER_OVERVIEW ||
-                                 type === STATS_TYPE.PLAYER_DETAILS) && (
+                              {(type === TABS.PLAYER_OVERVIEW || type === TABS.PLAYER_DETAILS) && (
                                  <Player
                                     filterPlayers={filterPlayers}
                                     season={season}
@@ -169,29 +161,30 @@ const Stats = ({ user }) => {
                                     userValue={userValue}
                                  />
                               )}
-                              {type === STATS_TYPE.GAMES && <Games user={user} />}
+                              {type === TABS.GAMES && <Games user={user} />}
                               {/* Filters */}
                               <div className="filters">
-                                 {type !== STATS_TYPE.GENERAL_ACHIEVEMENTS && (
+                                 {type !== TABS.GENERAL_ACHIEVEMENTS && (
                                     <FilterSeason
                                        filterPlayers={filterPlayers}
                                        season={season}
                                        setSeason={setSeason}
                                        corp={corp}
                                        userValue={userValue}
+                                       data={data}
                                     />
                                  )}
-                                 {(type === STATS_TYPE.PLAYER_DETAILS ||
-                                    type === STATS_TYPE.GAMES) && (
+                                 {(type === TABS.PLAYER_DETAILS || type === TABS.GAMES) && (
                                     <FilterCorp
                                        filterPlayers={filterPlayers}
                                        season={season}
                                        setCorp={setCorp}
                                        userValue={userValue}
+                                       data={data}
                                     />
                                  )}
-                                 {(type === STATS_TYPE.GENERAL_STATISTICS ||
-                                    type === STATS_TYPE.GENERAL_ACHIEVEMENTS) && (
+                                 {(type === TABS.GENERAL_STATISTICS ||
+                                    type === TABS.GENERAL_ACHIEVEMENTS) && (
                                     <FilterUser
                                        filterPlayers={filterPlayers}
                                        season={season}
@@ -247,7 +240,7 @@ const Stats = ({ user }) => {
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
                               transition={{ duration: 0.1 }}
-                              className='modal-background'
+                              className="modal-background"
                               onClick={() => setShowModalAllCards(false)}
                            >
                               <ModalSeeAllCards />
@@ -263,7 +256,7 @@ const Stats = ({ user }) => {
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
                               transition={{ duration: 0.1 }}
-                              className='modal-background'
+                              className="modal-background"
                               onClick={() => setShowModalCard(false)}
                            >
                               <ModalCard />
@@ -272,7 +265,7 @@ const Stats = ({ user }) => {
                      </AnimatePresence>
                   </PlayersContext.Provider>
                </DataContext.Provider>
-            </StatsTypeContext.Provider>
+            </TabTypeContext.Provider>
          </ModalsContext.Provider>
       </>
    )

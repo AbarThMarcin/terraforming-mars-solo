@@ -42,7 +42,7 @@ const ModalCorps = () => {
       // Turn off corporation phase and turn on draft phase
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_CORPORATION, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
-      setModals({ ...modals, corps: false, draft: true })
+      setModals((prev) => ({ ...prev, corps: false, draft: true }))
    }
 
    return (

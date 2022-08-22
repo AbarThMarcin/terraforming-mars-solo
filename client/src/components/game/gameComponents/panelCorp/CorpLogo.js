@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { ModalsContext, StatePlayerContext } from '../../Game'
+import { SoundContext } from '../../../../App'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import logoCredicor from '../../../../assets/images/corps/panelCorp/credicor.svg'
 import logoEcoline from '../../../../assets/images/corps/panelCorp/ecoline.svg'
@@ -16,7 +17,8 @@ import logoUnmi from '../../../../assets/images/corps/panelCorp/unmi.svg'
 
 const CorpLogo = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { modals, setModals } = useContext(ModalsContext)
+   const { setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    const getLogo = () => {
       switch (statePlayer.corporation.name) {
@@ -50,7 +52,13 @@ const CorpLogo = () => {
    }
 
    return (
-      <div className="corp-logo pointer" onClick={() => setModals({ ...modals, corp: true })}>
+      <div
+         className="corp-logo pointer"
+         onClick={() => {
+            sound.btnCardsClick.play()
+            setModals((prev) => ({ ...prev, corp: true }))
+         }}
+      >
          <img src={getLogo()} alt={`logo_${statePlayer.corporation.name}`} />
       </div>
    )

@@ -3,13 +3,13 @@ import BoardPhobos from './BoardPhobos'
 import BoardGanymede from './BoardGanymede'
 
 const Board = () => {
-  return (
-    <>
-       <BoardTharsis />
-       <BoardPhobos />
-       <BoardGanymede />
-    </>
-  )
+   return (
+      <>
+         <BoardTharsis />
+         <BoardPhobos />
+         <BoardGanymede />
+      </>
+   )
 }
 
 export default Board

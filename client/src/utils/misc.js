@@ -1,4 +1,5 @@
-import { getRandIntNumbers } from '../api/apiActiveGame'
+import { getConsecutiveCardsIds } from '../api/apiMatchWithId'
+import { getRandIntNumbers } from '../api/apiOther'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
 import { TILES } from '../data/board'
 import { CORP_NAMES } from '../data/corpNames'
@@ -174,6 +175,7 @@ export function funcPerformSubActions(
    logIcon,
    setLogData,
    setLogIcon,
+   sound,
    noTrigger = false
 ) {
    if (logData) {
@@ -204,7 +206,7 @@ export function funcPerformSubActions(
          setTimeout(() => {
             endAnimation(setModals)
             startAnimation(setModals)
-            setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals)
+            setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals, sound)
          }, longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2))
          setTimeout(
             () => subActions[i].func(),
@@ -683,10 +685,27 @@ export const range = (start, end) => {
       .map((_, idx) => start + idx)
 }
 
-export const getNewCardsDrawIds = async (count, cardsDeckIds, setCardsDeckIds, setCardsDrawIds) => {
-   let randomDrawIds = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
-   let newCardsDrawIds = cardsDeckIds.filter((_, idx) => randomDrawIds.includes(idx))
-   let newCardsDeckIds = cardsDeckIds.filter((_, idx) => !randomDrawIds.includes(idx))
+export const getNewCardsDrawIds = async (
+   count,
+   cardsDeckIds,
+   setCardsDeckIds,
+   setCardsDrawIds,
+   type,
+   id,
+   token
+) => {
+   let newCardsDrawIds
+   let newCardsDeckIds
+   if (type === 'quickMatchId') {
+      const drawCardsIds = await getConsecutiveCardsIds(token, id, 208 - cardsDeckIds.length, count)
+      newCardsDrawIds = cardsDeckIds.filter((cardId) => drawCardsIds.includes(cardId))
+      newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
+   } else {
+      const drawIndexes = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
+      newCardsDrawIds = cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
+      newCardsDeckIds = cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))
+   }
+
    setCardsDeckIds(newCardsDeckIds)
    setCardsDrawIds(newCardsDrawIds)
    return newCardsDrawIds

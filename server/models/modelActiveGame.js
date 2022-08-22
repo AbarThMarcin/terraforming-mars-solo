@@ -5,33 +5,28 @@ const { stateModalsSchema } = require('./subModels/modelStateModals')
 const { boardFieldSchema } = require('./subModels/modelBoardField')
 const { logTypeSchema } = require('./subModels/modelLogType')
 
-const activeGameSchema = mongoose.Schema(
-   {
-      user: {
-         type: mongoose.Schema.Types.ObjectId,
-         required: true,
-         ref: 'User',
-      },
-      statePlayer: statePlayerSchema,
-      stateGame: stateGameSchema,
-      stateModals: stateModalsSchema,
-      stateBoard: [boardFieldSchema],
-      corps: [Number],
-      initCards: [Number],
-      logItems: [logTypeSchema],
-      type: {
-         type: String,
-         required: true,
-         default: 'quickMatch',
-      },
-      createdAt_ms: {
-         type: Number,
-         default: Date.now()
-      }
+const activeGameSchema = mongoose.Schema({
+   id: String,
+   user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
    },
-   {
-      timestamps: true,
-   }
-)
+   statePlayer: statePlayerSchema,
+   stateGame: stateGameSchema,
+   stateModals: stateModalsSchema,
+   stateBoard: [boardFieldSchema],
+   corps: [Number],
+   initCards: [Number],
+   logItems: [logTypeSchema],
+   type: {
+      type: String,
+      required: true,
+   },
+   createdAt_ms: {
+      type: Number,
+      default: Date.now(),
+   },
+})
 
 module.exports = mongoose.model('active_games', activeGameSchema)

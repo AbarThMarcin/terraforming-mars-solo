@@ -35,7 +35,13 @@ const AnimProdRes = ({ type }) => {
          className={`
             anim-prod-res
             ${type === 'prod-in' || type === 'res-in' ? 'anim-prod-res-in' : 'anim-prod-res-out'}
-            ${resType === RESOURCES.MLN ? '' : type === 'prod-in' || type === 'prod-out' ? 'not-mln-prod' : 'not-mln-res'}
+            ${
+               resType === RESOURCES.MLN
+                  ? ''
+                  : type === 'prod-in' || type === 'prod-out'
+                  ? 'not-mln-prod'
+                  : 'not-mln-res'
+            }
          `}
          style={{ animationDuration: `${ANIMATION_SPEED}ms` }}
       >
@@ -43,7 +49,7 @@ const AnimProdRes = ({ type }) => {
             <img src={getResIcon(RESOURCES.PROD_BG)} className="img-prod" alt="prod_bg" />
          )}
          <img src={resource} className="img-res center" alt={resourceAlt} />
-         <div className='value center'>{value}</div>
+         <div className="value center">{value}</div>
       </div>
    )
 }

@@ -1,5 +1,11 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext, CardsContext } from '../../Game'
+import {
+   StatePlayerContext,
+   StateGameContext,
+   ModalsContext,
+   CardsContext,
+   UserContext,
+} from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
@@ -12,7 +18,7 @@ import passContBg from '../../../../assets/images/other/passContBg.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { startAnimation } from '../../../../data/animations'
 import TotalVP from './TotalVP'
-import { SettingsContext } from '../../../../App'
+import { SettingsContext, SoundContext } from '../../../../App'
 
 const PassContainer = ({ totalVP }) => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -29,6 +35,8 @@ const PassContainer = ({ totalVP }) => {
    } = useContext(StateGameContext)
    const { cardsDeckIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
    const { settings } = useContext(SettingsContext)
+   const { type, id, user } = useContext(UserContext)
+   const { sound } = useContext(SoundContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
 
    const onYesFunc = async () => {
@@ -39,7 +47,7 @@ const PassContainer = ({ totalVP }) => {
          { type: LOG_TYPES.GENERATION, data: { text: `${stateGame.generation + 1}` } },
       ])
       // Close confirmation window
-      setModals({ ...modals, confirmation: false })
+      setModals((prev) => ({ ...prev, confirmation: false }))
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_ACTION_USED, payload: { actionUsed: false } })
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: false })
@@ -60,25 +68,36 @@ const PassContainer = ({ totalVP }) => {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
       }
       // Get new 4 random cards
-      await getNewCardsDrawIds(4, cardsDeckIds, setCardsDeckIds, setCardsDrawIds)
+      await getNewCardsDrawIds(
+         4,
+         cardsDeckIds,
+         setCardsDeckIds,
+         setCardsDrawIds,
+         type,
+         id,
+         user?.token
+      )
       // Phase Pass None - do NOT display Panel State Game AND Panel Corp
       let delay = 0
       startAnimation(setModals)
-      setModals((prevModals) => ({
-         ...prevModals,
+      setModals((prev) => ({
+         ...prev,
          panelCorp: false,
          panelStateGame: false,
       }))
       // Show Panel Corp
       delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
-         setModals((prevModals) => ({
-            ...prevModals,
+         setModals((prev) => ({
+            ...prev,
             panelCorp: true,
             panelStateGame: false,
          }))
       }, delay)
       // Move production amounts to resources (+ TR to mln resource AND energy res to heat res)
+      setTimeout(() => {
+         sound.prodBetweenGens.play()
+      }, delay + ANIMATION_SPEED / 3)
       delay += (ANIMATION_SPEED / 1.5) * (5 / 4)
       let newPlants = statePlayer.resources.plant
       setTimeout(() => {
@@ -110,16 +129,19 @@ const PassContainer = ({ totalVP }) => {
       // Hide Panel Corp
       delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
       setTimeout(() => {
-         setModals((prevModals) => ({ ...prevModals, panelCorp: false }))
+         setModals((prev) => ({ ...prev, panelCorp: false }))
       }, delay)
 
       if (stateGame.generation < 14) {
          // Show Panel State Game
          delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
          setTimeout(() => {
-            setModals((prevModals) => ({ ...prevModals, panelStateGame: true }))
+            setModals((prev) => ({ ...prev, panelStateGame: true }))
          }, delay)
          // Move to next generation
+         setTimeout(() => {
+            sound.prodBetweenGens.play()
+         }, delay + ANIMATION_SPEED / 3)
          delay += (ANIMATION_SPEED / 1.5) * (5 / 4)
          setTimeout(() => {
             dispatchGame({ type: ACTIONS_GAME.INCREMENT_GEN })
@@ -127,8 +149,8 @@ const PassContainer = ({ totalVP }) => {
          // Hide Panel State Game
          delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
          setTimeout(() => {
-            setModals((prevModals) => ({
-               ...prevModals,
+            setModals((prev) => ({
+               ...prev,
                panelCorp: false,
                panelStateGame: false,
             }))
@@ -138,11 +160,11 @@ const PassContainer = ({ totalVP }) => {
          // Show Panel Corp
          delay += ANIMATION_SPEED / 1.5
          setTimeout(() => {
-            setModals((prevModals) => ({ ...prevModals, panelCorp: true }))
+            setModals((prev) => ({ ...prev, panelCorp: true }))
          }, delay)
          // Show Panel State Game
          setTimeout(() => {
-            setModals((prevModals) => ({ ...prevModals, panelStateGame: true }))
+            setModals((prev) => ({ ...prev, panelStateGame: true }))
          }, delay)
       }
       // Go to next generation or end the game (with greeneries or without them)
@@ -153,7 +175,7 @@ const PassContainer = ({ totalVP }) => {
             newPlants += statePlayer.production.plant
             if (newPlants >= statePlayer.valueGreenery) {
                // Show Panel Corp
-               setModals((prevModals) => ({ ...prevModals, panelCorp: true }))
+               setModals((prev) => ({ ...prev, panelCorp: true }))
                setTimeout(() => {
                   // Turn Phase After Gen 14 on
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
@@ -173,12 +195,12 @@ const PassContainer = ({ totalVP }) => {
                   performSubActions(actions, null, null)
                }, ANIMATION_SPEED / 1.5 / 2)
             } else {
-               setModals((prevModals) => ({ ...prevModals, endStats: true }))
+               setModals((prev) => ({ ...prev, endStats: true }))
                // Update Server Data
                setSaveToServerTrigger((prev) => !prev)
             }
          } else {
-            setModals((prevModals) => ({ ...prevModals, animation: false, draft: true }))
+            setModals((prev) => ({ ...prev, animation: false, draft: true }))
             dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
             // Update Server Data
             setSaveToServerTrigger((prev) => !prev)
@@ -187,15 +209,16 @@ const PassContainer = ({ totalVP }) => {
    }
 
    const handleClickPassBtn = () => {
-      setModals({
-         ...modals,
+      sound.btnGeneralClick.play()
+      setModals((prev) => ({
+         ...prev,
          modalConf: {
             text: "Do you want to pass?\nIf you do so, you won't be able to play until the next generation.",
             onYes: onYesFunc,
-            onNo: () => setModals({ ...modals, confirmation: false }),
+            onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },
          confirmation: true,
-      })
+      }))
    }
 
    return (

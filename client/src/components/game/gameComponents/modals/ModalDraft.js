@@ -2,7 +2,13 @@
 window with cards to sell and window with cards to select due
 to any effect/action */
 import { useContext, useEffect, useMemo, useState } from 'react'
-import { StateGameContext, StatePlayerContext, CardsContext, ModalsContext } from '../../Game'
+import {
+   StateGameContext,
+   StatePlayerContext,
+   CardsContext,
+   ModalsContext,
+   UserContext,
+} from '../../Game'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
@@ -28,11 +34,12 @@ import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 import DecreaseCostDraft from './modalsComponents/DecreaseCostDraft'
 import { CARDS } from '../../../../data/cards'
-import { SettingsContext } from '../../../../App'
+import { SettingsContext, SoundContext } from '../../../../App'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { settings } = useContext(SettingsContext)
+   const { sound } = useContext(SoundContext)
    const {
       stateGame,
       dispatchGame,
@@ -44,6 +51,7 @@ const ModalDraft = () => {
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { cardsDeckIds, cardsDrawIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
+   const { type, id, user } = useContext(UserContext)
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [selectedCardsIds, setSelectedCardsIds] = useState([])
@@ -97,7 +105,7 @@ const ModalDraft = () => {
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
-      setModals({ ...modals, confirmation: false, draft: false })
+      setModals((prev) => ({ ...prev, confirmation: false, draft: false }))
       // Update Server Data
       setSaveToServerTrigger((prev) => !prev)
       // Perform forced action for Tharsis or Inventrix in GEN 1
@@ -125,7 +133,10 @@ const ModalDraft = () => {
                3,
                cardsDeckIds,
                setCardsDeckIds,
-               setCardsDrawIds
+               setCardsDrawIds,
+               type,
+               id,
+               user?.token
             )
             performSubActions(
                [
@@ -206,7 +217,10 @@ const ModalDraft = () => {
                   selectedCardsIds.includes(card.id) && 'selected'
                }`}
                style={getPosition(cardsDraft.length, idx)}
-               onClick={() => setModals({ ...modals, modalCard: card, cardViewOnly: true })}
+               onClick={() => {
+                  sound.btnCardsClick.play()
+                  setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
+               }}
             >
                <Card card={card} />
                <BtnSelect initBtnText="SELECT" handleClick={() => handleClickBtnSelect(card)} />

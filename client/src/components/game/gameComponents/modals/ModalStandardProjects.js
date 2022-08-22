@@ -24,12 +24,14 @@ import iconLogAquifer from '../../../../assets/images/immEffects/icon127.svg'
 import iconLogGreenery from '../../../../assets/images/other/logConvertPlants.svg'
 import iconLogCity from '../../../../assets/images/other/iconLogCity.svg'
 import { LOG_TYPES } from '../../../../data/log'
+import { SoundContext } from '../../../../App'
 
 const ModalStandardProjects = () => {
    const { setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED } =
       useContext(StateGameContext)
+   const { sound } = useContext(SoundContext)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [toBuyMln, setToBuyMln] = useState(initToBuyMln())
    const [btnClickedId, setBtnClickedId] = useState(-1)
@@ -91,12 +93,12 @@ const ModalStandardProjects = () => {
       if (toBuyMln[btnClickedId] !== 0)
          animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])
       if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
-      setModals((prevModals) => ({
-         ...prevModals,
+      setModals((prev) => ({
+         ...prev,
          confirmation: false,
          standardProjects: false,
          sellCards: false,
-         cardPlayed: false
+         cardPlayed: false,
       }))
       // ------------------------ ANIMATIONS ------------------------
       startAnimation(setModals)
@@ -106,7 +108,8 @@ const ModalStandardProjects = () => {
                ANIMATIONS.RESOURCES_OUT,
                animResPaidTypes[i][0],
                animResPaidTypes[i][1],
-               setModals
+               setModals,
+               sound
             )
          }, i * ANIMATION_SPEED)
       }
@@ -245,9 +248,7 @@ const ModalStandardProjects = () => {
          <div className="header">STANDARD PROJECTS</div>
          {/* CLOSE BUTTON */}
          <BtnClose
-            onCloseClick={() =>
-               setModals((prevModals) => ({ ...prevModals, standardProjects: false }))
-            }
+            onCloseClick={() => setModals((prev) => ({ ...prev, standardProjects: false }))}
          />
          {/* ACTIONS */}
          <ModalSPaction

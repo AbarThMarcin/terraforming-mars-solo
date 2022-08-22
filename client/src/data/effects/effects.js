@@ -156,8 +156,8 @@ export const funcGetEffect = (
                         value: null,
                         func: () => {
                            dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-                           setModals((prevModals) => ({
-                              ...prevModals,
+                           setModals((prev) => ({
+                              ...prev,
                               modalSelectOne: {
                                  card: statePlayer.cardsPlayed.find((card) => card.id === 74),
                                  options: [
@@ -181,8 +181,8 @@ export const funcGetEffect = (
                         value: null,
                         func: () => {
                            dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-                           setModals((prevModals) => ({
-                              ...prevModals,
+                           setModals((prev) => ({
+                              ...prev,
                               modalSelectOne: {
                                  card: statePlayer.cardsPlayed.find((card) => card.id === 74),
                                  options: [
@@ -206,8 +206,8 @@ export const funcGetEffect = (
                         value: null,
                         func: () => {
                            dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
-                           setModals((prevModals) => ({
-                              ...prevModals,
+                           setModals((prev) => ({
+                              ...prev,
                               modalSelectOne: {
                                  card: statePlayer.cardsPlayed.find((card) => card.id === 74),
                                  options: [

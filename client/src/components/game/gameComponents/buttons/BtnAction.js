@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { ModalsContext } from '../../Game'
+import { SoundContext } from '../../../../App'
 import mlnIcon from '../../../../assets/images/resources/mln.svg'
 
 const BtnAction = ({
@@ -12,31 +13,33 @@ const BtnAction = ({
    onMouseDownFunc,
 }) => {
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
 
    const handleClickActionBtn = () => {
       // If Button is disabled
       if (disabled) return
+      sound.btnGeneralClick.play()
       // If Button is CANCEL in sellCards phase
       if (text === 'CANCEL' && modals.sellCards) {
-         setModals((prevModals) => ({ ...prevModals, sellCards: false }))
+         setModals((prev) => ({ ...prev, sellCards: false }))
          return
       }
       // If Button is NO in confirmation phase
       if (text === 'NO' && modals.confirmation) {
-         setModals((prevModals) => ({ ...prevModals, confirmation: false }))
+         setModals((prev) => ({ ...prev, confirmation: false }))
          return
       }
       // If Button requires confirmation
       if (textConfirmation) {
-         setModals({
-            ...modals,
+         setModals((prev) => ({
+            ...prev,
             modalConf: {
                text: textConfirmation,
                onYes: onYesFunc,
-               onNo: () => setModals({ ...modals, confirmation: false }),
+               onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
             },
             confirmation: true,
-         })
+         }))
       } else {
          onYesFunc()
          return
@@ -58,8 +61,8 @@ const BtnAction = ({
          {/* Mln Icon */}
          {mln !== undefined && (
             <div className="btn-action-mlnicon" onClick={(e) => e.stopPropagation()}>
-               <img src={mlnIcon} alt='mln_icon' />
-               <span className='center'>{mln}</span>
+               <img src={mlnIcon} alt="mln_icon" />
+               <span className="center">{mln}</span>
             </div>
          )}
       </div>

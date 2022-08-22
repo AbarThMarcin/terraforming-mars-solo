@@ -17,7 +17,7 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
 
    const handleClickConfirmBtn = () => {
       let subActions = [...getOptionsActions(selectedOption), ...stateGame.actionsLeft]
-      setModals((prevModals) => ({ ...prevModals, selectOne: false }))
+      setModals((prev) => ({ ...prev, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
       performSubActions(subActions)

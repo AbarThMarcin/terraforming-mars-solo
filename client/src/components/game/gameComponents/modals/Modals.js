@@ -114,7 +114,7 @@ const Modals = ({ logItems }) => {
                   className={`modal-background ${
                      (modals.confirmation || modals.sellCards) && 'display-none'
                   }`}
-                  onClick={() => setModals({ ...modals, standardProjects: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, standardProjects: false }))}
                >
                   <ModalStandardProjects />
                </motion.div>
@@ -255,7 +255,7 @@ const Modals = ({ logItems }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className="full-size"
-                  onClick={() => setModals({ ...modals, log: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, log: false }))}
                >
                   <ModalLog logItems={logItems} />
                </motion.div>
@@ -274,7 +274,7 @@ const Modals = ({ logItems }) => {
                   className={`modal-background ${
                      (modals.cardWithAction || modals.cardViewOnly) && 'display-none'
                   }`}
-                  onClick={() => setModals({ ...modals, cards: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, cards: false }))}
                >
                   <ModalCards />
                </motion.div>
@@ -291,7 +291,7 @@ const Modals = ({ logItems }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
-                  onClick={() => setModals({ ...modals, other: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, other: false }))}
                >
                   <ModalOther />
                </motion.div>
@@ -308,7 +308,7 @@ const Modals = ({ logItems }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                   className="modal-background"
-                  onClick={() => setModals({ ...modals, corp: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, corp: false }))}
                >
                   <div className="modal-corp-container center">
                      <Corp corp={statePlayer.corporation} />
@@ -327,7 +327,7 @@ const Modals = ({ logItems }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.001 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
-                  onClick={() => setModals({ ...modals, cardWithAction: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, cardWithAction: false }))}
                >
                   <ModalCardWithAction />
                </motion.div>
@@ -344,7 +344,7 @@ const Modals = ({ logItems }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.001 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
-                  onClick={() => setModals({ ...modals, cardViewOnly: false })}
+                  onClick={() => setModals((prev) => ({ ...prev, cardViewOnly: false }))}
                >
                   <ModalCardViewOnly />
                </motion.div>

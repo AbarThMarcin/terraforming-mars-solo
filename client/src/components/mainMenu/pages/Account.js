@@ -56,29 +56,31 @@ const Account = ({ user, setUser }) => {
          <form onSubmit={handleUpdateUser}>
             <div className="container">
                <label>PLAYER NAME</label>
-               <input style={disabled} type="text" value={user ? user.name : ''} required disabled />
+               <input
+                  style={disabled}
+                  type="text"
+                  value={user ? user.name : ''}
+                  required
+                  disabled
+               />
             </div>
             <div className="container">
                <label>EMAIL</label>
-               <input style={disabled} type="email" value={user ? user.email : ''} required disabled />
+               <input
+                  style={disabled}
+                  type="email"
+                  value={user ? user.email : ''}
+                  required
+                  disabled
+               />
             </div>
             <div className="container">
                <label htmlFor="new-password">NEW PASSWORD</label>
-               <input
-                  type="password"
-                  id="new-password"
-                  ref={newPasswordRef}
-                  required
-               />
+               <input type="password" id="new-password" ref={newPasswordRef} required />
             </div>
             <div className="container">
                <label htmlFor="new-password-conf">NEW PASSWORD CONFIRMATION</label>
-               <input
-                  type="password"
-                  id="new-password-conf"
-                  ref={newPasswordConfRef}
-                  required
-               />
+               <input type="password" id="new-password-conf" ref={newPasswordConfRef} required />
             </div>
             <button className={`pointer ${loading && 'disabled'}`} type="submit">
                {/* Loading Spinner */}

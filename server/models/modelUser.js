@@ -37,6 +37,16 @@ const userSchema = mongoose.Schema(
             required: true,
             default: '4a-played',
          },
+         musicVolume: {
+            type: Number,
+            required: true,
+            default: 0.5,
+         },
+         gameVolume: {
+            type: Number,
+            required: true,
+            default: 0.5,
+         },
       },
       activeMatches: {
          quickMatch: {
@@ -60,9 +70,6 @@ const userSchema = mongoose.Schema(
          required: true,
          default: false,
       },
-   },
-   {
-      timestamps: true,
    }
 )
 

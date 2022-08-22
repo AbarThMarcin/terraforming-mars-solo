@@ -29,10 +29,10 @@ const ModalProductionData = ({ setCardSnap }) => {
                immProdEffect.name === ANIMATIONS.PRODUCTION_OUT
          )
       }
-      setModals((prevModals) => ({
-         ...prevModals,
+      setModals((prev) => ({
+         ...prev,
          modalProduction: {
-            ...prevModals.modalProduction,
+            ...prev.modalProduction,
             cardIdOrCorpName: itemIdOrCorpName,
             immProdEffects: immProdEffects,
          },

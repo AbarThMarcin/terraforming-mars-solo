@@ -2,5 +2,3 @@ node_modules
 .env
 todo.txt
 /build
-/client/build
-ProcFile

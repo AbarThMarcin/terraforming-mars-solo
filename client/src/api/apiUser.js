@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getUsers = async () => {
-   const URI = 'http://localhost:5000/api/users'
+   const URI = '/api/users'
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const getUsers = async () => {
 }
 
 export const login = async (email, password) => {
-   const URI = 'http://localhost:5000/api/users/login'
+   const URI = '/api/users/login'
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export const login = async (email, password) => {
 }
 
 export const register = async (name, email, password) => {
-   const URI = 'http://localhost:5000/api/users/register'
+   const URI = '/api/users/register'
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export const register = async (name, email, password) => {
 }
 
 export const updateUser = async (token, details) => {
-   const URI = 'http://localhost:5000/api/users/update'
+   const URI = '/api/users/update'
    const config = {
       headers: {
          'Content-Type': 'application/json',

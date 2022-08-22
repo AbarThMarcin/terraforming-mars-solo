@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getActiveGameData = async (token, type) => {
-   const URI = 'http://localhost:5000/api/games/active'
+   const URI = '/api/games/active'
    const body = { type }
    const config = {
       headers: {
@@ -21,7 +21,7 @@ export const getActiveGameData = async (token, type) => {
 }
 
 export const createActiveGameData = async (token, gameData, type) => {
-   const URI = 'http://localhost:5000/api/games/active/create'
+   const URI = '/api/games/active/create'
    const body = { gameData, type }
    const config = {
       headers: {
@@ -41,7 +41,7 @@ export const createActiveGameData = async (token, gameData, type) => {
 }
 
 export const deleteActiveGameData = async (token, type) => {
-   const URI = 'http://localhost:5000/api/games/active/delete'
+   const URI = '/api/games/active/delete'
    const body = { type }
    const config = {
       headers: {
@@ -61,7 +61,7 @@ export const deleteActiveGameData = async (token, type) => {
 }
 
 export const updateGameData = async (token, gameData, type) => {
-   const URI = 'http://localhost:5000/api/games/active/update'
+   const URI = '/api/games/active/update'
    const body = { gameData, type }
    const config = {
       headers: {

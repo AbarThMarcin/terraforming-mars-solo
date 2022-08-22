@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.b5675c53.css",
-    "main.js": "/static/js/main.1b543ad8.js",
+    "main.js": "/static/js/main.af045a80.js",
     "static/media/music.mp3": "/static/media/music.f2fde1d11ed1c99f2d19.mp3",
     "static/media/background.png": "/static/media/background.f203c37fad15b02d0a58.png",
     "static/media/credicor.png": "/static/media/credicor.227369699be3f810de9e.png",
@@ -426,10 +426,10 @@
     "static/media/passContBg.svg": "/static/media/passContBg.1f89767068129ac0918eb1603b9091ba.svg",
     "index.html": "/index.html",
     "main.b5675c53.css.map": "/static/css/main.b5675c53.css.map",
-    "main.1b543ad8.js.map": "/static/js/main.1b543ad8.js.map"
+    "main.af045a80.js.map": "/static/js/main.af045a80.js.map"
   },
   "entrypoints": [
     "static/css/main.b5675c53.css",
-    "static/js/main.1b543ad8.js"
+    "static/js/main.af045a80.js"
   ]
 }

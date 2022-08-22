@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getMatchesWithId = async (token) => {
-   const URI = 'http://localhost:5000/api/games/with-id'
+   const URI = '/api/games/with-id'
    const config = {
       headers: { 'Content-Type': 'application/json' },
       Authorization: `Bearer ${token}`,
@@ -18,7 +18,7 @@ export const getMatchesWithId = async (token) => {
 }
 
 export const getMatchWithId = async (token, id) => {
-   const URI = 'http://localhost:5000/api/games/with-id/get'
+   const URI = '/api/games/with-id/get'
    const body = { id }
    const config = {
       headers: {
@@ -38,7 +38,7 @@ export const getMatchWithId = async (token, id) => {
 }
 
 export const getConsecutiveCardsIds = async (token, gameId, idx, count) => {
-   const URI = 'http://localhost:5000/api/games/with-id/get-cards-ids'
+   const URI = '/api/games/with-id/get-cards-ids'
    const body = { gameId, idx, count }
    const config = {
       headers: {

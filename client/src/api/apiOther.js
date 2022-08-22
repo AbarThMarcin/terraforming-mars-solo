@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getSeason = async () => {
-   const URI = 'http://localhost:5000/api/other/season'
+   const URI = '/api/other/season'
    const config = {
       headers: { 'Content-Type': 'application/json' },
    }

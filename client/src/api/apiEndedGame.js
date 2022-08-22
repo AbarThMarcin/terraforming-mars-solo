@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getEndedGameData = async () => {
-   const URI = 'http://localhost:5000/api/games/ended'
+   const URI = '/api/games/ended'
    const config = {
       headers: { 'Content-Type': 'application/json' },
    }
@@ -17,7 +17,7 @@ export const getEndedGameData = async () => {
 }
 
 export const createEndedGameData = async (token, gameData) => {
-   const URI = 'http://localhost:5000/api/games/ended/create'
+   const URI = '/api/games/ended/create'
    const config = {
       headers: {
          'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export const createEndedGameData = async (token, gameData) => {
 }
 
 export const updateEndedGameData = async (token, details) => {
-   const URI = 'http://localhost:5000/api/games/ended/update'
+   const URI = '/api/games/ended/update'
    const config = {
       headers: {
          'Content-Type': 'application/json',

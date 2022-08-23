@@ -137,7 +137,6 @@ const Ranking = () => {
                            )}
                            {type === TABS.RANKING_RULES && <RankingRules />}
                         </div>
-                        <BtnGoBack />
                         {/* Filters */}
                         <div className="filters" style={{ transform: 'translateX(-30%)' }}>
                            {type !== TABS.RANKING_RULES && (
@@ -164,6 +163,7 @@ const Ranking = () => {
                         <img className="full-size" src={spinner} alt="loading_spinner" />
                      </div>
                   )}
+                  <BtnGoBack />
                </div>
             </DataContext.Provider>
          </PlayersContext.Provider>

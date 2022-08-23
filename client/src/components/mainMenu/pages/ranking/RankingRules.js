@@ -16,7 +16,7 @@ const RankingRules = () => {
    return (
       <div className="rules-container">
          <div className="content">
-            {season ? (
+            {season !== undefined ? (
                <>
                   <p>
                      <span className="season highlighted">
@@ -24,7 +24,7 @@ const RankingRules = () => {
                      </span>
                   </p>
                   <p>
-                     CURRENT SEASON ENDS ON: <span className="highlighted">28 FEBRUARY 2023</span>.
+                     CURRENT SEASON ENDS ON: <span className="highlighted">30 JUNE 2023</span>.
                   </p>
                   <p>
                      YOU HAVE <span className="highlighted">24 HOURS</span> TO COMPLETE A RANKED

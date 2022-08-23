@@ -1,3 +1,3 @@
-const SEASON = 2
+const SEASON = 0
 
 module.exports = { SEASON }

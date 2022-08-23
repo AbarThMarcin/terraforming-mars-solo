@@ -8,7 +8,7 @@ const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, data 
    )
 
    function getSeasons() {
-      return Array(data.season)
+      return Array(data.season + 1)
          .fill()
          .map((_, idx) => data.season - idx)
    }
@@ -28,7 +28,7 @@ const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, data 
          <option value="lifetime">LIFETIME</option>
          {seasons.map((season, idx) => (
             <option key={idx} value={season}>
-               SEASON {season}
+               {season === 0 ? 'PRESEASON' : `SEASON ${season}`}
             </option>
          ))}
       </select>

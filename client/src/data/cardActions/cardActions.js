@@ -270,7 +270,7 @@ export const funcGetCardActions = (
                })
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...statePlayer.cardsSeen, getCards(CARDS, newCardsDrawIds)],
+                  payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
             },
          })
@@ -659,7 +659,7 @@ export const funcGetCardActions = (
                })
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...statePlayer.cardsSeen, getCards(CARDS, newCardsDrawIds)],
+                  payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
             },
          })

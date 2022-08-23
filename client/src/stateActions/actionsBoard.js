@@ -120,7 +120,7 @@ export const reducerBoard = (state, action) => {
                      field.object === TILES.CITY_NEUTRAL ||
                      field.object === TILES.SPECIAL_CITY_CAPITAL
                )
-               return setAvailFieldsAdjacent(board, tiles)
+               return setAvailFieldsAdjacent(board, tiles, true)
             case TILES.SPECIAL_CITY_NOCTIS:
                tiles = board.filter((field) => field.name === 'NOCTIS CITY')
                return setAvailFieldsSpecific(board, tiles)

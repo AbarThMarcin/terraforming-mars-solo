@@ -726,7 +726,7 @@ export const CARDS = [
    },
    {
       id: 24,
-      name: 'PRDATORS',
+      name: 'PREDATORS',
       description: 'Lions and tigers and bears, oh my',
       info: [
          'Requires 11% oxygen.',

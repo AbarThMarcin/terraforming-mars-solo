@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { TILES, setAvailFieldsAdjacent } from '../../../../../data/board'
 import { SP } from '../../../../../data/StandardProjects'
+import { getAllResourcesForSP } from '../../../../../utils/misc'
 import {
    StatePlayerContext,
    StateGameContext,
@@ -68,7 +69,11 @@ const ModalSPaction = ({
       // If stateGame.phasePlaceTile
       if (stateGame.phasePlaceTile) v = false
       // If less resources than cost
-      if (statePlayer.resources.mln < cost) v = false
+      if (actionClicked === name) {
+         if (statePlayer.resources.mln < cost) v = false
+      } else {
+         if (getAllResourcesForSP(statePlayer) < cost) v = false
+      }
       // Other requirements
       let availFields = []
       switch (name) {

@@ -164,6 +164,11 @@ export function getAllResources(card, statePlayer) {
    if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
    return resources
 }
+export function getAllResourcesForSP(statePlayer) {
+   let resources = statePlayer.resources.mln
+   if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
+   return resources
+}
 
 export function funcPerformSubActions(
    subActions,

@@ -57,6 +57,7 @@ const ModalStandardProjects = () => {
          resHeat--
       }
       resMln = initToBuyMln()
+
       switch (Sp) {
          case SP.POWER_PLANT:
             resMln[1] = Math.max(stateGame.SPCosts.powerPlant.current - resHeat, 0)

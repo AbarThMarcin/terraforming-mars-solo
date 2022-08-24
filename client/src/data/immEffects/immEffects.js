@@ -1761,7 +1761,7 @@ export const funcGetImmEffects = (
       case 102:
          value =
             statePlayer.cardsPlayed.reduce(
-               (total, card) => (hasTag(card, TAGS.ENERGY) ? total + 1 : total),
+               (total, card) => (hasTag(card, TAGS.POWER) ? total + 1 : total),
                1
             ) +
             statePlayer.corporation.tags.reduce(

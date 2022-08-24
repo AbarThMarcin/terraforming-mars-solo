@@ -21,7 +21,7 @@ const VersionUpdate = ({ update }) => {
 
    return (
       <div
-         className={`version-update ${update.description && pointer} ${expanded && 'expanded'}`}
+         className={`version-update ${update.description && 'pointer'} ${expanded && 'expanded'}`}
          onClick={handleClickUpdate}
       >
          <div className="title-container">

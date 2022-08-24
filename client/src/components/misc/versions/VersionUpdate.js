@@ -8,6 +8,7 @@ const VersionUpdate = ({ update }) => {
    const refDesc = useRef()
 
    function handleClickUpdate() {
+      if (!update.description) return
       const el = refDesc.current
       if (expanded) {
          el.style.height = '0px'

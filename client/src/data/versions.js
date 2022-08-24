@@ -1,15 +1,5 @@
 export const VERSIONS = [
    {
-      number: '0.00',
-      date: '2022-08-23',
-      updates: [
-         {
-            title: 'Beta released',
-            description: '',
-         },
-      ],
-   },
-   {
       number: '0.01',
       date: '2022-08-24',
       updates: [
@@ -57,6 +47,16 @@ export const VERSIONS = [
          },
          {
             title: 'Versions notice added',
+            description: '',
+         },
+      ],
+   },
+   {
+      number: '0.00',
+      date: '2022-08-23',
+      updates: [
+         {
+            title: 'Beta released',
             description: '',
          },
       ],

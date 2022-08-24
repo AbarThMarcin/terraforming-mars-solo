@@ -1,7 +1,8 @@
 @import url('./components/game/game.css');
 @import url('./components/main-menu/main-menu.css');
+@import url('./components/btn-music.css');
+@import url('./components/versions.css');
 @import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&display=swap'); */
 
 :root {
    --app-width: calc(100vmin * 16 / 9);
@@ -82,13 +83,4 @@ body {
 
 .display-none {
    display: none;
-}
-
-/* Music Button to mute / unmute */
-.app .btn-music {
-   position: absolute;
-   right: calc(var(--default-size) * 0.3);
-   top: calc(var(--default-size) * 0.5);
-   width: calc(var(--default-size) * 1.4);
-   height: calc(var(--default-size) * 1.4);
 }

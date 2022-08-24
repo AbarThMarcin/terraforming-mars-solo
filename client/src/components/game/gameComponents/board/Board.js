@@ -2,10 +2,10 @@ import BoardTharsis from './BoardTharsis'
 import BoardPhobos from './BoardPhobos'
 import BoardGanymede from './BoardGanymede'
 
-const Board = () => {
+const Board = ({ setTotalVP }) => {
    return (
       <>
-         <BoardTharsis />
+         <BoardTharsis setTotalVP={setTotalVP} />
          <BoardPhobos />
          <BoardGanymede />
       </>

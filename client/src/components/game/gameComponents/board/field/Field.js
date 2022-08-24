@@ -26,6 +26,7 @@ import {
    getNeighbors,
    getNewCardsDrawIds,
    modifiedCards,
+   updateVP,
    withTimeAdded,
 } from '../../../../../utils/misc'
 import { RESOURCES } from '../../../../../data/resources'
@@ -51,7 +52,7 @@ import nuclearZone from '../../../../../assets/images/tiles/nuclearZone.svg'
 import industrialCenter from '../../../../../assets/images/tiles/industrialCenter.svg'
 import lavaFlows from '../../../../../assets/images/tiles/lavaFlows.svg'
 
-const Field = ({ field }) => {
+const Field = ({ field, setTotalVP }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const {
       stateGame,
@@ -329,27 +330,48 @@ const Field = ({ field }) => {
             startAnimation(setModals)
             performSubActions(stateGame.actionsLeft)
          } else {
-            setTimeout(() => {
-               // If there are still enough plants to convert
-               if (newPlants >= statePlayer.valueGreenery) {
-                  // Decrease plants
-                  dispatchPlayer({
-                     type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
-                     payload: -statePlayer.valueGreenery,
-                  })
-                  // Proper action + potential Herbivores
-                  let actions = getImmEffects(IMM_EFFECTS.GREENERY)
-                  if (
-                     statePlayer.cardsPlayed.some(
-                        (card) => card.effect === EFFECTS.EFFECT_HERBIVORES
-                     )
-                  )
-                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
-                  performSubActions(actions, null, null)
-               } else {
-                  setModals((prev) => ({ ...prev, endStats: true }))
-               }
-            }, ANIMATION_SPEED / 2)
+            // If there are still enough plants to convert
+            if (newPlants >= statePlayer.valueGreenery) {
+               // Decrease plants
+               dispatchPlayer({
+                  type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
+                  payload: -statePlayer.valueGreenery,
+               })
+               // Proper action + potential Herbivores
+               let actions = [
+                  ...stateGame.actionsLeft,
+                  ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX),
+               ]
+               if (
+                  statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)
+               )
+                  actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+               performSubActions(actions, null, null)
+            } else {
+               performSubActions(
+                  [
+                     ...stateGame.actionsLeft,
+                     {
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: null,
+                        value: null,
+                        func: () => {
+                           setModals((prev) => ({ ...prev, endStats: true }))
+                           updateVP(
+                              statePlayer,
+                              dispatchPlayer,
+                              stateGame,
+                              stateBoard,
+                              setTotalVP,
+                              true
+                           )
+                        },
+                     },
+                  ],
+                  null,
+                  null
+               )
+            }
          }
       }, delay)
    }

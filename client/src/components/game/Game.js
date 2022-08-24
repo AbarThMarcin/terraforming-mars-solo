@@ -501,7 +501,7 @@ function Game({
                                     transition={{ duration: 0.5, delay: 0.5 }}
                                     className="board center"
                                  >
-                                    <Board />
+                                    <Board setTotalVP={setTotalVP} />
                                  </motion.div>
                               </AnimatePresence>
 

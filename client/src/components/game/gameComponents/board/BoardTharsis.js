@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { StateBoardContext } from '../../Game'
 import Field from './field/Field'
 
-const BoardTharsis = () => {
+const BoardTharsis = ({ setTotalVP }) => {
    const { stateBoard } = useContext(StateBoardContext)
 
    return (
@@ -12,7 +12,7 @@ const BoardTharsis = () => {
                .filter(
                   (field) => field.name !== 'PHOBOS SPACE HAVEN' && field.name !== 'GANYMEDE COLONY'
                )
-               .map((field, idx) => <Field key={idx} field={field} />)}
+               .map((field, idx) => <Field key={idx} field={field} setTotalVP={setTotalVP} />)}
       </div>
    )
 }

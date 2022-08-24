@@ -211,7 +211,13 @@ export function funcPerformSubActions(
          setTimeout(() => {
             endAnimation(setModals)
             startAnimation(setModals)
-            setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals, sound)
+            setAnimation(
+               subActions[i].name,
+               subActions[i].type,
+               subActions[i].value,
+               setModals,
+               sound
+            )
          }, longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2))
          setTimeout(
             () => subActions[i].func(),
@@ -292,16 +298,23 @@ export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndentured
    return newCards
 }
 
-export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP) {
+export function updateVP(
+   statePlayer,
+   dispatchPlayer,
+   stateGame,
+   stateBoard,
+   setTotalVP,
+   herbivoresException = false
+) {
    // Cards VP update
    statePlayer.cardsPlayed.forEach((card) =>
-      updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard)
+      updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException)
    )
    // Total VP update
-   setTotalVP(getTotalPoints(statePlayer, stateGame, stateBoard))
+   setTotalVP(getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresException))
 }
 
-function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
+function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException) {
    let newVp = card.vp
    switch (card.id) {
       case 5:
@@ -316,6 +329,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
          break
       case 12:
          newVp = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.JOVIAN)).length
+         if (statePlayer.corporation.name === CORP_NAMES.SATURN_SYSTEMS) newVp++
          break
       case 24:
          newVp = card.units.animal
@@ -340,6 +354,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
          break
       case 81:
          newVp = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.JOVIAN)).length
+         if (statePlayer.corporation.name === CORP_NAMES.SATURN_SYSTEMS) newVp++
          break
       case 85:
          let commercialDistrict = stateBoard.find(
@@ -355,6 +370,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
          break
       case 92:
          newVp = statePlayer.cardsPlayed.filter((card) => hasTag(card, TAGS.JOVIAN)).length
+         if (statePlayer.corporation.name === CORP_NAMES.SATURN_SYSTEMS) newVp++
          break
       case 95:
          newVp = card.units.science * 2
@@ -366,7 +382,9 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
          newVp = Math.floor(card.units.microbe / 3)
          break
       case 147:
-         newVp = Math.floor(card.units.animal / 2)
+         newVp = herbivoresException
+            ? Math.floor((card.units.animal + 1) / 2)
+            : Math.floor(card.units.animal / 2)
          break
       case 172:
          newVp = Math.floor(card.units.animal / 2)
@@ -389,12 +407,12 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
    dispatchPlayer({ type: ACTIONS_PLAYER.UPDATE_VP, payload: { cardId: card.id, vp: newVp } })
 }
 
-export function getTotalPoints(statePlayer, stateGame, stateBoard) {
+export function getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresException) {
    return (
       getTrPoints(stateGame) +
       getGreeneryPoints(stateBoard) +
       getCityPoints(stateBoard) +
-      getVictoryPoints(statePlayer)
+      getVictoryPoints(statePlayer, herbivoresException)
    )
 }
 
@@ -424,11 +442,11 @@ export function getCityPoints(stateBoard) {
    })
    return points
 }
-export function getVictoryPoints(statePlayer) {
+export function getVictoryPoints(statePlayer, herbivoresException) {
    const cards = statePlayer.cardsPlayed.filter((card) => card.vp !== 0)
    const count = cards.length > 0 ? cards.reduce((total, card) => total + card.vp, 0) : 0
 
-   return count
+   return herbivoresException ? count + 1 : count
 }
 
 export function scale(number, inMin, inMax, outMin, outMax) {

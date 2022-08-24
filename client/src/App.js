@@ -17,9 +17,11 @@ import MainMenu from './components/mainMenu/MainMenu'
 import { createActiveGameData, getActiveGameData } from './api/apiActiveGame'
 import { getRandIntNumbers } from './api/apiOther'
 import { updateUser } from './api/apiUser'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faVolumeMute, faVolumeOff } from '@fortawesome/free-solid-svg-icons'
 import { createMatchWithId } from './api/apiMatchWithId'
+import Ranking from './components/mainMenu/pages/ranking/Ranking'
+import BtnMusic from './components/misc/BtnMusic'
+import Version from './components/misc/versions/Version'
+import ModalVersions from './components/misc/versions/ModalVersions'
 // Music
 import { Howl } from 'howler'
 import {
@@ -35,7 +37,6 @@ import {
    btnCardsClick,
    objectPut,
 } from './data/gameSound'
-import Ranking from './components/mainMenu/pages/ranking/Ranking'
 
 export const ModalConfirmationContext = createContext()
 export const SettingsContext = createContext()
@@ -96,14 +97,13 @@ function App() {
       }),
       []
    )
+   // Versions
+   const [showVersions, setShowVersions] = useState(false)
 
    const [isMusicPlaying, setIsMusicPlaying] = useState(false)
    // Other
    const [showLogoutMsg, setShowLogoutMsg] = useState(true)
 
-   function handleClickMusicPlayPause() {
-      setIsMusicPlaying((prev) => !prev)
-   }
    useEffect(() => {
       if (isMusicPlaying) {
          music.play()
@@ -333,13 +333,11 @@ function App() {
                      </Routes>
                   </Router>
                   {/* Turn on / off music button */}
-                  <div className="btn-music pointer" onClick={handleClickMusicPlayPause}>
-                     {isMusicPlaying ? (
-                        <FontAwesomeIcon icon={faVolumeOff} />
-                     ) : (
-                        <FontAwesomeIcon icon={faVolumeMute} />
-                     )}
-                  </div>
+                  <BtnMusic isMusicPlaying={isMusicPlaying} setIsMusicPlaying={setIsMusicPlaying} />
+                  {/* Version */}
+                  <Version setShowVersions={setShowVersions} />
+                  {/* Modal Versions */}
+                  {showVersions && <ModalVersions setShowVersions={setShowVersions} />}
                </div>
             </SoundContext.Provider>
          </SettingsContext.Provider>

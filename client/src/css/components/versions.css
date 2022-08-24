@@ -1,0 +1,121 @@
+/* Version Text */
+.app > .version {
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   line-height: calc(var(--default-size) * 0.8);
+   font-size: calc(var(--default-size) * 0.6);
+}
+.app > .version span {
+   color: rgb(100, 255, 220);
+}
+.app > .version span:hover {
+   text-decoration: underline;
+}
+
+/* Modal Versions - Container */
+.versions-container {
+   height: 70%;
+   width: 50%;
+   border-radius: calc(var(--default-size) * 0.5);
+   background: rgb(0, 10, 7);
+   background: linear-gradient(
+      0deg,
+      rgba(0, 15, 10, 0.9) 0%,
+      rgba(0, 5, 3, 0.9) 40%,
+      rgba(0, 5, 3, 0.9) 60%,
+      rgba(0, 15, 10, 0.9) 100%
+   );
+   padding: calc(var(--default-size) * 1);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   font-size: calc(var(--default-size) * 1.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   box-shadow: 0 0 0 calc(var(--default-size) * 0.35) #000,
+      0 0 0 calc(var(--default-size) * 0.5) rgb(0, 133, 91);
+}
+
+/* Modal Versions - Title */
+.versions-container > .title {
+   width: 100%;
+   margin-bottom: calc(var(--default-size) * 0.5);
+   text-align: center;
+   font-size: calc(var(--default-size) * 1.8);
+   font-weight: 500;
+   line-height: calc(var(--default-size) * 1.8);
+}
+
+/* Modal Versions - Content Box */
+.versions-container .content {
+   width: 100%;
+   height: 100%;
+   overflow-y: auto;
+}
+.versions-container .content::-webkit-scrollbar {
+   position: absolute;
+   width: calc(var(--default-size) * 0.5);
+}
+.versions-container .content::-webkit-scrollbar-track {
+   background-color: transparent;
+   border-radius: calc(var(--default-size) * 0.5);
+   margin-left: 10px;
+}
+.versions-container .content::-webkit-scrollbar-thumb {
+   background-color: rgba(255, 255, 255, 0.05);
+   border: calc(var(--default-size) * 0.08) solid rgba(0, 0, 0, 0.5);
+   border-radius: calc(var(--default-size) * 0.5);
+}
+
+/* Modal Versions - Item */
+.versions-container .content .version {
+   margin-block-end: calc(var(--default-size) * 0.5);
+   border-bottom: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.04);
+}
+.versions-container .content .version h3 {
+   font-size: calc(var(--default-size) * 1.3);
+}
+.versions-container .content .version .version-update {
+   padding: calc(var(--default-size) * 0.2);
+   margin-block-end: calc(var(--default-size) * 0.5);
+}
+.versions-container .content .version .version-update.expanded {
+   background-color: rgba(255, 255, 255, 0.02);
+}
+.versions-container .content .version .version-update .title-container {
+   font-size: calc(var(--default-size) * 1.2);
+   position: relative;
+   display: flex;
+}
+/* Modal Versions - Item - Hyphen */
+.versions-container .content .version .version-update .title-container .hyphen {
+   width: 3%;
+   line-height: calc(var(--default-size) * 1.4);
+}
+/* Modal Versions - Item - Title */
+.versions-container .content .version .version-update .title-container .title {
+   font-weight: 500;
+   width: 94%;
+   line-height: calc(var(--default-size) * 1.4);
+}
+/* Modal Versions - Item - Arrows */
+.versions-container .content .version .version-update .title-container .arrows {
+   width: calc(var(--default-size) * 1.1);
+   height: calc(var(--default-size) * 1.1);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 3%;
+   margin-right: calc(var(--default-size) * 0.3);
+   margin-top: calc(var(--default-size) * 0.08);
+}
+/* Modal Versions - Item - Description */
+.versions-container .content .version .version-update .description {
+   font-size: calc(var(--default-size) * 1.1);
+   line-height: calc(var(--default-size) * 1.2);
+   height: 0px;
+   overflow: hidden;
+   transition: height 150ms ease-in-out;
+   color: rgba(255, 255, 255, 0.6);
+}

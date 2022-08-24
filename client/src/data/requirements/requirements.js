@@ -442,7 +442,7 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
          case 103:
          case 104:
             value = statePlayer.resources.energy
-            if (value < 4 || stateGame.globalParameters.oxygen === 14) reqMet = false
+            if (value < 4) reqMet = false
             break
          // Symbiotic Fungus
          case 133:
@@ -457,7 +457,7 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
          // Water Splitting Plant
          case 177:
             value = statePlayer.resources.energy
-            if (value < 3 || stateGame.globalParameters.oxygen === 14) reqMet = false
+            if (value < 3) reqMet = false
             break
          // Aquifer Pumping
          case 187:

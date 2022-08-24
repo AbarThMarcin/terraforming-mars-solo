@@ -30,6 +30,7 @@ export const IMM_EFFECTS = {
    AQUIFER: 'Place an ocean',
    AQUIFER2: 'Place two oceans',
    GREENERY: 'Place greenery',
+   GREENERY_WO_OX: 'Place greenery w/o oxygen',
    OXYGEN: 'Increase oxygen by 1%',
    OXYGEN2: 'Increase oxygen by 2%',
    CITY: 'Place a city',
@@ -309,6 +310,22 @@ export const funcGetImmEffects = (
          })
          // Increase oxygen
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
+         break
+      // ======================== PLACE GREENERY TILE WITHOUT OXYGEN =================
+      case IMM_EFFECTS.GREENERY_WO_OX:
+         subActions.push({
+            name: ANIMATIONS.USER_INTERACTION,
+            type: null,
+            value: null,
+            func: () => {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
+               dispatchGame({
+                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
+                  payload: TILES.GREENERY,
+               })
+               dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.GREENERY })
+            },
+         })
          break
       // ================================= INCREASE OXYGEN BY 1% ===========================
       case IMM_EFFECTS.OXYGEN:

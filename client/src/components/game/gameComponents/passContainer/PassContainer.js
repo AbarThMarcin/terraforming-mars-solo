@@ -184,8 +184,9 @@ const PassContainer = ({ totalVP }) => {
                      type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
                      payload: -statePlayer.valueGreenery,
                   })
-                  // Proper action + potential Herbivores
-                  let actions = getImmEffects(IMM_EFFECTS.GREENERY)
+                  // Proper action
+                  let actions = getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)
+                  // Potential Herbivores
                   if (
                      statePlayer.cardsPlayed.some(
                         (card) => card.effect === EFFECTS.EFFECT_HERBIVORES

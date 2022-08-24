@@ -7,7 +7,7 @@
 @import url('./qm-type.css');
 
 /* Container of the page */
-.main-menu .green-border::before {
+.app .green-border::before {
    content: '';
    position: absolute;
    background-color: transparent;
@@ -20,7 +20,7 @@
    z-index: -1;
 }
 
-.main-menu .green-border::after {
+.app .green-border::after {
    content: '';
    position: absolute;
    background-color: transparent;

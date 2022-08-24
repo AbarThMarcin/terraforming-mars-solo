@@ -46,6 +46,11 @@ export const VERSIONS = [
                "A titan resource is now deducted from the player's resources when using the Security Fleet's action.",
          },
          {
+            title: "Season 0 changed to Preseason for Games Statistics",
+            description:
+               "",
+         },
+         {
             title: 'Versions notice added',
             description: '',
          },

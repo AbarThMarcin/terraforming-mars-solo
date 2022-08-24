@@ -51,7 +51,7 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
    return (
       <div className="row">
          <div>{id}</div>
-         <div>{game.season}</div>
+         <div>{game.season === 0 ? 'PRESEASON' : game.season}</div>
          <div>{game.corporation.name}</div>
          <div>{game.victory ? 'WIN' : 'LOSS'}</div>
          <div>{game.points.tr}</div>

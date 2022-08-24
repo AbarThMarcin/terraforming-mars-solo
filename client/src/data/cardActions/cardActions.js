@@ -313,6 +313,12 @@ export const funcGetCardActions = (
       // Security Fleet
       case 28:
          subCardActions.push({
+            name: ANIMATIONS.RESOURCES_OUT,
+            type: RESOURCES.TITAN,
+            value: 1,
+            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -1 }),
+         })
+         subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.FIGHTER,
             value: 1,

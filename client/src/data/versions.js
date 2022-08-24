@@ -50,6 +50,15 @@ export const VERSIONS = [
             description:
                'Herbivores are now being correctly added to the card when greeneries are placed at the end of the match (after gen 14).',
          },
+         {
+            title: "Cost of the Security Fleet's action fixed",
+            description:
+               "A titan resource is now deducted from the player's resources when using the Security Fleet's action.",
+         },
+         {
+            title: 'Versions notice added',
+            description: '',
+         },
       ],
    },
 ]

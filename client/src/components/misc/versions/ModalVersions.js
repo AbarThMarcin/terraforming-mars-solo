@@ -1,7 +1,10 @@
+import { useMemo } from 'react'
 import { VERSIONS } from '../../../data/versions'
 import ModalVersionsItem from './ModalVersionsItem'
 
 const ModalVersions = ({ setShowVersions }) => {
+   const versions = useMemo(() => VERSIONS.reverse(), [])
+
    return (
       <div className="modal-background" onClick={() => setShowVersions(false)}>
          <div className="versions-container center" onClick={(e) => e.stopPropagation()}>
@@ -9,7 +12,7 @@ const ModalVersions = ({ setShowVersions }) => {
             <div className="title">UPDATES</div>
             {/* Content */}
             <div className="content">
-               {VERSIONS.map((version, idx) => (
+               {versions.map((version, idx) => (
                   <ModalVersionsItem key={idx} version={version} />
                ))}
             </div>

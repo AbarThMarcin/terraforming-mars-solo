@@ -2840,7 +2840,7 @@ export const CARDS = [
          fighter: 0,
       },
       iconNames: {
-         vp: null,
+         vp: VP_ICONS.VP2PER1SCIENCE,
          action: ACTION_ICONS.ACTION_PHYSICSCOMPLEX,
       },
       actionUsed: null,

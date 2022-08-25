@@ -1,5 +1,16 @@
 export const VERSIONS = [
    {
+      number: '0.02',
+      date: '2022-08-25',
+      updates: [
+         {
+            title: 'Order of the actions and effects fixed',
+            description:
+               'Before: whenever cards played have been sorted, effects / actions were sorted appropiately. After: effects / actions are always sorted chronologically (ascending).',
+         },
+      ],
+   },
+   {
       number: '0.01',
       date: '2022-08-24',
       updates: [
@@ -46,9 +57,8 @@ export const VERSIONS = [
                "A titan resource is now deducted from the player's resources when using the Security Fleet's action.",
          },
          {
-            title: "Season 0 changed to Preseason for Games Statistics",
-            description:
-               "",
+            title: 'Season 0 changed to Preseason for Games Statistics',
+            description: '',
          },
          {
             title: 'Versions notice added',

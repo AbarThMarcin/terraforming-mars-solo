@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { getEffectIcon } from '../../../../../../data/effects/effectIcons'
+import { sorted } from '../../../../../../utils/misc'
 import { ModalsContext } from '../../../../Game'
 
 const ModalOtherDataEffects = ({ setCardSnap }) => {
@@ -11,7 +12,7 @@ const ModalOtherDataEffects = ({ setCardSnap }) => {
 
    return (
       <div className="modal-other-data center">
-         {modals.modalOther.data.map((item, idx) => (
+         {sorted(modals.modalOther.data, '4a-played').map((item, idx) => (
             <div
                key={idx}
                className="modal-other-data-item"

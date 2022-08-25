@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { getActionCost } from '../../../../../../../utils/misc'
+import { getActionCost, sorted } from '../../../../../../../utils/misc'
 import { ModalsContext, StatePlayerContext } from '../../../../../Game'
 import DecreaseCostAction from '../../../modalsComponents/DecreaseCostAction'
 import ModalOtherDataActionsItem from './ModalOtherDataActionsItem'
@@ -68,7 +68,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
                   changeCosts={changeCosts}
                />
             )}
-            {modals.modalOther.data.map((item, idx) => (
+            {sorted(modals.modalOther.data, '4a-played').map((item, idx) => (
                <ModalOtherDataActionsItem
                   key={idx}
                   item={item}

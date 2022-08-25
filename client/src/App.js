@@ -219,6 +219,7 @@ function App() {
       gameData.stateModals = INIT_MODALS
       gameData.stateBoard = addNeutralTiles(board)
       gameData.corps = await getRandIntNumbers(2, 1, 12)
+      // gameData.initCards = [5, 7, 20, 23, 12, 6, 11, 8, 9, 63]
       gameData.initCards = await getRandIntNumbers(10, 1, 208)
       gameData.logItems = [
          { type: LOG_TYPES.LOG, data: null },

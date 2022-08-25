@@ -6,8 +6,10 @@ import {
    StateGameContext,
    StatePlayerContext,
    CardsContext,
+   CorpsContext,
    ModalsContext,
    UserContext,
+   StateBoardContext,
 } from '../../Game'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
@@ -35,9 +37,11 @@ import logIconInventrix from '../../../../assets/images/other/forcedActionInvent
 import DecreaseCostDraft from './modalsComponents/DecreaseCostDraft'
 import { CARDS } from '../../../../data/cards'
 import { SettingsContext, SoundContext } from '../../../../App'
+import { updateGameData } from '../../../../api/apiActiveGame'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
+   const { stateBoard } = useContext(StateBoardContext)
    const { settings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
    const {
@@ -48,9 +52,11 @@ const ModalDraft = () => {
       getEffect,
       requirementsMet,
       setSaveToServerTrigger,
+      logItems,
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { cardsDeckIds, cardsDrawIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
+   const { initCorpsIds } = useContext(CorpsContext)
    const { type, id, user } = useContext(UserContext)
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
@@ -71,9 +77,20 @@ const ModalDraft = () => {
 
    // Add draft cards to the cardsSeen
    useEffect(() => {
+      if (stateGame.generation === 1) return
       if (!statePlayer.cardsSeen.map((c) => c.id).includes(cardsDraft[0].id)) {
          const newCards = [...statePlayer.cardsSeen, ...cardsDraft]
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
+         // Update Server Data
+         const updatedData = {
+            statePlayer: { ...statePlayer, cardsSeen: newCards },
+            stateGame,
+            stateModals: modals,
+            stateBoard,
+            corps: initCorpsIds,
+            logItems,
+         }
+         updateGameData(user.token, updatedData, type)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])

@@ -9,7 +9,7 @@ import BtnAction from '../buttons/BtnAction'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const ModalCorps = () => {
-   const corps = useContext(CorpsContext)
+   const { corps } = useContext(CorpsContext)
    const { dispatchGame } = useContext(StateGameContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)

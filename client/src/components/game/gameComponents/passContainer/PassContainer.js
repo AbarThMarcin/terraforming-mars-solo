@@ -203,8 +203,8 @@ const PassContainer = ({ totalVP }) => {
          } else {
             setModals((prev) => ({ ...prev, animation: false, draft: true }))
             dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
-            // Update Server Data
-            setSaveToServerTrigger((prev) => !prev)
+            // // Update Server Data
+            // setSaveToServerTrigger((prev) => !prev)
          }
       }, delay)
    }

@@ -420,7 +420,7 @@ function Game({
                   }}
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
-                     <CorpsContext.Provider value={corps}>
+                     <CorpsContext.Provider value={{ corps, initCorpsIds }}>
                         <CardsContext.Provider
                            value={{ cardsDrawIds, setCardsDrawIds, cardsDeckIds, setCardsDeckIds }}
                         >

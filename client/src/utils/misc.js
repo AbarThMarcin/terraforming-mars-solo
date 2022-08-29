@@ -722,7 +722,7 @@ export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, typ
       newCardsDeckIds = statePlayer.cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
    } else {
       const drawIndexes = await getRandIntNumbers(count, 0, statePlayer.cardsDeckIds.length - 1)
-      newCardsDrawIds = drawIndexes
+      newCardsDrawIds = statePlayer.cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
       newCardsDeckIds = statePlayer.cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))
    }
 

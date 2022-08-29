@@ -28,9 +28,7 @@ const getCardsIds = asyncHandler(async (req, res) => {
    const game = await GameWithId.findOne({ _id: gameId })
 
    if (game) {
-      res.status(200).json({
-         ids: game.cards.slice(idx, idx + count)
-      })
+      res.status(200).json({ ids: game.cards.slice(idx, idx + count) })
    } else {
       res.status(404)
       throw new Error('Game not found')

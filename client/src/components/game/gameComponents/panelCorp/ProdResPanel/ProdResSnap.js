@@ -33,7 +33,8 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
                statePlayer.resources.plant >= statePlayer.valueGreenery &&
                !modals.draft &&
                !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState && (
+               !stateGame.phaseViewGameState &&
+               !modals.animation && (
                   <BtnConvertPlantsHeat
                      textConfirmation={`Do you want to convert ${statePlayer.valueGreenery} plants to a Greenery?`}
                      action={action.func}

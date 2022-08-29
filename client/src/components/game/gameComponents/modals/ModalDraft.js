@@ -5,7 +5,6 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import {
    StateGameContext,
    StatePlayerContext,
-   CardsContext,
    CorpsContext,
    ModalsContext,
    UserContext,
@@ -55,16 +54,15 @@ const ModalDraft = () => {
       logItems,
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { cardsDeckIds, cardsDrawIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { type, id, user } = useContext(UserContext)
    const [toBuyMln, setToBuyMln] = useState(0)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [selectedCardsIds, setSelectedCardsIds] = useState([])
    const cardsDraft = useMemo(
-      () => modifiedCards(getCards(CARDS, cardsDrawIds), statePlayer),
+      () => modifiedCards(getCards(CARDS, statePlayer.cardsDrawIds), statePlayer),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [cardsDrawIds]
+      [statePlayer.cardsDrawIds]
    )
    const textConfirmation =
       stateGame.generation === 1
@@ -77,8 +75,11 @@ const ModalDraft = () => {
 
    // Add draft cards to the cardsSeen
    useEffect(() => {
+      // Update active game on server only for generation other than 1
       if (stateGame.generation === 1) return
-      if (!statePlayer.cardsSeen.map((c) => c.id).includes(cardsDraft[0].id)) {
+
+      const cardsSeenIds = statePlayer.cardsSeen.map((c) => c.id)
+      if (!cardsSeenIds.includes(cardsDraft[0].id)) {
          const newCards = [...statePlayer.cardsSeen, ...cardsDraft]
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
          // Update Server Data
@@ -148,9 +149,8 @@ const ModalDraft = () => {
             // Get Random Cards Ids
             let newCardsDrawIds = await getNewCardsDrawIds(
                3,
-               cardsDeckIds,
-               setCardsDeckIds,
-               setCardsDrawIds,
+               statePlayer,
+               dispatchPlayer,
                type,
                id,
                user?.token

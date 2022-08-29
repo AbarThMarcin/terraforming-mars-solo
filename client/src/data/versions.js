@@ -1,6 +1,21 @@
 export const VERSIONS = [
    {
-      number: '0.02',
+      number: '0.0.3',
+      date: '2022-08-29',
+      updates: [
+         {
+            title: 'Match update on server fixed',
+            description:
+               'Before: saving current state of the match did not work properly. After: match is now saved automatically on the server whenever a player plays an action, presses the pass button or confirms the cards in draft purchase.',
+         },
+         {
+            title: 'Logs added to the active and ended matches for testing purposes',
+            description: '',
+         },
+      ],
+   },
+   {
+      number: '0.0.2',
       date: '2022-08-25',
       updates: [
          {
@@ -11,7 +26,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.01',
+      number: '0.0.1',
       date: '2022-08-24',
       updates: [
          {
@@ -67,7 +82,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.00',
+      number: '0.0.0',
       date: '2022-08-23',
       updates: [
          {

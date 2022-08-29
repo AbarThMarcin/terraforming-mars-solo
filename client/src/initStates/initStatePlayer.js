@@ -19,6 +19,9 @@ export const INIT_STATE_PLAYER = {
       energy: 0,
       heat: 0,
    },
+   // Cards ids left in deck and cards ids of latest draw
+   cardsDeckIds: [],
+   cardsDrawIds: [],
    // Cards in Hand
    cardsInHand: [],
    // Cards Played

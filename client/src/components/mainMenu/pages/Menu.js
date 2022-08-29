@@ -133,6 +133,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
                   seen: game.statePlayer.cardsSeen,
                   purchased: game.statePlayer.cardsPurchased,
                },
+               logItems: game.logItems,
                forfeited: true,
             }
             await createEndedGameData(user.token, gameData)
@@ -178,6 +179,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
             seen: gameData.statePlayer.cardsSeen,
             purchased: gameData.statePlayer.cardsPurchased,
          },
+         logItems: gameData.logItems,
          forfeited: true,
       }
       await createEndedGameData(user.token, endedGameData)

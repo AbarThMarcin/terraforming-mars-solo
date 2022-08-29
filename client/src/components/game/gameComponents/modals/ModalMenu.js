@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { deleteActiveGameData } from '../../../../api/apiActiveGame'
 import { createEndedGameData } from '../../../../api/apiEndedGame'
 import { updateUser } from '../../../../api/apiUser'
-import { StatePlayerContext, ModalsContext, UserContext } from '../../Game'
+import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../Game'
 import { SettingsContext, SoundContext } from '../../../../App'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
    const { statePlayer } = useContext(StatePlayerContext)
+   const { logItems } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { user, setUser, type, id } = useContext(UserContext)
    const { settings } = useContext(SettingsContext)
@@ -29,6 +30,7 @@ const ModalMenu = () => {
                   seen: statePlayer.cardsSeen,
                   purchased: statePlayer.cardsPurchased,
                },
+               logItems,
                forfeited: true,
             }
             await createEndedGameData(user.token, gameData)

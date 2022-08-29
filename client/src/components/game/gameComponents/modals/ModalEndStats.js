@@ -19,7 +19,7 @@ import { updateUser } from '../../../../api/apiUser'
 
 const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { stateGame } = useContext(StateGameContext)
+   const { stateGame, logItems } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
    const victoryLossText =
@@ -44,6 +44,7 @@ const ModalEndStats = () => {
          seen: statePlayer.cardsSeen,
          purchased: statePlayer.cardsPurchased,
       },
+      logItems,
       points: {
          tr: trPoints,
          greenery: greeneryPoints,

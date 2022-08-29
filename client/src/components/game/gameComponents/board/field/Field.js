@@ -2,7 +2,6 @@ import { useContext } from 'react'
 import {
    StatePlayerContext,
    StateGameContext,
-   CardsContext,
    StateBoardContext,
    ModalsContext,
    UserContext,
@@ -64,7 +63,6 @@ const Field = ({ field, setTotalVP }) => {
       getEffect,
       ANIMATION_SPEED,
    } = useContext(StateGameContext)
-   const { setCardsDrawIds, cardsDeckIds, setCardsDeckIds } = useContext(CardsContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
@@ -98,9 +96,8 @@ const Field = ({ field, setTotalVP }) => {
       if (field.bonus.includes(RESOURCES.CARD)) {
          newCardsDrawIds = await getNewCardsDrawIds(
             field.bonus.length,
-            cardsDeckIds,
-            setCardsDeckIds,
-            setCardsDrawIds,
+            statePlayer,
+            dispatchPlayer,
             type,
             id,
             user?.token

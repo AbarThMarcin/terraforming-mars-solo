@@ -20,6 +20,8 @@ const statePlayerSchema = mongoose.Schema({
       energy: Number,
       heat: Number,
    },
+   cardsDeckIds: [Number],
+   cardsDrawIds: [Number],
    cardsInHand: [cardSchema],
    cardsPlayed: [cardSchema],
    cardsSeen: [cardSchema],

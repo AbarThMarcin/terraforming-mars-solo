@@ -48,9 +48,6 @@ export const funcGetImmEffects = (
    dispatchBoard,
    modals,
    setModals,
-   cardsDeckIds,
-   setCardsDeckIds,
-   setCardsDrawIds,
    type,
    id,
    token,
@@ -1551,9 +1548,8 @@ export const funcGetImmEffects = (
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(
                   2,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -1580,9 +1576,8 @@ export const funcGetImmEffects = (
                func: async () => {
                   newCardsDrawIds = await getNewCardsDrawIds(
                      1,
-                     cardsDeckIds,
-                     setCardsDeckIds,
-                     setCardsDrawIds,
+                     statePlayer,
+                     dispatchPlayer,
                      type,
                      id,
                      token
@@ -1878,9 +1873,8 @@ export const funcGetImmEffects = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   4,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -2274,9 +2268,8 @@ export const funcGetImmEffects = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   2,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -2531,9 +2524,8 @@ export const funcGetImmEffects = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -2988,9 +2980,8 @@ export const funcGetImmEffects = (
                   func: async () => {
                      newCardsDrawIds = await getNewCardsDrawIds(
                         1,
-                        cardsDeckIds,
-                        setCardsDeckIds,
-                        setCardsDrawIds,
+                        statePlayer,
+                        dispatchPlayer,
                         type,
                         id,
                         token
@@ -3023,9 +3014,8 @@ export const funcGetImmEffects = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   3,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -3079,9 +3069,8 @@ export const funcGetImmEffects = (
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(
                   1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -3130,9 +3119,8 @@ export const funcGetImmEffects = (
                   func: async () => {
                      newCardsDrawIds = await getNewCardsDrawIds(
                         1,
-                        cardsDeckIds,
-                        setCardsDeckIds,
-                        setCardsDrawIds,
+                        statePlayer,
+                        dispatchPlayer,
                         type,
                         id,
                         token
@@ -3281,9 +3269,8 @@ export const funcGetImmEffects = (
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(
                   2,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -3332,9 +3319,8 @@ export const funcGetImmEffects = (
                   func: async () => {
                      newCardsDrawIds = await getNewCardsDrawIds(
                         1,
-                        cardsDeckIds,
-                        setCardsDeckIds,
-                        setCardsDrawIds,
+                        statePlayer,
+                        dispatchPlayer,
                         type,
                         id,
                         token

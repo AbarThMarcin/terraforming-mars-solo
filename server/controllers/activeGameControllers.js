@@ -13,16 +13,8 @@ const getActiveGame = asyncHandler(async (req, res) => {
 })
 
 const createActiveGame = asyncHandler(async (req, res) => {
-   const {
-      id,
-      statePlayer,
-      stateGame,
-      stateModals,
-      stateBoard,
-      corps,
-      initCards,
-      logItems,
-   } = req.body.gameData
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, initCards, logItems } =
+      req.body.gameData
    const type = req.body.type
 
    const newGame = new ActiveGame({
@@ -55,32 +47,28 @@ const deleteActiveGame = asyncHandler(async (req, res) => {
 })
 
 const updateActiveGame = asyncHandler(async (req, res) => {
-   const {
-      id,
-      statePlayer,
-      stateGame,
-      stateModals,
-      stateBoard,
-      corps,
-      initCards,
-      logItems,
-   } = req.body.gameData
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, initCards, logItems } =
+      req.body.gameData
    const type = req.body.type
-
+   
    const game = await ActiveGame.findOne({ user: req.user._id, type })
-
    if (game) {
-      game.id = id === undefined ? game.id : id
-      game.statePlayer = statePlayer === undefined ? game.statePlayer : statePlayer
-      game.stateGame = stateGame === undefined ? game.stateGame : stateGame
-      game.stateModals = stateModals === undefined ? game.stateModals : stateModals
-      game.stateBoard = stateBoard === undefined ? game.stateBoard : stateBoard
-      game.corps = corps === undefined ? game.corps : corps
-      game.initCards = initCards === undefined ? game.initCards : initCards
-      game.logItems = logItems === undefined ? game.logItems : logItems
-
-      const updatedGame = await game.save()
-      res.status(201).json(updatedGame)
+      ActiveGame.updateOne(
+         { user: req.user._id, type },
+         {
+            id: id === undefined ? game.id : id,
+            statePlayer: statePlayer === undefined ? game.statePlayer : statePlayer,
+            stateGame: stateGame === undefined ? game.stateGame : stateGame,
+            stateModals: stateModals === undefined ? game.stateModals : stateModals,
+            stateBoard: stateBoard === undefined ? game.stateBoard : stateBoard,
+            corps: corps === undefined ? game.corps : corps,
+            initCards: initCards === undefined ? game.initCards : initCards,
+            logItems: logItems === undefined ? game.logItems : logItems,
+         },
+         function () {
+            res.status(201).json({ message: 'success' })
+         }
+      )
    } else {
       res.status(404)
       throw new Error('Game not found')

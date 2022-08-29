@@ -1,11 +1,5 @@
 import { useContext } from 'react'
-import {
-   StatePlayerContext,
-   StateGameContext,
-   ModalsContext,
-   CardsContext,
-   UserContext,
-} from '../../Game'
+import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
@@ -33,7 +27,6 @@ const PassContainer = ({ totalVP }) => {
       ANIMATION_SPEED,
       setSaveToServerTrigger,
    } = useContext(StateGameContext)
-   const { cardsDeckIds, setCardsDeckIds, setCardsDrawIds } = useContext(CardsContext)
    const { settings } = useContext(SettingsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
@@ -67,16 +60,6 @@ const PassContainer = ({ totalVP }) => {
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
       }
-      // Get new 4 random cards
-      await getNewCardsDrawIds(
-         4,
-         cardsDeckIds,
-         setCardsDeckIds,
-         setCardsDrawIds,
-         type,
-         id,
-         user?.token
-      )
       // Phase Pass None - do NOT display Panel State Game AND Panel Corp
       let delay = 0
       startAnimation(setModals)
@@ -201,12 +184,17 @@ const PassContainer = ({ totalVP }) => {
                setSaveToServerTrigger((prev) => !prev)
             }
          } else {
-            setModals((prev) => ({ ...prev, animation: false, draft: true }))
-            dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
-            // // Update Server Data
-            // setSaveToServerTrigger((prev) => !prev)
+            getCardsAndShowDraft()
          }
       }, delay)
+
+      async function getCardsAndShowDraft() {
+         // Get new 4 random cards
+         await getNewCardsDrawIds(4, statePlayer, dispatchPlayer, type, id, user?.token)
+         // Show draft
+         setModals((prev) => ({ ...prev, animation: false, draft: true }))
+         dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
+      }
    }
 
    const handleClickPassBtn = () => {

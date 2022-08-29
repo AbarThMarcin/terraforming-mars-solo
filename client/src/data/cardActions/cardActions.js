@@ -27,9 +27,6 @@ export const funcGetCardActions = (
    getEffect,
    getImmEffects,
    toBuyResources,
-   cardsDeckIds,
-   setCardsDeckIds,
-   setCardsDrawIds,
    type,
    id,
    token,
@@ -105,9 +102,8 @@ export const funcGetCardActions = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -133,9 +129,8 @@ export const funcGetCardActions = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -254,9 +249,8 @@ export const funcGetCardActions = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -649,9 +643,8 @@ export const funcGetCardActions = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   1,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token
@@ -710,9 +703,8 @@ export const funcGetCardActions = (
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(
                   2,
-                  cardsDeckIds,
-                  setCardsDeckIds,
-                  setCardsDrawIds,
+                  statePlayer,
+                  dispatchPlayer,
                   type,
                   id,
                   token

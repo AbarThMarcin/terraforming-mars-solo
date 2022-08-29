@@ -19,6 +19,8 @@ export const ACTIONS_PLAYER = {
    CHANGE_RES_ENERGY: 'Increase amount of energy',
    CHANGE_RES_HEAT: 'Increase amount of heat',
    // Cardsutils
+   SET_CARDS_DECK: 'Set cards ids in deck',
+   SET_CARDS_DRAW: 'Set cards ids in latest draw',
    SET_CARDS_IN_HAND: 'Set cards in hand',
    SET_CARDS_PLAYED: 'Set cards played',
    SET_CARDS_SEEN: 'Set cards seen',
@@ -169,6 +171,16 @@ export const reducerPlayer = (state, action) => {
             },
          }
       // SET CARDS IN HAND, CARDS PLAYED, CARDS SEEN AND CARDS PURCHASED
+      case ACTIONS_PLAYER.SET_CARDS_DECK:
+         return {
+            ...state,
+            cardsDeckIds: action.payload,
+         }
+      case ACTIONS_PLAYER.SET_CARDS_DRAW:
+         return {
+            ...state,
+            cardsDrawIds: action.payload,
+         }
       case ACTIONS_PLAYER.SET_CARDS_IN_HAND:
          return {
             ...state,

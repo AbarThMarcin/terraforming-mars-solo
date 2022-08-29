@@ -61,7 +61,6 @@ export const deleteActiveGameData = async (token, type) => {
 }
 
 export const updateGameData = async (token, gameData, type) => {
-   console.log('updating game data')
    const URI = '/api/games/active/update'
    const body = { gameData, type }
    const config = {

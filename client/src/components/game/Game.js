@@ -9,7 +9,6 @@ import {
    getCards,
    getNewCardsDrawIds,
    modifiedCards,
-   range,
    sorted,
    updateVP,
    withTimeAdded,
@@ -51,7 +50,6 @@ export const StateGameContext = createContext()
 export const ModalsContext = createContext()
 export const StateBoardContext = createContext()
 export const CorpsContext = createContext()
-export const CardsContext = createContext()
 
 function Game({
    id,
@@ -60,7 +58,6 @@ function Game({
    initStateModals,
    initStateBoard,
    initCorpsIds,
-   initCardsIds,
    initLogItems,
    user,
    setUser,
@@ -77,8 +74,6 @@ function Game({
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, initStateBoard || INIT_BOARD)
    // eslint-disable-next-line react-hooks/exhaustive-deps
    const corps = useMemo(() => getInitCorps(), [initCorpsIds])
-   const [cardsDeckIds, setCardsDeckIds] = useState(getInitCardsDeckIds())
-   const [cardsDrawIds, setCardsDrawIds] = useState(initCardsIds)
    const [logItems, setLogItems] = useState(initLogItems)
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(getAnimationSpeed(settings.speedId))
    const [totalVP, setTotalVP] = useState(14)
@@ -178,18 +173,6 @@ function Game({
       setANIMATION_SPEED(getAnimationSpeed(settings.speedId))
    }, [settings.speedId])
 
-   function getInitCardsDeckIds() {
-      const allIds = range(1, 208)
-      if (!initCardsIds) return allIds
-      if (initStatePlayer.cardsSeen.length === 0) {
-         return allIds.filter((id) => !initCardsIds.includes(id))
-      } else {
-         return allIds.filter(
-            (id) => !initStatePlayer.cardsSeen.map((card) => card.id).includes(id)
-         )
-      }
-   }
-
    function getInitCorps() {
       if (!initCorpsIds) return []
       return [CORPORATIONS[initCorpsIds[0] - 1], CORPORATIONS[initCorpsIds[1] - 1]]
@@ -223,9 +206,8 @@ function Game({
          } else {
             newCardsDrawIds = await getNewCardsDrawIds(
                1,
-               cardsDeckIds,
-               setCardsDeckIds,
-               setCardsDrawIds,
+               statePlayer,
+               dispatchPlayer,
                type,
                id,
                user?.token
@@ -314,9 +296,6 @@ function Game({
          dispatchBoard,
          modals,
          setModals,
-         cardsDeckIds,
-         setCardsDeckIds,
-         setCardsDrawIds,
          type,
          id,
          user?.token,
@@ -336,9 +315,6 @@ function Game({
          getEffect,
          getImmEffects,
          toBuyResources,
-         cardsDeckIds,
-         setCardsDeckIds,
-         setCardsDrawIds,
          type,
          id,
          user?.token,
@@ -421,9 +397,6 @@ function Game({
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
                      <CorpsContext.Provider value={{ corps, initCorpsIds }}>
-                        <CardsContext.Provider
-                           value={{ cardsDrawIds, setCardsDrawIds, cardsDeckIds, setCardsDeckIds }}
-                        >
                            <ModalsContext.Provider value={{ modals, setModals }}>
                               {/* Standard Projects Button */}
                               <AnimatePresence>
@@ -545,7 +518,6 @@ function Game({
                                  )}
                               </AnimatePresence>
                            </ModalsContext.Provider>
-                        </CardsContext.Provider>
                      </CorpsContext.Provider>
                   </StateBoardContext.Provider>
                </StateGameContext.Provider>

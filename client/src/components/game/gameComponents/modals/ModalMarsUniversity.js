@@ -4,7 +4,6 @@ import {
    StateGameContext,
    StatePlayerContext,
    ModalsContext,
-   CardsContext,
    UserContext,
 } from '../../Game'
 import { SoundContext } from '../../../../App'
@@ -30,7 +29,6 @@ const ModalMarsUniversity = () => {
    const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { setCardsDrawIds, cardsDeckIds, setCardsDeckIds } = useContext(CardsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const [selectedCardId, setSelectedCardId] = useState(0)
@@ -50,9 +48,8 @@ const ModalMarsUniversity = () => {
       // Get Random Cards Ids
       let newCardsDrawIds = await getNewCardsDrawIds(
          1,
-         cardsDeckIds,
-         setCardsDeckIds,
-         setCardsDrawIds,
+         statePlayer,
+         dispatchPlayer,
          type,
          id,
          user?.token

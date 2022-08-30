@@ -3398,7 +3398,7 @@ export const CARDS = [
       info: ['Requires -6 C or warmer.', 'Place 1 ocean tile ON AN AREA NOT RESERVED FOR OCEAN.'],
       originalCost: 15,
       currentCost: 15,
-      requirements: [],
+      requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: -6, other: 'min' }],
       vp: 1,
       tags: [TAGS.BUILDING],
       effect: null,

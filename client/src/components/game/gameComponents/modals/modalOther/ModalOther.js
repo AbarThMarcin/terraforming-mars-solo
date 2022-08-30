@@ -40,8 +40,10 @@ const ModalOther = () => {
          {/* CLOSE BUTTON */}
          <BtnClose onCloseClick={() => setModals((prev) => ({ ...prev, other: false }))} />
          {/* DATA */}
-         {modals.modalOther.data.length === 0 &&
-         statePlayer.corporation.name !== CORP_NAMES.UNMI ? (
+         {(modals.modalOther.data.length === 0 && modals.modalOther.header !== 'ACTIONS') ||
+         (modals.modalOther.data.length === 0 &&
+            modals.modalOther.header === 'ACTIONS' &&
+            statePlayer.corporation.name !== CORP_NAMES.UNMI) ? (
             <div className="modal-other-box-no-data center">
                {getTextWhenNoData(modals.modalOther.header)}
             </div>

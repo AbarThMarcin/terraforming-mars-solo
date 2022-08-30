@@ -170,11 +170,12 @@ export const funcRequirementsMet = (
          // Tags requirements
       } else if (type === REQUIREMENTS.TAGS) {
          const countTags =
-            statePlayer.cardsPlayed.reduce(
-               (total, card) =>
-                  hasTag(card, other) && !hasTag(card, TAGS.EVENT) ? total + 1 : total,
-               0
-            ) + statePlayer.corporation.tags.filter((tag) => tag === other).length
+            statePlayer.cardsPlayed.reduce((total, card) => {
+               let count = total
+               if (hasTag(card, other) && !hasTag(card, TAGS.EVENT)) count++ // If has tag and its not an event card
+               if (card.id === 90) count++ // If its research (the only card with more than 1 same tags)
+               return count
+            }, 0) + statePlayer.corporation.tags.filter((tag) => tag === other).length
          if (countTags < value) {
             isAvailable = false
             return

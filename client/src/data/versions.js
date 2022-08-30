@@ -17,6 +17,10 @@ export const VERSIONS = [
             description:
                'Playing action that gives any kind of bio resource now updates the Total VP properly.',
          },
+         {
+            title: 'Tags requirement fixed',
+            description: 'Research is now treated as TWO science tags, not ONE.',
+         },
       ],
    },
    {

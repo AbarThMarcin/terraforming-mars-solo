@@ -262,7 +262,7 @@ function Game({
                            type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
                            payload: true,
                         })
-                        setModals((prev) => ({ ...prev, marsUniversity: true }))
+                        setModals((prev) => ({ ...prev, modalCards: cardsInHand, marsUniversity: true }))
                      },
                   })
             })

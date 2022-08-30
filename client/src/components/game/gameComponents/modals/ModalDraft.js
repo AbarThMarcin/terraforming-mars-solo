@@ -76,7 +76,7 @@ const ModalDraft = () => {
    // Add draft cards to the cardsSeen
    useEffect(() => {
       // Update active game on server only for generation other than 1
-      if (stateGame.generation === 1) return
+      if (stateGame.generation === 1 || !user) return
 
       const cardsSeenIds = statePlayer.cardsSeen.map((c) => c.id)
       if (!cardsSeenIds.includes(cardsDraft[0].id)) {

@@ -307,11 +307,20 @@ export function updateVP(
    herbivoresException = false
 ) {
    // Cards VP update
-   statePlayer.cardsPlayed.forEach((card) =>
-      updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException)
-   )
+   let cardsVP = 0
+   statePlayer.cardsPlayed.forEach((card) => {
+      cardsVP += updateVpForCardId(
+         card,
+         statePlayer,
+         dispatchPlayer,
+         stateBoard,
+         herbivoresException
+      )
+   })
    // Total VP update
-   setTotalVP(getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresException))
+   const totalPoints = getTotalPointsWithoutVP(stateGame, stateBoard) + cardsVP
+   // if (correct
+   setTotalVP(totalPoints)
 }
 
 function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException) {
@@ -405,6 +414,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
          break
    }
    dispatchPlayer({ type: ACTIONS_PLAYER.UPDATE_VP, payload: { cardId: card.id, vp: newVp } })
+   return newVp
 }
 
 export function getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresException) {
@@ -414,6 +424,9 @@ export function getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresExc
       getCityPoints(stateBoard) +
       getVictoryPoints(statePlayer, herbivoresException)
    )
+}
+export function getTotalPointsWithoutVP(stateGame, stateBoard) {
+   return getTrPoints(stateGame) + getGreeneryPoints(stateBoard) + getCityPoints(stateBoard)
 }
 
 export function getTrPoints(stateGame) {

@@ -1,5 +1,25 @@
 export const VERSIONS = [
    {
+      number: '0.0.4',
+      date: '2022-08-30',
+      updates: [
+         {
+            title: 'Arrows in Mars University Modal fixed',
+            description:
+               'Arrows are now hidden when selecting one card out of 10 (Mars University effect).',
+         },
+         {
+            title: 'Martian Rails action fixed',
+            description: 'Martian Rails action now takes into account Capital City as well.',
+         },
+         {
+            title: 'Total Points fixed',
+            description:
+               'Playing action that gives any kind of bio resource now updates the Total VP properly.',
+         },
+      ],
+   },
+   {
       number: '0.0.3',
       date: '2022-08-29',
       updates: [

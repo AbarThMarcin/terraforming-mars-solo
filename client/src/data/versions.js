@@ -21,6 +21,11 @@ export const VERSIONS = [
             title: 'Tags requirement fixed',
             description: 'Research is now treated as TWO science tags, not ONE.',
          },
+         {
+            title: 'Arctic Algae effect fixed',
+            description:
+               'Plants are now properly acquired, only when an ocean tile is placed (regardless of the action).',
+         },
       ],
    },
    {

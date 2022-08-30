@@ -47,16 +47,6 @@ const ProdResPanel = () => {
          // Possible effect for placing greenery (herbivores only)
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES))
             actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
-         // Possible effect for placing ocean if placing greenery from converting plants gets the ocean bonus
-         // (7% ox, -2 temp, <9 oceans) (arctic algae only)
-         if (
-            stateGame.globalParameters.oxygen === 7 &&
-            stateGame.globalParameters.temperature === -2 &&
-            stateGame.globalParameters.oceans < 9
-         ) {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-               actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-         }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(
             actions,
@@ -80,14 +70,6 @@ const ProdResPanel = () => {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 })
          // Proper action
          let actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
-         // Possible effects for placing ocean, if increasing temp gets the ocean bonus
-         if (
-            stateGame.globalParameters.temperature === -2 &&
-            stateGame.globalParameters.oceans < 9
-         ) {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-               actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-         }
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(
             actions,

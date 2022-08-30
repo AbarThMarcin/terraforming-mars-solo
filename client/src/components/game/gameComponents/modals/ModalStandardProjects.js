@@ -149,18 +149,6 @@ const ModalStandardProjects = () => {
                   )
                )
                   actions = [...actions, ...getEffect(EFFECTS.EFFECT_STANDARD_TECHNOLOGY)]
-               // Possible effects for placing ocean, if increasing temp gets the ocean bonus
-               if (
-                  stateGame.globalParameters.temperature === -2 &&
-                  stateGame.globalParameters.oceans < 9
-               ) {
-                  if (
-                     statePlayer.cardsPlayed.some(
-                        (card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE
-                     )
-                  )
-                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-               }
                logData = { type: LOG_TYPES.SP_ACTION, text: SP.ASTEROID }
                logIcon = iconLogAsteroid
                break
@@ -195,19 +183,6 @@ const ModalStandardProjects = () => {
                   )
                      actions = [...actions, ...getEffect(spEffect)]
                })
-               // Possible effects for placing ocean if placing greenery gets the ocean bonus (7% ox, -2 temp, 8- oceans)
-               if (
-                  stateGame.globalParameters.oxygen === 7 &&
-                  stateGame.globalParameters.temperature === -2 &&
-                  stateGame.globalParameters.oceans < 9
-               ) {
-                  if (
-                     statePlayer.cardsPlayed.some(
-                        (card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE
-                     )
-                  )
-                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-               }
                logData = { type: LOG_TYPES.SP_ACTION, text: SP.GREENERY }
                logIcon = iconLogGreenery
                break

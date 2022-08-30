@@ -62,8 +62,8 @@ export const funcGetImmEffects = (
    let cardsSeen = statePlayer.cardsSeen
    switch (actionOrCardId) {
       // ============================= SP POWER PLANT ============================
-      // cards: Solar Power, Wave Power, Power Plant, Power Supply Consortium, Windmills,
-      // Heat Trappers, Energy Tapping
+      // cards with ONLY this action: Solar Power, Wave Power, Power Plant, Power Supply Consortium,
+      // Windmills, Heat Trappers, Energy Tapping
       case IMM_EFFECTS.POWER_PLANT:
       case 113:
       case 139:
@@ -205,7 +205,8 @@ export const funcGetImmEffects = (
          }
          break
       // =============================== PLACE OCEAN TILE ============================
-      // cards: Subterranean Reservoir, Ice Cap Melting, Flooding, Permafrost Extraction
+      // cards with ONLY this action: Subterranean Reservoir, Ice Cap Melting, Flooding,
+      // Permafrost Extraction
       case IMM_EFFECTS.AQUIFER:
       case 127:
       case 181:
@@ -237,10 +238,24 @@ export const funcGetImmEffects = (
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },
             })
+            // Add 2 plants if Arctic Algae effect is ON
+            if (
+               statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE)
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.PLANT,
+                  value: 2,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
+               })
+            }
          }
          break
       // =============================== PLACE TWO OCEAN TILES ============================
+      // cards with ONLY this action: Lake Marineris, Ice Asteroid
       case IMM_EFFECTS.AQUIFER2:
+      case 53:
+      case 78:
          if (stateGame.globalParameters.oceans < 9) {
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
@@ -286,10 +301,30 @@ export const funcGetImmEffects = (
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },
             })
+            // Add plants if Arctic Algae effect is ON
+            if (
+               statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE)
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.PLANT,
+                  value: 2,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
+               })
+               if (stateGame.globalParameters.oceans < 8) {
+                  subActions.push({
+                     name: ANIMATIONS.RESOURCES_IN,
+                     type: RESOURCES.PLANT,
+                     value: 2,
+                     func: () =>
+                        dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
+                  })
+               }
+            }
          }
          break
       // ============================== PLACE GREENERY TILE ==========================
-      // card: Plantation
+      // card with ONLY this action: Plantation
       case IMM_EFFECTS.GREENERY:
       case 193:
          subActions.push({
@@ -1029,11 +1064,6 @@ export const funcGetImmEffects = (
                func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: value }),
             })
          break
-      // Lake Marineris
-      case 53:
-         subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
-         break
       // Kelp Farming
       case 55:
          subActions.push({
@@ -1292,11 +1322,6 @@ export const funcGetImmEffects = (
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.POWER_PLANT)]
          break
-      // Ice Asteroid
-      case 78:
-         subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
-         break
       // Quantum Extractor
       case 79:
          subActions.push({
@@ -1330,8 +1355,7 @@ export const funcGetImmEffects = (
          break
       // Giant Ice Asteroid
       case 80:
-         subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+         subActions = getImmEffects(IMM_EFFECTS.AQUIFER2)
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
          break
       // Ganymede Colony
@@ -1952,6 +1976,17 @@ export const funcGetImmEffects = (
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },
             })
+            // Add 2 plants if Arctic Algae effect is ON
+            if (
+               statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE)
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.RESOURCES_IN,
+                  type: RESOURCES.PLANT,
+                  value: 2,
+                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
+               })
+            }
          }
          break
       // Geothermal Power, Great Dam, Biomass Combustors

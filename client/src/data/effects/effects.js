@@ -101,14 +101,8 @@ export const funcGetEffect = (
          break
       // ========================== CARD EFFECTS ==========================
       case EFFECTS.EFFECT_ARCTIC_ALGAE:
-         effect = [
-            {
-               name: ANIMATIONS.RESOURCES_IN,
-               type: RESOURCES.PLANT,
-               value: 2,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
-            },
-         ]
+         // Arctic Algae effect implemented directly in the immediate effects
+         // (for 1 ocean, 2 oceans and artificial lake card)
          break
       case EFFECTS.EFFECT_OPTIMAL_AEROBRAKING:
          effect = [
@@ -341,7 +335,7 @@ export const funcGetEffect = (
 export const getSPeffectsToCall = (SpOrConvertPlants) => {
    switch (SpOrConvertPlants) {
       case SP.AQUIFER:
-         return [EFFECTS.EFFECT_ARCTIC_ALGAE, EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
+         return [EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
       case SP.GREENERY:
          return [
             EFFECTS.EFFECT_CREDICOR,

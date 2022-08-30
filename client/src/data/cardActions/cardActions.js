@@ -217,8 +217,6 @@ export const funcGetCardActions = (
                   }),
             })
          getImmEffects(IMM_EFFECTS.AQUIFER).forEach((immEffect) => subCardActions.push(immEffect))
-         if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-            subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
          break
       // Space Elevator
       case 13:
@@ -425,15 +423,6 @@ export const funcGetCardActions = (
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 1 }),
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
-         // Possible effects for placing ocean if increasing oxygen gets the ocean bonus (7% ox, -2 temp, 8- oceans)
-         if (
-            stateGame.globalParameters.oxygen === 7 &&
-            stateGame.globalParameters.temperature === -2 &&
-            stateGame.globalParameters.oceans < 9
-         ) {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-         }
          break
       // Steelworks
       case 103:
@@ -450,15 +439,6 @@ export const funcGetCardActions = (
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 2 }),
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
-         // Possible effects for placing ocean if increasing oxygen gets the ocean bonus (7% ox, -2 temp, 8- oceans)
-         if (
-            stateGame.globalParameters.oxygen === 7 &&
-            stateGame.globalParameters.temperature === -2 &&
-            stateGame.globalParameters.oceans < 9
-         ) {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-         }
          break
       // Ore Processor
       case 104:
@@ -475,15 +455,6 @@ export const funcGetCardActions = (
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: 1 }),
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
-         // Possible effects for placing ocean if increasing oxygen gets the ocean bonus (7% ox, -2 temp, 8- oceans)
-         if (
-            stateGame.globalParameters.oxygen === 7 &&
-            stateGame.globalParameters.temperature === -2 &&
-            stateGame.globalParameters.oceans < 9
-         ) {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-         }
          break
       // Industrial Center
       case 123:
@@ -584,15 +555,6 @@ export const funcGetCardActions = (
             func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -3 }),
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
-         // Possible effects for placing ocean if increasing oxygen gets the ocean bonus (7% ox, -2 temp, 8- oceans)
-         if (
-            stateGame.globalParameters.oxygen === 7 &&
-            stateGame.globalParameters.temperature === -2 &&
-            stateGame.globalParameters.oceans < 9
-         ) {
-            if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE))
-               subCardActions = [...subCardActions, ...getEffect(EFFECTS.EFFECT_ARCTIC_ALGAE)]
-         }
          break
       // Power Infrasctructure
       case 194:

@@ -112,6 +112,7 @@ const ModalOtherDataActionsItem = ({
          {/* ICON */}
          <div className="action">
             <img
+               style={{ opacity: isAvailable ? 1 : 0.5 }}
                src={
                   isUnmi
                      ? getActionIcon(ACTION_ICONS.ACTION_UNMI)

@@ -17,6 +17,11 @@ const BtnChangeCorp = ({ dispatchGame, statePlayer, dispatchPlayer }) => {
          type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS,
          payload: -statePlayer.globParamReqModifier,
       })
+      dispatchPlayer({
+         type: ACTIONS_PLAYER.CHANGE_VALUE_TITAN,
+         payload: statePlayer.valueTitan === 4 ? -1 : 0,
+      })
+      dispatchGame({ type: ACTIONS_GAME.SET_POWERPLANT_COST, payload: 11 })
       // Reset game state
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_CORPORATION, payload: true })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })

@@ -13,6 +13,10 @@ export const VERSIONS = [
             description:
                'Match is now updated on the server when Mars University, Invention Contest and Business Contacts cards are played and cards have been shown.',
          },
+         {
+            title: "Phobolog's and Thorgate's starting effects fixed",
+            description: '',
+         },
       ],
    },
    {

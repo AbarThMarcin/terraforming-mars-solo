@@ -315,7 +315,7 @@ export const reducerPlayer = (state, action) => {
       case ACTIONS_PLAYER.CHANGE_VALUE_TITAN:
          return {
             ...state,
-            valueTitan: state.valueSteel + action.payload,
+            valueTitan: state.valueTitan + action.payload,
          }
       case ACTIONS_PLAYER.SET_VALUE_GREENERY:
          return {

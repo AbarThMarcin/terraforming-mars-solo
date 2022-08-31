@@ -17,7 +17,6 @@ const activeGameSchema = mongoose.Schema({
    stateModals: stateModalsSchema,
    stateBoard: [boardFieldSchema],
    corps: [Number],
-   initCards: [Number],
    logItems: [logTypeSchema],
    type: {
       type: String,

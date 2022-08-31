@@ -1,10 +1,12 @@
 // Modal for viewing and selecting cards when Mars University has been played
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
    StateGameContext,
    StatePlayerContext,
    ModalsContext,
    UserContext,
+   StateBoardContext,
+   CorpsContext,
 } from '../../Game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
@@ -23,19 +25,41 @@ import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { CARDS } from '../../../../data/cards'
+import { updateGameData } from '../../../../api/apiActiveGame'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED } =
       useContext(StateGameContext)
+   const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
+   const { initCorpsIds } = useContext(CorpsContext)
    const { sound } = useContext(SoundContext)
    const [selectedCardId, setSelectedCardId] = useState(0)
    const [page, setPage] = useState(1)
 
    const btnActionPosition = { bottom: '0', left: '42%', transform: 'translateX(-50%)' }
    const btnCancelPosition = { bottom: '0', left: '58%', transform: 'translateX(-50%)' }
+
+   // Update Server Data
+   useEffect(() => {
+      // Update active game on server only if user is logged
+      if (!user) return
+
+      // Update Server Data
+      const updatedData = {
+         statePlayer,
+         stateGame,
+         stateModals: modals,
+         stateBoard,
+         corps: initCorpsIds,
+         logItems,
+      }
+      updateGameData(user.token, updatedData, type)
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
 
    const getBoxPosition = () => {
       return `${(1 - page) * 100}%`

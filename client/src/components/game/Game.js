@@ -285,7 +285,7 @@ function Game({
       }
    }
 
-   function getImmEffects(typeOrCardId) {
+   function getImmEffects(typeOrCardId, initDrawCardsIds) {
       return funcGetImmEffects(
          typeOrCardId,
          statePlayer,
@@ -300,7 +300,8 @@ function Game({
          id,
          user?.token,
          getImmEffects,
-         sound
+         sound,
+         initDrawCardsIds
       )
    }
    function getCardActions(cardId, toBuyResources) {
@@ -350,7 +351,7 @@ function Game({
          setLogData,
          setLogIcon,
          sound,
-         noTrigger
+         noTrigger,
       )
    }
    function requirementsMet(card) {

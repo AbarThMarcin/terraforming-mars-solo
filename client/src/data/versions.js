@@ -1,5 +1,21 @@
 export const VERSIONS = [
    {
+      number: '0.0.5',
+      date: '2022-08-31',
+      updates: [
+         {
+            title: 'Cards Seen after playing specific cards fixed for Statistics',
+            description:
+               'Cards seen and cards left in deck are now properly updated when Olympus Conference effect is in play and any of the following cards are played: Research, Invention Contest, Lagrange Observatory, Technology Demonstration.',
+         },
+         {
+            title: 'Match update on server fixed',
+            description:
+               'Match is now updated on the server when Mars University, Invention Contest and Business Contacts cards are played and cards have been shown.',
+         },
+      ],
+   },
+   {
       number: '0.0.4',
       date: '2022-08-30',
       updates: [

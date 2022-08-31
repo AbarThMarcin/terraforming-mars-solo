@@ -52,7 +52,8 @@ export const funcGetImmEffects = (
    id,
    token,
    getImmEffects,
-   sound
+   sound,
+   initDrawCardsIds
 ) => {
    let subActions = []
    let dataCards = []
@@ -1570,7 +1571,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || await getNewCardsDrawIds(
                   2,
                   statePlayer,
                   dispatchPlayer,
@@ -1598,13 +1599,14 @@ export const funcGetImmEffects = (
                type: RESOURCES.CARD,
                value: 1,
                func: async () => {
-                  newCardsDrawIds = await getNewCardsDrawIds(
+                  newCardsDrawIds = initDrawCardsIds?.slice(2) || await getNewCardsDrawIds(
                      1,
                      statePlayer,
                      dispatchPlayer,
                      type,
                      id,
-                     token
+                     token,
+                     newCardsDrawIds
                   )
                   cardsInHand = [
                      ...cardsInHand,
@@ -1895,7 +1897,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = await getNewCardsDrawIds(
                   4,
                   statePlayer,
                   dispatchPlayer,
@@ -2301,7 +2303,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = await getNewCardsDrawIds(
                   2,
                   statePlayer,
                   dispatchPlayer,
@@ -2557,7 +2559,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = await getNewCardsDrawIds(
                   1,
                   statePlayer,
                   dispatchPlayer,
@@ -3013,7 +3015,7 @@ export const funcGetImmEffects = (
                   type: RESOURCES.CARD,
                   value: 1,
                   func: async () => {
-                     newCardsDrawIds = await getNewCardsDrawIds(
+                     newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || await getNewCardsDrawIds(
                         1,
                         statePlayer,
                         dispatchPlayer,
@@ -3047,13 +3049,14 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = initDrawCardsIds?.slice(1) || await getNewCardsDrawIds(
                   3,
                   statePlayer,
                   dispatchPlayer,
                   type,
                   id,
-                  token
+                  token,
+                  newCardsDrawIds.length > 0 ? newCardsDrawIds : undefined
                )
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
                setModals((prev) => ({
@@ -3102,7 +3105,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || await getNewCardsDrawIds(
                   1,
                   statePlayer,
                   dispatchPlayer,
@@ -3152,13 +3155,14 @@ export const funcGetImmEffects = (
                   type: RESOURCES.CARD,
                   value: 1,
                   func: async () => {
-                     newCardsDrawIds = await getNewCardsDrawIds(
+                     newCardsDrawIds = initDrawCardsIds?.slice(1) || await getNewCardsDrawIds(
                         1,
                         statePlayer,
                         dispatchPlayer,
                         type,
                         id,
-                        token
+                        token,
+                        newCardsDrawIds
                      )
                      cardsInHand = [
                         ...cardsInHand,
@@ -3302,7 +3306,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               newCardsDrawIds = await getNewCardsDrawIds(
+               newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || await getNewCardsDrawIds(
                   2,
                   statePlayer,
                   dispatchPlayer,
@@ -3352,13 +3356,14 @@ export const funcGetImmEffects = (
                   type: RESOURCES.CARD,
                   value: 1,
                   func: async () => {
-                     newCardsDrawIds = await getNewCardsDrawIds(
+                     newCardsDrawIds = initDrawCardsIds?.slice(2) || await getNewCardsDrawIds(
                         1,
                         statePlayer,
                         dispatchPlayer,
                         type,
                         id,
-                        token
+                        token,
+                        newCardsDrawIds
                      )
                      cardsInHand = [
                         ...cardsInHand,

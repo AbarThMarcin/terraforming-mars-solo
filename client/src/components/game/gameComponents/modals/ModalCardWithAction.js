@@ -1,9 +1,9 @@
 /* Used to view one card for use only */
 import { useState, useContext } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
+import { StateGameContext, StatePlayerContext, ModalsContext, UserContext } from '../../Game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
-import { hasTag, withTimePlayed } from '../../../../utils/misc'
+import { getNewCardsDrawIds, hasTag, withTimePlayed } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { TAGS } from '../../../../data/tags'
@@ -13,6 +13,7 @@ import BtnAction from '../buttons/BtnAction'
 import { LOG_TYPES } from '../../../../data/log'
 import { getImmEffectIcon } from '../../../../data/immEffects/immEffectsIcons'
 import { SoundContext } from '../../../../App'
+import { EFFECTS } from '../../../../data/effects/effectIcons'
 
 const ModalCardWithAction = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -26,6 +27,7 @@ const ModalCardWithAction = () => {
       ANIMATION_SPEED,
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const [toBuyTitan, setToBuyTitan] = useState(getInitToBuyTitan())
    const [toBuySteel, setToBuySteel] = useState(getInitToBuySteel())
@@ -147,7 +149,7 @@ const ModalCardWithAction = () => {
       return false
    }
 
-   const onYesFunc = () => {
+   const onYesFunc = async () => {
       // ANIMATIONS
       let animResPaidTypes = []
       if (toBuyMln) animResPaidTypes.push([RESOURCES.MLN, toBuyMln])
@@ -162,6 +164,68 @@ const ModalCardWithAction = () => {
          cards: false,
          cardPlayed: true,
       }))
+
+      // For Research, Invention Contest, Lagrange Observatory and Technology Demonstration
+      // (which are the only cards, for which Olympus Conference effect is implemented
+      // directly in the Immediate Effects), before showing animations and doing actual actions,
+      // draw random ids first
+      let initDrawCardsIds
+      if (
+         statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE)
+      ) {
+         switch (modals.modalCard.id) {
+            case 90:
+               initDrawCardsIds = await getNewCardsDrawIds(
+                  3,
+                  statePlayer,
+                  dispatchPlayer,
+                  type,
+                  id,
+                  user?.token
+               )
+               break
+            case 192:
+               if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science > 0) {
+                  initDrawCardsIds = await getNewCardsDrawIds(
+                     4,
+                     statePlayer,
+                     dispatchPlayer,
+                     type,
+                     id,
+                     user?.token
+                  )
+               }
+               break
+            case 196:
+               if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science > 0) {
+                  initDrawCardsIds = await getNewCardsDrawIds(
+                     2,
+                     statePlayer,
+                     dispatchPlayer,
+                     type,
+                     id,
+                     user?.token
+                  )
+               }
+               break
+            case 204:
+               if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science > 0) {
+                  initDrawCardsIds = await getNewCardsDrawIds(
+                     3,
+                     statePlayer,
+                     dispatchPlayer,
+                     type,
+                     id,
+                     user?.token
+                  )
+               }
+               break
+            default:
+               break
+         }
+      }
+      // ----------------------------------------------------------------------------------------
+
       startAnimation(setModals)
       for (let i = 0; i < animResPaidTypes.length; i++) {
          setTimeout(() => {
@@ -197,7 +261,7 @@ const ModalCardWithAction = () => {
 
          // ============== IMMEDIATE EFFECTS AND EFFECTS ==============
          // Add Card immediate actions to the subActions list
-         let actions = getImmEffects(modals.modalCard.id)
+         let actions = getImmEffects(modals.modalCard.id, initDrawCardsIds)
          // Add Effects to call that are included in the cardsPlayed effects (and corporation effects) list to the subActions list
          modals.modalCard.effectsToCall.forEach((effect) => {
             if (
@@ -209,6 +273,7 @@ const ModalCardWithAction = () => {
          // ===========================================================
 
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
+
          performSubActions(
             actions,
             {

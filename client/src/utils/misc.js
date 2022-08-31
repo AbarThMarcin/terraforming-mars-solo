@@ -189,6 +189,7 @@ export function funcPerformSubActions(
    }
 
    subActions = subActions.filter((subAction) => subAction.name !== undefined)
+
    let iLast = subActions.length - 1
    for (let i = 0; i <= subActions.length - 1; i++) {
       if (subActions[i].name === ANIMATIONS.USER_INTERACTION) {
@@ -721,25 +722,35 @@ export const range = (start, end) => {
       .map((_, idx) => start + idx)
 }
 
-export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, type, id, token) => {
+export const getNewCardsDrawIds = async (
+   count,
+   statePlayer,
+   dispatchPlayer,
+   type,
+   id,
+   token,
+   additionalDeckIds
+) => {
+   let cardsDeckIds
    let newCardsDrawIds
    let newCardsDeckIds
    if (type === 'quickMatchId') {
-      const drawCardsIds = await getConsecutiveCardsIds(
-         token,
-         id,
-         208 - statePlayer.cardsDeckIds.length,
-         count
-      )
+      cardsDeckIds = additionalDeckIds
+         ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id))
+         : statePlayer.cardsDeckIds
+      const drawCardsIds = await getConsecutiveCardsIds(token, id, 208 - cardsDeckIds.length, count)
       newCardsDrawIds = drawCardsIds
-      newCardsDeckIds = statePlayer.cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
+      newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
    } else {
-      const drawIndexes = await getRandIntNumbers(count, 0, statePlayer.cardsDeckIds.length - 1)
-      newCardsDrawIds = statePlayer.cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
-      newCardsDeckIds = statePlayer.cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))
+      cardsDeckIds = additionalDeckIds
+         ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id))
+         : statePlayer.cardsDeckIds
+      const drawIndexes = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
+      newCardsDrawIds = cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
+      newCardsDeckIds = cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))
    }
 
-   dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DECK, payload: newCardsDeckIds })
    dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DRAW, payload: newCardsDrawIds })
+   dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DECK, payload: newCardsDeckIds })
    return newCardsDrawIds
 }

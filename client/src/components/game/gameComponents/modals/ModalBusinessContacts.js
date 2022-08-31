@@ -1,6 +1,6 @@
 // Modal for viewing and selecting cards when Business Contacts OR Invention Contest has been played
 import { useContext, useEffect, useState } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext } from '../../Game'
+import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext, UserContext, CorpsContext } from '../../Game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
@@ -12,12 +12,16 @@ import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../..
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/Arrows'
 import { CARDS } from '../../../../data/cards'
+import { updateGameData } from '../../../../api/apiActiveGame'
 
 const ModalBusinessContacts = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
+   const { stateBoard } = useContext(StateBoardContext)
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED } =
       useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { type, user } = useContext(UserContext)
+   const { initCorpsIds } = useContext(CorpsContext)
    const { sound } = useContext(SoundContext)
    const [selectedCardIds, setSelectedCardIds] = useState([])
    const [page, setPage] = useState(1)
@@ -31,11 +35,23 @@ const ModalBusinessContacts = () => {
 
    // Add cards to the cardsSeen
    useEffect(() => {
-      if (!statePlayer.cardsSeen.map((c) => c.id).includes(cardsSeen[0].id)) {
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-            payload: [...statePlayer.cardsSeen, ...cardsSeen],
-         })
+      // Update active game on server only if user is logged
+      if (!user) return
+
+      const cardsSeenIds = statePlayer.cardsSeen.map((c) => c.id)
+      if (!cardsSeenIds.includes(cardsSeen[0].id)) {
+         const newCards = [...statePlayer.cardsSeen, ...cardsSeen]
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
+         // Update Server Data
+         const updatedData = {
+            statePlayer: { ...statePlayer, cardsSeen: newCards },
+            stateGame,
+            stateModals: modals,
+            stateBoard,
+            corps: initCorpsIds,
+            logItems,
+         }
+         updateGameData(user.token, updatedData, type)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])

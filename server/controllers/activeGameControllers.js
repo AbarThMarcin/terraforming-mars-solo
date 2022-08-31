@@ -13,7 +13,7 @@ const getActiveGame = asyncHandler(async (req, res) => {
 })
 
 const createActiveGame = asyncHandler(async (req, res) => {
-   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, initCards, logItems } =
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems } =
       req.body.gameData
    const type = req.body.type
 
@@ -25,7 +25,6 @@ const createActiveGame = asyncHandler(async (req, res) => {
       stateModals,
       stateBoard,
       corps,
-      initCards,
       logItems,
       type,
    })
@@ -47,7 +46,7 @@ const deleteActiveGame = asyncHandler(async (req, res) => {
 })
 
 const updateActiveGame = asyncHandler(async (req, res) => {
-   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, initCards, logItems } =
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps,  logItems } =
       req.body.gameData
    const type = req.body.type
    
@@ -62,7 +61,6 @@ const updateActiveGame = asyncHandler(async (req, res) => {
             stateModals: stateModals === undefined ? game.stateModals : stateModals,
             stateBoard: stateBoard === undefined ? game.stateBoard : stateBoard,
             corps: corps === undefined ? game.corps : corps,
-            initCards: initCards === undefined ? game.initCards : initCards,
             logItems: logItems === undefined ? game.logItems : logItems,
          },
          function () {

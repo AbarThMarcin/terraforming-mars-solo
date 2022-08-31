@@ -140,7 +140,6 @@ function App() {
          stateModals: null,
          stateBoard: null,
          corps: null,
-         initCards: null,
          logItems: null,
       }
       let token = user?.token
@@ -179,7 +178,6 @@ function App() {
                   stateModals: gameData.stateModals,
                   stateBoard: gameData.stateBoard,
                   corps: gameData.corps,
-                  initCards: gameData.initCards,
                   logItems: gameData.logItems,
                },
                type
@@ -214,7 +212,7 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [73, 109, 90, 147, 5, 53, 23, 8, 35, 19]
+      // const initCardsIds = [204, 185, 90, 192, 196, 5, 23, 73, 35, 19]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [9, 12]
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
@@ -223,7 +221,6 @@ function App() {
       gameData.stateModals = INIT_MODALS
       gameData.stateBoard = addNeutralTiles(board)
       gameData.corps = initCorpsIds
-      gameData.initCards = initCardsIds
       gameData.statePlayer = {
          ...INIT_STATE_PLAYER,
          cardsSeen: initCards,
@@ -253,7 +250,6 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
-         gameData.initCards = matchWithId.cards.slice(0, 10)
          gameData.logItems = [
             { type: LOG_TYPES.LOG, data: null },
             { type: LOG_TYPES.GENERATION, data: { text: '1' } },
@@ -262,22 +258,21 @@ function App() {
          // Create New Match With Id
          const board = JSON.parse(JSON.stringify(INIT_BOARD))
          const initCardsIds = await getRandIntNumbers(208, 1, 208)
-         // const initCardsIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+         // const initCardsIds = [...[204, 185, 90, 192, 196, 5, 23, 73, 35, 19], ...await getRandIntNumbers(198, 1, 198)]
          const initCorpsIds = await getRandIntNumbers(2, 1, 12)
          // const initCorpsIds = [1, 2]
          const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.slice(0, 10).includes(id))
          const initCards = getCards(CARDS, initCardsIds.slice(0, 10))
          gameData.statePlayer = {
             ...INIT_STATE_PLAYER,
-            cardsSeen: initCards,
+            cardsSeen: initCards.slice(0, 10),
             cardsDeckIds: leftCardsIds,
-            cardsDrawIds: initCardsIds,
+            cardsDrawIds: initCardsIds.slice(0, 10),
          }
          gameData.stateGame = INIT_STATE_GAME
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = addNeutralTiles(board)
          gameData.corps = initCorpsIds
-         gameData.initCards = initCardsIds.slice(0, 10)
          gameData.logItems = [
             { type: LOG_TYPES.LOG, data: null },
             { type: LOG_TYPES.GENERATION, data: { text: '1' } },

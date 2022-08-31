@@ -13,7 +13,7 @@ import oceanIcon from '../../../assets/images/tiles/ocean.svg'
 import greenery from '../../../assets/images/tiles/greenery.svg'
 import cityAnyIcon from '../../../assets/images/other/cityAny.svg'
 
-const Card = ({ card, isBig }) => {
+const Card = ({ card, isBig, isSnap }) => {
    const [info, setInfo] = useState(false)
    const { modals } = useContext(ModalsContext)
    const { requirementsMet } = useContext(StateGameContext)
@@ -144,9 +144,11 @@ const Card = ({ card, isBig }) => {
                         </div>
                      )}
                      {/* CARD INFO BUTTON */}
-                     <div className="info-btn pointer" onClick={() => setInfo((info) => !info)}>
-                        <span>{info ? 'X' : '!'}</span>
-                     </div>
+                     {!isSnap && (
+                        <div className="info-btn pointer" onClick={() => setInfo((info) => !info)}>
+                           <span>{info ? 'X' : '!'}</span>
+                        </div>
+                     )}
                   </>
                )}
             </div>

@@ -53,7 +53,7 @@ const ModalOther = () => {
          {/* CARD SNAP FOR VP VIEW */}
          {cardSnap && (
             <div className="card-container medium">
-               <Card card={cardSnap} />
+               <Card card={cardSnap} isBig={true} isSnap={true} />
             </div>
          )}
       </div>

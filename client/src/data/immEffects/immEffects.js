@@ -2574,7 +2574,7 @@ export const funcGetImmEffects = (
                })
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...cardsSeen, getCards(CARDS, newCardsDrawIds)],
+                  payload: [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
             },
          })
@@ -3377,6 +3377,7 @@ export const funcGetImmEffects = (
                })
             }
          }
+
          // Call Mars University
          if (
             statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)

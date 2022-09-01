@@ -43,6 +43,7 @@ const ModalEndStats = () => {
          played: statePlayer.cardsPlayed,
          seen: statePlayer.cardsSeen,
          purchased: statePlayer.cardsPurchased,
+         inDeck: statePlayer.cardsDeckIds,
       },
       logItems,
       points: {

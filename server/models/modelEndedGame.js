@@ -11,66 +11,65 @@ const pointsSchema = mongoose.Schema({
    total: Number,
 })
 
-const endedGameSchema = mongoose.Schema(
-   {
-      user: {
-         type: mongoose.Schema.Types.ObjectId,
+const endedGameSchema = mongoose.Schema({
+   user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+   },
+   season: {
+      type: Number,
+      required: true,
+   },
+   forfeited: {
+      type: Boolean,
+      required: true,
+      default: false,
+   },
+   victory: {
+      type: Boolean,
+      required: true,
+      default: false,
+   },
+   corporation: {
+      type: corporationSchema,
+      required: false,
+   },
+   cards: {
+      played: {
+         type: [cardSchema],
          required: true,
-         ref: 'User',
       },
-      season: {
-         type: Number,
+      seen: {
+         type: [cardSchema],
          required: true,
       },
-      forfeited: {
-         type: Boolean,
+      purchased: {
+         type: [cardSchema],
          required: true,
-         default: false,
       },
-      victory: {
-         type: Boolean,
-         required: true,
-         default: false,
+      inDeck: [Number],
+   },
+   logItems: [logTypeSchema],
+   points: {
+      type: pointsSchema,
+      required: true,
+      default: {
+         tr: 0,
+         greenery: 0,
+         city: 0,
+         vp: 0,
+         total: 0,
       },
-      corporation: {
-         type: corporationSchema,
-         required: false,
-      },
-      cards: {
-         played: {
-            type: [cardSchema],
-            required: true,
-         },
-         seen: {
-            type: [cardSchema],
-            required: true,
-         },
-         purchased: {
-            type: [cardSchema],
-            required: true,
-         },
-      },
-      logItems: [logTypeSchema],
-      points: {
-         type: pointsSchema,
-         required: true,
-         default: {
-            tr: 0,
-            greenery: 0,
-            city: 0,
-            vp: 0,
-            total: 0,
-         },
-      },
-      comment: {
-         type: String,
-         required: false,
-      },
-      link: {
-         type: String,
-         required: false,
-      },
-   }
-)
+   },
+   comment: {
+      type: String,
+      required: false,
+   },
+   link: {
+      type: String,
+      required: false,
+   },
+})
 
 module.exports = mongoose.model('ended_games', endedGameSchema)

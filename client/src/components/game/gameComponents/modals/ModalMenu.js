@@ -29,6 +29,7 @@ const ModalMenu = () => {
                   played: statePlayer.cardsPlayed,
                   seen: statePlayer.cardsSeen,
                   purchased: statePlayer.cardsPurchased,
+                  inDeck: statePlayer.cardsDeckIds,
                },
                logItems,
                forfeited: true,

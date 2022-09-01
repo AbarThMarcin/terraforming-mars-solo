@@ -17,6 +17,11 @@ export const VERSIONS = [
             title: "Phobolog's and Thorgate's starting effects fixed",
             description: '',
          },
+         {
+            title: 'Cards left in deck added to the ended ranked matches',
+            description:
+               'For testing purposes; cards seen vs cards left in deck now can be easily compared.',
+         },
       ],
    },
    {

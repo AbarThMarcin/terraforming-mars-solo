@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getSeason } from '../../../../api/apiOther'
 import spinner from '../../../../assets/other/spinner.gif'
 
-const RankingRules = () => {
+const RankingRules = ({ gamesCountForPrimaryRanking }) => {
    const [season, setSeason] = useState()
 
    useEffect(() => {
@@ -31,8 +31,8 @@ const RankingRules = () => {
                      MATCH.
                   </p>
                   <p>
-                     YOU CAN HAVE UP TO <span className="highlighted">50</span> MATCHES PER SEASON
-                     FOR THE PRIMARY RANKING.
+                     YOU MUST HAVE {' '}
+                     <span className="highlighted">{gamesCountForPrimaryRanking}</span> COMPLETED MATCHES FOR THE SEASON PRIMARY RANKING.
                   </p>
                   <p>THE SECONDARY RANKING INCLUDES PLAYERS WITH ANY AMOUNT OF GAMES.</p>
                   <br />

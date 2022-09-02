@@ -1,7 +1,8 @@
 import { useContext, useEffect, useMemo, useRef } from 'react'
 import { PlayersContext } from './Ranking'
 
-const RankingPrimary = ({ userValue }) => {
+
+const RankingPrimary = ({ userValue, gamesCountForPrimaryRanking }) => {
    const refTable = useRef()
    const { currPlayers } = useContext(PlayersContext)
    const currPlayersForRanking = useMemo(
@@ -33,16 +34,15 @@ const RankingPrimary = ({ userValue }) => {
       let players = []
       // Get Object with Player Name and his Real Rating
       currPlayers
-         .filter((player) => player.games.length > 50)
+         .filter((player) => player.games.length >= gamesCountForPrimaryRanking)
          .forEach((player) => {
-            if (player.games.length >= 0) {
-               const totalPoints = player.games.reduce(
-                  (total, game) => (game.victory ? total + game.points.total : total),
-                  0
-               )
-               const realRating = (totalPoints / player.games.length).toFixed(2)
-               players.push({ name: player.name, realRating })
-            }
+            const totalPoints = player.games
+               .slice(0, gamesCountForPrimaryRanking)
+               .reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
+            const realRating = (
+               totalPoints / player.games.slice(0, gamesCountForPrimaryRanking).length
+            ).toFixed(2)
+            players.push({ name: player.name, realRating })
          })
       players = players.sort((a, b) => b.realRating - a.realRating)
       // Assign Rank to a player
@@ -98,7 +98,7 @@ const RankingPrimary = ({ userValue }) => {
                ))
             ) : (
                <div className="center" style={{ fontSize: 'calc(var(--default-size) * 1.5)' }}>
-                  NO PLAYERS COMPLETED 50 GAMES
+                  NO PLAYERS COMPLETED {gamesCountForPrimaryRanking} GAMES
                </div>
             )}
          </div>

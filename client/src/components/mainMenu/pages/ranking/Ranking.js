@@ -14,6 +14,8 @@ export const TabTypeContext = createContext()
 export const DataContext = createContext()
 export const PlayersContext = createContext()
 
+const GAMES_COUNT_PRIMARY_SEASON = 50
+
 const Ranking = () => {
    const [type, setType] = useState(TABS.RANKING_PRIMARY)
    const [data, setData] = useState()
@@ -130,12 +132,19 @@ const Ranking = () => {
                            </div>
                            {/* Data */}
                            {type === TABS.RANKING_PRIMARY && (
-                              <RankingPrimary userValue={userValue} />
+                              <RankingPrimary
+                                 userValue={userValue}
+                                 gamesCountForPrimaryRanking={GAMES_COUNT_PRIMARY_SEASON}
+                              />
                            )}
                            {type === TABS.RANKING_SECONDARY && (
                               <RankingSecondary userValue={userValue} />
                            )}
-                           {type === TABS.RANKING_RULES && <RankingRules />}
+                           {type === TABS.RANKING_RULES && (
+                              <RankingRules
+                                 gamesCountForPrimaryRanking={GAMES_COUNT_PRIMARY_SEASON}
+                              />
+                           )}
                         </div>
                         {/* Filters */}
                         <div className="filters" style={{ transform: 'translateX(-30%)' }}>

@@ -21,6 +21,11 @@ export const VERSIONS = [
             description:
                "Sort by buttons in the cards modal now are updating user's settings on the server properly.",
          },
+         {
+            title: 'Tags requirements fixed',
+            description:
+               'Before: having research played counted ANY tag as +1 to the tags requirements. After: it is not counted as +1 ONLY for science tags requirements.',
+         },
       ],
    },
    {

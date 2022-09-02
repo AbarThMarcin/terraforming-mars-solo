@@ -453,7 +453,7 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
          // Caretaker Contract
          case 154:
             value = statePlayer.resources.heat
-            if (value < 8 || stateGame.globalParameters.temperature === 8) reqMet = false
+            if (value < 8) reqMet = false
             break
          // Water Splitting Plant
          case 177:

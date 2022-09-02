@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SoundContext } from '../../App'
 
-const Button = ({ text, path, disabled, action, tipText }) => {
+const Button = ({ text, path, disabled, action, tipText, loading }) => {
    let navigate = useNavigate()
    const { sound } = useContext(SoundContext)
    const [showTipText, setShowTipText] = useState(false)
@@ -19,18 +19,18 @@ const Button = ({ text, path, disabled, action, tipText }) => {
    }
 
    const handleOnMouseOver = (e) => {
-      if (!tipText || !disabled) return
+      if (!tipText || !disabled || loading) return
       setTipPosition(e)
       setShowTipText(true)
    }
 
    const handleOnMouseLeave = () => {
-      if (!tipText || !disabled) return
+      if (!tipText || !disabled || loading) return
       setShowTipText(false)
    }
 
    const handleOnMouseMove = (e) => {
-      if (!tipText || !disabled) return
+      if (!tipText || !disabled || loading) return
       setTipPosition(e)
    }
 

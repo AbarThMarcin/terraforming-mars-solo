@@ -220,6 +220,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
                text="MATCH WITH ID"
                action={handleClickMatchWithId}
                disabled={user == null || loading}
+               loading={loading}
                tipText={tipText_QMId}
             />
             {/* Ranked */}
@@ -227,6 +228,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
                text="RANKED MATCH"
                action={handleClickRankedMatch}
                disabled={user == null || loading}
+               loading={loading}
                tipText={tipText_RM}
             />
             {/* Ranking */}
@@ -240,6 +242,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
                text="ACCOUNT"
                path="account"
                disabled={user == null || loading}
+               loading={loading}
                tipText={tipText_account}
             />
             {/* Login */}

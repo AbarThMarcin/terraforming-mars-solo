@@ -59,7 +59,7 @@ const OverviewTable = ({ currPlayer, gamesPlayed, gamesWon }) => {
             </tbody>
             <tfoot>
                <tr>
-                  <td>TOTAL / AVG</td>
+                  <td>TOTAL / AVERAGE</td>
                   <td>{gamesPlayed.length}</td>
                   <td>{gamesWon.length}</td>
                   <td>{`${winRate.toFixed(2)}%`}</td>

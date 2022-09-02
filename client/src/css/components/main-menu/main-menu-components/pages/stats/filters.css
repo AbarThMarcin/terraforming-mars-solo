@@ -19,7 +19,9 @@
    border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.5);
    border-radius: calc(var(--default-size) * 0.2);
    outline: none;
-   padding: 0 calc(var(--default-size) * 0.15)
+   padding: 0 calc(var(--default-size) * 0.15);
+   /* width: calc(var(--default-size) * 9.8);
+   height: calc(var(--default-size) * 1.4); */
 }
 .main-menu .filter-season-corp:hover,
 .main-menu .filter-season-corp:focus {

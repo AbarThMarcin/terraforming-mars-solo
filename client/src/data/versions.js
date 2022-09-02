@@ -1,5 +1,29 @@
 export const VERSIONS = [
    {
+      number: '0.0.6',
+      date: '2022-09-02',
+      updates: [
+         {
+            title: 'Nitrite Reducing Bacteria immediate effect icon corrected',
+            description: '',
+         },
+         {
+            title: 'Caretaker Contract action requirement fixed',
+            description: 'The action is now independent of the temperature parameter.',
+         },
+         {
+            title: 'Tip Text in Main Menu hidden when loading',
+            description:
+               'Before: the Tip Text for Account, Ranked Match or Match with Id was showing when the state was loading. After: it is now hidden.',
+         },
+         {
+            title: 'Sort settings saving on server fixed',
+            description:
+               "Sort by buttons in the cards modal now are updating user's settings on the server properly.",
+         },
+      ],
+   },
+   {
       number: '0.0.5',
       date: '2022-08-31',
       updates: [

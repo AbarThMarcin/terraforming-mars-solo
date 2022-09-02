@@ -30,6 +30,9 @@ const BtnSort = ({ id, text }) => {
          sortId:
             cardsTypeId === 0 ? [newSortId, settings.sortId[1]] : [settings.sortId[0], newSortId],
       })
+      console.log(cardsTypeId)
+      console.log(settings.sortId)
+      console.log(newSortId)
       cardsTypeId === 0
          ? dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -44,8 +47,8 @@ const BtnSort = ({ id, text }) => {
          const settingsObj = {
             gameSpeed: settings.speedId,
             showTotalVP: settings.showTotVP,
-            handSortId: cardsTypeId === 0 ? newSortId : settings.sortId[1],
-            playedSortId: cardsTypeId === 1 ? newSortId : settings.sortId[0],
+            handSortId: cardsTypeId === 0 ? newSortId : settings.sortId[0],
+            playedSortId: cardsTypeId === 1 ? newSortId : settings.sortId[1],
             musicVolume: settings.musicVolume,
             gameVolume: settings.gameVolume,
          }

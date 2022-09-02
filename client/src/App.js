@@ -214,7 +214,7 @@ function App() {
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
       // const initCardsIds = [204, 185, 90, 192, 196, 5, 23, 73, 35, 19]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      // const initCorpsIds = [7, 11]
+      // const initCorpsIds = [3, 11]
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(CARDS, initCardsIds)
       gameData.stateGame = INIT_STATE_GAME

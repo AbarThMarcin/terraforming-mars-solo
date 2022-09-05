@@ -1,6 +1,6 @@
 export const VERSIONS = [
    {
-      number: '0.0.6',
+      number: '0.1.6',
       date: '2022-09-02',
       updates: [
          {
@@ -29,7 +29,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.0.5',
+      number: '0.1.5',
       date: '2022-08-31',
       updates: [
          {
@@ -54,7 +54,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.0.4',
+      number: '0.1.4',
       date: '2022-08-30',
       updates: [
          {
@@ -83,7 +83,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.0.3',
+      number: '0.1.3',
       date: '2022-08-29',
       updates: [
          {
@@ -98,7 +98,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.0.2',
+      number: '0.1.2',
       date: '2022-08-25',
       updates: [
          {
@@ -109,7 +109,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.0.1',
+      number: '0.1.1',
       date: '2022-08-24',
       updates: [
          {
@@ -165,7 +165,7 @@ export const VERSIONS = [
       ],
    },
    {
-      number: '0.0.0',
+      number: '0.1.0',
       date: '2022-08-23',
       updates: [
          {

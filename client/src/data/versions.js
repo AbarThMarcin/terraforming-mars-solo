@@ -1,5 +1,16 @@
 export const VERSIONS = [
    {
+      number: '0.1.7',
+      date: '2022-09-12',
+      updates: [
+         {
+            title: 'Insulation and Moss requirements fixed',
+            description:
+               'Insulation is now playable with 0 heat production, moss is not unplayable without at least 1 plant.',
+         },
+      ],
+   },
+   {
       number: '0.1.6',
       date: '2022-09-02',
       updates: [

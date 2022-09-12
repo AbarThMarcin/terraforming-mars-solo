@@ -3570,7 +3570,10 @@ export const CARDS = [
       ],
       originalCost: 4,
       currentCost: 4,
-      requirements: [{ type: REQUIREMENTS.OCEAN, value: 3, other: 'min' }],
+      requirements: [
+         { type: REQUIREMENTS.RESOURCES, value: 1, other: RESOURCES.PLANT },
+         { type: REQUIREMENTS.OCEAN, value: 3, other: 'min' },
+      ],
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
@@ -3719,10 +3722,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
       units: {
          microbe: 0,
          animal: 0,
@@ -4437,7 +4437,7 @@ export const CARDS = [
       ],
       originalCost: 2,
       currentCost: 2,
-      requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 1, other: RESOURCES.HEAT }],
+      requirements: [],
       vp: 0,
       tags: [],
       effect: null,
@@ -5291,10 +5291,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
       units: {
          microbe: 0,
          animal: 0,
@@ -5508,10 +5505,7 @@ export const CARDS = [
       vp: -1,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
       units: {
          microbe: 0,
          animal: 0,
@@ -5589,10 +5583,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP],
       units: {
          microbe: 0,
          animal: 0,

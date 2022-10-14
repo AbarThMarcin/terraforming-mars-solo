@@ -6,7 +6,7 @@ export const VERSIONS = [
          {
             title: 'Insulation and Moss requirements fixed',
             description:
-               'Insulation is now playable with 0 heat production, moss is not unplayable without at least 1 plant.',
+               'Insulation is now playable with 0 heat production, Moss is not unplayable without at least 1 plant.',
          },
       ],
    },

@@ -1,8 +1,6 @@
 # Terraforming Mars Solo
 
-### Simple but complex site with all actors from the Breaking Bad show.
-
-An online version of Terraforming Mars board game, dedicated to only 1-player gaming.
+### An online version of Terraforming Mars board game, dedicated to only 1-player gaming.
 
 ## Demo
 

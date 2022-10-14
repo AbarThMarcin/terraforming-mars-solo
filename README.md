@@ -11,6 +11,13 @@ More information about the game: https://www.fryxgames.se/games/terraforming-mar
 
 Working live demo: https://terraforming-mars-solo.herokuapp.com/
 
+## Built with
+
+-  [React JS](https://reactjs.org/)
+-  [Node JS](https://nodejs.org/)
+-  [Express JS](https://expressjs.com/)
+-  [Mongo DB](https://www.mongodb.com/)
+
 ## Site
 
 ### Main Menu
@@ -36,10 +43,3 @@ Working live demo: https://terraforming-mars-solo.herokuapp.com/
 ![](https://i.imgur.com/VOBcCOH.jpeg)
 
 ![](https://i.imgur.com/RUGDy6e.jpeg)
-
-## Built with
-
--  [React JS](https://reactjs.org/)
--  [Node JS](https://nodejs.org/)
--  [Express JS](https://expressjs.com/)
--  [Mongo DB](https://www.mongodb.com/)

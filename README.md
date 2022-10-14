@@ -1,1 +1,1 @@
-Terraforming Mars Description full stack
+# Terraforming Mars Solo - Game

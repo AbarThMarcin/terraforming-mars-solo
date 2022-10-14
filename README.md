@@ -1,6 +1,11 @@
 # Terraforming Mars Solo
 
-### An online version of Terraforming Mars board game, dedicated to only 1-player gaming.
+#### An online version of Terraforming Mars board game, dedicated to only 1-player gaming.
+
+## Source
+
+This game is based on a board game called **Terraforming Mars**.
+More information about the game: https://www.fryxgames.se/games/terraforming-mars/
 
 ## Demo
 

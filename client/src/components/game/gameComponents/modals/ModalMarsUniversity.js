@@ -61,6 +61,13 @@ const ModalMarsUniversity = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
+   useEffect(() => {
+      setModals((prev) => ({
+         ...prev,
+         modalCards: statePlayer.cardsInHand,
+      }))
+   }, [statePlayer.cardsInHand])
+
    const getBoxPosition = () => {
       return `${(1 - page) * 100}%`
    }

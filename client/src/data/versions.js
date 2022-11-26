@@ -1,5 +1,19 @@
 export const VERSIONS = [
    {
+      number: '0.1.8',
+      date: '2022-11-26',
+      updates: [
+         {
+            title: 'Power Infrastructure & Hired Raiders icons corrected',
+            description: '',
+         },
+         {
+            title: 'Arrows in "Select card to discard" phase corrected',
+            description: 'Arrows are now showing when the "Select card to discard" phase is on and more cards are added to the player\'s cards in hand.',
+         }
+      ],
+   },
+   {
       number: '0.1.7',
       date: '2022-09-12',
       updates: [

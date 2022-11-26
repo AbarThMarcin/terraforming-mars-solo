@@ -211,8 +211,8 @@ function App() {
 
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
-      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      const initCardsIds = [84, 90, 185, 73, 5, 6, 7, 8, 9, 10]
+      const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      // const initCardsIds = [84, 90, 185, 73, 5, 6, 7, 8, 9, 10]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [3, 11]
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))

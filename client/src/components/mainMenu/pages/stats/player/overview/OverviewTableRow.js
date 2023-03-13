@@ -1,6 +1,6 @@
 const OverviewTableRow = ({ corp, currPlayer }) => {
    const games = currPlayer.games
-   const gamesPlayed = games.filter((game) => game.corporation.name === corp) || 0
+   const gamesPlayed = corp ? games.filter((game) => game.corporation.name === corp) : 0
    const gamesWon = gamesPlayed.filter((game) => game.victory)
    const gamesWonScores = gamesWon.map((game) => game.points.total)
    const gamesPlayedScores = gamesPlayed.map((game) => game.points.total)

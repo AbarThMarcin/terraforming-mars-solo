@@ -52,7 +52,7 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
       <div className="row">
          <div>{id}</div>
          <div>{game.season === 0 ? 'PRESEASON' : game.season}</div>
-         <div>{game.corporation.name}</div>
+         <div>{game.corporation.name || "NO CORP"}</div>
          <div>{game.victory ? 'WIN' : 'LOSS'}</div>
          <div>{game.points.tr}</div>
          <div>{game.points.greenery}</div>

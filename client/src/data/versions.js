@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.1.9',
+      date: '2023-03-13',
+      updates: [
+         {
+            title: 'Statistics bug fixed',
+            description: 'Games Statistics page and More Stats page are now displayed correctly.',
+         },
+      ],
+   },
+   {
       number: '0.1.8',
       date: '2022-11-26',
       updates: [
@@ -9,8 +19,9 @@ export const VERSIONS = [
          },
          {
             title: 'Arrows in "Select card to discard" phase corrected',
-            description: 'Arrows are now showing when the "Select card to discard" phase is on and more cards are added to the player\'s cards in hand.',
-         }
+            description:
+               'Arrows are now showing when the "Select card to discard" phase is on and more cards are added to the player\'s cards in hand.',
+         },
       ],
    },
    {

@@ -252,78 +252,6 @@ export const funcGetImmEffects = (
             }
          }
          break
-      // =============================== PLACE TWO OCEAN TILES ============================
-      // cards with ONLY this action: Lake Marineris, Ice Asteroid
-      case IMM_EFFECTS.AQUIFER2:
-      case 53:
-      case 78:
-         if (stateGame.globalParameters.oceans < 9) {
-            subActions.push({
-               name: ANIMATIONS.USER_INTERACTION,
-               type: null,
-               value: null,
-               func: () => {
-                  dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-                  dispatchGame({
-                     type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                     payload: TILES.OCEAN,
-                  })
-                  dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.OCEAN })
-               },
-            })
-            if (stateGame.globalParameters.oceans < 8) {
-               subActions.push({
-                  name: ANIMATIONS.USER_INTERACTION,
-                  type: null,
-                  value: null,
-                  func: () => {
-                     dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-                     dispatchGame({
-                        type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                        payload: TILES.OCEAN,
-                     })
-                     dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.OCEAN })
-                  },
-               })
-            }
-            // Increase oceans meter
-            subActions.push({
-               name: ANIMATIONS.SHORT_ANIMATION,
-               type: null,
-               value: null,
-               func: () => {
-                  sound.raiseParameter.play()
-                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
-                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                  if (stateGame.globalParameters.oceans < 8) {
-                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
-                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                  }
-                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
-               },
-            })
-            // Add plants if Arctic Algae effect is ON
-            if (
-               statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_ARCTIC_ALGAE)
-            ) {
-               subActions.push({
-                  name: ANIMATIONS.RESOURCES_IN,
-                  type: RESOURCES.PLANT,
-                  value: 2,
-                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
-               })
-               if (stateGame.globalParameters.oceans < 8) {
-                  subActions.push({
-                     name: ANIMATIONS.RESOURCES_IN,
-                     type: RESOURCES.PLANT,
-                     value: 2,
-                     func: () =>
-                        dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 2 }),
-                  })
-               }
-            }
-         }
-         break
       // ============================== PLACE GREENERY TILE ==========================
       // card with ONLY this action: Plantation
       case IMM_EFFECTS.GREENERY:
@@ -1065,6 +993,11 @@ export const funcGetImmEffects = (
                func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: value }),
             })
          break
+      // Lake Marineris
+      case 53:
+         subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+         break
       // Kelp Farming
       case 55:
          subActions.push({
@@ -1323,6 +1256,11 @@ export const funcGetImmEffects = (
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.POWER_PLANT)]
          break
+      // Ice Asteroid
+      case 78:
+         subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+         break
       // Quantum Extractor
       case 79:
          subActions.push({
@@ -1356,7 +1294,8 @@ export const funcGetImmEffects = (
          break
       // Giant Ice Asteroid
       case 80:
-         subActions = getImmEffects(IMM_EFFECTS.AQUIFER2)
+         subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
+         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
          break
       // Ganymede Colony

@@ -14,9 +14,9 @@ export const INIT_STATE_GAME = {
    phaseAfterGen14: false,
    // Current Global Parameters
    globalParameters: {
-      temperature: -30,
+      temperature: -4,
       oxygen: 0,
-      oceans: 0,
+      oceans: 8,
    },
    // TR
    tr: 14,

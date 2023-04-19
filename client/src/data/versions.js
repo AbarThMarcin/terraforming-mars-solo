@@ -16,6 +16,21 @@ export const VERSIONS = [
             title: 'Sorting by playability fixed',
             description: '',
          },
+         {
+            title: "Payment for Aquifer Pumping's action can now be decreased only by steel, not titan",
+            description:
+               "There were some cases, where after playing any space card and having that action available, you could pay for the ocean from Aquifer Pumping's action with titan (only if you had any titan resource). The bug is now fixed.",
+         },
+         {
+            title: 'Number of placed oceans fixed after playing some cards',
+            description:
+               'Whenever you place one of any number of oceans from any action, the counter of oceans will now update.',
+         },
+         {
+            title: 'Disappearing actions from actions list fixed',
+            description:
+               'There were few actions, increasing any global parameter, that were disappearing after a specific global parameter was maxed. It is now fixed.',
+         },
       ],
    },
    {

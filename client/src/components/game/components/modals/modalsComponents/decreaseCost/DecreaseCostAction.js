@@ -69,7 +69,8 @@ const DecreaseCostAction = ({
          </div>
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.steel > 0 &&
-            (hasTag(modals.modalCard, TAGS.BUILDING) || actionClicked === 187) && (
+            // (hasTag(modals.modalCard, TAGS.BUILDING) || actionClicked === 187) && (
+            actionClicked === 187 && (
                <div className="card-decrease-cost">
                   <span>{toBuySteel}</span>
                   <img src={iconSteel} alt="icon_steel" />
@@ -88,7 +89,8 @@ const DecreaseCostAction = ({
                </div>
             )}
          {statePlayer.resources.titan > 0 &&
-            (hasTag(modals.modalCard, TAGS.SPACE) || actionClicked === 12) && (
+            // (hasTag(modals.modalCard, TAGS.SPACE) || actionClicked === 12) && (
+               actionClicked === 12 && (
                <div className="card-decrease-cost">
                   <span>{toBuyTitan}</span>
                   <img src={iconTitan} alt="icon_titan" />

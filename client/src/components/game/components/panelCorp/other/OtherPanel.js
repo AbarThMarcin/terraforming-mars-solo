@@ -9,10 +9,11 @@ import iconVP from '../../../../../assets/images/vp/vp_any.svg'
 import iconActions from '../../../../../assets/images/actions/action_any.svg'
 import iconEffects from '../../../../../assets/images/effects/effect_any.svg'
 import { CORP_NAMES } from '../../../../../data/corpNames'
+import { CARDS } from '../../../../../data/cards'
 
 const OtherPanel = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { actionRequirementsMet, getCardActions } = useContext(StateGameContext)
+   const { actionRequirementsMet } = useContext(StateGameContext)
    const [countCardRes, cardsCardRes] = getCardRes()
    const [countTags, cardsTags] = getTags()
    const [countVp, cardsVp] = getVp()
@@ -61,7 +62,7 @@ const OtherPanel = () => {
 
    function getActions() {
       const cards = statePlayer.cardsPlayed.filter(
-         (card) => getCardActions(card.id, [0, 0, 0, 0]).length > 0
+         (card) => CARDS.filter(c => c.iconNames.action !== null).map(c => c.id).includes(card.id)
       )
       let count = cards.filter((card) => {
          let reqsMet = false

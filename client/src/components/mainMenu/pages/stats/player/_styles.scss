@@ -1,0 +1,440 @@
+/* Overview */
+.overview {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   column-gap: calc($default-size * 0.6);
+   & > div {
+      width: 100%;
+   }
+   .table,
+   .chart-container {
+      border: calc($default-size * 0.12) solid rgba(255, 255, 255, 0.05);
+   }
+   .table {
+      margin-top: calc($default-size * 2);
+      font-size: calc($default-size * 0.85);
+      display: flex;
+      justify-content: center;
+      padding: calc($default-size * 0.1);
+      table {
+         border-spacing: 0;
+      }
+      .player-name {
+         position: absolute;
+         left: calc($default-size * 0.6);
+         top: 2%;
+         text-align: center;
+         font-size: calc($default-size * 1.3);
+         letter-spacing: calc($default-size * 0.1);
+         color: rgba(150, 255, 241, 0.9);
+      }
+      thead tr {
+         line-height: $default-size;
+         background: rgb(30, 30, 30);
+         background: linear-gradient(
+            0deg,
+            rgba(30, 30, 30, 0.5) 0%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(30, 30, 30, 0.5) 100%
+         );
+      }
+      thead td:first-of-type,
+      td,
+      tfoot td:first-of-type {
+         text-align: center;
+      }
+      td {
+         width: 11%;
+         &:first-of-type {
+            width: 34%;
+            padding: 0 calc($default-size * 0.3);
+            text-align: left;
+         }
+      }
+      tr {
+         &:nth-of-type(n + 1) td {
+            border-bottom: calc($default-size * 0.05) solid rgba(255, 255, 255, 0.06);
+         }
+         &:nth-last-of-type(1) td {
+            border-bottom: none;
+         }
+      }
+      tfoot tr {
+         background: rgb(30, 30, 30);
+         background: linear-gradient(
+            0deg,
+            rgba(30, 30, 30, 0.5) 0%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(30, 30, 30, 0.5) 100%
+         );
+      }
+   }
+   .charts {
+      height: calc(100% - $default-size * 2);
+      .charts-title {
+         height: calc($default-size * 2);
+         display: flex;
+         justify-content: center;
+         align-items: flex-end;
+      }
+   }
+   .chart-container {
+      position: relative;
+      overflow-x: hidden;
+      &-1 {
+         height: 65%;
+         margin-block-end: calc($default-size * 0.6);
+      }
+      &-2 {
+         height: calc(35% - $default-size * 0.6);
+      }
+      .chart-bg {
+         position: absolute;
+         left: 12%;
+         top: calc($default-size * 0.5);
+         width: 80%;
+         height: calc(100% - $default-size * 2);
+         .ranges {
+            position: absolute;
+            left: 0;
+            height: 100%;
+            transform: translateX(-120%);
+            font-size: calc($default-size * 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: flex-end;
+            div {
+               text-align: end;
+               display: flex;
+               align-items: center;
+               height: calc($default-size * 0.8);
+            }
+         }
+         .axisY {
+            position: absolute;
+            top: 0;
+            width: calc($default-size * 0.1);
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            &.axisY-help {
+               background-color: rgba(255, 255, 255, 0.06);
+               &.hidden {
+                  display: none;
+               }
+            }
+            & > span {
+               position: absolute;
+               bottom: 0;
+               left: 50%;
+               transform: translate(-50%, 100%);
+               font-size: calc($default-size * 0.8);
+            }
+         }
+         .bars {
+            position: absolute;
+            left: calc($default-size * 0.1);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+         }
+         .bar-percentage {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(120%, -50%);
+         }
+      }
+   }
+}
+
+/* Details - General*/
+.details {
+   margin-top: calc($default-size * 3);
+   .stats-box {
+      display: grid;
+      grid-template-columns: repeat(2, calc($default-size * 18));
+      grid-template-rows: repeat(2, calc($default-size * 10));
+      gap: calc($default-size * 2);
+   }
+   .player-name {
+      position: absolute;
+      left: calc($default-size * 0.6);
+      top: 2%;
+      text-align: center;
+      font-size: calc($default-size * 1.3);
+      letter-spacing: calc($default-size * 0.1);
+      color: rgba(150, 255, 241, 0.9);
+   }
+   .stats-box > * {
+      width: 100%;
+      height: 100%;
+      border: calc($default-size * 0.1) solid rgba(255, 255, 255, 0.04);
+      padding: calc($default-size * 0.2);
+      padding-bottom: 0;
+      border-radius: calc($default-size * 0.5);
+      .content {
+         width: 100%;
+         height: 85%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         .no-cards {
+            height: 100%;
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+         }
+         .content-title {
+            position: relative;
+            height: 100%;
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            word-spacing: calc($default-size * 0.15);
+            line-height: calc($default-size * 1.3);
+            .question {
+               position: absolute;
+               right: 23%;
+               top: 20%;
+               border-radius: 50%;
+               border: calc($default-size * 0.1) solid #fff;
+               width: calc($default-size * 1.3);
+               height: calc($default-size * 1.3);
+               background-color: transparent;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               font-weight: 600;
+               &:hover {
+                  background-color: rgba(255, 255, 255, 0.03);
+               }
+               span {
+                  transform: translate(15%, 0);
+                  font-size: calc($default-size * 1.1);
+                  color: #fff;
+               }
+            }
+            .tip {
+               position: absolute;
+               left: 50%;
+               top: -30%;
+               transform: translateX(-50%);
+               background-color: rgb(72, 78, 16);
+               padding: calc($default-size * 0.2);
+               color: #fff;
+               border: calc($default-size * 0.05) solid #fff;
+               font-size: calc($default-size * 0.7);
+               line-height: calc($default-size * 0.7);
+               width: calc($default-size * 10);
+               z-index: 1;
+            }
+            span {
+               font-weight: 600;
+               font-size: calc($default-size * 1.2);
+               color: rgb(150, 255, 255);
+               letter-spacing: calc($default-size * 0.1);
+            }
+            &::after {
+               content: '';
+               position: absolute;
+               top: 50%;
+               right: 3%;
+               transform: translateY(-50%);
+               height: 80%;
+               width: calc($default-size * 0.15);
+               background: rgb(255, 255, 255);
+               background: linear-gradient(
+                  0deg,
+                  rgba(255, 255, 255, 0.01) 0%,
+                  rgba(255, 255, 255, 0.1) 50%,
+                  rgba(255, 255, 255, 0.01) 100%
+               );
+               border-radius: 50%;
+               box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.1);
+            }
+         }
+         .content-cards {
+            height: 100%;
+            width: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .top-card-with-value {
+               height: 100%;
+               flex: 2;
+               display: flex;
+               flex-direction: column;
+               justify-content: center;
+               align-items: center;
+               position: relative;
+               .stats-card-container {
+                  position: absolute;
+                  left: 50%;
+                  top: 45%;
+                  transform: translate(-50%, -50%);
+                  height: 70%;
+                  aspect-ratio: 1 / 1.4;
+                  text-align: center;
+               }
+               .value {
+                  position: absolute;
+                  left: 50%;
+                  bottom: 0;
+                  transform: translateX(-50%);
+                  width: 100%;
+                  text-align: center;
+                  word-spacing: calc($default-size * 0.15);
+                  line-height: calc($default-size * 1.3);
+                  span {
+                     font-weight: 600;
+                     font-size: calc($default-size * 1.05);
+                     letter-spacing: calc($default-size * 0.1);
+                  }
+               }
+            }
+            .and-more {
+               height: 100%;
+               flex: 1;
+               display: flex;
+               align-items: center;
+               word-spacing: calc($default-size * 0.15);
+               line-height: calc($default-size * 1.3);
+               span {
+                  font-weight: 600;
+                  font-size: calc($default-size * 1.2);
+                  color: rgb(150, 255, 255);
+                  letter-spacing: calc($default-size * 0.1);
+               }
+            }
+         }
+      }
+      .see-all {
+         width: 100%;
+         height: 15%;
+         border-top: calc($default-size * 0.1) solid rgba(255, 255, 255, 0.04);
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         span {
+            font-size: calc($default-size * 0.9);
+            font-weight: 600;
+         }
+         &:hover {
+            background: linear-gradient(
+               90deg,
+               transparent 0%,
+               rgb(255, 255, 255, 0.03) 50%,
+               transparent 100%
+            );
+            span {
+               font-size: calc($default-size * 0.9);
+               font-weight: 600;
+               color: rgb(150, 255, 255);
+            }
+         }
+      }
+   }
+}
+
+.see-all-cards-container {
+   width: 30%;
+   height: 80%;
+   border: calc($default-size * 0.15) solid rgba(0, 255, 191, 0.5);
+   border-radius: calc($default-size * 1);
+   background-color: rgba(0, 0, 0, 0.8);
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: calc($default-size * 0.2);
+   .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 7%;
+      font-size: calc($default-size * 1.7);
+      border-bottom: calc($default-size * 0.1) solid rgba(0, 255, 191, 0.5);
+   }
+   .search-container {
+      width: 100%;
+      height: 6%;
+      font-size: calc($default-size * 1.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+   .content-container {
+      width: 100%;
+      height: 87%;
+      font-size: calc($default-size * 1.4);
+      padding: calc($default-size * 0.4);
+      text-align: center;
+      .headers {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         font-size: $default-size;
+         line-height: $default-size;
+         height: 10%;
+         background: linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.05) 100%
+         );
+         & > div {
+            flex: 1;
+         }
+      }
+      .table {
+         height: 90%;
+         overflow: auto;
+         &.with-scrollbar {
+            width: calc(100% + $default-size * 0.5);
+         }
+         &::-webkit-scrollbar {
+            position: absolute;
+            width: calc($default-size * 0.5);
+         }
+         &::-webkit-scrollbar-track {
+            background-color: transparent;
+            border-radius: calc($default-size * 0.5);
+            margin-left: 10px;
+         }
+         &::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: calc($default-size * 0.08) solid rgba(0, 0, 0, 0.5);
+            border-radius: calc($default-size * 0.5);
+         }
+         .card-row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            & > div {
+               height: calc($default-size * 6);
+               flex: 1;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               &:first-of-type {
+                  font-size: calc($default-size * 1.8);
+                  color: rgba(0, 255, 191, 0.9);
+               }
+               &:last-of-type {
+                  font-size: calc($default-size * 1.5);
+               }
+            }
+         }
+      }
+   }
+}

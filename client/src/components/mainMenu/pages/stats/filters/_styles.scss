@@ -1,0 +1,43 @@
+/* General */
+.main-menu .filters {
+   position: absolute;
+   left: 50%;
+   top: calc($default-size * 0.3);
+   transform: translateX(-50%);
+}
+.main-menu .filter {
+   font-size: calc($default-size * 0.8);
+   &:not(:first-child) {
+      margin-left: $default-size;
+   }
+   &-season-corp {
+      background-color: #000;
+      color: #fff;
+      border: calc($default-size * 0.05) solid rgba(255, 255, 255, 0.5);
+      border-radius: calc($default-size * 0.2);
+      outline: none;
+      padding: 0 calc($default-size * 0.15);
+      /* width: calc($default-size * 9.8);
+      height: calc($default-size * 1.4); */
+      &:hover, :focus {
+         background-color: #000
+      }
+      &:hover {
+         border: calc($default-size * 0.05) solid rgba(255, 255, 255, 0.8);
+      }
+   }
+   &-user {
+      background-color: #000;
+      border-radius: calc($default-size * 0.2);
+      color: #fff;
+      padding: 0 calc($default-size * 0.3);
+      border: calc($default-size * 0.05) solid rgba(255, 255, 255, 0.5);
+      outline: none;
+      &:hover, :focus {
+         background-color: #000
+      }
+      &:hover {
+         border: calc($default-size * 0.05) solid rgba(255, 255, 255, 0.8);
+      }
+   }
+}

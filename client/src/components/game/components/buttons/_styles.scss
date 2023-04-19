@@ -1,0 +1,359 @@
+/* Menu */
+.btn-menu {
+   left: calc($default-size * 2);
+   top: calc($default-size * 2);
+   width: calc($default-size * 1.8);
+   height: calc($default-size * 1.4);
+   position: absolute;
+   &:hover .btn-menu-line {
+      background-color: #fff;
+   }
+}
+.btn-menu-line {
+   position: absolute;
+   width: 100%;
+   height: 15%;
+   background-color: #ddd;
+   border-radius: calc($default-size * 0.1);
+}
+.btn-menu-line3 {
+   bottom: 0;
+}
+.btn-menu-line2 {
+   top: 50%;
+   transform: translateY(-50%);
+}
+
+/* Change Corp */
+.btn-change-corp {
+   position: absolute;
+   left: calc($default-size * 0.6);
+   top: calc($default-size * 0.6);
+   letter-spacing: calc($default-size * 0.05);
+   &::before {
+      content: '';
+      position: absolute;
+      height: calc(100% + $default-size * 0.4);
+      border: calc($default-size * 0.1) solid rgb(0, 133, 91);
+      border-right: none;
+      transform: translateY(-50%);
+      top: 50%;
+      left: calc($default-size * -0.6);
+      width: calc($default-size * 1.5);
+   }
+   &::after {
+      content: '';
+      position: absolute;
+      height: calc(100% + $default-size * 0.4);
+      border: calc($default-size * 0.1) solid rgb(0, 133, 91);
+      border-left: none;
+      transform: translateY(-50%);
+      top: 50%;
+      right: calc($default-size * -0.6);
+      width: calc($default-size * 1.5);
+   }
+   &:hover {
+      color: rgb(155, 255, 223);
+   }
+}
+
+/* View Game State */
+.btn-view-game-state {
+   position: absolute;
+   right: 0.5%;
+   bottom: 11%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: calc($default-size * 8.5);
+   padding: calc($default-size * 0.1);
+   line-height: calc($default-size * 1.3);
+   background: rgb(0, 94, 20);
+   background: linear-gradient(0deg, rgb(0, 94, 20) 0%, rgb(0, 130, 20) 50%, rgb(0, 94, 20) 100%);
+   border: calc($default-size * 0.2) solid rgb(0, 80, 20);
+   border-radius: calc($default-size * 0.3);
+   box-shadow: 0 0 calc($default-size * 0.3) rgba(0, 0, 0, 0.5);
+   text-shadow: 0 0 calc($default-size * 0.3) #000;
+   letter-spacing: calc($default-size * 0.03);
+   font-weight: 500;
+   &:hover {
+      background: rgb(0, 124, 40);
+      background: linear-gradient(
+         0deg,
+         rgba(0, 124, 40, 1) 0%,
+         rgba(0, 160, 40, 1) 50%,
+         rgba(0, 124, 40, 1) 100%
+      );
+   
+      border: calc($default-size * 0.2) solid rgb(0, 110, 20);
+   }
+}
+
+/* Cards In Hand */
+.btn-cards-in-hand {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   bottom: 0;
+   width: 10%;
+   height: 130%;
+   img {
+      position: absolute;
+      top: -20%;
+      left: 50.5%;
+      transform: translateX(-50%);
+      height: 133%;
+      width: auto;
+   }
+   span {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-48%);
+      top: 40%;
+      width: 30%;
+      font-size: calc($default-size * 1.5);
+      font-weight: 500;
+      text-align: center;
+   }
+}
+
+/* Cards Played / Log */
+.btns-cards-played-log-container {
+   display: flex;
+   align-items: center;
+   position: absolute;
+   left: 55.3%;
+   top: 0;
+   transform: translateY(-100%) skewX(-10deg);
+   width: 22%;
+   font-size: calc($default-size * 0.9);
+}
+
+.btn-cards-played-log {
+   background-color: #222;
+   width: 49%;
+   height: calc($default-size * 1.5);
+   padding: 1%;
+   text-align: center;
+   border: calc($default-size * 0.1) solid #555;
+   border-bottom: none;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   &:first-of-type {
+      margin-right: 2%;
+   }
+   &:hover {
+      background-color: #333;
+   }
+}
+
+/* Pass */
+.btn-pass {
+   position: absolute;
+   right: 0;
+   top: 50%;
+   height: 92%;
+   width: 60%;
+   background-color: rgb(0, 88, 60);
+   transform: translate(75%, -50%);
+   border-radius: calc($default-size * 0.2);
+   border: calc($default-size * 0.1) solid #fff;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   span {
+      transform: translateX(10%);
+      font-size: calc($default-size * 0.9);
+      font-weight: 500;
+   }
+   &:hover {
+      background-color: rgb(0, 131, 89);
+   }
+}
+
+/* Standard Projects */
+.btn-standard-projects-container {
+   top: 5%;
+   left: 50%;
+   transform: translateX(-50%);
+   width: calc($default-size * 2 * 5.86);
+   height: calc($default-size * 2);
+}
+.btn-standard-projects {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   span {
+      text-align: center;
+      width: 100%;
+   }
+}
+
+/* Select / Selected */
+.btn-select,
+.btn-selected {
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 100%);
+   width: 70%;
+   height: 14%;
+   font-size: $default-size;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-bottom-left-radius: calc($default-size * 0.3);
+   border-bottom-right-radius: calc($default-size * 0.3);
+   border: calc($default-size * 0.15) solid rgba(0, 0, 0, 0.3);
+   border-top: none;
+}
+.btn-select {
+   background: rgb(82, 82, 82);
+   background: linear-gradient(0deg, rgb(82, 82, 82) 0%, rgb(20, 20, 20) 100%);
+   &:hover {
+      background: rgb(92, 92, 92);
+      background: linear-gradient(0deg, rgb(92, 92, 92) 0%, rgb(30, 30, 30) 100%);
+   }
+}
+.btn-selected {
+   background: rgb(0, 158, 79);
+   background: linear-gradient(0deg, rgb(0, 158, 79) 0%, rgb(0, 53, 26) 100%);
+   &:hover {
+      background: rgb(0, 173, 84);
+      background: linear-gradient(0deg, rgb(0, 173, 84) 0%, rgb(0, 63, 31) 100%);
+   }
+}
+.card-container.big .btn-select,
+.card-container.big .btn-selected {
+   width: 60%;
+   height: 12%;
+   font-size: calc($default-size * 1.7);
+}
+
+/* Action (positive) */
+.btn-action,
+.btn-cancel {
+   position: absolute;
+   width: calc($default-size * 6) !important;
+   height: calc($default-size * 2) !important;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc($default-size * 1.2);
+   letter-spacing: calc($default-size * 0.1);
+   font-weight: 500;
+}
+.btn-action {
+   background-color: rgb(0, 90, 62);
+   border: calc($default-size * 0.1) solid rgb(0, 158, 108);
+   border-radius: calc($default-size * 0.3);
+   &.wider {
+      width: calc($default-size * 7.2) !important;
+   }
+   &:hover {
+      background-color: rgb(0, 133, 91);
+      border: calc($default-size * 0.1) solid rgb(132, 255, 216);
+   }
+   &.disabled {
+      background-color: rgb(55, 82, 73);
+      border: calc($default-size * 0.1) solid rgb(83, 134, 118);
+      color: #777;
+   }
+}
+
+/* Cancel (negative) */
+.btn-cancel {
+   background-color: rgb(87, 87, 87);
+   border: calc($default-size * 0.1) solid rgb(161, 161, 161);
+   border-radius: calc($default-size * 0.3);
+   &:hover {
+      background-color: rgb(131, 131, 131);
+      border: calc($default-size * 0.1) solid rgb(255, 255, 255);
+      border-radius: calc($default-size * 0.3);
+   }
+}
+.btn-action-mlnicon {
+   position: absolute;
+   left: 95%;
+   top: 0;
+   width: calc($default-size * 2);
+   height: 100%;
+   cursor: default;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   img {
+      height: 130%;
+   }
+   span {
+      top: 49%;
+      left: 53%;
+      font-size: 120%;
+      font-weight: 700;
+      color: #000;
+   }
+}
+
+/* Close */
+.btn-close {
+   position: absolute;
+   right: -1%;
+   top: -4%;
+   width: calc($default-size * 1.8);
+   height: calc($default-size * 1.8);
+   border: calc($default-size * 0.15) solid #fff;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #000;
+   &:hover {
+      background-color: #222;
+   }
+}
+
+/* Sort */
+.btn-sort {
+   width: calc($default-size * 7);
+   height: calc($default-size * 1.8);
+   font-size: $default-size;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-bottom-left-radius: calc($default-size * 0.3);
+   border-bottom-right-radius: calc($default-size * 0.3);
+   border: calc($default-size * 0.15) solid rgba(0, 0, 0, 0.3);
+   &:not(:last-of-type) {
+      margin-right: calc($default-size * 1.2);
+   }
+   &.not-selected {
+      background: rgb(82, 82, 82);
+      background: linear-gradient(0deg, rgb(82, 82, 82) 0%, rgb(20, 20, 20) 100%);
+      &:hover {
+         background: rgb(92, 92, 92);
+         background: linear-gradient(0deg, rgb(92, 92, 92) 0%, rgb(30, 30, 30) 100%);
+      }
+   }
+   &.selected {
+      background: rgb(0, 158, 79);
+      background: linear-gradient(0deg, rgb(0, 158, 79) 0%, rgb(0, 53, 26) 100%);
+      &:hover {
+         background: rgb(0, 173, 84);
+         background: linear-gradient(0deg, rgb(0, 173, 84) 0%, rgb(0, 63, 31) 100%);
+      }
+   }
+}
+
+/* Convert Plants / Heat Button */
+.btn-convert-plants-heat {
+   position: absolute;
+   width: 100%;
+   aspect-ratio: 1;
+   top: calc($default-size * -2.2);
+   left: 0;
+   transform: translateX(-1%);
+   overflow: hidden;
+   img {
+      transform: translateY(13%);
+   }
+}

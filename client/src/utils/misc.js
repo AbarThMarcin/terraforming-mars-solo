@@ -1,5 +1,5 @@
-import { getConsecutiveCardsIds } from '../api/apiMatchWithId'
-import { getRandIntNumbers } from '../api/apiOther'
+import { getConsecutiveCardsIds } from '../api/matchWithId'
+import { getRandIntNumbers } from '../api/other'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
 import { TILES } from '../data/board'
 import { CORP_NAMES } from '../data/corpNames'

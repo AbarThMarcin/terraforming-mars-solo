@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import BtnGoTo from '../BtnGoTo'
-import { ModalsContext } from '../Stats'
+import BtnGoTo from '../btnGoTo/BtnGoTo'
+import { ModalsContext } from '..'
 
 const TableGamesRow = ({ id, game, currPlayer, user }) => {
    const { setShowModal, setModalText, setEditMode, setLinkOrComment, setGameId } =

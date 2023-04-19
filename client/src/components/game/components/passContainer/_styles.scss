@@ -1,0 +1,50 @@
+.pass-container {
+   position: absolute;
+   height: calc($default-size * 1.8);
+   width: calc($default-size * 1.8 * 3.1879);
+   left: -0.6%;
+   top: 18%;
+   * {
+      position: absolute;
+   }
+   .corp-name {
+      transform: translateY(-100%);
+      left: 10%;
+      font-size: calc($default-size * 0.7);
+      letter-spacing: calc($default-size * 0.08);
+      font-weight: 500;
+      font-style: italic;
+      text-shadow: 0 0 calc($default-size * 0.2) #000;
+      width: 200%;
+   }
+   .logo {
+      height: 74%;
+      aspect-ratio: 1;
+      left: 35%;
+      top: 50%;
+      transform: translateY(-50%);
+   }
+   .tr {
+      left: 68%;
+      font-size: calc($default-size * 1.1);
+      font-weight: 600;
+      text-shadow: 0 0 calc($default-size * 0.2) #000;
+   }
+   .you-text {
+      left: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: calc($default-size * 0.8);
+      font-weight: 600;
+      text-shadow: 0 0 calc($default-size * 0.2) #000;
+   }
+}
+
+/* Total Points */
+.total-points {
+   position: absolute;
+   left: calc($default-size * 0.4);
+   top: calc($default-size * 1.8);
+   font-size: calc($default-size * 0.9);
+   font-weight: 500;
+}

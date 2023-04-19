@@ -5,11 +5,11 @@ import { REQUIREMENTS } from '../../../../../../data/requirements/requirementsNa
 import { getResIcon, RESOURCES } from '../../../../../../data/resources'
 import { getVpIcon } from '../../../../../../data/vp'
 import { getImmEffectIcon } from '../../../../../../data/immEffects/immEffectsIcons'
-import icon_mln from '../../../../../../assets/images/resources/mln.svg'
+import icon_mln from '../../../../../../assets/images/resources/res_mln.svg'
 import tempIcon from '../../../../../../assets/images/other/tempIcon.svg'
 import oxIcon from '../../../../../../assets/images/other/oxIcon.svg'
-import oceanIcon from '../../../../../../assets/images/tiles/ocean.svg'
-import greenery from '../../../../../../assets/images/tiles/greenery.svg'
+import oceanIcon from '../../../../../../assets/images/tiles/tile_ocean.svg'
+import greenery from '../../../../../../assets/images/tiles/tile_greenery.svg'
 import cityAnyIcon from '../../../../../../assets/images/other/cityAny.svg'
 
 const CardForStats = ({ card, isBig }) => {

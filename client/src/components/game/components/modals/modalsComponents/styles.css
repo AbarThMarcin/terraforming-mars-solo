@@ -1,0 +1,87 @@
+@import url('./arrows/arrows.css');
+@import url('./decreaseCost/styles.css');
+
+/* InsulationSection, PowerInfrasSection, SelectOptionSection */
+.select-one-section {
+   position: absolute;
+   top: 5%;
+   right: calc(var(--default-size) * -1);
+   transform: translateX(100%);
+   width: calc(var(--default-size) * 7.5);
+   background-color: rgba(0, 0, 0, 0.5);
+   /* height: 60%; */
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   border: calc(var(--default-size) * 0.1) solid #666;
+   padding: calc(var(--default-size) * 0.5);
+   line-height: calc(var(--default-size) * 0.8);
+}
+
+.select-one-section .header {
+   padding-bottom: calc(var(--default-size) * 0.6);
+   color: #fff;
+   font-size: calc(var(--default-size) * 1);
+}
+
+.select-one-section .option {
+   width: 100%;
+   position: relative;
+   height: calc(var(--default-size) * 1.6);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.select-one-section .option:not(:nth-last-of-type(2)) {
+   margin-bottom: calc(var(--default-size) * 0.3);
+}
+
+.select-one-section .option img {
+   height: 90%;
+}
+.select-one-section .option img.disabled {
+   opacity: 0.4;
+}
+
+.select-one-section .option.selected {
+   outline: #fff solid calc(var(--default-size) * 0.12);
+}
+
+.select-one-section .card-decrease-cost {
+   position: relative;
+}
+
+.select-one-section .card-decrease-cost .amount {
+   position: absolute;
+   left: 0;
+   height: 100%;
+   width: 40%;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+
+.select-one-section .card-decrease-cost .icon {
+   position: absolute;
+   right: 0;
+   height: 100%;
+   width: 52%;
+}
+
+.select-one-section .card-decrease-cost .icon img {
+   position: absolute;
+   left: 0;
+   top: 50%;
+   transform: translateY(-50%);
+   aspect-ratio: 1;
+   margin-left: 0;
+}
+.select-one-section .card-decrease-cost .icon img:last-of-type {
+   height: calc(100% - var(--default-size) * 0.4);
+   left: calc(var(--default-size) * 0.2);
+}
+.select-one-section .card-decrease-cost .icon img:first-of-type {
+   height: 100%;
+   left: 0;
+}

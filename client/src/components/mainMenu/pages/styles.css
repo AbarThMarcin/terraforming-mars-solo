@@ -1,0 +1,51 @@
+@import url('./account/account.css');
+@import url('./loginRegister/styles.css');
+@import url('./menu/menu.css');
+@import url('./ranking/styles.css');
+@import url('./settings/settings.css');
+@import url('./stats/styles.css');
+
+/* Container of the page */
+.app .green-border::before {
+   content: '';
+   position: absolute;
+   background-color: transparent;
+   left: 0;
+   bottom: 0;
+   width: calc(100% - calc(var(--default-size) * 0.1));
+   height: calc(var(--default-size) * 1);
+   border-left: calc(var(--default-size) * 0.1) solid rgb(0, 133, 91);
+   border-bottom: calc(var(--default-size) * 0.1) solid rgb(0, 133, 91);
+   z-index: -1;
+}
+
+.app .green-border::after {
+   content: '';
+   position: absolute;
+   background-color: transparent;
+   right: 0;
+   top: 0;
+   width: calc(100% - calc(var(--default-size) * 0.1));
+   height: calc(var(--default-size) * 1);
+   border-right: calc(var(--default-size) * 0.1) solid rgb(0, 133, 91);
+   border-top: calc(var(--default-size) * 0.1) solid rgb(0, 133, 91);
+   z-index: -1;
+}
+
+/* Page header */
+.main-menu .window-header {
+   top: 0;
+   left: 50%;
+   transform: translate(-50%, -95%);
+   position: absolute;
+   font-size: calc(var(--default-size) * 1.5);
+}
+
+/* Quick Match Type */
+.main-menu .qm-type-container {
+   width: 80%;
+   height: 60%;
+   top: 57%;
+   background-color: transparent;
+   padding: calc(var(--default-size) * 0.7);
+}

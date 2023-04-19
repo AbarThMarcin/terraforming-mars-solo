@@ -1,0 +1,9 @@
+@import url('./boardGanymede/boardGanymede.css');
+@import url('./boardPhobos/boardPhobos.css');
+@import url('./boardTharsis/boardTharsis.css');
+@import url('./field/styles.css');
+
+.board {
+   width: calc(70% * 9 / 16);
+   height: 70%;
+}

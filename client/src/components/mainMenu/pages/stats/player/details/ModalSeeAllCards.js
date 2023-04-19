@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useMemo } from 'react'
 import { useContext } from 'react'
 import { CARDS } from '../../../../../../data/cards'
-import { ModalsContext } from '../../Stats'
+import { ModalsContext } from '../../../../../game'
 import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 

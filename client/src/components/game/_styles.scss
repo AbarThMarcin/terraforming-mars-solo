@@ -1,0 +1,44 @@
+@import './components/animations/animCard';
+@import './components/animations/animProdRes';
+@import './components/board/styles';
+@import './components/buttons/styles';
+@import './components/card/card';
+@import './components/corp/corp';
+@import './components/modals/styles';
+@import './components/panelStateGame/panelStateGame';
+@import './components/passContainer/styles';
+@import './components/panelCorp/styles';
+
+.game {
+   height: $app-height;
+   width: $app-width;
+   color: #fff;
+   font-size: $default-size;
+   position: relative;
+}
+
+.game > * {
+   position: absolute;
+}
+
+.view-game-state-header {
+   left: 50%;
+   transform: translateX(-50%);
+   top: 8%;
+   width: 70%;
+   height: 5.5%;
+   background: rgb(255, 255, 255);
+   background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(80, 80, 80, 0.7) 25%,
+      rgba(80, 80, 80, 1) 50%,
+      rgba(80, 80, 80, 0.7) 75%,
+      rgba(255, 255, 255, 0) 100%
+   );
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc($default-size * 1.8);
+   letter-spacing: calc($default-size * 0.05);
+}

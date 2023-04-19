@@ -1,0 +1,24 @@
+.modal-confirmation {
+   border-radius: calc($default-size * 0.5);
+   width: 55%;
+   height: 40%;
+   background: rgb(0, 10, 7);
+   background: linear-gradient(
+      0deg,
+      rgba(0, 30, 21, 0.8) 0%,
+      rgba(0, 10, 7, 0.8) 40%,
+      rgba(0, 10, 7, 0.8) 60%,
+      rgba(0, 30, 21, 0.8) 100%
+   );
+   padding: calc($default-size * 2);
+   letter-spacing: calc($default-size * 0.1);
+   font-size: calc($default-size * 1.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   box-shadow: 0 0 0 calc($default-size * 0.35) #000,
+      0 0 0 calc($default-size * 0.5) rgb(0, 133, 91);
+   span {
+      text-align: center;
+   }
+}

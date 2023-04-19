@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getSeason } from '../../../../api/apiOther'
+import { getSeason } from '../../../../api/other'
 import spinner from '../../../../assets/other/spinner.gif'
 
 const RankingRules = ({ gamesCountForPrimaryRanking }) => {
@@ -31,8 +31,9 @@ const RankingRules = ({ gamesCountForPrimaryRanking }) => {
                      MATCH.
                   </p>
                   <p>
-                     YOU MUST HAVE {' '}
-                     <span className="highlighted">{gamesCountForPrimaryRanking}</span> COMPLETED MATCHES FOR THE SEASON PRIMARY RANKING.
+                     YOU MUST HAVE{' '}
+                     <span className="highlighted">{gamesCountForPrimaryRanking}</span> COMPLETED
+                     MATCHES FOR THE SEASON PRIMARY RANKING.
                   </p>
                   <p>THE SECONDARY RANKING INCLUDES PLAYERS WITH ANY AMOUNT OF GAMES.</p>
                   <br />

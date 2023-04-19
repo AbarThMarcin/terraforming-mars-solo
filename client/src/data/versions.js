@@ -1,5 +1,34 @@
 export const VERSIONS = [
    {
+      number: '0.2.1',
+      date: '2023-04-19',
+      updates: [
+         {
+            title: 'Code refactoring done for styles and files structure',
+            description: '',
+         },
+         {
+            title: 'Heat to temperature button disabled when 8C',
+            description:
+               'Button to raise a temperature using heat is not disabled when temperature reaches 8C.',
+         },
+         {
+            title: 'Sorting by playability fixed',
+            description: '',
+         },
+      ],
+   },
+   {
+      number: '0.2.0',
+      date: '2023-04-04',
+      updates: [
+         {
+            title: 'Achievements bug fixed',
+            description: 'Achievements page is now displayed correctly.',
+         },
+      ],
+   },
+   {
       number: '0.1.9',
       date: '2023-03-13',
       updates: [

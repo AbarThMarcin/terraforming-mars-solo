@@ -1,0 +1,20 @@
+/* Button */
+.btn-goto {
+   width: calc($default-size * 5.3);
+   height: calc($default-size * 1.3);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc($default-size * 0.8);
+   line-height: calc($default-size * 0.8);
+   letter-spacing: calc($default-size * 0.1);
+   font-weight: 500;
+   background-color: rgba(0, 90, 62, 0.5);
+   border: calc($default-size * 0.1) solid rgba(0, 158, 108, 0.5);
+   border-radius: calc($default-size * 0.2);
+   &:hover {
+      background-color: rgba(0, 133, 91, 0.5);
+      border: calc($default-size * 0.1) solid rgba(132, 255, 216, 0.5);
+      border-radius: calc($default-size * 0.2);
+   }
+}

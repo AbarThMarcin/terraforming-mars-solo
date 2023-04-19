@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useRef } from 'react'
-import { PlayersContext } from './Ranking'
+import { PlayersContext } from '.'
 
 const RankingSecondary = ({ userValue }) => {
    const refTable = useRef()

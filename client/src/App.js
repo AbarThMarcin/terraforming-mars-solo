@@ -6,22 +6,23 @@ import { INIT_STATE_GAME } from './initStates/initStateGame'
 import { INIT_MODALS } from './initStates/initModals'
 import { INIT_BOARD } from './initStates/initBoard'
 import { LOG_TYPES } from './data/log'
-import Menu from './components/mainMenu/pages/Menu'
-import Stats from './components/mainMenu/pages/stats/Stats'
-import Settings from './components/mainMenu/pages/Settings'
-import Login from './components/mainMenu/pages/Login'
-import Register from './components/mainMenu/pages/Register'
-import Account from './components/mainMenu/pages/Account'
-import Game from './components/game/Game'
-import MainMenu from './components/mainMenu/MainMenu'
-import { createActiveGameData, getActiveGameData } from './api/apiActiveGame'
-import { getRandIntNumbers } from './api/apiOther'
-import { updateUser } from './api/apiUser'
-import { createMatchWithId } from './api/apiMatchWithId'
-import Ranking from './components/mainMenu/pages/ranking/Ranking'
+import Menu from './components/mainMenu/pages/menu/Menu'
+import Stats from './components/mainMenu/pages/stats'
+import Settings from './components/mainMenu/pages/settings/Settings'
+import Login from './components/mainMenu/pages/loginRegister/Login'
+import Register from './components/mainMenu/pages/loginRegister/Register'
+import Account from './components/mainMenu/pages/account/Account'
+import Game from './components/game'
+import MainMenu from './components/mainMenu'
+import { createActiveGameData, getActiveGameData } from './api/activeGame'
+import { getRandIntNumbers } from './api/other'
+import { updateUser } from './api/user'
+import { createMatchWithId } from './api/matchWithId'
+import Ranking from './components/mainMenu/pages/ranking'
 import BtnMusic from './components/misc/BtnMusic'
-import Version from './components/misc/versions/Version'
-import ModalVersions from './components/misc/versions/ModalVersions'
+import Version from './components/misc/versions'
+import ModalVersions from './components/misc/versions/modalVersions'
+import './app_wo_scss.css'
 // Music
 import { Howl } from 'howler'
 import {
@@ -81,6 +82,7 @@ function App() {
    // App Settings
    const [settings, setSettings] = useState(defaultSettings)
    // Music && Game Sound
+   const [isMusicPlaying, setIsMusicPlaying] = useState(false)
    const music = useMemo(() => new Howl({ src: music_src, loop: true }), [])
    const sound = useMemo(
       () => ({
@@ -99,8 +101,6 @@ function App() {
    )
    // Versions
    const [showVersions, setShowVersions] = useState(false)
-
-   const [isMusicPlaying, setIsMusicPlaying] = useState(false)
    // Other
    const [showLogoutMsg, setShowLogoutMsg] = useState(true)
 
@@ -211,10 +211,12 @@ function App() {
 
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
+
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
       // const initCardsIds = [84, 90, 185, 73, 5, 6, 7, 8, 9, 10]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [3, 11]
+
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(CARDS, initCardsIds)
       gameData.stateGame = INIT_STATE_GAME

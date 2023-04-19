@@ -1,0 +1,9 @@
+@import './boardGanymede/boardGanymede';
+@import './boardPhobos/boardPhobos';
+@import './boardTharsis/boardTharsis';
+@import './field/styles';
+
+.board {
+   width: calc(70% * 9 / 16);
+   height: 70%;
+}

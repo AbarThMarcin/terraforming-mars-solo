@@ -1,0 +1,33 @@
+/* General */
+.main-menu .menu {
+   position: absolute;
+   top: 32%;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 35%;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   grid-template-rows: repeat(4, calc($default-size * 4));
+   align-items: center;
+   justify-items: center;
+   animation: animate-menu 300ms ease-in-out;
+   .message {
+      position: absolute;
+      left: 50%;
+      top: -10%;
+      width: 100%;
+      transform: translateX(-50%);
+      text-align: center;
+   }
+}
+
+@keyframes animate-menu {
+   0% {
+      opacity: 0;
+      width: 40%;
+   }
+   100% {
+      opacity: 1;
+      width: 35%;
+   }
+}

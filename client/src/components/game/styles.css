@@ -1,0 +1,44 @@
+@import url('./components/animations/animCard.css');
+@import url('./components/animations/animProdRes.css');
+@import url('./components/board/styles.css');
+@import url('./components/buttons/styles.css');
+@import url('./components/card/card.css');
+@import url('./components/corp/corp.css');
+@import url('./components/modals/styles.css');
+@import url('./components/panelStateGame/panelStateGame.css');
+@import url('./components/passContainer/styles.css');
+@import url('./components/panelCorp/styles.css');
+
+.game {
+   height: var(--app-height);
+   width: var(--app-width);
+   color: #fff;
+   font-size: var(--default-size);
+   position: relative;
+}
+
+.game > * {
+   position: absolute;
+}
+
+.view-game-state-header {
+   left: 50%;
+   transform: translateX(-50%);
+   top: 8%;
+   width: 70%;
+   height: 5.5%;
+   background: rgb(255, 255, 255);
+   background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(80, 80, 80, 0.7) 25%,
+      rgba(80, 80, 80, 1) 50%,
+      rgba(80, 80, 80, 0.7) 75%,
+      rgba(255, 255, 255, 0) 100%
+   );
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc(var(--default-size) * 1.8);
+   letter-spacing: calc(var(--default-size) * 0.05);
+}

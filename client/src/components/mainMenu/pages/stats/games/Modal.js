@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react'
-import { ModalsContext, PlayersContext } from '../Stats'
+import { ModalsContext, PlayersContext } from '..'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react'
-import { updateEndedGameData } from '../../../../../api/apiEndedGame'
+import { updateEndedGameData } from '../../../../../api/endedGame'
 import spinner from '../../../../../assets/other/spinner.gif'
 
 const Modal = ({ user }) => {

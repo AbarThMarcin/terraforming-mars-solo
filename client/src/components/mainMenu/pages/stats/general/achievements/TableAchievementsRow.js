@@ -38,7 +38,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
    }
 
    function getMaxScoreForCorp(corp) {
-      const gamesCorp = player.games.filter((game) => game.corporation.name === corp)
+      const gamesCorp = player.games.filter((game) => game.corporation?.name === corp)
       if (gamesCorp.length === 0) {
          return 'NA'
       } else {

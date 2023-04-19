@@ -1,0 +1,52 @@
+@import './account/account';
+@import './loginRegister/styles';
+@import './menu/menu';
+@import './ranking/styles';
+@import './settings/settings';
+@import './stats/styles';
+
+/* Container of the page */
+.app .green-border {
+   &::before {
+      content: '';
+      position: absolute;
+      background-color: transparent;
+      left: 0;
+      bottom: 0;
+      width: calc(100% - calc($default-size * 0.1));
+      height: calc($default-size * 1);
+      border-left: calc($default-size * 0.1) solid rgb(0, 133, 91);
+      border-bottom: calc($default-size * 0.1) solid rgb(0, 133, 91);
+      z-index: -1;
+   }
+   &::after {
+      content: '';
+      position: absolute;
+      background-color: transparent;
+      right: 0;
+      top: 0;
+      width: calc(100% - calc($default-size * 0.1));
+      height: calc($default-size * 1);
+      border-right: calc($default-size * 0.1) solid rgb(0, 133, 91);
+      border-top: calc($default-size * 0.1) solid rgb(0, 133, 91);
+      z-index: -1;
+   }
+}
+
+/* Page header */
+.main-menu {
+   .window-header {
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -95%);
+      position: absolute;
+      font-size: calc($default-size * 1.5);
+   }
+   .qm-type-container {
+      width: 80%;
+      height: 60%;
+      top: 57%;
+      background-color: transparent;
+      padding: calc($default-size * 0.7);
+   }
+}

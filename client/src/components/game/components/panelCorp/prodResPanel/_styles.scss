@@ -1,0 +1,77 @@
+/* Panel */
+.prod-res-panel {
+   position: absolute;
+   width: 33%;
+   height: 100%;
+   right: 50%;
+   top: 50%;
+   transform: translateY(-50%);
+   display: flex;
+   align-items: center;
+}
+
+/* Container */
+.prod-res-snap-container {
+   position: relative;
+   margin-right: 3%;
+   width: 11%;
+   height: 85%;
+   font-weight: 600;
+}
+
+/* Production section (for one type) */
+.prod-snap {
+   width: 100%;
+   height: 30%;
+   margin-top: 6.3%;
+   font-size: $default-size;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   text-shadow: 0 0 calc($default-size * 0.3) #000;
+}
+
+/* Resource section (for one type) */
+.res-snap {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 80%;
+   height: 70%;
+   margin: calc($default-size * -0.15) auto;
+   .icon {
+      position: relative;
+      height: calc($default-size * 1.1);
+      aspect-ratio: 1;
+      img {
+         height: 100%;
+      }
+   }
+   .value {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc($default-size * 1.1);
+      aspect-ratio: 1;
+      vertical-align: middle;
+   }
+
+   /* Mln resource modifications */
+   &.mln {
+      position: relative;
+      .icon {
+         height: calc($default-size * 1.6);
+      }
+      .value {
+         color: rgb(0, 0, 0);
+         font-weight: 700;
+      }
+      .icon,
+      .value {
+         position: absolute;
+         left: 50%;
+         top: 50%;
+         transform: translate(-50%, -50%);
+      }
+   }
+}

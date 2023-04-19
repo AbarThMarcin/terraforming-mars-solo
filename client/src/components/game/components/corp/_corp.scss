@@ -1,0 +1,27 @@
+.corp {
+   position: relative;
+   opacity: 0.5;
+   width: calc($default-size * 18 * 1.422862);
+   height: calc($default-size * 18);
+   border-radius: calc($default-size * 1.5);
+   box-shadow: 0 0 calc($default-size * 1.5) calc($default-size * 0.5) #000;
+   img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: auto;
+   }
+   &.selected {
+      opacity: 1;
+      box-shadow: 0 0 calc($default-size * 1.5) calc($default-size * 0.5) #000,
+         0 0 calc($default-size * 1.5) calc($default-size * 0.3) rgba(57, 253, 155, 0.6);
+   }
+}
+.modal-corp-container {
+   border-radius: calc($default-size * 1.5);
+   .corp {
+      opacity: 1;
+   }
+}

@@ -1,0 +1,9 @@
+.board-ganymede {
+   position: absolute;
+   right: -15.5%;
+   bottom: 19%;
+   transform: translateY(-50%);
+   width: 15%;
+   height: 15%;
+   border-radius: 50%;
+}

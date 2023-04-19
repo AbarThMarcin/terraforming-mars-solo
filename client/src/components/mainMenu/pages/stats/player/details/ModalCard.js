@@ -1,7 +1,7 @@
 /* Used to view card only */
 import { useContext } from 'react'
-import { ModalsContext } from '../../Stats'
 import CardForStats from './CardForStats'
+import { ModalsContext } from '../../../../../game'
 
 const ModalCard = () => {
    const { modalCard } = useContext(ModalsContext)

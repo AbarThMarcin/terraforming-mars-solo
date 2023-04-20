@@ -5,8 +5,13 @@ export const VERSIONS = [
       updates: [
          {
             title: 'Session expired issue solved',
-            description: 'There was a bug where the application crashed when user session expired and clicked ranked match, create quick match with id or play quick match with id. It is now fixed.',
-         }
+            description:
+               'There was a bug where the application crashed when user session expired and clicked ranked match, create quick match with id or play quick match with id. It is now fixed.',
+         },
+         {
+            title: 'Corporation name added to the end stats table',
+            description: '',
+         },
       ],
    },
    {

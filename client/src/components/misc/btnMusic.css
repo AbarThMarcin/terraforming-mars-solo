@@ -1,5 +1,5 @@
 /* Music Button to mute / unmute */
-.app .btn-music {
+.app .btn-music-container {
    position: absolute;
    right: calc(var(--default-size) * 0.3);
    top: calc(var(--default-size) * 0.5);

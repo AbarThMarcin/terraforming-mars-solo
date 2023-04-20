@@ -87,3 +87,26 @@
    font-size: calc(var(--default-size) * 1.3);
    font-weight: 600;
 }
+
+.modal-end-stats .corporation-container {
+   position: absolute;
+   bottom: calc(var(--default-size) * 3);
+   font-size: calc(var(--default-size) * 1.4);
+   height: calc(var(--default-size) * 1.4);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.modal-end-stats .corporation-container .logo {
+   height: 170%;
+   aspect-ratio: 1;
+   margin-right: calc(var(--default-size) * 0.5);
+}
+
+.modal-end-stats .corporation-container .logo img {
+   height: 170%;
+   position: absolute;
+   top: 50%;
+   translate: 0 -50%;
+}

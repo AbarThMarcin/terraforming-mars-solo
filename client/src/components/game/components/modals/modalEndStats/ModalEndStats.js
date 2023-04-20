@@ -21,7 +21,7 @@ import {
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
-import { APP_MESSAGES } from '../../../../../App'
+import { getCorpLogoMini } from '../../../../../data/corporations'
 
 const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -41,6 +41,7 @@ const ModalEndStats = () => {
    const totalPoints = getTotalPoints(statePlayer, stateGame, stateBoard)
    const navigate = useNavigate()
    const [addRankedGame, setAddRankedGame] = useState(false)
+   const logo = getCorpLogoMini(statePlayer.corporation.name)
 
    const gameData = {
       victory: victoryLossText === 'YOU WIN!' ? true : false,
@@ -133,6 +134,12 @@ const ModalEndStats = () => {
                <span className="name">TOTAL </span>
                <span className="value value-total">{totalPoints}</span>
             </div>
+         </div>
+         <div className="corporation-container">
+            <div className="logo">
+               <img src={logo} alt={`logo_${statePlayer.corporation.name}`} size='20px' />
+            </div>
+            <div>{statePlayer.corporation.name}</div>
          </div>
          <BtnAction
             text="DONE"

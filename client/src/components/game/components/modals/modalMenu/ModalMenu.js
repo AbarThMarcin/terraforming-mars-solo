@@ -5,7 +5,7 @@ import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { updateUser } from '../../../../../api/user'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../../game'
-import { SettingsContext, SoundContext } from '../../../../../App'
+import { APP_MESSAGES, SettingsContext, SoundContext } from '../../../../../App'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
@@ -20,7 +20,11 @@ const ModalMenu = () => {
       // If Logged and pressed Forfeit
       if (user && withForfeit) {
          // Delete Game from active games
-         await deleteActiveGameData(user.token, type)
+         let res
+         res = await deleteActiveGameData(user.token, type)
+         if (res?.response) {
+            return
+         }
          // Create forfeited game (endedGame) if type is ranked
          if (type === 'ranked') {
             const gameData = {

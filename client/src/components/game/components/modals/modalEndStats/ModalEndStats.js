@@ -21,10 +21,11 @@ import {
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
+import { APP_MESSAGES } from '../../../../../App'
 
 const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { stateGame, logItems } = useContext(StateGameContext)
+   const { stateGame, logItems, setSyncError } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
    const victoryLossText =
@@ -65,20 +66,27 @@ const ModalEndStats = () => {
          // If not logged, do nothing
          if (!user) return
          // Remove game from active games
-         await deleteActiveGameData(user.token, type)
-         // Also update user's profile (activeMatches)
-         const userMatches = {
-            activeMatches: {
-               quickMatch: type === 'quickMatch' ? false : user.activeMatches.quickMatch,
-               quickMatchId: type === 'quickMatchId' ? false : user.activeMatches.quickMatchId,
-               ranked: type === 'ranked' ? false : user.activeMatches.ranked,
-            },
+
+         // await deleteActiveGameData(user.token, type)
+         let matchWithId = null
+         matchWithId = await deleteActiveGameData(user.token, type)
+         if (matchWithId?.response) {
+            setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
+         } else {
+            // Also update user's profile (activeMatches)
+            const userMatches = {
+               activeMatches: {
+                  quickMatch: type === 'quickMatch' ? false : user.activeMatches.quickMatch,
+                  quickMatchId: type === 'quickMatchId' ? false : user.activeMatches.quickMatchId,
+                  ranked: type === 'ranked' ? false : user.activeMatches.ranked,
+               },
+            }
+            const { data } = await updateUser(user.token, userMatches)
+            localStorage.setItem('user', JSON.stringify(data))
+            setUser(data)
+            // Create ended game if type = ranked
+            if (type === 'ranked') setAddRankedGame(true)
          }
-         const { data } = await updateUser(user.token, userMatches)
-         localStorage.setItem('user', JSON.stringify(data))
-         setUser(data)
-         // Create ended game if type = ranked
-         if (type === 'ranked') setAddRankedGame(true)
       }
 
       updateBackend()

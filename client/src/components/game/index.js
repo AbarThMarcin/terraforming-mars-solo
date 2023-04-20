@@ -81,6 +81,7 @@ function Game({
    const [logData, setLogData] = useState(null)
    const [logIcon, setLogIcon] = useState(null)
    const { music, sound } = useContext(SoundContext)
+   const [syncError, setSyncError] = useState('')
 
    useEffect(() => {
       // If game started by placing 'quick-match' or 'ranked-match' in the url manually
@@ -162,7 +163,13 @@ function Game({
             corps: initCorpsIds,
             logItems,
          }
-         updateGameData(user.token, updatedData, type)
+         updateGameData(user.token, updatedData, type).then((res) => {
+            if (res.message === 'success') {
+               setSyncError('')
+            } else {
+               setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
+            }
+         })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [saveToServerTrigger])
@@ -397,6 +404,7 @@ function Game({
                      ANIMATION_SPEED,
                      setANIMATION_SPEED,
                      setSaveToServerTrigger,
+                     setSyncError
                   }}
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
@@ -521,6 +529,7 @@ function Game({
                                  </motion.div>
                               )}
                            </AnimatePresence>
+                           {syncError && <div className="syncError">{syncError}</div>}
                         </ModalsContext.Provider>
                      </CorpsContext.Provider>
                   </StateBoardContext.Provider>

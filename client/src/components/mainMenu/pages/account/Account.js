@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import BtnGoBack from '../../BtnGoBack'
 import spinner from '../../../../assets/other/spinner.gif'
 import { updateUser } from '../../../../api/user'
+import { APP_MESSAGES } from '../../../../App'
 
 const disabled = {
    backgroundColor: 'rgb(20, 20, 20)',
@@ -42,10 +43,10 @@ const Account = ({ user, setUser }) => {
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)
 
-         setSuccess('CHANGES SAVED SUCCESSFULLY!')
+         setSuccess(APP_MESSAGES.SUCCESS)
          setLoading(false)
       } catch (error) {
-         setError('FAILED TO SAVE CHANGES')
+         setError(APP_MESSAGES.FAILURE)
          setLoading(false)
       }
    }

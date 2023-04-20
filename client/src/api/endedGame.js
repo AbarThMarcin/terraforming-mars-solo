@@ -13,6 +13,7 @@ export const getEndedGameData = async () => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -32,6 +33,7 @@ export const createEndedGameData = async (token, gameData) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -51,5 +53,6 @@ export const updateEndedGameData = async (token, details) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }

@@ -18,6 +18,24 @@
       width: 100%;
       transform: translateX(-50%);
       text-align: center;
+      &.success {
+         background: rgb(0, 109, 0);
+         background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 109, 0, 1) 50%,
+            rgba(0, 0, 0, 0) 100%
+         );
+      }
+      &.error {
+         background: rgb(136, 0, 0);
+         background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(136, 0, 0, 1) 50%,
+            rgba(0, 0, 0, 0) 100%
+         );
+      }
    }
 }
 

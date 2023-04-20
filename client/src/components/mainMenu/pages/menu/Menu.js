@@ -6,10 +6,11 @@ import ModalConfirmation from '../../ModalConfirmation'
 import { deleteActiveGameData, getActiveGameData } from '../../../../api/activeGame'
 import { createEndedGameData } from '../../../../api/endedGame'
 import { useContext } from 'react'
-import { ModalConfirmationContext } from '../../../../App'
+import { APP_MESSAGES, ModalConfirmationContext } from '../../../../App'
 import { updateUser } from '../../../../api/user'
 import { useEffect } from 'react'
 import ModalQMId from '../../modalQMId/ModalQMId'
+import Message from './Message'
 
 // Quick Match Text for Confirmation Window
 const QM_text = 'Do you want to resume previous quick match?'
@@ -25,7 +26,7 @@ const tipText_QMId = 'Log in to play match with id'
 const tipText_RM = 'Log in to play ranked match'
 const tipText_account = 'Log in to manage your account'
 
-const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg }) => {
+const Menu = ({ user, setUser, setData }) => {
    let navigate = useNavigate()
    const {
       showModalConf,
@@ -39,9 +40,11 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
    const [text, setText] = useState('')
    const [btn1, setBtn1] = useState()
    const [btn2, setBtn2] = useState()
+   const [showMsg, setShowMsg] = useState('')
+   const [showMsgType, setShowMsgType] = useState('')
 
    useEffect(() => {
-      setShowLogoutMsg(false)
+      setShowMsg('')
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
@@ -59,8 +62,19 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
 
    // Quick Match
    async function handleClickQuickMatch() {
-      setShowLogoutMsg(false)
+      setShowMsg('')
+      setLoading(true)
+      // Check if session is expired (try to just create a simple quick match for a user)
+      const data = await setData('quickMatch')
+      if (!data) {
+         setLoading(false)
+         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
+         setShowMsgType('error')
+         return
+      }
+
       if (user?.activeMatches.quickMatch) {
+         setLoading(false)
          setConfirmationDetails(
             QM_text,
             { text: 'RESUME', func: QM_resume },
@@ -68,9 +82,14 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
          )
       } else {
          setLoading(true)
-         await setData('quickMatch')
+         const data = await setData('quickMatch')
          setLoading(false)
-         navigate('/match')
+         if (data) {
+            navigate('/match')
+         } else {
+            setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
+            setShowMsgType('error')
+         }
       }
    }
    async function QM_resume() {
@@ -91,7 +110,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
 
    // Match With Id
    async function handleClickMatchWithId() {
-      setShowLogoutMsg(false)
+      setShowMsg('')
       if (user.activeMatches.quickMatchId) {
          setConfirmationDetails(
             QMId_text,
@@ -118,9 +137,18 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
 
    // Ranked Match
    async function handleClickRankedMatch() {
-      setShowLogoutMsg(false)
+      setShowMsg('')
+      setLoading(true)
+      // Check if session is expired (try to just create a simple quick match for a user)
+      const data = await setData('quickMatch')
+      if (!data) {
+         setLoading(false)
+         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
+         setShowMsgType('error')
+         return
+      }
+      
       if (user.activeMatches.ranked) {
-         setLoading(true)
          const game = await getActiveGameData(user.token, 'ranked')
          if ((Date.now() - game.createdAt_ms) / (1000 * 60 * 60 * 24) > 3) {
             // Delete Expired Ranked Game from Active Games
@@ -159,6 +187,7 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
             )
          }
       } else {
+         setLoading(false)
          setConfirmationDetails(RM_new_text, { text: 'YES', func: RM_startNew })
       }
    }
@@ -193,20 +222,30 @@ const Menu = ({ user, setUser, setData, logout, showLogoutMsg, setShowLogoutMsg 
    async function RM_startNew() {
       setShowModalConf(false)
       setLoading(true)
-      await setData('ranked')
+      const data = await setData('ranked')
       setLoading(false)
-      navigate('/match')
+      if (data) {
+         navigate('/match')
+      } else {
+         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
+         setShowMsgType('error')
+      }
+   }
+
+   function logout() {
+      localStorage.removeItem('user')
+      setUser(null)
+      setShowMsg(APP_MESSAGES.LOGGED_OUT)
+      setShowMsgType('success')
    }
 
    return (
       <>
          <div className="menu">
-            {/* Logout Message */}
-            {showLogoutMsg && (
-               <div className="message">
-                  <span>YOU HAVE LOGGED OUT SUCCESSFULLY!</span>
-               </div>
-            )}
+            {/* Message */}
+            {showMsg && 
+               <Message msg={showMsg} type={showMsgType} />
+            }
             {/* Loading Spinner */}
             {loading && (
                <div className="spinner">

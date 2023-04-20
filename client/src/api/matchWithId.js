@@ -14,6 +14,7 @@ export const getMatchesWithId = async (token) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -34,6 +35,7 @@ export const getMatchWithId = async (token, id) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -54,6 +56,7 @@ export const getConsecutiveCardsIds = async (token, gameId, idx, count) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -74,6 +77,7 @@ export const createMatchWithId = async (token, gameData) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -94,5 +98,6 @@ export const deleteMatchWithId = async (token, type) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }

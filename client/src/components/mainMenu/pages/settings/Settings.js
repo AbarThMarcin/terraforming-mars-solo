@@ -2,7 +2,7 @@ import { useContext, useState, useEffect, useRef } from 'react'
 import BtnGoBack from '../../BtnGoBack'
 import spinner from '../../../../assets/other/spinner.gif'
 import { updateUser } from '../../../../api/user'
-import { SettingsContext } from '../../../../App'
+import { APP_MESSAGES, SettingsContext } from '../../../../App'
 import { SoundContext } from '../../../../App'
 
 const Settings = ({ user, setUser }) => {
@@ -109,10 +109,10 @@ const Settings = ({ user, setUser }) => {
          // Update App's Current Session
          setSettings(newSettings)
 
-         setSuccess('CHANGES SAVED SUCCESSFULLY!')
+         setSuccess(APP_MESSAGES.SUCCESS)
          setLoading(false)
       } catch (error) {
-         setError('FAILED TO SAVE CHANGES')
+         setError(APP_MESSAGES.FAILURE)
          setLoading(false)
       }
    }

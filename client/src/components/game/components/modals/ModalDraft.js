@@ -52,6 +52,7 @@ const ModalDraft = () => {
       requirementsMet,
       setSaveToServerTrigger,
       logItems,
+      setSyncError
    } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { initCorpsIds } = useContext(CorpsContext)
@@ -91,7 +92,13 @@ const ModalDraft = () => {
             corps: initCorpsIds,
             logItems,
          }
-         updateGameData(user.token, updatedData, type)
+         updateGameData(user.token, updatedData, type).then((res) => {
+            if (res.message === 'success') {
+               setSyncError('')
+            } else {
+               setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
+            }
+         })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])

@@ -29,7 +29,7 @@ import { updateGameData } from '../../../../api/activeGame'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED } =
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError } =
       useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -56,7 +56,13 @@ const ModalMarsUniversity = () => {
          corps: initCorpsIds,
          logItems,
       }
-      updateGameData(user.token, updatedData, type)
+      updateGameData(user.token, updatedData, type).then((res) => {
+         if (res.message === 'success') {
+            setSyncError('')
+         } else {
+            setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
+         }
+      })
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])

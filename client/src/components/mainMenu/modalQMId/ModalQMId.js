@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { SoundContext } from '../../../App'
+import { APP_MESSAGES, SoundContext } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 import { deleteActiveGameData } from '../../../api/activeGame'
 import { getMatchWithId } from '../../../api/matchWithId'
@@ -33,33 +33,48 @@ const spinnerStyle = {
 const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
    let navigate = useNavigate()
    const [loading, setLoading] = useState(false)
-   const [showError, setShowError] = useState(false)
+   const [showError, setShowError] = useState('')
    const [matchId, setMatchId] = useState('')
    const { sound } = useContext(SoundContext)
 
    async function funcStartMatchId(id) {
       if (loading) return
-      setShowError(false)
+      setShowError('')
       setLoading(true)
       // Check if pressed CREATE or PLAY
       let matchWithId = null
       if (id !== null) {
          matchWithId = await getMatchWithId(user.token, id)
-         if (!matchWithId) {
+         if (matchWithId?.response?.status === 500) {
             setLoading(false)
-            setShowError(true)
+            setShowError(APP_MESSAGES.GAME_WITH_ID_NOT_FOUND)
+            return
+         } else if (matchWithId?.response?.status === 401) {
+            setLoading(false)
+            setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
             return
          }
       }
       // Delete existing game (if overwriting)
       if (overwrite) {
-         await deleteActiveGameData(user.token, 'quickMatchId')
+         matchWithId = await deleteActiveGameData(user.token, 'quickMatchId')
+         if (matchWithId?.response) {
+            setLoading(false)
+            setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
+            return
+         }
       }
       // Create new game
-      await setData('quickMatchId', overwrite ? true : false, matchWithId)
-      setLoading(false)
-      setShowModalQMId(false)
-      navigate('/match')
+      const data = await setData('quickMatchId', overwrite ? true : false, matchWithId)
+      if (data) {
+         setLoading(false)
+         setShowModalQMId(false)
+         navigate('/match')
+      } else {
+         setLoading(false)
+         setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
+         return
+      }
    }
 
    function cancel() {
@@ -98,7 +113,10 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
                   name="qmid"
                   placeholder="ENTER MATCH ID"
                   disabled={loading}
-                  onInput={(e) => setMatchId(e.target.value)}
+                  onInput={(e) => {
+                     setShowError('')
+                     setMatchId(e.target.value)
+                  }}
                />
                <div
                   className="btn-action pointer"
@@ -110,12 +128,12 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
                >
                   <span>PLAY</span>
                </div>
-               {showError && (
-                  <div className="error">
-                     <span>GAME COULD NOT BE FOUND</span>
-                  </div>
-               )}
             </div>
+            {showError && (
+               <div className="error">
+                  <span>{showError}</span>
+               </div>
+            )}
             {/* Button Cancel */}
             <div
                className="btn-cancel pointer"

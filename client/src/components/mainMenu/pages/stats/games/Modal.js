@@ -5,6 +5,7 @@ import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react'
 import { updateEndedGameData } from '../../../../../api/endedGame'
 import spinner from '../../../../../assets/other/spinner.gif'
+import { APP_MESSAGES } from '../../../../../App'
 
 const Modal = ({ user }) => {
    const { setShowModal, modalText, editMode, setEditMode, linkOrComment, gameId } =
@@ -55,7 +56,7 @@ const Modal = ({ user }) => {
          setLoading(false)
          setShowModal(false)
       } catch (error) {
-         setError('FAILED TO SAVE CHANGES')
+         setError(APP_MESSAGES.FAILURE)
          setLoading(false)
       }
    }

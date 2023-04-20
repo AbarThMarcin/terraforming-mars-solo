@@ -18,7 +18,9 @@ const BtnCardsPlayed = () => {
          // This allows sorting right before showing cards after clicking CardsPlayed btn.
          // To disable that, comment it out and uncomment line one lower.
          modalCards: sorted(statePlayer.cardsPlayed, settings.sortId[1], requirementsMet),
-         // modalCardsType: 'Cards Played',
+         // modalCards: statePlayer.cardsPlayed,
+
+         modalCardsType: 'Cards Played',
 
          cards: true,
       }))

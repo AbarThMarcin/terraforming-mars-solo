@@ -17,6 +17,7 @@ export const getActiveGameData = async (token, type) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -37,6 +38,7 @@ export const createActiveGameData = async (token, gameData, type) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -57,6 +59,7 @@ export const deleteActiveGameData = async (token, type) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }
 
@@ -77,5 +80,6 @@ export const updateGameData = async (token, gameData, type) => {
       console.log(
          error.response && error.response.data.message ? error.response.data.message : error.message
       )
+      return error
    }
 }

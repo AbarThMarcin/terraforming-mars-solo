@@ -4,7 +4,7 @@ import { updateUser } from '../../../../../api/user'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { sorted } from '../../../../../utils/misc'
 import { UserContext, StatePlayerContext, StateGameContext } from '../../../../game'
-import { SettingsContext, SoundContext } from '../../../../../App'
+import { APP_MESSAGES, SettingsContext, SoundContext } from '../../../../../App'
 import spinner from '../../../../../assets/other/spinner.gif'
 
 const ModalSettings = () => {
@@ -144,10 +144,10 @@ const ModalSettings = () => {
          // Update App's Current Session
          setSettings(newSettings)
 
-         setSuccess('CHANGES SAVED SUCCESSFULLY!')
+         setSuccess(APP_MESSAGES.SUCCESS)
          setLoading(false)
       } catch (error) {
-         setError('FAILED TO SAVE CHANGES')
+         setError(APP_MESSAGES.FAILURE)
          setLoading(false)
       }
    }

@@ -44,11 +44,9 @@
    border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.8);
 }
 /* Error Message */
-.modal-confirmation .qmid-play-container .error {
+.modal-confirmation .error {
    position: absolute;
-   bottom: -80%;
-   left: 50%;
-   transform: translateX(-50%);
+   bottom: 36%;
    width: 100%;
    text-align: center;
    background: rgb(136, 0, 0);

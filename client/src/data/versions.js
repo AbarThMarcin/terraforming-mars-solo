@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.2.2',
+      date: '2023-04-20',
+      updates: [
+         {
+            title: 'Session expired issue solved',
+            description: 'There was a bug where the application crashed when user session expired and clicked ranked match, create quick match with id or play quick match with id. It is now fixed.',
+         }
+      ],
+   },
+   {
       number: '0.2.1',
       date: '2023-04-19',
       updates: [

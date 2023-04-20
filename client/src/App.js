@@ -59,6 +59,16 @@ const defaultSettings = {
    speedId: 2,
    showTotVP: false,
    sortId: ['4a', '4a-played'],
+   musicVolume: 0.5,
+   gameVolume: 0.5,
+}
+
+export const APP_MESSAGES = {
+   SUCCESS: 'CHANGES SAVED SUCCESSFULLY!',
+   LOGGED_OUT: 'YOU HAVE LOGGED OUT SUCCESSFULLY!',
+   SOMETHING_WENT_WRONG: 'SOMETHING WENT WRONG. TRY RE-LOGGING IN.',
+   FAILURE: 'FAILED TO SAVE CHANGES. TRY RE-LOGGING IN.',
+   GAME_WITH_ID_NOT_FOUND: 'GAME COULD NOT BE FOUND',
 }
 
 function App() {
@@ -101,8 +111,6 @@ function App() {
    )
    // Versions
    const [showVersions, setShowVersions] = useState(false)
-   // Other
-   const [showLogoutMsg, setShowLogoutMsg] = useState(true)
 
    useEffect(() => {
       if (isMusicPlaying) {
@@ -127,6 +135,9 @@ function App() {
          })
          music.volume(user.settings.musicVolume)
          Object.keys(sound).forEach((key) => sound[key].volume(user.settings.gameVolume))
+      } else {
+         music.volume(defaultSettings.musicVolume)
+         Object.keys(sound).forEach((key) => sound[key].volume(defaultSettings.gameVolume))
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
@@ -144,7 +155,7 @@ function App() {
       }
       let token = user?.token
       if (!token) {
-         // User not logged in
+         // User not logged in = Quick Match
          await initNewGame(gameData)
       } else {
          let matchStarted
@@ -162,14 +173,16 @@ function App() {
                break
          }
          if (!matchStarted || restartMatch) {
-            // ============= Game not started
+            // Game not started
             if (type === 'quickMatchId') {
-               await initNewGameId(gameData, matchWithId)
+               await initNewGameId(gameData, matchWithId) // Quick Match with ID
             } else {
-               await initNewGame(gameData)
+               await initNewGame(gameData) // Quick Match or Ranked Match
             }
+
             // Save init game data to the server
-            await createActiveGameData(
+            let newData
+            newData = await createActiveGameData(
                user.token,
                {
                   id: gameData.id,
@@ -182,6 +195,8 @@ function App() {
                },
                type
             )
+            if (!newData?.corps) return
+
             // Update user
             const { data } = await updateUser(user.token, {
                activeMatches: {
@@ -193,8 +208,9 @@ function App() {
             localStorage.setItem('user', JSON.stringify(data))
             setUser(data)
          } else {
-            // ============= Game already started
+            // Game already started
             gameData = await getActiveGameData(user.token, type)
+            if (!gameData?.corps) return
          }
       }
 
@@ -207,15 +223,17 @@ function App() {
       setInitCorpsIds(gameData.corps)
       setInitLogItems(gameData.logItems)
       setType(type)
+
+      return 'Ok'
    }
 
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [187, 12, 185, 73, 76, 6, 7, 8, 9, 10]
-      const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      // const initCorpsIds = [1, 3]
+      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      const initCardsIds = [187, 12, 185, 73, 76, 6, 7, 8, 9, 10]
+      // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
+      const initCorpsIds = [12, 3]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(CARDS, initCardsIds)
@@ -288,12 +306,6 @@ function App() {
       }
    }
 
-   function logout() {
-      localStorage.removeItem('user')
-      setUser(null)
-      setShowLogoutMsg(true)
-   }
-
    return (
       <ModalConfirmationContext.Provider
          value={{
@@ -318,9 +330,6 @@ function App() {
                                     user={user}
                                     setUser={setUser}
                                     setData={setData}
-                                    logout={logout}
-                                    showLogoutMsg={showLogoutMsg}
-                                    setShowLogoutMsg={setShowLogoutMsg}
                                  />
                               }
                            />

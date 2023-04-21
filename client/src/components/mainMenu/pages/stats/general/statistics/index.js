@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useEffect } from 'react'
 import { useContext, useMemo } from 'react'
 import TableStatisticsRow from './TableStatisticsRow'
-import { PlayersContext } from '../../../ranking'
+import { PlayersContext } from '../../index'
 
 const Statistics = () => {
    const refTable = useRef()
@@ -11,6 +11,7 @@ const Statistics = () => {
       () => currPlayers.filter((player) => player.games.length > 0),
       [currPlayers]
    )
+   console.log(currPlayersWithGames)
 
    useEffect(() => {
       const table = refTable.current

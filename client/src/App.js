@@ -103,7 +103,7 @@ function App() {
          getResProd: new Howl({ src: getResProd }),
          btnSPorOtherSnap: new Howl({ src: btnSPorOtherSnap }),
          btnSelectClick: new Howl({ src: btnSelectClick }),
-         btnGeneralClick: new Howl({ src: btnGeneralClick }),
+         btnGeneralClick: new Howl({ src: [btnGeneralClick, btnSelectClick] }),
          btnCardsClick: new Howl({ src: btnCardsClick }),
          objectPut: new Howl({ src: objectPut }),
       }),
@@ -231,7 +231,7 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [187, 12, 185, 73, 76, 6, 7, 8, 9, 10]
+      // const initCardsIds = [2, 3, 185, 73, 76, 6, 7, 8, 9, 10]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [12, 3]
 
@@ -325,13 +325,7 @@ function App() {
                         <Route path="/" element={<MainMenu />}>
                            <Route
                               index
-                              element={
-                                 <Menu
-                                    user={user}
-                                    setUser={setUser}
-                                    setData={setData}
-                                 />
-                              }
+                              element={<Menu user={user} setUser={setUser} setData={setData} />}
                            />
                            <Route path="stats" element={<Stats user={user} />} />
                            <Route

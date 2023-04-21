@@ -5,7 +5,7 @@ import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { updateUser } from '../../../../../api/user'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../../game'
-import { APP_MESSAGES, SettingsContext, SoundContext } from '../../../../../App'
+import { SettingsContext, SoundContext } from '../../../../../App'
 
 const ModalMenu = () => {
    const navigate = useNavigate()

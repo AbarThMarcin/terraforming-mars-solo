@@ -1,5 +1,19 @@
 export const VERSIONS = [
    {
+      number: '0.2.3',
+      date: '2023-04-21',
+      updates: [
+         {
+            title: 'Icons of cards with ids: 002 and 003 have been fixed',
+            description: '',
+         },
+         {
+            title: 'Statistics page fixed',
+            description: '',
+         },
+      ],
+   },
+   {
       number: '0.2.2',
       date: '2023-04-20',
       updates: [

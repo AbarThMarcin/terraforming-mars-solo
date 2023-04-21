@@ -1,7 +1,8 @@
 .anim-card {
    position: absolute;
    /* width: calc(var(--default-size) * 2); */
-   height: calc(var(--default-size) * 3);
+   height: calc(var(--default-size) * 3.5);
+   aspect-ratio: 0.94;
    animation-iteration-count: infinite;
    top: -150%;
    left: 50%;

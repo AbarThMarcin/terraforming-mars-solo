@@ -13,6 +13,8 @@ const PanelCorp = () => {
 
    return (
       <>
+         {/* Cards In Hand Snap */}
+         <BtnCardsInHand />
          {/* Background */}
          <img src={panelCorpBg} alt="panel_corp_bg" />
          {/* Corporation Logo */}
@@ -21,8 +23,6 @@ const PanelCorp = () => {
          <ProdResPanel />
          {/* Card Resources / Tags / VP / Actions / Effects Panel */}
          <OtherPanel />
-         {/* Cards In Hand Snap */}
-         <BtnCardsInHand />
          {!modals.cards && (
             <div className="btns-cards-played-log-container">
                <BtnCardsPlayed />

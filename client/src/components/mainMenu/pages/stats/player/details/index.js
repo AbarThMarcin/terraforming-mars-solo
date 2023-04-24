@@ -4,7 +4,7 @@ import { CARDS } from '../../../../../../data/cards'
 import { range } from '../../../../../../utils/misc'
 import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
-import { ModalsContext } from '../../../../../game'
+import { ModalsContext } from '../../index'
 
 const tipText =
    'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%.'

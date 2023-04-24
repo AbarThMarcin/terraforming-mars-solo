@@ -11,7 +11,6 @@ const Statistics = () => {
       () => currPlayers.filter((player) => player.games.length > 0),
       [currPlayers]
    )
-   console.log(currPlayersWithGames)
 
    useEffect(() => {
       const table = refTable.current

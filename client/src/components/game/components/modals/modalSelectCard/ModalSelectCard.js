@@ -142,7 +142,7 @@ const ModalSelectCard = () => {
    return (
       <div className="card-container big center">
          {/* CARD */}
-         <Card card={modals.modalSelectCard.card} isBig={true} />
+         <Card card={modifiedCards([modals.modalSelectCard.card], statePlayer)[0]} isBig={true} />
          {/* CARD BUTTON */}
          <BtnSelect
             initBtnText={selected ? 'SELECTED' : 'SELECT'}

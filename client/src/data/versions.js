@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.2.4',
+      date: '2023-04-24',
+      updates: [
+         {
+            title: "Cost reduction on a card from deck after playing Inventors' Guild's or Business Network's action fixed",
+            description: '',
+         },
+      ],
+   },
+   {
       number: '0.2.3',
       date: '2023-04-21',
       updates: [
@@ -9,6 +19,10 @@ export const VERSIONS = [
          },
          {
             title: 'Statistics page fixed',
+            description: '',
+         },
+         {
+            title: 'Cards animation fixed',
             description: '',
          },
       ],

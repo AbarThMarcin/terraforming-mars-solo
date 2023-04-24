@@ -4,7 +4,6 @@ import BtnGoTo from '../../btnGoTo/BtnGoTo'
 import { PlayersContext, TabTypeContext } from '../../index'
 
 const TableStatisticsRow = ({ player }) => {
-   console.log(player)
    const { setCurrPlayerId } = useContext(PlayersContext)
    const { setType } = useContext(TabTypeContext)
    const gamesCount = getGamesCount()

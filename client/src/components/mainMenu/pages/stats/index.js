@@ -94,7 +94,7 @@ const Stats = ({ user }) => {
          let gamesBySeasonAndCorp = gamesBySeason
          if (corp !== 'ALL CORPORATIONS')
             gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter(
-               (game) => game.corporation.name === corp
+               (game) => game.corporation?.name === corp
             )
          newCurrPlayers.push({
             ...player,

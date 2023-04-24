@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useRef } from 'react'
 import TableAchievementsRow from './TableAchievementsRow'
-import { PlayersContext } from '../../../ranking'
+import { PlayersContext } from '../../index'
 
 const Achievements = () => {
    const refTable = useRef()

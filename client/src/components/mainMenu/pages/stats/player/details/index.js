@@ -1,5 +1,4 @@
-import { useContext, useState } from 'react'
-import { useMemo } from 'react'
+import { useContext, useState, useMemo } from 'react'
 import { CARDS } from '../../../../../../data/cards'
 import { range } from '../../../../../../utils/misc'
 import CardForStats from './CardForStats'

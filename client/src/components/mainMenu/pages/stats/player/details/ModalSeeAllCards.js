@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
-import { useMemo } from 'react'
-import { useContext } from 'react'
+import { useEffect, useRef, useState, useMemo, useContext } from 'react'
 import { CARDS } from '../../../../../../data/cards'
-import { ModalsContext } from '../../../../../game'
+import { ModalsContext } from '../../index'
 import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 

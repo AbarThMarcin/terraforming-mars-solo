@@ -45,7 +45,6 @@
    },
    "description": "Terraforming Mars Solo",
    "main": "index.js",
-   "devDependencies": {},
    "keywords": [],
    "author": "",
    "license": "ISC"

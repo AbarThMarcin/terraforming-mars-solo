@@ -26,7 +26,7 @@ import './app_wo_scss.css'
 // Music
 import { Howl } from 'howler'
 import {
-   music_src,
+   soundtrack1,
    raiseParameter,
    prodBetweenGens,
    payResProd,
@@ -39,6 +39,7 @@ import {
    objectPut,
 } from './data/gameSound'
 import { CARDS } from './data/cards'
+import Music from './components/misc/Music'
 
 export const ModalConfirmationContext = createContext()
 export const SettingsContext = createContext()
@@ -93,7 +94,7 @@ function App() {
    const [settings, setSettings] = useState(defaultSettings)
    // Music && Game Sound
    const [isMusicPlaying, setIsMusicPlaying] = useState(false)
-   const music = useMemo(() => new Howl({ src: music_src, loop: true }), [])
+   const music = useMemo(() => new Howl({ src: soundtrack1, loop: true }), [])
    const sound = useMemo(
       () => ({
          raiseParameter: new Howl({ src: raiseParameter }),
@@ -361,6 +362,7 @@ function App() {
                   </Router>
                   {/* Turn on / off music button */}
                   <BtnMusic isMusicPlaying={isMusicPlaying} setIsMusicPlaying={setIsMusicPlaying} />
+                  {/* <Music /> */}
                   {/* Version */}
                   <Version setShowVersions={setShowVersions} />
                   {/* Modal Versions */}

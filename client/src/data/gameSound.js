@@ -1,4 +1,4 @@
-import music_source from '../assets/audio/music.mp3'
+import soundtrack1_source from '../assets/audio/soundtrack1.mp3'
 import raiseParameter_source from '../assets/audio/raiseParameter.mp3'
 import prodBetweenGens_source from '../assets/audio/prodBetweenGens.mp3'
 import payResProd_source from '../assets/audio/payResProd.mp3'
@@ -10,7 +10,7 @@ import btnGeneralClick_source from '../assets/audio/btnGeneralClick.mp3'
 import btnCardsClick_source from '../assets/audio/btnCardsClick.mp3'
 import objectPut_source from '../assets/audio/objectPut.mp3'
 
-export const music_src = music_source
+export const soundtrack1 = soundtrack1_source
 export const raiseParameter = raiseParameter_source
 export const prodBetweenGens = prodBetweenGens_source
 export const payResProd = payResProd_source

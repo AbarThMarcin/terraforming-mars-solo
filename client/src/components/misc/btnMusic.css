@@ -6,3 +6,11 @@
    width: calc(var(--default-size) * 1.4);
    height: calc(var(--default-size) * 1.4);
 }
+
+.app .music-container {
+   position: absolute;
+   right: calc(var(--default-size) * 0.3);
+   top: calc(var(--default-size) * 1.5);
+   width: calc(var(--default-size) * 1.4);
+   height: calc(var(--default-size) * 1.4);
+}

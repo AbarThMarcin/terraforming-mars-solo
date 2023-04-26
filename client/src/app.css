@@ -86,3 +86,11 @@ body {
 .display-none {
    display: none;
 }
+
+.not-affiliated {
+   position: absolute;
+   top: 0;
+   left: 0;
+   font-size: calc(var(--default-size) * 0.5);
+   opacity: 0.4;
+}

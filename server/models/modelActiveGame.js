@@ -26,6 +26,10 @@ const activeGameSchema = mongoose.Schema({
       type: Number,
       default: Date.now(),
    },
+   time: {
+      type: Number,
+      required: false,
+   }
 })
 
 module.exports = mongoose.model('active_games', activeGameSchema)

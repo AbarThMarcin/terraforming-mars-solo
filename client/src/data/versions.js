@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.2.5',
+      date: '2023-04-26',
+      updates: [
+         {
+            title: "Message during place tile phase added to the screen",
+            description: 'Whenever a player is about to place any tile in the game, appropiate message will appear under standard projects button.',
+         },
+      ],
+   },
+   {
       number: '0.2.4',
       date: '2023-04-24',
       updates: [

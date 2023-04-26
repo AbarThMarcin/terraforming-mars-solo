@@ -22,7 +22,7 @@ import Ranking from './components/mainMenu/pages/ranking'
 import BtnMusic from './components/misc/BtnMusic'
 import Version from './components/misc/versions'
 import ModalVersions from './components/misc/versions/modalVersions'
-import './app_wo_scss.css'
+import './app.css'
 // Music
 import { Howl } from 'howler'
 import {
@@ -39,7 +39,7 @@ import {
    objectPut,
 } from './data/gameSound'
 import { CARDS } from './data/cards'
-import Music from './components/misc/Music'
+// import Music from './components/misc/Music'
 
 export const ModalConfirmationContext = createContext()
 export const SettingsContext = createContext()
@@ -231,8 +231,8 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [20, 105, 185, 73, 76, 6, 7, 8, 192, 111]
+      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      const initCardsIds = [17, 81, 100, 73, 64, 67, 7, 8, 192, 111]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [12, 3]
 
@@ -365,6 +365,8 @@ function App() {
                   {/* <Music /> */}
                   {/* Version */}
                   <Version setShowVersions={setShowVersions} />
+                  {/* Not Affiliated */}
+                  <div className='not-affiliated'>This app is not not affiliated with FryxGames, Asmodee Digital or Steam in any way.</div>
                   {/* Modal Versions */}
                   {showVersions && <ModalVersions setShowVersions={setShowVersions} />}
                </div>

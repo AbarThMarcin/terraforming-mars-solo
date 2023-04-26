@@ -430,6 +430,11 @@ function Game({
                                  )}
                            </AnimatePresence>
 
+                           {/* Standard Projects Button */}
+                           {stateGame.phasePlaceTile && (
+                              <div className='game-message'>PLACE {stateGame.phasePlaceTileData}</div>
+                           )}
+
                            {/* Viewing State Game Header */}
                            {stateGame.phaseViewGameState && (
                               <div className="view-game-state-header">VIEWING GAME STATE</div>

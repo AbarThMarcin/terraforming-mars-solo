@@ -45,6 +45,7 @@
 .modal-menu .game-id {
    font-size: calc(var(--default-size) * 0.8);
    text-align: center;
+   margin-top: calc(var(--default-size) * 0.5);
 }
 .modal-menu .game-id .id {
    user-select: all !important;

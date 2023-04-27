@@ -199,15 +199,19 @@ function App() {
             if (!newData?.corps) return
 
             // Update user
-            const { data } = await updateUser(user.token, {
+            const res = await updateUser(user.token, {
                activeMatches: {
                   quickMatch: type === 'quickMatch' ? true : user.activeMatches.quickMatch,
                   quickMatchId: type === 'quickMatchId' ? true : user.activeMatches.quickMatchId,
                   ranked: type === 'ranked' ? true : user.activeMatches.ranked,
                },
             })
-            localStorage.setItem('user', JSON.stringify(data))
-            setUser(data)
+            if (res.data) {
+               localStorage.setItem('user', JSON.stringify(res.data))
+               setUser(res.data)
+            } else {
+               return
+            }
          } else {
             // Game already started
             gameData = await getActiveGameData(user.token, type)

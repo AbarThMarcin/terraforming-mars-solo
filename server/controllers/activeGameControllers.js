@@ -38,7 +38,7 @@ const deleteActiveGame = asyncHandler(async (req, res) => {
 
    if (game) {
       await game.remove()
-      res.json({ message: 'Game Removed' })
+      res.json(game)
    } else {
       res.status(404)
       throw new Error('Game not Found')

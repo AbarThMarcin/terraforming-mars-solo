@@ -57,20 +57,21 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
       }
       // Delete existing game (if overwriting)
       if (overwrite) {
-         matchWithId = await deleteActiveGameData(user.token, 'quickMatchId')
-         if (matchWithId?.response) {
+         const res = await deleteActiveGameData(user.token, 'quickMatchId')
+         if (res?.response) {
             setLoading(false)
             setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
             return
          }
       }
       // Create new game
-      const data = await setData('quickMatchId', overwrite ? true : false, matchWithId)
+      const data = await setData('quickMatchId', overwrite, matchWithId)
       if (data) {
          setLoading(false)
          setShowModalQMId(false)
          navigate('/match')
       } else {
+         console.log('inside funcStartMatchId')
          setLoading(false)
          setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
          return

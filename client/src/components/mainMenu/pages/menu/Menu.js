@@ -236,7 +236,6 @@ const Menu = ({ user, setUser, setData }) => {
       setShowModalConf(false)
       setLoading(true)
       const gameData = await getActiveGameData(user.token, 'ranked')
-      console.log('after getactivegamedata')
       if (!gameData?.corps) {
          setLoading(false)
          setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)

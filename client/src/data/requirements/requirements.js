@@ -383,6 +383,7 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
    // UNMI check if tr has been raised
    if (item.name === CORP_NAMES.UNMI) {
       if (!item.trRaised) return false
+      if (statePlayer.resources.mln < 3) reqMet = false
    } else {
       // ================= Check specific card requirements ===================
       let value

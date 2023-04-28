@@ -71,7 +71,6 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
          setShowModalQMId(false)
          navigate('/match')
       } else {
-         console.log('inside funcStartMatchId')
          setLoading(false)
          setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
          return

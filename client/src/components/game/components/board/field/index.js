@@ -103,13 +103,7 @@ const Field = ({ field, setTotalVP }) => {
             user?.token
          )
       }
-
-      // Update log for Forced Action of Tharsis
-      if (logItems.length === 2 && statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC)
-         setLogItems((currentLogItems) => [
-            ...currentLogItems,
-            { type: LOG_TYPES.FORCED_ACTION, data: { text: CORP_NAMES.THARSIS_REPUBLIC } },
-         ])
+      
       // Turn phasePlaceTile off
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: null })

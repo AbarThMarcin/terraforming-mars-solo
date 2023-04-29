@@ -1,11 +1,22 @@
 export const VERSIONS = [
    {
+      number: '0.2.6',
+      date: '2023-04-29',
+      updates: [
+         {
+            title: 'Double Tharsis forced action in logs fixed',
+            description: '',
+         },
+      ],
+   },
+   {
       number: '0.2.5',
       date: '2023-04-26',
       updates: [
          {
-            title: "Message during place tile phase added to the screen",
-            description: 'Whenever a player is about to place any tile in the game, appropiate message will appear under standard projects button.',
+            title: 'Message during place tile phase added to the screen',
+            description:
+               'Whenever a player is about to place any tile in the game, appropiate message will appear under standard projects button.',
          },
       ],
    },

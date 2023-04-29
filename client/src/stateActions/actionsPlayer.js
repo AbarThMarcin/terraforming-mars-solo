@@ -18,7 +18,7 @@ export const ACTIONS_PLAYER = {
    CHANGE_RES_PLANT: 'Increase amount of plants',
    CHANGE_RES_ENERGY: 'Increase amount of energy',
    CHANGE_RES_HEAT: 'Increase amount of heat',
-   // Cardsutils
+   // Cards utils
    SET_CARDS_DECK: 'Set cards ids in deck',
    SET_CARDS_DRAW: 'Set cards ids in latest draw',
    SET_CARDS_IN_HAND: 'Set cards in hand',

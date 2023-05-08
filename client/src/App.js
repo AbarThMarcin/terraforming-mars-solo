@@ -236,10 +236,10 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      const initCardsIds = [157, 11, 105, 36, 64, 67, 7, 200, 20, 128]
-      // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      const initCorpsIds = [11, 5]
+      const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      // const initCardsIds = [157, 11, 105, 36, 64, 67, 7, 200, 20, 128]
+      const initCorpsIds = await getRandIntNumbers(2, 1, 12)
+      // const initCorpsIds = [11, 5]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(CARDS, initCardsIds)

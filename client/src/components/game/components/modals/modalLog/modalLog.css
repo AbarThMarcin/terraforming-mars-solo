@@ -1,24 +1,39 @@
+@import url('./logItem/logItem.css');
+
 /* General */
 .modal-log {
    position: absolute;
    right: 0;
    top: 0%;
-   width: calc(var(--default-size) * 21);
+   width: 50%;
    height: 100%;
    background-color: rgba(0, 0, 0, 0.85);
-   padding-top: calc(var(--default-size) * 2);
+   padding-top: calc(var(--default-size) * 5);
    padding-left: calc(var(--default-size) * 2);
    padding-bottom: calc(var(--default-size) * 0.3);
    color: #fff;
 }
+.modal-log.in-stats {
+   position: absolute;
+   left: 50%;
+   translate: -50% 0;
+   margin-top: calc(var(--default-size) * 0.1);
+   height: calc(100% - calc(var(--default-size) * 0.2));
+   padding-top: calc(var(--default-size) * 3);
+   background: rgb(0, 0, 0);
+   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.85) 50%, rgba(0, 0, 0, 0) 100%);
+}
 
 .modal-log .box {
-   width: 100%;
+   width: calc(100% - var(--default-size) * 0.5);
    height: 100%;
    overflow-y: auto;
    overflow-x: hidden;
+   list-style: none;
 }
-
+.modal-log .box.with-scrollbar {
+   width: 100%;
+}
 /* Scrollbars */
 .modal-log .box::-webkit-scrollbar {
    width: calc(var(--default-size) * 0.5);
@@ -32,16 +47,59 @@
    border-radius: calc(var(--default-size) * 0.5);
 }
 
-/* Types of actions */
-.modal-log .box .log {
+/* Log caption */
+.modal-log .log {
+   position: absolute;
+   left: calc(var(--default-size) * 2);
+   top: calc(var(--default-size) * 2);
    font-size: calc(var(--default-size) * 2);
+   width: 93%;
+}
+.modal-log.in-stats .log {
+   top: 0;
+}
+.modal-log .log .log-menu {
+   position: absolute;
+   right: calc(var(--default-size) * 6);
+   top: 50%;
+   translate: 0 calc(var(--default-size) * -1);
+   font-size: calc(var(--default-size) * 1.5);
+}
+.modal-log .log .log-menu .menu-icon {
+   line-height: calc(var(--default-size) * 1);
+   cursor: pointer;
+   margin-left: auto;
+   display: block;
 }
 
+.modal-log .log .log-menu ul {
+   background-color: rgba(0, 0, 0, 0.1);
+   font-size: calc(var(--default-size) * 0.6);
+   line-height: calc(var(--default-size) * 0.7);
+   list-style: none;
+   padding: calc(var(--default-size) * 0.2);
+   border: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.1);
+}
+.modal-log .log .log-menu ul li {
+   cursor: pointer;
+   padding: calc(var(--default-size) * 0.1);
+}
+.modal-log .log .log-menu ul li.selected {
+   color: rgb(29, 207, 207);
+}
+.modal-log .log .log-menu ul li:hover {
+   background-color: rgba(255, 255, 255, 0.08);
+}
+.modal-log .log .log-menu ul.hidden {
+   display: none;
+}
+
+/* Generation */
 .modal-log .box .generation {
    font-size: calc(var(--default-size) * 1.5);
    color: #ccc;
    position: relative;
-   margin-top: var(--default-size);
+   margin-block: var(--default-size);
 }
 .modal-log .box .generation::after {
    content: '';
@@ -49,37 +107,65 @@
    bottom: 0;
    left: 0;
    height: calc(var(--default-size) * 0.12);
-   width: calc(var(--default-size) * 19);
+   width: 95%;
    background-color: #bbb;
 }
 
+/* Action */
 .modal-log .box .action {
-   height: calc(var(--default-size) * 2.5);
+   width: 95%;
    background: rgb(70, 70, 70);
-   background: linear-gradient(90deg, rgba(70, 70, 70, 1) 0%, rgba(70, 70, 70, 0) 100%);
-   margin-top: calc(var(--default-size) * 0.7);
-   padding: calc(var(--default-size) * 0.2);
-   padding-left: calc(var(--default-size) * 0.8);
+   background: linear-gradient(90deg, rgba(40, 40, 40, 1) 0%, rgba(40, 40, 40, 0) 100%);
+}
+.modal-log .box .action:not(:nth-last-child(2)) {
+   margin-bottom: calc(var(--default-size) * 1);
+}
+.modal-log .box .action .title {
+   position: relative;
+   height: calc(var(--default-size) * 2.3);
+   width: 100%;
    display: flex;
    justify-content: flex-start;
    align-items: center;
+   padding-left: calc(var(--default-size) * 0.6);
+   background-color: rgba(255, 255, 255, 0.1);
+   margin-bottom: calc(var(--default-size) * 0.3);
 }
-.modal-log .box .action .icon {
+.modal-log .box .action .title .icon {
    height: calc(var(--default-size) * 2.1);
-   width: calc(var(--default-size) * 2.1 * 1.9);
+   width: calc(var(--default-size) * 4);
    margin-right: calc(var(--default-size) * 0.5);
 }
-.modal-log .box .action .icon.icon-unmi {
+.modal-log .box .action .title .icon.icon-unmi {
    position: relative;
    display: flex;
    justify-content: center;
    align-items: center;
 }
-.modal-log .box .action .icon.icon-unmi img {
+.modal-log .box .action .title .icon.icon-unmi img {
    position: absolute;
    width: 130% !important;
    height: auto;
 }
-.modal-log .box .action .text {
-   font-size: calc(var(--default-size) * 0.8);
+.modal-log .box .action .title .text {
+   font-size: calc(var(--default-size) * 0.9);
+}
+.modal-log .box .action .title .text.without-icon {
+   margin-left: calc(var(--default-size) * 4.5);
+}
+.modal-log .box .action .arrows {
+   position: absolute;
+   right: calc(var(--default-size) * 1);
+   top: 50%;
+   translate: 0 -50%;
+   width: calc(var(--default-size) * 2);
+   display: grid;
+   place-items: center;
+}
+.modal-log .box .action .log-details .state .state-title {
+   position: relative;
+}
+.modal-log .box .action .log-details .state .state-details {
+   height: 0px;
+   overflow: hidden;
 }

@@ -1,10 +1,4 @@
-import {
-   getAllResources,
-   getCardsWithPossibleAnimals,
-   getCardsWithPossibleMicrobes,
-   getNeighbors,
-   hasTag,
-} from '../../utils/misc'
+import { getAllResources, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes, getNeighbors, hasTag } from '../../utils/misc'
 import { ANIMATIONS } from '../animations'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from '../board'
 import { CORP_NAMES } from '../corpNames'
@@ -13,22 +7,9 @@ import { OPTION_ICONS } from '../selectOneOptions'
 import { TAGS } from '../tags'
 import { REQUIREMENTS } from './requirementsNames'
 
-export const funcRequirementsMet = (
-   card,
-   statePlayer,
-   stateGame,
-   stateBoard,
-   modals,
-   getImmEffects
-) => {
+export const funcRequirementsMet = (card, statePlayer, stateGame, stateBoard, modals, getImmEffects) => {
    // If inappropiate state of the game is on, return false
-   if (
-      stateGame.phaseDraft ||
-      stateGame.phaseViewGameState ||
-      modals.sellCards ||
-      stateGame.phasePlaceTile
-   )
-      return false
+   if (stateGame.phaseDraft || stateGame.phaseViewGameState || modals.sellCards || stateGame.phasePlaceTile) return false
    // If cost is higher than current resources
    if (getAllResources(card, statePlayer) < card.currentCost) return false
    // Check other requirements
@@ -38,48 +19,26 @@ export const funcRequirementsMet = (
    card.requirements.forEach(({ type, value, other }) => {
       // Global parameters requirements
       if (type === REQUIREMENTS.TEMPERATURE) {
-         if (
-            other === 'max' &&
-            stateGame.globalParameters.temperature -
-               Math.abs(statePlayer.globParamReqModifier) * 2 >
-               value
-         ) {
+         if (other === 'max' && stateGame.globalParameters.temperature - Math.abs(statePlayer.globParamReqModifier) * 2 > value) {
             isAvailable = false
             return
-         } else if (
-            other === 'min' &&
-            stateGame.globalParameters.temperature +
-               Math.abs(statePlayer.globParamReqModifier) * 2 <
-               value
-         ) {
+         } else if (other === 'min' && stateGame.globalParameters.temperature + Math.abs(statePlayer.globParamReqModifier) * 2 < value) {
             isAvailable = false
             return
          }
       } else if (type === REQUIREMENTS.OXYGEN) {
-         if (
-            other === 'max' &&
-            stateGame.globalParameters.oxygen - Math.abs(statePlayer.globParamReqModifier) > value
-         ) {
+         if (other === 'max' && stateGame.globalParameters.oxygen - Math.abs(statePlayer.globParamReqModifier) > value) {
             isAvailable = false
             return
-         } else if (
-            other === 'min' &&
-            stateGame.globalParameters.oxygen + Math.abs(statePlayer.globParamReqModifier) < value
-         ) {
+         } else if (other === 'min' && stateGame.globalParameters.oxygen + Math.abs(statePlayer.globParamReqModifier) < value) {
             isAvailable = false
             return
          }
       } else if (type === REQUIREMENTS.OCEAN) {
-         if (
-            other === 'max' &&
-            stateGame.globalParameters.oceans - Math.abs(statePlayer.globParamReqModifier) > value
-         ) {
+         if (other === 'max' && stateGame.globalParameters.oceans - Math.abs(statePlayer.globParamReqModifier) > value) {
             isAvailable = false
             return
-         } else if (
-            other === 'min' &&
-            stateGame.globalParameters.oceans + Math.abs(statePlayer.globParamReqModifier) < value
-         ) {
+         } else if (other === 'min' && stateGame.globalParameters.oceans + Math.abs(statePlayer.globParamReqModifier) < value) {
             isAvailable = false
             return
          }
@@ -185,24 +144,14 @@ export const funcRequirementsMet = (
          let availFields = []
          switch (other) {
             case TILES.CITY:
-               tiles = board.filter(
-                  (field) =>
-                     field.object === TILES.CITY ||
-                     field.object === TILES.CITY_NEUTRAL ||
-                     field.object === TILES.SPECIAL_CITY_CAPITAL
-               )
+               tiles = board.filter((field) => field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL || field.object === TILES.SPECIAL_CITY_CAPITAL)
                availFields = setAvailFieldsAdjacent(board, tiles, false)
                break
             case TILES.SPECIAL_URBANIZED_AREA:
                tiles = board.filter((field) => {
                   let neighbors = getNeighbors(field.x, field.y, board)
                   return (
-                     neighbors.filter(
-                        (nb) =>
-                           nb.object === TILES.CITY ||
-                           nb.object === TILES.CITY_NEUTRAL ||
-                           nb.object === TILES.SPECIAL_CITY_CAPITAL
-                     ).length >= 2 &&
+                     neighbors.filter((nb) => nb.object === TILES.CITY || nb.object === TILES.CITY_NEUTRAL || nb.object === TILES.SPECIAL_CITY_CAPITAL).length >= 2 &&
                      field.name !== 'PHOBOS SPACE HAVEN' &&
                      field.name !== 'GANYMEDE COLONY' &&
                      field.name !== 'NOCTIS CITY'
@@ -211,12 +160,7 @@ export const funcRequirementsMet = (
                availFields = setAvailFieldsSpecific(board, tiles)
                break
             case TILES.SPECIAL_MINING_RIGHTS:
-               tiles = board.filter(
-                  (field) =>
-                     (field.bonus.includes(RESOURCES.STEEL) ||
-                        field.bonus.includes(RESOURCES.TITAN)) &&
-                     !field.oceanOnly
-               )
+               tiles = board.filter((field) => (field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) && !field.oceanOnly)
                availFields = setAvailFieldsSpecific(board, tiles)
                break
             case TILES.SPECIAL_MINING_AREA:
@@ -232,10 +176,7 @@ export const funcRequirementsMet = (
                availFields = setAvailFieldsAdjacent(board, tiles, true, true)
                break
             case TILES.SPECIAL_ECOLOGICAL_ZONE:
-               tiles = board.filter(
-                  (field) =>
-                     field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL
-               )
+               tiles = board.filter((field) => field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL)
                availFields = setAvailFieldsAdjacent(board, tiles, true)
                break
             case TILES.SPECIAL_NATURAL_PRESERVE:
@@ -250,22 +191,11 @@ export const funcRequirementsMet = (
                availFields = setAvailFieldsAny(board)
                break
             case TILES.SPECIAL_INDUSTRIAL_CENTER:
-               tiles = board.filter(
-                  (field) =>
-                     field.object === TILES.CITY ||
-                     field.object === TILES.CITY_NEUTRAL ||
-                     field.object === TILES.SPECIAL_CITY_CAPITAL
-               )
+               tiles = board.filter((field) => field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL || field.object === TILES.SPECIAL_CITY_CAPITAL)
                availFields = setAvailFieldsAdjacent(board, tiles)
                break
             case TILES.SPECIAL_LAVA_FLOWS:
-               tiles = board.filter(
-                  (field) =>
-                     field.name === 'THARSIS THOLUS' ||
-                     field.name === 'ASCRAEUS MONS' ||
-                     field.name === 'PAVONIS MONS' ||
-                     field.name === 'ARSIA MONS'
-               )
+               tiles = board.filter((field) => field.name === 'THARSIS THOLUS' || field.name === 'ASCRAEUS MONS' || field.name === 'PAVONIS MONS' || field.name === 'ARSIA MONS')
                availFields = setAvailFieldsSpecific(board, tiles)
                break
             default:
@@ -289,40 +219,22 @@ export const funcRequirementsMet = (
                   isAnyProduction = true
                } else if (immEffect.name === ANIMATIONS.PRODUCTION_OUT) {
                   isAnyProduction = true
-                  if (
-                     immEffect.type === RESOURCES.MLN &&
-                     statePlayer.production.mln - immEffect.value < -5
-                  ) {
+                  if (immEffect.type === RESOURCES.MLN && statePlayer.production.mln - immEffect.value < -5) {
                      prodReqMet = false
                      return isAnyProduction && prodReqMet
-                  } else if (
-                     immEffect.type === RESOURCES.STEEL &&
-                     statePlayer.production.steel < immEffect.value
-                  ) {
+                  } else if (immEffect.type === RESOURCES.STEEL && statePlayer.production.steel < immEffect.value) {
                      prodReqMet = false
                      return isAnyProduction && prodReqMet
-                  } else if (
-                     immEffect.type === RESOURCES.TITAN &&
-                     statePlayer.production.steel < immEffect.value
-                  ) {
+                  } else if (immEffect.type === RESOURCES.TITAN && statePlayer.production.steel < immEffect.value) {
                      prodReqMet = false
                      return isAnyProduction && prodReqMet
-                  } else if (
-                     immEffect.type === RESOURCES.PLANT &&
-                     statePlayer.production.plant < immEffect.value
-                  ) {
+                  } else if (immEffect.type === RESOURCES.PLANT && statePlayer.production.plant < immEffect.value) {
                      prodReqMet = false
                      return isAnyProduction && prodReqMet
-                  } else if (
-                     immEffect.type === RESOURCES.ENERGY &&
-                     statePlayer.production.energy < immEffect.value
-                  ) {
+                  } else if (immEffect.type === RESOURCES.ENERGY && statePlayer.production.energy < immEffect.value) {
                      prodReqMet = false
                      return isAnyProduction && prodReqMet
-                  } else if (
-                     immEffect.type === RESOURCES.HEAT &&
-                     statePlayer.production.heat < immEffect.value
-                  ) {
+                  } else if (immEffect.type === RESOURCES.HEAT && statePlayer.production.heat < immEffect.value) {
                      prodReqMet = false
                      return isAnyProduction && prodReqMet
                   }
@@ -335,24 +247,13 @@ export const funcRequirementsMet = (
             return
          }
       } else if (type === REQUIREMENTS.CEOS_FAVOURITE_PROJECT) {
-         let cards = statePlayer.cardsPlayed.filter(
-            (card) =>
-               card.units.microbe > 0 ||
-               card.units.animal > 0 ||
-               card.units.science > 0 ||
-               card.units.fighter > 0
-         )
+         let cards = statePlayer.cardsPlayed.filter((card) => card.units.microbe > 0 || card.units.animal > 0 || card.units.science > 0 || card.units.fighter > 0)
          if (cards.length === 0) {
             isAvailable = false
             return
          }
       } else if (type === REQUIREMENTS.RAD_SUITS) {
-         tiles = board.filter(
-            (field) =>
-               field.object === TILES.CITY ||
-               field.object === TILES.CITY_NEUTRAL ||
-               field.object === TILES.SPECIAL_CITY_CAPITAL
-         )
+         tiles = board.filter((field) => field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL || field.object === TILES.SPECIAL_CITY_CAPITAL)
          if (tiles.length < 2) {
             isAvailable = false
             return
@@ -373,13 +274,7 @@ export const funcActionRequirementsMet = (item, statePlayer, stateGame, modals, 
    // ===================== If already used, return false =====================
    if (item.actionUsed) return false
    // ================== If specific phase of the game is on ==============
-   if (
-      stateGame.phaseDraft ||
-      stateGame.phaseViewGameState ||
-      modals.sellCards ||
-      stateGame.phasePlaceTile
-   )
-      return false
+   if (stateGame.phaseDraft || stateGame.phaseViewGameState || modals.sellCards || stateGame.phasePlaceTile) return false
    // UNMI check if tr has been raised
    if (item.name === CORP_NAMES.UNMI) {
       if (!item.trRaised) return false

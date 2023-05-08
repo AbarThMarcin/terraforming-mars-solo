@@ -13,8 +13,7 @@ const getActiveGame = asyncHandler(async (req, res) => {
 })
 
 const createActiveGame = asyncHandler(async (req, res) => {
-   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems } =
-      req.body.gameData
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems } = req.body.gameData
    const type = req.body.type
 
    const newGame = new ActiveGame({
@@ -46,10 +45,9 @@ const deleteActiveGame = asyncHandler(async (req, res) => {
 })
 
 const updateActiveGame = asyncHandler(async (req, res) => {
-   const { id, statePlayer, stateGame, stateModals, stateBoard, corps,  logItems } =
-      req.body.gameData
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems } = req.body.gameData
    const type = req.body.type
-   
+
    const game = await ActiveGame.findOne({ user: req.user._id, type })
    if (game) {
       ActiveGame.updateOne(

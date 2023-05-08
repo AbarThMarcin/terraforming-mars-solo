@@ -5,7 +5,7 @@ import { INIT_STATE_PLAYER } from './initStates/initStatePlayer'
 import { INIT_STATE_GAME } from './initStates/initStateGame'
 import { INIT_MODALS } from './initStates/initModals'
 import { INIT_BOARD } from './initStates/initBoard'
-import { LOG_TYPES } from './data/log'
+import { LOG_TYPES } from './data/log/log'
 import Menu from './components/mainMenu/pages/menu/Menu'
 import Stats from './components/mainMenu/pages/stats'
 import Settings from './components/mainMenu/pages/settings/Settings'
@@ -51,6 +51,7 @@ export const TABS = {
    PLAYER_OVERVIEW: 'Player Overview',
    PLAYER_DETAILS: 'Player Details',
    GAMES: 'Games',
+   GAMES_LOG: 'Games Log',
    RANKING_PRIMARY: 'Ranking Primary',
    RANKING_SECONDARY: 'Ranking Secondary',
    RANKING_RULES: 'Ranking Rules',
@@ -235,10 +236,10 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [71, 81, 105, 73, 64, 67, 7, 8, 192, 111]
+      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      const initCardsIds = [157, 11, 105, 36, 64, 67, 7, 200, 20, 128]
       // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      const initCorpsIds = [10, 5]
+      const initCorpsIds = [11, 5]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(CARDS, initCardsIds)
@@ -252,10 +253,7 @@ function App() {
          cardsDeckIds: leftCardsIds,
          cardsDrawIds: initCardsIds,
       }
-      gameData.logItems = [
-         { type: LOG_TYPES.LOG, data: null },
-         { type: LOG_TYPES.GENERATION, data: { text: '1' } },
-      ]
+      gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
    }
 
    async function initNewGameId(gameData, matchWithId) {
@@ -275,10 +273,7 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
-         gameData.logItems = [
-            { type: LOG_TYPES.LOG, data: null },
-            { type: LOG_TYPES.GENERATION, data: { text: '1' } },
-         ]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' } }]
       } else {
          // Create New Match With Id
          const board = JSON.parse(JSON.stringify(INIT_BOARD))
@@ -298,10 +293,7 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = addNeutralTiles(board)
          gameData.corps = initCorpsIds
-         gameData.logItems = [
-            { type: LOG_TYPES.LOG, data: null },
-            { type: LOG_TYPES.GENERATION, data: { text: '1' } },
-         ]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' } }]
          const matchId = await createMatchWithId(user.token, {
             stateBoard: gameData.stateBoard,
             corps: initCorpsIds,
@@ -328,22 +320,13 @@ function App() {
                   <Router>
                      <Routes>
                         <Route path="/" element={<MainMenu />}>
-                           <Route
-                              index
-                              element={<Menu user={user} setUser={setUser} setData={setData} />}
-                           />
+                           <Route index element={<Menu user={user} setUser={setUser} setData={setData} />} />
                            <Route path="stats" element={<Stats user={user} />} />
-                           <Route
-                              path="settings"
-                              element={<Settings user={user} setUser={setUser} />}
-                           />
+                           <Route path="settings" element={<Settings user={user} setUser={setUser} />} />
                            <Route path="ranking" element={<Ranking />} />
                            <Route path="login" element={<Login setUser={setUser} />} />
                            <Route path="register" element={<Register setUser={setUser} />} />
-                           <Route
-                              path="account"
-                              element={<Account user={user} setUser={setUser} />}
-                           />
+                           <Route path="account" element={<Account user={user} setUser={setUser} />} />
                         </Route>
                         <Route
                            path="match"
@@ -370,10 +353,7 @@ function App() {
                   {/* Version */}
                   <Version setShowVersions={setShowVersions} />
                   {/* Not Affiliated */}
-                  <div className="not-affiliated">
-                     This app is not not affiliated with FryxGames, Asmodee Digital or Steam in any
-                     way.
-                  </div>
+                  <div className="not-affiliated">This app is not not affiliated with FryxGames, Asmodee Digital or Steam in any way.</div>
                   {/* Modal Versions */}
                   {showVersions && <ModalVersions setShowVersions={setShowVersions} />}
                </div>

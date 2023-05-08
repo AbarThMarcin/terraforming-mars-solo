@@ -13,7 +13,7 @@
    position: absolute;
    left: 50%;
    top: 8%;
-   transform: translate(-50%, 0%)
+   transform: translate(-50%, 0%);
 }
 /* Tip Text */
 .modal-confirmation .tip {
@@ -38,7 +38,7 @@
 }
 .modal-confirmation .qmid-play-container input:hover,
 .modal-confirmation .qmid-play-container input:focus {
-   background-color: #000
+   background-color: #000;
 }
 .modal-confirmation .qmid-play-container input:hover {
    border: calc(var(--default-size) * 0.05) solid rgba(255, 255, 255, 0.8);
@@ -50,12 +50,7 @@
    width: 100%;
    text-align: center;
    background: rgb(136, 0, 0);
-   background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(136, 0, 0, 1) 50%,
-      rgba(0, 0, 0, 0) 100%
-   );
+   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(136, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
    font-size: calc(var(--default-size) * 0.9);
    overflow: hidden;
 }

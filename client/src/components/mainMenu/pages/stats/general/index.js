@@ -29,16 +29,10 @@ const General = ({ filterPlayers, season, setSeason, setCorp, userValue }) => {
       <div className={`stats${type === TABS.GENERAL_ACHIEVEMENTS ? ' second-tab' : ''}`}>
          {/* Tabs */}
          <div className="tabs">
-            <div
-               className={`tab pointer${type === TABS.GENERAL_STATISTICS ? ' active' : ''}`}
-               onClick={handleClickStatistics}
-            >
+            <div className={`tab pointer${type === TABS.GENERAL_STATISTICS ? ' active' : ''}`} onClick={handleClickStatistics}>
                STATISTICS
             </div>
-            <div
-               className={`tab pointer${type === TABS.GENERAL_ACHIEVEMENTS ? ' active' : ''}`}
-               onClick={handleClickAchievements}
-            >
+            <div className={`tab pointer${type === TABS.GENERAL_ACHIEVEMENTS ? ' active' : ''}`} onClick={handleClickAchievements}>
                ACHIEVEMENTS
             </div>
          </div>

@@ -60,23 +60,9 @@ const ModalCorps = () => {
                   <div className="select-corporation-header">SELECT CORPORATION</div>
                   {corps.length > 0 && (
                      <>
-                        <Corp
-                           corp={corps[0]}
-                           selectedCorp={selectedCorp}
-                           setSelectedCorp={setSelectedCorp}
-                           id={0}
-                        />
-                        <Corp
-                           corp={corps[1]}
-                           selectedCorp={selectedCorp}
-                           setSelectedCorp={setSelectedCorp}
-                           id={1}
-                        />
-                        <BtnAction
-                           text="NEXT"
-                           onYesFunc={handleClickNext}
-                           position={btnActionNextPosition}
-                        />
+                        <Corp corp={corps[0]} selectedCorp={selectedCorp} setSelectedCorp={setSelectedCorp} id={0} />
+                        <Corp corp={corps[1]} selectedCorp={selectedCorp} setSelectedCorp={setSelectedCorp} id={1} />
+                        <BtnAction text="NEXT" onYesFunc={handleClickNext} position={btnActionNextPosition} />
                      </>
                   )}
                </motion.div>

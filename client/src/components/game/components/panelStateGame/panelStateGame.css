@@ -59,22 +59,12 @@
 }
 .panel-state-game .ox-container {
    background: rgb(56, 39, 0);
-   background: linear-gradient(
-      0deg,
-      rgba(56, 39, 0, 1) 0%,
-      rgba(102, 71, 0, 1) 24%,
-      rgba(184, 127, 0, 1) 100%
-   );
+   background: linear-gradient(0deg, rgba(56, 39, 0, 1) 0%, rgba(102, 71, 0, 1) 24%, rgba(184, 127, 0, 1) 100%);
    left: 17.5%;
 }
 .panel-state-game .temp-container {
    background: rgb(0, 26, 56);
-   background: linear-gradient(
-      0deg,
-      rgba(0, 26, 56, 1) 0%,
-      rgba(0, 50, 102, 1) 24%,
-      rgba(0, 90, 184, 1) 100%
-   );
+   background: linear-gradient(0deg, rgba(0, 26, 56, 1) 0%, rgba(0, 50, 102, 1) 24%, rgba(0, 90, 184, 1) 100%);
    left: 48%;
 }
 .panel-state-game .ox-container .current-value,

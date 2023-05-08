@@ -12,9 +12,7 @@ export const getUsers = async () => {
       const res = await axios.get(URI, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
 }
 
@@ -30,9 +28,7 @@ export const login = async (email, password) => {
       const res = await axios.post(URI, { email, password }, config)
       return res
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
 }
 
@@ -48,9 +44,7 @@ export const register = async (name, email, password) => {
       const res = await axios.post(URI, { name, email, password }, config)
       return res
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
 }
 
@@ -67,8 +61,6 @@ export const updateUser = async (token, details) => {
       const res = await axios.post(URI, details, config)
       return res
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
 }

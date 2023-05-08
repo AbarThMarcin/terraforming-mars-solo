@@ -21,36 +21,15 @@ const OtherPanel = () => {
    const [countEffects, cardsEffects] = getEffects()
 
    function getCardRes() {
-      const cards = statePlayer.cardsPlayed.filter(
-         (card) =>
-            card.units.microbe !== 0 ||
-            card.units.animal !== 0 ||
-            card.units.science !== 0 ||
-            card.units.fighter !== 0
-      )
-      const count =
-         cards.length > 0
-            ? cards.reduce(
-                 (total, card) =>
-                    total +
-                    card.units.microbe +
-                    card.units.animal +
-                    card.units.science +
-                    card.units.fighter,
-                 0
-              )
-            : 0
+      const cards = statePlayer.cardsPlayed.filter((card) => card.units.microbe !== 0 || card.units.animal !== 0 || card.units.science !== 0 || card.units.fighter !== 0)
+      const count = cards.length > 0 ? cards.reduce((total, card) => total + card.units.microbe + card.units.animal + card.units.science + card.units.fighter, 0) : 0
       return [count, cards]
    }
 
    function getTags() {
       const cards = statePlayer.cardsPlayed.filter((card) => card.tags.length > 0)
       let count = statePlayer.corporation.tags.length
-      if (cards.length > 0)
-         count += cards.reduce(
-            (total, card) => (hasTag(card, TAGS.EVENT) ? total + 1 : total + card.tags.length),
-            0
-         )
+      if (cards.length > 0) count += cards.reduce((total, card) => (hasTag(card, TAGS.EVENT) ? total + 1 : total + card.tags.length), 0)
       return [count, [...cards, ...statePlayer.corporation.tags]]
    }
 
@@ -61,8 +40,10 @@ const OtherPanel = () => {
    }
 
    function getActions() {
-      const cards = statePlayer.cardsPlayed.filter(
-         (card) => CARDS.filter(c => c.iconNames.action !== null).map(c => c.id).includes(card.id)
+      const cards = statePlayer.cardsPlayed.filter((card) =>
+         CARDS.filter((c) => c.iconNames.action !== null)
+            .map((c) => c.id)
+            .includes(card.id)
       )
       let count = cards.filter((card) => {
          let reqsMet = false
@@ -92,36 +73,11 @@ const OtherPanel = () => {
 
    return (
       <div className="other">
-         <OtherSnap
-            headerForModal="CARD RESOURCES"
-            amountForModal={countCardRes}
-            dataForModal={cardsCardRes}
-            icon={iconCardRes}
-         />
-         <OtherSnap
-            headerForModal="TAGS"
-            amountForModal={countTags}
-            dataForModal={cardsTags}
-            icon={iconTags}
-         />
-         <OtherSnap
-            headerForModal="VP"
-            amountForModal={countVp}
-            dataForModal={cardsVp}
-            icon={iconVP}
-         />
-         <OtherSnap
-            headerForModal="ACTIONS"
-            amountForModal={countActions}
-            dataForModal={cardsActions}
-            icon={iconActions}
-         />
-         <OtherSnap
-            headerForModal="EFFECTS"
-            amountForModal={countEffects}
-            dataForModal={cardsEffects}
-            icon={iconEffects}
-         />
+         <OtherSnap headerForModal="CARD RESOURCES" amountForModal={countCardRes} dataForModal={cardsCardRes} icon={iconCardRes} />
+         <OtherSnap headerForModal="TAGS" amountForModal={countTags} dataForModal={cardsTags} icon={iconTags} />
+         <OtherSnap headerForModal="VP" amountForModal={countVp} dataForModal={cardsVp} icon={iconVP} />
+         <OtherSnap headerForModal="ACTIONS" amountForModal={countActions} dataForModal={cardsActions} icon={iconActions} />
+         <OtherSnap headerForModal="EFFECTS" amountForModal={countEffects} dataForModal={cardsEffects} icon={iconEffects} />
       </div>
    )
 }

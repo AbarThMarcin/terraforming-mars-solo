@@ -17,8 +17,7 @@ const QM_text = 'Do you want to resume previous quick match?'
 // Match With Id Texts for Confirmation Window
 const QMId_text = 'Do you want to resume previous match with id?'
 // Ranked Match Texts for Confirmation Window
-const RM_new_text =
-   'You are about to create a new ranked match. You have 24 hours to finish it. Are you sure you want to continue?'
+const RM_new_text = 'You are about to create a new ranked match. You have 24 hours to finish it. Are you sure you want to continue?'
 const RM_new_text_with_expired = `Your active ranked match has been expired, and therefore treated as forfeited. You are about to create a new ranked match. You have 24 hours to finish it. Are you sure you want to continue?`
 const RM_resume_text = 'Do you want to resume previous ranked match or forfeit and start a new one?'
 
@@ -28,14 +27,7 @@ const tipText_account = 'Log in to manage your account'
 
 const Menu = ({ user, setUser, setData }) => {
    let navigate = useNavigate()
-   const {
-      showModalConf,
-      setShowModalConf,
-      showModalQMId,
-      setShowModalQMId,
-      overwrite,
-      setOverwrite,
-   } = useContext(ModalConfirmationContext)
+   const { showModalConf, setShowModalConf, showModalQMId, setShowModalQMId, overwrite, setOverwrite } = useContext(ModalConfirmationContext)
    const [loading, setLoading] = useState(false)
    const [text, setText] = useState('')
    const [btn1, setBtn1] = useState()
@@ -67,11 +59,7 @@ const Menu = ({ user, setUser, setData }) => {
 
       if (user?.activeMatches.quickMatch) {
          setLoading(false)
-         setConfirmationDetails(
-            QM_text,
-            { text: 'RESUME', func: QM_resume },
-            { text: 'START NEW', func: QM_startNew }
-         )
+         setConfirmationDetails(QM_text, { text: 'RESUME', func: QM_resume }, { text: 'START NEW', func: QM_startNew })
       } else {
          setLoading(true)
          const data = await setData('quickMatch')
@@ -120,11 +108,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function handleClickMatchWithId() {
       setShowMsg('')
       if (user.activeMatches.quickMatchId) {
-         setConfirmationDetails(
-            QMId_text,
-            { text: 'RESUME', func: QMId_resume },
-            { text: 'START NEW', func: QMId_startNew }
-         )
+         setConfirmationDetails(QMId_text, { text: 'RESUME', func: QMId_resume }, { text: 'START NEW', func: QMId_startNew })
       } else {
          setOverwrite(false)
          setShowModalQMId(true)
@@ -154,7 +138,7 @@ const Menu = ({ user, setUser, setData }) => {
       setLoading(true)
 
       let res
-      
+
       if (user.activeMatches.ranked) {
          const game = await getActiveGameData(user.token, 'ranked')
          if (!game?.corps) {
@@ -191,7 +175,7 @@ const Menu = ({ user, setUser, setData }) => {
                return
             }
             // Update user by changing activeMatches
-            const res = await updateUser(user.token, {
+            res = await updateUser(user.token, {
                activeMatches: {
                   quickMatch: user.activeMatches.quickMatch,
                   quickMatchId: user.activeMatches.quickMatchId,
@@ -209,11 +193,7 @@ const Menu = ({ user, setUser, setData }) => {
             setConfirmationDetails(RM_new_text_with_expired, { text: 'YES', func: RM_startNew })
          } else {
             setLoading(false)
-            setConfirmationDetails(
-               RM_resume_text,
-               { text: 'RESUME', func: RM_resume },
-               { text: 'START NEW', func: RM_forfeitAndStartNew }
-            )
+            setConfirmationDetails(RM_resume_text, { text: 'RESUME', func: RM_resume }, { text: 'START NEW', func: RM_forfeitAndStartNew })
          }
       } else {
          setLoading(false)
@@ -299,9 +279,7 @@ const Menu = ({ user, setUser, setData }) => {
       <>
          <div className="menu">
             {/* Message */}
-            {showMsg && 
-               <Message msg={showMsg} type={showMsgType} />
-            }
+            {showMsg && <Message msg={showMsg} type={showMsgType} />}
             {/* Loading Spinner */}
             {loading && (
                <div className="spinner">
@@ -311,21 +289,9 @@ const Menu = ({ user, setUser, setData }) => {
             {/* Quick Match */}
             <Button text="QUICK MATCH" action={handleClickQuickMatch} disabled={loading} />
             {/* Quick Match With Id*/}
-            <Button
-               text="MATCH WITH ID"
-               action={handleClickMatchWithId}
-               disabled={user == null || loading}
-               loading={loading}
-               tipText={tipText_QMId}
-            />
+            <Button text="MATCH WITH ID" action={handleClickMatchWithId} disabled={user == null || loading} loading={loading} tipText={tipText_QMId} />
             {/* Ranked */}
-            <Button
-               text="RANKED MATCH"
-               action={handleClickRankedMatch}
-               disabled={user == null || loading}
-               loading={loading}
-               tipText={tipText_RM}
-            />
+            <Button text="RANKED MATCH" action={handleClickRankedMatch} disabled={user == null || loading} loading={loading} tipText={tipText_RM} />
             {/* Ranking */}
             <Button text="RANKING" path="ranking" disabled={loading} />
             {/* Statistics */}
@@ -333,33 +299,14 @@ const Menu = ({ user, setUser, setData }) => {
             {/* Settings */}
             <Button text="SETTINGS" path="settings" disabled={loading} />
             {/* Account */}
-            <Button
-               text="ACCOUNT"
-               path="account"
-               disabled={user == null || loading}
-               loading={loading}
-               tipText={tipText_account}
-            />
+            <Button text="ACCOUNT" path="account" disabled={user == null || loading} loading={loading} tipText={tipText_account} />
             {/* Login */}
-            {user ? (
-               <Button text="LOGOUT" path="/" action={logout} disabled={loading} />
-            ) : (
-               <Button text="LOGIN" path="login" disabled={loading} />
-            )}
+            {user ? <Button text="LOGOUT" path="/" action={logout} disabled={loading} /> : <Button text="LOGIN" path="login" disabled={loading} />}
          </div>
          {/* Confirmation Modal */}
-         {showModalConf && (
-            <ModalConfirmation text={text} btn1={btn1} btn2={btn2} cancel={cancel} />
-         )}
+         {showModalConf && <ModalConfirmation text={text} btn1={btn1} btn2={btn2} cancel={cancel} />}
          {/* Modal for Match With Id */}
-         {showModalQMId && (
-            <ModalQMId
-               setShowModalQMId={setShowModalQMId}
-               overwrite={overwrite}
-               setData={setData}
-               user={user}
-            />
-         )}
+         {showModalQMId && <ModalQMId setShowModalQMId={setShowModalQMId} overwrite={overwrite} setData={setData} user={user} />}
       </>
    )
 }

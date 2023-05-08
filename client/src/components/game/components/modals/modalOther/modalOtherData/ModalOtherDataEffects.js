@@ -27,19 +27,9 @@ const ModalOtherDataEffects = ({ setCardSnap }) => {
    return (
       <div className="modal-other-data center">
          {effects.map((item, idx) => (
-            <div
-               key={idx}
-               className="modal-other-data-item"
-               onMouseOver={() => handleMouseOverItem(item)}
-               onMouseLeave={() => setCardSnap(null)}
-            >
+            <div key={idx} className="modal-other-data-item" onMouseOver={() => handleMouseOverItem(item)} onMouseLeave={() => setCardSnap(null)}>
                <div className="effect">
-                  <img
-                     src={
-                        typeof item === 'string' ? getEffectIcon(item) : getEffectIcon(item.effect)
-                     }
-                     alt={typeof item !== 'string' ? item.effect : 'corp_effect'}
-                  />
+                  <img src={typeof item === 'string' ? getEffectIcon(item) : getEffectIcon(item.effect)} alt={typeof item !== 'string' ? item.effect : 'corp_effect'} />
                </div>
             </div>
          ))}

@@ -1,6 +1,6 @@
 /* Used to show window with cards to sell */
 import { useContext, useState } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext } from '../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
@@ -9,15 +9,16 @@ import Card from '../card/Card'
 import { getPosition } from '../../../../utils/misc'
 import { SP } from '../../../../data/StandardProjects'
 import { ANIMATIONS } from '../../../../data/animations'
-import { RESOURCES } from '../../../../data/resources'
+import { RESOURCES, getResIcon } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES } from '../../../../data/log'
+import { LOG_TYPES, funcSetLogItemsBefore, funcSetLogItemsSingleActions } from '../../../../data/log/log'
 import iconLogSellPatent from '../../../../assets/images/other/iconLogSellPatent.svg'
 
 const ModalSellCards = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { performSubActions } = useContext(StateGameContext)
+   const { stateGame, performSubActions, setLogItems, setItemsExpanded } = useContext(StateGameContext)
+   const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
    const [mlnBack, setMlnBack] = useState(0)
@@ -33,6 +34,9 @@ const ModalSellCards = () => {
    }
 
    const onYesFunc = () => {
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+
       let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals
       setModals((prev) => ({
@@ -47,18 +51,23 @@ const ModalSellCards = () => {
          name: ANIMATIONS.CARD_OUT,
          type: RESOURCES.CARD,
          value: mlnBack,
-         func: () =>
+         func: () => {
             dispatchPlayer({
                type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                payload: statePlayer.cardsInHand.filter((c) => !selectedCards.includes(c)),
-            }),
+            })
+            funcSetLogItemsSingleActions(mlnBack === 1 ? 'Sold 1 card' : `Sold ${mlnBack} cards`, getResIcon(RESOURCES.CARD), -mlnBack, setLogItems)
+         },
       })
       // Add mln addition to the subAction
       subActions.push({
          name: ANIMATIONS.RESOURCES_IN,
          type: RESOURCES.MLN,
          value: mlnBack,
-         func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: mlnBack }),
+         func: () => {
+            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: mlnBack })
+            funcSetLogItemsSingleActions(`Received ${mlnBack} MC`, getResIcon(RESOURCES.MLN), mlnBack, setLogItems)
+         },
       })
       // Perform subActions
       performSubActions(
@@ -84,22 +93,14 @@ const ModalSellCards = () => {
    return (
       <>
          {/* ARROWS */}
-         {modals.modalCards.length > 10 && (
-            <Arrows
-               page={page}
-               setPage={setPage}
-               pages={Math.ceil(modals.modalCards.length / 10)}
-            />
-         )}
+         {modals.modalCards.length > 10 && <Arrows page={page} setPage={setPage} pages={Math.ceil(modals.modalCards.length / 10)} />}
          <div className="modal-select-cards">
             <div className="box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
                {statePlayer.cardsInHand.map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container small ${
-                        selectedCards.includes(card) && 'selected'
-                     }`}
+                     className={`card-container small ${selectedCards.includes(card) && 'selected'}`}
                      style={getPosition(statePlayer.cardsInHand.length, idx)}
                      onClick={() => {
                         sound.btnCardsClick.play()
@@ -107,24 +108,14 @@ const ModalSellCards = () => {
                      }}
                   >
                      <Card card={card} />
-                     <BtnSelect
-                        initBtnText="SELECT"
-                        handleClick={() => handleClickBtnSelect(card)}
-                     />
+                     <BtnSelect initBtnText="SELECT" handleClick={() => handleClickBtnSelect(card)} />
                   </div>
                ))}
             </div>
             {/* HEADER */}
             <ModalHeader text={SP.SELL_PATENT} eachText="1" />
             {/* ACTION BUTTON */}
-            <BtnAction
-               text="SELL"
-               mln={mlnBack}
-               textConfirmation={textConfirmation}
-               onYesFunc={onYesFunc}
-               disabled={mlnBack === 0}
-               position={btnActionPosition}
-            />
+            <BtnAction text="SELL" mln={mlnBack} textConfirmation={textConfirmation} onYesFunc={onYesFunc} disabled={mlnBack === 0} position={btnActionPosition} />
             {/* CANCEL BUTTON */}
             <BtnAction text="CANCEL" position={btnCancelPosition} />
          </div>

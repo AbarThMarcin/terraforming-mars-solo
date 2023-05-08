@@ -3,25 +3,13 @@ import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ACTIONS_GAME, reducerGame } from '../../stateActions/actionsGame'
 import { reducerPlayer } from '../../stateActions/actionsPlayer'
 import { reducerBoard } from '../../stateActions/actionsBoard'
-import {
-   funcPerformSubActions,
-   getCards,
-   getNewCardsDrawIds,
-   modifiedCards,
-   sorted,
-   updateVP,
-   withTimeAdded,
-} from '../../utils/misc'
-import {
-   funcRequirementsMet,
-   funcActionRequirementsMet,
-   funcOptionRequirementsMet,
-} from '../../data/requirements/requirements'
+import { funcPerformSubActions, getCards, getNewCardsDrawIds, modifiedCards, sorted, updateVP, withTimeAdded } from '../../utils/misc'
+import { funcRequirementsMet, funcActionRequirementsMet, funcOptionRequirementsMet } from '../../data/requirements/requirements'
 import { funcGetImmEffects } from '../../data/immEffects/immEffects'
 import { funcGetCardActions } from '../../data/cardActions/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RESOURCES } from '../../data/resources'
+import { RESOURCES, getResIcon } from '../../data/resources'
 import { ANIMATIONS } from '../../data/animations'
 import { TAGS } from '../../data/tags'
 import PanelCorp from './components/panelCorp'
@@ -42,6 +30,7 @@ import { EFFECTS } from '../../data/effects/effectIcons'
 import { funcGetEffect } from '../../data/effects/effects'
 import { useContext } from 'react'
 import { SettingsContext, SoundContext } from '../../App'
+import { funcSetLogItemsAfter, funcSetLogItemsSingleActions } from '../../data/log/log'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -50,30 +39,18 @@ export const ModalsContext = createContext()
 export const StateBoardContext = createContext()
 export const CorpsContext = createContext()
 
-function Game({
-   id,
-   initStatePlayer,
-   initStateGame,
-   initStateModals,
-   initStateBoard,
-   initCorpsIds,
-   initLogItems,
-   user,
-   setUser,
-   type,
-}) {
+function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBoard, initCorpsIds, initLogItems, user, setUser, type }) {
    const navigate = useNavigate()
    const { settings } = useContext(SettingsContext)
-   const [statePlayer, dispatchPlayer] = useReducer(
-      reducerPlayer,
-      initStatePlayer || INIT_STATE_PLAYER
-   )
+   const [statePlayer, dispatchPlayer] = useReducer(reducerPlayer, initStatePlayer || INIT_STATE_PLAYER)
    const [stateGame, dispatchGame] = useReducer(reducerGame, initStateGame || INIT_STATE_GAME)
    const [modals, setModals] = useState(initStateModals || INIT_MODALS)
    const [stateBoard, dispatchBoard] = useReducer(reducerBoard, initStateBoard || INIT_BOARD)
    // eslint-disable-next-line react-hooks/exhaustive-deps
    const corps = useMemo(() => getInitCorps(), [initCorpsIds])
    const [logItems, setLogItems] = useState(initLogItems)
+   const [expanded, setExpanded] = useState(null)
+   const [itemsExpanded, setItemsExpanded] = useState([null])
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(getAnimationSpeed(settings.speedId))
    const [totalVP, setTotalVP] = useState(14)
    const [updateTrigger, setTrigger] = useState(false)
@@ -95,15 +72,11 @@ function Game({
       if (statePlayer.specialDesignEffect && modals.modalCard.id !== 206) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+         funcSetLogItemsSingleActions('SPECIAL DESIGN effect ended', null, null, setLogItems)
       }
       // Call effect of Olympus Conference, THEN Mars University
       if (modals.cardPlayed) {
-         if (
-            modals.modalCard.id !== 90 &&
-            modals.modalCard.id !== 192 &&
-            modals.modalCard.id !== 196 &&
-            modals.modalCard.id !== 204
-         ) {
+         if (modals.modalCard.id !== 90 && modals.modalCard.id !== 192 && modals.modalCard.id !== 196 && modals.modalCard.id !== 204) {
             callScienceEffects()
          }
       }
@@ -120,28 +93,18 @@ function Game({
       if (statePlayer.indenturedWorkersEffect && modals.modalCard.id !== 195) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: sorted(
-               modifiedCards(statePlayer.cardsInHand, statePlayer, false, false),
-               settings.sortId[0],
-               requirementsMet
-            ),
+            payload: sorted(modifiedCards(statePlayer.cardsInHand, statePlayer, false, false), settings.sortId[0], requirementsMet),
          })
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-            payload: sorted(
-               modifiedCards(statePlayer.cardsPlayed, statePlayer, false, false),
-               settings.sortId[1],
-               requirementsMet
-            ),
+            payload: sorted(modifiedCards(statePlayer.cardsPlayed, statePlayer, false, false), settings.sortId[1], requirementsMet),
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
+         funcSetLogItemsSingleActions('INDENTURED WORKERS effect ended', null, null, setLogItems)
       }
-      // Update Log
-      if (logData)
-         setLogItems((logItems) => [
-            ...logItems,
-            { type: logData.type, data: { text: logData.text, icon: logIcon } },
-         ])
+
+      // Update Log with state of the game AFTER played action
+      funcSetLogItemsAfter(setLogItems, logData, logIcon, statePlayer, stateGame, stateBoard)
 
       // Update VP
       updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP)
@@ -190,50 +153,39 @@ function Game({
       let cardsInHand = statePlayer.cardsInHand
       let newCardsDrawIds
       // Call Olympus Conference effect
-      if (
-         statePlayer.cardsPlayed.some(
-            (card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE
-         ) &&
-         modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_OLYMPUS_CONFERENCE)
-      ) {
+      if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE) && modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_OLYMPUS_CONFERENCE)) {
          if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
             effects = [
                {
                   name: ANIMATIONS.RESOURCES_IN,
                   type: RESOURCES.SCIENCE,
                   value: 1,
-                  func: () =>
+                  func: () => {
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.ADD_BIO_RES,
                         payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
-                     }),
+                     })
+                     funcSetLogItemsSingleActions('Received 1 science to OLYMPUS CONFERENCE card', getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
+                  },
                },
             ]
          } else {
-            newCardsDrawIds = await getNewCardsDrawIds(
-               1,
-               statePlayer,
-               dispatchPlayer,
-               type,
-               id,
-               user?.token
-            )
+            newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, user?.token)
             effects = [
                {
                   name: ANIMATIONS.RESOURCES_OUT,
                   type: RESOURCES.SCIENCE,
                   value: 1,
-                  func: () =>
+                  func: () => {
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.ADD_BIO_RES,
                         payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
-                     }),
+                     })
+                     funcSetLogItemsSingleActions('Removed 1 science from OLYMPUS CONFERENCE card', getResIcon(RESOURCES.SCIENCE), -1, setLogItems)
+                  },
                },
             ]
-            cardsInHand = [
-               ...cardsInHand,
-               ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-            ]
+            cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
             effects.push({
                name: ANIMATIONS.CARD_IN,
                type: RESOURCES.CARD,
@@ -247,15 +199,18 @@ function Game({
                      type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                      payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                   })
+                  funcSetLogItemsSingleActions(
+                     `Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`,
+                     getResIcon(RESOURCES.CARD),
+                     1,
+                     setLogItems
+                  )
                },
             })
          }
       }
       // Call Mars University
-      if (
-         statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY) &&
-         modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_MARS_UNIVERSITY)
-      ) {
+      if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY) && modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_MARS_UNIVERSITY)) {
          if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
             modals.modalCard.tags.forEach((tag) => {
                if (tag === TAGS.SCIENCE)
@@ -311,58 +266,21 @@ function Game({
          user?.token,
          getImmEffects,
          sound,
-         initDrawCardsIds
+         initDrawCardsIds,
+         setLogItems
       )
    }
    function getCardActions(cardId, toBuyResources) {
-      return funcGetCardActions(
-         cardId,
-         statePlayer,
-         dispatchPlayer,
-         stateGame,
-         dispatchGame,
-         stateBoard,
-         setModals,
-         getEffect,
-         getImmEffects,
-         toBuyResources,
-         type,
-         id,
-         user?.token,
-         sound
-      )
+      return funcGetCardActions(cardId, statePlayer, dispatchPlayer, dispatchGame, stateBoard, setModals, getImmEffects, toBuyResources, type, id, user?.token, sound, setLogItems)
    }
    function getEffect(effect) {
-      return funcGetEffect(effect, statePlayer, dispatchPlayer, dispatchGame, modals, setModals)
+      return funcGetEffect(effect, statePlayer, dispatchPlayer, dispatchGame, modals, setModals, setLogItems)
    }
    function getOptionsActions(option, energyAmount, heatAmount) {
-      return funcGetOptionsActions(
-         option,
-         statePlayer,
-         dispatchPlayer,
-         stateGame,
-         dispatchGame,
-         getImmEffects,
-         modals,
-         setModals,
-         energyAmount,
-         heatAmount
-      )
+      return funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispatchGame, getImmEffects, modals, setModals, energyAmount, heatAmount, setLogItems)
    }
    function performSubActions(subActions, logNewData, logNewIcon, noTrigger) {
-      return funcPerformSubActions(
-         subActions,
-         ANIMATION_SPEED,
-         setModals,
-         dispatchGame,
-         setTrigger,
-         logNewData,
-         logNewIcon,
-         setLogData,
-         setLogIcon,
-         sound,
-         noTrigger
-      )
+      return funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, dispatchGame, setTrigger, logNewData, logNewIcon, setLogData, setLogIcon, sound, noTrigger)
    }
    function requirementsMet(card) {
       return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals, getImmEffects)
@@ -376,9 +294,7 @@ function Game({
 
    const handleClickMenuIcon = () => {
       sound.btnGeneralClick.play()
-      modals.menu
-         ? setModals((prev) => ({ ...prev, menu: false, settings: false, rules: false }))
-         : setModals((prev) => ({ ...prev, menu: true }))
+      modals.menu ? setModals((prev) => ({ ...prev, menu: false, settings: false, rules: false })) : setModals((prev) => ({ ...prev, menu: true }))
       music.volume(settings.musicVolume)
       Object.keys(sound).forEach((key) => sound[key].volume(settings.gameVolume))
    }
@@ -393,6 +309,7 @@ function Game({
                      dispatchGame,
                      logItems,
                      setLogItems,
+                     setItemsExpanded,
                      getImmEffects,
                      getCardActions,
                      getEffect,
@@ -404,7 +321,7 @@ function Game({
                      ANIMATION_SPEED,
                      setANIMATION_SPEED,
                      setSaveToServerTrigger,
-                     setSyncError
+                     setSyncError,
                   }}
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
@@ -412,58 +329,43 @@ function Game({
                         <ModalsContext.Provider value={{ modals, setModals }}>
                            {/* Standard Projects Button */}
                            <AnimatePresence>
-                              {!stateGame.phaseCorporation &&
-                                 !stateGame.phaseDraft &&
-                                 !stateGame.phaseViewGameState &&
-                                 !stateGame.phaseAfterGen14 &&
-                                 !modals.endStats && (
-                                    <motion.div
-                                       key="keyBtnStandardProjects"
-                                       initial={{ opacity: 0 }}
-                                       animate={{ opacity: 1 }}
-                                       exit={{ opacity: 0 }}
-                                       transition={{ duration: 0.5 }}
-                                       className="btn-standard-projects-container"
-                                    >
-                                       <BtnStandardProjects />
-                                    </motion.div>
-                                 )}
+                              {!stateGame.phaseCorporation && !stateGame.phaseDraft && !stateGame.phaseViewGameState && !stateGame.phaseAfterGen14 && !modals.endStats && (
+                                 <motion.div
+                                    key="keyBtnStandardProjects"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="btn-standard-projects-container"
+                                 >
+                                    <BtnStandardProjects />
+                                 </motion.div>
+                              )}
                            </AnimatePresence>
 
                            {/* Standard Projects Button */}
-                           {stateGame.phasePlaceTile && (
-                              <div className='game-message'>PLACE {stateGame.phasePlaceTileData}</div>
-                           )}
+                           {stateGame.phasePlaceTile && <div className="game-message">PLACE {stateGame.phasePlaceTileData}</div>}
 
                            {/* Viewing State Game Header */}
-                           {stateGame.phaseViewGameState && (
-                              <div className="view-game-state-header">VIEWING GAME STATE</div>
-                           )}
+                           {stateGame.phaseViewGameState && <div className="view-game-state-header">VIEWING GAME STATE</div>}
 
                            {/* You can convert plants to greeneries Header */}
-                           {stateGame.phaseAfterGen14 && !modals.endStats && (
-                              <div className="view-game-state-header">
-                                 YOU CAN CONVERT PLANTS TO GREENERIES
-                              </div>
-                           )}
+                           {stateGame.phaseAfterGen14 && !modals.endStats && <div className="view-game-state-header">YOU CAN CONVERT PLANTS TO GREENERIES</div>}
 
                            {/* Panel State Game */}
                            <AnimatePresence>
-                              {modals.panelStateGame &&
-                                 !stateGame.phaseCorporation &&
-                                 !stateGame.phaseAfterGen14 &&
-                                 !modals.endStats && (
-                                    <motion.div
-                                       key="keyPanelStateGame"
-                                       initial={{ opacity: 0 }}
-                                       animate={{ opacity: 1 }}
-                                       exit={{ opacity: 0 }}
-                                       transition={{ duration: 0.5 }}
-                                       className="panel-state-game"
-                                    >
-                                       <PanelStateGame />
-                                    </motion.div>
-                                 )}
+                              {modals.panelStateGame && !stateGame.phaseCorporation && !stateGame.phaseAfterGen14 && !modals.endStats && (
+                                 <motion.div
+                                    key="keyPanelStateGame"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="panel-state-game"
+                                 >
+                                    <PanelStateGame />
+                                 </motion.div>
+                              )}
                            </AnimatePresence>
 
                            {/* Pass Container */}
@@ -484,37 +386,29 @@ function Game({
 
                            {/* Board */}
                            <AnimatePresence>
-                              <motion.div
-                                 key="keyBoard"
-                                 initial={{ opacity: 0 }}
-                                 animate={{ opacity: 1 }}
-                                 transition={{ duration: 0.5, delay: 0.5 }}
-                                 className="board center"
-                              >
+                              <motion.div key="keyBoard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.5 }} className="board center">
                                  <Board setTotalVP={setTotalVP} />
                               </motion.div>
                            </AnimatePresence>
 
                            {/* Corporation Panel */}
                            <AnimatePresence>
-                              {modals.panelCorp &&
-                                 !stateGame.phaseCorporation &&
-                                 !modals.endStats && (
-                                    <motion.div
-                                       key="keyPanelCorp"
-                                       initial={{ opacity: 0 }}
-                                       animate={{ opacity: 1 }}
-                                       exit={{ opacity: 0 }}
-                                       transition={{ duration: 0.5 }}
-                                       className="panel-corp"
-                                    >
-                                       <PanelCorp />
-                                    </motion.div>
-                                 )}
+                              {modals.panelCorp && !stateGame.phaseCorporation && !modals.endStats && (
+                                 <motion.div
+                                    key="keyPanelCorp"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="panel-corp"
+                                 >
+                                    <PanelCorp />
+                                 </motion.div>
+                              )}
                            </AnimatePresence>
 
                            {/* Modals */}
-                           <Modals logItems={logItems} />
+                           <Modals logItems={logItems} expanded={expanded} setExpanded={setExpanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
 
                            {/* Menu Button */}
                            <AnimatePresence>

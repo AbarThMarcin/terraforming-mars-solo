@@ -39,12 +39,7 @@
 .overview .table thead tr {
    line-height: var(--default-size);
    background: rgb(30, 30, 30);
-   background: linear-gradient(
-      0deg,
-      rgba(30, 30, 30, 0.5) 0%,
-      rgba(0, 0, 0, 0) 50%,
-      rgba(30, 30, 30, 0.5) 100%
-   );
+   background: linear-gradient(0deg, rgba(30, 30, 30, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(30, 30, 30, 0.5) 100%);
 }
 .overview .table thead td:first-of-type,
 .overview .table td,
@@ -70,12 +65,7 @@
 /* Overview - Table - Total Line */
 .overview .table tfoot tr {
    background: rgb(30, 30, 30);
-   background: linear-gradient(
-      0deg,
-      rgba(30, 30, 30, 0.5) 0%,
-      rgba(0, 0, 0, 0) 50%,
-      rgba(30, 30, 30, 0.5) 100%
-   );
+   background: linear-gradient(0deg, rgba(30, 30, 30, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(30, 30, 30, 0.5) 100%);
 }
 
 /* Overview - Charts */
@@ -276,12 +266,7 @@
    height: 80%;
    width: calc(var(--default-size) * 0.15);
    background: rgb(255, 255, 255);
-   background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.01) 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      rgba(255, 255, 255, 0.01) 100%
-   );
+   background: linear-gradient(0deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.01) 100%);
    border-radius: 50%;
    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.1);
 }
@@ -358,12 +343,7 @@
    font-weight: 600;
 }
 .details .stats-box > * .see-all:hover {
-   background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgb(255, 255, 255, 0.03) 50%,
-      transparent 100%
-   );
+   background: linear-gradient(90deg, transparent 0%, rgb(255, 255, 255, 0.03) 50%, transparent 100%);
 }
 .details .stats-box > * .see-all:hover span {
    font-size: calc(var(--default-size) * 0.9);
@@ -418,12 +398,7 @@
    font-size: var(--default-size);
    line-height: var(--default-size);
    height: 10%;
-   background: linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.05) 100%
-   );
+   background: linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
 }
 .see-all-cards-container .content-container .headers > div {
    flex: 1;

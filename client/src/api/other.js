@@ -10,9 +10,7 @@ export const getSeason = async () => {
       const res = await axios.get(URI, config)
       return res.data.season
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
 }
 
@@ -40,8 +38,6 @@ export const getRandIntNumbers = async (n, min, max, replacement = false) => {
       const res = await axios.post(URI, body, config)
       return res.data.result.random.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
 }

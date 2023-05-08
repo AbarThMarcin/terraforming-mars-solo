@@ -20,25 +20,14 @@ const VersionUpdate = ({ update }) => {
    }
 
    return (
-      <div
-         className={`version-update ${update.description && 'pointer'} ${expanded && 'expanded'}`}
-         onClick={handleClickUpdate}
-      >
+      <div className={`version-update ${update.description && 'pointer'} ${expanded && 'expanded'}`} onClick={handleClickUpdate}>
          <div className="title-container">
             {/* Hyphen */}
             <div className="hyphen">-</div>
             {/* Title */}
             <div className="title">{update.title}</div>
             {/* Arrows */}
-            {update.description && (
-               <div className="arrows">
-                  {expanded ? (
-                     <FontAwesomeIcon icon={faAngleDown} />
-                  ) : (
-                     <FontAwesomeIcon icon={faAngleLeft} />
-                  )}
-               </div>
-            )}
+            {update.description && <div className="arrows">{expanded ? <FontAwesomeIcon icon={faAngleDown} /> : <FontAwesomeIcon icon={faAngleLeft} />}</div>}
          </div>
          {/* Description */}
          <p ref={refDesc} className="description">

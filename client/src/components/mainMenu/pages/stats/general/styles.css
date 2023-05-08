@@ -11,15 +11,10 @@
 .statistics .row.headers {
    height: calc(var(--default-size) * 2.2);
    background: rgb(30, 30, 30);
-   background: linear-gradient(
-      0deg,
-      rgba(30, 30, 30, 0.5) 0%,
-      rgba(0, 0, 0, 0) 50%,
-      rgba(30, 30, 30, 0.5) 100%
-   );
+   background: linear-gradient(0deg, rgba(30, 30, 30, 0.5) 0%, rgba(0, 0, 0, 0) 50%, rgba(30, 30, 30, 0.5) 100%);
 }
 .statistics .row.headers > * {
-   height: 100%
+   height: 100%;
 }
 
 /* Table */
@@ -96,7 +91,7 @@
    width: calc(var(--default-size) * 0.5);
 }
 .achievements .table.with-scrollbar {
-   transform: translateX(calc(var(--default-size) * 0.25))
+   transform: translateX(calc(var(--default-size) * 0.25));
 }
 .achievements .table::-webkit-scrollbar-track {
    background-color: transparent;
@@ -113,8 +108,8 @@
 .achievements .line {
    height: calc(var(--default-size) * 0.15);
    width: 80%;
-   background: rgb(255,255,255);
-   background: linear-gradient(90deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.01) 100%);
+   background: rgb(255, 255, 255);
+   background: linear-gradient(90deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.01) 100%);
    border-radius: 50%;
    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.1);
    transform: translateY(calc(var(--default-size) * -0.5));
@@ -128,21 +123,11 @@
    gap: calc(var(--default-size) * 0.15);
    margin-block-end: var(--default-size);
    background: rgb(83, 83, 83);
-   background: linear-gradient(
-      0deg,
-      rgba(253, 83, 83, 0.03) 0%,
-      transparent 50%,
-      rgba(253, 83, 83, 0.07) 100%
-   );
+   background: linear-gradient(0deg, rgba(253, 83, 83, 0.03) 0%, transparent 50%, rgba(253, 83, 83, 0.07) 100%);
 }
 .achievements .section.legend {
    background: rgb(83, 83, 83);
-   background: linear-gradient(
-      0deg,
-      rgba(253, 163, 163, 0.03) 0%,
-      transparent 50%,
-      rgba(253, 163, 163, 0.07) 100%
-   );
+   background: linear-gradient(0deg, rgba(253, 163, 163, 0.03) 0%, transparent 50%, rgba(253, 163, 163, 0.07) 100%);
    color: rgba(255, 255, 255, 0.7);
 }
 .achievements .section > * {

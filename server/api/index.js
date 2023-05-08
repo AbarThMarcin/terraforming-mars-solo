@@ -21,7 +21,7 @@ const getRandIntNumbers = async (n, min, max, replacement = false) => {
    }
 
    const res = await axios.post(URI, body, config)
-   
+
    return res.data.result.random.data
 }
 

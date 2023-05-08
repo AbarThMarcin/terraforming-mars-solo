@@ -29,10 +29,7 @@ const ModalOther = () => {
    }
 
    return (
-      <div
-         className="modal-standard-projects-box other center"
-         onClick={(e) => e.stopPropagation()}
-      >
+      <div className="modal-standard-projects-box other center" onClick={(e) => e.stopPropagation()}>
          {/* HEADER */}
          <div className="header">
             {modals.modalOther.header} {modals.modalOther.amount}
@@ -41,12 +38,8 @@ const ModalOther = () => {
          <BtnClose onCloseClick={() => setModals((prev) => ({ ...prev, other: false }))} />
          {/* DATA */}
          {(modals.modalOther.data.length === 0 && modals.modalOther.header !== 'ACTIONS') ||
-         (modals.modalOther.data.length === 0 &&
-            modals.modalOther.header === 'ACTIONS' &&
-            statePlayer.corporation.name !== CORP_NAMES.UNMI) ? (
-            <div className="modal-other-box-no-data center">
-               {getTextWhenNoData(modals.modalOther.header)}
-            </div>
+         (modals.modalOther.data.length === 0 && modals.modalOther.header === 'ACTIONS' && statePlayer.corporation.name !== CORP_NAMES.UNMI) ? (
+            <div className="modal-other-box-no-data center">{getTextWhenNoData(modals.modalOther.header)}</div>
          ) : (
             <ModalOtherData setCardSnap={setCardSnap} />
          )}

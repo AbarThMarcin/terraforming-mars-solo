@@ -1,6 +1,22 @@
 import { getNeighbors } from '../utils/misc'
 import { RESOURCES } from './resources'
 
+import city from '../assets/images/tiles/tile_city.svg'
+import cityNeutral from '../assets/images/tiles/tile_cityNeutral.svg'
+import greenery from '../assets/images/tiles/tile_greenery.svg'
+import greeneryNeutral from '../assets/images/tiles/tile_greeneryNeutral.svg'
+import ocean from '../assets/images/tiles/tile_ocean.svg'
+import cityCapital from '../assets/images/tiles/tile_cityCapital.svg'
+import miningRightsArea from '../assets/images/tiles/tile_miningRightsArea.svg'
+import ecologicalZone from '../assets/images/tiles/tile_ecologicalZone.svg'
+import naturalPreserve from '../assets/images/tiles/tile_naturalPreserve.svg'
+import moholeArea from '../assets/images/tiles/tile_moholeArea.svg'
+import restrictedArea from '../assets/images/tiles/tile_restrictedArea.svg'
+import commercialDistrict from '../assets/images/tiles/tile_commercialDistrict.svg'
+import nuclearZone from '../assets/images/tiles/tile_nuclearZone.svg'
+import industrialCenter from '../assets/images/tiles/tile_industrialCenter.svg'
+import lavaFlows from '../assets/images/tiles/tile_lavaFlows.svg'
+
 export const TILES = {
    // Neutral tiles
    GREENERY_NEUTRAL: 'NEUTRAL GREENERY',
@@ -28,15 +44,48 @@ export const TILES = {
    SPECIAL_URBANIZED_AREA: 'URBANIZED AREA TILE',
 }
 
+export const assignIconToTileData = (fieldObject) => {
+   switch (fieldObject) {
+      case TILES.OCEAN:
+         return ocean
+      case TILES.GREENERY:
+         return greenery
+      case TILES.GREENERY_NEUTRAL:
+         return greeneryNeutral
+      case TILES.CITY:
+         return city
+      case TILES.CITY_NEUTRAL:
+         return cityNeutral
+      case TILES.SPECIAL_CITY_CAPITAL:
+         return cityCapital
+      case TILES.SPECIAL_NATURAL_PRESERVE:
+         return naturalPreserve
+      case TILES.SPECIAL_MINING_AREA:
+      case TILES.SPECIAL_MINING_RIGHTS:
+         return miningRightsArea
+      case TILES.SPECIAL_COMMERCIAL_DISTRICT:
+         return commercialDistrict
+      case TILES.SPECIAL_NUCLEAR_ZONE:
+         return nuclearZone
+      case TILES.SPECIAL_INDUSTRIAL_CENTER:
+         return industrialCenter
+      case TILES.SPECIAL_ECOLOGICAL_ZONE:
+         return ecologicalZone
+      case TILES.SPECIAL_LAVA_FLOWS:
+         return lavaFlows
+      case TILES.SPECIAL_MOHOLE_AREA:
+         return moholeArea
+      case TILES.SPECIAL_RESTRICTED_AREA:
+         return restrictedArea
+      default:
+         return
+   }
+}
+
 export const setAvailFieldsAny = (board) => {
    return board.map((field) => ({
       ...field,
-      available:
-         !field.object &&
-         !field.oceanOnly &&
-         field.name !== 'PHOBOS SPACE HAVEN' &&
-         field.name !== 'GANYMEDE COLONY' &&
-         field.name !== 'NOCTIS CITY',
+      available: !field.object && !field.oceanOnly && field.name !== 'PHOBOS SPACE HAVEN' && field.name !== 'GANYMEDE COLONY' && field.name !== 'NOCTIS CITY',
    }))
 }
 
@@ -52,11 +101,7 @@ export const setAvailFieldsAdjacent = (board, tiles, adjacent, isMiningArea = fa
    tiles.forEach((tile) => {
       let tileNeighbors = []
       if (isMiningArea) {
-         tileNeighbors = getNeighbors(tile.x, tile.y, board).filter(
-            (tileNeighbor) =>
-               tileNeighbor.bonus.includes(RESOURCES.STEEL) ||
-               tileNeighbor.bonus.includes(RESOURCES.TITAN)
-         )
+         tileNeighbors = getNeighbors(tile.x, tile.y, board).filter((tileNeighbor) => tileNeighbor.bonus.includes(RESOURCES.STEEL) || tileNeighbor.bonus.includes(RESOURCES.TITAN))
       } else {
          tileNeighbors = getNeighbors(tile.x, tile.y, board)
       }

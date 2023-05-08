@@ -68,21 +68,32 @@ const Music = () => {
    }
 
    return (
-      <div className='music-container'>
+      <div className="music-container">
          <audio src={currentSong} ref={audioPlayer} />
          <FontAwesomeIcon icon={faEllipsis} />
-         
-         {isPlaying ? (
-            <div className='pointer' onClick={togglePlay}><FontAwesomeIcon icon={faVolumeHigh} /></div>
-         ) : (
-            <div className='pointer' onClick={togglePlay}><FontAwesomeIcon icon={faVolumeMute} /></div>
-         )}
-         
-         <div className='pointer' onClick={toggleForward}><FontAwesomeIcon icon={faForward} /></div>
-         <div className='pointer' onClick={toggleBackward}><FontAwesomeIcon icon={faBackward} /></div>
-         <div className='pointer' onClick={toggleSkipForward}><FontAwesomeIcon icon={faForwardStep} /></div>
-         <div className='pointer' onClick={toggleSkipBackward}><FontAwesomeIcon icon={faBackwardStep} /></div>
 
+         {isPlaying ? (
+            <div className="pointer" onClick={togglePlay}>
+               <FontAwesomeIcon icon={faVolumeHigh} />
+            </div>
+         ) : (
+            <div className="pointer" onClick={togglePlay}>
+               <FontAwesomeIcon icon={faVolumeMute} />
+            </div>
+         )}
+
+         <div className="pointer" onClick={toggleForward}>
+            <FontAwesomeIcon icon={faForward} />
+         </div>
+         <div className="pointer" onClick={toggleBackward}>
+            <FontAwesomeIcon icon={faBackward} />
+         </div>
+         <div className="pointer" onClick={toggleSkipForward}>
+            <FontAwesomeIcon icon={faForwardStep} />
+         </div>
+         <div className="pointer" onClick={toggleSkipBackward}>
+            <FontAwesomeIcon icon={faBackwardStep} />
+         </div>
       </div>
    )
 }

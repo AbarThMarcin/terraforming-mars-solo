@@ -4,12 +4,7 @@
    height: 70%;
    width: 30%;
    background: rgba(35, 69, 92, 0.9) !important;
-   background: linear-gradient(
-      180deg,
-      rgba(35, 69, 92, 0.7) 0%,
-      rgba(67, 121, 156, 0.9) 50%,
-      rgba(35, 69, 92, 0.7) 100%
-   ) !important;
+   background: linear-gradient(180deg, rgba(35, 69, 92, 0.7) 0%, rgba(67, 121, 156, 0.9) 50%, rgba(35, 69, 92, 0.7) 100%) !important;
    padding: calc(var(--default-size) * 0.8);
 }
 .modal-standard-projects-box.other::before {

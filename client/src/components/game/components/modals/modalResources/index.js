@@ -6,14 +6,16 @@ import Card from '../../card/Card'
 import { ANIMATIONS, endAnimation, setAnimation } from '../../../../../data/animations'
 import ModalResourceData from './ModalResourceData'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
-import { RESOURCES } from '../../../../../data/resources'
+import { RESOURCES, getResIcon } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
 import { SoundContext } from '../../../../../App'
+import { CARDS } from '../../../../../data/cards'
+import { getCards } from '../../../../../utils/misc'
+import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
 
 const ModalResource = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED } =
-      useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, ANIMATION_SPEED, setLogItems } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
    const [cardSnap, setCardSnap] = useState(null)
@@ -35,23 +37,26 @@ const ModalResource = () => {
       if (card.units.animal) resource = RESOURCES.ANIMAL
       if (card.units.science) resource = RESOURCES.SCIENCE
       if (card.units.fighter) resource = RESOURCES.FIGHTER
-      setAnimation(
-         ANIMATIONS.RESOURCES_IN,
-         modals.modalResource.resType === null ? resource : modals.modalResource.resType,
-         modals.modalResource.amount,
-         setModals,
-         sound
-      )
+      setAnimation(ANIMATIONS.RESOURCES_IN, modals.modalResource.resType === null ? resource : modals.modalResource.resType, modals.modalResource.amount, setModals, sound)
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.ADD_BIO_RES,
             payload: {
                cardId: modals.modalResource.cardId,
-               resource:
-                  modals.modalResource.resType === null ? resource : modals.modalResource.resType,
+               resource: modals.modalResource.resType === null ? resource : modals.modalResource.resType,
                amount: modals.modalResource.amount,
             },
          })
+         funcSetLogItemsSingleActions(
+            modals.modalResource.amount === 1
+               ? `Received 1 ${modals.modalResource.resType === null ? resource : modals.modalResource.resType} to ${getCards(CARDS, [modals.modalResource.cardId])[0].name} card`
+               : `Received ${modals.modalResource.amount} ${modals.modalResource.resType === null ? resource : modals.modalResource.resType}s to ${
+                    getCards(CARDS, [modals.modalResource.cardId])[0].name
+                 } card`,
+            getResIcon(RESOURCES.ANIMAL),
+            modals.modalResource.amount,
+            setLogItems
+         )
          performSubActions(stateGame.actionsLeft)
          endAnimation(setModals)
       }, ANIMATION_SPEED)
@@ -62,10 +67,7 @@ const ModalResource = () => {
          {/* HEADER */}
          <div className="modal-resource-header">SELECT ANY RESOURCE</div>
          {/* BOX */}
-         <div
-            className="modal-standard-projects-box other center"
-            onClick={(e) => e.stopPropagation()}
-         >
+         <div className="modal-standard-projects-box other center" onClick={(e) => e.stopPropagation()}>
             {/* HEADER */}
             <div className="header">CARD RESOURCES</div>
             {/* DATA */}
@@ -77,11 +79,7 @@ const ModalResource = () => {
                </div>
             )}
             {/* CONFIRM BUTTON */}
-            <BtnAction
-               text="CONFIRM"
-               onYesFunc={handleClickConfirmBtn}
-               position={btnActionConfirmPosition}
-            />
+            <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
          </div>
       </>
    )

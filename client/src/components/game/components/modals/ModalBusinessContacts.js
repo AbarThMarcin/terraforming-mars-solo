@@ -1,13 +1,6 @@
 // Modal for viewing and selecting cards when Business Contacts OR Invention Contest has been played
 import { useContext, useEffect, useState } from 'react'
-import {
-   StateGameContext,
-   StatePlayerContext,
-   ModalsContext,
-   StateBoardContext,
-   UserContext,
-   CorpsContext,
-} from '../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext, UserContext, CorpsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
@@ -16,16 +9,16 @@ import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
 import { getCards, getPosition, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
-import { RESOURCES } from '../../../../data/resources'
+import { RESOURCES, getResIcon } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { CARDS } from '../../../../data/cards'
 import { updateGameData } from '../../../../api/activeGame'
+import { funcSetLogItemsSingleActions } from '../../../../data/log/log'
 
 const ModalBusinessContacts = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateBoard } = useContext(StateBoardContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError } =
-      useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, user } = useContext(UserContext)
    const { initCorpsIds } = useContext(CorpsContext)
@@ -79,11 +72,15 @@ const ModalBusinessContacts = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [
-               ...statePlayer.cardsInHand,
-               ...modifiedCards(withTimeAdded(getCards(CARDS, selectedCardIds)), statePlayer),
-            ],
+            payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, selectedCardIds)), statePlayer)],
          })
+         if (modals.modalBusCont.selectCount === 1) {
+            funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, selectedCardIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+         } else {
+            const newCardsDrawNames = getCards(CARDS, selectedCardIds).map((c) => c.name)
+            funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+         }
+
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)
@@ -102,22 +99,14 @@ const ModalBusinessContacts = () => {
    return (
       <>
          {/* ARROWS */}
-         {modals.modalCards.length > 10 && (
-            <Arrows
-               page={page}
-               setPage={setPage}
-               pages={Math.ceil(modals.modalCards.length / 10)}
-            />
-         )}
+         {modals.modalCards.length > 10 && <Arrows page={page} setPage={setPage} pages={Math.ceil(modals.modalCards.length / 10)} />}
          <div className="modal-select-cards">
             <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
                {modifiedCards(cardsSeen, statePlayer).map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container small ${
-                        selectedCardIds.includes(card.id) && 'selected'
-                     }`}
+                     className={`card-container small ${selectedCardIds.includes(card.id) && 'selected'}`}
                      style={getPosition(modals.modalBusCont.cards.length, idx)}
                      onClick={() => {
                         sound.btnCardsClick.play()
@@ -128,9 +117,7 @@ const ModalBusinessContacts = () => {
                      <Card card={card} />
                      {/* SELECT BUTTON */}
                      <div
-                        className={`pointer ${
-                           selectedCardIds.includes(card.id) ? 'btn-selected' : 'btn-select'
-                        }`}
+                        className={`pointer ${selectedCardIds.includes(card.id) ? 'btn-selected' : 'btn-select'}`}
                         onClick={(e) => {
                            e.stopPropagation()
                            handleClickBtnSelect(card)
@@ -144,12 +131,7 @@ const ModalBusinessContacts = () => {
             {/* HEADER */}
             <ModalHeader text="SELECT CARD" />
             {/* ACTION BUTTON */}
-            <BtnAction
-               text="DONE"
-               onYesFunc={onYesFunc}
-               disabled={selectedCardIds.length !== modals.modalBusCont.selectCount}
-               position={btnActionPosition}
-            />
+            <BtnAction text="DONE" onYesFunc={onYesFunc} disabled={selectedCardIds.length !== modals.modalBusCont.selectCount} position={btnActionPosition} />
          </div>
       </>
    )

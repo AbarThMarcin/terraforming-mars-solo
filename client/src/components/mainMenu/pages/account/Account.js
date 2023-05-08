@@ -29,8 +29,7 @@ const Account = ({ user, setUser }) => {
       if (loading) return
 
       // Passwords do not match
-      if (newPasswordRef.current.value !== newPasswordConfRef.current.value)
-         return setError('Passwords do not match')
+      if (newPasswordRef.current.value !== newPasswordConfRef.current.value) return setError('Passwords do not match')
 
       try {
          setError(null)
@@ -57,23 +56,11 @@ const Account = ({ user, setUser }) => {
          <form onSubmit={handleUpdateUser}>
             <div className="container">
                <label>PLAYER NAME</label>
-               <input
-                  style={disabled}
-                  type="text"
-                  value={user ? user.name : ''}
-                  required
-                  disabled
-               />
+               <input style={disabled} type="text" value={user ? user.name : ''} required disabled />
             </div>
             <div className="container">
                <label>EMAIL</label>
-               <input
-                  style={disabled}
-                  type="email"
-                  value={user ? user.email : ''}
-                  required
-                  disabled
-               />
+               <input style={disabled} type="email" value={user ? user.email : ''} required disabled />
             </div>
             <div className="container">
                <label htmlFor="new-password">NEW PASSWORD</label>

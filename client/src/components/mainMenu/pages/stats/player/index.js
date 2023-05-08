@@ -33,16 +33,10 @@ const Player = ({ filterPlayers, season, corp, setCorp, userValue }) => {
       <div className={`stats${type === TABS.PLAYER_DETAILS ? ' second-tab' : ''}`}>
          {/* Tabs */}
          <div className="tabs">
-            <div
-               className={`tab pointer${type === TABS.PLAYER_OVERVIEW ? ' active' : ''}`}
-               onClick={handleClickOverview}
-            >
+            <div className={`tab pointer${type === TABS.PLAYER_OVERVIEW ? ' active' : ''}`} onClick={handleClickOverview}>
                OVERVIEW
             </div>
-            <div
-               className={`tab pointer${type === TABS.PLAYER_DETAILS ? ' active' : ''}`}
-               onClick={handleClickDetails}
-            >
+            <div className={`tab pointer${type === TABS.PLAYER_DETAILS ? ' active' : ''}`} onClick={handleClickDetails}>
                DETAILS
             </div>
          </div>

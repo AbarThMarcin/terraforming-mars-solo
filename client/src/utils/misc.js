@@ -27,13 +27,7 @@ export const getPosition = (length, id) => {
    let page = Math.floor(id / 10) + 1
 
    // Calculate top
-   if (
-      length % 10 >= 1 &&
-      length % 10 <= 5 &&
-      length - (id + 1) <= 4 &&
-      id % 10 >= 0 &&
-      id % 10 <= 4
-   ) {
+   if (length % 10 >= 1 && length % 10 <= 5 && length - (id + 1) <= 4 && id % 10 >= 0 && id % 10 <= 4) {
       top = '50%'
    } else {
       if (id % 10 >= 0 && id % 10 <= 4) {
@@ -44,13 +38,7 @@ export const getPosition = (length, id) => {
    }
 
    // Calculate left
-   if (
-      length % 10 >= 1 &&
-      length % 10 <= 4 &&
-      length - (id + 1) <= 3 &&
-      id % 10 >= 0 &&
-      id % 10 <= 3
-   ) {
+   if (length % 10 >= 1 && length % 10 <= 4 && length - (id + 1) <= 3 && id % 10 >= 0 && id % 10 <= 3) {
       switch (length % 10) {
          case 4:
             left = `${50 - 100 / 6 - 100 / 12 + (id % 5) * (100 / 6) + (page - 1) * 100}%`
@@ -101,14 +89,9 @@ export const addNeutralTiles = ([...initBoard]) => {
          let greeneriesLeft = 1 // Greeneries amount per city
          while (greeneriesLeft > 0) {
             let greeneryId = randomInteger(0, neighbors.length - 1)
-            if (
-               !neighbors[greeneryId].oceanOnly &&
-               !neighbors[greeneryId].object &&
-               neighbors[greeneryId].name !== 'NOCTIS CITY'
-            ) {
+            if (!neighbors[greeneryId].oceanOnly && !neighbors[greeneryId].object && neighbors[greeneryId].name !== 'NOCTIS CITY') {
                initBoard.forEach((field) => {
-                  if (field.x === neighbors[greeneryId].x && field.y === neighbors[greeneryId].y)
-                     field.object = TILES.GREENERY_NEUTRAL
+                  if (field.x === neighbors[greeneryId].x && field.y === neighbors[greeneryId].y) field.object = TILES.GREENERY_NEUTRAL
                })
                greeneriesLeft--
             }
@@ -158,8 +141,7 @@ function hasNeutralCityOrGreenery(neighbors) {
 
 export function getAllResources(card, statePlayer) {
    let resources = statePlayer.resources.mln
-   if (hasTag(card, TAGS.BUILDING))
-      resources += statePlayer.resources.steel * statePlayer.valueSteel
+   if (hasTag(card, TAGS.BUILDING)) resources += statePlayer.resources.steel * statePlayer.valueSteel
    if (hasTag(card, TAGS.SPACE)) resources += statePlayer.resources.titan * statePlayer.valueTitan
    if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
    return resources
@@ -170,19 +152,7 @@ export function getAllResourcesForSP(statePlayer) {
    return resources
 }
 
-export function funcPerformSubActions(
-   subActions,
-   ANIMATION_SPEED,
-   setModals,
-   dispatchGame,
-   setTrigger,
-   logData,
-   logIcon,
-   setLogData,
-   setLogIcon,
-   sound,
-   noTrigger = false
-) {
+export function funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, dispatchGame, setTrigger, logData, logIcon, setLogData, setLogIcon, sound, noTrigger = false) {
    if (logData) {
       setLogData(logData)
       setLogIcon(logIcon)
@@ -212,13 +182,7 @@ export function funcPerformSubActions(
          setTimeout(() => {
             endAnimation(setModals)
             startAnimation(setModals)
-            setAnimation(
-               subActions[i].name,
-               subActions[i].type,
-               subActions[i].value,
-               setModals,
-               sound
-            )
+            setAnimation(subActions[i].name, subActions[i].type, subActions[i].value, setModals, sound)
          }, longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2))
          setTimeout(
             () => subActions[i].func(),
@@ -228,10 +192,7 @@ export function funcPerformSubActions(
          )
       } else {
          // Subaction with user interaction
-         setTimeout(
-            () => subActions[i].func(),
-            longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2)
-         )
+         setTimeout(() => subActions[i].func(), longAnimCount * ANIMATION_SPEED + shortAnimCount * (ANIMATION_SPEED / 2))
       }
       // ============= End animation and remove performed actions from stateGame.actionsLeft
       if (i === iLast) {
@@ -299,24 +260,11 @@ export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndentured
    return newCards
 }
 
-export function updateVP(
-   statePlayer,
-   dispatchPlayer,
-   stateGame,
-   stateBoard,
-   setTotalVP,
-   herbivoresException = false
-) {
+export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP, herbivoresException = false) {
    // Cards VP update
    let cardsVP = 0
    statePlayer.cardsPlayed.forEach((card) => {
-      cardsVP += updateVpForCardId(
-         card,
-         statePlayer,
-         dispatchPlayer,
-         stateBoard,
-         herbivoresException
-      )
+      cardsVP += updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException)
    })
    // Total VP update
    const totalPoints = getTotalPointsWithoutVP(stateGame, stateBoard) + cardsVP
@@ -332,9 +280,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
          break
       case 8:
          let capitalCity = stateBoard.find((field) => field.object === TILES.SPECIAL_CITY_CAPITAL)
-         let oceans = getNeighbors(capitalCity.x, capitalCity.y, stateBoard).filter(
-            (nbField) => nbField.object === TILES.OCEAN
-         )
+         let oceans = getNeighbors(capitalCity.x, capitalCity.y, stateBoard).filter((nbField) => nbField.object === TILES.OCEAN)
          newVp = oceans.length
          break
       case 12:
@@ -367,14 +313,9 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
          if (statePlayer.corporation.name === CORP_NAMES.SATURN_SYSTEMS) newVp++
          break
       case 85:
-         let commercialDistrict = stateBoard.find(
-            (field) => field.object === TILES.SPECIAL_COMMERCIAL_DISTRICT
-         )
+         let commercialDistrict = stateBoard.find((field) => field.object === TILES.SPECIAL_COMMERCIAL_DISTRICT)
          let cities = getNeighbors(commercialDistrict.x, commercialDistrict.y, stateBoard).filter(
-            (nbField) =>
-               nbField.object === TILES.CITY ||
-               nbField.object === TILES.CITY_NEUTRAL ||
-               nbField.object === TILES.SPECIAL_CITY_CAPITAL
+            (nbField) => nbField.object === TILES.CITY || nbField.object === TILES.CITY_NEUTRAL || nbField.object === TILES.SPECIAL_CITY_CAPITAL
          )
          newVp = cities.length
          break
@@ -392,9 +333,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
          newVp = Math.floor(card.units.microbe / 3)
          break
       case 147:
-         newVp = herbivoresException
-            ? Math.floor((card.units.animal + 1) / 2)
-            : Math.floor(card.units.animal / 2)
+         newVp = herbivoresException ? Math.floor((card.units.animal + 1) / 2) : Math.floor(card.units.animal / 2)
          break
       case 172:
          newVp = Math.floor(card.units.animal / 2)
@@ -403,12 +342,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
          newVp = card.units.animal
          break
       case 198:
-         let allCities = stateBoard.filter(
-            (field) =>
-               field.object === TILES.CITY ||
-               field.object === TILES.CITY_NEUTRAL ||
-               field.object === TILES.SPECIAL_CITY_CAPITAL
-         )
+         let allCities = stateBoard.filter((field) => field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL || field.object === TILES.SPECIAL_CITY_CAPITAL)
          newVp = Math.floor(allCities.length / 3)
          break
       default:
@@ -419,12 +353,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
 }
 
 export function getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresException) {
-   return (
-      getTrPoints(stateGame) +
-      getGreeneryPoints(stateBoard) +
-      getCityPoints(stateBoard) +
-      getVictoryPoints(statePlayer, herbivoresException)
-   )
+   return getTrPoints(stateGame) + getGreeneryPoints(stateBoard) + getCityPoints(stateBoard) + getVictoryPoints(statePlayer, herbivoresException)
 }
 export function getTotalPointsWithoutVP(stateGame, stateBoard) {
    return getTrPoints(stateGame) + getGreeneryPoints(stateBoard) + getCityPoints(stateBoard)
@@ -441,17 +370,12 @@ export function getCityPoints(stateBoard) {
    let points = 0
    let board = JSON.parse(JSON.stringify(stateBoard))
    let cities = board.filter(
-      (field) =>
-         (field.object === TILES.CITY || field.object === TILES.SPECIAL_CITY_CAPITAL) &&
-         field.name !== 'PHOBOS SPACE HAVEN' &&
-         field.name !== 'GANYMEDE COLONY'
+      (field) => (field.object === TILES.CITY || field.object === TILES.SPECIAL_CITY_CAPITAL) && field.name !== 'PHOBOS SPACE HAVEN' && field.name !== 'GANYMEDE COLONY'
    )
    cities.forEach((city) => {
       let x = city.x
       let y = city.y
-      let greeneries = getNeighbors(x, y, board).filter(
-         (field) => field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL
-      )
+      let greeneries = getNeighbors(x, y, board).filter((field) => field.object === TILES.GREENERY || field.object === TILES.GREENERY_NEUTRAL)
       points += greeneries.length
    })
    return points
@@ -468,35 +392,17 @@ export function scale(number, inMin, inMax, outMin, outMax) {
 }
 
 export function getCardsWithPossibleMicrobes(statePlayer) {
-   return statePlayer.cardsPlayed.filter(
-      (card) =>
-         card.id === 33 ||
-         card.id === 34 ||
-         card.id === 35 ||
-         card.id === 49 ||
-         card.id === 131 ||
-         card.id === 157
-   )
+   return statePlayer.cardsPlayed.filter((card) => card.id === 33 || card.id === 34 || card.id === 35 || card.id === 49 || card.id === 131 || card.id === 157)
 }
 
 export function getCardsWithPossibleAnimals(statePlayer) {
    return statePlayer.cardsPlayed.filter(
-      (card) =>
-         card.id === 24 ||
-         card.id === 52 ||
-         card.id === 54 ||
-         card.id === 72 ||
-         card.id === 128 ||
-         card.id === 147 ||
-         card.id === 172 ||
-         card.id === 184
+      (card) => card.id === 24 || card.id === 52 || card.id === 54 || card.id === 72 || card.id === 128 || card.id === 147 || card.id === 172 || card.id === 184
    )
 }
 
 export function getCardsWithPossibleScience(statePlayer) {
-   return statePlayer.cardsPlayed.filter(
-      (card) => card.id === 5 || card.id === 95 || card.id === 185
-   )
+   return statePlayer.cardsPlayed.filter((card) => card.id === 5 || card.id === 95 || card.id === 185)
 }
 
 export function getCardsWithPossibleFighters(statePlayer) {
@@ -504,27 +410,11 @@ export function getCardsWithPossibleFighters(statePlayer) {
 }
 
 export function canCardHaveMicrobes(cardId) {
-   return (
-      cardId === 33 ||
-      cardId === 34 ||
-      cardId === 35 ||
-      cardId === 49 ||
-      cardId === 131 ||
-      cardId === 157
-   )
+   return cardId === 33 || cardId === 34 || cardId === 35 || cardId === 49 || cardId === 131 || cardId === 157
 }
 
 export function canCardHaveAnimals(cardId) {
-   return (
-      cardId === 24 ||
-      cardId === 52 ||
-      cardId === 54 ||
-      cardId === 72 ||
-      cardId === 128 ||
-      cardId === 147 ||
-      cardId === 172 ||
-      cardId === 184
-   )
+   return cardId === 24 || cardId === 52 || cardId === 54 || cardId === 72 || cardId === 128 || cardId === 147 || cardId === 172 || cardId === 184
 }
 
 export function canCardHaveScience(cardId) {
@@ -597,30 +487,14 @@ export const sorted = (cards, id, requirementsMet) => {
             return cards
          case '2a':
             sortOrder = ['green', 'blue', 'red']
-            cards.sort(
-               (a, b) => sortOrder.indexOf(getCardType(a)) - sortOrder.indexOf(getCardType(b))
-            )
+            cards.sort((a, b) => sortOrder.indexOf(getCardType(a)) - sortOrder.indexOf(getCardType(b)))
             return cards
          case '2b':
             sortOrder = ['red', 'blue', 'green']
-            cards.sort(
-               (a, b) => sortOrder.indexOf(getCardType(a)) - sortOrder.indexOf(getCardType(b))
-            )
+            cards.sort((a, b) => sortOrder.indexOf(getCardType(a)) - sortOrder.indexOf(getCardType(b)))
             return cards
          case '3a':
-            sortOrder = [
-               TAGS.BUILDING,
-               TAGS.SPACE,
-               TAGS.POWER,
-               TAGS.SCIENCE,
-               TAGS.JOVIAN,
-               TAGS.EARTH,
-               TAGS.PLANT,
-               TAGS.MICROBE,
-               TAGS.ANIMAL,
-               TAGS.CITY,
-               TAGS.EVENT,
-            ]
+            sortOrder = [TAGS.BUILDING, TAGS.SPACE, TAGS.POWER, TAGS.SCIENCE, TAGS.JOVIAN, TAGS.EARTH, TAGS.PLANT, TAGS.MICROBE, TAGS.ANIMAL, TAGS.CITY, TAGS.EVENT]
             cards.sort((a, b) => {
                let tagsA = ''
                let tagsB = ''
@@ -639,19 +513,7 @@ export const sorted = (cards, id, requirementsMet) => {
             })
             return cards
          case '3b':
-            sortOrder = [
-               TAGS.BUILDING,
-               TAGS.SPACE,
-               TAGS.POWER,
-               TAGS.SCIENCE,
-               TAGS.JOVIAN,
-               TAGS.EARTH,
-               TAGS.PLANT,
-               TAGS.MICROBE,
-               TAGS.ANIMAL,
-               TAGS.CITY,
-               TAGS.EVENT,
-            ]
+            sortOrder = [TAGS.BUILDING, TAGS.SPACE, TAGS.POWER, TAGS.SCIENCE, TAGS.JOVIAN, TAGS.EARTH, TAGS.PLANT, TAGS.MICROBE, TAGS.ANIMAL, TAGS.CITY, TAGS.EVENT]
             cards.sort((a, b) => {
                let tagsA = ''
                let tagsB = ''
@@ -722,29 +584,17 @@ export const range = (start, end) => {
       .map((_, idx) => start + idx)
 }
 
-export const getNewCardsDrawIds = async (
-   count,
-   statePlayer,
-   dispatchPlayer,
-   type,
-   id,
-   token,
-   additionalDeckIds
-) => {
+export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, type, id, token, additionalDeckIds) => {
    let cardsDeckIds
    let newCardsDrawIds
    let newCardsDeckIds
    if (type === 'quickMatchId') {
-      cardsDeckIds = additionalDeckIds
-         ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id))
-         : statePlayer.cardsDeckIds
+      cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
       const drawCardsIds = await getConsecutiveCardsIds(token, id, 208 - cardsDeckIds.length, count)
       newCardsDrawIds = drawCardsIds
       newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
    } else {
-      cardsDeckIds = additionalDeckIds
-         ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id))
-         : statePlayer.cardsDeckIds
+      cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
       const drawIndexes = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
       newCardsDrawIds = cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
       newCardsDeckIds = cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))

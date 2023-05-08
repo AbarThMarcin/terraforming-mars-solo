@@ -22,13 +22,10 @@ const TableStatisticsRow = ({ player }) => {
    }
    function getWinRate() {
       const wins = player.games.reduce((total, game) => (game.victory ? total + 1 : total), 0)
-      return `${Math.floor((wins / gamesCount) * 100)}%`
+      return `${((wins / gamesCount) * 100).toFixed(2)}%`
    }
    function getMaxScore() {
-      return player.games.reduce(
-         (max, game) => (game.points.total > max ? game.points.total : max),
-         0
-      )
+      return player.games.reduce((max, game) => (game.points.total > max ? game.points.total : max), 0)
    }
    function getLongestStreak() {
       const results = player.games.map((game) => {
@@ -43,10 +40,7 @@ const TableStatisticsRow = ({ player }) => {
       return maxStreak
    }
    function getRealRating() {
-      const totalPoints = player.games.reduce(
-         (total, game) => (game.victory ? total + game.points.total : total),
-         0
-      )
+      const totalPoints = player.games.reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
       return (totalPoints / gamesCount).toFixed(2)
    }
 

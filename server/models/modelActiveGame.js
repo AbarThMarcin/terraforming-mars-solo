@@ -29,7 +29,7 @@ const activeGameSchema = mongoose.Schema({
    time: {
       type: Number,
       required: false,
-   }
+   },
 })
 
 module.exports = mongoose.model('active_games', activeGameSchema)

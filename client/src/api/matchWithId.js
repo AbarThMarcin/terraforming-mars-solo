@@ -11,9 +11,7 @@ export const getMatchesWithId = async (token) => {
       const res = await axios.get(URI, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -32,9 +30,7 @@ export const getMatchWithId = async (token, id) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -53,9 +49,7 @@ export const getConsecutiveCardsIds = async (token, gameId, idx, count) => {
       const res = await axios.post(URI, body, config)
       return res.data.ids
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -74,9 +68,7 @@ export const createMatchWithId = async (token, gameData) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -95,9 +87,7 @@ export const deleteMatchWithId = async (token, type) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }

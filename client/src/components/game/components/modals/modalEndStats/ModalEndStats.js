@@ -1,23 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-   StatePlayerContext,
-   StateGameContext,
-   StateBoardContext,
-   UserContext,
-} from '../../../../game'
+import { StatePlayerContext, StateGameContext, StateBoardContext, UserContext } from '../../../../game'
 import iconTr from '../../../../../assets/images/resources/res_tr.svg'
 import iconGreenery from '../../../../../assets/images/tiles/tile_greenery.svg'
 import iconCity from '../../../../../assets/images/tiles/tile_city.svg'
 import iconVp from '../../../../../assets/images/vp/vp_any.svg'
 import BtnAction from '../../buttons/BtnAction'
-import {
-   getCityPoints,
-   getGreeneryPoints,
-   getTotalPoints,
-   getTrPoints,
-   getVictoryPoints,
-} from '../../../../../utils/misc'
+import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../../utils/misc'
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
@@ -29,11 +18,7 @@ const ModalEndStats = () => {
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
    const victoryLossText =
-      stateGame.globalParameters.temperature === 8 &&
-      stateGame.globalParameters.oxygen === 14 &&
-      stateGame.globalParameters.oceans === 9
-         ? 'YOU WIN!'
-         : 'YOU LOSE!'
+      stateGame.globalParameters.temperature === 8 && stateGame.globalParameters.oxygen === 14 && stateGame.globalParameters.oceans === 9 ? 'YOU WIN!' : 'YOU LOSE!'
    const trPoints = getTrPoints(stateGame)
    const greeneryPoints = getGreeneryPoints(stateBoard)
    const cityPoints = getCityPoints(stateBoard)
@@ -137,16 +122,11 @@ const ModalEndStats = () => {
          </div>
          <div className="corporation-container">
             <div className="logo">
-               <img src={logo} alt={`logo_${statePlayer.corporation.name}`} size='20px' />
+               <img src={logo} alt={`logo_${statePlayer.corporation.name}`} size="20px" />
             </div>
             <div>{statePlayer.corporation.name}</div>
          </div>
-         <BtnAction
-            text="DONE"
-            textConfirmation="Leave the game and go back to main menu?"
-            onYesFunc={onYesFunc}
-            position={btnActionPosition}
-         />
+         <BtnAction text="DONE" textConfirmation="Leave the game and go back to main menu?" onYesFunc={onYesFunc} position={btnActionPosition} />
       </div>
    )
 }

@@ -7,10 +7,7 @@ import { PlayersContext } from '../../index'
 const Statistics = () => {
    const refTable = useRef()
    const { currPlayers } = useContext(PlayersContext)
-   const currPlayersWithGames = useMemo(
-      () => currPlayers.filter((player) => player.games.length > 0),
-      [currPlayers]
-   )
+   const currPlayersWithGames = useMemo(() => currPlayers.filter((player) => player.games.length > 0), [currPlayers])
 
    useEffect(() => {
       const table = refTable.current
@@ -60,9 +57,7 @@ const Statistics = () => {
          {/* Table */}
          <div ref={refTable} className="table">
             {currPlayers && currPlayersWithGames.length > 0 ? (
-               currPlayersWithGames.map((player, idx) => (
-                  <TableStatisticsRow key={idx} player={player} />
-               ))
+               currPlayersWithGames.map((player, idx) => <TableStatisticsRow key={idx} player={player} />)
             ) : (
                <div className="center" style={{ fontSize: 'calc(var(--default-size) * 1.5)' }}>
                   NO ACTIVE PLAYERS

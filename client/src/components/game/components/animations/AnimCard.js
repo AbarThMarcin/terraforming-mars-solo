@@ -17,10 +17,7 @@ const AnimCard = ({ type }) => {
    }
 
    return (
-      <div
-         className={`anim-card ${type === 'card-in' ? 'anim-card-in' : 'anim-card-out'}`}
-         style={{ animationDuration: `${ANIMATION_SPEED}ms` }}
-      >
+      <div className={`anim-card ${type === 'card-in' ? 'anim-card-in' : 'anim-card-out'}`} style={{ animationDuration: `${ANIMATION_SPEED}ms` }}>
          <img src={getResIcon(RESOURCES.CARD)} className="full-size" alt="card" />
          <div className="value center">{value}</div>
       </div>

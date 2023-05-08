@@ -5,29 +5,13 @@ import { getAllResourcesForSP } from '../../../../../utils/misc'
 import { StatePlayerContext, StateGameContext, StateBoardContext, ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 
-const ModalSPaction = ({
-   id,
-   icon,
-   name,
-   cost,
-   textConfirmation,
-   actionClicked,
-   setActionClicked,
-   changeSPcosts,
-   handleUseSP,
-   setBtnClickedId,
-}) => {
+const ModalSPaction = ({ id, icon, name, cost, textConfirmation, actionClicked, setActionClicked, changeSPcosts, handleUseSP, setBtnClickedId }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { setModals } = useContext(ModalsContext)
    const isAvailable = SPrequirementsMet()
-   const styles =
-      name === SP.GREENERY
-         ? { transform: 'translateX(8%)' }
-         : name === SP.CITY
-         ? { transform: 'translateX(4%)' }
-         : {}
+   const styles = name === SP.GREENERY ? { transform: 'translateX(8%)' } : name === SP.CITY ? { transform: 'translateX(4%)' } : {}
 
    const btnSPActionPosition = { right: '8%', top: '50%', transform: 'translateY(-50%) scale(0.9)' }
 
@@ -86,25 +70,13 @@ const ModalSPaction = ({
             break
          case SP.GREENERY:
             availFields = stateBoard.filter(
-               (field) =>
-                  !field.oceanOnly &&
-                  !field.object &&
-                  field.name !== 'PHOBOS SPACE HAVEN' &&
-                  field.name !== 'GANYMEDE COLONY' &&
-                  field.name !== 'NOCTIS CITY'
+               (field) => !field.oceanOnly && !field.object && field.name !== 'PHOBOS SPACE HAVEN' && field.name !== 'GANYMEDE COLONY' && field.name !== 'NOCTIS CITY'
             )
             if (availFields.length === 0) v = false
             break
          case SP.CITY:
-            const cityTiles = stateBoard.filter(
-               (field) =>
-                  field.object === TILES.CITY ||
-                  field.object === TILES.CITY_NEUTRAL ||
-                  field.object === TILES.SPECIAL_CITY_CAPITAL
-            )
-            availFields = setAvailFieldsAdjacent(stateBoard, cityTiles, false).filter(
-               (availField) => availField.available === true
-            )
+            const cityTiles = stateBoard.filter((field) => field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL || field.object === TILES.SPECIAL_CITY_CAPITAL)
+            availFields = setAvailFieldsAdjacent(stateBoard, cityTiles, false).filter((availField) => availField.available === true)
             if (availFields.length === 0) v = false
             break
          default:
@@ -124,14 +96,7 @@ const ModalSPaction = ({
          {/* Name */}
          <div className="sp-action-element name">{name}</div>
          {/* Button */}
-         <BtnAction
-            text="USE"
-            mln={cost}
-            onYesFunc={handleClickBtn}
-            disabled={!isAvailable}
-            position={btnSPActionPosition}
-            onMouseDownFunc={() => setBtnClickedId(id)}
-         />
+         <BtnAction text="USE" mln={cost} onYesFunc={handleClickBtn} disabled={!isAvailable} position={btnSPActionPosition} onMouseDownFunc={() => setBtnClickedId(id)} />
       </div>
    )
 }

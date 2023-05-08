@@ -30,10 +30,7 @@ const ModalProduction = () => {
          {/* HEADER */}
          <div className="modal-resource-header">SELECT ANY PRODUCTION</div>
          {/* BOX */}
-         <div
-            className="modal-standard-projects-box other center"
-            onClick={(e) => e.stopPropagation()}
-         >
+         <div className="modal-standard-projects-box other center" onClick={(e) => e.stopPropagation()}>
             {/* HEADER */}
             <div className="header">CARD PRODUCTIONS</div>
             {/* DATA */}
@@ -45,11 +42,7 @@ const ModalProduction = () => {
                </div>
             )}
             {/* CONFIRM BUTTON */}
-            <BtnAction
-               text="CONFIRM"
-               onYesFunc={handleClickConfirmBtn}
-               position={btnActionConfirmPosition}
-            />
+            <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
          </div>
       </>
    )

@@ -1,13 +1,14 @@
 import { ACTIONS_GAME } from '../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ANIMATIONS } from '../animations'
-import { RESOURCES } from '../resources'
+import { RESOURCES, getResIcon } from '../resources'
 import { SP } from '../StandardProjects'
 import { OPTION_ICONS } from '../selectOneOptions'
 import { TAGS } from '../tags'
 import { canCardHaveAnimals, canCardHaveMicrobes } from '../../utils/misc'
 import { EFFECTS } from './effectIcons'
 import { CORP_NAMES } from '../corpNames'
+import { funcSetLogItemsSingleActions } from '../log/log'
 
 // ============================= LIST OF CORPORATION IMMEDIATE EFFECTS =============================
 export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) => {
@@ -38,14 +39,7 @@ export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) =
 
 // ================================== LIST OF ALL CARD EFFECTS ====================================
 // This includes all card and corporation effects in game EXCEPT immediate effects from corporations
-export const funcGetEffect = (
-   effectName,
-   statePlayer,
-   dispatchPlayer,
-   dispatchGame,
-   modals,
-   setModals
-) => {
+export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchGame, modals, setModals, setLogItems) => {
    let effect = []
    switch (effectName) {
       // ======================== CORPORATION EFFECTS ========================
@@ -55,7 +49,10 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 4,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 4 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 4 })
+                  funcSetLogItemsSingleActions('Received 4 MC from CREDICOR effect', getResIcon(RESOURCES.MLN), 4, setLogItems)
+               },
             },
          ]
          break
@@ -65,7 +62,10 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 2,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 })
+                  funcSetLogItemsSingleActions('Received 2 MC from INTERPLANETARY CINEMATICS effect', getResIcon(RESOURCES.MLN), 2, setLogItems)
+               },
             },
          ]
          break
@@ -75,7 +75,15 @@ export const funcGetEffect = (
                name: ANIMATIONS.PRODUCTION_IN,
                type: RESOURCES.MLN,
                value: 1,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
+                  funcSetLogItemsSingleActions(
+                     'MC production increased by 1 from SATURN SYSTEMS effect',
+                     [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)],
+                     1,
+                     setLogItems
+                  )
+               },
             },
          ]
          break
@@ -85,7 +93,10 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 3,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
+                  funcSetLogItemsSingleActions('Received 3 MC from THARSIS REPUBLIC effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+               },
             },
          ]
          break
@@ -95,7 +106,15 @@ export const funcGetEffect = (
                name: ANIMATIONS.PRODUCTION_IN,
                type: RESOURCES.MLN,
                value: 1,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
+                  funcSetLogItemsSingleActions(
+                     'MC production increased by 1 from THARSIS REPUBLIC effect',
+                     [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)],
+                     1,
+                     setLogItems
+                  )
+               },
             },
          ]
          break
@@ -110,13 +129,19 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 3,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
+                  funcSetLogItemsSingleActions('Received 3 MC from OPTIMAL AEROBRAKING effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+               },
             },
             {
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.HEAT,
                value: 3,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: 3 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: 3 })
+                  funcSetLogItemsSingleActions('Received 3 heat from OPTIMAL AEROBRAKING effect', getResIcon(RESOURCES.HEAT), 3, setLogItems)
+               },
             },
          ]
          break
@@ -126,19 +151,25 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 2,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 })
+                  funcSetLogItemsSingleActions('Received 2 MC from ROVER CONSTRUCTION effect', getResIcon(RESOURCES.MLN), 2, setLogItems)
+               },
             },
          ]
          break
       case EFFECTS.EFFECT_MARS_UNIVERSITY:
-         // Immediate effect implemented in Game component (useEffect)
+         // Immediate effect implemented in Game component (useEffect) and immEffects module
          break
       case EFFECTS.EFFECT_VIRAL_ENHANCERS:
          let getPlantEffect = {
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 1 })
+               funcSetLogItemsSingleActions('Received 1 plant from VIRAL ENHANCERS effect', getResIcon(RESOURCES.PLANT), 1, setLogItems)
+            },
          }
          modals.modalCard.tags.forEach((tag) => {
             switch (tag) {
@@ -154,10 +185,7 @@ export const funcGetEffect = (
                               ...prev,
                               modalSelectOne: {
                                  card: statePlayer.cardsPlayed.find((card) => card.id === 74),
-                                 options: [
-                                    OPTION_ICONS.CARD74_OPTION1,
-                                    OPTION_ICONS.CARD74_OPTION3,
-                                 ],
+                                 options: [OPTION_ICONS.CARD74_OPTION1, OPTION_ICONS.CARD74_OPTION3],
                               },
                               selectOne: true,
                            }))
@@ -179,10 +207,7 @@ export const funcGetEffect = (
                               ...prev,
                               modalSelectOne: {
                                  card: statePlayer.cardsPlayed.find((card) => card.id === 74),
-                                 options: [
-                                    OPTION_ICONS.CARD74_OPTION1,
-                                    OPTION_ICONS.CARD74_OPTION2,
-                                 ],
+                                 options: [OPTION_ICONS.CARD74_OPTION1, OPTION_ICONS.CARD74_OPTION2],
                               },
                               selectOne: true,
                            }))
@@ -204,10 +229,7 @@ export const funcGetEffect = (
                               ...prev,
                               modalSelectOne: {
                                  card: statePlayer.cardsPlayed.find((card) => card.id === 74),
-                                 options: [
-                                    OPTION_ICONS.CARD74_OPTION1,
-                                    OPTION_ICONS.CARD74_OPTION3,
-                                 ],
+                                 options: [OPTION_ICONS.CARD74_OPTION1, OPTION_ICONS.CARD74_OPTION3],
                               },
                               selectOne: true,
                            }))
@@ -228,7 +250,10 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 3,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
+                  funcSetLogItemsSingleActions('Received 3 MC from MEDIA GROUP effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+               },
             },
          ]
          break
@@ -241,11 +266,13 @@ export const funcGetEffect = (
                      name: ANIMATIONS.RESOURCES_IN,
                      type: RESOURCES.ANIMAL,
                      value: 1,
-                     func: () =>
+                     func: () => {
                         dispatchPlayer({
                            type: ACTIONS_PLAYER.ADD_BIO_RES,
                            payload: { cardId: 128, resource: RESOURCES.ANIMAL, amount: 1 },
-                        }),
+                        })
+                        funcSetLogItemsSingleActions('Received 1 animal to ECOLOGICAL ZONE card from its effect', getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+                     },
                   })
                   break
                default:
@@ -263,11 +290,13 @@ export const funcGetEffect = (
                      name: ANIMATIONS.RESOURCES_IN,
                      type: RESOURCES.MICROBE,
                      value: 1,
-                     func: () =>
+                     func: () => {
                         dispatchPlayer({
                            type: ACTIONS_PLAYER.ADD_BIO_RES,
                            payload: { cardId: 131, resource: RESOURCES.MICROBE, amount: 1 },
-                        }),
+                        })
+                        funcSetLogItemsSingleActions('Received 1 microbe to DECOMPOSERS card from its effect', getResIcon(RESOURCES.MICROBE), 1, setLogItems)
+                     },
                   })
                   break
                default:
@@ -281,11 +310,13 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.ANIMAL,
                value: 1,
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: { cardId: 147, resource: RESOURCES.ANIMAL, amount: 1 },
-                  }),
+                  })
+                  funcSetLogItemsSingleActions('Received 1 animal to HERBIVORES card from its effect', getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+               },
             },
          ]
          break
@@ -295,7 +326,10 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: 3,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
+                  funcSetLogItemsSingleActions('Received 3 MC from STANDARD TECHNOLOGY effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+               },
             },
          ]
          break
@@ -305,16 +339,18 @@ export const funcGetEffect = (
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.ANIMAL,
                value: 1,
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: { cardId: 172, resource: RESOURCES.ANIMAL, amount: 1 },
-                  }),
+                  })
+                  funcSetLogItemsSingleActions('Received 1 animal to PETS card from its effect', getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+               },
             },
          ]
          break
       case EFFECTS.EFFECT_OLYMPUS_CONFERENCE:
-         // Immediate effect implemented in Game component (useEffect)
+         // Immediate effect implemented in Game component (useEffect) and immEffects module
          break
       case EFFECTS.EFFECT_IMMIGRANT_CITY:
          effect = [
@@ -322,7 +358,15 @@ export const funcGetEffect = (
                name: ANIMATIONS.PRODUCTION_IN,
                type: RESOURCES.MLN,
                value: 1,
-               func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
+                  funcSetLogItemsSingleActions(
+                     'MC production increased by 1 from IMMIGRANT CITY effect',
+                     [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)],
+                     1,
+                     setLogItems
+                  )
+               },
             },
          ]
          break
@@ -337,11 +381,7 @@ export const getSPeffectsToCall = (SpOrConvertPlants) => {
       case SP.AQUIFER:
          return [EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
       case SP.GREENERY:
-         return [
-            EFFECTS.EFFECT_CREDICOR,
-            EFFECTS.EFFECT_HERBIVORES,
-            EFFECTS.EFFECT_STANDARD_TECHNOLOGY,
-         ]
+         return [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_HERBIVORES, EFFECTS.EFFECT_STANDARD_TECHNOLOGY]
       case SP.CITY:
          return [
             EFFECTS.EFFECT_CREDICOR,

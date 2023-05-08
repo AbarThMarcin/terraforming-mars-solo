@@ -19,21 +19,16 @@ const RankingRules = ({ gamesCountForPrimaryRanking }) => {
             {season !== undefined ? (
                <>
                   <p>
-                     <span className="season highlighted">
-                        {season ? `SEASON ${season}` : 'PRESEASON'}
-                     </span>
+                     <span className="season highlighted">{season ? `SEASON ${season}` : 'PRESEASON'}</span>
                   </p>
                   <p>
                      CURRENT SEASON ENDS ON: <span className="highlighted">30 JUNE 2023</span>.
                   </p>
                   <p>
-                     YOU HAVE <span className="highlighted">24 HOURS</span> TO COMPLETE A RANKED
-                     MATCH.
+                     YOU HAVE <span className="highlighted">24 HOURS</span> TO COMPLETE A RANKED MATCH.
                   </p>
                   <p>
-                     YOU MUST HAVE{' '}
-                     <span className="highlighted">{gamesCountForPrimaryRanking}</span> COMPLETED
-                     MATCHES FOR THE SEASON PRIMARY RANKING.
+                     YOU MUST HAVE <span className="highlighted">{gamesCountForPrimaryRanking}</span> COMPLETED MATCHES FOR THE SEASON PRIMARY RANKING.
                   </p>
                   <p>THE SECONDARY RANKING INCLUDES PLAYERS WITH ANY AMOUNT OF GAMES.</p>
                   <br />

@@ -23,12 +23,7 @@
    bottom: 6%;
    left: 6.7%;
    background: rgb(255, 255, 255);
-   background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(255, 255, 255, 0) 85%,
-      rgba(255, 255, 255, 0) 100%
-   );
+   background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 85%, rgba(255, 255, 255, 0) 100%);
 }
 .corp-logo img {
    width: 100%;

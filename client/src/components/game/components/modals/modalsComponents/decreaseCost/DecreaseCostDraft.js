@@ -21,17 +21,9 @@ const DecreaseCostDraft = ({ toBuyMln, setToBuyMln, toBuyHeat, setToBuyHeat }) =
          <div className="card-decrease-cost">
             <span>{toBuyHeat}</span>
             <img src={iconHeat} alt="icon_heat" />
-            {toBuyHeat > 0 && (
-               <div
-                  className="decrease-arrow pointer decrease-arrow-left"
-                  onClick={() => handleClickArrow('decrement')}
-               ></div>
-            )}
+            {toBuyHeat > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow('decrement')}></div>}
             {toBuyHeat < statePlayer.resources.heat && toBuyMln !== 0 && (
-               <div
-                  className="decrease-arrow pointer decrease-arrow-right"
-                  onClick={() => handleClickArrow('increment')}
-               ></div>
+               <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => handleClickArrow('increment')}></div>
             )}
          </div>
       </div>

@@ -61,9 +61,7 @@ const ModalMenu = () => {
       setModals((prev) => ({
          ...prev,
          modalConf: {
-            text: withForfeit
-               ? 'Do you want to forfeit the game?'
-               : 'Do you want to go to main menu?',
+            text: withForfeit ? 'Do you want to forfeit the game?' : 'Do you want to go to main menu?',
             onYes: () => onYes(withForfeit),
             onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },

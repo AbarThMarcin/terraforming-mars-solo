@@ -10,9 +10,7 @@ export const getEndedGameData = async () => {
       const res = await axios.get(URI, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -30,9 +28,7 @@ export const createEndedGameData = async (token, gameData) => {
       const res = await axios.post(URI, gameData, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -50,9 +46,7 @@ export const updateEndedGameData = async (token, details) => {
       const res = await axios.post(URI, details, config)
       return res
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }

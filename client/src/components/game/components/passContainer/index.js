@@ -1,10 +1,10 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext, UserContext, StateBoardContext } from '../../../game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
 import { getCorpLogoMini } from '../../../../data/corporations'
-import { LOG_TYPES } from '../../../../data/log'
+import { funcSetLogItemsBefore, funcSetLogItemsGeneration, funcSetLogItemsPass, funcSetLogItemsSingleActions } from '../../../../data/log/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'
@@ -13,32 +13,37 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { startAnimation } from '../../../../data/animations'
 import TotalVP from './TotalVP'
 import { SettingsContext, SoundContext } from '../../../../App'
+import { RESOURCES, getResIcon } from '../../../../data/resources'
 
 const PassContainer = ({ totalVP }) => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const {
-      stateGame,
-      dispatchGame,
-      getImmEffects,
-      getEffect,
-      performSubActions,
-      setLogItems,
-      ANIMATION_SPEED,
-      setSaveToServerTrigger,
-   } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, setLogItems, ANIMATION_SPEED, setSaveToServerTrigger, setItemsExpanded } =
+      useContext(StateGameContext)
+   const { stateBoard } = useContext(StateBoardContext)
    const { settings } = useContext(SettingsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
 
+   const newStatePlayer = () => {
+      return {
+         ...statePlayer,
+         resources: {
+            mln: statePlayer.production.mln + statePlayer.resources.mln + stateGame.tr,
+            steel: statePlayer.production.steel + statePlayer.resources.steel,
+            titan: statePlayer.production.titan + statePlayer.resources.titan,
+            plant: statePlayer.production.plant + statePlayer.resources.plant,
+            energy: statePlayer.production.energy,
+            heat: statePlayer.production.heat + statePlayer.resources.heat + statePlayer.resources.energy,
+         },
+      }
+   }
+
    const onYesFunc = async () => {
-      // Update log (pass)
-      setLogItems((currentLogItems) => [
-         ...currentLogItems,
-         { type: LOG_TYPES.PASS },
-         { type: LOG_TYPES.GENERATION, data: { text: `${stateGame.generation + 1}` } },
-      ])
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcSetLogItemsPass(setLogItems)
       // Close confirmation window
       setModals((prev) => ({ ...prev, confirmation: false }))
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
@@ -48,6 +53,7 @@ const PassContainer = ({ totalVP }) => {
       if (statePlayer.specialDesignEffect) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
+         funcSetLogItemsSingleActions('SPECIAL DESIGN effect ended', null, null, setLogItems)
       }
       if (statePlayer.indenturedWorkersEffect) {
          dispatchPlayer({
@@ -59,6 +65,7 @@ const PassContainer = ({ totalVP }) => {
             payload: modifiedCards(statePlayer.cardsPlayed, statePlayer, false),
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
+         funcSetLogItemsSingleActions('INDENTURED WORKERS effect ended', null, null, setLogItems)
       }
       // Phase Pass None - do NOT display Panel State Game AND Panel Corp
       let delay = 0
@@ -108,6 +115,47 @@ const PassContainer = ({ totalVP }) => {
             type: ACTIONS_PLAYER.CHANGE_RES_ENERGY,
             payload: statePlayer.production.energy - statePlayer.resources.energy,
          })
+         funcSetLogItemsSingleActions(
+            `Received ${statePlayer.production.mln + stateGame.tr} MC in the production phase`,
+            getResIcon(RESOURCES.MLN),
+            statePlayer.production.mln + stateGame.tr,
+            setLogItems
+         )
+         if (statePlayer.production.steel)
+            funcSetLogItemsSingleActions(
+               `Received ${statePlayer.production.steel} steel in the production phase`,
+               getResIcon(RESOURCES.STEEL),
+               statePlayer.production.steel,
+               setLogItems
+            )
+         if (statePlayer.production.titan)
+            funcSetLogItemsSingleActions(
+               `Received ${statePlayer.production.titan} titan in the production phase`,
+               getResIcon(RESOURCES.TITAN),
+               statePlayer.production.titan,
+               setLogItems
+            )
+         if (statePlayer.production.plant)
+            funcSetLogItemsSingleActions(
+               `Received ${statePlayer.production.plant} plant in the production phase`,
+               getResIcon(RESOURCES.PLANT),
+               statePlayer.production.plant,
+               setLogItems
+            )
+         if (statePlayer.production.heat + statePlayer.resources.energy)
+            funcSetLogItemsSingleActions(
+               `Received ${statePlayer.production.heat + statePlayer.resources.energy} heat in the production phase`,
+               getResIcon(RESOURCES.HEAT),
+               statePlayer.production.heat + statePlayer.resources.energy,
+               setLogItems
+            )
+         if (statePlayer.production.energy - statePlayer.resources.energy)
+            funcSetLogItemsSingleActions(
+               `Received ${statePlayer.production.energy - statePlayer.resources.energy} energy in the production phase`,
+               getResIcon(RESOURCES.ENERGY),
+               statePlayer.production.energy - statePlayer.resources.energy,
+               setLogItems
+            )
       }, delay)
       // Hide Panel Corp
       delay += (ANIMATION_SPEED / 1.5) * (4 / 5)
@@ -150,6 +198,21 @@ const PassContainer = ({ totalVP }) => {
             setModals((prev) => ({ ...prev, panelStateGame: true }))
          }, delay)
       }
+      setLogItems((logItems) => [
+         ...logItems.slice(0, -1),
+         {
+            type: logItems[logItems.length - 1].type,
+            data: logItems[logItems.length - 1].data,
+            details: {
+               ...logItems[logItems.length - 1].details,
+               stateAfter: {
+                  statePlayer: newStatePlayer(),
+                  stateGame,
+                  stateBoard,
+               },
+            },
+         },
+      ])
       // Go to next generation or end the game (with greeneries or without them)
       delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
@@ -170,12 +233,7 @@ const PassContainer = ({ totalVP }) => {
                   // Proper action
                   let actions = getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)
                   // Potential Herbivores
-                  if (
-                     statePlayer.cardsPlayed.some(
-                        (card) => card.effect === EFFECTS.EFFECT_HERBIVORES
-                     )
-                  )
-                     actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+                  if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
                   performSubActions(actions, null, null)
                }, ANIMATION_SPEED / 1.5 / 2)
             } else {
@@ -194,6 +252,8 @@ const PassContainer = ({ totalVP }) => {
          // Show draft
          setModals((prev) => ({ ...prev, animation: false, draft: true }))
          dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
+         // Update log (new generation)
+         funcSetLogItemsGeneration(setLogItems, stateGame, setItemsExpanded)
       }
    }
 
@@ -223,22 +283,18 @@ const PassContainer = ({ totalVP }) => {
          )}
          {/* Button */}
          <AnimatePresence>
-            {!stateGame.phaseDraft &&
-               !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState &&
-               !stateGame.phaseCorporation &&
-               !modals.animation && (
-                  <motion.div
-                     key="keyBtnPass"
-                     initial={{ opacity: 0 }}
-                     animate={{ opacity: 1 }}
-                     transition={{ duration: 0.5 }}
-                     className="btn-pass pointer"
-                     onClick={handleClickPassBtn}
-                  >
-                     <span>PASS</span>
-                  </motion.div>
-               )}
+            {!stateGame.phaseDraft && !stateGame.phasePlaceTile && !stateGame.phaseViewGameState && !stateGame.phaseCorporation && !modals.animation && (
+               <motion.div
+                  key="keyBtnPass"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="btn-pass pointer"
+                  onClick={handleClickPassBtn}
+               >
+                  <span>PASS</span>
+               </motion.div>
+            )}
          </AnimatePresence>
 
          {/* Background */}

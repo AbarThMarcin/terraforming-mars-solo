@@ -8,12 +8,7 @@ const ModalOtherDataVP = ({ setCardSnap }) => {
    return (
       <div className="modal-other-data center">
          {modals.modalOther.data.map((item, idx) => (
-            <div
-               key={idx}
-               className="modal-other-data-item"
-               onMouseOver={() => setCardSnap(item)}
-               onMouseLeave={() => setCardSnap(null)}
-            >
+            <div key={idx} className="modal-other-data-item" onMouseOver={() => setCardSnap(item)} onMouseLeave={() => setCardSnap(null)}>
                <span>
                   {item.vp} {`${item.vp > 1 || item.vp < -1 ? 'VPs' : 'VP'}`} {' - '} {item.name}
                </span>

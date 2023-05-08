@@ -10,18 +10,12 @@ const Arrows = ({ page, setPage, pages }) => {
    return (
       <div className="cards-arrows center">
          {page > 1 && (
-            <div
-               className="cards-arrow pointer arrow-left"
-               onClick={(e) => handleArrowClick(e, 'previous')}
-            >
+            <div className="cards-arrow pointer arrow-left" onClick={(e) => handleArrowClick(e, 'previous')}>
                <img className="center full-size" src={arrowLeft} alt="arrow_left" />
             </div>
          )}
          {page !== pages && (
-            <div
-               className="cards-arrow pointer arrow-right"
-               onClick={(e) => handleArrowClick(e, 'next')}
-            >
+            <div className="cards-arrow pointer arrow-right" onClick={(e) => handleArrowClick(e, 'next')}>
                <img className="center full-size" src={arrowRight} alt="arrow_right" />
             </div>
          )}

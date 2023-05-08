@@ -1,8 +1,8 @@
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
-import { getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../utils/misc'
+import { getCards, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../utils/misc'
 import { ANIMATIONS } from './animations'
-import { RESOURCES } from './resources'
+import { RESOURCES, getResIcon } from './resources'
 import microbe from '../assets/images/selectOne-options/option_microbe.svg'
 import plant from '../assets/images/selectOne-options/option_plant.svg'
 import animal2 from '../assets/images/selectOne-options/option_animal2.svg'
@@ -24,6 +24,8 @@ import card143_option2 from '../assets/images/selectOne-options/card143_option2.
 import card157_option2 from '../assets/images/selectOne-options/card157_option2.svg'
 import card190_option1 from '../assets/images/selectOne-options/card190_option1.svg'
 import { IMM_EFFECTS } from './immEffects/immEffects'
+import { funcSetLogItemsSingleActions } from '../data/log/log'
+import { CARDS } from './cards'
 
 export const OPTION_ICONS = {
    CARD19_OPTION1: 'card19_option1',
@@ -109,11 +111,7 @@ export function getOptions(cardId) {
    let options = []
    switch (cardId) {
       case 19:
-         options = [
-            OPTION_ICONS.CARD19_OPTION1,
-            OPTION_ICONS.CARD19_OPTION2,
-            OPTION_ICONS.CARD19_OPTION3,
-         ]
+         options = [OPTION_ICONS.CARD19_OPTION1, OPTION_ICONS.CARD19_OPTION2, OPTION_ICONS.CARD19_OPTION3]
          break
       case 33:
          options = [OPTION_ICONS.CARD33_OPTION1, OPTION_ICONS.CARD33_OPTION2]
@@ -151,18 +149,7 @@ export function getOptions(cardId) {
    return options
 }
 
-export function funcGetOptionsActions(
-   option,
-   statePlayer,
-   dispatchPlayer,
-   stateGame,
-   dispatchGame,
-   getImmEffects,
-   modals,
-   setModals,
-   energyAmount,
-   heatAmount
-) {
+export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispatchGame, getImmEffects, modals, setModals, energyAmount, heatAmount, setLogItems) {
    let subActions = []
    let value
    let dataCards = []
@@ -174,7 +161,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} plant`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD19_OPTION2:
@@ -228,7 +218,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -236,7 +226,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(CARDS, [33])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD33_OPTION2:
@@ -245,7 +237,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -253,7 +245,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: -value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards(CARDS, [33])[0].name} card`, getResIcon(RESOURCES.SCIENCE), -value, setLogItems)
+            },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
          break
@@ -264,7 +258,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -272,7 +266,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(CARDS, [34])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD34_OPTION2:
@@ -281,7 +277,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -289,7 +285,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: -value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards(CARDS, [34])[0].name} card`, getResIcon(RESOURCES.SCIENCE), -value, setLogItems)
+            },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          break
@@ -299,13 +297,19 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.STEEL,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 })
+               funcSetLogItemsSingleActions('Paid 1 steel', getResIcon(RESOURCES.STEEL), -1, setLogItems)
+            },
          })
          subActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,
             value: 7,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 })
+               funcSetLogItemsSingleActions('Received 7 MC', getResIcon(RESOURCES.MLN), 7, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD69_OPTION2:
@@ -313,13 +317,19 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.PLANT,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -1 })
+               funcSetLogItemsSingleActions('Paid 1 plant', getResIcon(RESOURCES.PLANT), -1, setLogItems)
+            },
          })
          subActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,
             value: 7,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 })
+               funcSetLogItemsSingleActions('Received 7 MC', getResIcon(RESOURCES.MLN), 7, setLogItems)
+            },
          })
          break
       // Viral Enhancers
@@ -329,7 +339,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} plant from VIRAL ENHANCERS effect`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD74_OPTION2:
@@ -338,7 +351,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -346,7 +359,14 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(
+                  `Received ${value} microbe to ${getCards(CARDS, [modals.modalCard.id])[0].name} card`,
+                  getResIcon(RESOURCES.MICROBE),
+                  value,
+                  setLogItems
+               )
+            },
          })
          break
       case OPTION_ICONS.CARD74_OPTION3:
@@ -355,7 +375,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.ANIMAL,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -363,7 +383,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.ANIMAL,
                      amount: value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received ${value} animal to ${getCards(CARDS, [modals.modalCard.id])[0].name} card`, getResIcon(RESOURCES.ANIMAL), value, setLogItems)
+            },
          })
          break
       // Artificial Photosynthesis
@@ -373,7 +395,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.PLANT,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: value })
+               funcSetLogItemsSingleActions(`Plant production increased by ${value}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.PLANT)], value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD115_OPTION2:
@@ -382,7 +407,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.ENERGY,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: value })
+               funcSetLogItemsSingleActions(`Energy production increased by ${value}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], value, setLogItems)
+            },
          })
          break
       // Hired Raiders
@@ -392,7 +420,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.STEEL,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} steel`, getResIcon(RESOURCES.STEEL), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD124_OPTION2:
@@ -401,7 +432,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} MC`, getResIcon(RESOURCES.MLN), value, setLogItems)
+            },
          })
          break
       // Extreme-Cold Fungus
@@ -411,7 +445,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} plant`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD134_OPTION2:
@@ -443,7 +480,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} plants`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD143_OPTION2:
@@ -475,7 +515,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -483,7 +523,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(CARDS, [157]).name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD157_OPTION2:
@@ -492,7 +534,7 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.MICROBE,
             value: value,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: {
@@ -500,7 +542,9 @@ export function funcGetOptionsActions(
                      resource: RESOURCES.MICROBE,
                      amount: -value,
                   },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards(CARDS, [157])[0].name} card`, getResIcon(RESOURCES.SCIENCE), -value, setLogItems)
+            },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TR)]
          break
@@ -511,7 +555,10 @@ export function funcGetOptionsActions(
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.PLANT,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} plant`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+            },
          })
          break
       case OPTION_ICONS.CARD190_OPTION2:
@@ -542,18 +589,22 @@ export function funcGetOptionsActions(
                name: ANIMATIONS.PRODUCTION_OUT,
                type: RESOURCES.HEAT,
                value: heatAmount,
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_PROD_HEAT,
                      payload: -heatAmount,
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Heat production decreased by ${heatAmount}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], -heatAmount, setLogItems)
+               },
             })
             subActions.push({
                name: ANIMATIONS.PRODUCTION_IN,
                type: RESOURCES.MLN,
                value: heatAmount,
-               func: () =>
-                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: heatAmount }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: heatAmount })
+                  funcSetLogItemsSingleActions(`MC production increased by ${heatAmount}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)], heatAmount, setLogItems)
+               },
             })
          }
          break
@@ -563,18 +614,22 @@ export function funcGetOptionsActions(
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.ENERGY,
                value: energyAmount,
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_ENERGY,
                      payload: -energyAmount,
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${energyAmount} energy`, getResIcon(RESOURCES.ENERGY), -energyAmount, setLogItems)
+               },
             })
             subActions.push({
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MLN,
                value: energyAmount,
-               func: () =>
-                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: energyAmount }),
+               func: () => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: energyAmount })
+                  funcSetLogItemsSingleActions(`Received ${energyAmount} energy`, getResIcon(RESOURCES.ENERGY), energyAmount, setLogItems)
+               },
             })
          }
          break

@@ -2,35 +2,21 @@
 window with cards to sell and window with cards to select due
 to any effect/action */
 import { useContext, useEffect, useMemo, useState } from 'react'
-import {
-   StateGameContext,
-   StatePlayerContext,
-   CorpsContext,
-   ModalsContext,
-   UserContext,
-   StateBoardContext,
-} from '../../../game'
+import { StateGameContext, StatePlayerContext, CorpsContext, ModalsContext, UserContext, StateBoardContext } from '../../../game'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import {
-   getCards,
-   getNewCardsDrawIds,
-   getPosition,
-   modifiedCards,
-   sorted,
-   withTimeAdded,
-} from '../../../../utils/misc'
+import { getCards, getNewCardsDrawIds, getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import { ANIMATIONS } from '../../../../data/animations'
-import { RESOURCES } from '../../../../data/resources'
+import { RESOURCES, getResIcon } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES } from '../../../../data/log'
+import { LOG_TYPES, funcSetLogItemsAfter, funcSetLogItemsBefore, funcSetLogItemsSingleActions } from '../../../../data/log/log'
 import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 import DecreaseCostDraft from './modalsComponents/decreaseCost/DecreaseCostDraft'
@@ -43,17 +29,8 @@ const ModalDraft = () => {
    const { stateBoard } = useContext(StateBoardContext)
    const { settings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
-   const {
-      stateGame,
-      dispatchGame,
-      performSubActions,
-      getImmEffects,
-      getEffect,
-      requirementsMet,
-      setSaveToServerTrigger,
-      logItems,
-      setSyncError
-   } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, requirementsMet, setSaveToServerTrigger, logItems, setSyncError, setLogItems, setItemsExpanded } =
+      useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { type, id, user } = useContext(UserContext)
@@ -76,6 +53,9 @@ const ModalDraft = () => {
 
    // Add draft cards to the cardsSeen
    useEffect(() => {
+      // Update latest Log Item (PASS) with state of the game AFTER passed
+      funcSetLogItemsAfter(setLogItems, null, null, statePlayer, stateGame, stateBoard)
+
       // Update active game on server only for generation other than 1
       if (stateGame.generation === 1 || !user) return
 
@@ -104,44 +84,67 @@ const ModalDraft = () => {
    }, [])
 
    const onYesFunc = async () => {
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
       // Decrease corporation resources
-      if (toBuyMln > 0) dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
-      if (toBuyHeat > 0)
+      if (toBuyMln > 0) {
+         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
+         funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC for cards in draft phase`, getResIcon(RESOURCES.MLN), -toBuyMln, setLogItems)
+      }
+      if (toBuyHeat > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
+         funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat for cards in draft phase`, getResIcon(RESOURCES.HEAT), -toBuyHeat, setLogItems)
+      }
       // Add selected cards to the hand and cards purchased
+      const purchasedCards = withTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id)))
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: sorted(
-            [
-               ...statePlayer.cardsInHand,
-               ...withTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id))),
-            ],
-            settings.sortId[0],
-            requirementsMet
-         ),
+         payload: sorted([...statePlayer.cardsInHand, ...purchasedCards], settings.sortId[0], requirementsMet),
       })
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
-         payload: [
-            ...statePlayer.cardsPurchased,
-            ...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)),
-         ],
+         payload: [...statePlayer.cardsPurchased, ...purchasedCards],
       })
+      if (selectedCardsIds.length > 0)
+         funcSetLogItemsSingleActions(`Purchased ${selectedCardsIds.length} cards in the draft phase`, getResIcon(RESOURCES.CARD), selectedCardsIds.length, setLogItems)
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
       setModals((prev) => ({ ...prev, confirmation: false, draft: false }))
       // Update Server Data
       setSaveToServerTrigger((prev) => !prev)
+      // Update Log with state of the game AFTER played action
+      funcSetLogItemsAfter(
+         setLogItems,
+         { text: 'DRAFT PHASE', type: LOG_TYPES.DRAFT },
+         null,
+         {
+            ...statePlayer,
+            resources: { ...statePlayer.resources, mln: statePlayer.resources.mln - toBuyMln, heat: statePlayer.resources.heat - toBuyHeat },
+            cardsInHand: [...statePlayer.cardsInHand, ...purchasedCards],
+            cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
+         },
+         stateGame,
+         stateBoard
+      )
       // Perform forced action for Tharsis or Inventrix in GEN 1
       if (stateGame.generation === 1) {
-         let actions = []
          if (statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC) {
-            actions = [
-               ...getImmEffects(IMM_EFFECTS.CITY),
-               ...getEffect(EFFECTS.EFFECT_THARSIS_CITY),
-               ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET),
-            ]
+            // Create new Log Item with STATE BEFORE, before tharsis forced action
+            funcSetLogItemsBefore(
+               setLogItems,
+               {
+                  ...statePlayer,
+                  resources: { ...statePlayer.resources, mln: statePlayer.resources.mln - toBuyMln, heat: statePlayer.resources.heat - toBuyHeat },
+                  cardsInHand: [...statePlayer.cardsInHand, ...purchasedCards],
+                  cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
+               },
+               stateGame,
+               stateBoard,
+               setItemsExpanded
+            )
+
+            const actions = [...getImmEffects(IMM_EFFECTS.CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET)]
             dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
             performSubActions(
                actions,
@@ -153,15 +156,23 @@ const ModalDraft = () => {
             )
          }
          if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
-            // Get Random Cards Ids
-            let newCardsDrawIds = await getNewCardsDrawIds(
-               3,
-               statePlayer,
-               dispatchPlayer,
-               type,
-               id,
-               user?.token
+            // Create new Log Item with STATE BEFORE, before tharsis forced action
+            funcSetLogItemsBefore(
+               setLogItems,
+               {
+                  ...statePlayer,
+                  resources: { ...statePlayer.resources, mln: statePlayer.resources.mln - toBuyMln, heat: statePlayer.resources.heat - toBuyHeat },
+                  cardsInHand: [...statePlayer.cardsInHand, ...purchasedCards],
+                  cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
+               },
+               stateGame,
+               stateBoard,
+               setItemsExpanded
             )
+            // Get Random Cards Ids
+            let newCardsDrawIds = await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, user?.token)
+            const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
+            funcSetLogItemsSingleActions(`Drew 3 cards (${newCardsDrawNames[0]}, ${newCardsDrawNames[1]} and ${newCardsDrawNames[2]})`, getResIcon(RESOURCES.CARD), 3, setLogItems)
             performSubActions(
                [
                   {
@@ -172,10 +183,7 @@ const ModalDraft = () => {
                         dispatchPlayer({
                            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                            payload: sorted(
-                              [
-                                 ...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)),
-                                 ...modifiedCards(getCards(CARDS, newCardsDrawIds), statePlayer),
-                              ],
+                              [...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)), ...modifiedCards(getCards(CARDS, newCardsDrawIds), statePlayer)],
                               settings.sortId[0],
                               requirementsMet
                            ),
@@ -215,31 +223,16 @@ const ModalDraft = () => {
    }
 
    return (
-      <div
-         className={`modal-select-cards ${
-            (modals.cards || stateGame.phaseViewGameState) && 'display-none'
-         }`}
-      >
+      <div className={`modal-select-cards ${(modals.cards || stateGame.phaseViewGameState) && 'display-none'}`}>
          {/* HEADER */}
-         <ModalHeader
-            text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'}
-            eachText="3"
-         />
+         <ModalHeader text={stateGame.generation === 1 ? 'BUY UP TO 10 CARDS' : 'BUY UP TO 4 CARDS'} eachText="3" />
          {/* CHANGE CORPORATION BUTTON */}
-         {stateGame.generation === 1 && (
-            <BtnChangeCorp
-               dispatchGame={dispatchGame}
-               statePlayer={statePlayer}
-               dispatchPlayer={dispatchPlayer}
-            />
-         )}
+         {stateGame.generation === 1 && <BtnChangeCorp dispatchGame={dispatchGame} statePlayer={statePlayer} dispatchPlayer={dispatchPlayer} />}
          {/* CARDS */}
          {cardsDraft.map((card, idx) => (
             <div
                key={idx}
-               className={`card-container small ${
-                  selectedCardsIds.includes(card.id) && 'selected'
-               }`}
+               className={`card-container small ${selectedCardsIds.includes(card.id) && 'selected'}`}
                style={getPosition(cardsDraft.length, idx)}
                onClick={() => {
                   sound.btnCardsClick.play()
@@ -260,16 +253,9 @@ const ModalDraft = () => {
             position={btnActionPosition}
          />
          {/* DECREASE COST IF HELION */}
-         {statePlayer.resources.heat > 0 &&
-            statePlayer.canPayWithHeat &&
-            selectedCardsIds.length > 0 && (
-               <DecreaseCostDraft
-                  toBuyMln={toBuyMln}
-                  setToBuyMln={setToBuyMln}
-                  toBuyHeat={toBuyHeat}
-                  setToBuyHeat={setToBuyHeat}
-               />
-            )}
+         {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && selectedCardsIds.length > 0 && (
+            <DecreaseCostDraft toBuyMln={toBuyMln} setToBuyMln={setToBuyMln} toBuyHeat={toBuyHeat} setToBuyHeat={setToBuyHeat} />
+         )}
       </div>
    )
 }

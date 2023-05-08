@@ -1,85 +1,33 @@
 import { useContext } from 'react'
-import {
-   StatePlayerContext,
-   StateGameContext,
-   StateBoardContext,
-   ModalsContext,
-   UserContext,
-} from '../../../../game'
+import { StatePlayerContext, StateGameContext, StateBoardContext, ModalsContext, UserContext } from '../../../../game'
 import { SoundContext } from '../../../../../App'
 import FieldBonus from './FieldBonus'
 import FieldLine from './FieldLine'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { ACTIONS_BOARD } from '../../../../../stateActions/actionsBoard'
-import { TILES } from '../../../../../data/board'
-import {
-   ANIMATIONS,
-   endAnimation,
-   getAnimNameBasedOnBonus,
-   setAnimation,
-   startAnimation,
-} from '../../../../../data/animations'
-import {
-   getCards,
-   getNeighbors,
-   getNewCardsDrawIds,
-   modifiedCards,
-   updateVP,
-   withTimeAdded,
-} from '../../../../../utils/misc'
+import { TILES, assignIconToTileData } from '../../../../../data/board'
+import { ANIMATIONS, endAnimation, getAnimNameBasedOnBonus, setAnimation, startAnimation } from '../../../../../data/animations'
+import { getCards, getNeighbors, getNewCardsDrawIds, modifiedCards, updateVP, withTimeAdded } from '../../../../../utils/misc'
+import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
 import { RESOURCES } from '../../../../../data/resources'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
-import { LOG_TYPES } from '../../../../../data/log'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 import { CARDS } from '../../../../../data/cards'
-
-import city from '../../../../../assets/images/tiles/tile_city.svg'
-import cityNeutral from '../../../../../assets/images/tiles/tile_cityNeutral.svg'
-import greenery from '../../../../../assets/images/tiles/tile_greenery.svg'
-import greeneryNeutral from '../../../../../assets/images/tiles/tile_greeneryNeutral.svg'
-import ocean from '../../../../../assets/images/tiles/tile_ocean.svg'
-import cityCapital from '../../../../../assets/images/tiles/tile_cityCapital.svg'
-import miningRightsArea from '../../../../../assets/images/tiles/tile_miningRightsArea.svg'
-import ecologicalZone from '../../../../../assets/images/tiles/tile_ecologicalZone.svg'
-import naturalPreserve from '../../../../../assets/images/tiles/tile_naturalPreserve.svg'
-import moholeArea from '../../../../../assets/images/tiles/tile_moholeArea.svg'
-import restrictedArea from '../../../../../assets/images/tiles/tile_restrictedArea.svg'
-import commercialDistrict from '../../../../../assets/images/tiles/tile_commercialDistrict.svg'
-import nuclearZone from '../../../../../assets/images/tiles/tile_nuclearZone.svg'
-import industrialCenter from '../../../../../assets/images/tiles/tile_industrialCenter.svg'
-import lavaFlows from '../../../../../assets/images/tiles/tile_lavaFlows.svg'
+import { getResIcon } from '../../../../../data/resources'
 
 const Field = ({ field, setTotalVP }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const {
-      stateGame,
-      dispatchGame,
-      logItems,
-      setLogItems,
-      performSubActions,
-      getImmEffects,
-      getEffect,
-      ANIMATION_SPEED,
-   } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, ANIMATION_SPEED, setLogItems } = useContext(StateGameContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const styles = {
-      left:
-         field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
-            ? '50%'
-            : `calc(var(--field-width) * 0.05 + (var(--field-width) * 0.538) * ${field.y})`,
-      top:
-         field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
-            ? '50%'
-            : `calc(var(--field-height) * 1.8 + (var(--field-height) * 1.615) * ${field.x})`,
-      transform:
-         field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN'
-            ? 'translate(-50%, -50%)'
-            : 'translate(0, 0)',
+      left: field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN' ? '50%' : `calc(var(--field-width) * 0.05 + (var(--field-width) * 0.538) * ${field.y})`,
+      top: field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN' ? '50%' : `calc(var(--field-height) * 1.8 + (var(--field-height) * 1.615) * ${field.x})`,
+      transform: field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN' ? 'translate(-50%, -50%)' : 'translate(0, 0)',
    }
 
    const handleClickField = async () => {
@@ -91,19 +39,21 @@ const Field = ({ field, setTotalVP }) => {
          type: ACTIONS_BOARD.SET_OBJECT,
          payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
       })
+      funcSetLogItemsSingleActions(
+         `${stateGame.phasePlaceTileData} tile has been placed on coordinates x: ${field.x}, y: ${field.y}`,
+         assignIconToTileData(stateGame.phasePlaceTileData),
+         null,
+         setLogItems
+      )
+      if (modals.modalCard.id === 20 || modals.modalCard.id === 128 || modals.modalCard.id === 200) {
+         funcSetLogItemsSingleActions(`Effect from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
+      }
       // Get Random Cards Ids
       let newCardsDrawIds
       if (field.bonus.includes(RESOURCES.CARD)) {
-         newCardsDrawIds = await getNewCardsDrawIds(
-            field.bonus.length,
-            statePlayer,
-            dispatchPlayer,
-            type,
-            id,
-            user?.token
-         )
+         newCardsDrawIds = await getNewCardsDrawIds(field.bonus.length, statePlayer, dispatchPlayer, type, id, user?.token)
       }
-      
+
       // Turn phasePlaceTile off
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: null })
@@ -114,52 +64,53 @@ const Field = ({ field, setTotalVP }) => {
          // Start Animation
          startAnimation(setModals)
          for (let i = 0; i < uniqBonuses.length; i++) {
-            const countBonus = field.bonus.reduce(
-               (total, value) => (value === uniqBonuses[i] ? total + 1 : total),
-               0
-            )
+            const countBonus = field.bonus.reduce((total, value) => (value === uniqBonuses[i] ? total + 1 : total), 0)
             const animName = getAnimNameBasedOnBonus(uniqBonuses[i])
-            setTimeout(
-               () => setAnimation(animName, uniqBonuses[i], countBonus, setModals, sound),
-               i * ANIMATION_SPEED
-            )
+            setTimeout(() => setAnimation(animName, uniqBonuses[i], countBonus, setModals, sound), i * ANIMATION_SPEED)
             // Execute bonus action
             // eslint-disable-next-line
             setTimeout(() => {
                switch (uniqBonuses[i]) {
                   case RESOURCES.STEEL:
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: countBonus })
+                     funcSetLogItemsSingleActions(`Received ${countBonus} steel from board`, getResIcon(RESOURCES.STEEL), countBonus, setLogItems)
                      break
                   case RESOURCES.TITAN:
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: countBonus })
+                     funcSetLogItemsSingleActions(`Received ${countBonus} titanium from board`, getResIcon(RESOURCES.TITAN), countBonus, setLogItems)
                      break
                   case RESOURCES.PLANT:
                      newPlants += countBonus
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
+                     funcSetLogItemsSingleActions(
+                        countBonus === 1 ? 'Received 1 plant from board' : `Received ${countBonus} plants from board`,
+                        getResIcon(RESOURCES.PLANT),
+                        countBonus,
+                        setLogItems
+                     )
                      break
                   case RESOURCES.CARD:
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: [
-                           ...statePlayer.cardsInHand,
-                           ...modifiedCards(
-                              withTimeAdded(getCards(CARDS, newCardsDrawIds)),
-                              statePlayer
-                           ),
-                        ],
+                        payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
                      })
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                         payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                      })
+                     funcSetLogItemsSingleActions(
+                        (field.bonus.length = 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`),
+                        getResIcon(RESOURCES.CARD),
+                        field.bonus.length,
+                        setLogItems
+                     )
                      break
                   default:
                      break
                }
             }, (i + 1) * ANIMATION_SPEED)
             // End animation
-            if (i === uniqBonuses.length - 1)
-               setTimeout(() => endAnimation(setModals), uniqBonuses.length * ANIMATION_SPEED)
+            if (i === uniqBonuses.length - 1) setTimeout(() => endAnimation(setModals), uniqBonuses.length * ANIMATION_SPEED)
          }
       }
 
@@ -167,9 +118,7 @@ const Field = ({ field, setTotalVP }) => {
 
       // Receive mln for ocean bonus
       let bonusMln
-      const oceanNeighbors = getNeighbors(field.x, field.y, stateBoard).filter(
-         (nb) => nb.object === TILES.OCEAN
-      )
+      const oceanNeighbors = getNeighbors(field.x, field.y, stateBoard).filter((nb) => nb.object === TILES.OCEAN)
       if (oceanNeighbors.length) {
          bonusMln = oceanNeighbors.length * 2
          setTimeout(() => {
@@ -184,22 +133,25 @@ const Field = ({ field, setTotalVP }) => {
       }
 
       // Receive steel / titan prod if stateGame.phasePlaceTileData is mining rights or mining area
-      if (
-         stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS ||
-         stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_AREA
-      ) {
+      if (stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS || stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_AREA) {
          let actionSteel = {
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.STEEL,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+               funcSetLogItemsSingleActions('Steel production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
+            },
          }
 
          let actionTitan = {
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.TITAN,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
+               funcSetLogItemsSingleActions('Titanium production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.TITAN)], 1, setLogItems)
+            },
          }
 
          if (field.bonus.includes(RESOURCES.STEEL)) {
@@ -262,10 +214,7 @@ const Field = ({ field, setTotalVP }) => {
       }
 
       // Receive steel prod if Mining Guild and field has steel/titan bonus
-      if (
-         (field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) &&
-         statePlayer.corporation.name === CORP_NAMES.MINING_GUILD
-      ) {
+      if ((field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) && statePlayer.corporation.name === CORP_NAMES.MINING_GUILD) {
          setTimeout(() => {
             startAnimation(setModals)
             setAnimation(ANIMATIONS.PRODUCTION_IN, RESOURCES.STEEL, 1, setModals, sound)
@@ -291,22 +240,13 @@ const Field = ({ field, setTotalVP }) => {
             setTimeout(() => {
                // Modify Cards In Hand
                let newCards = modifiedCards(
-                  !field.bonus.includes(RESOURCES.CARD)
-                     ? statePlayer.cardsInHand
-                     : [
-                          ...statePlayer.cardsInHand,
-                          ...withTimeAdded(getCards(CARDS, newCardsDrawIds)),
-                       ],
+                  !field.bonus.includes(RESOURCES.CARD) ? statePlayer.cardsInHand : [...statePlayer.cardsInHand, ...withTimeAdded(getCards(CARDS, newCardsDrawIds))],
                   statePlayer,
                   EFFECTS.EFFECT_RESEARCH_OUTPOST
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                // Modify Cards Played
-               newCards = modifiedCards(
-                  statePlayer.cardsPlayed,
-                  statePlayer,
-                  EFFECTS.EFFECT_RESEARCH_OUTPOST
-               )
+               newCards = modifiedCards(statePlayer.cardsPlayed, statePlayer, EFFECTS.EFFECT_RESEARCH_OUTPOST)
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
                // End animation
                endAnimation(setModals)
@@ -329,14 +269,8 @@ const Field = ({ field, setTotalVP }) => {
                   payload: -statePlayer.valueGreenery,
                })
                // Proper action + potential Herbivores
-               let actions = [
-                  ...stateGame.actionsLeft,
-                  ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX),
-               ]
-               if (
-                  statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)
-               )
-                  actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+               let actions = [...stateGame.actionsLeft, ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)]
+               if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
                performSubActions(actions, null, null)
             } else {
                performSubActions(
@@ -348,14 +282,7 @@ const Field = ({ field, setTotalVP }) => {
                         value: null,
                         func: () => {
                            setModals((prev) => ({ ...prev, endStats: true }))
-                           updateVP(
-                              statePlayer,
-                              dispatchPlayer,
-                              stateGame,
-                              stateBoard,
-                              setTotalVP,
-                              true
-                           )
+                           updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP, true)
                         },
                      },
                   ],
@@ -397,94 +324,7 @@ const Field = ({ field, setTotalVP }) => {
                </div>
             )}
             {/* Field Object */}
-            {field.object === TILES.CITY && (
-               <img src={city} className="field-object" alt={TILES.CITY}></img>
-            )}
-            {field.object === TILES.CITY_NEUTRAL && (
-               <img src={cityNeutral} className="field-object" alt={TILES.CITY_NEUTRAL}></img>
-            )}
-            {field.object === TILES.GREENERY && (
-               <img src={greenery} className="field-object" alt={TILES.GREENERY}></img>
-            )}
-            {field.object === TILES.GREENERY_NEUTRAL && (
-               <img
-                  src={greeneryNeutral}
-                  className="field-object"
-                  alt={TILES.GREENERY_NEUTRAL}
-               ></img>
-            )}
-            {field.object === TILES.OCEAN && (
-               <img src={ocean} className="field-object" alt={TILES.OCEAN}></img>
-            )}
-            {field.object === TILES.SPECIAL_CITY_CAPITAL && (
-               <img
-                  src={cityCapital}
-                  className="field-object"
-                  alt={TILES.SPECIAL_CITY_CAPITAL}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_MINING_RIGHTS && (
-               <img
-                  src={miningRightsArea}
-                  className="field-object"
-                  alt={TILES.SPECIAL_MINING_RIGHTS}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_MINING_AREA && (
-               <img
-                  src={miningRightsArea}
-                  className="field-object"
-                  alt={TILES.SPECIAL_MINING_AREA}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_ECOLOGICAL_ZONE && (
-               <img
-                  src={ecologicalZone}
-                  className="field-object"
-                  alt={TILES.SPECIAL_ECOLOGICAL_ZONE}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_NATURAL_PRESERVE && (
-               <img
-                  src={naturalPreserve}
-                  className="field-object"
-                  alt={TILES.SPECIAL_NATURAL_PRESERVE}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_MOHOLE_AREA && (
-               <img src={moholeArea} className="field-object" alt={TILES.SPECIAL_MOHOLE_AREA}></img>
-            )}
-            {field.object === TILES.SPECIAL_RESTRICTED_AREA && (
-               <img
-                  src={restrictedArea}
-                  className="field-object"
-                  alt={TILES.SPECIAL_RESTRICTED_AREA}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_COMMERCIAL_DISTRICT && (
-               <img
-                  src={commercialDistrict}
-                  className="field-object"
-                  alt={TILES.SPECIAL_COMMERCIAL_DISTRICT}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_NUCLEAR_ZONE && (
-               <img
-                  src={nuclearZone}
-                  className="field-object"
-                  alt={TILES.SPECIAL_NUCLEAR_ZONE}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_INDUSTRIAL_CENTER && (
-               <img
-                  src={industrialCenter}
-                  className="field-object"
-                  alt={TILES.SPECIAL_INDUSTRIAL_CENTER}
-               ></img>
-            )}
-            {field.object === TILES.SPECIAL_LAVA_FLOWS && (
-               <img src={lavaFlows} className="field-object" alt={TILES.SPECIAL_LAVA_FLOWS}></img>
-            )}
+            {field.object && <img src={assignIconToTileData(field.object)} className="field-object" alt={field.object}></img>}
          </div>
          {/* Container Extensions */}
          <div className="field-extension field-extension top"></div>

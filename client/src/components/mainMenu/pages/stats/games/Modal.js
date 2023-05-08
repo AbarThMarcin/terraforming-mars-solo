@@ -8,8 +8,7 @@ import spinner from '../../../../../assets/other/spinner.gif'
 import { APP_MESSAGES } from '../../../../../App'
 
 const Modal = ({ user }) => {
-   const { setShowModal, modalText, editMode, setEditMode, linkOrComment, gameId } =
-      useContext(ModalsContext)
+   const { setShowModal, modalText, editMode, setEditMode, linkOrComment, gameId } = useContext(ModalsContext)
    const { currPlayerId, setCurrPlayers } = useContext(PlayersContext)
    const refTextarea = useRef()
    const [loading, setLoading] = useState(false)
@@ -64,11 +63,7 @@ const Modal = ({ user }) => {
    return (
       <div className="modal center" onClick={(e) => e.stopPropagation()}>
          {/* Close Button */}
-         <div
-            className="btn-close pointer"
-            style={{ right: '-2%', top: '-9%' }}
-            onClick={() => setShowModal(false)}
-         >
+         <div className="btn-close pointer" style={{ right: '-2%', top: '-9%' }} onClick={() => setShowModal(false)}>
             <FontAwesomeIcon icon={faXmark} />
          </div>
          {/* Title */}
@@ -76,14 +71,7 @@ const Modal = ({ user }) => {
          {/* Error */}
          {error && <div className="error">{error}</div>}
          {/* Textarea */}
-         <textarea
-            ref={refTextarea}
-            className={`center ${editMode && 'edit'}`}
-            name="text"
-            defaultValue={modalText}
-            readOnly={!editMode}
-            autoFocus
-         ></textarea>
+         <textarea ref={refTextarea} className={`center ${editMode && 'edit'}`} name="text" defaultValue={modalText} readOnly={!editMode} autoFocus></textarea>
          {currPlayerId === user?._id && (
             <div className="btns">
                {/* Edit Mode Button */}
@@ -91,10 +79,7 @@ const Modal = ({ user }) => {
                   <FontAwesomeIcon icon={faPenToSquare} />
                </div>
                {/* Save Button */}
-               <div
-                  className={`btn-save ${!editMode || loading ? 'disabled' : 'pointer'}`}
-                  onClick={handleClickSave}
-               >
+               <div className={`btn-save ${!editMode || loading ? 'disabled' : 'pointer'}`} onClick={handleClickSave}>
                   {/* Loading Spinner */}
                   {loading ? (
                      <div className="spinner">

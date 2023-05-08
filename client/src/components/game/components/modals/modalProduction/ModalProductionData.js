@@ -24,9 +24,7 @@ const ModalProductionData = ({ setCardSnap }) => {
          // Assign Any other card's production subAction
       } else {
          immProdEffects = getImmEffects(itemIdOrCorpName).filter(
-            (immProdEffect) =>
-               immProdEffect.name === ANIMATIONS.PRODUCTION_IN ||
-               immProdEffect.name === ANIMATIONS.PRODUCTION_OUT
+            (immProdEffect) => immProdEffect.name === ANIMATIONS.PRODUCTION_IN || immProdEffect.name === ANIMATIONS.PRODUCTION_OUT
          )
       }
       setModals((prev) => ({
@@ -53,11 +51,7 @@ const ModalProductionData = ({ setCardSnap }) => {
             >
                <div className="copy">{statePlayer.corporation.name}</div>
                <div className="copy">
-                  <img
-                     src={getProdImmEffectIcon(statePlayer.corporation.name)}
-                     className="img-prod"
-                     alt="miningGuild_prodIcon"
-                  />
+                  <img src={getProdImmEffectIcon(statePlayer.corporation.name)} className="img-prod" alt="miningGuild_prodIcon" />
                </div>
             </div>
          )}
@@ -76,11 +70,7 @@ const ModalProductionData = ({ setCardSnap }) => {
             >
                <div className="copy">{item.name}</div>
                <div className="copy">
-                  <img
-                     src={getProdImmEffectIcon(item.id, modals)}
-                     className="img-prod"
-                     alt={`card_${item.id}_prodIcon`}
-                  />
+                  <img src={getProdImmEffectIcon(item.id, modals)} className="img-prod" alt={`card_${item.id}_prodIcon`} />
                </div>
             </div>
          ))}

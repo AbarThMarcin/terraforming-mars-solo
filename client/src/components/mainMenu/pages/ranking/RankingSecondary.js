@@ -36,10 +36,7 @@ const RankingSecondary = ({ userValue }) => {
          .filter((player) => player.games.length > 0)
          .forEach((player) => {
             if (player.games.length >= 0) {
-               const totalPoints = player.games.reduce(
-                  (total, game) => (game.victory ? total + game.points.total : total),
-                  0
-               )
+               const totalPoints = player.games.reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
                const realRating = (totalPoints / player.games.length).toFixed(2)
                players.push({ name: player.name, gamesCount: player.games.length, realRating })
             }
@@ -93,9 +90,7 @@ const RankingSecondary = ({ userValue }) => {
                      }}
                   >
                      <div style={{ width: '15%' }}>{player.rank}.</div>
-                     <div style={{ width: '65%', fontSize: 'calc(var(--default-size) * 1.1)' }}>
-                        {player.name}
-                     </div>
+                     <div style={{ width: '65%', fontSize: 'calc(var(--default-size) * 1.1)' }}>{player.name}</div>
                      <div style={{ width: '20%' }}>{player.gamesCount}</div>
                      <div style={{ width: '20%' }}>{player.realRating}</div>
                   </div>

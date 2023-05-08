@@ -18,17 +18,11 @@ const BtnSort = ({ id, text }) => {
       e.stopPropagation()
       sound.btnGeneralClick.play()
       // Change in Frontend
-      let newSortId =
-         settings.sortId[cardsTypeId].slice(0, 1) !== id
-            ? `${id}a`
-            : settings.sortId[cardsTypeId].slice(1, 2) === 'a'
-            ? `${id}b`
-            : `${id}a`
+      let newSortId = settings.sortId[cardsTypeId].slice(0, 1) !== id ? `${id}a` : settings.sortId[cardsTypeId].slice(1, 2) === 'a' ? `${id}b` : `${id}a`
       newSortId = cardsTypeId === 1 && id === '4' ? newSortId + '-played' : newSortId.slice(0, 2)
       setSettings({
          ...settings,
-         sortId:
-            cardsTypeId === 0 ? [newSortId, settings.sortId[1]] : [settings.sortId[0], newSortId],
+         sortId: cardsTypeId === 0 ? [newSortId, settings.sortId[1]] : [settings.sortId[0], newSortId],
       })
       cardsTypeId === 0
          ? dispatchPlayer({
@@ -64,12 +58,7 @@ const BtnSort = ({ id, text }) => {
    }
 
    return (
-      <div
-         className={`btn-sort pointer ${
-            id === settings.sortId[cardsTypeId].slice(0, 1) ? 'selected' : 'not-selected'
-         }`}
-         onClick={handleClickSortBtn}
-      >
+      <div className={`btn-sort pointer ${id === settings.sortId[cardsTypeId].slice(0, 1) ? 'selected' : 'not-selected'}`} onClick={handleClickSortBtn}>
          {text}
       </div>
    )

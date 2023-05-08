@@ -1,36 +1,23 @@
 // Modal for viewing and selecting cards when Mars University has been played
 import { useContext, useEffect, useState } from 'react'
-import {
-   StateGameContext,
-   StatePlayerContext,
-   ModalsContext,
-   UserContext,
-   StateBoardContext,
-   CorpsContext,
-} from '../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext, UserContext, StateBoardContext, CorpsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import {
-   getCards,
-   getNewCardsDrawIds,
-   getPosition,
-   modifiedCards,
-   withTimeAdded,
-} from '../../../../utils/misc'
+import { getCards, getNewCardsDrawIds, getPosition, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
-import { RESOURCES } from '../../../../data/resources'
+import { RESOURCES, getResIcon } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { CARDS } from '../../../../data/cards'
 import { updateGameData } from '../../../../api/activeGame'
+import { funcSetLogItemsSingleActions } from '../../../../data/log/log'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError } =
-      useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
@@ -72,6 +59,7 @@ const ModalMarsUniversity = () => {
          ...prev,
          modalCards: statePlayer.cardsInHand,
       }))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [statePlayer.cardsInHand])
 
    const getBoxPosition = () => {
@@ -83,14 +71,7 @@ const ModalMarsUniversity = () => {
       setModals((prev) => ({ ...prev, marsUniversity: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
       // Get Random Cards Ids
-      let newCardsDrawIds = await getNewCardsDrawIds(
-         1,
-         statePlayer,
-         dispatchPlayer,
-         type,
-         id,
-         user?.token
-      )
+      let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, user?.token)
       // Discard selected card
       startAnimation(setModals)
       setAnimation(ANIMATIONS.CARD_OUT, RESOURCES.CARD, 1, setModals)
@@ -99,6 +80,7 @@ const ModalMarsUniversity = () => {
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
             payload: statePlayer.cardsInHand.filter((card) => card.id !== selectedCardId),
          })
+         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards(CARDS, [selectedCardId]).name})`, getResIcon(RESOURCES.CARD), -1, setLogItems)
          endAnimation(setModals)
       }, ANIMATION_SPEED)
       // Draw a card
@@ -109,15 +91,13 @@ const ModalMarsUniversity = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [
-               ...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId),
-               ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-            ],
+            payload: [...statePlayer.cardsInHand.filter((c) => c.id !== selectedCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
          })
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_SEEN,
             payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
          })
+         funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)
@@ -135,21 +115,13 @@ const ModalMarsUniversity = () => {
    }
 
    const handleClickBtnSelect = (card) => {
-      selectedCardId === 0 || card.id !== selectedCardId
-         ? setSelectedCardId(card.id)
-         : setSelectedCardId(0)
+      selectedCardId === 0 || card.id !== selectedCardId ? setSelectedCardId(card.id) : setSelectedCardId(0)
    }
 
    return (
       <>
          {/* ARROWS */}
-         {modals.modalCards.length > 10 && (
-            <Arrows
-               page={page}
-               setPage={setPage}
-               pages={Math.ceil(modals.modalCards.length / 10)}
-            />
-         )}
+         {modals.modalCards.length > 10 && <Arrows page={page} setPage={setPage} pages={Math.ceil(modals.modalCards.length / 10)} />}
          <div className="modal-select-cards">
             <div className="box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
@@ -167,9 +139,7 @@ const ModalMarsUniversity = () => {
                      <Card card={card} />
                      {/* SELECT BUTTON */}
                      <div
-                        className={`pointer ${
-                           card.id === selectedCardId ? 'btn-selected' : 'btn-select'
-                        }`}
+                        className={`pointer ${card.id === selectedCardId ? 'btn-selected' : 'btn-select'}`}
                         onClick={(e) => {
                            e.stopPropagation()
                            handleClickBtnSelect(card)
@@ -183,12 +153,7 @@ const ModalMarsUniversity = () => {
             {/* HEADER */}
             <ModalHeader text="SELECT CARD TO DISCARD" />
             {/* ACTION BUTTON */}
-            <BtnAction
-               text="DISCARD"
-               onYesFunc={onYesFunc}
-               disabled={selectedCardId === 0}
-               position={btnActionPosition}
-            />
+            <BtnAction text="DISCARD" onYesFunc={onYesFunc} disabled={selectedCardId === 0} position={btnActionPosition} />
             {/* CANCEL BUTTON */}
             <BtnAction text="CANCEL" onYesFunc={onCancelFunc} position={btnCancelPosition} />
          </div>

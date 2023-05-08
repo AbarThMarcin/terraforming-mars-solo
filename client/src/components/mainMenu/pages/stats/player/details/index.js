@@ -5,19 +5,12 @@ import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 import { ModalsContext } from '../../index'
 
-const tipText =
-   'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%.'
+const tipText = 'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%.'
 
 const Details = ({ currPlayer }) => {
    const { sound } = useContext(SoundContext)
    const [showTipOnPercPlayed, setShowTipOnPercPlayed] = useState(false)
-   const {
-      setShowModalCard,
-      setModalCard,
-      setShowModalAllCards,
-      setModalCardsIds,
-      setModalCardsTitle,
-   } = useContext(ModalsContext)
+   const { setShowModalCard, setModalCard, setShowModalAllCards, setModalCardsIds, setModalCardsTitle } = useContext(ModalsContext)
    // Arrays of cards
    const games = useMemo(
       () => currPlayer.games.filter((game) => !game.forfeited),
@@ -97,16 +90,9 @@ const Details = ({ currPlayer }) => {
       const allCardsSeen = games.reduce((cards, game) => [...cards, ...game.cards.seen], [])
 
       range(1, 208).forEach((id) => {
-         const currentCardSeen = allCardsSeen.reduce(
-            (tot, card) => (card.id === id ? tot + 1 : tot),
-            0
-         )
-         const currentCardPlayed = allCardsPlayed.reduce(
-            (tot, card) => (card.id === id ? tot + 1 : tot),
-            0
-         )
-         if (currentCardSeen)
-            most.push([id, ((currentCardPlayed / currentCardSeen) * 100).toFixed(0)])
+         const currentCardSeen = allCardsSeen.reduce((tot, card) => (card.id === id ? tot + 1 : tot), 0)
+         const currentCardPlayed = allCardsPlayed.reduce((tot, card) => (card.id === id ? tot + 1 : tot), 0)
+         if (currentCardSeen) most.push([id, ((currentCardPlayed / currentCardSeen) * 100).toFixed(0)])
       })
 
       most = most.sort((a, b) => b[1] - a[1])
@@ -146,13 +132,10 @@ const Details = ({ currPlayer }) => {
                               }}
                            >
                               {/* Top Card */}
-                              <CardForStats
-                                 card={CARDS.find((card) => card.id === mostPlayed[0][0])}
-                              />
+                              <CardForStats card={CARDS.find((card) => card.id === mostPlayed[0][0])} />
                            </div>
                            <div className="value">
-                              <span>{mostPlayed[0][1]}</span>{' '}
-                              {mostPlayed[0][1] > 1 ? 'TIMES' : 'TIME'}
+                              <span>{mostPlayed[0][1]}</span> {mostPlayed[0][1] > 1 ? 'TIMES' : 'TIME'}
                            </div>
                         </div>
                         {countTopPlayed > 1 && (
@@ -209,9 +192,7 @@ const Details = ({ currPlayer }) => {
                               }}
                            >
                               {/* Top Card */}
-                              <CardForStats
-                                 card={CARDS.find((card) => card.id === mostSeen[0][0])}
-                              />
+                              <CardForStats card={CARDS.find((card) => card.id === mostSeen[0][0])} />
                            </div>
                            <div className="value">
                               <span>{mostSeen[0][1]}</span> {mostSeen[0][1] > 1 ? 'TIMES' : 'TIME'}
@@ -271,13 +252,10 @@ const Details = ({ currPlayer }) => {
                               }}
                            >
                               {/* Top Card */}
-                              <CardForStats
-                                 card={CARDS.find((card) => card.id === mostPurchased[0][0])}
-                              />
+                              <CardForStats card={CARDS.find((card) => card.id === mostPurchased[0][0])} />
                            </div>
                            <div className="value">
-                              <span>{mostPurchased[0][1]}</span>{' '}
-                              {mostPurchased[0][1] > 1 ? 'TIMES' : 'TIME'}
+                              <span>{mostPurchased[0][1]}</span> {mostPurchased[0][1] > 1 ? 'TIMES' : 'TIME'}
                            </div>
                         </div>
                         {countTopPurchased > 1 && (
@@ -317,11 +295,7 @@ const Details = ({ currPlayer }) => {
                         <br />
                         CARD(S):
                         {/* Question Mark */}
-                        <div
-                           className="question pointer"
-                           onClick={() => setShowTipOnPercPlayed(true)}
-                           onMouseLeave={() => setShowTipOnPercPlayed(false)}
-                        >
+                        <div className="question pointer" onClick={() => setShowTipOnPercPlayed(true)} onMouseLeave={() => setShowTipOnPercPlayed(false)}>
                            <span>?</span>
                         </div>
                         {/* Tip */}
@@ -340,16 +314,12 @@ const Details = ({ currPlayer }) => {
                                  style={{ transform: 'translateY(-5%) scale(0.62)' }}
                                  onClick={() => {
                                     sound.btnCardsClick.play()
-                                    setModalCard(
-                                       CARDS.find((card) => card.id === mostPlayedPerc[0][0])
-                                    )
+                                    setModalCard(CARDS.find((card) => card.id === mostPlayedPerc[0][0]))
                                     setShowModalCard(true)
                                  }}
                               >
                                  {/* Top Card */}
-                                 <CardForStats
-                                    card={CARDS.find((card) => card.id === mostPlayedPerc[0][0])}
-                                 />
+                                 <CardForStats card={CARDS.find((card) => card.id === mostPlayedPerc[0][0])} />
                               </div>
                               <div className="value">
                                  <span>{mostPlayedPerc[0][1]}</span>%
@@ -380,9 +350,7 @@ const Details = ({ currPlayer }) => {
                      setShowModalAllCards(true)
                   }}
                >
-                  {mostPlayedPerc.length > 0 && mostPlayedPerc[0][1] > 0 && (
-                     <span>SEE ALL CARDS</span>
-                  )}
+                  {mostPlayedPerc.length > 0 && mostPlayedPerc[0][1] > 0 && <span>SEE ALL CARDS</span>}
                </div>
             </div>
          </div>

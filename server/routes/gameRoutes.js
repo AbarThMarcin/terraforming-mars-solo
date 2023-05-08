@@ -1,22 +1,7 @@
 const express = require('express')
-const {
-   getActiveGame,
-   createActiveGame,
-   deleteActiveGame,
-   updateActiveGame,
-} = require('../controllers/activeGameControllers')
-const {
-   getGamesWithId,
-   getGameWithId,
-   getCardsIds,
-   createGameWithId,
-   deleteGameWithId,
-} = require('../controllers/gameWithIdControllers')
-const {
-   getEndedGames,
-   createEndedGame,
-   updateEndedGame,
-} = require('../controllers/endedGameControllers')
+const { getActiveGame, createActiveGame, deleteActiveGame, updateActiveGame } = require('../controllers/activeGameControllers')
+const { getGamesWithId, getGameWithId, getCardsIds, createGameWithId, deleteGameWithId } = require('../controllers/gameWithIdControllers')
+const { getEndedGames, createEndedGame, updateEndedGame } = require('../controllers/endedGameControllers')
 const { protect } = require('../middleware/authMiddleware')
 const router = express.Router()
 

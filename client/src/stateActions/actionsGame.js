@@ -7,8 +7,7 @@ export const ACTIONS_GAME = {
    SET_PHASE_VIEWGAMESTATE: 'Set view game state phase',
    SET_PHASE_PLACETILE: 'Set phase where user places a tile on board',
    SET_PHASE_PLACETILEDATA: 'Set tile name to be put when place tile phase is on',
-   SET_PHASE_ADDREMOVERES:
-      'Set phase where user selects a card, a resource will be added / removed',
+   SET_PHASE_ADDREMOVERES: 'Set phase where user selects a card, a resource will be added / removed',
    SET_PHASE_SELECTONE: 'Set phase where user selects one of available options for card action',
    SET_PHASE_MARS_UNIVERSITY: 'Select cards to discard phase for Mars University',
    SET_PHASE_BUSINESS_CONTACTS: 'Select cards to discard phase for Mars University',

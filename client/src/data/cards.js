@@ -37,10 +37,7 @@ export const CARDS = [
       id: 2,
       name: 'ASTEROID MINING CONSORTIUM',
       description: 'Your hold on the titanium market tightens',
-      info: [
-         'Requires that you have titanium production.',
-         'Decrease any titanium production 1 step and increase your own 1 step.',
-      ],
+      info: ['Requires that you have titanium production.', 'Decrease any titanium production 1 step and increase your own 1 step.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 1, other: RESOURCES.TITAN }],
@@ -92,10 +89,7 @@ export const CARDS = [
       id: 4,
       name: 'CLOUD SEEDING',
       description: 'Lessens solar influx, but enhances plant growth',
-      info: [
-         'Requires 3 ocean tiles.',
-         'Decrease your MC production 1 step and any heat production 1 step. Increase your Plant production 2 steps.',
-      ],
+      info: ['Requires 3 ocean tiles.', 'Decrease your MC production 1 step and any heat production 1 step. Increase your Plant production 2 steps.'],
       originalCost: 11,
       currentCost: 11,
       requirements: [
@@ -123,8 +117,7 @@ export const CARDS = [
    {
       id: 5,
       name: 'SEARCH FOR LIFE',
-      description:
-         "Finding native life-forms would be the greatest discovery in history, so let's find out!",
+      description: "Finding native life-forms would be the greatest discovery in history, so let's find out!",
       info: [
          'Action: Spend 1 MC to reveal the top card of the draw deck. If that card has a Microbe tag, add a Science resource here.',
          '3 VPs if you have one or more Science resources here.',
@@ -205,8 +198,7 @@ export const CARDS = [
    {
       id: 8,
       name: 'CAPITAL',
-      description:
-         'With its ideal placement and all its facilities, this is the true capital of Mars',
+      description: 'With its ideal placement and all its facilities, this is the true capital of Mars',
       info: [
          'Requires 4 ocean tiles.',
          'Place this tile. Decrease your Energy production 2 steps and increase your MC production 5 steps.',
@@ -248,20 +240,14 @@ export const CARDS = [
       id: 9,
       name: 'ASTEROID',
       description: 'What are those plants doing in our impact zone?',
-      info: [
-         'Raise temperature 1 step and gain 2 titanium. Remove up to 3 Plants from any player.',
-      ],
+      info: ['Raise temperature 1 step and gain 2 titanium. Remove up to 3 Plants from any player.'],
       originalCost: 14,
       currentCost: 14,
       requirements: [],
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -280,21 +266,14 @@ export const CARDS = [
       id: 10,
       name: 'COMET',
       description: 'Prepare to be cratered!',
-      info: [
-         'Raise temperature 1 step and place an ocean tile. Remove up to 3 Plants from any player.',
-      ],
+      info: ['Raise temperature 1 step and place an ocean tile. Remove up to 3 Plants from any player.'],
       originalCost: 21,
       currentCost: 21,
       requirements: [],
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -313,21 +292,14 @@ export const CARDS = [
       id: 11,
       name: 'BIG ASTEROID',
       description: 'There are many unpopulated areas to crash in it',
-      info: [
-         'Raise temperature 2 steps and gain 4 titanium. Remove up to 4 Plants from any player.',
-      ],
+      info: ['Raise temperature 2 steps and gain 4 titanium. Remove up to 4 Plants from any player.'],
       originalCost: 27,
       currentCost: 27,
       requirements: [],
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -345,12 +317,8 @@ export const CARDS = [
    {
       id: 12,
       name: 'WATER IMPORT FROM EUROPA',
-      description:
-         'With its low gravity, this Jovian ice moon is suitable for mass export of water',
-      info: [
-         'Action: Pay 12 MC to place an ocean tile. TITANIUM MAY BE USED as if playing a Space card.',
-         '1 VP for each Jovian tag you have.',
-      ],
+      description: 'With its low gravity, this Jovian ice moon is suitable for mass export of water',
+      info: ['Action: Pay 12 MC to place an ocean tile. TITANIUM MAY BE USED as if playing a Space card.', '1 VP for each Jovian tag you have.'],
       originalCost: 25,
       currentCost: 25,
       requirements: [],
@@ -375,8 +343,7 @@ export const CARDS = [
    {
       id: 13,
       name: 'SPACE ELEVATOR',
-      description:
-         'An ultra-strong cable car into geostationary orbit, enabling reasonable export costs',
+      description: 'An ultra-strong cable car into geostationary orbit, enabling reasonable export costs',
       info: ['Action: Spend 1 steel to gain 5 MC.', 'Increase your titanium production 1 step.'],
       originalCost: 27,
       currentCost: 27,
@@ -429,9 +396,7 @@ export const CARDS = [
       id: 15,
       name: 'EQUATORIAL MAGNETIZER',
       description: 'Superconducting wires encircling the globe to create a magnetic field',
-      info: [
-         'Action: Decrease your Energy production 1 step to increase your terraform rating 1 step.',
-      ],
+      info: ['Action: Decrease your Energy production 1 step to increase your terraform rating 1 step.'],
       originalCost: 11,
       currentCost: 11,
       requirements: [],
@@ -457,10 +422,7 @@ export const CARDS = [
       id: 16,
       name: 'DOMED CRATER',
       description: 'A spacious area for a great city',
-      info: [
-         'Oxygen must be 7% or less.',
-         'Gain 3 plants. Place a City tile. Decrease your Energy production 1 step and increase your MC production 3 steps.',
-      ],
+      info: ['Oxygen must be 7% or less.', 'Gain 3 plants. Place a City tile. Decrease your Energy production 1 step and increase your MC production 3 steps.'],
       originalCost: 24,
       currentCost: 24,
       requirements: [
@@ -497,22 +459,14 @@ export const CARDS = [
       id: 17,
       name: 'NOCTIS CITY',
       description: 'In Noctis Labyrinthus, where the mist is gray',
-      info: [
-         'Decrease your Energy production 1 step and increase your MC production 3 steps. Place a city ON THE RESERVED AREA, disregarding normal placement restrictions.',
-      ],
+      info: ['Decrease your Energy production 1 step and increase your MC production 3 steps. Place a city ON THE RESERVED AREA, disregarding normal placement restrictions.'],
       originalCost: 18,
       currentCost: 18,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 1, other: RESOURCES.ENERGY }],
       vp: 0,
       tags: [TAGS.CITY, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -531,10 +485,7 @@ export const CARDS = [
       id: 18,
       name: 'METHANE FROM TITAN',
       description: "Using Titan's liquid methane as fuel will add carbon and heat to Mars",
-      info: [
-         'Requires 2% oxygen.',
-         'Increase your heat production 2 steps and your Plant production 2 steps.',
-      ],
+      info: ['Requires 2% oxygen.', 'Increase your heat production 2 steps and your Plant production 2 steps.'],
       originalCost: 28,
       currentCost: 28,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 2, other: 'min' }],
@@ -567,11 +518,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -590,15 +537,10 @@ export const CARDS = [
       id: 20,
       name: 'RESEARCH OUTPOST',
       description: 'Finding new ways to do things',
-      info: [
-         'Effect: When you play a card, you pay 1 MC less for it.',
-         'Place a city tile NEXT TO NO OTHER TILE.',
-      ],
+      info: ['Effect: When you play a card, you pay 1 MC less for it.', 'Place a city tile NEXT TO NO OTHER TILE.'],
       originalCost: 18,
       currentCost: 18,
-      requirements: [
-         { type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_RESEARCH_OUTPOST },
-      ],
+      requirements: [{ type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_RESEARCH_OUTPOST }],
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.CITY, TAGS.BUILDING],
       effect: EFFECTS.EFFECT_RESEARCH_OUTPOST,
@@ -629,22 +571,14 @@ export const CARDS = [
       id: 21,
       name: 'PHOBOS SPACE HAVEN',
       description: 'The doorway to Mars',
-      info: [
-         'Increase your titanium production 1 step and place a City tile ON THE RESERVED AREA.',
-      ],
+      info: ['Increase your titanium production 1 step and place a City tile ON THE RESERVED AREA.'],
       originalCost: 25,
       currentCost: 25,
       requirements: [],
       vp: 3,
       tags: [TAGS.CITY, TAGS.SPACE],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -662,11 +596,8 @@ export const CARDS = [
    {
       id: 22,
       name: 'BLACK POLAR DUST',
-      description:
-         'The sprinkled dust absorbs heat from the sun. Must be renewed after each snowfall, though',
-      info: [
-         'Place an ocean tile. Decrease your MC production 2 steps and increase your heat production 3 steps.',
-      ],
+      description: 'The sprinkled dust absorbs heat from the sun. Must be renewed after each snowfall, though',
+      info: ['Place an ocean tile. Decrease your MC production 2 steps and increase your heat production 3 steps.'],
       originalCost: 15,
       currentCost: 15,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: -3, other: RESOURCES.MLN }],
@@ -692,22 +623,14 @@ export const CARDS = [
       id: 23,
       name: 'ARCTIC ALGAE',
       description: 'Suitable for freezing temperatures',
-      info: [
-         'It must be -12 C or colder to play.',
-         'Effect: When anyone places an ocean tile, gain 2 Plants.',
-         'Gain 1 Plant.',
-      ],
+      info: ['It must be -12 C or colder to play.', 'Effect: When anyone places an ocean tile, gain 2 Plants.', 'Gain 1 Plant.'],
       originalCost: 12,
       currentCost: 12,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: -12, other: 'max' }],
       vp: 0,
       tags: [TAGS.PLANT],
       effect: EFFECTS.EFFECT_ARCTIC_ALGAE,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -726,22 +649,14 @@ export const CARDS = [
       id: 24,
       name: 'PREDATORS',
       description: 'Lions and tigers and bears, oh my',
-      info: [
-         'Requires 11% oxygen.',
-         'Action: Remove 1 Animal from any card and add it to this card.',
-         '1 VP per Animal on this card.',
-      ],
+      info: ['Requires 11% oxygen.', 'Action: Remove 1 Animal from any card and add it to this card.', '1 VP per Animal on this card.'],
       originalCost: 14,
       currentCost: 14,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 11, other: 'min' }],
       vp: 0,
       tags: [TAGS.ANIMAL],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -786,21 +701,14 @@ export const CARDS = [
       id: 26,
       name: 'EOS CHASMA NATIONAL PARK',
       description: 'A wonder of the world, doing wonders for the tourism business',
-      info: [
-         'Requires -12 C or warmer.',
-         'Add 1 Animal TO ANY ANIMAL CARD. Gain 3 Plants. Increase your MC production 2 steps.',
-      ],
+      info: ['Requires -12 C or warmer.', 'Add 1 Animal TO ANY ANIMAL CARD. Gain 3 Plants. Increase your MC production 2 steps.'],
       originalCost: 16,
       currentCost: 16,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: -12, other: 'min' }],
       vp: 1,
       tags: [TAGS.PLANT, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -826,12 +734,7 @@ export const CARDS = [
       vp: 4,
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -850,10 +753,7 @@ export const CARDS = [
       id: 28,
       name: 'SECURITY FLEET',
       description: 'Keeping the peace by force',
-      info: [
-         'Action: Spend 1 titanium to add 1 fighter resource to this card.',
-         '1 VP for each fighter resource on this card.',
-      ],
+      info: ['Action: Spend 1 titanium to add 1 fighter resource to this card.', '1 VP for each fighter resource on this card.'],
       originalCost: 12,
       currentCost: 12,
       requirements: [],
@@ -878,12 +778,8 @@ export const CARDS = [
    {
       id: 29,
       name: 'CUPOLA CITY',
-      description:
-         'In a thin atmosphere, normal pressure can hold up a protective dome over the city',
-      info: [
-         'Oxygen must be 9% or less.',
-         'Place a City tile. Decrease your Energy production 1 step and increase your MC production 3 steps.',
-      ],
+      description: 'In a thin atmosphere, normal pressure can hold up a protective dome over the city',
+      info: ['Oxygen must be 9% or less.', 'Place a City tile. Decrease your Energy production 1 step and increase your MC production 3 steps.'],
       originalCost: 16,
       currentCost: 16,
       requirements: [
@@ -894,13 +790,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.CITY, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -919,9 +809,7 @@ export const CARDS = [
       id: 30,
       name: 'LUNAR BEAM',
       description: 'A huge energy beam. Difficult to collect, but who cares?',
-      info: [
-         'Decrease your MC production 2 steps and increase your heat production and Energy production 2 steps each.',
-      ],
+      info: ['Decrease your MC production 2 steps and increase your heat production and Energy production 2 steps each.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: -3, other: RESOURCES.MLN }],
@@ -946,8 +834,7 @@ export const CARDS = [
    {
       id: 31,
       name: 'OPTIMAL AEROBRAKING',
-      description:
-         'Perfecting the art of ballistical and materials analysis can increase efficiency and save money',
+      description: 'Perfecting the art of ballistical and materials analysis can increase efficiency and save money',
       info: ['Effect: When you play a Space Event, you gain 3 MC and 3 heat.'],
       originalCost: 7,
       currentCost: 7,
@@ -974,9 +861,7 @@ export const CARDS = [
       id: 32,
       name: 'UNDERGROUND CITY',
       description: 'Excavating is expensive, but gives both protection and building materials',
-      info: [
-         'Place a City tile. Decrease your Energy production 2 steps and increase your steel production 2 steps.',
-      ],
+      info: ['Place a City tile. Decrease your Energy production 2 steps and increase your steel production 2 steps.'],
       originalCost: 18,
       currentCost: 18,
       requirements: [
@@ -986,13 +871,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.CITY, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -1011,21 +890,14 @@ export const CARDS = [
       id: 33,
       name: 'REGOLITH EATERS',
       description: 'Living on the rocks and excreting oxygen',
-      info: [
-         'Action: Add 1 Microbe to this card, or remove 2 Microbes from this card to raise oxygen level 1 step.',
-      ],
+      info: ['Action: Add 1 Microbe to this card, or remove 2 Microbes from this card to raise oxygen level 1 step.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [],
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.MICROBE],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -1044,22 +916,14 @@ export const CARDS = [
       id: 34,
       name: 'GHG PRODUCING BACTERIA',
       description: 'Working for the biosphere and the atmosphere at the same time',
-      info: [
-         'Requires 4% oxygen.',
-         'Action: Add 1 Microbe to this card, or remove 2 Microbes to raise temperature 1 step.',
-      ],
+      info: ['Requires 4% oxygen.', 'Action: Add 1 Microbe to this card, or remove 2 Microbes to raise temperature 1 step.'],
       originalCost: 8,
       currentCost: 8,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 4, other: 'min' }],
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.MICROBE],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -1077,13 +941,8 @@ export const CARDS = [
    {
       id: 35,
       name: 'ANTS',
-      description:
-         'Although an important part of many ecosystems, ants can also be detrimental to other organisms',
-      info: [
-         'Requires 4% oxygen.',
-         'Action: Remove 1 Microbe from any card to add 1 to this card.',
-         '1 VP per 2 Microbes on this card.',
-      ],
+      description: 'Although an important part of many ecosystems, ants can also be detrimental to other organisms',
+      info: ['Requires 4% oxygen.', 'Action: Remove 1 Microbe from any card to add 1 to this card.', '1 VP per 2 Microbes on this card.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 4, other: 'min' }],
@@ -1108,8 +967,7 @@ export const CARDS = [
    {
       id: 36,
       name: 'RELEASE OF INERT GASES',
-      description:
-         "We need some nitrogen and other inert gases to increase atmospheric presure. Let's stay away from helium, though",
+      description: "We need some nitrogen and other inert gases to increase atmospheric presure. Let's stay away from helium, though",
       info: ['Raise your terraform rating 2 steps.'],
       originalCost: 14,
       currentCost: 14,
@@ -1135,23 +993,15 @@ export const CARDS = [
    {
       id: 37,
       name: 'NITROGEN-RICH ASTEROID',
-      description:
-         'Adding nitrogen to Mars will both thicken the atmosphere with N2 and provide fertilizer for plants',
-      info: [
-         'Raise your terraforming rating 2 steps and temperature 1 step. Increase your Plant production 1 step, or 4 steps if you have 3 Plant tags.',
-      ],
+      description: 'Adding nitrogen to Mars will both thicken the atmosphere with N2 and provide fertilizer for plants',
+      info: ['Raise your terraforming rating 2 steps and temperature 1 step. Increase your Plant production 1 step, or 4 steps if you have 3 Plant tags.'],
       originalCost: 31,
       currentCost: 31,
       requirements: [],
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -1203,12 +1053,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -1304,8 +1149,7 @@ export const CARDS = [
    {
       id: 43,
       name: 'CARBONATE PROCESSING',
-      description:
-         'Common minerals can be converted into carbon dioxide that increases the greenhouse effect',
+      description: 'Common minerals can be converted into carbon dioxide that increases the greenhouse effect',
       info: ['Decrease your Energy production 1 step and increase your heat production 3 steps.'],
       originalCost: 6,
       currentCost: 6,
@@ -1332,10 +1176,7 @@ export const CARDS = [
       id: 44,
       name: 'NATURAL PRESERVE',
       description: 'Creating a national park with original Martian landforms and enviroments',
-      info: [
-         'Oxygen must be 4% or less.',
-         'Place this tile NEXT TO NO OTHER TILE. Increase your MC production 1 step.',
-      ],
+      info: ['Oxygen must be 4% or less.', 'Place this tile NEXT TO NO OTHER TILE. Increase your MC production 1 step.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [
@@ -1389,12 +1230,8 @@ export const CARDS = [
    {
       id: 46,
       name: 'LIGHTNING HARVEST',
-      description:
-         'Floating supercondensors connecting clouds with a superconducting wire. The triggered and collected discharges are beamed down to a receptor',
-      info: [
-         'Requires 3 Science tags.',
-         'Increase your Energy production and your MC production up one step each.',
-      ],
+      description: 'Floating supercondensors connecting clouds with a superconducting wire. The triggered and collected discharges are beamed down to a receptor',
+      info: ['Requires 3 Science tags.', 'Increase your Energy production and your MC production up one step each.'],
       originalCost: 8,
       currentCost: 8,
       requirements: [{ type: REQUIREMENTS.TAGS, value: 3, other: TAGS.SCIENCE }],
@@ -1427,11 +1264,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1457,11 +1290,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1479,8 +1308,7 @@ export const CARDS = [
    {
       id: 49,
       name: 'TARDIGRADES',
-      description:
-         'These microscopic creatures can survive freezing, boiling, drying out, heavy radiation, and brute force',
+      description: 'These microscopic creatures can survive freezing, boiling, drying out, heavy radiation, and brute force',
       info: ['Action: Add 1 Microbe to this card.', '1 VP per 4 Microbes on this card.'],
       originalCost: 4,
       currentCost: 4,
@@ -1514,12 +1342,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.MICROBE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS],
       units: {
          microbe: 0,
          animal: 0,
@@ -1537,8 +1360,7 @@ export const CARDS = [
    {
       id: 51,
       name: 'MIRANDA RESORT',
-      description:
-         "Situated on Verona Rupes, the highest cliff in the solar system, the resort attracts many of Earth's wealthy thrill-seekers",
+      description: "Situated on Verona Rupes, the highest cliff in the solar system, the resort attracts many of Earth's wealthy thrill-seekers",
       info: ['Increase your MC production 1 step for each Earth tag you have.'],
       originalCost: 12,
       currentCost: 12,
@@ -1565,23 +1387,14 @@ export const CARDS = [
       id: 52,
       name: 'FISH',
       description: 'Martian barracudas? Why not!',
-      info: [
-         'Requires +2 C or warmer.',
-         'Action: Add 1 Animal to this card.',
-         'Decrease any Plant production 1 step.',
-         '1 VP for each Animal on this card.',
-      ],
+      info: ['Requires +2 C or warmer.', 'Action: Add 1 Animal to this card.', 'Decrease any Plant production 1 step.', '1 VP for each Animal on this card.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: 2, other: 'min' }],
       vp: 0,
       tags: [TAGS.ANIMAL],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1626,23 +1439,14 @@ export const CARDS = [
       id: 54,
       name: 'SMALL ANIMALS',
       description: 'Able to live in sparse conditions',
-      info: [
-         'Requires 6% oxygen.',
-         'Action: Add 1 Animal to this card.',
-         'Decrease any Plant production 1 step.',
-         '1 VP per 2 Animals on this card.',
-      ],
+      info: ['Requires 6% oxygen.', 'Action: Add 1 Animal to this card.', 'Decrease any Plant production 1 step.', '1 VP per 2 Animals on this card.'],
       originalCost: 6,
       currentCost: 6,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 6, other: 'min' }],
       vp: 0,
       tags: [TAGS.ANIMAL],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1661,21 +1465,14 @@ export const CARDS = [
       id: 55,
       name: 'KELP FARMING',
       description: 'The newly formed oceans are very rich in minerals, perfect for food production',
-      info: [
-         'Requires 6 ocean tiles.',
-         'Increase your MC production 2 steps and your Plant production 3 steps. Gain 2 Plants.',
-      ],
+      info: ['Requires 6 ocean tiles.', 'Increase your MC production 2 steps and your Plant production 3 steps. Gain 2 Plants.'],
       originalCost: 17,
       currentCost: 17,
       requirements: [{ type: REQUIREMENTS.OCEAN, value: 6, other: 'min' }],
       vp: 1,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1693,8 +1490,7 @@ export const CARDS = [
    {
       id: 56,
       name: 'MINE',
-      description:
-         "Mars' main export industry also supplies the planet with construction materials",
+      description: "Mars' main export industry also supplies the planet with construction materials",
       info: ['Increase your steel production 1 step.'],
       originalCost: 4,
       currentCost: 4,
@@ -1746,12 +1542,8 @@ export const CARDS = [
    {
       id: 58,
       name: 'BEAM FROM A THORIUM ASTEROID',
-      description:
-         'Nuclear energy is safe, especially when located on a remote asteroid rich in radioactive elements',
-      info: [
-         'Requires a Jovian tag.',
-         'Increase your heat production and Energy production 3 steps each.',
-      ],
+      description: 'Nuclear energy is safe, especially when located on a remote asteroid rich in radioactive elements',
+      info: ['Requires a Jovian tag.', 'Increase your heat production and Energy production 3 steps each.'],
       originalCost: 32,
       currentCost: 32,
       requirements: [{ type: REQUIREMENTS.TAGS, value: 1, other: TAGS.JOVIAN }],
@@ -1777,22 +1569,14 @@ export const CARDS = [
       id: 59,
       name: 'MANGROVE',
       description: 'A wetland forest will create an ecosystem where new species can thrive',
-      info: [
-         'Requires +4 C or warmer.',
-         'Place a greenery tile ON AN AREA RESERVED FOR OCEAN and raise oxygen 1 step. Disregard normal placement restrictions for this.',
-      ],
+      info: ['Requires +4 C or warmer.', 'Place a greenery tile ON AN AREA RESERVED FOR OCEAN and raise oxygen 1 step. Disregard normal placement restrictions for this.'],
       originalCost: 12,
       currentCost: 12,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: 4, other: 'min' }],
       vp: 1,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-         EFFECTS.EFFECT_HERBIVORES,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE, EFFECTS.EFFECT_HERBIVORES],
       units: {
          microbe: 0,
          animal: 0,
@@ -1818,11 +1602,7 @@ export const CARDS = [
       vp: 1,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -1840,12 +1620,8 @@ export const CARDS = [
    {
       id: 61,
       name: 'GREAT ESCARPMENT CONSORTIUM',
-      description:
-         'The border between the northern plains and the southern highlands is rich in materials. Control it, and you will control the global mining business',
-      info: [
-         'Requires that you have steel production.',
-         'Decrease any steel production 1 step and increase your own 1 step.',
-      ],
+      description: 'The border between the northern plains and the southern highlands is rich in materials. Control it, and you will control the global mining business',
+      info: ['Requires that you have steel production.', 'Decrease any steel production 1 step and increase your own 1 step.'],
       originalCost: 6,
       currentCost: 6,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 1, other: RESOURCES.STEEL }],
@@ -1923,9 +1699,7 @@ export const CARDS = [
       id: 64,
       name: 'MINING AREA',
       description: 'It is easier to claim territories where you already have established activity',
-      info: [
-         'Place this tile on an area with a steel or titanium placement bonus, adjacent to another of your tiles. Increase your production of that resource 1 step.',
-      ],
+      info: ['Place this tile on an area with a steel or titanium placement bonus, adjacent to another of your tiles. Increase your production of that resource 1 step.'],
       originalCost: 4,
       currentCost: 4,
       requirements: [{ type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_MINING_AREA }],
@@ -2003,9 +1777,7 @@ export const CARDS = [
       id: 67,
       name: 'MINING RIGHTS',
       description: 'The battles for Martian riches sometimes begin in a courtroom',
-      info: [
-         'Place this tile on an area with a steel or titanium placement bonus. Increase that production 1 step.',
-      ],
+      info: ['Place this tile on an area with a steel or titanium placement bonus. Increase that production 1 step.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [{ type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_MINING_RIGHTS }],
@@ -2056,13 +1828,8 @@ export const CARDS = [
    {
       id: 69,
       name: 'ELECTRO CATAPULT',
-      description:
-         'A 200 km long acceleration ramp up the side of Pavonis Mons, hurtling export goods into space',
-      info: [
-         'Oxygen must be 8% or less.',
-         'Action: Spend 1 plant or 1 steel to gain 7MC.',
-         'Decrease your energy production 1 step.',
-      ],
+      description: 'A 200 km long acceleration ramp up the side of Pavonis Mons, hurtling export goods into space',
+      info: ['Oxygen must be 8% or less.', 'Action: Spend 1 plant or 1 steel to gain 7MC.', 'Decrease your energy production 1 step.'],
       originalCost: 17,
       currentCost: 17,
       requirements: [
@@ -2117,9 +1884,7 @@ export const CARDS = [
       id: 71,
       name: 'ADVANCED ALLOYS',
       description: 'The latest advances in metallurgy give you an edge in the competition',
-      info: [
-         'Effect: Each titanium you have is worth 1 MC extra. Each steel you have is worth 1 MC extra.',
-      ],
+      info: ['Effect: Each titanium you have is worth 1 MC extra. Each steel you have is worth 1 MC extra.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [],
@@ -2145,23 +1910,14 @@ export const CARDS = [
       id: 72,
       name: 'BIRDS',
       description: 'Bringing life to the skies',
-      info: [
-         'Requires 13% oxygen.',
-         'Action: Add an animal to this card.',
-         'Decrease any plant production 2 steps.',
-         '1 VP per Animal on this card.',
-      ],
+      info: ['Requires 13% oxygen.', 'Action: Add an animal to this card.', 'Decrease any plant production 2 steps.', '1 VP per Animal on this card.'],
       originalCost: 10,
       currentCost: 10,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 13, other: 'min' }],
       vp: 0,
       tags: [TAGS.ANIMAL],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -2180,9 +1936,7 @@ export const CARDS = [
       id: 73,
       name: 'MARS UNIVERSITY',
       description: 'A major step towards understanding Mars',
-      info: [
-         'Effect: When you play a Science tag, including this, you may discard a card from hand to draw a card.',
-      ],
+      info: ['Effect: When you play a Science tag, including this, you may discard a card from hand to draw a card.'],
       originalCost: 8,
       currentCost: 8,
       requirements: [],
@@ -2207,22 +1961,15 @@ export const CARDS = [
    {
       id: 74,
       name: 'VIRAL ENHANCERS',
-      description:
-         'Genetically engineered virus strains can be used to introduce favorable genes in other organisms',
-      info: [
-         'Effect: When you play a plant, microbe, or an animal tag, including this, gain 1 plant or add 1 resource to THAT CARD.',
-      ],
+      description: 'Genetically engineered virus strains can be used to introduce favorable genes in other organisms',
+      info: ['Effect: When you play a plant, microbe, or an animal tag, including this, gain 1 plant or add 1 resource to THAT CARD.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [],
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.MICROBE],
       effect: EFFECTS.EFFECT_VIRAL_ENHANCERS,
-      effectsToCall: [
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -2248,12 +1995,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -2331,12 +2073,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -2355,11 +2092,7 @@ export const CARDS = [
       id: 79,
       name: 'QUANTUM EXTRACTOR',
       description: 'Tapping into the very fabric of space',
-      info: [
-         'Requires 4 science tags.',
-         'Effect: When you play a Space card, you pay 2 MC less for it.',
-         'Increase your energy production 4 steps.',
-      ],
+      info: ['Requires 4 science tags.', 'Effect: When you play a Space card, you pay 2 MC less for it.', 'Increase your energy production 4 steps.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [{ type: REQUIREMENTS.TAGS, value: 4, other: TAGS.SCIENCE }],
@@ -2385,21 +2118,14 @@ export const CARDS = [
       id: 80,
       name: 'GIANT ICE ASTEROID',
       description: 'Crash it. The bigger, the better',
-      info: [
-         'Raise temperature 2 steps and place 2 ocean tiles. Remove up to 6 plants from any player.',
-      ],
+      info: ['Raise temperature 2 steps and place 2 ocean tiles. Remove up to 6 plants from any player.'],
       originalCost: 36,
       currentCost: 36,
       requirements: [],
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -2529,10 +2255,7 @@ export const CARDS = [
       id: 85,
       name: 'COMMERCIAL DISTRICT',
       description: 'Taking advantage of dense population centers',
-      info: [
-         'Place this tile. Decrease your energy production 1 step and increase your MC production 4 steps.',
-         '1 VP PER ADJACENT CITY TILE.',
-      ],
+      info: ['Place this tile. Decrease your energy production 1 step and increase your MC production 4 steps.', '1 VP PER ADJACENT CITY TILE.'],
       originalCost: 16,
       currentCost: 16,
       requirements: [
@@ -2594,11 +2317,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -2624,11 +2343,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -2698,8 +2413,7 @@ export const CARDS = [
    {
       id: 91,
       name: 'GENE REPAIR',
-      description:
-         'Counters the inevitable damage from cosmic radiation and reverses many aging symptoms',
+      description: 'Counters the inevitable damage from cosmic radiation and reverses many aging symptoms',
       info: ['Requires 3 science tags.', 'Increase your MC production 2 steps.'],
       originalCost: 12,
       currentCost: 12,
@@ -2726,10 +2440,7 @@ export const CARDS = [
       id: 92,
       name: 'IO MINING INDUSTRIES',
       description: 'Supplying fuel and valuable minerals',
-      info: [
-         'Increase your titanium production 2 steps and your MC production 2 steps.',
-         '1 VP per Jovian tag you have.',
-      ],
+      info: ['Increase your titanium production 2 steps and your MC production 2 steps.', '1 VP per Jovian tag you have.'],
       originalCost: 41,
       currentCost: 41,
       requirements: [],
@@ -2762,11 +2473,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -2785,11 +2492,7 @@ export const CARDS = [
       id: 94,
       name: 'MASS CONVERTER',
       description: 'E=mc2. 1 kg = a LOT of energy',
-      info: [
-         'Requires 5 science tags.',
-         'Effect: When you play a Space card, you pay 2 MC less for it.',
-         'Increase your energy production 6 steps.',
-      ],
+      info: ['Requires 5 science tags.', 'Effect: When you play a Space card, you pay 2 MC less for it.', 'Increase your energy production 6 steps.'],
       originalCost: 8,
       currentCost: 8,
       requirements: [{ type: REQUIREMENTS.TAGS, value: 5, other: TAGS.SCIENCE }],
@@ -2815,10 +2518,7 @@ export const CARDS = [
       id: 95,
       name: 'PHYSICS COMPLEX',
       description: 'This used to cause blackouts before the invention of supercapacitors',
-      info: [
-         'Action: Spend 6 Energy to add a science resource to this card.',
-         '2 VP for each science resource on this card.',
-      ],
+      info: ['Action: Spend 6 Energy to add a science resource to this card.', '2 VP for each science resource on this card.'],
       originalCost: 12,
       currentCost: 12,
       requirements: [],
@@ -2851,11 +2551,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -2873,8 +2569,7 @@ export const CARDS = [
    {
       id: 97,
       name: 'NUCLEAR ZONE',
-      description:
-         'Detonating obsolete nuclear weapons from Earth is an efficient method for raising the temperature',
+      description: 'Detonating obsolete nuclear weapons from Earth is an efficient method for raising the temperature',
       info: ['Place this tile and raise temperature 2 steps.'],
       originalCost: 10,
       currentCost: 10,
@@ -2978,8 +2673,7 @@ export const CARDS = [
    {
       id: 101,
       name: 'IRONWORKS',
-      description:
-         'Electrolysis of Martian soil yields both iron and oxygen, making it an important part of terraforming',
+      description: 'Electrolysis of Martian soil yields both iron and oxygen, making it an important part of terraforming',
       info: ['Action: Spend 4 energy to gain 1 steel and raise oxygen 1 step.'],
       originalCost: 11,
       currentCost: 11,
@@ -3031,8 +2725,7 @@ export const CARDS = [
    {
       id: 103,
       name: 'STEELWORKS',
-      description:
-         'Turning the soil into steel and oxygen sounds good. It just takes a lot of energy',
+      description: 'Turning the soil into steel and oxygen sounds good. It just takes a lot of energy',
       info: ['Action: Spend 4 energy to gain 2 steel and increase oxygen 1 step.'],
       originalCost: 15,
       currentCost: 15,
@@ -3163,10 +2856,7 @@ export const CARDS = [
       id: 108,
       name: 'OPEN CITY',
       description: 'Not very comfortable conditions yet, but what freedom!!',
-      info: [
-         'Requires 12% oxygen.',
-         'Gain 2 plants. Place a City tile. Decrease your Energy production 1 step and increase your MC production 4 steps.',
-      ],
+      info: ['Requires 12% oxygen.', 'Gain 2 plants. Place a City tile. Decrease your Energy production 1 step and increase your MC production 4 steps.'],
       originalCost: 23,
       currentCost: 23,
       requirements: [
@@ -3255,9 +2945,7 @@ export const CARDS = [
       id: 111,
       name: 'BUSINESS CONTACTS',
       description: 'Money and information are often interchangeable',
-      info: [
-         'Look at the top 4 cards from the deck. Take 2 of them into hand and discard the other 2.',
-      ],
+      info: ['Look at the top 4 cards from the deck. Take 2 of them into hand and discard the other 2.'],
       originalCost: 7,
       currentCost: 7,
       requirements: [],
@@ -3360,8 +3048,7 @@ export const CARDS = [
    {
       id: 115,
       name: 'ARTIFICIAL PHOTOSYNTHESIS',
-      description:
-         'Artificial photosynthesis was achieved chemically by prof Akermark et. al. in 2021. Its application to terraforming remains to be seen',
+      description: 'Artificial photosynthesis was achieved chemically by prof Akermark et. al. in 2021. Its application to terraforming remains to be seen',
       info: ['Increase your plant production 1 step or your energy production 2 steps.'],
       originalCost: 12,
       currentCost: 12,
@@ -3439,23 +3126,15 @@ export const CARDS = [
    {
       id: 118,
       name: 'FARMING',
-      description:
-         'At last we can have a decent food production allowing for rapid population increase',
-      info: [
-         'Requires +4 C or warmer.',
-         'Increase your MC production 2 steps and your plant production 2 steps. Gain 2 Plants.',
-      ],
+      description: 'At last we can have a decent food production allowing for rapid population increase',
+      info: ['Requires +4 C or warmer.', 'Increase your MC production 2 steps and your plant production 2 steps. Gain 2 Plants.'],
       originalCost: 16,
       currentCost: 16,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: 4, other: 'min' }],
       vp: 2,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -3499,11 +3178,8 @@ export const CARDS = [
    {
       id: 120,
       name: 'URBANIZED AREA',
-      description:
-         'When the population begins to soar, cities will eventually merge into arge urban areas',
-      info: [
-         'Decrease your energy production 1 step and increase your MC production 2 steps. Place a city tile ADJACENT TO AT LEAST 2 OTHER CITY TILES.',
-      ],
+      description: 'When the population begins to soar, cities will eventually merge into arge urban areas',
+      info: ['Decrease your energy production 1 step and increase your MC production 2 steps. Place a city tile ADJACENT TO AT LEAST 2 OTHER CITY TILES.'],
       originalCost: 10,
       currentCost: 10,
       requirements: [
@@ -3513,13 +3189,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.CITY, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -3564,10 +3234,7 @@ export const CARDS = [
       id: 122,
       name: 'MOSS',
       description: 'Efficient soil makers',
-      info: [
-         'Requires 3 oean tiles and that you lose 1 plant.',
-         'Increase your plant production 1 step.',
-      ],
+      info: ['Requires 3 oean tiles and that you lose 1 plant.', 'Increase your plant production 1 step.'],
       originalCost: 4,
       currentCost: 4,
       requirements: [
@@ -3577,11 +3244,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -3600,15 +3263,10 @@ export const CARDS = [
       id: 123,
       name: 'INDUSTRIAL CENTER',
       description: 'Assigned to heavy industry, this area is not the nicest place on Mars',
-      info: [
-         'Action: Spend 7 MC to increase your steel production 1 step.',
-         'Place this tile adjacent to a city tile.',
-      ],
+      info: ['Action: Spend 7 MC to increase your steel production 1 step.', 'Place this tile adjacent to a city tile.'],
       originalCost: 4,
       currentCost: 4,
-      requirements: [
-         { type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_INDUSTRIAL_CENTER },
-      ],
+      requirements: [{ type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_INDUSTRIAL_CENTER }],
       vp: 0,
       tags: [TAGS.BUILDING],
       effect: null,
@@ -3657,9 +3315,7 @@ export const CARDS = [
       id: 125,
       name: 'HACKERS',
       description: 'Very unethical, very illegal, very lucrative',
-      info: [
-         'Decrease your energy production 1 step and any MC production 2 steps. increase your MC production 2 steps.',
-      ],
+      info: ['Decrease your energy production 1 step and any MC production 2 steps. increase your MC production 2 steps.'],
       originalCost: 3,
       currentCost: 3,
       requirements: [
@@ -3687,8 +3343,7 @@ export const CARDS = [
    {
       id: 126,
       name: 'GHG FACTORIES',
-      description:
-         'Synthesising powerful greenhouse gases (GHGs), releasing them into the atmosphere',
+      description: 'Synthesising powerful greenhouse gases (GHGs), releasing them into the atmosphere',
       info: ['Decrease your Energy production 1 step and increase your heat production 4 steps.'],
       originalCost: 11,
       currentCost: 11,
@@ -3775,10 +3430,7 @@ export const CARDS = [
       id: 129,
       name: 'ZEPPELINS',
       description: 'A relatively cheap way to travel between cities across the planet',
-      info: [
-         'Requires 5% oxygen.',
-         'Increase your MC production 1 step for each City tile ON MARS.',
-      ],
+      info: ['Requires 5% oxygen.', 'Increase your MC production 1 step for each City tile ON MARS.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 5, other: 'min' }],
@@ -3804,10 +3456,7 @@ export const CARDS = [
       id: 130,
       name: 'WORMS',
       description: 'Milling about in the soil, "processing" it',
-      info: [
-         'Requires 4% oxygen.',
-         'Increase your Plant production 1 step for every 2 Microbe tags you have, including this.',
-      ],
+      info: ['Requires 4% oxygen.', 'Increase your Plant production 1 step for every 2 Microbe tags you have, including this.'],
       originalCost: 8,
       currentCost: 8,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 4, other: 'min' }],
@@ -3833,11 +3482,7 @@ export const CARDS = [
       id: 131,
       name: 'DECOMPOSERS',
       description: 'Decomposing dead organisms is essential to making sustainable soil',
-      info: [
-         'Requires 3% oxygen.',
-         'Effect: When you play an Animal, Plant, or Microbe tag, including this, add a Microbe to this card.',
-         '1 VP per 3 Microbes on this card.',
-      ],
+      info: ['Requires 3% oxygen.', 'Effect: When you play an Animal, Plant, or Microbe tag, including this, add a Microbe to this card.', '1 VP per 3 Microbes on this card.'],
       originalCost: 5,
       currentCost: 5,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 3, other: 'min' }],
@@ -3915,10 +3560,7 @@ export const CARDS = [
       id: 134,
       name: 'EXTREME-COLD FUNGUS',
       description: 'Adapted strains able to form symbiotic relationships with other orgamisms',
-      info: [
-         'It must be -10 C or colder.',
-         'Action: Gain 1 plant or add 2 microbes to ANOTHER card.',
-      ],
+      info: ['It must be -10 C or colder.', 'Action: Gain 1 plant or add 2 microbes to ANOTHER card.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: -10, other: 'max' }],
@@ -3955,11 +3597,7 @@ export const CARDS = [
       vp: 3,
       tags: [TAGS.PLANT, TAGS.MICROBE, TAGS.ANIMAL],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -4029,11 +3667,8 @@ export const CARDS = [
    {
       id: 138,
       name: 'STRIP MINE',
-      description:
-         'It is not exactly enviromentally friendly to just dig up the surface, but it can be profitable',
-      info: [
-         'Decrease your Energy production 2 steps. Increase your steel production 2 steps and your titanium production 1 step. Raise oxygen 2 steps.',
-      ],
+      description: 'It is not exactly enviromentally friendly to just dig up the surface, but it can be profitable',
+      info: ['Decrease your Energy production 2 steps. Increase your steel production 2 steps and your titanium production 1 step. Raise oxygen 2 steps.'],
       originalCost: 25,
       currentCost: 25,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 2, other: RESOURCES.ENERGY }],
@@ -4085,9 +3720,7 @@ export const CARDS = [
       id: 140,
       name: 'LAVA FLOWS',
       description: "Releasing tremendous lava flows from one of Mars' gargantuan volcanoes",
-      info: [
-         'Raise temperature 2 steps and place this tile ON EITHER THARSIS THOLUS, ASCRAEUS MONS, PAVONIS MONS OR ARSIA MONS.',
-      ],
+      info: ['Raise temperature 2 steps and place this tile ON EITHER THARSIS THOLUS, ASCRAEUS MONS, PAVONIS MONS OR ARSIA MONS.'],
       originalCost: 18,
       currentCost: 18,
       requirements: [{ type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_LAVA_FLOWS }],
@@ -4139,9 +3772,7 @@ export const CARDS = [
       id: 142,
       name: 'MOHOLE AREA',
       description: 'Tunnels deep down to the molten magma, releasing heat and gases',
-      info: [
-         'Increase your heat production 4 steps. Place this tile ON AN AREA RESERVED FOR OCEAN.',
-      ],
+      info: ['Increase your heat production 4 steps. Place this tile ON AN AREA RESERVED FOR OCEAN.'],
       originalCost: 20,
       currentCost: 20,
       requirements: [],
@@ -4167,21 +3798,14 @@ export const CARDS = [
       id: 143,
       name: 'LARGE CONVOY',
       description: 'Huge delivery from Earth',
-      info: [
-         'Place an ocean tile and draw 2 cards. Gain 5 Plants or add 4 Animals to ANOTHER card.',
-      ],
+      info: ['Place an ocean tile and draw 2 cards. Gain 5 Plants or add 4 Animals to ANOTHER card.'],
       originalCost: 36,
       currentCost: 36,
       requirements: [],
       vp: 2,
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -4225,8 +3849,7 @@ export const CARDS = [
    {
       id: 145,
       name: 'TECTONIC STRESS POWER',
-      description:
-         'After finding ways to predict earthquakes, it was only a matter of time before it became feasible to exploit the enormous energies involved',
+      description: 'After finding ways to predict earthquakes, it was only a matter of time before it became feasible to exploit the enormous energies involved',
       info: ['Requires 2 Science tags.', 'Increase your Energy production 3 steps.'],
       originalCost: 18,
       currentCost: 18,
@@ -4253,10 +3876,7 @@ export const CARDS = [
       id: 146,
       name: 'NITROPHILIC MOSS',
       description: 'Specially made to thrive on the salty Martian rock',
-      info: [
-         'Requires 3 ocean tiles and that you lose 2 plants.',
-         'Increase your plant production 2 steps.',
-      ],
+      info: ['Requires 3 ocean tiles and that you lose 2 plants.', 'Increase your plant production 2 steps.'],
       originalCost: 8,
       currentCost: 8,
       requirements: [
@@ -4266,11 +3886,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -4301,11 +3917,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.ANIMAL],
       effect: EFFECTS.EFFECT_HERBIVORES,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -4324,10 +3936,7 @@ export const CARDS = [
       id: 148,
       name: 'INSECTS',
       description: 'Pollinating flowers and spreading seeds',
-      info: [
-         'Requires 6% oxygen.',
-         'Increase your Plant production 1 step for each plant tag you have.',
-      ],
+      info: ['Requires 6% oxygen.', 'Increase your Plant production 1 step for each plant tag you have.'],
       originalCost: 9,
       currentCost: 9,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 6, other: 'min' }],
@@ -4378,8 +3987,7 @@ export const CARDS = [
    {
       id: 150,
       name: 'ANTI-GRAVITY TECHNOLOGY',
-      description:
-         'Finally successful, anti-gravity will revolutionise everything, from households to industry and space travel',
+      description: 'Finally successful, anti-gravity will revolutionise everything, from households to industry and space travel',
       info: ['Requires 7 science tags.', 'Effect: When you play a card, you pay 2 MC less for it.'],
       originalCost: 14,
       currentCost: 14,
@@ -4432,9 +4040,7 @@ export const CARDS = [
       id: 152,
       name: 'INSULATION',
       description: 'Better insulation means lower energy spending',
-      info: [
-         'Decrease your heat production any number of steps and increase your MC production the same number of steps.',
-      ],
+      info: ['Decrease your heat production any number of steps and increase your MC production the same number of steps.'],
       originalCost: 2,
       currentCost: 2,
       requirements: [],
@@ -4486,10 +4092,7 @@ export const CARDS = [
       id: 154,
       name: 'CARETAKER CONTRACT',
       description: 'In charge of establishing comfortable temperatures',
-      info: [
-         'Requires 0 C or warmer.',
-         'Action: Spend 8 heat to increase your terraform rating 1 step.',
-      ],
+      info: ['Requires 0 C or warmer.', 'Action: Spend 8 heat to increase your terraform rating 1 step.'],
       originalCost: 3,
       currentCost: 3,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: 0, other: 'min' }],
@@ -4522,12 +4125,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.MICROBE],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -4546,9 +4144,7 @@ export const CARDS = [
       id: 156,
       name: 'STANDARD TECHNOLOGY',
       description: 'Standard solutions honed to perfection',
-      info: [
-         'Effect: After you pay for a standard project, except selling patents, you gain 3 MC.',
-      ],
+      info: ['Effect: After you pay for a standard project, except selling patents, you gain 3 MC.'],
       originalCost: 6,
       currentCost: 6,
       requirements: [],
@@ -4573,12 +4169,8 @@ export const CARDS = [
    {
       id: 157,
       name: 'NITRITE REDUCING BACTERIA',
-      description:
-         'Making use of the nitrites in the ground to release nitrogen into the atmosphere',
-      info: [
-         'Action: Add 1 Microbe to this card, or remove 3 Microbes to increase your TR 1 step.',
-         'Add 3 Microbes to this card.',
-      ],
+      description: 'Making use of the nitrites in the ground to release nitrogen into the atmosphere',
+      info: ['Action: Add 1 Microbe to this card, or remove 3 Microbes to increase your TR 1 step.', 'Add 3 Microbes to this card.'],
       originalCost: 11,
       currentCost: 11,
       requirements: [],
@@ -4637,11 +4229,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -4660,10 +4248,7 @@ export const CARDS = [
       id: 160,
       name: 'POWER SUPPLY CONSORTIUM',
       description: 'Dominating the energy market allows you to make hostile takeovers',
-      info: [
-         'Requires 2 Power tags.',
-         'Decrease any Energy production 1 step and increase your own 1 step.',
-      ],
+      info: ['Requires 2 Power tags.', 'Decrease any Energy production 1 step and increase your own 1 step.'],
       originalCost: 5,
       currentCost: 5,
       requirements: [{ type: REQUIREMENTS.TAGS, value: 2, other: TAGS.POWER }],
@@ -4696,11 +4281,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -4726,11 +4307,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -4749,21 +4326,14 @@ export const CARDS = [
       id: 163,
       name: 'IMPORTED NITROGEN',
       description: 'Providing nitrogen needed in the atmosphere and for biomass',
-      info: [
-         'Raise your TR 1 step and gain 4 Plants. Add 3 Microbes to ANOTHER card and 2 Animals to ANOTHER card.',
-      ],
+      info: ['Raise your TR 1 step and gain 4 Plants. Add 3 Microbes to ANOTHER card and 2 Animals to ANOTHER card.'],
       originalCost: 23,
       currentCost: 23,
       requirements: [],
       vp: 0,
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -4781,8 +4351,7 @@ export const CARDS = [
    {
       id: 164,
       name: 'MICRO-MILLS',
-      description:
-         'Small, mass-produced windmills that convert some of the ever-present wind into heat',
+      description: 'Small, mass-produced windmills that convert some of the ever-present wind into heat',
       info: ['Increase your heat production 1 step.'],
       originalCost: 3,
       currentCost: 3,
@@ -4808,11 +4377,8 @@ export const CARDS = [
    {
       id: 165,
       name: 'MAGNETIC FIELD GENERATORS',
-      description:
-         'By generating a magnetic field, you can protect organisms from cosmic radiation',
-      info: [
-         'Decrease your Energy production 4 steps and increase your Plant production 2 steps. Raise your TR 3 steps.',
-      ],
+      description: 'By generating a magnetic field, you can protect organisms from cosmic radiation',
+      info: ['Decrease your Energy production 4 steps and increase your Plant production 2 steps. Raise your TR 3 steps.'],
       originalCost: 20,
       currentCost: 20,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 4, other: RESOURCES.ENERGY }],
@@ -4837,8 +4403,7 @@ export const CARDS = [
    {
       id: 166,
       name: 'SHUTTLES',
-      description:
-         'Aided by low gravity ascending, and by the increasing atmosphere when descending for landing',
+      description: 'Aided by low gravity ascending, and by the increasing atmosphere when descending for landing',
       info: [
          'Requires 5% oxygen.',
          'Effect: When you play a Space card, you pay 2 MC less for it.',
@@ -4879,11 +4444,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.EARTH, TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -4928,21 +4489,14 @@ export const CARDS = [
       id: 169,
       name: 'TUNDRA FARMING',
       description: 'Farming the thawed soil over the frozen bedrock',
-      info: [
-         'Requires -6 C or warmer.',
-         'ncrease your Plant production 1 step and your MC production 2 steps. Gain 1 Plant.',
-      ],
+      info: ['Requires -6 C or warmer.', 'ncrease your Plant production 1 step and your MC production 2 steps. Gain 1 Plant.'],
       originalCost: 16,
       currentCost: 16,
       requirements: [{ type: REQUIREMENTS.TEMPERATURE, value: -6, other: 'min' }],
       vp: 2,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -4960,23 +4514,15 @@ export const CARDS = [
    {
       id: 170,
       name: 'AEROBRAKED AMMONIA ASTEROID',
-      description:
-         'Ammonia is a greenhours gas, as well as being a convenient nitrogen source for organisms',
-      info: [
-         'Add 2 Microbes to ANOTHER card. Increase your heat production 3 steps and your Plant productions 1 step.',
-      ],
+      description: 'Ammonia is a greenhours gas, as well as being a convenient nitrogen source for organisms',
+      info: ['Add 2 Microbes to ANOTHER card. Increase your heat production 3 steps and your Plant productions 1 step.'],
       originalCost: 26,
       currentCost: 26,
       requirements: [],
       vp: 0,
       tags: [TAGS.SPACE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OPTIMAL_AEROBRAKING,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OPTIMAL_AEROBRAKING],
       units: {
          microbe: 0,
          animal: 0,
@@ -4995,9 +4541,7 @@ export const CARDS = [
       id: 171,
       name: 'MAGNETIC FIELD DOME',
       description: 'Protecting a limited area from cosmic radiation',
-      info: [
-         'Decrease your Energy production 2 steps and increase your Plant production 1 step. Raise your TR 1 step.',
-      ],
+      info: ['Decrease your Energy production 2 steps and increase your Plant production 1 step. Raise your TR 1 step.'],
       originalCost: 5,
       currentCost: 5,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 2, other: RESOURCES.ENERGY }],
@@ -5023,22 +4567,14 @@ export const CARDS = [
       id: 172,
       name: 'PETS',
       description: "It wouldn't be the same without them",
-      info: [
-         'Effect: When any City tile is placed, add an Animal to this card.',
-         'Add 1 Animal to this card.',
-         '1 VP per 2 Animals here.',
-      ],
+      info: ['Effect: When any City tile is placed, add an Animal to this card.', 'Add 1 Animal to this card.', '1 VP per 2 Animals here.'],
       originalCost: 10,
       currentCost: 10,
       requirements: [],
       vp: 0,
       tags: [TAGS.EARTH, TAGS.ANIMAL],
       effect: EFFECTS.EFFECT_PETS,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -5082,8 +4618,7 @@ export const CARDS = [
    {
       id: 174,
       name: 'PROTECTED VALLEY',
-      description:
-         'A fertile valley with higher air density and humidity, but in need of protection when the oceans rise',
+      description: 'A fertile valley with higher air density and humidity, but in need of protection when the oceans rise',
       info: [
          'Increase your MC production 2 steps. Place on a greenery tile ON AN AREA RESERVED FOR OCEAN, disregarding normal placement restrictions, and increase oxygen 1 step.',
       ],
@@ -5093,13 +4628,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-         EFFECTS.EFFECT_HERBIVORES,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE, EFFECTS.EFFECT_HERBIVORES],
       units: {
          microbe: 0,
          animal: 0,
@@ -5118,9 +4647,7 @@ export const CARDS = [
       id: 175,
       name: 'SATELLITES',
       description: 'Coordinating orbital traffic',
-      info: [
-         'Increase your MC production 1 step for each space tag your have, including this one.',
-      ],
+      info: ['Increase your MC production 1 step for each space tag your have, including this one.'],
       originalCost: 10,
       currentCost: 10,
       requirements: [],
@@ -5145,8 +4672,7 @@ export const CARDS = [
    {
       id: 176,
       name: 'NOCTIS FARMING',
-      description:
-         'Utilising the uniquely dense and moist atmosphere in the canyons of Noctis Labyrinthus',
+      description: 'Utilising the uniquely dense and moist atmosphere in the canyons of Noctis Labyrinthus',
       info: ['Requires -20 C or warmer.', 'Increase your MC production 1 step and gain 2 Plants.'],
       originalCost: 10,
       currentCost: 10,
@@ -5154,11 +4680,7 @@ export const CARDS = [
       vp: 1,
       tags: [TAGS.PLANT, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -5254,11 +4776,8 @@ export const CARDS = [
    {
       id: 180,
       name: 'FUEL FACTORY',
-      description:
-         'With its shallow gravity well, Mars is a good host for the space industry, and rockets need fuel',
-      info: [
-         'Decrease your Energy production 1 step and increase your titanium and your MC production 1 step each.',
-      ],
+      description: 'With its shallow gravity well, Mars is a good host for the space industry, and rockets need fuel',
+      info: ['Decrease your Energy production 1 step and increase your titanium and your MC production 1 step each.'],
       originalCost: 6,
       currentCost: 6,
       requirements: [{ type: REQUIREMENTS.PRODUCTION, value: 1, other: RESOURCES.ENERGY }],
@@ -5310,9 +4829,7 @@ export const CARDS = [
       id: 182,
       name: 'CORPORATE STRONGHOLD',
       description: 'A city exclusively devoted to your corporation',
-      info: [
-         'Decrease your Energy production 1 step and increase your MC production 3 steps. Place a City tile.',
-      ],
+      info: ['Decrease your Energy production 1 step and increase your MC production 3 steps. Place a City tile.'],
       originalCost: 11,
       currentCost: 11,
       requirements: [
@@ -5322,13 +4839,7 @@ export const CARDS = [
       vp: -2,
       tags: [TAGS.CITY, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -5347,10 +4858,7 @@ export const CARDS = [
       id: 183,
       name: 'BIOMASS COMBUSTORS',
       description: 'Burning wood is easy',
-      info: [
-         'Requires 6% oxygen.',
-         'Decrease any Plant production 1 step and increase your Energy production 2 steps.',
-      ],
+      info: ['Requires 6% oxygen.', 'Decrease any Plant production 1 step and increase your Energy production 2 steps.'],
       originalCost: 4,
       currentCost: 4,
       requirements: [{ type: REQUIREMENTS.OXYGEN, value: 6, other: 'min' }],
@@ -5388,11 +4896,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.ANIMAL],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE],
       units: {
          microbe: 0,
          animal: 0,
@@ -5410,11 +4914,8 @@ export const CARDS = [
    {
       id: 185,
       name: 'OLYMPUS CONFERENCE',
-      description:
-         'The sciencetific elite, assembled at the top of Olympus Mons, the highest spot in the solar system',
-      info: [
-         'Effect: When you play a Science tag, including this, either add a Science resource to this card, or remove a Science resource from this card to draw a card.',
-      ],
+      description: 'The sciencetific elite, assembled at the top of Olympus Mons, the highest spot in the solar system',
+      info: ['Effect: When you play a Science tag, including this, either add a Science resource to this card, or remove a Science resource from this card to draw a card.'],
       originalCost: 10,
       currentCost: 10,
       requirements: [],
@@ -5439,8 +4940,7 @@ export const CARDS = [
    {
       id: 186,
       name: 'RAD-SUITS',
-      description:
-         'New synthetic fabrics, able to protect from cosmic radiation, are becoming high fashion',
+      description: 'New synthetic fabrics, able to protect from cosmic radiation, are becoming high fashion',
       info: ['Requires two cities in play.', 'Increase your MC up 1 step.'],
       originalCost: 6,
       currentCost: 6,
@@ -5466,11 +4966,8 @@ export const CARDS = [
    {
       id: 187,
       name: 'AQUIFER PUMPING',
-      description:
-         'Underground water reservoirs may be tapped in a controlled manner, to safely build up oceans to the desired level',
-      info: [
-         'Action: Spend 8 MC to place 1 ocean tile. STEEL MAY BE USED as if you were playing a Building card.',
-      ],
+      description: 'Underground water reservoirs may be tapped in a controlled manner, to safely build up oceans to the desired level',
+      info: ['Action: Spend 8 MC to place 1 ocean tile. STEEL MAY BE USED as if you were playing a Building card.'],
       originalCost: 18,
       currentCost: 18,
       requirements: [],
@@ -5496,9 +4993,7 @@ export const CARDS = [
       id: 188,
       name: 'FLOODING',
       description: 'Lookout for tsunamis',
-      info: [
-         'Place an ocean tile. IF THERE ARE TILES ADJACENT TO THIS OCEAN TILE, YOU MAY REMOVE 4 MC FROM THE OWNER OF ONE OF THOSE TILES.',
-      ],
+      info: ['Place an ocean tile. IF THERE ARE TILES ADJACENT TO THIS OCEAN TILE, YOU MAY REMOVE 4 MC FROM THE OWNER OF ONE OF THOSE TILES.'],
       originalCost: 7,
       currentCost: 7,
       requirements: [],
@@ -5602,21 +5097,14 @@ export const CARDS = [
       id: 192,
       name: 'INVENTION CONTEST',
       description: 'Engaging the scientific community in a field of your choice',
-      info: [
-         'Look at the top 3 cards from the deck. Take 1 of them into hand and discard the other 2.',
-      ],
+      info: ['Look at the top 3 cards from the deck. Take 1 of them into hand and discard the other 2.'],
       originalCost: 2,
       currentCost: 2,
       requirements: [],
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -5634,8 +5122,7 @@ export const CARDS = [
    {
       id: 193,
       name: 'PLANTATION',
-      description:
-         'By focusing on a limited area, helpful measures can be taken to improve local conditions for plant life',
+      description: 'By focusing on a limited area, helpful measures can be taken to improve local conditions for plant life',
       info: ['Requires 2 Science tags.', 'Place a greenery tile and raise oxygen 1 step.'],
       originalCost: 15,
       currentCost: 15,
@@ -5646,12 +5133,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.PLANT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_VIRAL_ENHANCERS,
-         EFFECTS.EFFECT_DECOMPOSERS,
-         EFFECTS.EFFECT_ECOLOGICAL_ZONE,
-         EFFECTS.EFFECT_HERBIVORES,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_VIRAL_ENHANCERS, EFFECTS.EFFECT_DECOMPOSERS, EFFECTS.EFFECT_ECOLOGICAL_ZONE, EFFECTS.EFFECT_HERBIVORES],
       units: {
          microbe: 0,
          animal: 0,
@@ -5695,8 +5177,7 @@ export const CARDS = [
    {
       id: 195,
       name: 'INDENTURED WORKERS',
-      description:
-         'There are many who would work for us for almost no pay in exchange for a ticket to Mars',
+      description: 'There are many who would work for us for almost no pay in exchange for a ticket to Mars',
       info: ['The next card you play this generation costs 8 MC less.'],
       originalCost: 0,
       currentCost: 0,
@@ -5800,14 +5281,11 @@ export const CARDS = [
    {
       id: 199,
       name: 'RESTRICTED AREA',
-      description:
-         'A place to conduct secret research, preventing the wrong people from getting in. Or out...',
+      description: 'A place to conduct secret research, preventing the wrong people from getting in. Or out...',
       info: ['Action: Spend 2 MC to draw a card.', 'Place this tile.'],
       originalCost: 11,
       currentCost: 11,
-      requirements: [
-         { type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_RESTRICTED_AREA },
-      ],
+      requirements: [{ type: REQUIREMENTS.BOARD, value: null, other: TILES.SPECIAL_RESTRICTED_AREA }],
       vp: 0,
       tags: [TAGS.SCIENCE],
       effect: null,
@@ -5829,8 +5307,7 @@ export const CARDS = [
    {
       id: 200,
       name: 'IMMIGRANT CITY',
-      description:
-         'Taking care of immigrants is costly, but it will begin to pay off when they start working for you in the growing society',
+      description: 'Taking care of immigrants is costly, but it will begin to pay off when they start working for you in the growing society',
       info: [
          'Effect: When a City tile is placed, including this, increase your MC production 1 step.',
          'Decrease your Energy production 1 step and decrease your MC production 2 steps. Place a City tile.',
@@ -5845,13 +5322,7 @@ export const CARDS = [
       vp: 0,
       tags: [TAGS.CITY, TAGS.BUILDING],
       effect: EFFECTS.EFFECT_IMMIGRANT_CITY,
-      effectsToCall: [
-         EFFECTS.EFFECT_THARSIS_CITY,
-         EFFECTS.EFFECT_THARSIS_CITY_ONPLANET,
-         EFFECTS.EFFECT_ROVER_CONSTRUCTION,
-         EFFECTS.EFFECT_PETS,
-         EFFECTS.EFFECT_IMMIGRANT_CITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_THARSIS_CITY, EFFECTS.EFFECT_THARSIS_CITY_ONPLANET, EFFECTS.EFFECT_ROVER_CONSTRUCTION, EFFECTS.EFFECT_PETS, EFFECTS.EFFECT_IMMIGRANT_CITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -5895,8 +5366,7 @@ export const CARDS = [
    {
       id: 202,
       name: 'UNDERGROUND DETONATIONS',
-      description:
-         'Radiation from the nuclear blast is shielded, but over time, we are still getting the heat',
+      description: 'Radiation from the nuclear blast is shielded, but over time, we are still getting the heat',
       info: ['Action: Spend 10MC to increase your heat production 2 steps.'],
       originalCost: 6,
       currentCost: 6,
@@ -6007,21 +5477,14 @@ export const CARDS = [
       id: 206,
       name: 'SPECIAL DESIGN',
       description: "If it isn't feasible, then make it so",
-      info: [
-         'The next card you play this generation is +2 or -2 steps in global requirements, your choice.',
-      ],
+      info: ['The next card you play this generation is +2 or -2 steps in global requirements, your choice.'],
       originalCost: 4,
       currentCost: 4,
       requirements: [],
       vp: 0,
       tags: [TAGS.SCIENCE, TAGS.EVENT],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_INTERPLANETARY,
-         EFFECTS.EFFECT_MEDIA_GROUP,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_INTERPLANETARY, EFFECTS.EFFECT_MEDIA_GROUP, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,
@@ -6040,9 +5503,7 @@ export const CARDS = [
       id: 207,
       name: 'MEDICAL LAB',
       description: 'Providing health care for the public can be lucrative, as well as noble',
-      info: [
-         'Increase your MC production 1 step for every 2 Building tags you have, including this.',
-      ],
+      info: ['Increase your MC production 1 step for every 2 Building tags you have, including this.'],
       originalCost: 13,
       currentCost: 13,
       requirements: [],
@@ -6068,11 +5529,7 @@ export const CARDS = [
       id: 208,
       name: 'AI CENTRAL',
       description: '"42"',
-      info: [
-         'Requires 3 Science tags to play.',
-         'Action: Draw 2 cards.',
-         'Decrease your Energy production 1 step.',
-      ],
+      info: ['Requires 3 Science tags to play.', 'Action: Draw 2 cards.', 'Decrease your Energy production 1 step.'],
       originalCost: 21,
       currentCost: 21,
       requirements: [
@@ -6082,11 +5539,7 @@ export const CARDS = [
       vp: 1,
       tags: [TAGS.SCIENCE, TAGS.BUILDING],
       effect: null,
-      effectsToCall: [
-         EFFECTS.EFFECT_CREDICOR,
-         EFFECTS.EFFECT_OLYMPUS_CONFERENCE,
-         EFFECTS.EFFECT_MARS_UNIVERSITY,
-      ],
+      effectsToCall: [EFFECTS.EFFECT_CREDICOR, EFFECTS.EFFECT_OLYMPUS_CONFERENCE, EFFECTS.EFFECT_MARS_UNIVERSITY],
       units: {
          microbe: 0,
          animal: 0,

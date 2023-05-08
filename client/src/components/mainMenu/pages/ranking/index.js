@@ -48,8 +48,7 @@ const Ranking = () => {
       allPlayers.forEach((player) => {
          // Filter by season
          let gamesBySeason = player.games
-         if (season !== 'lifetime')
-            gamesBySeason = player.games.filter((game) => game.season === season)
+         if (season !== 'lifetime') gamesBySeason = player.games.filter((game) => game.season === season)
          newCurrPlayers.push({ ...player, games: gamesBySeason })
       })
       setCurrPlayers(newCurrPlayers)
@@ -57,8 +56,7 @@ const Ranking = () => {
 
    function getPlayers(users, games, season) {
       // Games filtered by season
-      let filteredGames =
-         season === 'lifetime' ? games : games.filter((game) => game.season === season)
+      let filteredGames = season === 'lifetime' ? games : games.filter((game) => game.season === season)
       // List of users IDs that played filteredGames
       const usersIdsPlayed = filteredGames.map((game) => game.user)
       // Details of usersIdsPlayed
@@ -94,74 +92,32 @@ const Ranking = () => {
                   {currPlayers ? (
                      <>
                         <div
-                           className={`stats three-tabs${
-                              type === TABS.RANKING_SECONDARY
-                                 ? ' second-tab'
-                                 : type === TABS.RANKING_RULES
-                                 ? ' third-tab'
-                                 : ''
-                           }`}
+                           className={`stats three-tabs${type === TABS.RANKING_SECONDARY ? ' second-tab' : type === TABS.RANKING_RULES ? ' third-tab' : ''}`}
                            style={{ display: 'flex', justifyContent: 'center' }}
                         >
                            {/* Tabs */}
                            <div className="tabs">
-                              <div
-                                 className={`tab pointer${
-                                    type === TABS.RANKING_PRIMARY ? ' active' : ''
-                                 }`}
-                                 onClick={handleClickRankingPrimary}
-                              >
+                              <div className={`tab pointer${type === TABS.RANKING_PRIMARY ? ' active' : ''}`} onClick={handleClickRankingPrimary}>
                                  PRIMARY RANKING
                               </div>
-                              <div
-                                 className={`tab pointer${
-                                    type === TABS.RANKING_SECONDARY ? ' active' : ''
-                                 }`}
-                                 onClick={handleClickRankingSecondary}
-                              >
+                              <div className={`tab pointer${type === TABS.RANKING_SECONDARY ? ' active' : ''}`} onClick={handleClickRankingSecondary}>
                                  SECONDARY RANKING
                               </div>
-                              <div
-                                 className={`tab pointer${
-                                    type === TABS.RANKING_RULES ? ' active' : ''
-                                 }`}
-                                 onClick={handleClickRankingRules}
-                              >
+                              <div className={`tab pointer${type === TABS.RANKING_RULES ? ' active' : ''}`} onClick={handleClickRankingRules}>
                                  RANKING RULES
                               </div>
                            </div>
                            {/* Data */}
-                           {type === TABS.RANKING_PRIMARY && (
-                              <RankingPrimary
-                                 userValue={userValue}
-                                 gamesCountForPrimaryRanking={GAMES_COUNT_PRIMARY_SEASON}
-                              />
-                           )}
-                           {type === TABS.RANKING_SECONDARY && (
-                              <RankingSecondary userValue={userValue} />
-                           )}
-                           {type === TABS.RANKING_RULES && (
-                              <RankingRules
-                                 gamesCountForPrimaryRanking={GAMES_COUNT_PRIMARY_SEASON}
-                              />
-                           )}
+                           {type === TABS.RANKING_PRIMARY && <RankingPrimary userValue={userValue} gamesCountForPrimaryRanking={GAMES_COUNT_PRIMARY_SEASON} />}
+                           {type === TABS.RANKING_SECONDARY && <RankingSecondary userValue={userValue} />}
+                           {type === TABS.RANKING_RULES && <RankingRules gamesCountForPrimaryRanking={GAMES_COUNT_PRIMARY_SEASON} />}
                         </div>
                         {/* Filters */}
                         <div className="filters" style={{ transform: 'translateX(-30%)' }}>
                            {type !== TABS.RANKING_RULES && (
                               <>
-                                 <FilterSeason
-                                    filterPlayers={filterPlayers}
-                                    season={season}
-                                    setSeason={setSeason}
-                                    data={data}
-                                 />
-                                 <input
-                                    type="text"
-                                    className="filter filter-user"
-                                    onChange={(e) => setUserValue(e.target.value)}
-                                    placeholder="SEARCH PLAYER"
-                                 />
+                                 <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} data={data} />
+                                 <input type="text" className="filter filter-user" onChange={(e) => setUserValue(e.target.value)} placeholder="SEARCH PLAYER" />
                               </>
                            )}
                         </div>

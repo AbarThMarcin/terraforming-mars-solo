@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ModalCard from './player/details/ModalCard'
 import ModalSeeAllCards from './player/details/ModalSeeAllCards'
 import { TABS } from '../../../../App'
+import GamesLog from './games/GamesLog'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
@@ -33,6 +34,7 @@ const Stats = ({ user }) => {
    const [editMode, setEditMode] = useState(false)
    const [linkOrComment, setLinkOrComment] = useState('')
    const [gameId, setGameId] = useState()
+   const [game, setGame] = useState()
    // Modal for card
    const [showModalCard, setShowModalCard] = useState(false)
    const [modalCard, setModalCard] = useState(null)
@@ -63,8 +65,7 @@ const Stats = ({ user }) => {
 
    function getPlayers(users, games, season) {
       // Games filtered by season
-      let filteredGames =
-         season === 'lifetime' ? games : games.filter((game) => game.season === season)
+      let filteredGames = season === 'lifetime' ? games : games.filter((game) => game.season === season)
       // List of users IDs that played filteredGames
       const usersIdsPlayed = filteredGames.map((game) => game.user)
       // Details of usersIdsPlayed
@@ -82,20 +83,14 @@ const Stats = ({ user }) => {
    function filterPlayers(season, userValue, corp) {
       const newCurrPlayers = []
       // Filter by user
-      const filteredPlayers = allPlayers.filter((player) =>
-         player.name.toUpperCase().includes(userValue.toUpperCase())
-      )
+      const filteredPlayers = allPlayers.filter((player) => player.name.toUpperCase().includes(userValue.toUpperCase()))
       filteredPlayers.forEach((player) => {
          // Filter by season
          let gamesBySeason = player.games
-         if (season !== 'lifetime')
-            gamesBySeason = player.games.filter((game) => game.season === season)
+         if (season !== 'lifetime') gamesBySeason = player.games.filter((game) => game.season === season)
          // Filter by corp
          let gamesBySeasonAndCorp = gamesBySeason
-         if (corp !== 'ALL CORPORATIONS')
-            gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter(
-               (game) => game.corporation?.name === corp
-            )
+         if (corp !== 'ALL CORPORATIONS') gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => game.corporation?.name === corp)
          newCurrPlayers.push({
             ...player,
             games: gamesBySeasonAndCorp,
@@ -129,7 +124,7 @@ const Stats = ({ user }) => {
             }}
          >
             <TabTypeContext.Provider value={{ type, setType }}>
-               <DataContext.Provider value={{ data }}>
+               <DataContext.Provider value={{ data, game, setGame }}>
                   <PlayersContext.Provider
                      value={{
                         currPlayers,
@@ -142,56 +137,24 @@ const Stats = ({ user }) => {
                         {currPlayers ? (
                            <>
                               {/* Data */}
-                              {(type === TABS.GENERAL_STATISTICS ||
-                                 type === TABS.GENERAL_ACHIEVEMENTS) && (
-                                 <General
-                                    filterPlayers={filterPlayers}
-                                    season={season}
-                                    setSeason={setSeason}
-                                    setCorp={setCorp}
-                                    userValue={userValue}
-                                 />
+                              {(type === TABS.GENERAL_STATISTICS || type === TABS.GENERAL_ACHIEVEMENTS) && (
+                                 <General filterPlayers={filterPlayers} season={season} setSeason={setSeason} setCorp={setCorp} userValue={userValue} />
                               )}
                               {(type === TABS.PLAYER_OVERVIEW || type === TABS.PLAYER_DETAILS) && (
-                                 <Player
-                                    filterPlayers={filterPlayers}
-                                    season={season}
-                                    corp={corp}
-                                    setCorp={setCorp}
-                                    userValue={userValue}
-                                 />
+                                 <Player filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} />
                               )}
                               {type === TABS.GAMES && <Games user={user} />}
+                              {type === TABS.GAMES_LOG && <GamesLog user={user} />}
                               {/* Filters */}
                               <div className="filters">
-                                 {type !== TABS.GENERAL_ACHIEVEMENTS && (
-                                    <FilterSeason
-                                       filterPlayers={filterPlayers}
-                                       season={season}
-                                       setSeason={setSeason}
-                                       corp={corp}
-                                       userValue={userValue}
-                                       data={data}
-                                    />
+                                 {type !== TABS.GENERAL_ACHIEVEMENTS && type !== TABS.GAMES_LOG && (
+                                    <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} corp={corp} userValue={userValue} data={data} />
                                  )}
                                  {(type === TABS.PLAYER_DETAILS || type === TABS.GAMES) && (
-                                    <FilterCorp
-                                       filterPlayers={filterPlayers}
-                                       season={season}
-                                       setCorp={setCorp}
-                                       userValue={userValue}
-                                       data={data}
-                                    />
+                                    <FilterCorp filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} data={data} />
                                  )}
-                                 {(type === TABS.GENERAL_STATISTICS ||
-                                    type === TABS.GENERAL_ACHIEVEMENTS) && (
-                                    <FilterUser
-                                       filterPlayers={filterPlayers}
-                                       season={season}
-                                       corp={corp}
-                                       userValue={userValue}
-                                       setUserValue={setUserValue}
-                                    />
+                                 {(type === TABS.GENERAL_STATISTICS || type === TABS.GENERAL_ACHIEVEMENTS) && (
+                                    <FilterUser filterPlayers={filterPlayers} season={season} corp={corp} userValue={userValue} setUserValue={setUserValue} />
                                  )}
                               </div>
                            </>
@@ -201,15 +164,7 @@ const Stats = ({ user }) => {
                               <img className="full-size" src={spinner} alt="loading_spinner" />
                            </div>
                         )}
-                        <BtnGoBack
-                           type={type}
-                           setType={setType}
-                           filterPlayers={filterPlayers}
-                           season={season}
-                           corp={corp}
-                           setCorp={setCorp}
-                           userValue={userValue}
-                        />
+                        <BtnGoBack type={type} setType={setType} filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} />
                      </div>
                      {/* Modal Link & Comment */}
                      <AnimatePresence>
@@ -222,12 +177,7 @@ const Stats = ({ user }) => {
                               exit={{ opacity: 0 }}
                               className="modal-background"
                            >
-                              <Modal
-                                 user={user}
-                                 season={season}
-                                 corp={corp}
-                                 userValue={userValue}
-                              />
+                              <Modal user={user} season={season} corp={corp} userValue={userValue} />
                            </motion.div>
                         )}
                      </AnimatePresence>

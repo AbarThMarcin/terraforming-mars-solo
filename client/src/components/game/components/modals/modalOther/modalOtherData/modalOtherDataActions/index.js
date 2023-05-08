@@ -24,26 +24,15 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
 
       if (statePlayer.resources.titan > 0 && cardIdOrUnmi === 12) {
          diff = cost - statePlayer.resources.mln
-         if (diff > 0)
-            resTitan = Math.min(
-               Math.ceil(diff / statePlayer.valueTitan),
-               statePlayer.resources.titan
-            )
+         if (diff > 0) resTitan = Math.min(Math.ceil(diff / statePlayer.valueTitan), statePlayer.resources.titan)
       }
       if (statePlayer.resources.steel > 0 && cardIdOrUnmi === 187) {
          diff = cost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan
-         if (diff > 0)
-            resSteel = Math.min(
-               Math.ceil(diff / statePlayer.valueSteel),
-               statePlayer.resources.steel
-            )
+         if (diff > 0) resSteel = Math.min(Math.ceil(diff / statePlayer.valueSteel), statePlayer.resources.steel)
       }
       diff = cost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan
       resMln = Math.min(diff, statePlayer.resources.mln)
-      resHeat = Math.max(
-         0,
-         cost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan - resMln
-      )
+      resHeat = Math.max(0, cost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan - resMln)
       setToBuyMln(resMln)
       setToBuySteel(resSteel)
       setToBuyTitan(resTitan)

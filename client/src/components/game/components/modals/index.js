@@ -25,7 +25,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Corp from '../corp/Corp'
 import ModalEndStats from './modalEndStats/ModalEndStats'
 
-const Modals = ({ logItems }) => {
+const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpanded }) => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -41,9 +41,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalSellCards />
                </motion.div>
@@ -59,9 +57,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalMarsUniversity />
                </motion.div>
@@ -77,9 +73,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalBusinessContacts />
                </motion.div>
@@ -89,14 +83,7 @@ const Modals = ({ logItems }) => {
          {/* Modal Corps */}
          <AnimatePresence>
             {modals.corps && (
-               <motion.div
-                  key="keyModalCorps"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="modal-background"
-               >
+               <motion.div key="keyModalCorps" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="modal-background">
                   <ModalCorps />
                </motion.div>
             )}
@@ -111,9 +98,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || modals.sellCards) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || modals.sellCards) && 'display-none'}`}
                   onClick={() => setModals((prev) => ({ ...prev, standardProjects: false }))}
                >
                   <ModalStandardProjects />
@@ -130,9 +115,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalDraft />
                </motion.div>
@@ -148,9 +131,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalResource />
                </motion.div>
@@ -166,9 +147,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalProduction />
                </motion.div>
@@ -184,9 +163,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalSelectOne />
                </motion.div>
@@ -202,9 +179,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.confirmation || stateGame.phaseViewGameState) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.confirmation || stateGame.phaseViewGameState) && 'display-none'}`}
                >
                   <ModalSelectCard />
                </motion.div>
@@ -213,12 +188,7 @@ const Modals = ({ logItems }) => {
 
          {/* Button View Game State */}
          <AnimatePresence>
-            {(stateGame.phaseDraft ||
-               modals.sellCards ||
-               stateGame.phaseAddRemoveRes ||
-               modals.selectCard ||
-               modals.marsUniversity ||
-               modals.businessContacts) && (
+            {(stateGame.phaseDraft || modals.sellCards || stateGame.phaseAddRemoveRes || modals.selectCard || modals.marsUniversity || modals.businessContacts) && (
                <motion.div
                   key="keyBtnViewGameState"
                   initial={{ opacity: 0 }}
@@ -257,7 +227,7 @@ const Modals = ({ logItems }) => {
                   className="full-size"
                   onClick={() => setModals((prev) => ({ ...prev, log: false }))}
                >
-                  <ModalLog logItems={logItems} />
+                  <ModalLog logItems={logItems} expanded={expanded} setExpanded={setExpanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
                </motion.div>
             )}
          </AnimatePresence>
@@ -271,9 +241,7 @@ const Modals = ({ logItems }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
-                  className={`modal-background ${
-                     (modals.cardWithAction || modals.cardViewOnly) && 'display-none'
-                  }`}
+                  className={`modal-background ${(modals.cardWithAction || modals.cardViewOnly) && 'display-none'}`}
                   onClick={() => setModals((prev) => ({ ...prev, cards: false }))}
                >
                   <ModalCards />
@@ -381,13 +349,7 @@ const Modals = ({ logItems }) => {
          {/* Modal Confirmation */}
          <AnimatePresence>
             {modals.confirmation && (
-               <motion.div
-                  key="keyModalConfirmation"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.03 }}
-                  className="modal-background"
-               >
+               <motion.div key="keyModalConfirmation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.03 }} className="modal-background">
                   <ModalConfirmation />
                </motion.div>
             )}

@@ -35,12 +35,8 @@ const RankingPrimary = ({ userValue, gamesCountForPrimaryRanking }) => {
       currPlayers
          .filter((player) => player.games.length >= gamesCountForPrimaryRanking)
          .forEach((player) => {
-            const totalPoints = player.games
-               .slice(0, gamesCountForPrimaryRanking)
-               .reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
-            const realRating = (
-               totalPoints / player.games.slice(0, gamesCountForPrimaryRanking).length
-            ).toFixed(2)
+            const totalPoints = player.games.slice(0, gamesCountForPrimaryRanking).reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
+            const realRating = (totalPoints / player.games.slice(0, gamesCountForPrimaryRanking).length).toFixed(2)
             players.push({ name: player.name, realRating })
          })
       players = players.sort((a, b) => b.realRating - a.realRating)
@@ -89,9 +85,7 @@ const RankingPrimary = ({ userValue, gamesCountForPrimaryRanking }) => {
                      }}
                   >
                      <div style={{ width: '15%' }}>{player.rank}.</div>
-                     <div style={{ width: '65%', fontSize: 'calc(var(--default-size) * 1.1)' }}>
-                        {player.name}
-                     </div>
+                     <div style={{ width: '65%', fontSize: 'calc(var(--default-size) * 1.1)' }}>{player.name}</div>
                      <div style={{ width: '20%' }}>{player.realRating}</div>
                   </div>
                ))

@@ -12,10 +12,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
 
    function getMaxScore() {
       if (!player) return
-      return player.games.reduce(
-         (max, game) => (game.points.total > max ? game.points.total : max),
-         0
-      )
+      return player.games.reduce((max, game) => (game.points.total > max ? game.points.total : max), 0)
    }
    function getMaxScoreCorps() {
       if (!player) return
@@ -42,10 +39,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
       if (gamesCorp.length === 0) {
          return 'NA'
       } else {
-         return gamesCorp.reduce(
-            (max, game) => (game.points.total > max ? game.points.total : max),
-            0
-         )
+         return gamesCorp.reduce((max, game) => (game.points.total > max ? game.points.total : max), 0)
       }
    }
 

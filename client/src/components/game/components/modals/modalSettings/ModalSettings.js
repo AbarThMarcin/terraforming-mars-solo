@@ -61,12 +61,8 @@ const ModalSettings = () => {
       setSuccess(null)
       setError(null)
       // Change on Front-end
-      let digit =
-         type === 'hand'
-            ? parseInt(newSettings.sortId[0].slice(0, 1))
-            : parseInt(newSettings.sortId[1].slice(0, 1))
-      let sign =
-         type === 'hand' ? newSettings.sortId[0].slice(1, 2) : newSettings.sortId[1].slice(1, 2)
+      let digit = type === 'hand' ? parseInt(newSettings.sortId[0].slice(0, 1)) : parseInt(newSettings.sortId[1].slice(0, 1))
+      let sign = type === 'hand' ? newSettings.sortId[0].slice(1, 2) : newSettings.sortId[1].slice(1, 2)
       const maxIdDigit = type === 'hand' ? 5 : 4
       let newSortId
       if (sign === 'a') {
@@ -77,10 +73,7 @@ const ModalSettings = () => {
          if (arrow === 'right') digit = newDigit(arrow, digit, maxIdDigit)
       }
       if (type === 'played' && digit === 4) sign += '-played'
-      newSortId =
-         type === 'hand'
-            ? [`${digit}${sign}`, newSettings.sortId[1]]
-            : [newSettings.sortId[0], `${digit}${sign}`]
+      newSortId = type === 'hand' ? [`${digit}${sign}`, newSettings.sortId[1]] : [newSettings.sortId[0], `${digit}${sign}`]
       setNewSettings({ ...newSettings, sortId: newSortId })
       type === 'hand'
          ? dispatchPlayer({
@@ -156,10 +149,7 @@ const ModalSettings = () => {
       <div
          className="menu-container"
          style={{
-            paddingBottom:
-               error || success
-                  ? 'calc(var(--default-size) * 2.3)'
-                  : 'calc(var(--default-size) * 0.7)',
+            paddingBottom: error || success ? 'calc(var(--default-size) * 2.3)' : 'calc(var(--default-size) * 0.7)',
          }}
       >
          {/* Animation Speed */}
@@ -171,10 +161,7 @@ const ModalSettings = () => {
                {newSettings.speedId === 2 && <span>NORMAL</span>}
                {newSettings.speedId === 3 && <span>FAST</span>}
                {newSettings.speedId === 4 && <span>VERY FAST</span>}
-               <div
-                  className="arrow arrow-right pointer"
-                  onClick={handleClickRightArrow_speed}
-               ></div>
+               <div className="arrow arrow-right pointer" onClick={handleClickRightArrow_speed}></div>
             </div>
          </div>
          {/* Show Total VP */}
@@ -190,10 +177,7 @@ const ModalSettings = () => {
          <div className="settings">
             <span>CARDS IN HAND SORT BY</span>
             <div className="item">
-               <div
-                  className="arrow arrow-left pointer"
-                  onClick={() => handleClickArrow_sort('hand', 'left')}
-               ></div>
+               <div className="arrow arrow-left pointer" onClick={() => handleClickArrow_sort('hand', 'left')}></div>
                {newSettings.sortId[0] === '1a' && <span>{`COST (ASC)`}</span>}
                {newSettings.sortId[0] === '1b' && <span>{`COST (DESC)`}</span>}
                {newSettings.sortId[0] === '2a' && <span>{`CARD TYPE (ASC)`}</span>}
@@ -204,20 +188,14 @@ const ModalSettings = () => {
                {newSettings.sortId[0] === '4b' && <span>{`CHRONOLOGICAL (DESC)`}</span>}
                {newSettings.sortId[0] === '5a' && <span>{`PLAYABILITY (ASC)`}</span>}
                {newSettings.sortId[0] === '5b' && <span>{`PLAYABILITY (DESC)`}</span>}
-               <div
-                  className="arrow arrow-right pointer"
-                  onClick={() => handleClickArrow_sort('hand', 'right')}
-               ></div>
+               <div className="arrow arrow-right pointer" onClick={() => handleClickArrow_sort('hand', 'right')}></div>
             </div>
          </div>
          {/* Cards Played Sort by */}
          <div className="settings">
             <span>CARDS PLAYED SORT BY</span>
             <div className="item">
-               <div
-                  className="arrow arrow-left pointer"
-                  onClick={() => handleClickArrow_sort('played', 'left')}
-               ></div>
+               <div className="arrow arrow-left pointer" onClick={() => handleClickArrow_sort('played', 'left')}></div>
                {newSettings.sortId[1] === '1a' && <span>{`COST (ASC)`}</span>}
                {newSettings.sortId[1] === '1b' && <span>{`COST (DESC)`}</span>}
                {newSettings.sortId[1] === '2a' && <span>{`CARD TYPE (ASC)`}</span>}
@@ -226,40 +204,21 @@ const ModalSettings = () => {
                {newSettings.sortId[1] === '3b' && <span>{`TAGS (DESC)`}</span>}
                {newSettings.sortId[1] === '4a-played' && <span>{`CHRONOLOGICAL (ASC)`}</span>}
                {newSettings.sortId[1] === '4b-played' && <span>{`CHRONOLOGICAL (DESC)`}</span>}
-               <div
-                  className="arrow arrow-right pointer"
-                  onClick={() => handleClickArrow_sort('played', 'right')}
-               ></div>
+               <div className="arrow arrow-right pointer" onClick={() => handleClickArrow_sort('played', 'right')}></div>
             </div>
          </div>
          {/* Music Volume */}
          <div className="settings">
             <span>MUSIC VOLUME</span>
             <div className="item">
-               <input
-                  ref={musicRange}
-                  className="volume pointer"
-                  type="range"
-                  name="musicVolume"
-                  min="0"
-                  max="100"
-                  onInput={handleRangeInput}
-               />
+               <input ref={musicRange} className="volume pointer" type="range" name="musicVolume" min="0" max="100" onInput={handleRangeInput} />
             </div>
          </div>
          {/* Game Volume */}
          <div className="settings">
             <span>GAME VOLUME</span>
             <div className="item">
-               <input
-                  ref={gameRange}
-                  className="volume pointer"
-                  type="range"
-                  name="gameVolume"
-                  min="0"
-                  max="100"
-                  onInput={handleRangeInput}
-               />
+               <input ref={gameRange} className="volume pointer" type="range" name="gameVolume" min="0" max="100" onInput={handleRangeInput} />
             </div>
          </div>
          {/* Apply Changes Button */}

@@ -6,8 +6,7 @@ import SelectOption from './SelectOption'
 
 const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame, dispatchGame, getOptionsActions, performSubActions } =
-      useContext(StateGameContext)
+   const { stateGame, dispatchGame, getOptionsActions, performSubActions } = useContext(StateGameContext)
 
    const btnActionConfirmPosition = {
       bottom: '-5%',
@@ -29,20 +28,10 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
          <div className="header">SELECT ONE</div>
          {/* OPTIONS */}
          {modals.modalSelectOne.options.map((option, idx) => (
-            <SelectOption
-               key={idx}
-               idx={idx}
-               option={option}
-               selectedOption={selectedOption}
-               setSelectedOption={setSelectedOption}
-            />
+            <SelectOption key={idx} idx={idx} option={option} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
          ))}
          {/* CONFIRM BUTTON */}
-         <BtnAction
-            text="CONFIRM"
-            onYesFunc={handleClickConfirmBtn}
-            position={btnActionConfirmPosition}
-         />
+         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
       </div>
    )
 }

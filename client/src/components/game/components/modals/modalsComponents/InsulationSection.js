@@ -37,25 +37,13 @@ const InsulationSection = () => {
                <img src={iconProdBg} alt="icon_prodBg" />
                <img src={iconHeat} alt="icon_heat" />
             </div>
-            {heatAmount > 0 && (
-               <div
-                  className="decrease-arrow pointer decrease-arrow-left"
-                  onClick={() => setHeatAmount((prevValue) => prevValue - 1)}
-               ></div>
-            )}
+            {heatAmount > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => setHeatAmount((prevValue) => prevValue - 1)}></div>}
             {heatAmount < statePlayer.production.heat && (
-               <div
-                  className="decrease-arrow pointer decrease-arrow-right"
-                  onClick={() => setHeatAmount((prevValue) => prevValue + 1)}
-               ></div>
+               <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => setHeatAmount((prevValue) => prevValue + 1)}></div>
             )}
          </div>
          {/* CONFIRM BUTTON */}
-         <BtnAction
-            text="CONFIRM"
-            onYesFunc={handleClickConfirmBtn}
-            position={btnActionConfirmPosition}
-         />
+         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
       </div>
    )
 }

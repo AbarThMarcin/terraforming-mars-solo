@@ -38,24 +38,11 @@ const ModalResourceData = ({ setCardSnap }) => {
             >
                <div>{item.name}</div>
                <div>
-                  <span>
-                     {item.units.microbe +
-                        item.units.animal +
-                        item.units.science +
-                        item.units.fighter}{' '}
-                  </span>
-                  {getResource(item) === RESOURCES.MICROBE && (
-                     <img src={getResIcon(RESOURCES.MICROBE)} className="img-res" alt="microbe" />
-                  )}
-                  {getResource(item) === RESOURCES.ANIMAL && (
-                     <img src={getResIcon(RESOURCES.ANIMAL)} className="img-res" alt="animal" />
-                  )}
-                  {getResource(item) === RESOURCES.SCIENCE && (
-                     <img src={getResIcon(RESOURCES.SCIENCE)} className="img-res" alt="science" />
-                  )}
-                  {getResource(item) === RESOURCES.FIGHTER && (
-                     <img src={getResIcon(RESOURCES.FIGHTER)} className="img-res" alt="fighter" />
-                  )}
+                  <span>{item.units.microbe + item.units.animal + item.units.science + item.units.fighter} </span>
+                  {getResource(item) === RESOURCES.MICROBE && <img src={getResIcon(RESOURCES.MICROBE)} className="img-res" alt="microbe" />}
+                  {getResource(item) === RESOURCES.ANIMAL && <img src={getResIcon(RESOURCES.ANIMAL)} className="img-res" alt="animal" />}
+                  {getResource(item) === RESOURCES.SCIENCE && <img src={getResIcon(RESOURCES.SCIENCE)} className="img-res" alt="science" />}
+                  {getResource(item) === RESOURCES.FIGHTER && <img src={getResIcon(RESOURCES.FIGHTER)} className="img-res" alt="fighter" />}
                </div>
             </div>
          ))}

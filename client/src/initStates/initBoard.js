@@ -1,4 +1,4 @@
-import { RESOURCES } from "../data/resources";
+import { RESOURCES } from '../data/resources'
 
 export const INIT_BOARD = [
    // Phobos Space Haven

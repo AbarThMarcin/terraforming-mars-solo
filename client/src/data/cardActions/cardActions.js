@@ -1,36 +1,29 @@
 import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../stateActions/actionsGame'
 import { ANIMATIONS } from '../animations'
-import { RESOURCES } from '../resources'
-import {
-   getCards,
-   getCardsWithPossibleMicrobes,
-   getNewCardsDrawIds,
-   modifiedCards,
-   withTimeAdded,
-} from '../../utils/misc'
+import { RESOURCES, getResIcon } from '../resources'
+import { getCards, getCardsWithPossibleMicrobes, getNewCardsDrawIds, modifiedCards, withTimeAdded } from '../../utils/misc'
 import { getOptions } from '../selectOneOptions'
 import { TILES } from '../board'
 import { IMM_EFFECTS } from '../immEffects/immEffects'
-import { EFFECTS } from '../effects/effectIcons'
 import { CORP_NAMES } from '../corpNames'
 import { CARDS } from '../cards'
+import { funcSetLogItemsSingleActions } from '../../data/log/log'
 
 export const funcGetCardActions = (
    cardId,
    statePlayer,
    dispatchPlayer,
-   stateGame,
    dispatchGame,
    stateBoard,
    setModals,
-   getEffect,
    getImmEffects,
    toBuyResources,
    type,
    id,
    token,
-   sound
+   sound,
+   setLogItems
 ) => {
    let subCardActions = []
    let dataCards = []
@@ -43,22 +36,26 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          subCardActions.push({
             name: ANIMATIONS.SHORT_ANIMATION,
@@ -67,6 +64,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+               funcSetLogItemsSingleActions('TR raised by 1', getResIcon(RESOURCES.TR), 1, setLogItems)
             },
          })
          break
@@ -78,36 +76,33 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
             type: null,
             value: null,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
-                  1,
-                  statePlayer,
-                  dispatchPlayer,
-                  type,
-                  id,
-                  token
-               )
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
                setModals((prev) => ({
                   ...prev,
                   modalSelectCard: {
@@ -127,14 +122,7 @@ export const funcGetCardActions = (
             type: null,
             value: null,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
-                  1,
-                  statePlayer,
-                  dispatchPlayer,
-                  type,
-                  id,
-                  token
-               )
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
                setModals((prev) => ({
                   ...prev,
                   modalSelectCard: {
@@ -152,13 +140,14 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -1 })
+               funcSetLogItemsSingleActions('Paid 1 energy', getResIcon(RESOURCES.ENERGY), -1, setLogItems)
+            },
          })
          value = stateBoard.filter(
             (field) =>
-               (field.object === TILES.CITY ||
-                  field.object === TILES.CITY_NEUTRAL ||
-                  field.object === TILES.SPECIAL_CITY_CAPITAL) &&
+               (field.object === TILES.CITY || field.object === TILES.CITY_NEUTRAL || field.object === TILES.SPECIAL_CITY_CAPITAL) &&
                field.name !== 'PHOBOS SPACE HAVEN' &&
                field.name !== 'GANYMEDE COLONY'
          ).length
@@ -166,7 +155,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,
             value: value,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value })
+               funcSetLogItemsSingleActions(`Received ${value} MC`, getResIcon(RESOURCES.MLN), value, setLogItems)
+            },
          })
          break
       // Water Import From Europa and Aquifer Pumping
@@ -177,44 +169,52 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[1])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.STEEL,
                value: toBuyResources[1],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_STEEL,
                      payload: -toBuyResources[1],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[1]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[1], setLogItems)
+               },
             })
          if (toBuyResources[2])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.TITAN,
                value: toBuyResources[2],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_TITAN,
                      payload: -toBuyResources[2],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[2]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[2], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          getImmEffects(IMM_EFFECTS.AQUIFER).forEach((immEffect) => subCardActions.push(immEffect))
          break
@@ -224,13 +224,19 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.STEEL,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 })
+               funcSetLogItemsSingleActions('Paid 1 steel', getResIcon(RESOURCES.STEEL), -1, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MLN,
             value: 5,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 5 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 5 })
+               funcSetLogItemsSingleActions('Received 1 MC', getResIcon(RESOURCES.MLN), 1, setLogItems)
+            },
          })
          break
       // Development Center
@@ -239,32 +245,26 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -1 })
+               funcSetLogItemsSingleActions('Paid 1 energy', getResIcon(RESOURCES.ENERGY), -1, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
-                  1,
-                  statePlayer,
-                  dispatchPlayer,
-                  type,
-                  id,
-                  token
-               )
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [
-                     ...statePlayer.cardsInHand,
-                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-                  ],
+                  payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
                })
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                   payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
+               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
             },
          })
          break
@@ -274,7 +274,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.PRODUCTION_OUT,
             type: RESOURCES.ENERGY,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 })
+               funcSetLogItemsSingleActions('Energy production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], -1, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.SHORT_ANIMATION,
@@ -283,6 +286,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+               funcSetLogItemsSingleActions('TR raised by 1', getResIcon(RESOURCES.TR), 1, setLogItems)
             },
          })
          break
@@ -296,11 +300,13 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.ANIMAL,
             value: 1,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.ANIMAL, amount: 1 },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received 1 animal to ${getCards(CARDS, [cardId])[0].name} card`, getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+            },
          })
          break
       // Security Fleet
@@ -309,17 +315,22 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.TITAN,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -1 })
+               funcSetLogItemsSingleActions('Paid 1 titanium', getResIcon(RESOURCES.TITAN), -1, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.FIGHTER,
             value: 1,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.FIGHTER, amount: 1 },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received 1 fighter to ${getCards(CARDS, [cardId])[0].name} card`, getResIcon(RESOURCES.FIGHTER), 1, setLogItems)
+            },
          })
          break
       // Regolith Eaters, GHG Producing Bacteria, Electro Catapult, Nitrite Reducing Bacteria
@@ -351,11 +362,13 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.MICROBE,
             value: 1,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.MICROBE, amount: 1 },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received 1 microbe to ${getCards(CARDS, [cardId])[0].name} card`, getResIcon(RESOURCES.MICROBE), 1, setLogItems)
+            },
          })
          break
       // Space Mirrors
@@ -365,28 +378,35 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          subCardActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.ENERGY,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 1 })
+               funcSetLogItemsSingleActions('Energy production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], 1, setLogItems)
+            },
          })
          break
       // Physics Complex
@@ -395,17 +415,22 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 6,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -6 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -6 })
+               funcSetLogItemsSingleActions('Paid 6 energy', getResIcon(RESOURCES.ENERGY), -6, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.SCIENCE,
             value: 1,
-            func: () =>
+            func: () => {
                dispatchPlayer({
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.SCIENCE, amount: 1 },
-               }),
+               })
+               funcSetLogItemsSingleActions(`Received 1 science to ${getCards(CARDS, [cardId])[0].name} card`, getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
+            },
          })
          break
       // Ironworks
@@ -414,13 +439,19 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 4,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 })
+               funcSetLogItemsSingleActions('Paid 4 energy', getResIcon(RESOURCES.ENERGY), -4, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.STEEL,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 1 })
+               funcSetLogItemsSingleActions('Received 1 steel', getResIcon(RESOURCES.STEEL), 1, setLogItems)
+            },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
          break
@@ -430,13 +461,19 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 4,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 })
+               funcSetLogItemsSingleActions('Paid 4 energy', getResIcon(RESOURCES.ENERGY), -4, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.STEEL,
             value: 2,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 2 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 2 })
+               funcSetLogItemsSingleActions('Received 2 steel', getResIcon(RESOURCES.STEEL), 2, setLogItems)
+            },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
          break
@@ -446,13 +483,19 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 4,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 })
+               funcSetLogItemsSingleActions('Paid 4 energy', getResIcon(RESOURCES.ENERGY), -4, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.RESOURCES_IN,
             type: RESOURCES.TITAN,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: 1 })
+               funcSetLogItemsSingleActions('Received 1 titanium', getResIcon(RESOURCES.TITAN), 1, setLogItems)
+            },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
          break
@@ -463,28 +506,35 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          subCardActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.STEEL,
             value: 1,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+               funcSetLogItemsSingleActions('Steel production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
+            },
          })
          break
       // Symbiotic Fungus
@@ -534,7 +584,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.HEAT,
             value: 8,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 })
+               funcSetLogItemsSingleActions('Paid 8 heat', getResIcon(RESOURCES.HEAT), -8, setLogItems)
+            },
          })
          subCardActions.push({
             name: ANIMATIONS.SHORT_ANIMATION,
@@ -543,6 +596,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+               funcSetLogItemsSingleActions('TR raised by 1', getResIcon(RESOURCES.TR), 1, setLogItems)
             },
          })
          break
@@ -552,7 +606,10 @@ export const funcGetCardActions = (
             name: ANIMATIONS.RESOURCES_OUT,
             type: RESOURCES.ENERGY,
             value: 3,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -3 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -3 })
+               funcSetLogItemsSingleActions('Paid 3 energy', getResIcon(RESOURCES.ENERGY), -3, setLogItems)
+            },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
          break
@@ -582,47 +639,42 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          subCardActions.push({
             name: ANIMATIONS.CARD_IN,
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
-                  1,
-                  statePlayer,
-                  dispatchPlayer,
-                  type,
-                  id,
-                  token
-               )
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [
-                     ...statePlayer.cardsInHand,
-                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-                  ],
+                  payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
                })
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                   payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
+               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
             },
          })
          break
@@ -633,28 +685,35 @@ export const funcGetCardActions = (
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.MLN,
                value: toBuyResources[0],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+               },
             })
          if (toBuyResources[3])
             subCardActions.push({
                name: ANIMATIONS.RESOURCES_OUT,
                type: RESOURCES.HEAT,
                value: toBuyResources[3],
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
-                  }),
+                  })
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+               },
             })
          subCardActions.push({
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.HEAT,
             value: 2,
-            func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 2 }),
+            func: () => {
+               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 2 })
+               funcSetLogItemsSingleActions('Heat production increased by 2', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 2, setLogItems)
+            },
          })
          break
       // AI Central
@@ -664,25 +723,17 @@ export const funcGetCardActions = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(
-                  2,
-                  statePlayer,
-                  dispatchPlayer,
-                  type,
-                  id,
-                  token
-               )
+               let newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token)
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [
-                     ...statePlayer.cardsInHand,
-                     ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer),
-                  ],
+                  payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
                })
                dispatchPlayer({
                   type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                   payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                })
+               const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
+               funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
             },
          })
          break

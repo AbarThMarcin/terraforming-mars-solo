@@ -5,17 +5,7 @@ import { TABS } from '../../App'
 import { useContext } from 'react'
 import { SettingsContext, SoundContext } from '../../App'
 
-const BtnGoBack = ({
-   type,
-   setType,
-   filterPlayers,
-   season,
-   corp,
-   setCorp,
-   userValue,
-   music,
-   soundCopy,
-}) => {
+const BtnGoBack = ({ type, setType, filterPlayers, season, corp, setCorp, userValue, music, soundCopy }) => {
    const navigate = useNavigate()
    const { settings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
@@ -28,6 +18,8 @@ const BtnGoBack = ({
             Object.keys(soundCopy).forEach((key) => soundCopy[key].volume(settings.gameVolume))
          }
          navigate('/')
+      } else if (type === TABS.GAMES_LOG) {
+         setType(TABS.GAMES)
       } else {
          if (corp !== 'ALL CORPORATIONS') {
             const newCorp = 'ALL CORPORATIONS'

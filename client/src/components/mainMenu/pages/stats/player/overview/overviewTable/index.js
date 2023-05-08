@@ -7,9 +7,7 @@ const OverviewTable = ({ currPlayer, gamesPlayed, gamesWon }) => {
    const winRate = (gamesWon.length / gamesPlayed.length) * 100
    const maxScore = gamesWon.length ? Math.max(...gamesWonScores) : '-'
    const avgScore = gamesPlayedScores.reduce((a, b) => a + b, 0) / gamesPlayedScores.length
-   const avgRealScore =
-      gamesPlayed.reduce((tot, game) => (game.victory ? tot + game.points.total : tot), 0) /
-      gamesPlayed.length
+   const avgRealScore = gamesPlayed.reduce((tot, game) => (game.victory ? tot + game.points.total : tot), 0) / gamesPlayed.length
 
    return (
       <div className="table">

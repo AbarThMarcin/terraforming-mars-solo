@@ -5,24 +5,13 @@ import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../utils/misc'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { LOG_TYPES } from '../../../../../../../data/log'
+import { LOG_TYPES } from '../../../../../../../data/log/log'
 import { getImmEffectIcon } from '../../../../../../../data/immEffects/immEffectsIcons'
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
-const ModalOtherDataActionsItem = ({
-   item,
-   setCardSnap,
-   actionClicked,
-   setActionClicked,
-   toBuyMln,
-   toBuySteel,
-   toBuyTitan,
-   toBuyHeat,
-   changeCosts,
-}) => {
+const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setActionClicked, toBuyMln, toBuySteel, toBuyTitan, toBuyHeat, changeCosts }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } =
-      useContext(StateGameContext)
+   const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const isUnmi = item.name === CORP_NAMES.UNMI
    const isAvailable = getAvailability()
@@ -48,19 +37,14 @@ const ModalOtherDataActionsItem = ({
       if (!isAvailable) return
       // Change all resources to buy
       let itemIdOrUnmi = isUnmi ? item.name : item.id
-      let toBuyResources =
-         actionClicked === itemIdOrUnmi
-            ? [toBuyMln, toBuySteel, toBuyTitan, toBuyHeat]
-            : changeCosts(itemIdOrUnmi)
+      let toBuyResources = actionClicked === itemIdOrUnmi ? [toBuyMln, toBuySteel, toBuyTitan, toBuyHeat] : changeCosts(itemIdOrUnmi)
       // Set which action card id has been clicked
       setActionClicked(() => itemIdOrUnmi)
       // Actions with resources to pay - first click
       if (
          (itemIdOrUnmi === 12 && statePlayer.resources.titan > 0) || // Water Import From Europa
          (itemIdOrUnmi === 187 && statePlayer.resources.steel > 0) || // Aquifer Pumping
-         (getActionIdsWithCost().includes(itemIdOrUnmi) &&
-            statePlayer.canPayWithHeat &&
-            statePlayer.resources.heat > 0)
+         (getActionIdsWithCost().includes(itemIdOrUnmi) && statePlayer.canPayWithHeat && statePlayer.resources.heat > 0)
       ) {
          if (actionClicked === null || actionClicked !== itemIdOrUnmi) {
             return
@@ -104,30 +88,17 @@ const ModalOtherDataActionsItem = ({
    }
 
    return (
-      <div
-         className="modal-other-data-item"
-         onMouseOver={() => handleMouseOverItem(item)}
-         onMouseLeave={() => setCardSnap(null)}
-      >
+      <div className="modal-other-data-item" onMouseOver={() => handleMouseOverItem(item)} onMouseLeave={() => setCardSnap(null)}>
          {/* ICON */}
          <div className="action">
             <img
                style={{ opacity: isAvailable ? 1 : 0.5 }}
-               src={
-                  isUnmi
-                     ? getActionIcon(ACTION_ICONS.ACTION_UNMI)
-                     : getActionIcon(item.iconNames.action)
-               }
+               src={isUnmi ? getActionIcon(ACTION_ICONS.ACTION_UNMI) : getActionIcon(item.iconNames.action)}
                alt={isUnmi ? 'UNMI_action' : item.iconNames.action}
             />
          </div>
          {/* CONFIRM BUTTON */}
-         <BtnAction
-            text="USE"
-            onYesFunc={handleClickAction}
-            disabled={!isAvailable}
-            position={btnActionPosition}
-         />
+         <BtnAction text="USE" onYesFunc={handleClickAction} disabled={!isAvailable} position={btnActionPosition} />
       </div>
    )
 }

@@ -27,9 +27,7 @@ const Card = ({ card, isBig, isSnap }) => {
          req.type === REQUIREMENTS.TEMPERATURE ||
          req.type === REQUIREMENTS.OXYGEN ||
          req.type === REQUIREMENTS.OCEAN ||
-         (req.type === REQUIREMENTS.TAGS &&
-            req.other !== TAGS.MICROBE &&
-            req.other !== TAGS.ANIMAL) ||
+         (req.type === REQUIREMENTS.TAGS && req.other !== TAGS.MICROBE && req.other !== TAGS.ANIMAL) ||
          req.other === RESOURCES.STEEL ||
          req.other === RESOURCES.TITAN ||
          req.type === REQUIREMENTS.ECOLOGICAL_ZONE ||
@@ -38,9 +36,7 @@ const Card = ({ card, isBig, isSnap }) => {
    }
 
    const getTempOrOxText = (req) => {
-      return `${req.other === 'max' ? 'max ' : ''}${req.value}${
-         req.type === REQUIREMENTS.TEMPERATURE ? '°C ' : '% '
-      }`
+      return `${req.other === 'max' ? 'max ' : ''}${req.value}${req.type === REQUIREMENTS.TEMPERATURE ? '°C ' : '% '}`
    }
    const getOceanText = (req) => {
       return `${req.other === 'max' ? 'max ' : ''}${req.value > 2 ? req.value : ''}`
@@ -58,24 +54,12 @@ const Card = ({ card, isBig, isSnap }) => {
    // (but a card is not clicked because then both modals:
    // cards and cardWithAction are shown [cards = display-none])
    // and we are not in draft phase
-   const disabled =
-      !available &&
-      modals.cards &&
-      modals.modalCardsType === 'Cards In Hand' &&
-      !modals.cardWithAction &&
-      !modals.draft
+   const disabled = !available && modals.cards && modals.modalCardsType === 'Cards In Hand' && !modals.cardWithAction && !modals.draft
 
    // Cursor is pointer when over card only when: card is small (draft, sellCard and
    // cardsPlayer/cardsInHand) AND when a card is not clicked because then
    // both modals: cards and cardWithAction are shown [cards = display-none]
-   const pointer =
-      (modals.draft ||
-         modals.sellCards ||
-         modals.cards ||
-         modals.businessContacts ||
-         modals.marsUniversity) &&
-      !modals.cardWithAction &&
-      !modals.cardViewOnly
+   const pointer = (modals.draft || modals.sellCards || modals.cards || modals.businessContacts || modals.marsUniversity) && !modals.cardWithAction && !modals.cardViewOnly
 
    return (
       <>
@@ -83,13 +67,7 @@ const Card = ({ card, isBig, isSnap }) => {
             className={`
                card full-size ${disabled && 'disabled'}
                ${pointer && 'pointer'}
-               ${
-                  getCardType(card) === 'green'
-                     ? 'card-bg-green'
-                     : getCardType(card) === 'blue'
-                     ? 'card-bg-blue'
-                     : 'card-bg-red'
-               }
+               ${getCardType(card) === 'green' ? 'card-bg-green' : getCardType(card) === 'blue' ? 'card-bg-blue' : 'card-bg-red'}
             `}
          >
             {/* BLACK INSET BORDER */}
@@ -97,15 +75,7 @@ const Card = ({ card, isBig, isSnap }) => {
                {/* NAME */}
                <div
                   className={`
-                     name ${
-                        hasTag(card, TAGS.EVENT)
-                           ? 'card-bg-red'
-                           : card.effect !== null ||
-                             card.iconNames.action !== null ||
-                             card.id === 173
-                           ? 'card-bg-blue'
-                           : 'card-bg-green'
-                     }
+                     name ${hasTag(card, TAGS.EVENT) ? 'card-bg-red' : card.effect !== null || card.iconNames.action !== null || card.id === 173 ? 'card-bg-blue' : 'card-bg-green'}
                      ${card.name.length >= 24 ? 'long' : card.name.length >= 21 ? 'mid-long' : ''}
                   `}
                >
@@ -118,19 +88,11 @@ const Card = ({ card, isBig, isSnap }) => {
                   </div>
                )}
                {/* DESCRIPTION */}
-               {isBig && (
-                  <div className={`description ${card.iconNames.vp && 'with-vp'}`}>
-                     {card.description}
-                  </div>
-               )}
+               {isBig && <div className={`description ${card.iconNames.vp && 'with-vp'}`}>{card.description}</div>}
                {/* VP */}
                {card.iconNames.vp && (
                   <div className="vp-container">
-                     <img
-                        src={getVpIcon(card.iconNames.vp)}
-                        className="vp"
-                        alt={card.iconNames.vp}
-                     />
+                     <img src={getVpIcon(card.iconNames.vp)} className="vp" alt={card.iconNames.vp} />
                   </div>
                )}
                {isBig && (
@@ -186,8 +148,7 @@ const Card = ({ card, isBig, isSnap }) => {
                   showRequirement(req) && (
                      <div key={idx} className={`req ${req.other === 'max' ? 'max' : ''}`}>
                         {/* // Temperature & Oxygen */}
-                        {(req.type === REQUIREMENTS.TEMPERATURE ||
-                           req.type === REQUIREMENTS.OXYGEN) && (
+                        {(req.type === REQUIREMENTS.TEMPERATURE || req.type === REQUIREMENTS.OXYGEN) && (
                            <>
                               <div className="text">{getTempOrOxText(req)}</div>
                               {req.type === REQUIREMENTS.TEMPERATURE ? (
@@ -204,14 +165,7 @@ const Card = ({ card, isBig, isSnap }) => {
                               {req.value > 2 ? (
                                  <img className="icon" src={oceanIcon} alt="ocean_icon" />
                               ) : (
-                                 elementsCount(req.value).map((_, idx) => (
-                                    <img
-                                       className="icon"
-                                       key={idx}
-                                       src={oceanIcon}
-                                       alt="ocean_icon"
-                                    />
-                                 ))
+                                 elementsCount(req.value).map((_, idx) => <img className="icon" key={idx} src={oceanIcon} alt="ocean_icon" />)
                               )}
                            </>
                         )}
@@ -220,65 +174,30 @@ const Card = ({ card, isBig, isSnap }) => {
                            <>
                               {req.value > 2 && <div className="text">{req.value}</div>}
                               {req.value > 2 ? (
-                                 <img
-                                    className="icon"
-                                    src={getTagIcon(req.other)}
-                                    alt={`${req.other}_icon`}
-                                 />
+                                 <img className="icon" src={getTagIcon(req.other)} alt={`${req.other}_icon`} />
                               ) : (
-                                 elementsCount(req.value).map((_, idx) => (
-                                    <img
-                                       className="icon"
-                                       key={idx}
-                                       src={getTagIcon(req.other)}
-                                       alt={`${req.other}_icon`}
-                                    />
-                                 ))
+                                 elementsCount(req.value).map((_, idx) => <img className="icon" key={idx} src={getTagIcon(req.other)} alt={`${req.other}_icon`} />)
                               )}
                            </>
                         )}
                         {card.id === 135 && req.other === TAGS.PLANT && (
                            <>
                               <img className="icon" src={getTagIcon(TAGS.PLANT)} alt="plant_icon" />
-                              <img
-                                 className="icon"
-                                 src={getTagIcon(TAGS.MICROBE)}
-                                 alt="microbe_icon"
-                              />
-                              <img
-                                 className="icon"
-                                 src={getTagIcon(TAGS.ANIMAL)}
-                                 alt="animal_icon"
-                              />
+                              <img className="icon" src={getTagIcon(TAGS.MICROBE)} alt="microbe_icon" />
+                              <img className="icon" src={getTagIcon(TAGS.ANIMAL)} alt="animal_icon" />
                            </>
                         )}
                         {/* Steel / Titan production */}
                         {req.other === RESOURCES.STEEL && (
                            <>
-                              <img
-                                 className="icon"
-                                 src={getResIcon(RESOURCES.PROD_BG)}
-                                 alt="prod_bg"
-                              />
-                              <img
-                                 src={getResIcon(RESOURCES.STEEL)}
-                                 className="icon-res center"
-                                 alt="steel_resource"
-                              />
+                              <img className="icon" src={getResIcon(RESOURCES.PROD_BG)} alt="prod_bg" />
+                              <img src={getResIcon(RESOURCES.STEEL)} className="icon-res center" alt="steel_resource" />
                            </>
                         )}
                         {req.other === RESOURCES.TITAN && (
                            <>
-                              <img
-                                 className="icon"
-                                 src={getResIcon(RESOURCES.PROD_BG)}
-                                 alt="prod_bg"
-                              />
-                              <img
-                                 src={getResIcon(RESOURCES.TITAN)}
-                                 className="icon-res center"
-                                 alt="titanq_resource"
-                              />
+                              <img className="icon" src={getResIcon(RESOURCES.PROD_BG)} alt="prod_bg" />
+                              <img src={getResIcon(RESOURCES.TITAN)} className="icon-res center" alt="titanq_resource" />
                            </>
                         )}
                         {/* Ecological Zone */}

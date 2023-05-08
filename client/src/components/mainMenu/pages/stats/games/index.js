@@ -5,10 +5,7 @@ import TableGamesRow from './TableGamesRow'
 const Games = ({ user }) => {
    const refTable = useRef()
    const { currPlayers, currPlayerId } = useContext(PlayersContext)
-   const currPlayer = useMemo(
-      () => currPlayers.find((player) => player._id === currPlayerId),
-      [currPlayers, currPlayerId]
-   )
+   const currPlayer = useMemo(() => currPlayers.find((player) => player._id === currPlayerId), [currPlayers, currPlayerId])
 
    useEffect(() => {
       const table = refTable.current
@@ -57,6 +54,9 @@ const Games = ({ user }) => {
                <span>POINTS TOTAL</span>
             </div>
             <div>
+               <span>LOG</span>
+            </div>
+            <div>
                <span>YT LINK</span>
             </div>
             <div>
@@ -66,15 +66,7 @@ const Games = ({ user }) => {
          {/* Table */}
          <div ref={refTable} className="table">
             {currPlayer.games.length > 0 ? (
-               currPlayer.games.map((game, idx) => (
-                  <TableGamesRow
-                     key={idx}
-                     id={idx + 1}
-                     game={game}
-                     currPlayer={currPlayer}
-                     user={user}
-                  />
-               ))
+               currPlayer.games.map((game, idx) => <TableGamesRow key={idx} id={idx + 1} game={game} currPlayer={currPlayer} user={user} />)
             ) : (
                <div className="center" style={{ fontSize: 'calc(var(--default-size) * 1.5)' }}>
                   NO GAMES

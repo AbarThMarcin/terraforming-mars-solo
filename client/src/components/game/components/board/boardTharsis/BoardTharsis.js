@@ -9,9 +9,7 @@ const BoardTharsis = ({ setTotalVP }) => {
       <div className="board-tharsis full-size">
          {stateBoard.length > 0 &&
             stateBoard
-               .filter(
-                  (field) => field.name !== 'PHOBOS SPACE HAVEN' && field.name !== 'GANYMEDE COLONY'
-               )
+               .filter((field) => field.name !== 'PHOBOS SPACE HAVEN' && field.name !== 'GANYMEDE COLONY')
                .map((field, idx) => <Field key={idx} field={field} setTotalVP={setTotalVP} />)}
       </div>
    )

@@ -20,11 +20,7 @@ const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, data 
    }
 
    return (
-      <select
-         className="filter filter-season-corp pointer"
-         defaultValue={season}
-         onChange={handleClick}
-      >
+      <select className="filter filter-season-corp pointer" defaultValue={season} onChange={handleClick}>
          <option value="lifetime">LIFETIME</option>
          {seasons.map((season, idx) => (
             <option key={idx} value={season}>

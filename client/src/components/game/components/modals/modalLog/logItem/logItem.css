@@ -1,0 +1,171 @@
+/* General */
+.modal-log .box .action .log-details {
+   width: calc(100% - calc(var(--default-size) * 1.2));
+   font-size: calc(var(--default-size) * 0.8);
+   line-height: calc(var(--default-size) * 1);
+   margin-left: calc(var(--default-size) * 1.2);
+   overflow: hidden;
+   box-sizing: border-box;
+}
+.modal-log .box .action .log-details.hidden {
+   display: none;
+}
+
+/* State / Steps */
+.modal-log .box .action .log-details .state,
+.modal-log .box .action .log-details .steps {
+   width: 100%;
+}
+.modal-log .box .action .log-details .state > div:nth-child(2n),
+.modal-log .box .action .log-details .steps > div:nth-child(2n) {
+   margin-left: calc(var(--default-size) * 0.5);
+}
+.modal-log .box .action .log-details .state .state-title,
+.modal-log .box .action .log-details .steps .steps-title {
+   position: relative;
+   padding: calc(var(--default-size) * 0.2);
+   background-color: rgba(255, 255, 255, 0.05);
+   margin-bottom: calc(var(--default-size) * 0.2);
+   letter-spacing: calc(var(--default-size) * 0.04);
+   font-style: italic;
+}
+
+/* STATE */
+.modal-log .box .action .log-details .state .state-details > div {
+   display: flex;
+   letter-spacing: calc(var(--default-size) * 0.04);
+}
+
+/* STATE: Production / Resources */
+.modal-log .box .action .log-details .state .state-prod-res-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: calc(var(--default-size) * 18);
+}
+.modal-log .box .action .log-details .state .state-prod-res-container .state-prod-res {
+   display: flex;
+   justify-content: center;
+   align-items: flex-end;
+   flex-direction: column;
+   width: calc(100% / 6);
+   background-color: rgba(0, 0, 0, 0.2);
+   letter-spacing: 0;
+   padding: calc(var(--default-size) * 0.1);
+   height: calc(var(--default-size) * 2.7);
+}
+.modal-log .box .action .log-details .state .state-prod-res-container .state-prod-res .state-prod,
+.modal-log .box .action .log-details .state .state-prod-res-container .state-prod-res .state-res {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.modal-log .box .action .log-details .state .state-prod-res-container .state-prod-res .icon {
+   position: relative;
+   width: calc(var(--default-size) * 1.2);
+   aspect-ratio: 1;
+   margin-left: calc(var(--default-size) * 0.15);
+}
+.modal-log .box .action .log-details .state .state-prod-res-container .state-prod-res .icon img {
+   width: 65%;
+   aspect-ratio: 1;
+}
+.modal-log .box .action .log-details .state .state-prod-res-container .state-prod-res .icon img.first {
+   width: 100%;
+   aspect-ratio: 1;
+}
+
+/* STATE: TR / VP / Parameters */
+.modal-log .box .action .log-details .state .state-params-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: calc(var(--default-size) * 10.5);
+   margin-left: calc(var(--default-size) * 1);
+}
+.modal-log .box .action .log-details .state .state-params-container .state-param {
+   position: relative;
+   width: calc(100% / 5);
+   aspect-ratio: 1;
+   font-size: calc(var(--default-size) * 1);
+   font-weight: 500;
+   text-shadow: 0 0 calc(var(--default-size) * 0.2) #000, 0 0 calc(var(--default-size) * 0.2) #000, 0 0 calc(var(--default-size) * 0.2) #000,
+      0 0 calc(var(--default-size) * 0.3) #000, 0 0 calc(var(--default-size) * 0.3) #000, 0 0 calc(var(--default-size) * 0.3) #000;
+   background-color: rgba(0, 0, 0, 0.2);
+   height: calc(var(--default-size) * 2.7);
+}
+.modal-log .box .action .log-details .state .state-params-container .state-param img {
+   height: 60%;
+}
+/* STATE: Cards In Hand, Cards Played */
+.modal-log .box .action .log-details .state .state-other-container {
+   display: flex;
+   flex-direction: column;
+   margin-top: calc(var(--default-size) * 0.3);
+   width: 50%;
+   background-color: rgba(0, 0, 0, 0.2);
+   padding: calc(var(--default-size) * 0.2);
+}
+.modal-log .box .action .log-details .state .state-other-container .state-other-container-title {
+   font-style: italic;
+   margin-bottom: calc(var(--default-size) * 0.1);
+}
+.modal-log .box .action .log-details .state .state-other-container .state-other-container-elements {
+   font-size: calc(var(--default-size) * 0.6);
+   line-height: calc(var(--default-size) * 0.75);
+   list-style: none;
+}
+.modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li img {
+   height: calc(var(--default-size) * 0.8);
+   vertical-align: middle;
+}
+.modal-log .box .action .log-details .state .state-details > div {
+   width: 100%;
+}
+
+/* STEPS */
+.modal-log .box .action .log-details .steps .steps-list {
+   letter-spacing: calc(var(--default-size) * 0.05);
+   overflow: hidden;
+}
+.modal-log .box .action .log-details .steps .steps-list .step {
+   display: flex;
+   margin-bottom: calc(var(--default-size) * 0.2);
+   background-color: rgba(0, 0, 0, 0.1);
+}
+.modal-log .box .action .log-details .steps .steps-list .step-itemIcon {
+   border-radius: 30%;
+   border: calc(var(--default-size) * 0.15) solid rgba(255, 255, 255, 0.1);
+   background-color: rgba(255, 255, 255, 0.05);
+   width: calc(var(--default-size) * 1.3);
+   height: calc(var(--default-size) * 0.7);
+   margin-top: calc(var(--default-size) * 0.32);
+   margin-left: calc(var(--default-size) * 0.32);
+}
+.modal-log .box .action .log-details .steps .steps-list .step-desc {
+   margin-left: calc(var(--default-size) * 0.5);
+   line-height: calc(var(--default-size) * 1.3);
+}
+.modal-log .box .action .log-details .steps .steps-list .step-desc .icons {
+   width: calc(var(--default-size) * 0.95);
+   margin-left: calc(var(--default-size) * 1.2);
+   margin-right: calc(var(--default-size) * 0.7);
+   position: relative;
+   display: inline-block;
+   vertical-align: middle;
+}
+.modal-log .box .action .log-details .steps .steps-list .step-desc .icons .value {
+   position: absolute;
+   top: 50%;
+   translate: calc(-100% - var(--default-size) * 0.2) -50%;
+   font-weight: bolder;
+}
+.modal-log .box .action .log-details .steps .steps-list .step-desc .icons .value.negative {
+   color: rgb(255, 84, 84);
+}
+.modal-log .box .action .log-details .steps .steps-list .step-desc .icons img:first-child {
+   width: 100%;
+}
+.modal-log .box .action .log-details .steps .steps-list .step-desc .icons img:nth-child(2) {
+   width: 65%;
+}

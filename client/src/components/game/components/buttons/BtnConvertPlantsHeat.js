@@ -24,11 +24,7 @@ const BtnConvertPlantsHeat = ({ textConfirmation, action, bg, bgBright }) => {
    }
 
    return (
-      <div
-         className="btn-convert-plants-heat pointer"
-         onMouseEnter={() => setHovered(true)}
-         onMouseLeave={() => setHovered(false)}
-      >
+      <div className="btn-convert-plants-heat pointer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
          {hovered ? (
             <img src={bgBright} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
          ) : (

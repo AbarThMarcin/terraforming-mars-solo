@@ -35,25 +35,13 @@ const PowerInfrasSection = () => {
             <div className="icon">
                <img src={iconEnergy} alt="icon_energy" />
             </div>
-            {energyAmount > 0 && (
-               <div
-                  className="decrease-arrow pointer decrease-arrow-left"
-                  onClick={() => setEnergyAmount((prevValue) => prevValue - 1)}
-               ></div>
-            )}
+            {energyAmount > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => setEnergyAmount((prevValue) => prevValue - 1)}></div>}
             {energyAmount < statePlayer.resources.energy && (
-               <div
-                  className="decrease-arrow pointer decrease-arrow-right"
-                  onClick={() => setEnergyAmount((prevValue) => prevValue + 1)}
-               ></div>
+               <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => setEnergyAmount((prevValue) => prevValue + 1)}></div>
             )}
          </div>
          {/* CONFIRM BUTTON */}
-         <BtnAction
-            text="CONFIRM"
-            onYesFunc={handleClickConfirmBtn}
-            position={btnActionConfirmPosition}
-         />
+         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
       </div>
    )
 }

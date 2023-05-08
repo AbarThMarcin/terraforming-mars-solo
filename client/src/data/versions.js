@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.2.7',
+      date: '2023-05-08',
+      updates: [
+         {
+            title: 'Logs improvement',
+            description: 'More details to logs (in game as well as in statistics) have been added.',
+         },
+      ],
+   },
+   {
       number: '0.2.6',
       date: '2023-04-29',
       updates: [
@@ -15,8 +25,7 @@ export const VERSIONS = [
       updates: [
          {
             title: 'Message during place tile phase added to the screen',
-            description:
-               'Whenever a player is about to place any tile in the game, appropiate message will appear under standard projects button.',
+            description: 'Whenever a player is about to place any tile in the game, appropiate message will appear under standard projects button.',
          },
       ],
    },
@@ -73,8 +82,7 @@ export const VERSIONS = [
          },
          {
             title: 'Heat to temperature button disabled when 8C',
-            description:
-               'Button to raise a temperature using heat is not disabled when temperature reaches 8C.',
+            description: 'Button to raise a temperature using heat is not disabled when temperature reaches 8C.',
          },
          {
             title: 'Sorting by playability fixed',
@@ -87,13 +95,11 @@ export const VERSIONS = [
          },
          {
             title: 'Number of placed oceans fixed after playing some cards',
-            description:
-               'Whenever you place one of any number of oceans from any action, the counter of oceans will now update.',
+            description: 'Whenever you place one of any number of oceans from any action, the counter of oceans will now update.',
          },
          {
             title: 'Disappearing actions from actions list fixed',
-            description:
-               'There were few actions, increasing any global parameter, that were disappearing after a specific global parameter was maxed. It is now fixed.',
+            description: 'There were few actions, increasing any global parameter, that were disappearing after a specific global parameter was maxed. It is now fixed.',
          },
       ],
    },
@@ -127,8 +133,7 @@ export const VERSIONS = [
          },
          {
             title: 'Arrows in "Select card to discard" phase corrected',
-            description:
-               'Arrows are now showing when the "Select card to discard" phase is on and more cards are added to the player\'s cards in hand.',
+            description: 'Arrows are now showing when the "Select card to discard" phase is on and more cards are added to the player\'s cards in hand.',
          },
       ],
    },
@@ -138,8 +143,7 @@ export const VERSIONS = [
       updates: [
          {
             title: 'Insulation and Moss requirements fixed',
-            description:
-               'Insulation is now playable with 0 heat production, Moss is not unplayable without at least 1 plant.',
+            description: 'Insulation is now playable with 0 heat production, Moss is not unplayable without at least 1 plant.',
          },
       ],
    },
@@ -157,18 +161,15 @@ export const VERSIONS = [
          },
          {
             title: 'Tip Text in Main Menu hidden when loading',
-            description:
-               'Before: the Tip Text for Account, Ranked Match or Match with Id was showing when the state was loading. After: it is now hidden.',
+            description: 'Before: the Tip Text for Account, Ranked Match or Match with Id was showing when the state was loading. After: it is now hidden.',
          },
          {
             title: 'Sort settings saving on server fixed',
-            description:
-               "Sort by buttons in the cards modal now are updating user's settings on the server properly.",
+            description: "Sort by buttons in the cards modal now are updating user's settings on the server properly.",
          },
          {
             title: 'Tags requirements fixed',
-            description:
-               'Before: having research played counted ANY tag as +1 to the tags requirements. After: it is not counted as +1 ONLY for science tags requirements.',
+            description: 'Before: having research played counted ANY tag as +1 to the tags requirements. After: it is not counted as +1 ONLY for science tags requirements.',
          },
       ],
    },
@@ -183,8 +184,7 @@ export const VERSIONS = [
          },
          {
             title: 'Match update on server fixed',
-            description:
-               'Match is now updated on the server when Mars University, Invention Contest and Business Contacts cards are played and cards have been shown.',
+            description: 'Match is now updated on the server when Mars University, Invention Contest and Business Contacts cards are played and cards have been shown.',
          },
          {
             title: "Phobolog's and Thorgate's starting effects fixed",
@@ -192,8 +192,7 @@ export const VERSIONS = [
          },
          {
             title: 'Cards left in deck added to the ended ranked matches',
-            description:
-               'For testing purposes; cards seen vs cards left in deck now can be easily compared.',
+            description: 'For testing purposes; cards seen vs cards left in deck now can be easily compared.',
          },
       ],
    },
@@ -203,8 +202,7 @@ export const VERSIONS = [
       updates: [
          {
             title: 'Arrows in Mars University Modal fixed',
-            description:
-               'Arrows are now hidden when selecting one card out of 10 (Mars University effect).',
+            description: 'Arrows are now hidden when selecting one card out of 10 (Mars University effect).',
          },
          {
             title: 'Martian Rails action fixed',
@@ -212,8 +210,7 @@ export const VERSIONS = [
          },
          {
             title: 'Total Points fixed',
-            description:
-               'Playing action that gives any kind of bio resource now updates the Total VP properly.',
+            description: 'Playing action that gives any kind of bio resource now updates the Total VP properly.',
          },
          {
             title: 'Tags requirement fixed',
@@ -221,8 +218,7 @@ export const VERSIONS = [
          },
          {
             title: 'Arctic Algae effect fixed',
-            description:
-               'Plants are now properly acquired, only when an ocean tile is placed (regardless of the action).',
+            description: 'Plants are now properly acquired, only when an ocean tile is placed (regardless of the action).',
          },
       ],
    },
@@ -275,28 +271,23 @@ export const VERSIONS = [
          },
          {
             title: "'Energy to Oxygen' cards actions availability fixed",
-            description:
-               "You can now play these cards' actions (Ironworks, Steelworks, Ore Processor and Water Splitting Plant) even when it's 14% oxygen.",
+            description: "You can now play these cards' actions (Ironworks, Steelworks, Ore Processor and Water Splitting Plant) even when it's 14% oxygen.",
          },
          {
             title: 'Cards Seen fixed for Statistics',
-            description:
-               "Cards seen during a match are now properly saved on the server are correctly included in the 'Most % Played' statistics.",
+            description: "Cards seen during a match are now properly saved on the server are correctly included in the 'Most % Played' statistics.",
          },
          {
             title: 'Industrial Center place tiles fixed',
-            description:
-               'Before: you could place Industrial Center on any tile Not adjacent to city. After: you can place Industrial Center on any tile adjacent to city.',
+            description: 'Before: you could place Industrial Center on any tile Not adjacent to city. After: you can place Industrial Center on any tile adjacent to city.',
          },
          {
             title: "Herbivores in the last 'after match' production fixed",
-            description:
-               'Herbivores are now being correctly added to the card when greeneries are placed at the end of the match (after gen 14).',
+            description: 'Herbivores are now being correctly added to the card when greeneries are placed at the end of the match (after gen 14).',
          },
          {
             title: "Cost of the Security Fleet's action fixed",
-            description:
-               "A titan resource is now deducted from the player's resources when using the Security Fleet's action.",
+            description: "A titan resource is now deducted from the player's resources when using the Security Fleet's action.",
          },
          {
             title: 'Season 0 changed to Preseason for Games Statistics',

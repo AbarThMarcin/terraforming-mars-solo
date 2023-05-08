@@ -35,10 +35,7 @@ const ModalSelectOptions = () => {
             <InsulationSection />
          ) : (
             // Any other card with options
-            <SelectOptionSection
-               selectedOption={selectedOption}
-               setSelectedOption={setSelectedOption}
-            />
+            <SelectOptionSection selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
          )}
       </div>
    )

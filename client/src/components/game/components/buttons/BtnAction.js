@@ -3,15 +3,7 @@ import { ModalsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import mlnIcon from '../../../../assets/images/resources/res_mln.svg'
 
-const BtnAction = ({
-   text,
-   mln,
-   textConfirmation,
-   onYesFunc,
-   disabled,
-   position,
-   onMouseDownFunc,
-}) => {
+const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position, onMouseDownFunc }) => {
    const { modals, setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 

@@ -1,39 +1,30 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext, StateBoardContext } from '../../../../game'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import ProdResSnap from './ProdResSnap'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
-import {
-   ANIMATIONS,
-   endAnimation,
-   setAnimation,
-   startAnimation,
-} from '../../../../../data/animations'
+import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
 import { getResIcon, RESOURCES } from '../../../../../data/resources'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
-import { LOG_TYPES } from '../../../../../data/log'
+import { LOG_TYPES, funcSetLogItemsBefore } from '../../../../../data/log/log'
 import logConvertPlants from '../../../../../assets/images/other/logConvertPlants.svg'
 import logConvertHeat from '../../../../../assets/images/other/logConvertHeat.svg'
 import { SoundContext } from '../../../../../App'
 
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED } =
-      useContext(StateGameContext)
+   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED, setLogItems, setItemsExpanded } = useContext(StateGameContext)
+   const { stateBoard } = useContext(StateBoardContext)
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
    const actionGreenery = () => {
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
-      setAnimation(
-         ANIMATIONS.RESOURCES_OUT,
-         RESOURCES.PLANT,
-         statePlayer.valueGreenery,
-         setModals,
-         sound
-      )
+      setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
       // Proper convert plants to greenery action
       setTimeout(() => {
          endAnimation(setModals)
@@ -45,8 +36,7 @@ const ProdResPanel = () => {
          // Proper action
          let actions = getImmEffects(IMM_EFFECTS.GREENERY)
          // Possible effect for placing greenery (herbivores only)
-         if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES))
-            actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+         if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
          performSubActions(
             actions,
@@ -60,6 +50,8 @@ const ProdResPanel = () => {
    }
 
    const actionTemperature = () => {
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals, sound)

@@ -6,11 +6,7 @@ const ModalRules = () => {
    }
    return (
       <div className="menu-container" style={styles}>
-         <a
-            href="https://www.fryxgames.se/TerraformingMars/TMRULESFINAL.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-         >
+         <a href="https://www.fryxgames.se/TerraformingMars/TMRULESFINAL.pdf" target="_blank" rel="noopener noreferrer">
             https://www.fryxgames.se/TerraformingMars/TMRULESFINAL.pdf
          </a>
       </div>

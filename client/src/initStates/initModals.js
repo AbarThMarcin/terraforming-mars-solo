@@ -1,4 +1,4 @@
-import { INIT_ANIMATION_DATA } from "./initAnimation";
+import { INIT_ANIMATION_DATA } from './initAnimation'
 
 export const INIT_MODALS = {
    // If a card has been played
@@ -31,7 +31,7 @@ export const INIT_MODALS = {
    // Info for business contacts or invention contest
    modalBusCont: {
       cards: [],
-      selectCount: null
+      selectCount: null,
    },
    // Info for cards modal
    modalCard: null,

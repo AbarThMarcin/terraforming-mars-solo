@@ -19,11 +19,7 @@ const BtnStandardProjects = () => {
          onMouseEnter={() => setHovered(true)}
          onMouseLeave={() => setHovered(false)}
       >
-         {hovered ? (
-            <img className="full-size" src={btnSPbgHover} alt="SP_btn_background" />
-         ) : (
-            <img className="full-size" src={btnSPbg} alt="SP_btn_background" />
-         )}
+         {hovered ? <img className="full-size" src={btnSPbgHover} alt="SP_btn_background" /> : <img className="full-size" src={btnSPbg} alt="SP_btn_background" />}
 
          <span className="center">STANDARD PROJECTS</span>
       </div>

@@ -1,20 +1,7 @@
 import OverviewChart from './OverviewChart'
 import OverviewTable from './overviewTable'
 
-const chart1_ranges = [
-   '160+',
-   '150 - 159',
-   '140 - 149',
-   '130 - 139',
-   '120 - 129',
-   '110 - 119',
-   '100 - 109',
-   '90 - 99',
-   '80 - 89',
-   '70 - 79',
-   '60 - 69',
-   '59-',
-]
+const chart1_ranges = ['160+', '150 - 159', '140 - 149', '130 - 139', '120 - 129', '110 - 119', '100 - 109', '90 - 99', '80 - 89', '70 - 79', '60 - 69', '59-']
 const chart2_ranges = ['100+', '99-']
 const hiddenIndexes = [0, 17, 26, 35, 43, 52, 61, 70, 79, 88, 100]
 
@@ -68,18 +55,8 @@ const Overview = ({ currPlayer }) => {
          <OverviewTable currPlayer={currPlayer} gamesPlayed={gamesPlayed} gamesWon={gamesWon} />
          <div className="charts">
             <div className="charts-title">GAMES BY SCORE</div>
-            <OverviewChart
-               id={1}
-               getGamesWonByPoints={chart1_getGamesWonByPoints}
-               ranges={chart1_ranges}
-               hiddenIndexes={hiddenIndexes}
-            />
-            <OverviewChart
-               id={2}
-               getGamesWonByPoints={chart2_getGamesWonByPoints}
-               ranges={chart2_ranges}
-               hiddenIndexes={hiddenIndexes}
-            />
+            <OverviewChart id={1} getGamesWonByPoints={chart1_getGamesWonByPoints} ranges={chart1_ranges} hiddenIndexes={hiddenIndexes} />
+            <OverviewChart id={2} getGamesWonByPoints={chart2_getGamesWonByPoints} ranges={chart2_ranges} hiddenIndexes={hiddenIndexes} />
          </div>
       </div>
    )

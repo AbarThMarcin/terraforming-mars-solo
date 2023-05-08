@@ -31,18 +31,13 @@ const Register = ({ setUser }) => {
 
       sound.btnGeneralClick.play()
       // Passwords do not match
-      if (passwordRef.current.value !== passwordConfRef.current.value)
-         return setError('Passwords do not match')
+      if (passwordRef.current.value !== passwordConfRef.current.value) return setError('Passwords do not match')
 
       try {
          setError(null)
          setLoading(true)
 
-         const { data } = await register(
-            nameRef.current.value,
-            emailRef.current.value,
-            passwordRef.current.value
-         )
+         const { data } = await register(nameRef.current.value, emailRef.current.value, passwordRef.current.value)
 
          localStorage.setItem('user', JSON.stringify(data))
          setUser(data)

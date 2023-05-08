@@ -5,12 +5,7 @@
    width: 25%;
    height: 100%;
    background: rgb(0, 0, 0);
-   background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.95) 68%,
-      rgba(10, 10, 10, 0.95) 100%
-   );
+   background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.95) 68%, rgba(10, 10, 10, 0.95) 100%);
    letter-spacing: calc(var(--default-size) * 0.12);
 }
 
@@ -34,12 +29,7 @@
 }
 .modal-menu ul li:hover {
    background: rgb(0, 255, 175);
-   background: linear-gradient(
-      90deg,
-      rgba(0, 255, 175, 0.2) 0%,
-      rgba(0, 255, 175, 0.2) 68%,
-      rgba(0, 255, 175, 0.4) 100%
-   );
+   background: linear-gradient(90deg, rgba(0, 255, 175, 0.2) 0%, rgba(0, 255, 175, 0.2) 68%, rgba(0, 255, 175, 0.4) 100%);
 }
 
 .modal-menu .game-id {

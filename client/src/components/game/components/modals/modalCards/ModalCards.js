@@ -27,13 +27,7 @@ const ModalCards = () => {
    return (
       <>
          {/* ARROWS */}
-         {modals.modalCards.length > 10 && (
-            <Arrows
-               page={page}
-               setPage={setPage}
-               pages={Math.ceil(modals.modalCards.length / 10)}
-            />
-         )}
+         {modals.modalCards.length > 10 && <Arrows page={page} setPage={setPage} pages={Math.ceil(modals.modalCards.length / 10)} />}
          {/* CARDS */}
          <div className="modal-cards center" onClick={(e) => e.stopPropagation()}>
             <div className="box full-size" style={{ left: getBoxPosition() }}>

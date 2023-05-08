@@ -1,20 +1,13 @@
 const OverviewTableRow = ({ corp, currPlayer }) => {
    const games = currPlayer.games
-   const gamesPlayed = games.filter((game) =>
-      game.corporation ? game.corporation.name === corp : false
-   )
+   const gamesPlayed = games.filter((game) => (game.corporation ? game.corporation.name === corp : false))
    const gamesWon = gamesPlayed.filter((game) => game.victory)
    const gamesWonScores = gamesWon.map((game) => game.points.total)
    const gamesPlayedScores = gamesPlayed.map((game) => game.points.total)
    const winRate = gamesPlayed.length ? (gamesWon.length / gamesPlayed.length) * 100 : '-'
    const maxScore = gamesWon.length ? Math.max(...gamesWonScores) : '-'
-   const avgScore = gamesPlayed.length
-      ? gamesPlayedScores.reduce((a, b) => a + b, 0) / gamesPlayedScores.length
-      : '-'
-   const avgRealScore = gamesPlayed.length
-      ? gamesPlayed.reduce((tot, game) => (game.victory ? tot + game.points.total : tot), 0) /
-        gamesPlayed.length
-      : '-'
+   const avgScore = gamesPlayed.length ? gamesPlayedScores.reduce((a, b) => a + b, 0) / gamesPlayedScores.length : '-'
+   const avgRealScore = gamesPlayed.length ? gamesPlayed.reduce((tot, game) => (game.victory ? tot + game.points.total : tot), 0) / gamesPlayed.length : '-'
 
    return (
       <tr>

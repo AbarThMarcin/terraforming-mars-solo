@@ -1,7 +1,7 @@
 /* Used to show ONE card with selection */
 import { useContext, useEffect, useState } from 'react'
 import { ANIMATIONS } from '../../../../../data/animations'
-import { RESOURCES } from '../../../../../data/resources'
+import { RESOURCES, getResIcon } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { hasTag, modifiedCards, withTimeAdded } from '../../../../../utils/misc'
@@ -10,10 +10,11 @@ import BtnAction from '../../buttons/BtnAction'
 import BtnSelect from '../../buttons/BtnSelect'
 import Card from '../../card/Card'
 import DecreaseCostSelCard from '../modalsComponents/decreaseCost/DecreaseCostSelCard'
+import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
 
 const ModalSelectCard = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { performSubActions } = useContext(StateGameContext)
+   const { performSubActions, setLogItems } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [selected, setSelected] = useState(getInitSelected())
    const [toBuyMln, setToBuyMln] = useState(0)
@@ -51,7 +52,7 @@ const ModalSelectCard = () => {
                name: ANIMATIONS.RESOURCES_IN,
                type: RESOURCES.MICROBE,
                value: 1,
-               func: () =>
+               func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: {
@@ -59,7 +60,9 @@ const ModalSelectCard = () => {
                         resource: RESOURCES.MICROBE,
                         amount: 1,
                      },
-                  }),
+                  })
+                  funcSetLogItemsSingleActions('Received 1 microbe to SEARCH FOR LIFE card', getResIcon(RESOURCES.MICROBE), 1, setLogItems)
+               },
             })
          } else {
             // Inventors' Guild / Business Network
@@ -68,22 +71,26 @@ const ModalSelectCard = () => {
                   name: ANIMATIONS.RESOURCES_OUT,
                   type: RESOURCES.MLN,
                   value: toBuyMln,
-                  func: () =>
+                  func: () => {
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                         payload: -toBuyMln,
-                     }),
+                     })
+                     funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC`, getResIcon(RESOURCES.MLN), -toBuyMln, setLogItems)
+                  },
                })
             if (toBuyHeat > 0)
                subActions.push({
                   name: ANIMATIONS.RESOURCES_OUT,
                   type: RESOURCES.HEAT,
                   value: toBuyHeat,
-                  func: () =>
+                  func: () => {
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                         payload: -toBuyHeat,
-                     }),
+                     })
+                     funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat`, getResIcon(RESOURCES.HEAT), -toBuyHeat, setLogItems)
+                  },
                })
             subActions.push({
                name: ANIMATIONS.CARD_IN,
@@ -92,15 +99,13 @@ const ModalSelectCard = () => {
                func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                     payload: [
-                        ...statePlayer.cardsInHand,
-                        ...modifiedCards(withTimeAdded([modals.modalSelectCard.card]), statePlayer),
-                     ],
+                     payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded([modals.modalSelectCard.card]), statePlayer)],
                   })
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
                      payload: [...statePlayer.cardsPurchased, modals.modalSelectCard.card],
                   })
+                  funcSetLogItemsSingleActions(`Drew 1 card (${modals.modalSelectCard.card.name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                },
             })
          }
@@ -110,8 +115,7 @@ const ModalSelectCard = () => {
 
    function getResources() {
       let res = statePlayer.resources.mln
-      if (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat)
-         res += statePlayer.resources.heat
+      if (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat) res += statePlayer.resources.heat
       return res
    }
 
@@ -144,26 +148,12 @@ const ModalSelectCard = () => {
          {/* CARD */}
          <Card card={modifiedCards([modals.modalSelectCard.card], statePlayer)[0]} isBig={true} />
          {/* CARD BUTTON */}
-         <BtnSelect
-            initBtnText={selected ? 'SELECTED' : 'SELECT'}
-            handleClick={handleClickSelect}
-            sourceCardId={modals.modalSelectCard.cardIdAction}
-            resources={resources}
-         />
+         <BtnSelect initBtnText={selected ? 'SELECTED' : 'SELECT'} handleClick={handleClickSelect} sourceCardId={modals.modalSelectCard.cardIdAction} resources={resources} />
          {/* CONFIRM BUTTON */}
-         <BtnAction
-            text="CONFIRM"
-            onYesFunc={handleClickConfirmBtn}
-            position={btnActionConfirmPosition}
-         />
+         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
          {/* CARD DECREASE COST SECTION */}
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && selected && (
-            <DecreaseCostSelCard
-               toBuyMln={toBuyMln}
-               setToBuyMln={setToBuyMln}
-               toBuyHeat={toBuyHeat}
-               setToBuyHeat={setToBuyHeat}
-            />
+            <DecreaseCostSelCard toBuyMln={toBuyMln} setToBuyMln={setToBuyMln} toBuyHeat={toBuyHeat} setToBuyHeat={setToBuyHeat} />
          )}
       </div>
    )

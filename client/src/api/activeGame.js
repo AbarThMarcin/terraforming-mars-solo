@@ -14,9 +14,7 @@ export const getActiveGameData = async (token, type) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -35,9 +33,7 @@ export const createActiveGameData = async (token, gameData, type) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -56,9 +52,7 @@ export const deleteActiveGameData = async (token, type) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }
@@ -77,9 +71,7 @@ export const updateGameData = async (token, gameData, type) => {
       const res = await axios.post(URI, body, config)
       return res.data
    } catch (error) {
-      console.log(
-         error.response && error.response.data.message ? error.response.data.message : error.message
-      )
+      console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
       return error
    }
 }

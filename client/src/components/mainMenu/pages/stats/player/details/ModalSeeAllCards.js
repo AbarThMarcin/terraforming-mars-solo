@@ -7,8 +7,7 @@ import { SoundContext } from '../../../../../../App'
 const ModalSeeAllCards = () => {
    const { sound } = useContext(SoundContext)
    const refTable = useRef()
-   const { modalCardsIds, modalCardsTitle, setShowModalCard, setModalCard } =
-      useContext(ModalsContext)
+   const { modalCardsIds, modalCardsTitle, setShowModalCard, setModalCard } = useContext(ModalsContext)
    const [filterValue, setFilterValue] = useState('')
    const cards = useMemo(
       () => getCards(),
@@ -31,11 +30,7 @@ const ModalSeeAllCards = () => {
 
    function filterFunc(cardRow) {
       if (filterValue === '') return true
-      if (
-         String(cardRow.card.id).includes(filterValue) ||
-         cardRow.card.name.includes(filterValue.toUpperCase())
-      )
-         return true
+      if (String(cardRow.card.id).includes(filterValue) || cardRow.card.name.includes(filterValue.toUpperCase())) return true
       return false
    }
 

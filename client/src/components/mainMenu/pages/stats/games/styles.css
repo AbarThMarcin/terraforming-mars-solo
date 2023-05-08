@@ -81,27 +81,30 @@
 .games .row > *:nth-of-type(3) {
    width: 25%;
 }
-.games .row > *:nth-of-type(11) {
+.games .row > *:nth-of-type(12) {
    width: 13%;
 }
-.games .row:not(.headers) > *:nth-of-type(10),
-.games .row:not(.headers) > *:nth-of-type(11) {
+/* .games .row > *:nth-of-type(10) {
+   width: 8%;
+} */
+.games .row:not(.headers) > *:nth-of-type(11),
+.games .row:not(.headers) > *:nth-of-type(12) {
    overflow: hidden;
    white-space: nowrap;
    /* justify-content: flex-start; */
    padding: 0 calc(var(--default-size) * 0.2);
    display: flex;
 }
-.games .row:not(.headers) > *:nth-of-type(10) .too-long,
-.games .row:not(.headers) > *:nth-of-type(11) .too-long {
+.games .row:not(.headers) > *:nth-of-type(11) .too-long,
+.games .row:not(.headers) > *:nth-of-type(12) .too-long {
    display: block;
    overflow: hidden;
    width: 80%;
    margin-right: calc(var(--default-size) * 0.15);
    text-align: left;
 }
-.games .row:not(.headers) > *:nth-of-type(10).pointer:hover,
-.games .row:not(.headers) > *:nth-of-type(11).pointer:hover {
+.games .row:not(.headers) > *:nth-of-type(11).pointer:hover,
+.games .row:not(.headers) > *:nth-of-type(12).pointer:hover {
    color: rgba(150, 255, 241, 0.9);
 }
 

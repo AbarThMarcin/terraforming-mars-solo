@@ -46,13 +46,18 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
       setType(TABS.GAMES_LOG)
    }
 
+   const btnLogStyles = {
+      width: 'calc(var(--default-size) * 3.4)',
+      fontSize: 'calc(var(--default-size) * 0.8)',
+   }
+
    const btnAddLinkStyles = {
-      width: 'calc(var(--default-size) * 4.3)',
+      width: 'calc(var(--default-size) * 4)',
       fontSize: 'calc(var(--default-size) * 0.8)',
    }
 
    const btnAddCommentStyles = {
-      width: 'calc(var(--default-size) * 5)',
+      width: 'calc(var(--default-size) * 5.3)',
       fontSize: 'calc(var(--default-size) * 0.6)',
    }
 
@@ -68,7 +73,7 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
          <div>{game.points.vp}</div>
          <div>{game.points.total}</div>
          <div>
-            <BtnGoTo text="LOG" action={handleClickLog} />
+            <BtnGoTo text="LOG" action={handleClickLog} styles={btnLogStyles} />
          </div>
          <div className={`${game.link && 'pointer'}`} onClick={handleClickLink}>
             {currPlayer?._id === user?._id && !game.link ? (

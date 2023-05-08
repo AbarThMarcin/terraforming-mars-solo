@@ -16,7 +16,7 @@ const ModalOtherDataEffects = ({ setCardSnap }) => {
       if (typeof modals.modalOther.data[0] === 'string') {
          return [modals.modalOther.data[0], ...sorted(modals.modalOther.data.slice(1), '4a-played')]
       } else {
-         return sorted(modals.modalOther.data.slice(1), '4a-played')
+         return sorted(modals.modalOther.data.slice(0), '4a-played')
       }
    }
 

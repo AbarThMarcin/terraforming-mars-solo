@@ -66,7 +66,7 @@ const Games = ({ user }) => {
          {/* Table */}
          <div ref={refTable} className="table">
             {currPlayer.games.length > 0 ? (
-               currPlayer.games.map((game, idx) => <TableGamesRow key={idx} id={idx + 1} game={game} currPlayer={currPlayer} user={user} />)
+               currPlayer.games.slice(0).reverse().map((game, idx, games) => <TableGamesRow key={games.length - idx} id={games.length - idx} game={game} currPlayer={currPlayer} user={user} />)
             ) : (
                <div className="center" style={{ fontSize: 'calc(var(--default-size) * 1.5)' }}>
                   NO GAMES

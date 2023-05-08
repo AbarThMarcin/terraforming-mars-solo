@@ -22,7 +22,7 @@ const RankingRules = ({ gamesCountForPrimaryRanking }) => {
                      <span className="season highlighted">{season ? `SEASON ${season}` : 'PRESEASON'}</span>
                   </p>
                   <p>
-                     CURRENT SEASON ENDS ON: <span className="highlighted">30 JUNE 2023</span>.
+                     CURRENT SEASON ENDS ON: <span className="highlighted">30 JUNE 2025</span>.
                   </p>
                   <p>
                      YOU HAVE <span className="highlighted">24 HOURS</span> TO COMPLETE A RANKED MATCH.

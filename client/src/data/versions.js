@@ -15,6 +15,10 @@ export const VERSIONS = [
             title: '10 oceans on board bug fixed',
             description: 'Cards with 2 oceans placement, and Comet (10) will now place oceans properly.',
          },
+         {
+            title: 'First card effect visualization for UNMi corporation fixed',
+            description: '',
+         },
       ],
    },
    {

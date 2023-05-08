@@ -237,7 +237,7 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [157, 11, 105, 36, 64, 67, 7, 200, 20, 128]
+      // const initCardsIds = [206, 11, 105, 36, 64, 67, 7, 200, 20, 128]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [11, 5]
 
@@ -278,7 +278,7 @@ function App() {
          // Create New Match With Id
          const board = JSON.parse(JSON.stringify(INIT_BOARD))
          const initCardsIds = await getRandIntNumbers(208, 1, 208)
-         // const initCardsIds = [...[204, 185, 90, 192, 196, 5, 23, 73, 35, 19], ...await getRandIntNumbers(198, 1, 198)]
+         // const initCardsIds = [...[205, 185, 90, 192, 196, 5, 23, 73, 35, 19, 1, 2, 3, 4, 33, 6, 7, 8, 9, 34], ...await getRandIntNumbers(188, 1, 188)]
          const initCorpsIds = await getRandIntNumbers(2, 1, 12)
          // const initCorpsIds = [1, 2]
          const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.slice(0, 10).includes(id))

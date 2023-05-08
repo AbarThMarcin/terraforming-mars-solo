@@ -50,18 +50,18 @@ const ModalSelectCard = () => {
             // Search For Life
             subActions.push({
                name: ANIMATIONS.RESOURCES_IN,
-               type: RESOURCES.MICROBE,
+               type: RESOURCES.SCIENCE,
                value: 1,
                func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: {
                         cardId: modals.modalSelectCard.cardIdAction,
-                        resource: RESOURCES.MICROBE,
+                        resource: RESOURCES.SCIENCE,
                         amount: 1,
                      },
                   })
-                  funcSetLogItemsSingleActions('Received 1 microbe to SEARCH FOR LIFE card', getResIcon(RESOURCES.MICROBE), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Received 1 science to SEARCH FOR LIFE card', getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
                },
             })
          } else {

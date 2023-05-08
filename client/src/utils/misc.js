@@ -276,7 +276,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
    let newVp = card.vp
    switch (card.id) {
       case 5:
-         card.units.microbe > 0 ? (newVp = 3) : (newVp = 0)
+         card.units.science > 0 ? (newVp = 3) : (newVp = 0)
          break
       case 8:
          let capitalCity = stateBoard.find((field) => field.object === TILES.SPECIAL_CITY_CAPITAL)

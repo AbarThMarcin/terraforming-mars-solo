@@ -7,6 +7,10 @@ export const VERSIONS = [
             title: 'Logs improvement',
             description: 'More details to logs (in game as well as in statistics) have been added.',
          },
+         {
+            title: 'Resources on Search For Life card (5) corrected',
+            description: 'Science resources are now being added to the card instead of microbes.',
+         },
       ],
    },
    {

@@ -18,7 +18,7 @@ const ModalEndStats = () => {
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
    const victoryLossText =
-      stateGame.globalParameters.temperature === 8 && stateGame.globalParameters.oxygen === 14 && stateGame.globalParameters.oceans === 9 ? 'YOU WIN!' : 'YOU LOSE!'
+      stateGame.globalParameters.temperature >= 8 && stateGame.globalParameters.oxygen >= 14 && stateGame.globalParameters.oceans >= 9 ? 'YOU WIN!' : 'YOU LOSE!'
    const trPoints = getTrPoints(stateGame)
    const greeneryPoints = getGreeneryPoints(stateBoard)
    const cityPoints = getCityPoints(stateBoard)

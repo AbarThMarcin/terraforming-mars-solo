@@ -501,7 +501,39 @@ export const funcGetImmEffects = (
       // Comet
       case 10:
          subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         // subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
+         // The reason why we dont use above line instead of below lines is that
+         // if we play this card at -2 degrees and 8 oceans, after placing ocean,
+         // the TEMPERATURE still thinks its 8 oceans and we are able to place 10th ocean.
+         if (stateGame.globalParameters.temperature < 8) {
+            subActions.push({
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
+               value: null,
+               func: () => {
+                  sound.raiseParameter.play()
+                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', tempIconForLog, null, setLogItems)
+               },
+            })
+            // Bonus heat production
+            if (stateGame.globalParameters.temperature === -26 || stateGame.globalParameters.temperature === -22) {
+               subActions.push({
+                  name: ANIMATIONS.PRODUCTION_IN,
+                  type: RESOURCES.HEAT,
+                  value: 1,
+                  func: () => {
+                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
+                     funcSetLogItemsSingleActions('Heat production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
+                  },
+               })
+               // Bonus ocean
+            } else if (stateGame.globalParameters.temperature === -2 && stateGame.globalParameters.oceans <= 7) {
+               subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+            }
+         }
          break
       // Big Asteroid
       case 11:
@@ -1134,7 +1166,7 @@ export const funcGetImmEffects = (
       // Lake Marineris
       case 53:
          subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+         if (stateGame.globalParameters.oceans <= 7) subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
          break
       // Kelp Farming
       case 55:
@@ -1439,7 +1471,7 @@ export const funcGetImmEffects = (
       // Ice Asteroid
       case 78:
          subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+         if (stateGame.globalParameters.oceans <= 7) subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
          break
       // Quantum Extractor
       case 79:
@@ -1476,8 +1508,44 @@ export const funcGetImmEffects = (
       // Giant Ice Asteroid
       case 80:
          subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
-         subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE4)]
+         if (stateGame.globalParameters.oceans <= 7) subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+         if (stateGame.globalParameters.temperature < 8) {
+            subActions.push({
+               name: ANIMATIONS.SHORT_ANIMATION,
+               type: null,
+               value: null,
+               func: () => {
+                  sound.raiseParameter.play()
+                  dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                  dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', tempIconForLog, 1, setLogItems)
+                  if (stateGame.globalParameters.temperature < 6) {
+                     dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
+                     dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', tempIconForLog, 1, setLogItems)
+                  }
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
+               },
+            })
+            // Bonus heat production
+            if (
+               (stateGame.globalParameters.temperature >= -28 && stateGame.globalParameters.temperature <= -26) ||
+               (stateGame.globalParameters.temperature >= -24 && stateGame.globalParameters.temperature <= -22)
+            ) {
+               subActions.push({
+                  name: ANIMATIONS.PRODUCTION_IN,
+                  type: RESOURCES.HEAT,
+                  value: 1,
+                  func: () => {
+                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
+                     funcSetLogItemsSingleActions('Heat production decreased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                  },
+               })
+               // Bonus ocean
+            } else if (stateGame.globalParameters.temperature >= -4 && stateGame.globalParameters.temperature <= -2 && stateGame.globalParameters.oceans <= 6) {
+               subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
+            }
+         }
          break
       // Ganymede Colony
       case 81:

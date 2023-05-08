@@ -11,6 +11,10 @@ export const VERSIONS = [
             title: 'Resources on Search For Life card (5) corrected',
             description: 'Science resources are now being added to the card instead of microbes.',
          },
+         {
+            title: '10 oceans on board bug fixed',
+            description: 'Cards with 2 oceans placement, and Comet (10) will now place oceans properly.',
+         },
       ],
    },
    {

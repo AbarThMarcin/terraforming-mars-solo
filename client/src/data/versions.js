@@ -7,6 +7,10 @@ export const VERSIONS = [
             title: 'Chart GAMES BY SCORE in the statistics section updated',
             description: '160+ category has been removed and 150 - 159 category has been renamed to 150+.',
          },
+         {
+            title: 'Current score in Achievements section added',
+            description: '',
+         },
       ],
    },
    {

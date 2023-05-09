@@ -17,7 +17,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
    function getMaxScoreCorps() {
       if (!player) return
       const maxScoresCorps = Object.values(CORP_NAMES).map((corp) => getMaxScoreForCorp(corp))
-      if (maxScoresCorps.includes('NA')) return 'NA'
+      if (maxScoresCorps.includes('N/A')) return 'N/A'
       return Math.min(...maxScoresCorps)
    }
    function getLongestStreak() {
@@ -37,7 +37,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
    function getMaxScoreForCorp(corp) {
       const gamesCorp = player.games.filter((game) => game.corporation?.name === corp)
       if (gamesCorp.length === 0) {
-         return 'NA'
+         return 'N/A'
       } else {
          return gamesCorp.reduce((max, game) => (game.points.total > max ? game.points.total : max), 0)
       }
@@ -50,6 +50,9 @@ const TableAchievementsRow = ({ player, isLegend }) => {
          </div>
          <div>
             <span>{player ? player.name : 'REQUIREMENT'}</span>
+         </div>
+         <div>
+            <span>CURRENT RESULT</span>
          </div>
          <div>
             <FontAwesomeIcon icon={faStar} />
@@ -75,6 +78,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
          <div className={maxScoreMet[2] ? 'met' : ''}>
             <span>{!player && '150+'}</span>
          </div>
+         <div style={{ color: 'rgba(255, 255, 255, 0.3' }}>{maxScore}</div>
          <div>
             <span>MAX SCORE WITH EVERY CORPORATION</span>
          </div>
@@ -87,6 +91,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
          <div className={maxScoreCorpsMet[2] ? 'met' : ''}>
             <span>{!player && '120+'}</span>
          </div>
+         <div style={{ color: 'rgba(255, 255, 255, 0.3' }}>{maxScoreCorps}</div>
          <div>
             <span>100+ STREAK</span>
          </div>
@@ -99,6 +104,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
          <div className={longestStreakMet[2] ? 'met' : ''}>
             <span>{!player && '12'}</span>
          </div>
+         <div style={{ color: 'rgba(255, 255, 255, 0.3' }}>{longestStreak}</div>
       </div>
    )
 }

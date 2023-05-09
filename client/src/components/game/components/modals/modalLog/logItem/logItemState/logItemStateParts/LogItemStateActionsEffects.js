@@ -50,7 +50,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
                   </li>
                ))
             ) : (
-               <li>NO {type}</li>
+               <li style={{ color: '#777' }}>NO {type}</li>
             )}
          </ul>
       </div>

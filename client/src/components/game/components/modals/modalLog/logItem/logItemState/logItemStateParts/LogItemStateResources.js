@@ -37,7 +37,7 @@ const LogItemStateResources = ({ state }) => {
                   </li>
                ))
             ) : (
-               <li>NO CARDS WITH RESOURCES</li>
+               <li style={{ color: '#777' }}>NO CARDS WITH RESOURCES</li>
             )}
          </ul>
       </div>

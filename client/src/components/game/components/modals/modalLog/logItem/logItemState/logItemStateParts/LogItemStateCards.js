@@ -11,7 +11,7 @@ const LogItemStateCards = ({ state, cardsType }) => {
                      </li>
                   ))
                ) : (
-                  <li>NO CARDS</li>
+                  <li style={{ color: '#777' }}>NO CARDS IN HAND</li>
                )
             ) : state.statePlayer.cardsPlayed.length > 0 ? (
                state.statePlayer.cardsPlayed.map((card, idx) => (
@@ -20,7 +20,7 @@ const LogItemStateCards = ({ state, cardsType }) => {
                   </li>
                ))
             ) : (
-               <li>NO CARDS</li>
+               <li style={{ color: '#777' }}>NO CARDS PLAYED</li>
             )}
          </ul>
       </div>

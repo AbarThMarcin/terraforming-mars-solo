@@ -68,6 +68,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    }, [])
 
    useEffect(() => {
+      console.log('trigger')
       // Turn off Special Design effect (if aplicable)
       if (statePlayer.specialDesignEffect && modals.modalCard.id !== 206) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PARAMETERS_REQUIREMENTS, payload: -2 })

@@ -21,12 +21,14 @@ const LogItemSteps = ({ item }) => {
       <div className="steps">
          <div className="steps-title pointer" onClick={handleClickUpdate}>
             <span>STEPS</span>
-            <div className="arrows"><FontAwesomeIcon icon={expanded ? faAngleDown : faAngleLeft} /></div>
+            <div className="arrows">
+               <FontAwesomeIcon icon={expanded ? faAngleDown : faAngleLeft} />
+            </div>
          </div>
 
-         {item.details.steps ? (
-            <div ref={refDetails} className="steps-list">
-               {item.details.steps.map((step, idx) => (
+         <div ref={refDetails} className="steps-list">
+            {item.details.steps ? (
+               item.details.steps.map((step, idx) => (
                   <div key={idx} className="step">
                      <div className="step-itemIcon"></div>
                      <div className="step-desc">
@@ -42,16 +44,16 @@ const LogItemSteps = ({ item }) => {
                               ))}
                            <div className={`value ${step.singleActionValue < 0 ? 'negative' : ''}`}>{step.singleActionValue !== 1 && step.singleActionValue}</div>
                         </div>
-                        <span style={{ color: step.singleActionIconName ? '' : 'rgb(170, 170, 255)', marginLeft: step.singleActionIconName ? '0' : '-15%' }}>{step.singleActionName}</span>
+                        <span style={{ color: step.singleActionIconName ? '' : 'rgb(170, 170, 255)', marginLeft: step.singleActionIconName ? '0' : '-15%' }}>
+                           {step.singleActionName}
+                        </span>
                      </div>
                   </div>
-               ))}
-            </div>
-         ) : (
-            <div className="steps-list">
-               <div className="step">NO STEPS</div>
-            </div>
-         )}
+               ))
+            ) : (
+               <div className="step" style={{ paddingLeft: '0.8%', color: '#777' }}>NO STEPS</div>
+            )}
+         </div>
       </div>
    )
 }

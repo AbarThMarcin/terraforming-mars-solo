@@ -1,17 +1,18 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext, StateBoardContext } from '../../../../../../game'
 import { ACTIONS_GAME } from '../../../../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../utils/misc'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { LOG_TYPES } from '../../../../../../../data/log/log'
+import { LOG_TYPES, funcSetLogItemsBefore } from '../../../../../../../data/log/log'
 import { getImmEffectIcon } from '../../../../../../../data/immEffects/immEffectsIcons'
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
 const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setActionClicked, toBuyMln, toBuySteel, toBuyTitan, toBuyHeat, changeCosts }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getCardActions, performSubActions, actionRequirementsMet } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, getCardActions, performSubActions, actionRequirementsMet, setLogItems, setItemsExpanded } = useContext(StateGameContext)
+   const { stateBoard } = useContext(StateBoardContext)
    const { setModals } = useContext(ModalsContext)
    const isUnmi = item.name === CORP_NAMES.UNMI
    const isAvailable = getAvailability()
@@ -67,6 +68,8 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
    }
 
    const performAction = (toBuyResources) => {
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
       let itemIdOrUnmi = isUnmi ? item.name : item.id
       // Set action_used to true
       dispatchPlayer({

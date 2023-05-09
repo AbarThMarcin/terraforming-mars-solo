@@ -4,6 +4,10 @@ export const VERSIONS = [
       date: '2023-05-09',
       updates: [
          {
+            title: 'Most % Played Card(s) statistics updated',
+            description: 'Cards played more often have higher rank than cards played less often (assuming the same percentage). Also the number of times played is visible in the stats.',
+         },
+         {
             title: 'Current score in Achievements section added',
             description: '',
          },

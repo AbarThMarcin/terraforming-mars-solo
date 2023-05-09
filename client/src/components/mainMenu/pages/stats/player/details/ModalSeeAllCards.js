@@ -39,12 +39,13 @@ const ModalSeeAllCards = () => {
          return {
             card: CARDS.find((card) => card.id === cardId[0]),
             value: cardId[1],
+            count: cardId[2]
          }
       })
       const cardsWithValuesAndRank = cardsWithValues.map((item, id) => {
          if (id > 0) {
             const prevItem = cardsWithValues[id - 1]
-            if (prevItem.value === item.value) {
+            if (prevItem.value === item.value && prevItem.count === item.count) {
                item.rank = prevItem.rank
             } else {
                item.rank = id + 1
@@ -101,13 +102,13 @@ const ModalSeeAllCards = () => {
                )}
                {modalCardsTitle === 'MOST % PLAYED CARDS' && (
                   <div>
-                     <span>% PLAYED</span>
+                     <span>% PLAYED (PLAYED COUNT)</span>
                   </div>
                )}
             </div>
             {/* Table */}
             <div ref={refTable} className="table">
-               {cards.filter(filterFunc).map(({ rank, card, value }, idx) => (
+               {cards.filter(filterFunc).map(({ rank, card, value, count }, idx) => (
                   <div key={idx} className="card-row">
                      <div>
                         <span>{rank}.</span>
@@ -129,6 +130,7 @@ const ModalSeeAllCards = () => {
                         <span>
                            {value}
                            {modalCardsTitle === 'MOST % PLAYED CARDS' && '%'}
+                           {` (${count})`}
                         </span>
                      </div>
                   </div>

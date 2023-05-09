@@ -5,7 +5,7 @@ import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 import { ModalsContext } from '../../index'
 
-const tipText = 'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%.'
+const tipText = 'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%. If two or more cards have the same percentage, higher rank receives cards with more played count.'
 
 const Details = ({ currPlayer }) => {
    const { sound } = useContext(SoundContext)
@@ -92,11 +92,20 @@ const Details = ({ currPlayer }) => {
       range(1, 208).forEach((id) => {
          const currentCardSeen = allCardsSeen.reduce((tot, card) => (card.id === id ? tot + 1 : tot), 0)
          const currentCardPlayed = allCardsPlayed.reduce((tot, card) => (card.id === id ? tot + 1 : tot), 0)
-         if (currentCardSeen) most.push([id, ((currentCardPlayed / currentCardSeen) * 100).toFixed(0)])
+         if (currentCardSeen) most.push([id, ((currentCardPlayed / currentCardSeen) * 100).toFixed(0), currentCardPlayed])
       })
 
-      most = most.sort((a, b) => b[1] - a[1])
+      // most = most.sort((a, b) => b[1].localeCompare(a[1]) || b[2] - a[2])
+      most = most.sort(sortByPercentThenCount)
+      console.log(most)
       return most
+   }
+
+   function sortByPercentThenCount(a, b) {
+      if (a[1] === b[1]) {
+         return b[2] - a[2]
+      }
+      return b[1] - a[1]
    }
 
    return (
@@ -138,8 +147,8 @@ const Details = ({ currPlayer }) => {
                               <span>{mostPlayed[0][1]}</span> {mostPlayed[0][1] > 1 ? 'TIMES' : 'TIME'}
                            </div>
                         </div>
-                        {countTopPlayed > 1 && (
-                           <div className="and-more">
+                        <div className="and-more">
+                           {countTopPlayed > 1 && (
                               <div>
                                  AND
                                  <br />
@@ -147,8 +156,8 @@ const Details = ({ currPlayer }) => {
                                  <br />
                                  MORE...
                               </div>
-                           </div>
-                        )}
+                           )}
+                        </div>
                      </div>
                   )}
                </div>
@@ -198,8 +207,8 @@ const Details = ({ currPlayer }) => {
                               <span>{mostSeen[0][1]}</span> {mostSeen[0][1] > 1 ? 'TIMES' : 'TIME'}
                            </div>
                         </div>
-                        {countTopSeen > 1 && (
-                           <div className="and-more">
+                        <div className="and-more">
+                           {countTopSeen > 1 && (
                               <div>
                                  AND
                                  <br />
@@ -207,8 +216,8 @@ const Details = ({ currPlayer }) => {
                                  <br />
                                  MORE...
                               </div>
-                           </div>
-                        )}
+                           )}
+                        </div>
                      </div>
                   )}
                </div>
@@ -258,8 +267,8 @@ const Details = ({ currPlayer }) => {
                               <span>{mostPurchased[0][1]}</span> {mostPurchased[0][1] > 1 ? 'TIMES' : 'TIME'}
                            </div>
                         </div>
-                        {countTopPurchased > 1 && (
-                           <div className="and-more">
+                        <div className="and-more">
+                           {countTopPurchased > 1 && (
                               <div>
                                  AND
                                  <br />
@@ -267,8 +276,8 @@ const Details = ({ currPlayer }) => {
                                  <br />
                                  MORE...
                               </div>
-                           </div>
-                        )}
+                           )}
+                        </div>
                      </div>
                   )}
                </div>
@@ -322,11 +331,11 @@ const Details = ({ currPlayer }) => {
                                  <CardForStats card={CARDS.find((card) => card.id === mostPlayedPerc[0][0])} />
                               </div>
                               <div className="value">
-                                 <span>{mostPlayedPerc[0][1]}</span>%
+                                 <span>{mostPlayedPerc[0][1]}</span>% ({mostPlayedPerc[0][2]})
                               </div>
                            </div>
-                           {countTopPlayedPerc > 1 && (
-                              <div className="and-more">
+                           <div className="and-more">
+                              {countTopPlayedPerc > 1 && (
                                  <div>
                                     AND
                                     <br />
@@ -334,8 +343,8 @@ const Details = ({ currPlayer }) => {
                                     <br />
                                     MORE...
                                  </div>
-                              </div>
-                           )}
+                              )}
+                           </div>
                         </div>
                      )
                   ) : (

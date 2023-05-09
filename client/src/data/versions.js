@@ -4,12 +4,12 @@ export const VERSIONS = [
       date: '2023-05-09',
       updates: [
          {
-            title: 'Chart GAMES BY SCORE in the statistics section updated',
-            description: '160+ category has been removed and 150 - 159 category has been renamed to 150+.',
-         },
-         {
             title: 'Current score in Achievements section added',
             description: '',
+         },
+         {
+            title: 'Chart GAMES BY SCORE in the statistics section updated',
+            description: '160+ category has been removed and 150 - 159 category has been renamed to 150+.',
          },
       ],
    },
@@ -18,20 +18,20 @@ export const VERSIONS = [
       date: '2023-05-08',
       updates: [
          {
-            title: 'Logs improvement',
-            description: 'More details to logs (in game as well as in statistics) have been added.',
-         },
-         {
-            title: 'Resources on Search For Life card (5) corrected',
-            description: 'Science resources are now being added to the card instead of microbes.',
+            title: 'First card effect visualization for UNMi corporation fixed',
+            description: '',
          },
          {
             title: '10 oceans on board bug fixed',
             description: 'Cards with 2 oceans placement, and Comet (10) will now place oceans properly.',
          },
          {
-            title: 'First card effect visualization for UNMi corporation fixed',
-            description: '',
+            title: 'Resources on Search For Life card (5) corrected',
+            description: 'Science resources are now being added to the card instead of microbes.',
+         },
+         {
+            title: 'Logs improvement',
+            description: 'More details to logs (in game as well as in statistics) have been added.',
          },
       ],
    },

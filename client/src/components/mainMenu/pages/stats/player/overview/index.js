@@ -1,7 +1,7 @@
 import OverviewChart from './OverviewChart'
 import OverviewTable from './overviewTable'
 
-const chart1_ranges = ['160+', '150 - 159', '140 - 149', '130 - 139', '120 - 129', '110 - 119', '100 - 109', '90 - 99', '80 - 89', '70 - 79', '60 - 69', '59-']
+const chart1_ranges = ['150+', '140 - 149', '130 - 139', '120 - 129', '110 - 119', '100 - 109', '90 - 99', '80 - 89', '70 - 79', '60 - 69', '59-']
 const chart2_ranges = ['100+', '99-']
 const hiddenIndexes = [0, 17, 26, 35, 43, 52, 61, 70, 79, 88, 100]
 
@@ -12,8 +12,7 @@ const Overview = ({ currPlayer }) => {
 
    function chart1_getGamesWonByPoints() {
       let arr = []
-      arr.push(getPercentage(160, null))
-      arr.push(getPercentage(150, 159))
+      arr.push(getPercentage(150, null))
       arr.push(getPercentage(140, 149))
       arr.push(getPercentage(130, 139))
       arr.push(getPercentage(120, 129))

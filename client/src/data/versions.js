@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.2.8',
+      date: '2023-05-09',
+      updates: [
+         {
+            title: 'Chart GAMES BY SCORE in the statistics section updated',
+            description: '160+ category has been removed and 150 - 159 category has been renamed to 150+.',
+         },
+      ],
+   },
+   {
       number: '0.2.7',
       date: '2023-05-08',
       updates: [

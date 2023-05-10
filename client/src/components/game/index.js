@@ -149,7 +149,6 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
 
    async function callScienceEffects() {
       if (!modals.modalCard) return
-      console.log(modals.modalCard.id)
       let effects = []
       let cardsInHand = statePlayer.cardsInHand
       let newCardsDrawIds

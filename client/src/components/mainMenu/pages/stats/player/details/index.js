@@ -97,7 +97,6 @@ const Details = ({ currPlayer }) => {
 
       // most = most.sort((a, b) => b[1].localeCompare(a[1]) || b[2] - a[2])
       most = most.sort(sortByPercentThenCount)
-      console.log(most)
       return most
    }
 

@@ -46,7 +46,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
             {elements.length > 0 ? (
                elements.map((el, idx) => (
                   <li key={idx}>
-                     - {el[0]} <img src={el[1]} alt=''></img>
+                     - <img src={el[1]} alt=''></img> {el[0]}
                   </li>
                ))
             ) : (

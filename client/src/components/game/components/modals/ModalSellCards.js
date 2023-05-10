@@ -12,7 +12,7 @@ import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES, funcSetLogItemsBefore, funcSetLogItemsSingleActions } from '../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../data/log/log'
 import iconLogSellPatent from '../../../../assets/images/other/iconLogSellPatent.svg'
 
 const ModalSellCards = () => {
@@ -35,7 +35,7 @@ const ModalSellCards = () => {
 
    const onYesFunc = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.SP_ACTION, text: SP.POWER_PLANT }, iconLogSellPatent, setItemsExpanded)
 
       let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals
@@ -70,14 +70,7 @@ const ModalSellCards = () => {
          },
       })
       // Perform subActions
-      performSubActions(
-         subActions,
-         {
-            type: LOG_TYPES.SP_ACTION,
-            text: SP.POWER_PLANT,
-         },
-         iconLogSellPatent
-      )
+      performSubActions(subActions)
    }
 
    const handleClickBtnSelect = (card) => {

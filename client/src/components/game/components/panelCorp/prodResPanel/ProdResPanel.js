@@ -7,7 +7,7 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
 import { getResIcon, RESOURCES } from '../../../../../data/resources'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
-import { LOG_TYPES, funcSetLogItemsBefore } from '../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem } from '../../../../../data/log/log'
 import logConvertPlants from '../../../../../assets/images/other/logConvertPlants.svg'
 import logConvertHeat from '../../../../../assets/images/other/logConvertHeat.svg'
 import { SoundContext } from '../../../../../App'
@@ -21,7 +21,7 @@ const ProdResPanel = () => {
 
    const actionGreenery = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.CONVERT_PLANTS, text: null }, logConvertPlants, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
@@ -38,20 +38,13 @@ const ProdResPanel = () => {
          // Possible effect for placing greenery (herbivores only)
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(
-            actions,
-            {
-               type: LOG_TYPES.CONVERT_PLANTS,
-               text: null,
-            },
-            logConvertPlants
-         )
+         performSubActions(actions)
       }, ANIMATION_SPEED)
    }
 
    const actionTemperature = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.CONVERT_HEAT, text: null }, logConvertHeat, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals, sound)
@@ -63,14 +56,7 @@ const ProdResPanel = () => {
          // Proper action
          let actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(
-            actions,
-            {
-               type: LOG_TYPES.CONVERT_HEAT,
-               text: null,
-            },
-            logConvertHeat
-         )
+         performSubActions(actions)
       }, ANIMATION_SPEED)
    }
 

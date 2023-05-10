@@ -30,7 +30,7 @@ import { EFFECTS } from '../../data/effects/effectIcons'
 import { funcGetEffect } from '../../data/effects/effects'
 import { useContext } from 'react'
 import { SettingsContext, SoundContext } from '../../App'
-import { funcSetLogItemsAfter, funcSetLogItemsSingleActions } from '../../data/log/log'
+import { funcUpdateLastLogItemAfter, funcSetLogItemsSingleActions } from '../../data/log/log'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -104,7 +104,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
       }
 
       // Update Log with state of the game AFTER played action
-      funcSetLogItemsAfter(setLogItems, logData, logIcon, statePlayer, stateGame, stateBoard)
+      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
 
       // Update VP
       updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP)
@@ -149,10 +149,12 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
 
    async function callScienceEffects() {
       if (!modals.modalCard) return
+      console.log(modals.modalCard.id)
       let effects = []
       let cardsInHand = statePlayer.cardsInHand
       let newCardsDrawIds
       // Call Olympus Conference effect
+      let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
       if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE) && modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_OLYMPUS_CONFERENCE)) {
          if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science === 0) {
             effects = [
@@ -166,6 +168,17 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                         payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
                      })
                      funcSetLogItemsSingleActions('Received 1 science to OLYMPUS CONFERENCE card', getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
+                     newStatePlayer = {
+                        ...newStatePlayer,
+                        cardsPlayed: newStatePlayer.cardsPlayed.map((card) => {
+                           if (card.id === 185) {
+                              return { ...card, units: { microbe: 0, animal: 0, science: card.units.science + 1, fighter: 0 } }
+                           } else {
+                              return card
+                           }
+                        }),
+                     }
+                     funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
                   },
                },
             ]
@@ -182,6 +195,17 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                         payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
                      })
                      funcSetLogItemsSingleActions('Removed 1 science from OLYMPUS CONFERENCE card', getResIcon(RESOURCES.SCIENCE), -1, setLogItems)
+                     newStatePlayer = {
+                        ...newStatePlayer,
+                        cardsPlayed: newStatePlayer.cardsPlayed.map((card) => {
+                           if (card.id === 185) {
+                              return { ...card, units: { microbe: 0, animal: 0, science: card.units.science - 1, fighter: 0 } }
+                           } else {
+                              return card
+                           }
+                        }),
+                     }
+                     funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
                   },
                },
             ]
@@ -205,10 +229,16 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                      1,
                      setLogItems
                   )
+                  newStatePlayer = {
+                     ...newStatePlayer,
+                     cardsInHand: cardsInHand,
+                  }
+                  funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
                },
             })
          }
       }
+
       // Call Mars University
       if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY) && modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_MARS_UNIVERSITY)) {
          if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
@@ -267,7 +297,8 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
          getImmEffects,
          sound,
          initDrawCardsIds,
-         setLogItems
+         setLogItems,
+         performSubActions
       )
    }
    function getCardActions(cardId, toBuyResources) {

@@ -4,7 +4,7 @@ import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
 import { getCorpLogoMini } from '../../../../data/corporations'
-import { funcSetLogItemsBefore, funcSetLogItemsGeneration, funcSetLogItemsPass, funcSetLogItemsSingleActions } from '../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcCreateLogItemGeneration, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../../../data/log/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'
@@ -42,8 +42,7 @@ const PassContainer = ({ totalVP }) => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
-      funcSetLogItemsPass(setLogItems)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.PASS }, null, setItemsExpanded)
       // Close confirmation window
       setModals((prev) => ({ ...prev, confirmation: false }))
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
@@ -198,21 +197,23 @@ const PassContainer = ({ totalVP }) => {
             setModals((prev) => ({ ...prev, panelStateGame: true }))
          }, delay)
       }
-      setLogItems((logItems) => [
-         ...logItems.slice(0, -1),
-         {
-            type: logItems[logItems.length - 1].type,
-            data: logItems[logItems.length - 1].data,
-            details: {
-               ...logItems[logItems.length - 1].details,
-               stateAfter: {
-                  statePlayer: newStatePlayer(),
-                  stateGame,
-                  stateBoard,
-               },
-            },
-         },
-      ])
+      funcUpdateLastLogItemAfter(setLogItems, newStatePlayer(), stateGame, stateBoard)
+      // setLogItems((logItems) => [
+      //    ...logItems.slice(0, -1),
+      //    {
+      //       type: logItems[logItems.length - 1].type,
+      //       data: logItems[logItems.length - 1].data,
+      //       details: {
+      //          ...logItems[logItems.length - 1].details,
+      //          stateAfter: {
+      //             statePlayer: newStatePlayer(),
+      //             stateGame,
+      //             stateBoard,
+      //          },
+      //       },
+      //    },
+      // ])
+
       // Go to next generation or end the game (with greeneries or without them)
       delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
@@ -253,7 +254,7 @@ const PassContainer = ({ totalVP }) => {
          setModals((prev) => ({ ...prev, animation: false, draft: true }))
          dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
          // Update log (new generation)
-         funcSetLogItemsGeneration(setLogItems, stateGame, setItemsExpanded)
+         funcCreateLogItemGeneration(setLogItems, stateGame, setItemsExpanded)
       }
    }
 

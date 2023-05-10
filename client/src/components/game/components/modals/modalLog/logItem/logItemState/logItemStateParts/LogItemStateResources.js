@@ -33,7 +33,7 @@ const LogItemStateResources = ({ state }) => {
             {elements.length > 0 ? (
                elements.map((el, idx) => (
                   <li key={idx}>
-                     - {el[0]} ({el[2]} <img src={el[1]}></img>)
+                     - {el[0]} ({el[2]} <img src={el[1]} alt=''></img>)
                   </li>
                ))
             ) : (

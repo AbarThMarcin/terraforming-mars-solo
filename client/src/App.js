@@ -236,10 +236,10 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [20, 1, 66, 36, 64, 49, 7, 200, 21, 128]
-      const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      // const initCorpsIds = [12, 11]
+      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      const initCardsIds = [90, 192, 111, 38, 185, 49, 5, 200, 73, 196]
+      // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
+      const initCorpsIds = [6, 11]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(CARDS, initCardsIds)
@@ -273,7 +273,7 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' } }]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
       } else {
          // Create New Match With Id
          const board = JSON.parse(JSON.stringify(INIT_BOARD))
@@ -293,7 +293,7 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = addNeutralTiles(board)
          gameData.corps = initCorpsIds
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' } }]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
          const matchId = await createMatchWithId(user.token, {
             stateBoard: gameData.stateBoard,
             corps: initCorpsIds,

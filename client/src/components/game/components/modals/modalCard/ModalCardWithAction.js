@@ -10,7 +10,7 @@ import { TAGS } from '../../../../../data/tags'
 import Card from '../../card/Card'
 import DecreaseCost from '../modalsComponents/decreaseCost/DecreaseCost'
 import BtnAction from '../../buttons/BtnAction'
-import { LOG_TYPES, funcSetLogItemsBefore, funcSetLogItemsSingleActions } from '../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../../data/log/log'
 import { getImmEffectIcon } from '../../../../../data/immEffects/immEffectsIcons'
 import { SoundContext } from '../../../../../App'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
@@ -104,7 +104,15 @@ const ModalCardWithAction = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcCreateLogItem(
+         setLogItems,
+         statePlayer,
+         stateGame,
+         stateBoard,
+         { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name },
+         getImmEffectIcon(modals.modalCard.id),
+         setItemsExpanded
+      )
 
       // ANIMATIONS
       let animResPaidTypes = []
@@ -194,14 +202,7 @@ const ModalCardWithAction = () => {
 
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
 
-         performSubActions(
-            actions,
-            {
-               type: LOG_TYPES.IMMEDIATE_EFFECT,
-               text: modals.modalCard.name,
-            },
-            getImmEffectIcon(modals.modalCard.id)
-         )
+         performSubActions(actions)
          // =======================================================
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }

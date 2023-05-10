@@ -1,11 +1,22 @@
 export const VERSIONS = [
    {
+      number: '0.2.9',
+      date: '2023-05-10',
+      updates: [
+         {
+            title: 'Enhanced logs corrected for card draws',
+            description: 'States Before and After are now correctly showing true states before and after action played.',
+         },
+      ],
+   },
+   {
       number: '0.2.8',
       date: '2023-05-09',
       updates: [
          {
             title: 'Most % Played Card(s) statistics updated',
-            description: 'Cards played more often have higher rank than cards played less often (assuming the same percentage). Also the number of times played is visible in the stats.',
+            description:
+               'Cards played more often have higher rank than cards played less often (assuming the same percentage). Also the number of times played is visible in the stats.',
          },
          {
             title: 'Current score in Achievements section added',

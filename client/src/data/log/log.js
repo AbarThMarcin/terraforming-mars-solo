@@ -10,12 +10,20 @@ export const LOG_TYPES = {
    PASS: 'pass action',
 }
 
-export const funcSetLogItemsBefore = (setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded) => {
+export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, stateBoard, logData, logIcon, setItemsExpanded) => {
    setLogItems((logItems) => [
       ...logItems,
       {
+         type: logData.type,
+         data: { text: logData.text, icon: logIcon },
          details: {
             stateBefore: {
+               statePlayer,
+               stateGame,
+               stateBoard,
+            },
+            steps: [],
+            stateAfter: {
                statePlayer,
                stateGame,
                stateBoard,
@@ -23,7 +31,7 @@ export const funcSetLogItemsBefore = (setLogItems, statePlayer, stateGame, state
          },
       },
    ])
-   setItemsExpanded(itemsExpanded => [...itemsExpanded, false])
+   setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
 }
 
 export const funcSetLogItemsSingleActions = (singleActionName, singleActionIconName, singleActionValue, setLogItems) => {
@@ -46,37 +54,24 @@ export const funcSetLogItemsSingleActions = (singleActionName, singleActionIconN
    ])
 }
 
-export const funcSetLogItemsAfter = (setLogItems, logData, logIcon, statePlayer, stateGame, stateBoard) => {
-   if (logData) {
-      setLogItems((logItems) => [
-         ...logItems.slice(0, -1),
-         {
-            type: logData.type,
-            data: { text: logData.text, icon: logIcon },
-            details: {
-               ...logItems[logItems.length - 1].details,
-               stateAfter: {
-                  statePlayer,
-                  stateGame,
-                  stateBoard,
-               },
-            },
-         },
-      ])
-   }
-}
-
-export const funcSetLogItemsPass = (setLogItems) => {
+export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame, stateBoard) => {
    setLogItems((logItems) => [
       ...logItems.slice(0, -1),
       {
          ...logItems[logItems.length - 1],
-         type: LOG_TYPES.PASS,
+         details: {
+            ...logItems[logItems.length - 1].details,
+            stateAfter: {
+               statePlayer,
+               stateGame,
+               stateBoard,
+            },
+         },
       },
    ])
 }
 
-export const funcSetLogItemsGeneration = (setLogItems, stateGame, setItemsExpanded) => {
+export const funcCreateLogItemGeneration = (setLogItems, stateGame, setItemsExpanded) => {
    setLogItems((logItems) => [
       ...logItems,
       {
@@ -84,5 +79,5 @@ export const funcSetLogItemsGeneration = (setLogItems, stateGame, setItemsExpand
          data: { text: `${stateGame.generation + 1}` },
       },
    ])
-   setItemsExpanded(itemsExpanded => [...itemsExpanded, false])
+   setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
 }

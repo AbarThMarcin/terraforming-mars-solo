@@ -16,7 +16,7 @@ import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES, funcSetLogItemsAfter, funcSetLogItemsBefore, funcSetLogItemsSingleActions } from '../../../../data/log/log'
+import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../data/log/log'
 import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 import DecreaseCostDraft from './modalsComponents/decreaseCost/DecreaseCostDraft'
@@ -54,7 +54,7 @@ const ModalDraft = () => {
    // Add draft cards to the cardsSeen
    useEffect(() => {
       // Update latest Log Item (PASS) with state of the game AFTER passed
-      funcSetLogItemsAfter(setLogItems, null, null, statePlayer, stateGame, stateBoard)
+      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
 
       // Update active game on server only for generation other than 1
       if (stateGame.generation === 1 || !user) return
@@ -85,7 +85,7 @@ const ModalDraft = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.DRAFT }, null, setItemsExpanded)
       // Decrease corporation resources
       if (toBuyMln > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
@@ -114,10 +114,8 @@ const ModalDraft = () => {
       // Update Server Data
       setSaveToServerTrigger((prev) => !prev)
       // Update Log with state of the game AFTER played action
-      funcSetLogItemsAfter(
+      funcUpdateLastLogItemAfter(
          setLogItems,
-         { text: 'DRAFT PHASE', type: LOG_TYPES.DRAFT },
-         null,
          {
             ...statePlayer,
             resources: { ...statePlayer.resources, mln: statePlayer.resources.mln - toBuyMln, heat: statePlayer.resources.heat - toBuyHeat },
@@ -131,7 +129,7 @@ const ModalDraft = () => {
       if (stateGame.generation === 1) {
          if (statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC) {
             // Create new Log Item with STATE BEFORE, before tharsis forced action
-            funcSetLogItemsBefore(
+            funcCreateLogItem(
                setLogItems,
                {
                   ...statePlayer,
@@ -141,23 +139,18 @@ const ModalDraft = () => {
                },
                stateGame,
                stateBoard,
+               { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.THARSIS_REPUBLIC },
+               logIconTharsis,
                setItemsExpanded
             )
 
             const actions = [...getImmEffects(IMM_EFFECTS.CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET)]
             dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-            performSubActions(
-               actions,
-               {
-                  type: LOG_TYPES.FORCED_ACTION,
-                  text: CORP_NAMES.THARSIS_REPUBLIC,
-               },
-               logIconTharsis
-            )
+            performSubActions(actions)
          }
          if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
             // Create new Log Item with STATE BEFORE, before tharsis forced action
-            funcSetLogItemsBefore(
+            funcCreateLogItem(
                setLogItems,
                {
                   ...statePlayer,
@@ -167,6 +160,8 @@ const ModalDraft = () => {
                },
                stateGame,
                stateBoard,
+               { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.INVENTRIX },
+               logIconInventrix,
                setItemsExpanded
             )
             // Get Random Cards Ids
@@ -194,12 +189,7 @@ const ModalDraft = () => {
                         })
                      },
                   },
-               ],
-               {
-                  type: LOG_TYPES.FORCED_ACTION,
-                  text: CORP_NAMES.INVENTRIX,
-               },
-               logIconInventrix
+               ]
             )
          }
       }

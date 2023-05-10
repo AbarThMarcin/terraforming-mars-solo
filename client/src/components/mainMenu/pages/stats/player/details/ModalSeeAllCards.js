@@ -129,8 +129,7 @@ const ModalSeeAllCards = () => {
                      <div>
                         <span>
                            {value}
-                           {modalCardsTitle === 'MOST % PLAYED CARDS' && '%'}
-                           {` (${count})`}
+                           {modalCardsTitle === 'MOST % PLAYED CARDS' && `% (${count})`}
                         </span>
                      </div>
                   </div>

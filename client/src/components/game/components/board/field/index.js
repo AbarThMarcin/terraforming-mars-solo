@@ -45,7 +45,7 @@ const Field = ({ field, setTotalVP }) => {
          null,
          setLogItems
       )
-      if (modals.modalCard.id === 20 || modals.modalCard.id === 128 || modals.modalCard.id === 200) {
+      if (modals.modalCard?.id === 20 || modals.modalCard?.id === 128 || modals.modalCard?.id === 200) {
          funcSetLogItemsSingleActions(`Effect from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
       }
       // Get Random Cards Ids
@@ -99,7 +99,7 @@ const Field = ({ field, setTotalVP }) => {
                         payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                      })
                      funcSetLogItemsSingleActions(
-                        (field.bonus.length = 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`),
+                        (field.bonus.length === 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`),
                         getResIcon(RESOURCES.CARD),
                         field.bonus.length,
                         setLogItems
@@ -222,6 +222,7 @@ const Field = ({ field, setTotalVP }) => {
          delay += ANIMATION_SPEED
          setTimeout(() => {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+            funcSetLogItemsSingleActions('Steel production increased by 1 from MINING GUILD effect', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
             endAnimation(setModals)
          }, delay)
       }

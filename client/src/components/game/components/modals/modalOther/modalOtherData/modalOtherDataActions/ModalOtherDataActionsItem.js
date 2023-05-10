@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../utils/misc'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { LOG_TYPES, funcSetLogItemsBefore } from '../../../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem } from '../../../../../../../data/log/log'
 import { getImmEffectIcon } from '../../../../../../../data/immEffects/immEffectsIcons'
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
@@ -69,7 +69,15 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
 
    const performAction = (toBuyResources) => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcSetLogItemsBefore(setLogItems, statePlayer, stateGame, stateBoard, setItemsExpanded)
+      funcCreateLogItem(
+         setLogItems,
+         statePlayer,
+         stateGame,
+         stateBoard,
+         { type: LOG_TYPES.CARD_ACTION, text: item.name },
+         isUnmi ? getActionIcon(ACTION_ICONS.ACTION_UNMI) : getImmEffectIcon(item.id),
+         setItemsExpanded
+      )
       let itemIdOrUnmi = isUnmi ? item.name : item.id
       // Set action_used to true
       dispatchPlayer({
@@ -80,14 +88,7 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
       subActions = getCardActions(itemIdOrUnmi, toBuyResources)
       setModals((prev) => ({ ...prev, confirmation: false, other: false, cardPlayed: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-      performSubActions(
-         subActions,
-         {
-            type: LOG_TYPES.CARD_ACTION,
-            text: item.name,
-         },
-         isUnmi ? getActionIcon(ACTION_ICONS.ACTION_UNMI) : getImmEffectIcon(item.id)
-      )
+      performSubActions(subActions)
    }
 
    return (

@@ -60,7 +60,8 @@ export const funcGetImmEffects = (
    getImmEffects,
    sound,
    initDrawCardsIds,
-   setLogItems
+   setLogItems,
+   performSubActions
 ) => {
    let subActions = []
    let dataCards = []
@@ -113,7 +114,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -153,7 +154,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production decreased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -195,7 +196,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production decreased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
             }
@@ -206,7 +207,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production decreased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -526,7 +527,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -1538,7 +1539,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production decreased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
                // Bonus ocean

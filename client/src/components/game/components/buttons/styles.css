@@ -359,3 +359,23 @@
 .btn-convert-plants-heat img {
    transform: translateY(13%);
 }
+
+/* Show Coordinates button */
+.board-btn {
+   position: absolute;
+   border-radius: calc(var(--default-size) * 0.2);
+   padding: calc(var(--default-size) * 0.2);
+   padding-top: calc(var(--default-size) * 0.3);
+   width: fit-content;
+   font-size: calc(var(--default-size) * 0.7);
+   line-height: calc(var(--default-size) * 0.7);
+   opacity: 0.7;
+   top: 1%;
+   left: 50%;
+   translate: -50% 0;
+   letter-spacing: calc(var(--default-size) * 0.05);
+   background-color: rgba(0, 0, 0, 0.7);
+}
+.board-btn:hover {
+   opacity: 1;
+}

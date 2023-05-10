@@ -27,7 +27,7 @@ const LogItemSteps = ({ item }) => {
          </div>
 
          <div ref={refDetails} className="steps-list">
-            {item.details.steps ? (
+            {item.details.steps.length > 0 ? (
                item.details.steps.map((step, idx) => (
                   <div key={idx} className="step">
                      <div className="step-itemIcon"></div>

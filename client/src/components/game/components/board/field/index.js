@@ -17,7 +17,7 @@ import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 import { CARDS } from '../../../../../data/cards'
 import { getResIcon } from '../../../../../data/resources'
 
-const Field = ({ field, setTotalVP }) => {
+const Field = ({ field, setTotalVP, showCoordinates }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, ANIMATION_SPEED, setLogItems } = useContext(StateGameContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
@@ -29,6 +29,7 @@ const Field = ({ field, setTotalVP }) => {
       top: field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN' ? '50%' : `calc(var(--field-height) * 1.8 + (var(--field-height) * 1.615) * ${field.x})`,
       transform: field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN' ? 'translate(-50%, -50%)' : 'translate(0, 0)',
    }
+   const logDescription = field.name ? field.name : `THARSIS at coordinates x: ${field.x}, y: ${field.y}`
 
    const handleClickField = async () => {
       // If clicked on unavailable field, do nothing
@@ -40,7 +41,7 @@ const Field = ({ field, setTotalVP }) => {
          payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
       })
       funcSetLogItemsSingleActions(
-         `${stateGame.phasePlaceTileData} tile has been placed on coordinates x: ${field.x}, y: ${field.y}`,
+         `${stateGame.phasePlaceTileData} tile has been placed on ${logDescription}`,
          assignIconToTileData(stateGame.phasePlaceTileData),
          null,
          setLogItems
@@ -99,7 +100,7 @@ const Field = ({ field, setTotalVP }) => {
                         payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
                      })
                      funcSetLogItemsSingleActions(
-                        (field.bonus.length === 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`),
+                        field.bonus.length === 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`,
                         getResIcon(RESOURCES.CARD),
                         field.bonus.length,
                         setLogItems
@@ -330,6 +331,12 @@ const Field = ({ field, setTotalVP }) => {
          {/* Container Extensions */}
          <div className="field-extension field-extension top"></div>
          <div className="field-extension field-extension bottom"></div>
+         {/* Coordinates */}
+         {showCoordinates && (
+            <div className="coordinates">
+               (x: {field.x}, y: {field.y})
+            </div>
+         )}
       </div>
    )
 }

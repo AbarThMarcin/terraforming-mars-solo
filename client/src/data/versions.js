@@ -4,6 +4,10 @@ export const VERSIONS = [
       date: '2023-05-10',
       updates: [
          {
+            title: 'Coordinates of the tiles added',
+            description: 'A player can now toggle coordinates of every tile on the board.',
+         },
+         {
             title: 'Enhanced logs corrected for card draws',
             description: 'States Before and After are now correctly showing true states before and after action played.',
          },

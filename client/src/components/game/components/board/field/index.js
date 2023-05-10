@@ -266,31 +266,41 @@ const Field = ({ field, setTotalVP, showCoordinates }) => {
             // If there are still enough plants to convert
             if (newPlants >= statePlayer.valueGreenery) {
                // Decrease plants
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
-                  payload: -statePlayer.valueGreenery,
-               })
+               startAnimation(setModals)
+               setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
+               setTimeout(() => {
+                  dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
+                  funcSetLogItemsSingleActions(
+                     `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
+                     getResIcon(RESOURCES.PLANT),
+                     -statePlayer.valueGreenery,
+                     setLogItems
+                  )
+                  endAnimation(setModals)
+               }, ANIMATION_SPEED)
+
+               // // Decrease plants
+               // dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
+
                // Proper action + potential Herbivores
                let actions = [...stateGame.actionsLeft, ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)]
                if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
-               performSubActions(actions, null, null)
+               setTimeout(() => {
+                  performSubActions(actions)
+               }, ANIMATION_SPEED)
             } else {
-               performSubActions(
-                  [
-                     ...stateGame.actionsLeft,
-                     {
-                        name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
-                        value: null,
-                        func: () => {
-                           setModals((prev) => ({ ...prev, endStats: true }))
-                           updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP, true)
-                        },
+               performSubActions([
+                  ...stateGame.actionsLeft,
+                  {
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: null,
+                     value: null,
+                     func: () => {
+                        setModals((prev) => ({ ...prev, endStats: true }))
+                        updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP, true)
                      },
-                  ],
-                  null,
-                  null
-               )
+                  },
+               ])
             }
          }
       }, delay)

@@ -40,6 +40,8 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
             return { text: `${item.data.text} (SP ACTION)`, styles: 'action' }
          case LOG_TYPES.PASS:
             return { text: 'PASSED', styles: 'action' }
+         case LOG_TYPES.FINAL_CONVERT_PLANTS:
+            return { text: 'FINAL PLANTS CONVERSION', styles: 'action' }
          default:
             break
       }

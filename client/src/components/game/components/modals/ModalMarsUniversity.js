@@ -106,7 +106,7 @@ const ModalMarsUniversity = () => {
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)
-         performSubActions(stateGame.actionsLeft, null, null, true)
+         performSubActions(stateGame.actionsLeft, true)
       }, ANIMATION_SPEED * 2)
    }
 
@@ -116,7 +116,7 @@ const ModalMarsUniversity = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
       // Continue remaining actions
       startAnimation(setModals)
-      performSubActions(stateGame.actionsLeft, null, null, true)
+      performSubActions(stateGame.actionsLeft, true)
    }
 
    const handleClickBtnSelect = (card) => {

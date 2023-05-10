@@ -10,10 +10,11 @@ import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'
 import passContBg from '../../../../assets/images/other/passContBg.svg'
 import { motion, AnimatePresence } from 'framer-motion'
-import { startAnimation } from '../../../../data/animations'
+import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import TotalVP from './TotalVP'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
+import iconLogGreenery from '../../../../assets/images/other/logConvertPlants.svg'
 
 const PassContainer = ({ totalVP }) => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -25,8 +26,9 @@ const PassContainer = ({ totalVP }) => {
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
+   const newStatePlayer = getNewStatePlayer()
 
-   const newStatePlayer = () => {
+   function getNewStatePlayer() {
       return {
          ...statePlayer,
          resources: {
@@ -136,7 +138,7 @@ const PassContainer = ({ totalVP }) => {
             )
          if (statePlayer.production.plant)
             funcSetLogItemsSingleActions(
-               `Received ${statePlayer.production.plant} plant in the production phase`,
+               `Received ${statePlayer.production.plant} plant${statePlayer.production.plant > 1 ? 's' : ''} in the production phase`,
                getResIcon(RESOURCES.PLANT),
                statePlayer.production.plant,
                setLogItems
@@ -197,22 +199,7 @@ const PassContainer = ({ totalVP }) => {
             setModals((prev) => ({ ...prev, panelStateGame: true }))
          }, delay)
       }
-      funcUpdateLastLogItemAfter(setLogItems, newStatePlayer(), stateGame, stateBoard)
-      // setLogItems((logItems) => [
-      //    ...logItems.slice(0, -1),
-      //    {
-      //       type: logItems[logItems.length - 1].type,
-      //       data: logItems[logItems.length - 1].data,
-      //       details: {
-      //          ...logItems[logItems.length - 1].details,
-      //          stateAfter: {
-      //             statePlayer: newStatePlayer(),
-      //             stateGame,
-      //             stateBoard,
-      //          },
-      //       },
-      //    },
-      // ])
+      funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
 
       // Go to next generation or end the game (with greeneries or without them)
       delay += ANIMATION_SPEED / 1.5
@@ -221,21 +208,48 @@ const PassContainer = ({ totalVP }) => {
          if (stateGame.generation === 14) {
             newPlants += statePlayer.production.plant
             if (newPlants >= statePlayer.valueGreenery) {
+               // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, stateBoard, { type: LOG_TYPES.FINAL_CONVERT_PLANTS }, iconLogGreenery, setItemsExpanded)
                // Show Panel Corp
                setModals((prev) => ({ ...prev, panelCorp: true }))
                setTimeout(() => {
                   // Turn Phase After Gen 14 on
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
+
                   // Decrease plants
-                  dispatchPlayer({
-                     type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
-                     payload: -statePlayer.valueGreenery,
-                  })
+                  startAnimation(setModals)
+                  setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
+                  setTimeout(() => {
+                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
+                     funcSetLogItemsSingleActions(
+                        `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
+                        getResIcon(RESOURCES.PLANT),
+                        -statePlayer.valueGreenery,
+                        setLogItems
+                     )
+                     endAnimation(setModals)
+                  }, ANIMATION_SPEED)
+
+                  // // Decrease plants
+                  // dispatchPlayer({
+                  //    type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
+                  //    payload: -statePlayer.valueGreenery,
+                  // })
+                  // funcSetLogItemsSingleActions(
+                  //    `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
+                  //    getResIcon(RESOURCES.PLANT),
+                  //    -statePlayer.valueGreenery,
+                  //    setLogItems
+                  // )
+
                   // Proper action
                   let actions = getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)
                   // Potential Herbivores
                   if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
-                  performSubActions(actions, null, null)
+                  setTimeout(() => {
+                     performSubActions(actions)
+                  }, ANIMATION_SPEED)
+                  // performSubActions(actions)
                }, ANIMATION_SPEED / 1.5 / 2)
             } else {
                setModals((prev) => ({ ...prev, endStats: true }))

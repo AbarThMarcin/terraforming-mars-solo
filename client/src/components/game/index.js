@@ -55,8 +55,6 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    const [totalVP, setTotalVP] = useState(14)
    const [updateTrigger, setTrigger] = useState(false)
    const [saveToServerTrigger, setSaveToServerTrigger] = useState(false)
-   const [logData, setLogData] = useState(null)
-   const [logIcon, setLogIcon] = useState(null)
    const { music, sound } = useContext(SoundContext)
    const [syncError, setSyncError] = useState('')
 
@@ -261,7 +259,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                   })
             })
       }
-      performSubActions(effects, null, null, true)
+      performSubActions(effects, true)
    }
 
    function getAnimationSpeed(id) {
@@ -309,8 +307,8 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    function getOptionsActions(option, energyAmount, heatAmount) {
       return funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispatchGame, getImmEffects, modals, setModals, energyAmount, heatAmount, setLogItems)
    }
-   function performSubActions(subActions, logNewData, logNewIcon, noTrigger) {
-      return funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, dispatchGame, setTrigger, logNewData, logNewIcon, setLogData, setLogIcon, sound, noTrigger)
+   function performSubActions(subActions, noTrigger) {
+      return funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, dispatchGame, setTrigger, sound, noTrigger)
    }
    function requirementsMet(card) {
       return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals, getImmEffects)

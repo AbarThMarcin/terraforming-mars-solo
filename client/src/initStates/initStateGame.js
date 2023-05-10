@@ -1,6 +1,6 @@
 export const INIT_STATE_GAME = {
    // Current Generation
-   generation: 1,
+   generation: 13,
    // Game phases
    phaseCorporation: true,
    phaseDraft: false,

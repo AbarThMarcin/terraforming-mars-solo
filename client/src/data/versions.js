@@ -4,6 +4,10 @@ export const VERSIONS = [
       date: '2023-05-10',
       updates: [
          {
+            title: 'Final Plant Conversion for ehnanced log fixed',
+            description: '',
+         },
+         {
             title: 'Coordinates of the tiles added',
             description: 'A player can now toggle coordinates of every tile on the board.',
          },

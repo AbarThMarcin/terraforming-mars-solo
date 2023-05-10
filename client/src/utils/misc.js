@@ -152,12 +152,7 @@ export function getAllResourcesForSP(statePlayer) {
    return resources
 }
 
-export function funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, dispatchGame, setTrigger, logData, logIcon, setLogData, setLogIcon, sound, noTrigger = false) {
-   if (logData) {
-      setLogData(logData)
-      setLogIcon(logIcon)
-   }
-
+export function funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, dispatchGame, setTrigger, sound, noTrigger = false) {
    subActions = subActions.filter((subAction) => subAction.name !== undefined)
 
    let iLast = subActions.length - 1

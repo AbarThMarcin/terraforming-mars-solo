@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { StatePlayerContext, StateGameContext, StateBoardContext, UserContext } from '../../../../game'
+import { StatePlayerContext, StateGameContext, StateBoardContext, UserContext, ModalsContext } from '../../../../game'
 import iconTr from '../../../../../assets/images/resources/res_tr.svg'
 import iconGreenery from '../../../../../assets/images/tiles/tile_greenery.svg'
 import iconCity from '../../../../../assets/images/tiles/tile_city.svg'
@@ -11,10 +11,12 @@ import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
 import { getCorpLogoMini } from '../../../../../data/corporations'
+import { funcUpdateLastLogItemAfter } from '../../../../../data/log/log'
 
 const ModalEndStats = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { stateGame, logItems, setSyncError } = useContext(StateGameContext)
+   const { stateGame, logItems, setSyncError, setLogItems } = useContext(StateGameContext)
+   const { setModals } = useContext(ModalsContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
    const victoryLossText =
@@ -48,6 +50,8 @@ const ModalEndStats = () => {
    }
 
    useEffect(() => {
+      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
+
       const updateBackend = async () => {
          // If not logged, do nothing
          if (!user) return
@@ -84,11 +88,8 @@ const ModalEndStats = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [addRankedGame])
 
-   const btnActionPosition = { bottom: '-20%', left: '50%', transform: 'translateX(-50%)' }
-
-   const onYesFunc = () => {
-      navigate('/')
-   }
+   const btnActionDonePosition = { bottom: '-20%', left: '50%', transform: 'translateX(-50%)' }
+   const btnActionLogPosition = { bottom: '1%', right: '1%', transform: 'scale(0.8)' }
 
    return (
       <div className="modal-end-stats center">
@@ -126,7 +127,8 @@ const ModalEndStats = () => {
             </div>
             <div>{statePlayer.corporation.name}</div>
          </div>
-         <BtnAction text="DONE" textConfirmation="Leave the game and go back to main menu?" onYesFunc={onYesFunc} position={btnActionPosition} />
+         <BtnAction text="LOG" onYesFunc={() => setModals((prev) => ({ ...prev, log: true }))} position={btnActionLogPosition} />
+         <BtnAction text="DONE" textConfirmation="Leave the game and go back to main menu?" onYesFunc={() => navigate('/')} position={btnActionDonePosition} />
       </div>
    )
 }

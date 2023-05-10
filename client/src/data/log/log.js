@@ -8,6 +8,7 @@ export const LOG_TYPES = {
    CONVERT_HEAT: 'convert heat',
    SP_ACTION: 'standard project action',
    PASS: 'pass action',
+   FINAL_CONVERT_PLANTS: 'final convert plants'
 }
 
 export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, stateBoard, logData, logIcon, setItemsExpanded) => {

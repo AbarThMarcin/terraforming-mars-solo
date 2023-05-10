@@ -90,7 +90,7 @@ export const CORPORATIONS = [
       id: 6,
       name: CORP_NAMES.MINING_GUILD,
       production: { mln: 0, steel: 1, titan: 0, plant: 0, energy: 0, heat: 0 },
-      resources: { mln: 30, steel: 5, titan: 0, plant: 16, energy: 0, heat: 0 },
+      resources: { mln: 30, steel: 5, titan: 0, plant: 0, energy: 0, heat: 0 },
       effects: [EFFECTS.EFFECT_MINING_GUILD],
       tags: [TAGS.BUILDING, TAGS.BUILDING],
    },

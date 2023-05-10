@@ -39,13 +39,13 @@ const ModalSeeAllCards = () => {
          return {
             card: CARDS.find((card) => card.id === cardId[0]),
             value: cardId[1],
-            count: cardId[2]
+            value2: cardId[2]
          }
       })
       const cardsWithValuesAndRank = cardsWithValues.map((item, id) => {
          if (id > 0) {
             const prevItem = cardsWithValues[id - 1]
-            if (prevItem.value === item.value && prevItem.count === item.count) {
+            if (prevItem.value === item.value && prevItem.value2 === item.value2) {
                item.rank = prevItem.rank
             } else {
                item.rank = id + 1
@@ -87,7 +87,7 @@ const ModalSeeAllCards = () => {
                </div>
                {modalCardsTitle === 'MOST PLAYED CARDS' && (
                   <div>
-                     <span>PLAYED COUNT</span>
+                     <span>PLAYED COUNT (% PLAYED)</span>
                   </div>
                )}
                {modalCardsTitle === 'MOST SEEN CARDS' && (
@@ -105,10 +105,15 @@ const ModalSeeAllCards = () => {
                      <span>% PLAYED (PLAYED COUNT)</span>
                   </div>
                )}
+               {modalCardsTitle === 'MOST % PURCHASED CARDS' && (
+                  <div>
+                     <span>% PURCHASED (PURCHASED COUNT)</span>
+                  </div>
+               )}
             </div>
             {/* Table */}
             <div ref={refTable} className="table">
-               {cards.filter(filterFunc).map(({ rank, card, value, count }, idx) => (
+               {cards.filter(filterFunc).map(({ rank, card, value, value2 }, idx) => (
                   <div key={idx} className="card-row">
                      <div>
                         <span>{rank}.</span>
@@ -129,7 +134,8 @@ const ModalSeeAllCards = () => {
                      <div>
                         <span>
                            {value}
-                           {modalCardsTitle === 'MOST % PLAYED CARDS' && `% (${count})`}
+                           {(modalCardsTitle === 'MOST % PLAYED CARDS' || modalCardsTitle === 'MOST % PURCHASED CARDS') && `% (${value2})`}
+                           {(modalCardsTitle === 'MOST PLAYED CARDS' || modalCardsTitle === 'MOST PURCHASED CARDS') && ` (${value2}%)`}
                         </span>
                      </div>
                   </div>

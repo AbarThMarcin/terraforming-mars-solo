@@ -4,6 +4,10 @@ export const VERSIONS = [
       date: '2023-05-10',
       updates: [
          {
+            title: 'Most % Purchased Card/s Stats added',
+            description: '',
+         },
+         {
             title: 'Final Plant Conversion for ehnanced log fixed',
             description: '',
          },

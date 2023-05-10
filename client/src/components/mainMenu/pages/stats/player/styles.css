@@ -163,7 +163,7 @@
 }
 .details .stats-box {
    display: grid;
-   grid-template-columns: repeat(2, calc(var(--default-size) * 18));
+   grid-template-columns: repeat(3, calc(var(--default-size) * 18));
    grid-template-rows: repeat(2, calc(var(--default-size) * 10));
    gap: calc(var(--default-size) * 2);
 }
@@ -206,9 +206,9 @@
 .details .stats-box > * .content .content-title {
    position: relative;
    height: 100%;
-   width: 45%;
+   width: 50%;
    display: flex;
-   padding-left: calc(var(--default-size) * 0.7);
+   padding-left: calc(var(--default-size) * 0.4);
    align-items: center;
    word-spacing: calc(var(--default-size) * 0.15);
    line-height: calc(var(--default-size) * 1.3);

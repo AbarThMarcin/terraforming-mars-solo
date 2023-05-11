@@ -109,7 +109,7 @@ const ModalCardWithAction = () => {
          statePlayer,
          stateGame,
          stateBoard,
-         { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name },
+         { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name, gen: stateGame.generation },
          getImmEffectIcon(modals.modalCard.id),
          setItemsExpanded
       )

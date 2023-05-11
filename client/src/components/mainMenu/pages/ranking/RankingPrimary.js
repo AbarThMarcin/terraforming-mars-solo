@@ -69,6 +69,9 @@ const RankingPrimary = ({ userValue, gamesCountForPrimaryRanking }) => {
                <span>PLAYER</span>
             </div>
             <div style={{ width: '20%' }}>
+               <span>WINN RATE</span>
+            </div>
+            <div style={{ width: '20%' }}>
                <span>REAL RATING</span>
             </div>
          </div>

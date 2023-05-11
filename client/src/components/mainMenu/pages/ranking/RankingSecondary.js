@@ -35,11 +35,10 @@ const RankingSecondary = ({ userValue }) => {
       currPlayers
          .filter((player) => player.games.length > 0)
          .forEach((player) => {
-            if (player.games.length >= 0) {
-               const totalPoints = player.games.reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
-               const realRating = (totalPoints / player.games.length).toFixed(2)
-               players.push({ name: player.name, gamesCount: player.games.length, realRating })
-            }
+            const totalPoints = player.games.reduce((total, game) => (game.victory ? total + game.points.total : total), 0)
+            const winRate = `${((player.games.reduce((t, g) => (g.victory ? t + 1 : t), 0) / player.games.length) * 100).toFixed(2)}%`
+            const realRating = (totalPoints / player.games.length).toFixed(2)
+            players.push({ name: player.name, gamesCount: player.games.length, winRate, realRating })
          })
       players = players.sort((a, b) => b.realRating - a.realRating)
       // Assign Rank to a player
@@ -61,7 +60,7 @@ const RankingSecondary = ({ userValue }) => {
    }
 
    return (
-      <div className="statistics" style={{ width: '65%' }}>
+      <div className="statistics" style={{ width: '75%' }}>
          {/* Headers */}
          <div className="row headers">
             <div style={{ width: '15%' }}>
@@ -72,6 +71,9 @@ const RankingSecondary = ({ userValue }) => {
             </div>
             <div style={{ width: '20%' }}>
                <span>GAMES COUNT</span>
+            </div>
+            <div style={{ width: '20%' }}>
+               <span>WIN RATE</span>
             </div>
             <div style={{ width: '20%' }}>
                <span>REAL RATING</span>
@@ -92,7 +94,17 @@ const RankingSecondary = ({ userValue }) => {
                      <div style={{ width: '15%' }}>{player.rank}.</div>
                      <div style={{ width: '65%', fontSize: 'calc(var(--default-size) * 1.1)' }}>{player.name}</div>
                      <div style={{ width: '20%' }}>{player.gamesCount}</div>
-                     <div style={{ width: '20%' }}>{player.realRating}</div>
+                     <div style={{ width: '20%' }}>{player.winRate}</div>
+                     <div
+                        style={{
+                           width: '20%',
+                           fontWeight: player.rank === 1 ? '600' : 'inherit',
+                           fontSize: 'calc(var(--default-size) * 1.8)',
+                           color: player.rank === 1 ? 'rgb(96, 197, 255)' : 'rgb(166, 237, 255)',
+                        }}
+                     >
+                        {player.realRating}
+                     </div>
                   </div>
                ))
             ) : (

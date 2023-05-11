@@ -161,7 +161,7 @@
 .details {
    margin-top: calc(var(--default-size) * 3);
 }
-.details .stats-box {
+.details .stats1-box {
    display: grid;
    grid-template-columns: repeat(3, calc(var(--default-size) * 18));
    grid-template-rows: repeat(2, calc(var(--default-size) * 10));
@@ -178,7 +178,7 @@
    color: rgba(150, 255, 241, 0.9);
 }
 /* Details - One Stat Box */
-.details .stats-box > * {
+.details .stats1-box > * {
    width: 100%;
    height: 100%;
    border: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.04);
@@ -187,7 +187,7 @@
    border-radius: calc(var(--default-size) * 0.5);
 }
 /* Content Section (Title, Card, Value and "And More" Section) */
-.details .stats-box > * .content {
+.details .stats1-box > * .content {
    width: 100%;
    height: 85%;
    display: flex;
@@ -195,7 +195,7 @@
    align-items: center;
 }
 /* No Cards section */
-.details .stats-box > * .content .no-cards {
+.details .stats1-box > * .content .no-cards {
    height: 100%;
    width: 55%;
    display: flex;
@@ -203,7 +203,7 @@
    align-items: center;
 }
 /* Title + right border */
-.details .stats-box > * .content .content-title {
+.details .stats1-box > * .content .content-title {
    position: relative;
    height: 100%;
    width: 50%;
@@ -214,7 +214,7 @@
    line-height: calc(var(--default-size) * 1.3);
 }
 /* Question Mark */
-.details .stats-box > * .content .content-title .question {
+.details .stats1-box > * .content .content-title .question {
    position: absolute;
    right: 23%;
    top: 20%;
@@ -228,16 +228,16 @@
    align-items: center;
    font-weight: 600;
 }
-.details .stats-box > * .content .content-title .question:hover {
+.details .stats1-box > * .content .content-title .question:hover {
    background-color: rgba(255, 255, 255, 0.03);
 }
-.details .stats-box > * .content .content-title .question span {
+.details .stats1-box > * .content .content-title .question span {
    transform: translate(15%, 0);
    font-size: calc(var(--default-size) * 1.1);
    color: #fff;
 }
 /* Tip */
-.details .stats-box > * .content .content-title .tip {
+.details .stats1-box > * .content .content-title .tip {
    position: absolute;
    left: 50%;
    top: -58%;
@@ -251,13 +251,13 @@
    width: calc(var(--default-size) * 10);
    z-index: 1;
 }
-.details .stats-box > * .content .content-title span {
+.details .stats1-box > * .content .content-title span {
    font-weight: 600;
    font-size: calc(var(--default-size) * 1.2);
    color: rgb(150, 255, 255);
    letter-spacing: calc(var(--default-size) * 0.1);
 }
-.details .stats-box > * .content .content-title::after {
+.details .stats1-box > * .content .content-title::after {
    content: '';
    position: absolute;
    top: 50%;
@@ -271,7 +271,7 @@
    box-shadow: 0 0 5px 0px rgba(255, 255, 255, 0.1);
 }
 /* Card, Value and "And More" Section */
-.details .stats-box > * .content .content-cards {
+.details .stats1-box > * .content .content-cards {
    height: 100%;
    width: 55%;
    display: flex;
@@ -279,7 +279,7 @@
    align-items: center;
 }
 /* Card with value */
-.details .stats-box > * .content .content-cards .top-card-with-value {
+.details .stats1-box > * .content .content-cards .top-card-with-value {
    height: 100%;
    flex: 2;
    display: flex;
@@ -289,7 +289,7 @@
    position: relative;
 }
 /* Card only */
-.details .stats-box > * .content .content-cards .top-card-with-value .stats-card-container {
+.details .stats1-box > * .content .content-cards .top-card-with-value .stats-card-container {
    position: absolute;
    left: 50%;
    top: 45%;
@@ -299,7 +299,7 @@
    text-align: center;
 }
 /* Value only */
-.details .stats-box > * .content .content-cards .top-card-with-value .value {
+.details .stats1-box > * .content .content-cards .top-card-with-value .value {
    position: absolute;
    left: 50%;
    bottom: 0;
@@ -309,13 +309,13 @@
    word-spacing: calc(var(--default-size) * 0.15);
    line-height: calc(var(--default-size) * 1.3);
 }
-.details .stats-box > * .content .content-cards .top-card-with-value .value span {
+.details .stats1-box > * .content .content-cards .top-card-with-value .value span {
    font-weight: 600;
    font-size: calc(var(--default-size) * 1.05);
    letter-spacing: calc(var(--default-size) * 0.1);
 }
 /* And more... section */
-.details .stats-box > * .content .content-cards .and-more {
+.details .stats1-box > * .content .content-cards .and-more {
    height: 100%;
    flex: 1;
    display: flex;
@@ -323,14 +323,14 @@
    word-spacing: calc(var(--default-size) * 0.15);
    line-height: calc(var(--default-size) * 1.3);
 }
-.details .stats-box > * .content .content-cards .and-more span {
+.details .stats1-box > * .content .content-cards .and-more span {
    font-weight: 600;
    font-size: calc(var(--default-size) * 1.2);
    color: rgb(150, 255, 255);
    letter-spacing: calc(var(--default-size) * 0.1);
 }
 /* See All Section */
-.details .stats-box > * .see-all {
+.details .stats1-box > * .see-all {
    width: 100%;
    height: 15%;
    border-top: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.04);
@@ -338,21 +338,21 @@
    justify-content: center;
    align-items: center;
 }
-.details .stats-box > * .see-all span {
+.details .stats1-box > * .see-all span {
    font-size: calc(var(--default-size) * 0.9);
    font-weight: 600;
 }
-.details .stats-box > * .see-all:hover {
+.details .stats1-box > * .see-all:hover {
    background: linear-gradient(90deg, transparent 0%, rgb(255, 255, 255, 0.03) 50%, transparent 100%);
 }
-.details .stats-box > * .see-all:hover span {
+.details .stats1-box > * .see-all:hover span {
    font-size: calc(var(--default-size) * 0.9);
    font-weight: 600;
    color: rgb(150, 255, 255);
 }
 /* See All Cards Modal - General */
 .see-all-cards-container {
-   width: 30%;
+   width: 35%;
    height: 80%;
    border: calc(var(--default-size) * 0.15) solid rgba(0, 255, 191, 0.5);
    border-radius: calc(var(--default-size) * 1);

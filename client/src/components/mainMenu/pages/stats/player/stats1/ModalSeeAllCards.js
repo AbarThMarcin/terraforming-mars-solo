@@ -14,7 +14,7 @@ const ModalSeeAllCards = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       []
    ) // Array of arrays with three elements: [card object, value, rank]
-
+   
    useEffect(() => {
       const table = refTable.current
       if (hasScrollbar(table)) {
@@ -39,7 +39,8 @@ const ModalSeeAllCards = () => {
          return {
             card: CARDS.find((card) => card.id === cardId[0]),
             value: cardId[1],
-            value2: cardId[2]
+            value2: cardId[2],
+            value3: cardId[3],
          }
       })
       const cardsWithValuesAndRank = cardsWithValues.map((item, id) => {
@@ -87,7 +88,7 @@ const ModalSeeAllCards = () => {
                </div>
                {modalCardsTitle === 'MOST PLAYED CARDS' && (
                   <div>
-                     <span>PLAYED COUNT (% PLAYED)</span>
+                     <span>PLAYED COUNT</span>
                   </div>
                )}
                {modalCardsTitle === 'MOST SEEN CARDS' && (
@@ -102,18 +103,18 @@ const ModalSeeAllCards = () => {
                )}
                {modalCardsTitle === 'MOST % PLAYED CARDS' && (
                   <div>
-                     <span>% PLAYED (PLAYED COUNT)</span>
+                     <span>% PLAYED</span>
                   </div>
                )}
                {modalCardsTitle === 'MOST % PURCHASED CARDS' && (
                   <div>
-                     <span>% PURCHASED (PURCHASED COUNT)</span>
+                     <span>% PURCHASED</span>
                   </div>
                )}
             </div>
             {/* Table */}
             <div ref={refTable} className="table">
-               {cards.filter(filterFunc).map(({ rank, card, value, value2 }, idx) => (
+               {cards.filter(filterFunc).map(({ rank, card, value, value2, value3 }, idx) => (
                   <div key={idx} className="card-row">
                      <div>
                         <span>{rank}.</span>
@@ -132,11 +133,9 @@ const ModalSeeAllCards = () => {
                         </div>
                      </div>
                      <div>
-                        <span>
-                           {value}
-                           {(modalCardsTitle === 'MOST % PLAYED CARDS' || modalCardsTitle === 'MOST % PURCHASED CARDS') && `% (${value2})`}
-                           {(modalCardsTitle === 'MOST PLAYED CARDS' || modalCardsTitle === 'MOST PURCHASED CARDS') && ` (${value2}%)`}
-                        </span>
+                        <span>{value}</span>
+                        {(modalCardsTitle === 'MOST % PLAYED CARDS' || modalCardsTitle === 'MOST % PURCHASED CARDS') && <span>% ({value2}/{value3})</span>}
+                        {(modalCardsTitle === 'MOST PLAYED CARDS' || modalCardsTitle === 'MOST PURCHASED CARDS') && <span>&nbsp;({value2}%)</span>}
                      </div>
                   </div>
                ))}

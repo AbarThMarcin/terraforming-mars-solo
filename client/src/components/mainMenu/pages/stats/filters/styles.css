@@ -1,9 +1,8 @@
 /* General */
 .main-menu .filters {
    position: absolute;
-   left: 50%;
+   right: 1%;
    top: calc(var(--default-size) * 0.3);
-   transform: translateX(-50%);
 }
 .main-menu .filter {
    font-size: calc(var(--default-size) * 0.8);

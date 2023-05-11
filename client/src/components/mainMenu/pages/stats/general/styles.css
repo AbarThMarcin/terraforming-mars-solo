@@ -52,6 +52,7 @@
 }
 .statistics .row.first-rank {
    color: rgba(150, 255, 241, 0.9);
+   background-color: rgba(150, 150, 255, 0.04)
 }
 .statistics .row > * {
    line-height: var(--default-size);

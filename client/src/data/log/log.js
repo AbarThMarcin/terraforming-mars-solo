@@ -8,7 +8,7 @@ export const LOG_TYPES = {
    CONVERT_HEAT: 'convert heat',
    SP_ACTION: 'standard project action',
    PASS: 'pass action',
-   FINAL_CONVERT_PLANTS: 'final convert plants'
+   FINAL_CONVERT_PLANTS: 'final convert plants',
 }
 
 export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, stateBoard, logData, logIcon, setItemsExpanded) => {
@@ -16,7 +16,7 @@ export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, stateBoar
       ...logItems,
       {
          type: logData.type,
-         data: { text: logData.text, icon: logIcon },
+         data: { text: logData.text, icon: logIcon, gen: logData.gen ? logData.gen : undefined },
          details: {
             stateBefore: {
                statePlayer,

@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.3.0',
+      date: '2023-05-11',
+      updates: [
+         {
+            title: 'New statistics added (card percentage usage per corp / card)',
+            description: 'Players can now review what is the percentage of card usage per generation for a particular corporation / card.',
+         },
+      ],
+   },
+   {
       number: '0.2.9',
       date: '2023-05-10',
       updates: [

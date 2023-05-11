@@ -10,11 +10,12 @@ const tipTextPlayed =
 const tipTextPurchased =
    'Total purchased divided by total seen. Example: in 10 games card has been seen 5 times and purchased 2 times. % Most Purchased for that card is 40%. If two or more cards have the same percentage, higher rank receives cards with more purchased count.'
 
-const Details = ({ currPlayer }) => {
+const Stats1 = ({ currPlayer }) => {
    const { sound } = useContext(SoundContext)
    const [showTipOnPercPlayed, setShowTipOnPercPlayed] = useState(false)
    const [showTipOnPercPurchased, setShowTipOnPercPurchased] = useState(false)
    const { setShowModalCard, setModalCard, setShowModalAllCards, setModalCardsIds, setModalCardsTitle } = useContext(ModalsContext)
+
    // Arrays of cards
    const games = useMemo(
       () => currPlayer.games.filter((game) => !game.forfeited),
@@ -129,7 +130,7 @@ const Details = ({ currPlayer }) => {
       range(1, 208).forEach((id) => {
          const currentCardSeen = allCardsSeen.reduce((tot, card) => (card.id === id ? tot + 1 : tot), 0)
          const currentCard = allCards.reduce((tot, card) => (card.id === id ? tot + 1 : tot), 0)
-         if (currentCardSeen) most.push([id, ((currentCard / currentCardSeen) * 100).toFixed(0), currentCard])
+         if (currentCardSeen) most.push([id, ((currentCard / currentCardSeen) * 100).toFixed(0), currentCard, currentCardSeen])
       })
 
       most = most.sort(sortByTwoLevels)
@@ -146,7 +147,7 @@ const Details = ({ currPlayer }) => {
    return (
       <div className="details">
          <div className="player-name">{currPlayer.name}</div>
-         <div className="stats-box center">
+         <div className="stats1-box center">
             {/* Most Played Cards */}
             <div className="full-size">
                <div className="content">
@@ -378,7 +379,7 @@ const Details = ({ currPlayer }) => {
                                  <CardForStats card={CARDS.find((card) => card.id === mostPlayedPerc[0][0])} />
                               </div>
                               <div className="value">
-                                 <span>{mostPlayedPerc[0][1]}</span>% ({mostPlayedPerc[0][2]})
+                                 <span>{mostPlayedPerc[0][1]}</span>% ({mostPlayedPerc[0][2]}/{mostPlayedPerc[0][3]})
                               </div>
                            </div>
                            <div className="and-more">
@@ -448,7 +449,7 @@ const Details = ({ currPlayer }) => {
                                  <CardForStats card={CARDS.find((card) => card.id === mostPurchasedPerc[0][0])} />
                               </div>
                               <div className="value">
-                                 <span>{mostPurchasedPerc[0][1]}</span>% ({mostPurchasedPerc[0][2]})
+                                 <span>{mostPurchasedPerc[0][1]}</span>% ({mostPurchasedPerc[0][2]}/{mostPurchasedPerc[0][3]})
                               </div>
                            </div>
                            <div className="and-more">
@@ -484,4 +485,4 @@ const Details = ({ currPlayer }) => {
    )
 }
 
-export default Details
+export default Stats1

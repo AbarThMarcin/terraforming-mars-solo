@@ -21,7 +21,7 @@ import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
 import { EFFECTS } from '../effects/effectIcons'
 import { CARDS } from '../cards'
-import { funcSetLogItemsSingleActions } from '../log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log/log'
 
 // Icons
 import tempIconForLog from '../../assets/images/other/tempIconForLog.svg'
@@ -61,13 +61,13 @@ export const funcGetImmEffects = (
    sound,
    initDrawCardsIds,
    setLogItems,
-   performSubActions
 ) => {
    let subActions = []
    let dataCards = []
    let value = 0
    let newCardsDrawIds = []
    let cardsInHand = statePlayer.cardsInHand
+   let cardsPlayed = statePlayer.cardsPlayed
    let cardsSeen = statePlayer.cardsSeen
    switch (actionOrCardId) {
       // ============================= SP POWER PLANT ============================
@@ -1774,6 +1774,8 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+               cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
             },
          })
          // Call Olympus Conference effect
@@ -2552,16 +2554,14 @@ export const funcGetImmEffects = (
             value: 2,
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
-               })
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
-               })
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+               cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
@@ -2819,15 +2819,13 @@ export const funcGetImmEffects = (
             value: 1,
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
-               })
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
-               })
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
@@ -3440,6 +3438,8 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
             },
          })
          // Call Olympus Conference effect
@@ -3633,6 +3633,8 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+               cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
             },
          })
          // Call Olympus Conference effect

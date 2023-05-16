@@ -8,14 +8,16 @@ import { TILES } from '../board'
 import { IMM_EFFECTS } from '../immEffects/immEffects'
 import { CORP_NAMES } from '../corpNames'
 import { CARDS } from '../cards'
-import { funcSetLogItemsSingleActions } from '../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../data/log/log'
 
 export const funcGetCardActions = (
    cardId,
    statePlayer,
    dispatchPlayer,
+   stateGame,
    dispatchGame,
    stateBoard,
+   modals,
    setModals,
    getImmEffects,
    toBuyResources,
@@ -28,6 +30,7 @@ export const funcGetCardActions = (
    let subCardActions = []
    let dataCards = []
    let value = 0
+   let cardsInHand = statePlayer.cardsInHand
    switch (cardId) {
       // ===================== UNMI CORPORATION =====================
       case CORP_NAMES.UNMI:
@@ -256,15 +259,11 @@ export const funcGetCardActions = (
             value: 1,
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
-               })
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
-               })
+               cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)] })
                funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand }, stateGame, stateBoard)
             },
          })
          break
@@ -666,15 +665,11 @@ export const funcGetCardActions = (
             value: 1,
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
-               })
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
-               })
+               cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)] })
                funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand }, stateGame, stateBoard)
             },
          })
          break
@@ -724,16 +719,12 @@ export const funcGetCardActions = (
             value: 2,
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token)
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                  payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
-               })
-               dispatchPlayer({
-                  type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                  payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
-               })
+               cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)] })
                const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand }, stateGame, stateBoard)
             },
          })
          break

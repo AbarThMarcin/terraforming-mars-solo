@@ -20,6 +20,8 @@ export const INIT_STATE_GAME = {
    },
    // TR
    tr: 14,
+   // Total points
+   totalPoints: 14,
    // Standard Projects costs
    SPCosts: {
       sellPatent: 0,

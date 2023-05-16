@@ -294,12 +294,27 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
          getImmEffects,
          sound,
          initDrawCardsIds,
-         setLogItems,
-         performSubActions
+         setLogItems
       )
    }
    function getCardActions(cardId, toBuyResources) {
-      return funcGetCardActions(cardId, statePlayer, dispatchPlayer, dispatchGame, stateBoard, setModals, getImmEffects, toBuyResources, type, id, user?.token, sound, setLogItems)
+      return funcGetCardActions(
+         cardId,
+         statePlayer,
+         dispatchPlayer,
+         stateGame,
+         dispatchGame,
+         stateBoard,
+         modals,
+         setModals,
+         getImmEffects,
+         toBuyResources,
+         type,
+         id,
+         user?.token,
+         sound,
+         setLogItems
+      )
    }
    function getEffect(effect) {
       return funcGetEffect(effect, statePlayer, dispatchPlayer, dispatchGame, modals, setModals, setLogItems)

@@ -1515,7 +1515,7 @@ export const CARDS = [
    },
    {
       id: 57,
-      name: 'VESTA SHIPYARD',
+      name: 'VERSTA SHIPYARD',
       description: 'The pride of the asteroid belt',
       info: ['Increase your titanium production 1 step.'],
       originalCost: 15,

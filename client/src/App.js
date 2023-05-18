@@ -238,7 +238,7 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [73, 185, 6, 14, 110, 111, 143, 161, 185, 192]
+      // const initCardsIds = [143, 64, 67, 11, 110, 115, 19, 161, 185, 192]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [6, 11]
 

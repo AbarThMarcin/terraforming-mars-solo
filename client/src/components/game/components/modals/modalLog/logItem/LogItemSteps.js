@@ -44,9 +44,9 @@ const LogItemSteps = ({ item }) => {
                               ))}
                            <div className={`value ${step.singleActionValue < 0 ? 'negative' : ''}`}>{step.singleActionValue !== 1 && step.singleActionValue}</div>
                         </div>
-                        <span style={{ color: step.singleActionIconName ? '' : 'rgb(170, 170, 255)', marginLeft: step.singleActionIconName ? '0' : '-15%' }}>
+                        <div style={{ color: step.singleActionIconName ? '' : 'rgb(170, 170, 255)', marginLeft: step.singleActionIconName ? '0' : '-15%' }}>
                            {step.singleActionName}
-                        </span>
+                        </div>
                      </div>
                   </div>
                ))

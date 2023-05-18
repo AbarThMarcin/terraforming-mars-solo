@@ -41,7 +41,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
 
    return (
       <div className="state-other-container">
-         <div className="state-other-container-title">{type}</div>
+         <div className="state-other-container-title">{type}{' ('}{elements.length}{')'}</div>
          <ul className="state-other-container-elements">
             {elements.length > 0 ? (
                elements.map((el, idx) => (

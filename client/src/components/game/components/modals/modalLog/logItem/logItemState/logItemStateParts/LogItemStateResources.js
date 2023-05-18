@@ -28,7 +28,7 @@ const LogItemStateResources = ({ state }) => {
 
    return (
       <div className="state-other-container">
-         <div className="state-other-container-title">CARDS WITH RESOURCES</div>
+         <div className="state-other-container-title">CARDS WITH RESOURCES{' ('}{elements.length}{')'}</div>
          <ul className="state-other-container-elements">
             {elements.length > 0 ? (
                elements.map((el, idx) => (

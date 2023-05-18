@@ -1,7 +1,12 @@
 const LogItemStateCards = ({ state, cardsType }) => {
    return (
       <div className="state-other-container">
-         <div className="state-other-container-title">{cardsType}</div>
+         <div className="state-other-container-title">
+            {cardsType}
+            {' ('}
+            {cardsType === 'CARDS IN HAND' ? state.statePlayer.cardsInHand.length : state.statePlayer.cardsPlayed.length}
+            {')'}
+         </div>
          <ul className="state-other-container-elements">
             {cardsType === 'CARDS IN HAND' ? (
                state.statePlayer.cardsInHand.length > 0 ? (

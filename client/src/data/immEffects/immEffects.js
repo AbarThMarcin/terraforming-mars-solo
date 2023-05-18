@@ -60,7 +60,7 @@ export const funcGetImmEffects = (
    getImmEffects,
    sound,
    initDrawCardsIds,
-   setLogItems,
+   setLogItems
 ) => {
    let subActions = []
    let dataCards = []
@@ -114,7 +114,12 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
+                     funcSetLogItemsSingleActions(
+                        'Heat production increased by 1 from temperature bonus',
+                        [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)],
+                        1,
+                        setLogItems
+                     )
                   },
                })
                // Bonus ocean
@@ -154,7 +159,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1 from temperature bonus', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -196,7 +201,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1 from temperature bonus', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
             }
@@ -207,7 +212,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1 from temperature bonus', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -449,6 +454,43 @@ export const funcGetImmEffects = (
             },
          })
          break
+      // Search For Life, Inventors' Guild, Water Import From Europa, Development Center, Equatorial Magnetizer, Predators, Security Fleet,
+      // Regolith Eaters, GHG Producing Bacteria, Ants, Tardigrades, Fish, Small Animals, Birds, Space Mirrors, Physics Complex, IronWorks,
+      // Steelworks, Ore Processor, Symbiotic Fungus, Extreme-Cold Fungus, Caretaker Contract, Water Splitting Plant, Aquifer Pumping,
+      // Power Infrastructure, Underground Detonations
+      case 5:
+      case 6:
+      case 12:
+      case 14:
+      case 15:
+      case 24:
+      case 28:
+      case 33:
+      case 34:
+      case 35:
+      case 49:
+      case 52:
+      case 54:
+      case 72:
+      case 76:
+      case 95:
+      case 101:
+      case 103:
+      case 104:
+      case 133:
+      case 134:
+      case 154:
+      case 177:
+      case 187:
+      case 194:
+      case 202:
+         subActions.push({
+            name: ANIMATIONS.SHORT_ANIMATION,
+            type: null,
+            value: null,
+            func: () => funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems),
+         })
+         break
       // Capital
       case 8:
          subActions.push({
@@ -527,7 +569,12 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 1, setLogItems)
+                     funcSetLogItemsSingleActions(
+                        'Heat production increased by 1 from temperature bonus',
+                        [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)],
+                        1,
+                        setLogItems
+                     )
                   },
                })
                // Bonus ocean
@@ -558,6 +605,7 @@ export const funcGetImmEffects = (
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
                funcSetLogItemsSingleActions('Titanium production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.TITAN)], 1, setLogItems)
+               funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
             },
          })
          break
@@ -1381,6 +1429,7 @@ export const funcGetImmEffects = (
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 })
                funcSetLogItemsSingleActions('Energy production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], -1, setLogItems)
+               funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
             },
          })
          break
@@ -1539,7 +1588,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions('Heat production increased by 1', getResIcon(RESOURCES.HEAT), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Heat production increased by 1 from temperature bonus', getResIcon(RESOURCES.HEAT), 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -2107,6 +2156,7 @@ export const funcGetImmEffects = (
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: -1 })
                funcSetLogItemsSingleActions('MC production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)], -1, setLogItems)
+               funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
             },
          })
          break
@@ -2574,7 +2624,7 @@ export const funcGetImmEffects = (
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
-                     card: cardsInHand.find((card) => card.id === actionOrCardId),
+                     card: getCards(CARDS, [143])[0],
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2795,6 +2845,7 @@ export const funcGetImmEffects = (
                   payload: { cardId: actionOrCardId, resource: RESOURCES.MICROBE, amount: 3 },
                })
                funcSetLogItemsSingleActions('Received 3 microbes to NITRITE REDUCING BACTERIA card', getResIcon(RESOURCES.MICROBE), 3, setLogItems)
+               funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
             },
          })
          break
@@ -3236,6 +3287,7 @@ export const funcGetImmEffects = (
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: -1 })
                funcSetLogItemsSingleActions('Plant production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.PLANT)], -1, setLogItems)
+               funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
             },
          })
          subActions.push({
@@ -3762,6 +3814,7 @@ export const funcGetImmEffects = (
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 })
                funcSetLogItemsSingleActions('Energy production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], -1, setLogItems)
+               funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
             },
          })
          break

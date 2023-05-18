@@ -49,6 +49,9 @@ const Field = ({ field, setTotalVP, showCoordinates }) => {
       if (modals.modalCard?.id === 20 || modals.modalCard?.id === 128 || modals.modalCard?.id === 200) {
          funcSetLogItemsSingleActions(`Effect from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
       }
+      if (modals.modalCard?.id === 123 || modals.modalCard?.id === 199) {
+         funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
+      }
       // Get Random Cards Ids
       let newCardsDrawIds
       if (field.bonus.includes(RESOURCES.CARD)) {
@@ -129,6 +132,7 @@ const Field = ({ field, setTotalVP, showCoordinates }) => {
          delay += ANIMATION_SPEED
          setTimeout(() => {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: bonusMln })
+            funcSetLogItemsSingleActions(`Received ${bonusMln} MC from board from oceans`, getResIcon(RESOURCES.MLN), bonusMln, setLogItems)
             endAnimation(setModals)
          }, delay)
       }
@@ -181,6 +185,7 @@ const Field = ({ field, setTotalVP, showCoordinates }) => {
             delay += ANIMATION_SPEED
             setTimeout(() => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+               funcSetLogItemsSingleActions('Steel production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
                endAnimation(setModals)
             }, delay)
          } else if (field.bonus.includes(RESOURCES.TITAN)) {
@@ -209,6 +214,7 @@ const Field = ({ field, setTotalVP, showCoordinates }) => {
             delay += ANIMATION_SPEED
             setTimeout(() => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
+               funcSetLogItemsSingleActions('Titanium production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.TITAN)], 1, setLogItems)
                endAnimation(setModals)
             }, delay)
          }

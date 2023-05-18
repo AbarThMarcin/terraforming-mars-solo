@@ -36,6 +36,7 @@
    width: calc(var(--default-size) * 10);
    line-height: calc(var(--default-size) * 1.1);
    margin-block: calc(var(--default-size) * 0.04);
+   height: calc(var(--default-size) * 1.15);
 }
 .stats2-percentages-line.is-zero {
    color: rgba(255, 255, 255, 0.2);
@@ -44,7 +45,7 @@
    display: inline-block;
 }
 .stats2-percentages-line > span:nth-child(1) {
-   width: calc(var(--default-size) * 1.5);
+   width: calc(var(--default-size) * 1.8);
    text-align: right;
 }
 .stats2-percentages-line > span:nth-child(3) {

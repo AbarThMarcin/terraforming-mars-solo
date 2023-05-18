@@ -255,7 +255,7 @@ export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndentured
    return newCards
 }
 
-export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP, herbivoresException = false) {
+export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, herbivoresException = false) {
    // Cards VP update
    let cardsVP = 0
    statePlayer.cardsPlayed.forEach((card) => {
@@ -263,8 +263,8 @@ export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, set
    })
    // Total VP update
    const totalPoints = getTotalPointsWithoutVP(stateGame, stateBoard) + cardsVP
-   // if (correct
-   setTotalVP(totalPoints)
+
+   dispatchPlayer({ type: ACTIONS_PLAYER.UPDATE_TOTALPOINTS, payload: totalPoints })
 }
 
 function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException) {

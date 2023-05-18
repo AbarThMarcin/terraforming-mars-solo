@@ -17,7 +17,7 @@ import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 import { CARDS } from '../../../../../data/cards'
 import { getResIcon } from '../../../../../data/resources'
 
-const Field = ({ field, setTotalVP, showCoordinates }) => {
+const Field = ({ field, showCoordinates }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, ANIMATION_SPEED, setLogItems } = useContext(StateGameContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
@@ -303,7 +303,7 @@ const Field = ({ field, setTotalVP, showCoordinates }) => {
                      value: null,
                      func: () => {
                         setModals((prev) => ({ ...prev, endStats: true }))
-                        updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP, true)
+                        updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, true)
                      },
                   },
                ])

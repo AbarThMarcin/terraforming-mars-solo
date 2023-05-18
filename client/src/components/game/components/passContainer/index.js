@@ -16,7 +16,7 @@ import { SettingsContext, SoundContext } from '../../../../App'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
 import iconLogGreenery from '../../../../assets/images/other/logConvertPlants.svg'
 
-const PassContainer = ({ totalVP }) => {
+const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, setLogItems, ANIMATION_SPEED, setSaveToServerTrigger, setItemsExpanded } =
@@ -325,7 +325,7 @@ const PassContainer = ({ totalVP }) => {
          {/* TR */}
          <div className="tr">{stateGame.tr}</div>
          {/* TOTAL POINTS */}
-         {settings.showTotVP && <TotalVP totalVP={totalVP} />}
+         {settings.showTotVP && <TotalVP />}
       </>
    )
 }

@@ -4,11 +4,11 @@ import BoardGanymede from './boardGanymede/BoardGanymede'
 import BtnCoordinates from '../buttons/BtnCoordinates'
 import { useState } from 'react'
 
-const Board = ({ setTotalVP }) => {
+const Board = () => {
    const [showCoordinates, setShowCoordinates] = useState(false)
    return (
       <>
-         <BoardTharsis setTotalVP={setTotalVP} showCoordinates={showCoordinates} />
+         <BoardTharsis showCoordinates={showCoordinates} />
          <BoardPhobos showCoordinates={showCoordinates} />
          <BoardGanymede showCoordinates={showCoordinates} />
          <BtnCoordinates showCoordinates={showCoordinates} setShowCoordinates={setShowCoordinates} />

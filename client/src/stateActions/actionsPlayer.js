@@ -42,6 +42,7 @@ export const ACTIONS_PLAYER = {
    SET_INDENTURED_WORKERS: 'Set statePlayer.indenturedWorkersEffect',
    // Update VP
    UPDATE_VP: 'Update VP for a specific card',
+   UPDATE_TOTALPOINTS: 'Update Total Points',
 }
 
 export const reducerPlayer = (state, action) => {
@@ -369,6 +370,11 @@ export const reducerPlayer = (state, action) => {
                   return card
                }
             }),
+         }
+      case ACTIONS_PLAYER.UPDATE_TOTALPOINTS:
+         return {
+            ...state,
+            totalPoints: action.payload,
          }
       default:
          return state

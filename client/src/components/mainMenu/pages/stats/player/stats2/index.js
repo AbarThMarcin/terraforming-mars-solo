@@ -41,22 +41,21 @@ const Stats2 = ({ currPlayer }) => {
    }, [statCardId, currPlayer])
 
    const points = useMemo(() => {
-      const arr = []
-      range(1, 14).forEach((gen) => {
-         let average = 0
-         currPlayer.games.forEach((game) => {
+      let gamesCounter = 0
+      let arr = new Array(14).fill(0)
+      currPlayer.games.forEach((game) => {
+         if (game.logItems[0].details !== undefined) {
+            gamesCounter++
             let currentGen
             game.logItems.forEach((logItem) => {
-               if (logItem.type === LOG_TYPES.GENERATION) {
-                  currentGen = parseInt(logItem.data.text)
-               }
-               if (logItem.type === LOG_TYPES.PASS && currentGen === gen) {
-
+               if (logItem.type === LOG_TYPES.GENERATION) currentGen = parseInt(logItem.data.text)
+               if (logItem.type === LOG_TYPES.PASS) {
+                  arr[currentGen - 1] += logItem.details.stateAfter.statePlayer.totalPoints
                }
             })
-         })
-         arr.push(average)
+         }
       })
+      if (gamesCounter) arr.forEach((gen) => (gen = gen / gamesCounter))
 
       return arr
    }, [statCardId, currPlayer])
@@ -101,42 +100,51 @@ const Stats2 = ({ currPlayer }) => {
          </div>
       )
    }
+   const max = useMemo(() => {
+      let maxValue = 0
 
-   const Point = ({ percentages, id }) => {
-      const perc = percentages[15 - id - 1][0] * 100
-      const percInt = Math.floor(perc)
-      const percDec = pad(Math.floor((perc % 1) * 100).toFixed(0), 2)
+      for (let i = 1; i < points.length; i++) {
+         if (points[i] - points[i - 1] > maxValue) maxValue = points[i] - points[i - 1]
+      }
 
-      const played = percentages[15 - id - 1][1]
-      const playedAll = percentages[15 - id - 1][2]
+      return maxValue
+   }, [points])
+
+   const Point = ({ points, id }) => {
+      const point = points[15 - id - 1]
+      const pointInt = Math.floor(point)
+      const pointDec = pad(Math.floor((point % 1) * 100).toFixed(0), 2)
       const gen = 15 - id
-      const isZero = played === 0
-      
-      const max = Math.max(...percentages.map((p) => p[1]))
+
+      let current = 0
+      if (id < 14) current = point - points[15 - id - 2]
+
       return (
          <div
-            style={{ background: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,255,150,${(0.2 * (played / max) ** 1.6).toFixed(2)}) 50%, rgba(0,0,0,0) 100%)` }}
-            className={`stats2-percentages-line ${isZero ? 'is-zero' : ''}`}
+            style={{
+               background: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,255,150,${(0.2 * (current / max) ** 1.6).toFixed(2)}) 50%, rgba(0,0,0,0) 100%)`,
+               width: 'calc(var(--default-size) * 8.5)',
+            }}
+            className="stats2-percentages-line"
          >
-            <span>{gen}</span>
+            <span style={{ width: 'calc(var(--default-size) * 2.9)' }}>{gen}</span>
             <span>.</span>
-            <span>{isZero ? 0 : percInt}</span>
+            <span style={{ width: 'calc(var(--default-size) * 1.6)' }}>{pointInt}</span>
             <span>.</span>
-            <span>
-               {isZero ? '00' : percDec}
-               <span>%</span>
-            </span>
-            {!isZero && (
-               <>
-                  <span>(</span>
-                  <span>{played}</span>
-                  <span>&nbsp;/&nbsp;</span>
-                  <span>{playedAll}</span>
-                  <span>)</span>
-               </>
-            )}
+            <span>{point ? pointDec : '00'}</span>
          </div>
       )
+   }
+
+   const GetGamesCount = () => {
+      let gamesCount = 0
+      currPlayer.games.forEach((game) => {
+         if (game.logItems[0].details !== undefined) gamesCount++
+      })
+
+      const res = gamesCount ? ` (${gamesCount} GAME${gamesCount > 1 ? 'S' : ''})` : ''
+
+      return res
    }
 
    return (
@@ -158,9 +166,13 @@ const Stats2 = ({ currPlayer }) => {
                </div>
             </div>
             <div>
-               <div style={{ lineHeight: 'calc(var(--default-size) * 1.1)' }}>AVERAGE TOTAL POINTS<br />AFTER EACH GENERATION</div>
-               <div>
-                  {points[0] !== '-' ? range(1, 14).map((id) => <Point key={15 - id} percentages={percentages} id={id} />) : <span>CARD HAS NEVER BEEN PLAYED</span>}
+               <div style={{ lineHeight: 'calc(var(--default-size) * 1.1)', width: 'calc(var(--default-size) * 11)' }}>
+                  AVERAGE TOTAL POINTS AFTER
+                  <br />
+                  EACH GENERATION{<GetGamesCount />}
+               </div>
+               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', width: '100%', height: '100%' }}>
+                  {points[0] !== 0 ? range(1, 14).map((id) => <Point key={15 - id} points={points} id={id} />) : <span>NO GAMES</span>}
                </div>
             </div>
          </div>

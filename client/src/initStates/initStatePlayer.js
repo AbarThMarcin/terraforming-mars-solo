@@ -40,4 +40,6 @@ export const INIT_STATE_PLAYER = {
    specialDesignEffect: false,
    // Indentured Workers
    indenturedWorkersEffect: false,
+   // Total Points
+   totalPoints: 14,
 }

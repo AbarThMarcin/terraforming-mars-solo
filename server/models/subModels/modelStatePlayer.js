@@ -33,6 +33,7 @@ const statePlayerSchema = mongoose.Schema({
    globParamReqModifier: Number,
    specialDesignEffect: Boolean,
    indenturedWorkersEffect: Boolean,
+   totalPoints: Number,
 })
 
 module.exports = { statePlayerSchema }

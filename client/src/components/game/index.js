@@ -52,7 +52,6 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    const [expanded, setExpanded] = useState(null)
    const [itemsExpanded, setItemsExpanded] = useState([null])
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(getAnimationSpeed(settings.speedId))
-   const [totalVP, setTotalVP] = useState(14)
    const [updateTrigger, setTrigger] = useState(false)
    const [saveToServerTrigger, setSaveToServerTrigger] = useState(false)
    const { music, sound } = useContext(SoundContext)
@@ -105,7 +104,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
       funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
 
       // Update VP
-      updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, setTotalVP)
+      updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard)
 
       // Update Game on server
       setSaveToServerTrigger((prev) => !prev)
@@ -422,7 +421,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                                     transition={{ duration: 0.5 }}
                                     className="pass-container"
                                  >
-                                    <PassContainer totalVP={totalVP} />
+                                    <PassContainer />
                                  </motion.div>
                               )}
                            </AnimatePresence>
@@ -430,7 +429,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                            {/* Board */}
                            <AnimatePresence>
                               <motion.div key="keyBoard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.5 }} className="board center">
-                                 <Board setTotalVP={setTotalVP} />
+                                 <Board />
                               </motion.div>
                            </AnimatePresence>
 

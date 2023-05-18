@@ -1,5 +1,16 @@
 export const VERSIONS = [
    {
+      number: '0.3.1',
+      date: '2023-05-18',
+      updates: [
+         {
+            title: 'Cards immediate effects icons updated',
+            description:
+               'Each part of the icon of an immediate effect of a card, that relates to a multiplayer mode has been distinguished from a part, that gives a player a benefit (for example "remove plants from any player" part from the asteroids).',
+         },
+      ],
+   },
+   {
       number: '0.3.0',
       date: '2023-05-11',
       updates: [

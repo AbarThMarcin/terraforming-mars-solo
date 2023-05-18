@@ -1,1 +1,156 @@
-<?xml version="1.0" encoding="UTF-8"?><svg id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 721 379.91"><defs><style>.cls-1{fill:url(#linear-gradient-2);}.cls-2,.cls-3{fill:#030404;}.cls-4{fill:#fff;opacity:0;stroke:#1d1d1b;}.cls-4,.cls-5{stroke-miterlimit:10;}.cls-6{fill:#ce141e;}.cls-7{fill:#e03e17;opacity:.5;}.cls-7,.cls-3,.cls-8{isolation:isolate;}.cls-9{fill:url(#linear-gradient-5);}.cls-10{fill:#3e4a21;}.cls-5{fill:none;stroke:#020303;stroke-width:1.88px;}.cls-11{fill:url(#linear-gradient);}.cls-12{fill:url(#linear-gradient-4);}.cls-3{opacity:.12;}.cls-8{fill:url(#linear-gradient-3);opacity:.4;}.cls-13{fill:#97c22a;}</style><linearGradient id="linear-gradient" x1="-569.02" y1="1767.83" x2="-491.6" y2="1690.42" gradientTransform="translate(-328.5 -1404.14) rotate(-45)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3e4a21"/><stop offset=".14" stop-color="#4c5e25"/><stop offset=".42" stop-color="#6a852b"/><stop offset=".66" stop-color="#82a52e"/><stop offset=".86" stop-color="#8fb923"/><stop offset="1" stop-color="#97c22a"/></linearGradient><linearGradient id="linear-gradient-2" x1="361.26" y1="451.75" x2="361.26" y2="408.57" gradientTransform="translate(0 -236.64)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#532a15"/><stop offset=".45" stop-color="#532a15" stop-opacity=".7"/><stop offset=".58" stop-color="#e03e17" stop-opacity=".5"/><stop offset="1" stop-color="#e03e17" stop-opacity=".5"/></linearGradient><linearGradient id="linear-gradient-3" x1="206.28" y1="494.73" x2="206.28" y2="365.58" gradientTransform="translate(0 -236.64)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffdc12"/><stop offset="0" stop-color="#ffdb13"/><stop offset=".05" stop-color="#f9bb1b"/><stop offset=".1" stop-color="#f59b18"/><stop offset=".16" stop-color="#ef7b19"/><stop offset=".22" stop-color="#e86112"/><stop offset=".27" stop-color="#e84a1d"/><stop offset=".34" stop-color="#e5391e"/><stop offset=".41" stop-color="#e63121"/><stop offset=".5" stop-color="#e62e21"/><stop offset=".59" stop-color="#e63121"/><stop offset=".66" stop-color="#e5391e"/><stop offset=".73" stop-color="#e84a1d"/><stop offset=".78" stop-color="#e86112"/><stop offset=".84" stop-color="#ef7b19"/><stop offset=".9" stop-color="#f59b18"/><stop offset=".95" stop-color="#f9bb1b"/><stop offset="1" stop-color="#ffdb13"/><stop offset="1" stop-color="#ffdc12"/></linearGradient><linearGradient id="linear-gradient-4" x1="206.29" y1="493.01" x2="206.29" y2="367.3" xlink:href="#linear-gradient-3"/><linearGradient id="linear-gradient-5" x1="-790.28" y1="1546.58" x2="-712.85" y2="1469.16" xlink:href="#linear-gradient"/></defs><rect class="cls-4" x=".5" y=".5" width="720" height="378.91"/><g id="microbe"><rect class="cls-2" x="461.1" y="135.42" width="116.19" height="116.19"/><rect class="cls-11" x="464.45" y="138.78" width="109.48" height="109.48"/><rect class="cls-13" x="469.76" y="144.09" width="98.85" height="98.85"/><g id="microbes"><polygon class="cls-10" points="520.46 203.45 515.79 204 516.44 208.67 511.79 207.91 511.03 212.57 506.84 210.44 504.79 214.62 501.34 211.37 498.19 214.81 495.84 210.71 491.74 212.95 490.82 208.38 486.25 209.4 486.62 204.75 481.97 204.28 483.74 199.99 479.45 198.22 482.44 194.59 478.8 191.6 482.72 189 480.1 185.18 484.58 183.88 483.27 179.31 487.92 179.4 488.02 174.74 492.5 176.13 493.89 171.76 497.71 174.38 500.41 170.55 503.31 174.28 506.93 171.39 508.61 175.78 512.99 174.18 513.28 178.84 517.93 178.56 516.81 183.13 521.38 184.16 518.96 188.16 523.06 190.58 519.51 193.75 522.68 197.2 518.4 199.16 520.46 203.45"/><polygon class="cls-10" points="560.61 184.72 559.03 185.28 559.03 187.42 556.6 186.68 555.11 188.07 552.69 186.48 550.27 187.13 543.46 188.07 540.58 187.79 537.6 182.1 534.24 181.08 531.54 178.2 528.28 176.61 525.76 173.53 522.68 172.13 520.81 168.69 518.21 166.45 517.19 163.84 515.33 161.79 515.14 159.65 513.56 157.79 514.86 156.39 514.96 154.33 516.36 154.43 517.66 152.94 519.61 153.79 522.78 150.81 525.2 152.56 528 152.75 530.79 154.81 534.06 155.73 535.83 160.31 539.36 161.7 541.78 164.68 545.15 166.55 547.19 169.43 550.36 171.58 555.57 174.38 558.09 176.8 558.47 178.84 560.15 180.9 559.67 182.67 560.61 184.72"/><polygon class="cls-10" points="555.39 206.99 555.77 207.55 556.42 208.95 555.11 209.77 555.2 211.37 552.03 212.57 550.73 214.62 546.83 218.45 542.44 220.49 536.66 222.17 533.21 224.32 528.56 225.34 524.64 227.19 520.08 228.04 516.44 229.82 512.07 229.99 508.16 231.21 505.07 231.12 501.91 231.86 499.86 231.29 496.97 231.77 496.79 230.37 495.94 229.99 496.13 228.59 495.94 227.19 498.09 226.08 497.9 222.74 501.34 221.52 503.59 219.56 507.49 218.26 512.07 217.05 516.16 216.39 520.08 214.16 524.56 213.41 528.74 211.65 532.84 210.99 537.13 209.4 543.56 206.42 547.66 205.49 549.7 205.87 552.78 205.3 553.9 206.25 555.39 206.99"/></g><path id="darker" class="cls-3" d="M573.94,248.26h-109.48v-60.01s34.47,5.3,54.69,5.3,54.78-5.3,54.78-5.3v60.01h.01Z"/></g><g id="strzalka_efekt"><path class="cls-7" d="M421.43,193.51l-57.39-26.52,6.94,13.79h-64.68s-1.95,6.22-1.95,12.19,1.95,10.86,1.95,10.86h65.9l-8.17,16.23,57.39-26.52h0v-.02Z"/><path class="cls-1" d="M376,201.49h-68.03c-.52-1.77-1.29-4.95-1.29-8.52,0-3.77,.85-7.7,1.39-9.85h66.7l-5.63-11.18,46.69,21.59-46.69,21.59,6.87-13.62h-.01Z"/><path class="cls-6" d="M381.03,198.39h-70.65c-.31-1.5-.6-3.41-.6-5.41,0-2.36,.38-4.82,.76-6.76h69.26l-3.89-7.76,32.58,15.06-32.58,15.06,5.13-10.19h-.01Z"/><path class="cls-5" d="M376,201.49h-68.03c-.52-1.77-1.29-4.95-1.29-8.52,0-3.77,.85-7.7,1.39-9.85h66.7l-5.63-11.18,46.69,21.59-46.69,21.59,6.87-13.62h-.01Z"/></g><g id="microbe-2"><rect class="cls-8" x="141.71" y="128.95" width="129.14" height="129.14"/><rect class="cls-12" x="143.44" y="130.66" width="125.71" height="125.71"/><rect class="cls-2" x="148.19" y="135.42" width="116.19" height="116.19"/><rect class="cls-9" x="151.55" y="138.78" width="109.48" height="109.48"/><rect class="cls-13" x="156.86" y="144.09" width="98.85" height="98.85"/><g id="microbes-2"><polygon class="cls-10" points="207.55 203.45 202.89 204 203.53 208.67 198.89 207.91 198.13 212.57 193.94 210.44 191.89 214.62 188.44 211.37 185.28 214.81 182.94 210.71 178.84 212.95 177.92 208.38 173.36 209.4 173.72 204.75 169.06 204.28 170.84 199.99 166.55 198.22 169.54 194.59 165.89 191.6 169.82 189 167.2 185.18 171.67 183.88 170.36 179.31 175.03 179.4 175.12 174.74 179.59 176.13 180.99 171.76 184.81 174.38 187.51 170.55 190.41 174.28 194.03 171.39 195.71 175.78 200.09 174.18 200.37 178.84 205.03 178.56 203.91 183.13 208.48 184.16 206.05 188.16 210.15 190.58 206.61 193.75 209.78 197.2 205.5 199.16 207.55 203.45"/><polygon class="cls-10" points="247.7 184.72 246.12 185.28 246.12 187.42 243.7 186.68 242.2 188.07 239.79 186.48 237.37 187.13 230.57 188.07 227.68 187.79 224.7 182.1 221.33 181.08 218.63 178.2 215.38 176.61 212.85 173.53 209.78 172.13 207.92 168.69 205.31 166.45 204.29 163.84 202.43 161.79 202.23 159.65 200.65 157.79 201.95 156.39 202.05 154.33 203.45 154.43 204.75 152.94 206.71 153.79 209.88 150.81 212.3 152.56 215.1 152.75 217.9 154.81 221.15 155.73 222.92 160.31 226.46 161.7 228.88 164.68 232.24 166.55 234.29 169.43 237.46 171.58 242.67 174.38 245.19 176.8 245.57 178.84 247.25 180.9 246.77 182.67 247.7 184.72"/><polygon class="cls-10" points="242.49 206.99 242.87 207.55 243.51 208.95 242.2 209.77 242.3 211.37 239.12 212.57 237.82 214.62 233.92 218.45 229.53 220.49 223.76 222.17 220.31 224.32 215.65 225.34 211.73 227.19 207.18 228.04 203.53 229.82 199.16 229.99 195.25 231.21 192.16 231.12 189.01 231.86 186.95 231.29 184.06 231.77 183.88 230.37 183.04 229.99 183.23 228.59 183.04 227.19 185.18 226.08 185.01 222.74 188.44 221.52 190.68 219.56 194.59 218.26 199.16 217.05 203.25 216.39 207.18 214.16 211.65 213.41 215.83 211.65 219.93 210.99 224.22 209.4 230.66 206.42 234.76 205.49 236.8 205.87 239.88 205.3 241 206.25 242.49 206.99"/></g><path id="darker-2" class="cls-3" d="M261.04,248.26h-109.48v-60.01s34.47,5.3,54.69,5.3,54.78-5.3,54.78-5.3v60.01h.01Z"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 721 379.9" style="enable-background:new 0 0 721 379.9;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;fill-opacity:0;}
+	.st1{fill:#030404;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#97C22A;}
+	.st4{fill:#3E4A21;}
+	.st5{opacity:0.12;fill:#030404;enable-background:new    ;}
+	.st6{opacity:0.4;}
+	.st7{opacity:0.5;fill:#E03E17;enable-background:new    ;}
+	.st8{fill:url(#SVGID_00000068667584813208131600000000913987808365957554_);}
+	.st9{fill:#CE141E;}
+	.st10{fill:none;stroke:#020303;stroke-width:1.88;stroke-miterlimit:10;}
+	.st11{opacity:0.15;fill:url(#SVGID_00000142139012120162529720000007499693755147697326_);enable-background:new    ;}
+	.st12{opacity:0.4;fill:url(#SVGID_00000035489799453710085510000012616264259593321347_);}
+	.st13{opacity:0.4;fill:#030404;}
+	.st14{opacity:0.4;fill:url(#SVGID_00000003090499252679025180000015598534998969770635_);}
+	.st15{opacity:0.4;fill:#97C22A;}
+	.st16{opacity:5.000000e-02;fill:#030404;enable-background:new    ;}
+</style>
+<rect x="0.5" y="0.5" class="st0" width="720" height="378.9"/>
+<g id="microbe">
+	<rect x="361.1" y="135.4" class="st1" width="116.2" height="116.2"/>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-1061.955" y1="-1636.4572" x2="-984.5308" y2="-1559.0431" gradientTransform="matrix(0.7071 -0.7071 -0.7071 -0.7071 12.952 -1659.8019)">
+		<stop  offset="0" style="stop-color:#3E4A21"/>
+		<stop  offset="0.14" style="stop-color:#4C5E25"/>
+		<stop  offset="0.42" style="stop-color:#6A852B"/>
+		<stop  offset="0.66" style="stop-color:#82A52E"/>
+		<stop  offset="0.86" style="stop-color:#8FB923"/>
+		<stop  offset="1" style="stop-color:#97C22A"/>
+	</linearGradient>
+	<rect x="364.5" y="138.8" class="st2" width="109.5" height="109.5"/>
+	<rect x="369.8" y="144.1" class="st3" width="98.8" height="98.9"/>
+	<g id="microbes">
+		<polygon class="st4" points="420.5,203.4 415.8,204 416.4,208.7 411.8,207.9 411,212.6 406.8,210.4 404.8,214.6 401.3,211.4 
+			398.2,214.8 395.8,210.7 391.7,212.9 390.8,208.4 386.2,209.4 386.6,204.8 382,204.3 383.7,200 379.5,198.2 382.4,194.6 
+			378.8,191.6 382.7,189 380.1,185.2 384.6,183.9 383.3,179.3 387.9,179.4 388,174.7 392.5,176.1 393.9,171.8 397.7,174.4 
+			400.4,170.6 403.3,174.3 406.9,171.4 408.6,175.8 413,174.2 413.3,178.8 417.9,178.6 416.8,183.1 421.4,184.2 419,188.2 
+			423.1,190.6 419.5,193.8 422.7,197.2 418.4,199.2 		"/>
+		<polygon class="st4" points="460.6,184.7 459,185.3 459,187.4 456.6,186.7 455.1,188.1 452.7,186.5 450.3,187.1 443.5,188.1 
+			440.6,187.8 437.6,182.1 434.2,181.1 431.5,178.2 428.3,176.6 425.8,173.5 422.7,172.1 420.8,168.7 418.2,166.4 417.2,163.8 
+			415.3,161.8 415.1,159.6 413.6,157.8 414.9,156.4 415,154.3 416.4,154.4 417.7,152.9 419.6,153.8 422.8,150.8 425.2,152.6 
+			428,152.8 430.8,154.8 434.1,155.7 435.8,160.3 439.4,161.7 441.8,164.7 445.2,166.6 447.2,169.4 450.4,171.6 455.6,174.4 
+			458.1,176.8 458.5,178.8 460.2,180.9 459.7,182.7 		"/>
+		<polygon class="st4" points="455.4,207 455.8,207.6 456.4,208.9 455.1,209.8 455.2,211.4 452,212.6 450.7,214.6 446.8,218.4 
+			442.4,220.5 436.7,222.2 433.2,224.3 428.6,225.3 424.6,227.2 420.1,228 416.4,229.8 412.1,230 408.2,231.2 405.1,231.1 
+			401.9,231.9 399.9,231.3 397,231.8 396.8,230.4 395.9,230 396.1,228.6 395.9,227.2 398.1,226.1 397.9,222.7 401.3,221.5 
+			403.6,219.6 407.5,218.3 412.1,217.1 416.2,216.4 420.1,214.2 424.6,213.4 428.7,211.6 432.8,211 437.1,209.4 443.6,206.4 
+			447.7,205.5 449.7,205.9 452.8,205.3 453.9,206.2 		"/>
+	</g>
+	<path id="darker" class="st5" d="M473.9,248.3H364.5v-60c0,0,34.5,5.3,54.7,5.3s54.8-5.3,54.8-5.3L473.9,248.3L473.9,248.3
+		L473.9,248.3z"/>
+</g>
+<g id="strzalka_efekt" class="st6">
+	<path class="st7" d="M331,193.5l-36.7-17l4.4,8.8h-41.4c0,0-1.2,4-1.2,7.8s1.2,6.9,1.2,6.9h42.1l-5.2,10.4L331,193.5L331,193.5
+		L331,193.5L331,193.5z"/>
+	
+		<linearGradient id="SVGID_00000098912594420478280870000016588342329057117114_" gradientUnits="userSpaceOnUse" x1="292.5226" y1="-61.9716" x2="292.5226" y2="-34.3612" gradientTransform="matrix(1 0 0 -1 0 145.36)">
+		<stop  offset="0" style="stop-color:#532A15"/>
+		<stop  offset="0.45" style="stop-color:#532A15;stop-opacity:0.7"/>
+		<stop  offset="0.58" style="stop-color:#E03E17;stop-opacity:0.5"/>
+		<stop  offset="1" style="stop-color:#E03E17;stop-opacity:0.5"/>
+	</linearGradient>
+	<path style="fill:url(#SVGID_00000098912594420478280870000016588342329057117114_);" d="M302,198.6h-43.5
+		c-0.3-1.1-0.8-3.2-0.8-5.4c0-2.4,0.5-4.9,0.9-6.3h42.6l-3.6-7.1l29.9,13.8l-29.9,13.8L302,198.6L302,198.6L302,198.6z"/>
+	<path class="st9" d="M305.2,196.6H260c-0.2-1-0.4-2.2-0.4-3.5c0-1.5,0.2-3.1,0.5-4.3h44.3l-2.5-5l20.8,9.6l-20.8,9.6L305.2,196.6
+		L305.2,196.6L305.2,196.6z"/>
+	<path class="st10" d="M302,198.6h-43.5c-0.3-1.1-0.8-3.2-0.8-5.4c0-2.4,0.5-4.9,0.9-6.3h42.6l-3.6-7.1l29.9,13.8l-29.9,13.8
+		L302,198.6L302,198.6L302,198.6z"/>
+</g>
+<g id="microbe-2">
+	
+		<linearGradient id="SVGID_00000025431164202921123400000013058414347885798024_" gradientUnits="userSpaceOnUse" x1="193.4277" y1="-89.4477" x2="193.4277" y2="-6.8723" gradientTransform="matrix(1 0 0 -1 0 145.36)">
+		<stop  offset="0" style="stop-color:#FFDC12"/>
+		<stop  offset="0" style="stop-color:#FFDB13"/>
+		<stop  offset="5.000000e-02" style="stop-color:#F9BB1B"/>
+		<stop  offset="0.1" style="stop-color:#F59B18"/>
+		<stop  offset="0.16" style="stop-color:#EF7B19"/>
+		<stop  offset="0.22" style="stop-color:#E86112"/>
+		<stop  offset="0.27" style="stop-color:#E84A1D"/>
+		<stop  offset="0.34" style="stop-color:#E5391E"/>
+		<stop  offset="0.41" style="stop-color:#E63121"/>
+		<stop  offset="0.5" style="stop-color:#E62E21"/>
+		<stop  offset="0.59" style="stop-color:#E63121"/>
+		<stop  offset="0.66" style="stop-color:#E5391E"/>
+		<stop  offset="0.73" style="stop-color:#E84A1D"/>
+		<stop  offset="0.78" style="stop-color:#E86112"/>
+		<stop  offset="0.84" style="stop-color:#EF7B19"/>
+		<stop  offset="0.9" style="stop-color:#F59B18"/>
+		<stop  offset="0.95" style="stop-color:#F9BB1B"/>
+		<stop  offset="1" style="stop-color:#FFDB13"/>
+		<stop  offset="1" style="stop-color:#FFDC12"/>
+	</linearGradient>
+	
+		<rect x="152.1" y="152.2" style="opacity:0.15;fill:url(#SVGID_00000025431164202921123400000013058414347885798024_);enable-background:new    ;" width="82.6" height="82.6"/>
+	
+		<linearGradient id="SVGID_00000032621431225602100330000008802975850141713541_" gradientUnits="userSpaceOnUse" x1="193.4373" y1="-88.3479" x2="193.4373" y2="-7.9657" gradientTransform="matrix(1 0 0 -1 0 145.36)">
+		<stop  offset="0" style="stop-color:#FFDC12"/>
+		<stop  offset="0" style="stop-color:#FFDB13"/>
+		<stop  offset="5.000000e-02" style="stop-color:#F9BB1B"/>
+		<stop  offset="0.1" style="stop-color:#F59B18"/>
+		<stop  offset="0.16" style="stop-color:#EF7B19"/>
+		<stop  offset="0.22" style="stop-color:#E86112"/>
+		<stop  offset="0.27" style="stop-color:#E84A1D"/>
+		<stop  offset="0.34" style="stop-color:#E5391E"/>
+		<stop  offset="0.41" style="stop-color:#E63121"/>
+		<stop  offset="0.5" style="stop-color:#E62E21"/>
+		<stop  offset="0.59" style="stop-color:#E63121"/>
+		<stop  offset="0.66" style="stop-color:#E5391E"/>
+		<stop  offset="0.73" style="stop-color:#E84A1D"/>
+		<stop  offset="0.78" style="stop-color:#E86112"/>
+		<stop  offset="0.84" style="stop-color:#EF7B19"/>
+		<stop  offset="0.9" style="stop-color:#F59B18"/>
+		<stop  offset="0.95" style="stop-color:#F9BB1B"/>
+		<stop  offset="1" style="stop-color:#FFDB13"/>
+		<stop  offset="1" style="stop-color:#FFDC12"/>
+	</linearGradient>
+	
+		<rect x="153.2" y="153.3" style="opacity:0.4;fill:url(#SVGID_00000032621431225602100330000008802975850141713541_);" width="80.4" height="80.4"/>
+	<rect x="156.3" y="156.4" class="st13" width="74.3" height="74.3"/>
+	
+		<linearGradient id="SVGID_00000121270335016391089810000011005065489597748634_" gradientUnits="userSpaceOnUse" x1="-1207.6299" y1="-1462.8668" x2="-1158.1229" y2="-1413.3663" gradientTransform="matrix(0.7071 -0.7071 -0.7071 -0.7071 12.952 -1659.8019)">
+		<stop  offset="0" style="stop-color:#3E4A21"/>
+		<stop  offset="0.14" style="stop-color:#4C5E25"/>
+		<stop  offset="0.42" style="stop-color:#6A852B"/>
+		<stop  offset="0.66" style="stop-color:#82A52E"/>
+		<stop  offset="0.86" style="stop-color:#8FB923"/>
+		<stop  offset="1" style="stop-color:#97C22A"/>
+	</linearGradient>
+	
+		<rect x="158.4" y="158.5" style="opacity:0.4;fill:url(#SVGID_00000121270335016391089810000011005065489597748634_);" width="70" height="70"/>
+	<rect x="161.8" y="161.9" class="st15" width="63.2" height="63.2"/>
+	<g id="microbes-2" class="st6">
+		<polygon class="st4" points="194.2,199.9 191.3,200.2 191.7,203.2 188.7,202.7 188.2,205.7 185.5,204.3 184.2,207 182,204.9 
+			180,207.1 178.5,204.5 175.9,205.9 175.3,203 172.4,203.7 172.6,200.7 169.6,200.4 170.8,197.7 168,196.5 169.9,194.2 
+			167.6,192.3 170.1,190.6 168.4,188.2 171.3,187.4 170.5,184.4 173.4,184.5 173.5,181.5 176.4,182.4 177.3,179.6 179.7,181.3 
+			181.4,178.8 183.3,181.2 185.6,179.4 186.7,182.2 189.5,181.2 189.6,184.1 192.6,184 191.9,186.9 194.8,187.5 193.3,190.1 
+			195.9,191.6 193.6,193.7 195.7,195.9 192.9,197.1 		"/>
+		<polygon class="st4" points="219.9,187.9 218.9,188.3 218.9,189.6 217.4,189.1 216.4,190 214.9,189 213.3,189.4 209,190 
+			207.1,189.9 205.2,186.2 203.1,185.6 201.3,183.7 199.2,182.7 197.6,180.7 195.7,179.8 194.5,177.6 192.8,176.2 192.2,174.5 
+			191,173.2 190.8,171.9 189.8,170.7 190.7,169.8 190.7,168.5 191.6,168.5 192.4,167.6 193.7,168.1 195.7,166.2 197.3,167.3 
+			199.1,167.5 200.9,168.8 202.9,169.4 204.1,172.3 206.3,173.2 207.9,175.1 210,176.3 211.3,178.1 213.4,179.5 216.7,181.3 
+			218.3,182.8 218.6,184.1 219.6,185.5 219.3,186.6 		"/>
+		<polygon class="st4" points="216.6,202.1 216.8,202.5 217.2,203.4 216.4,203.9 216.5,204.9 214.4,205.7 213.6,207 211.1,209.5 
+			208.3,210.8 204.6,211.8 202.4,213.2 199.4,213.9 196.9,215 194,215.6 191.7,216.7 188.9,216.8 186.4,217.6 184.4,217.6 
+			182.4,218 181.1,217.7 179.2,218 179.1,217.1 178.6,216.8 178.7,215.9 178.6,215 179.9,214.3 179.8,212.2 182,211.4 183.5,210.2 
+			186,209.3 188.9,208.6 191.5,208.1 194,206.7 196.9,206.2 199.5,205.1 202.2,204.7 204.9,203.7 209,201.8 211.6,201.2 
+			212.9,201.4 214.9,201.1 215.6,201.7 		"/>
+	</g>
+	<path id="darker-2" class="st16" d="M228.4,228.5h-70v-38.4c0,0,22,3.4,35,3.4c12.9,0,35-3.4,35-3.4L228.4,228.5L228.4,228.5z"/>
+</g>
+</svg>

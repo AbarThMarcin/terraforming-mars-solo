@@ -58,7 +58,7 @@ const Stats2 = ({ currPlayer }) => {
       if (gamesCounter) arr.forEach((gen) => (gen = gen / gamesCounter))
 
       return arr
-   }, [statCardId, currPlayer])
+   }, [currPlayer])
 
    function handleClick(e) {
       setStatCardId(parseInt(e.target.value))
@@ -117,21 +117,26 @@ const Stats2 = ({ currPlayer }) => {
       const gen = 15 - id
 
       let current = 0
-      if (id < 14) current = point - points[15 - id - 2]
+      if (id < 14) {
+         current = point - points[15 - id - 2]
+      } else {
+         current = point - 14
+      }
 
       return (
          <div
             style={{
                background: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,255,150,${(0.2 * (current / max) ** 1.6).toFixed(2)}) 50%, rgba(0,0,0,0) 100%)`,
-               width: 'calc(var(--default-size) * 8.5)',
+               width: 'calc(var(--default-size) * 9.5)',
             }}
             className="stats2-percentages-line"
          >
-            <span style={{ width: 'calc(var(--default-size) * 2.9)' }}>{gen}</span>
+            <span style={{ width: 'calc(var(--default-size) * 2.4)' }}>{gen}</span>
             <span>.</span>
             <span style={{ width: 'calc(var(--default-size) * 1.6)' }}>{pointInt}</span>
             <span>.</span>
             <span>{point ? pointDec : '00'}</span>
+            {current && <span>(+{current.toFixed(2)})</span>}
          </div>
       )
    }

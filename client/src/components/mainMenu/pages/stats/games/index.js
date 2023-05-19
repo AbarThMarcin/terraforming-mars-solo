@@ -36,22 +36,31 @@ const Games = ({ user }) => {
                <span>CORPORATION</span>
             </div>
             <div>
-               <span>WIN / LOSS</span>
+               <span>START<br />TIME</span>
             </div>
             <div>
-               <span>POINTS TR</span>
+               <span>DURATION</span>
             </div>
             <div>
-               <span>POINTS GREENERY</span>
+               <span>END<br />TIME</span>
             </div>
             <div>
-               <span>POINTS CITY</span>
+               <span>WIN /<br />LOSS</span>
             </div>
             <div>
-               <span>POINTS VP</span>
+               <span>POINTS<br />TR</span>
             </div>
             <div>
-               <span>POINTS TOTAL</span>
+               <span>POINTS<br />GREENERY</span>
+            </div>
+            <div>
+               <span>POINTS<br />CITY</span>
+            </div>
+            <div>
+               <span>POINTS<br />VP</span>
+            </div>
+            <div>
+               <span>POINTS<br />TOTAL</span>
             </div>
             <div>
                <span>LOG</span>
@@ -66,7 +75,10 @@ const Games = ({ user }) => {
          {/* Table */}
          <div ref={refTable} className="table">
             {currPlayer.games.length > 0 ? (
-               currPlayer.games.slice(0).reverse().map((game, idx, games) => <TableGamesRow key={games.length - idx} id={games.length - idx} game={game} currPlayer={currPlayer} user={user} />)
+               currPlayer.games
+                  .slice(0)
+                  .reverse()
+                  .map((game, idx, games) => <TableGamesRow key={games.length - idx} id={games.length - idx} game={game} currPlayer={currPlayer} user={user} />)
             ) : (
                <div className="center" style={{ fontSize: 'calc(var(--default-size) * 1.5)' }}>
                   NO GAMES

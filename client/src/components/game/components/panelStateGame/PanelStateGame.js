@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 import { StateGameContext } from '../../../game'
 import panelStateGame from '../../../../assets/images/panelStateGame.svg'
 import { scale } from '../../../../utils/misc'
@@ -12,7 +12,7 @@ const PanelStateGame = () => {
    const oxHeight = {
       height: `${4.1 + 3.98 * stateGame.globalParameters.oxygen}%`,
    }
-
+   
    return (
       <>
          {/* Background */}
@@ -82,4 +82,4 @@ const PanelStateGame = () => {
    )
 }
 
-export default PanelStateGame
+export default memo(PanelStateGame)

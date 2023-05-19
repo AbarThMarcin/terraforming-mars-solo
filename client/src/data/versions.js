@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.3.2',
+      date: '2023-05-19',
+      updates: [
+         {
+            title: 'Start Time, Duration and End Time of matches have been added',
+            description: '',
+         },
+      ],
+   },
+   {
       number: '0.3.1',
       date: '2023-05-18',
       updates: [

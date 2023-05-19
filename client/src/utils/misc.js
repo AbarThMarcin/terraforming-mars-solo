@@ -255,19 +255,18 @@ export function modifiedCards(cards, statePlayer, justPlayedEffect, isIndentured
    return newCards
 }
 
-export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, herbivoresException = false) {
+export function updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard) {
    // Cards VP update
    let cardsVP = 0
    statePlayer.cardsPlayed.forEach((card) => {
-      cardsVP += updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException)
+      cardsVP += updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard)
    })
    // Total VP update
    const totalPoints = getTotalPointsWithoutVP(stateGame, stateBoard) + cardsVP
-
    dispatchPlayer({ type: ACTIONS_PLAYER.UPDATE_TOTALPOINTS, payload: totalPoints })
 }
 
-function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbivoresException) {
+function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard) {
    let newVp = card.vp
    switch (card.id) {
       case 5:
@@ -328,7 +327,7 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
          newVp = Math.floor(card.units.microbe / 3)
          break
       case 147:
-         newVp = herbivoresException ? Math.floor((card.units.animal + 1) / 2) : Math.floor(card.units.animal / 2)
+         newVp = Math.floor(card.units.animal / 2)
          break
       case 172:
          newVp = Math.floor(card.units.animal / 2)
@@ -347,8 +346,8 @@ function updateVpForCardId(card, statePlayer, dispatchPlayer, stateBoard, herbiv
    return newVp
 }
 
-export function getTotalPoints(statePlayer, stateGame, stateBoard, herbivoresException) {
-   return getTrPoints(stateGame) + getGreeneryPoints(stateBoard) + getCityPoints(stateBoard) + getVictoryPoints(statePlayer, herbivoresException)
+export function getTotalPoints(statePlayer, stateGame, stateBoard) {
+   return getTrPoints(stateGame) + getGreeneryPoints(stateBoard) + getCityPoints(stateBoard) + getVictoryPoints(statePlayer)
 }
 export function getTotalPointsWithoutVP(stateGame, stateBoard) {
    return getTrPoints(stateGame) + getGreeneryPoints(stateBoard) + getCityPoints(stateBoard)
@@ -375,11 +374,11 @@ export function getCityPoints(stateBoard) {
    })
    return points
 }
-export function getVictoryPoints(statePlayer, herbivoresException) {
+export function getVictoryPoints(statePlayer) {
    const cards = statePlayer.cardsPlayed.filter((card) => card.vp !== 0)
    const count = cards.length > 0 ? cards.reduce((total, card) => total + card.vp, 0) : 0
 
-   return herbivoresException ? count + 1 : count
+   return count
 }
 
 export function scale(number, inMin, inMax, outMin, outMax) {
@@ -583,7 +582,7 @@ export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, typ
    let cardsDeckIds
    let newCardsDrawIds
    let newCardsDeckIds
-   if (type === 'quickMatchId') {
+   if (type === 'QUICK MATCH (ID)') {
       cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
       const drawCardsIds = await getConsecutiveCardsIds(token, id, 208 - cardsDeckIds.length, count)
       newCardsDrawIds = drawCardsIds

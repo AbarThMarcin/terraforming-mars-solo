@@ -6,7 +6,7 @@ import iconGreenery from '../../../../../assets/images/tiles/tile_greenery.svg'
 import iconCity from '../../../../../assets/images/tiles/tile_city.svg'
 import iconVp from '../../../../../assets/images/vp/vp_any.svg'
 import BtnAction from '../../buttons/BtnAction'
-import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints } from '../../../../../utils/misc'
+import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints, updateVP } from '../../../../../utils/misc'
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
@@ -14,8 +14,8 @@ import { getCorpLogoMini } from '../../../../../data/corporations'
 import { funcUpdateLastLogItemAfter } from '../../../../../data/log/log'
 
 const ModalEndStats = () => {
-   const { statePlayer } = useContext(StatePlayerContext)
-   const { stateGame, logItems, setSyncError, setLogItems } = useContext(StateGameContext)
+   const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
+   const { stateGame, logItems, setSyncError, setLogItems, durationSeconds } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
@@ -29,6 +29,8 @@ const ModalEndStats = () => {
    const navigate = useNavigate()
    const [addRankedGame, setAddRankedGame] = useState(false)
    const logo = getCorpLogoMini(statePlayer.corporation.name)
+   const [startTime, setStartTime] = useState()
+   const [trigger, setTrigger] = useState(false)
 
    const gameData = {
       victory: victoryLossText === 'YOU WIN!' ? true : false,
@@ -47,44 +49,53 @@ const ModalEndStats = () => {
          vp: victoryPoints,
          total: totalPoints,
       },
+      endTime: new Date().toJSON(),
+      durationSeconds
    }
 
    useEffect(() => {
-      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
+      // Update VP
+      updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard)
+      setTrigger(true)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
 
+   useEffect(() => {
       const updateBackend = async () => {
          // If not logged, do nothing
          if (!user) return
          // Remove game from active games
-
-         // await deleteActiveGameData(user.token, type)
          let matchWithId = null
          matchWithId = await deleteActiveGameData(user.token, type)
          if (matchWithId?.response) {
             setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
          } else {
+            setStartTime(matchWithId.startTime)
             // Also update user's profile (activeMatches)
             const userMatches = {
                activeMatches: {
-                  quickMatch: type === 'quickMatch' ? false : user.activeMatches.quickMatch,
-                  quickMatchId: type === 'quickMatchId' ? false : user.activeMatches.quickMatchId,
-                  ranked: type === 'ranked' ? false : user.activeMatches.ranked,
+                  quickMatch: type === 'QUICK MATCH' ? false : user.activeMatches.quickMatch,
+                  quickMatchId: type === 'QUICK MATCH (ID)' ? false : user.activeMatches.quickMatchId,
+                  ranked: type === 'RANKED MATCH' ? false : user.activeMatches.ranked,
                },
             }
             const { data } = await updateUser(user.token, userMatches)
             localStorage.setItem('user', JSON.stringify(data))
             setUser(data)
             // Create ended game if type = ranked
-            if (type === 'ranked') setAddRankedGame(true)
+            if (type === 'RANKED MATCH') setAddRankedGame(true)
          }
       }
 
-      updateBackend()
+      if (trigger) {
+         funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
+         updateBackend()
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [])
+   }, [trigger])
 
    useEffect(() => {
-      if (addRankedGame) createEndedGameData(user.token, gameData)
+      if (addRankedGame) createEndedGameData(user.token, { ...gameData, startTime })
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [addRankedGame])
 

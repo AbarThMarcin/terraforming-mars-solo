@@ -215,7 +215,6 @@ const PassContainer = () => {
                setTimeout(() => {
                   // Turn Phase After Gen 14 on
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
-
                   // Decrease plants
                   startAnimation(setModals)
                   setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
@@ -229,19 +228,6 @@ const PassContainer = () => {
                      )
                      endAnimation(setModals)
                   }, ANIMATION_SPEED)
-
-                  // // Decrease plants
-                  // dispatchPlayer({
-                  //    type: ACTIONS_PLAYER.CHANGE_RES_PLANT,
-                  //    payload: -statePlayer.valueGreenery,
-                  // })
-                  // funcSetLogItemsSingleActions(
-                  //    `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
-                  //    getResIcon(RESOURCES.PLANT),
-                  //    -statePlayer.valueGreenery,
-                  //    setLogItems
-                  // )
-
                   // Proper action
                   let actions = getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)
                   // Potential Herbivores

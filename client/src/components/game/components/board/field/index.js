@@ -8,7 +8,7 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { ACTIONS_BOARD } from '../../../../../stateActions/actionsBoard'
 import { TILES, assignIconToTileData } from '../../../../../data/board'
 import { ANIMATIONS, endAnimation, getAnimNameBasedOnBonus, setAnimation, startAnimation } from '../../../../../data/animations'
-import { getCards, getNeighbors, getNewCardsDrawIds, modifiedCards, updateVP, withTimeAdded } from '../../../../../utils/misc'
+import { getCards, getNeighbors, getNewCardsDrawIds, modifiedCards, withTimeAdded } from '../../../../../utils/misc'
 import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
 import { RESOURCES } from '../../../../../data/resources'
 import { CORP_NAMES } from '../../../../../data/corpNames'
@@ -301,16 +301,22 @@ const Field = ({ field, showCoordinates }) => {
                      name: ANIMATIONS.USER_INTERACTION,
                      type: null,
                      value: null,
-                     func: () => {
-                        setModals((prev) => ({ ...prev, endStats: true }))
-                        updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard, true)
-                     },
+                     func: () => setModals((prev) => ({ ...prev, endStats: true })),
                   },
                ])
             }
          }
       }, delay)
    }
+
+   // function statePlayerHerbivores(statePlayer) {
+   //    if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) {
+   //       const c = statePlayer.cardsPlayed.find((c) => c.id === 147)
+   //       return { ...statePlayer, cardsPlayed: [...statePlayer.cardsPlayed.filter((c) => c.id !== 147), { ...c, units: { ...c.units, animal: c.units.animal + 1 } }] }
+   //    } else {
+   //       return statePlayer
+   //    }
+   // }
 
    return (
       <div

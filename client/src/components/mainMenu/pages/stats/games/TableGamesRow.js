@@ -40,7 +40,7 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
       setGameId(game._id)
       setShowModal(true)
    }
-   
+
    function handleClickLog() {
       setGame(game)
       setType(TABS.GAMES_LOG)
@@ -61,11 +61,26 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
       fontSize: 'calc(var(--default-size) * 0.6)',
    }
 
+   const getDuration = (seconds) => {
+      let hrs = Math.floor(seconds / 60 / 60)
+      let mins = Math.floor(seconds / 60) % 60
+      let secs = seconds % 60
+
+      hrs = hrs > 9 ? hrs : `0${hrs}`
+      mins = mins > 9 ? mins : `0${mins}`
+      secs = secs > 9 ? secs : `0${secs}`
+
+      return `${hrs}:${mins}:${secs}`
+   }
+
    return (
       <div className="row">
          <div>{id}</div>
          <div>{game.season === 0 ? 'PRESEASON' : game.season}</div>
          <div>{game.corporation ? game.corporation.name : 'NO CORP'}</div>
+         <div>{game.startTime ? `${game.startTime.slice(0, 10)}\n${game.startTime.slice(11, 16)}` : ''}</div>
+         <div>{game.durationSeconds ? getDuration(game.durationSeconds) : ''}</div>
+         <div>{game.endTime ? `${game.endTime.slice(0, 10)}\n${game.endTime.slice(11, 16)}` : ''}</div>
          <div>{game.victory ? 'WIN' : 'LOSS'}</div>
          <div>{game.points.tr}</div>
          <div>{game.points.greenery}</div>

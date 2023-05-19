@@ -22,11 +22,10 @@ const ModalMenu = () => {
          // Delete Game from active games
          let res
          res = await deleteActiveGameData(user.token, type)
-         if (res?.response) {
-            return
-         }
+
+         if (res?.response) return
          // Create forfeited game (endedGame) if type is ranked
-         if (type === 'ranked') {
+         if (type === 'RANKED MATCH') {
             const gameData = {
                corporation: statePlayer.corporation,
                cards: {
@@ -37,15 +36,18 @@ const ModalMenu = () => {
                },
                logItems,
                forfeited: true,
+               startTime: res.startTime,
+               endTime: new Date().toJSON(),
+               durationSeconds: res.durationSeconds
             }
             await createEndedGameData(user.token, gameData)
          }
          // Update user by changing activeMatches
          const { data } = await updateUser(user.token, {
             activeMatches: {
-               quickMatch: type === 'quickMatch' ? false : user.activeMatches.quickMatch,
-               quickMatchId: type === 'quickMatchId' ? false : user.activeMatches.quickMatchId,
-               ranked: type === 'ranked' ? false : user.activeMatches.ranked,
+               quickMatch: type === 'QUICK MATCH' ? false : user.activeMatches.quickMatch,
+               quickMatchId: type === 'QUICK MATCH (ID)' ? false : user.activeMatches.quickMatchId,
+               ranked: type === 'RANKED MATCH' ? false : user.activeMatches.ranked,
             },
          })
          localStorage.setItem('user', JSON.stringify(data))
@@ -126,7 +128,7 @@ const ModalMenu = () => {
                   </li>
                </ul>
                {/* Game Id */}
-               {type === 'quickMatchId' && (
+               {type === 'QUICK MATCH (ID)' && (
                   <div className="game-id">
                      <span>MATCH ID: </span>
                      <span className="id">{id}</span>

@@ -13,7 +13,7 @@ const getActiveGame = asyncHandler(async (req, res) => {
 })
 
 const createActiveGame = asyncHandler(async (req, res) => {
-   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems } = req.body.gameData
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems, startTime, durationSeconds } = req.body.gameData
    const type = req.body.type
 
    const newGame = new ActiveGame({
@@ -26,6 +26,8 @@ const createActiveGame = asyncHandler(async (req, res) => {
       corps,
       logItems,
       type,
+      startTime,
+      durationSeconds
    })
 
    const createdGame = await newGame.save()
@@ -45,7 +47,7 @@ const deleteActiveGame = asyncHandler(async (req, res) => {
 })
 
 const updateActiveGame = asyncHandler(async (req, res) => {
-   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems } = req.body.gameData
+   const { id, statePlayer, stateGame, stateModals, stateBoard, corps, logItems, durationSeconds } = req.body.gameData
    const type = req.body.type
 
    const game = await ActiveGame.findOne({ user: req.user._id, type })
@@ -60,6 +62,7 @@ const updateActiveGame = asyncHandler(async (req, res) => {
             stateBoard: stateBoard === undefined ? game.stateBoard : stateBoard,
             corps: corps === undefined ? game.corps : corps,
             logItems: logItems === undefined ? game.logItems : logItems,
+            durationSeconds: durationSeconds === undefined ? game.durationSeconds : durationSeconds,
          },
          function () {
             res.status(201).json({ message: 'success' })

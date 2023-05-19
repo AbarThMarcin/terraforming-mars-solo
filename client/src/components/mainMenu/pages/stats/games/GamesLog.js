@@ -26,6 +26,7 @@ const GamesLog = () => {
                      {game.logItems.map((item, idx) => (
                         <LogItem key={idx} id={idx} item={item} expanded={expanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
                      ))}
+                     <div></div>
                   </ul>
                   <LogCaption expanded={expanded} setExpanded={setExpanded} menuClicked={menuClicked} setMenuClicked={setMenuClicked} />
                </div>

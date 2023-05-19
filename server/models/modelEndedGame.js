@@ -70,10 +70,9 @@ const endedGameSchema = mongoose.Schema({
       type: String,
       required: false,
    },
-   time: {
-      type: Number,
-      required: false,
-   },
+   startTime: Date,
+   endTime: Date,
+   durationSeconds: Number,
 })
 
 module.exports = mongoose.model('ended_games', endedGameSchema)

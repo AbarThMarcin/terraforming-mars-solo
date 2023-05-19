@@ -31,6 +31,7 @@ import { funcGetEffect } from '../../data/effects/effects'
 import { useContext } from 'react'
 import { SettingsContext, SoundContext } from '../../App'
 import { funcUpdateLastLogItemAfter, funcSetLogItemsSingleActions } from '../../data/log/log'
+import Timer from './Timer'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -39,7 +40,7 @@ export const ModalsContext = createContext()
 export const StateBoardContext = createContext()
 export const CorpsContext = createContext()
 
-function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBoard, initCorpsIds, initLogItems, user, setUser, type }) {
+function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBoard, initCorpsIds, initLogItems, initDurationSeconds, user, setUser, type }) {
    const navigate = useNavigate()
    const { settings } = useContext(SettingsContext)
    const [statePlayer, dispatchPlayer] = useReducer(reducerPlayer, initStatePlayer || INIT_STATE_PLAYER)
@@ -49,6 +50,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    // eslint-disable-next-line react-hooks/exhaustive-deps
    const corps = useMemo(() => getInitCorps(), [initCorpsIds])
    const [logItems, setLogItems] = useState(initLogItems)
+   const [durationSeconds] = useState(initDurationSeconds)
    const [expanded, setExpanded] = useState(null)
    const [itemsExpanded, setItemsExpanded] = useState([null])
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(getAnimationSpeed(settings.speedId))
@@ -364,6 +366,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                      setANIMATION_SPEED,
                      setSaveToServerTrigger,
                      setSyncError,
+                     durationSeconds
                   }}
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
@@ -448,6 +451,11 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                                  </motion.div>
                               )}
                            </AnimatePresence>
+
+                           {/* Match Type & Timer*/}
+                           <div className="match-type">
+                              {type} <Timer durationSeconds={durationSeconds} setSyncError={setSyncError} />
+                           </div>
 
                            {/* Modals */}
                            <Modals logItems={logItems} expanded={expanded} setExpanded={setExpanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />

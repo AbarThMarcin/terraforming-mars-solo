@@ -62,7 +62,7 @@ const Menu = ({ user, setUser, setData }) => {
          setConfirmationDetails(QM_text, { text: 'RESUME', func: QM_resume }, { text: 'START NEW', func: QM_startNew })
       } else {
          setLoading(true)
-         const data = await setData('quickMatch')
+         const data = await setData('QUICK MATCH')
          setLoading(false)
          if (data) {
             navigate('/match')
@@ -75,7 +75,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function QM_resume() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('quickMatch')
+      const data = await setData('QUICK MATCH')
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -87,14 +87,14 @@ const Menu = ({ user, setUser, setData }) => {
    async function QM_startNew() {
       setShowModalConf(false)
       setLoading(true)
-      let data = await deleteActiveGameData(user.token, 'quickMatch')
+      let data = await deleteActiveGameData(user.token, 'QUICK MATCH')
       if (!data?.corps) {
          setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
          setShowMsgType('error')
          setLoading(false)
          return
       }
-      data = await setData('quickMatch', true)
+      data = await setData('QUICK MATCH', true)
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -117,7 +117,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function QMId_resume() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('quickMatchId')
+      const data = await setData('QUICK MATCH (ID)')
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -138,18 +138,18 @@ const Menu = ({ user, setUser, setData }) => {
       setLoading(true)
 
       let res
-
       if (user.activeMatches.ranked) {
-         const game = await getActiveGameData(user.token, 'ranked')
+         const game = await getActiveGameData(user.token, 'RANKED MATCH')
          if (!game?.corps) {
             setLoading(false)
             setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
             setShowMsgType('error')
             return
          }
+         // if ((Date.now() - game.createdAt_ms) / (1000 * 7) > 3) {
          if ((Date.now() - game.createdAt_ms) / (1000 * 60 * 60 * 24) > 3) {
             // Delete Expired Ranked Game from Active Games
-            res = await deleteActiveGameData(user.token, 'ranked')
+            res = await deleteActiveGameData(user.token, 'RANKED MATCH')
             if (!res?.corps) {
                setLoading(false)
                setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
@@ -157,7 +157,7 @@ const Menu = ({ user, setUser, setData }) => {
                return
             }
             // Create forfeited game (endedGame)
-            res = await createEndedGameData(user.token, {
+            const newGame = await createEndedGameData(user.token, {
                corporation: game.statePlayer.corporation,
                cards: {
                   played: game.statePlayer.cardsPlayed,
@@ -167,8 +167,11 @@ const Menu = ({ user, setUser, setData }) => {
                },
                logItems: game.logItems,
                forfeited: true,
+               startTime: res.startTime,
+               endTime: new Date().toJSON(),
+               durationSeconds: res.durationSeconds,
             })
-            if (!res?.corps) {
+            if (!newGame?.points) {
                setLoading(false)
                setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
                setShowMsgType('error')
@@ -203,7 +206,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_resume() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('ranked')
+      const data = await setData('RANKED MATCH')
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -215,8 +218,15 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_forfeitAndStartNew() {
       setShowModalConf(false)
       setLoading(true)
-      const gameData = await getActiveGameData(user.token, 'ranked')
+      const gameData = await getActiveGameData(user.token, 'RANKED MATCH')
       if (!gameData?.corps) {
+         setLoading(false)
+         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
+         setShowMsgType('error')
+         return
+      }
+      const res = await deleteActiveGameData(user.token, 'RANKED MATCH')
+      if (!res?.corps) {
          setLoading(false)
          setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
          setShowMsgType('error')
@@ -232,6 +242,9 @@ const Menu = ({ user, setUser, setData }) => {
          },
          logItems: gameData.logItems,
          forfeited: true,
+         startTime: res.startTime,
+         endTime: new Date().toJSON(),
+         durationSeconds: res.durationSeconds,
       })
       if (!newGame?.points) {
          setLoading(false)
@@ -239,14 +252,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
          return
       }
-      const res = await deleteActiveGameData(user.token, 'ranked')
-      if (!res?.corps) {
-         setLoading(false)
-         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
-         setShowMsgType('error')
-         return
-      }
-      const data = await setData('ranked', true)
+      const data = await setData('RANKED MATCH', true)
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -258,7 +264,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_startNew() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('ranked')
+      const data = await setData('RANKED MATCH')
       setLoading(false)
       if (data) {
          navigate('/match')

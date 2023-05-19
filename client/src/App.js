@@ -85,6 +85,7 @@ function App() {
    const [initStateBoard, setInitStateBoard] = useState()
    const [initCorpsIds, setInitCorpsIds] = useState()
    const [initLogItems, setInitLogItems] = useState()
+   const [initDurationSeconds, setInitDurationSeconds] = useState()
    // Match Type
    const [type, setType] = useState()
    // Modal Confirmation Details
@@ -155,6 +156,7 @@ function App() {
          stateBoard: null,
          corps: null,
          logItems: null,
+         durationSeconds: null
       }
       let token = user?.token
       if (!token) {
@@ -163,13 +165,13 @@ function App() {
       } else {
          let matchStarted
          switch (type) {
-            case 'quickMatch':
+            case 'QUICK MATCH':
                matchStarted = user.activeMatches.quickMatch
                break
-            case 'quickMatchId':
+            case 'QUICK MATCH (ID)':
                matchStarted = user.activeMatches.quickMatchId
                break
-            case 'ranked':
+            case 'RANKED MATCH':
                matchStarted = user.activeMatches.ranked
                break
             default:
@@ -177,7 +179,7 @@ function App() {
          }
          if (!matchStarted || restartMatch) {
             // Game not started
-            if (type === 'quickMatchId') {
+            if (type === 'QUICK MATCH (ID)') {
                await initNewGameId(gameData, matchWithId) // Quick Match with ID
             } else {
                await initNewGame(gameData) // Quick Match or Ranked Match
@@ -195,6 +197,8 @@ function App() {
                   stateBoard: gameData.stateBoard,
                   corps: gameData.corps,
                   logItems: gameData.logItems,
+                  startTime: new Date().toJSON(),
+                  durationSeconds: gameData.durationSeconds,
                },
                type
             )
@@ -203,9 +207,9 @@ function App() {
             // Update user
             const res = await updateUser(user.token, {
                activeMatches: {
-                  quickMatch: type === 'quickMatch' ? true : user.activeMatches.quickMatch,
-                  quickMatchId: type === 'quickMatchId' ? true : user.activeMatches.quickMatchId,
-                  ranked: type === 'ranked' ? true : user.activeMatches.ranked,
+                  quickMatch: type === 'QUICK MATCH' ? true : user.activeMatches.quickMatch,
+                  quickMatchId: type === 'QUICK MATCH (ID)' ? true : user.activeMatches.quickMatchId,
+                  ranked: type === 'RANKED MATCH' ? true : user.activeMatches.ranked,
                },
             })
             if (res.data) {
@@ -229,6 +233,7 @@ function App() {
       setInitStateBoard(gameData.stateBoard)
       setInitCorpsIds(gameData.corps)
       setInitLogItems(gameData.logItems)
+      setInitDurationSeconds(gameData.durationSeconds)
       setType(type)
 
       return 'Ok'
@@ -238,7 +243,7 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [143, 64, 67, 11, 52, 115, 19, 161, 185, 192]
+      // const initCardsIds = [143, 64, 67, 11, 52, 115, 19, 161, 147, 192]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [6, 11]
 
@@ -255,6 +260,7 @@ function App() {
          cardsDrawIds: initCardsIds,
       }
       gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
+      gameData.durationSeconds = 0
    }
 
    async function initNewGameId(gameData, matchWithId) {
@@ -275,6 +281,7 @@ function App() {
          gameData.stateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
          gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
+         gameData.durationSeconds = matchWithId.durationSeconds
       } else {
          // Create New Match With Id
          const board = JSON.parse(JSON.stringify(INIT_BOARD))
@@ -295,6 +302,7 @@ function App() {
          gameData.stateBoard = addNeutralTiles(board)
          gameData.corps = initCorpsIds
          gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
+         gameData.durationSeconds = 0
          const matchId = await createMatchWithId(user.token, {
             stateBoard: gameData.stateBoard,
             corps: initCorpsIds,
@@ -340,6 +348,7 @@ function App() {
                                  initStateBoard={initStateBoard}
                                  initCorpsIds={initCorpsIds}
                                  initLogItems={initLogItems}
+                                 initDurationSeconds={initDurationSeconds}
                                  type={type}
                                  user={user}
                                  setUser={setUser}

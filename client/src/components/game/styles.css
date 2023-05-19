@@ -60,3 +60,12 @@
    font-size: calc(var(--default-size) * 1.4);
    letter-spacing: calc(var(--default-size) * 0.05);
 }
+
+.match-type {
+   position: absolute;
+   bottom: calc(var(--default-size) * 3.7);
+   line-height: calc(var(--default-size) * 1.4);
+   letter-spacing: calc(var(--default-size) * 0.05);
+   opacity: 0.6;
+   left: calc(var(--default-size) * 0.27);
+}

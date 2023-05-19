@@ -60,7 +60,7 @@
 }
 .modal-log .log .log-menu {
    position: absolute;
-   right: calc(var(--default-size) * 6);
+   right: calc(var(--default-size) * 3);
    top: 50%;
    translate: 0 calc(var(--default-size) * -1);
    font-size: calc(var(--default-size) * 1.5);
@@ -100,6 +100,7 @@
    color: #ccc;
    position: relative;
    margin-block: var(--default-size);
+   margin-left: calc(var(--default-size) * 0.06);
 }
 .modal-log .box .generation::after {
    content: '';
@@ -116,6 +117,7 @@
    width: 95%;
    background: rgb(70, 70, 70);
    background: linear-gradient(90deg, rgba(40, 40, 40, 1) 0%, rgba(40, 40, 40, 0) 100%);
+   margin-left: calc(var(--default-size) * 0.06);
 }
 .modal-log .box .action:not(:nth-last-child(2)) {
    margin-bottom: calc(var(--default-size) * 1);

@@ -77,7 +77,10 @@ const Login = ({ setUser }) => {
                )}
             </button>
          </form>
-         <div className="text">
+         <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 'calc(var(--default-size) * 1)' }}>
+            <div id="signInWithGoogle"></div>
+         </div>
+         <div className="text" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             {`DON'T HAVE AN ACCOUNT?`}{' '}
             <span
                className="pointer"
@@ -86,7 +89,7 @@ const Login = ({ setUser }) => {
                   navigate('/register')
                }}
             >
-               REGISTER
+               &nbsp;REGISTER
             </span>
          </div>
          {error && <div className="main-menu-error">{error}</div>}

@@ -22,6 +22,10 @@ export const ACTIONS_PLAYER = {
    SET_CARDS_DECK: 'Set cards ids in deck',
    SET_CARDS_DRAW: 'Set cards ids in latest draw',
    SET_CARDS_IN_HAND: 'Set cards in hand',
+   // TESTING
+   ADD_CARDS_IN_HAND: 'Add cards in hand',
+   REMOVE_CARDS_IN_HAND: 'Remove cards in hand',
+   // -------
    SET_CARDS_PLAYED: 'Set cards played',
    SET_CARDS_SEEN: 'Set cards seen',
    SET_CARDS_PURCHASED: 'Set cards purchase',
@@ -187,6 +191,24 @@ export const reducerPlayer = (state, action) => {
             ...state,
             cardsInHand: action.payload,
          }
+      // Testing
+      case ACTIONS_PLAYER.ADD_CARDS_IN_HAND:
+         return {
+            ...state,
+            cardsInHand: [...state.cardsInHand, ...action.payload],
+         }
+      case ACTIONS_PLAYER.REMOVE_CARDS_IN_HAND:
+         return {
+            ...state,
+            cardsInHand: state.cardsInHand.filter((c) => {
+               if (Array.isArray(action.payload)) {
+                  return !action.payload.contains(c.id)
+               } else {
+                  return c.id !== action.payload
+               }
+            }),
+         }
+      // -------
       case ACTIONS_PLAYER.SET_CARDS_PLAYED:
          return {
             ...state,

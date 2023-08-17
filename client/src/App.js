@@ -146,6 +146,18 @@ function App() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
+   function handleCallbackResponse(response) {
+      console.log(response.credential)
+   }
+
+   useEffect(() => {
+      /* global google */
+      google.accounts.id.initialize({
+         client_id: "589313983662-83911c4ecv3a92rdahk4pf4virbumpe9.apps.googleusercontent.com",
+         callback: handleCallbackResponse
+      })
+   }, [])
+
    async function setData(type, restartMatch = false, matchWithId = null) {
       // Empty Data
       let gameData = {
@@ -156,7 +168,7 @@ function App() {
          stateBoard: null,
          corps: null,
          logItems: null,
-         durationSeconds: null
+         durationSeconds: null,
       }
       let token = user?.token
       if (!token) {
@@ -243,7 +255,7 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [143, 64, 67, 11, 52, 115, 19, 161, 147, 192]
+      // const initCardsIds = [1, 64, 67, 11, 52, 115, 19, 161, 147, 192]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [6, 11]
 

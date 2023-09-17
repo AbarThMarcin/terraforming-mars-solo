@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import { ModalsContext, UserContext } from '.'
 import { updateGameData } from '../../api/activeGame'
 
-const UPDATE_SERVER_EVERY_SECONDS = 1
+const UPDATE_SERVER_EVERY_SECONDS = 10
 
 const Timer = ({ durationSeconds, setSyncError }) => {
    const { user, type } = useContext(UserContext)

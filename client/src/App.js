@@ -153,8 +153,8 @@ function App() {
    useEffect(() => {
       /* global google */
       google.accounts.id.initialize({
-         client_id: "589313983662-83911c4ecv3a92rdahk4pf4virbumpe9.apps.googleusercontent.com",
-         callback: handleCallbackResponse
+         client_id: '589313983662-83911c4ecv3a92rdahk4pf4virbumpe9.apps.googleusercontent.com',
+         callback: handleCallbackResponse,
       })
    }, [])
 

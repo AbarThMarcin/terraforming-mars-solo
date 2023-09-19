@@ -1,4 +1,4 @@
-import { getAllResources, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes, getNeighbors, hasTag } from '../../utils/misc'
+import { getAllResources, getCards, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes, getNeighbors, hasTag } from '../../utils/misc'
 import { ANIMATIONS } from '../animations'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from '../board'
 import { CORP_NAMES } from '../corpNames'

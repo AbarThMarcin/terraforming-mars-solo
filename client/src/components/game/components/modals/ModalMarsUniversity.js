@@ -6,12 +6,11 @@ import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getCards, getNewCardsDrawIds, getPosition, modifiedCards, withTimeAdded } from '../../../../utils/misc'
+import { getCards, getNewCardsDrawIds, getPosition, getThinerStatePlayer, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
-import { CARDS } from '../../../../data/cards'
 import { updateGameData } from '../../../../api/activeGame'
 import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../../../data/log/log'
 
@@ -36,12 +35,12 @@ const ModalMarsUniversity = () => {
 
       // Update Server Data
       const updatedData = {
-         statePlayer,
+         statePlayer: getThinerStatePlayer(statePlayer),
          stateGame,
          stateModals: modals,
          stateBoard,
          corps: initCorpsIds,
-         logItems,
+         logItems: logItems,
       }
       updateGameData(user.token, updatedData, type).then((res) => {
          if (res.message === 'success') {
@@ -78,7 +77,7 @@ const ModalMarsUniversity = () => {
       let newCardsInHand = JSON.parse(JSON.stringify(statePlayer.cardsInHand.filter((card) => card.id !== selectedCardId)))
       setTimeout(() => {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
-         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards(CARDS, [selectedCardId])[0].name}) from MARS UNIVERSITY effect`, getResIcon(RESOURCES.CARD), -1, setLogItems)
+         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards([selectedCardId])[0].name}) from MARS UNIVERSITY effect`, getResIcon(RESOURCES.CARD), -1, setLogItems)
          endAnimation(setModals)
       }, ANIMATION_SPEED)
       // Draw a card
@@ -86,7 +85,7 @@ const ModalMarsUniversity = () => {
          startAnimation(setModals)
          setAnimation(ANIMATIONS.CARD_IN, RESOURCES.CARD, 1, setModals)
       }, ANIMATION_SPEED)
-      newCardsInHand = [...newCardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+      newCardsInHand = [...newCardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -94,15 +93,15 @@ const ModalMarsUniversity = () => {
          })
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-            payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
+            payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
          })
-         funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from MARS UNIVERSITY effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+         funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from MARS UNIVERSITY effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
          let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
          newStatePlayer = {
             ...newStatePlayer,
             cardsInHand: newCardsInHand,
          }
-         funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
+         funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame)
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)

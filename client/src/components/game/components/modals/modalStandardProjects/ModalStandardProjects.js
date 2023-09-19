@@ -1,6 +1,6 @@
 /* Used to view standard projects */
 import { useState, useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext, StateBoardContext } from '../../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import ModalSPaction from '../modalsComponents/ModalSPaction'
@@ -30,7 +30,6 @@ const ModalStandardProjects = () => {
    const { setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED, setLogItems, setItemsExpanded } = useContext(StateGameContext)
-   const { stateBoard } = useContext(StateBoardContext)
    const { sound } = useContext(SoundContext)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [toBuyMln, setToBuyMln] = useState(initToBuyMln())
@@ -111,8 +110,10 @@ const ModalStandardProjects = () => {
             logData = { type: LOG_TYPES.SP_ACTION, text: SP.CITY }
             logIcon = iconLogCity
             break
+         default:
+            break
       }
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, logData, logIcon, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, logData, logIcon, setItemsExpanded)
 
       let animResPaidTypes = []
       if (toBuyMln[btnClickedId] !== 0) animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])

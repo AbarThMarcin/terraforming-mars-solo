@@ -2,7 +2,9 @@ import { getConsecutiveCardsIds } from '../api/matchWithId'
 import { getRandIntNumbers } from '../api/other'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
 import { TILES } from '../data/board'
+import { CARDS } from '../data/cards'
 import { CORP_NAMES } from '../data/corpNames'
+import { CORPORATIONS } from '../data/corporations'
 import { EFFECTS } from '../data/effects/effectIcons'
 import { TAGS } from '../data/tags'
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
@@ -565,11 +567,129 @@ export const withTimePlayed = (cards) => {
    return cards.map((card, idx) => ({ ...card, timePlayed: Date.now() + idx }))
 }
 
-export const getCards = (cards, ids) => {
-   if (!ids) return []
+export const getCards = (cards) => {
+   if (!cards) return []
    let initCards = []
-   ids.forEach((id) => initCards.push(cards[id - 1]))
+   cards.forEach((card) => {
+      if (typeof card === 'number') {
+         initCards.push(CARDS[card - 1])
+      } else {
+         initCards.push({
+            ...CARDS[card.id - 1],
+            currentCost: card.currentCost,
+            vp: card.vp,
+            units: card.units,
+            actionUsed: card.actionUsed,
+            timeAdded: card.timeAdded,
+            timePlayed: card.timePlayed,
+         })
+      }
+   })
    return initCards
+}
+
+export const getStatePlayerWithAllData = (statePlayer) => {
+   let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
+   newStatePlayer = {
+      ...newStatePlayer,
+      corporation: getCorporation(newStatePlayer.corporation),
+      cardsInHand: getCards(newStatePlayer.cardsInHand),
+      cardsPlayed: getCards(newStatePlayer.cardsPlayed),
+      cardsSeen: getCards(newStatePlayer.cardsSeen),
+      cardsPurchased: getCards(newStatePlayer.cardsPurchased),
+   }
+
+   return newStatePlayer
+}
+
+export const getLogItemsWithAllData = (logItems) => {
+   let newLogItems = JSON.parse(JSON.stringify(logItems))
+   // newLogItems = newLogItems.map((newLogItem) => {
+   //    return {
+   //       ...newLogItem,
+   //       details: {
+   //          ...newLogItem.details,
+   //          stateBefore: ,
+   //          stateAfter: ,
+   //       },
+   //    }
+   // })
+
+   return newLogItems
+}
+
+export const getEndedGameCardsWithAllData = (cards) => {
+   let newCards = JSON.parse(JSON.stringify(cards))
+   newCards = {
+      ...newCards,
+      played: getCards(newCards.cardsPlayed),
+      seen: getCards(newCards.cardsSeen),
+      purchased: getCards(newCards.cardsPurchased),
+   }
+
+   return newCards
+}
+
+export const getThinerStatePlayer = (statePlayer) => {
+   let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
+   newStatePlayer = {
+      ...newStatePlayer,
+      corporation: newStatePlayer.corporation ? newStatePlayer.corporation.id : null,
+      cardsInHand: newStatePlayer.cardsInHand.map((c) => getThinerCard(c)),
+      cardsPlayed: newStatePlayer.cardsPlayed.map((c) => getThinerCard(c)),
+      cardsSeen: newStatePlayer.cardsSeen.map((c) => getThinerCard(c)),
+      cardsPurchased: newStatePlayer.cardsPurchased.map((c) => getThinerCard(c)),
+   }
+
+   return newStatePlayer
+}
+
+export const getThinerLogStatePlayer = (statePlayer) => {
+   let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
+   newStatePlayer = {
+      production: newStatePlayer.production,
+      resources: newStatePlayer.resources,
+      corporation: newStatePlayer.corporation ? { name: newStatePlayer.corporation.name, effects: newStatePlayer.corporation.effects } : null,
+      cardsPlayed: newStatePlayer.cardsPlayed.map((c) => {
+         return { id: c.id, name: c.name, vp: c.vp, iconNames: { action: c.iconNames.action }, effect: c.effect, units: c.units }
+      }),
+      cardsInHand: newStatePlayer.cardsInHand.map((c) => {
+         return { id: c.id, name: c.name }
+      }),
+   }
+
+   return newStatePlayer
+}
+
+export const getThinerLogStateGame = (stateGame) => {
+   let newStateGame = JSON.parse(JSON.stringify(stateGame))
+   newStateGame = {
+      tr: newStateGame.tr,
+      globalParameters: newStateGame.globalParameters,
+   }
+
+   return newStateGame
+}
+
+export const getThinerEndedGameCards = (statePlayer) => {
+   let copyStatePlayer = JSON.parse(JSON.stringify(statePlayer))
+   const newCards = {
+      played: copyStatePlayer.cardsPlayed.map((c) => getThinerCard(c)),
+      seen: copyStatePlayer.cardsSeen.map((c) => getThinerCard(c)),
+      purchased: copyStatePlayer.cardsPurchased.map((c) => getThinerCard(c)),
+      inDeck: copyStatePlayer.cardsDeckIds,
+   }
+
+   return newCards
+}
+
+export const getCorporation = (id) => {
+   if (!id) return null
+   return CORPORATIONS.find((corporation) => corporation.id === id)
+}
+
+export const getThinerCard = (c) => {
+   return { id: c.id, currentCost: c.currentCost, vp: c.vp, units: c.units, actionUsed: c.actionUsed, timeAdded: c.timeAdded, timePlayed: c.timePlayed }
 }
 
 export const range = (start, end) => {

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
-const { corporationSchema } = require('./modelCorporation')
-const { cardSchema } = require('./modelCard')
+const { cardShortSchema } = require('./modelCard')
 
 const statePlayerSchema = mongoose.Schema({
-   corporation: corporationSchema,
+   corporation: Number,
    production: {
       mln: Number,
       steel: Number,
@@ -22,10 +21,10 @@ const statePlayerSchema = mongoose.Schema({
    },
    cardsDeckIds: [Number],
    cardsDrawIds: [Number],
-   cardsInHand: [cardSchema],
-   cardsPlayed: [cardSchema],
-   cardsSeen: [cardSchema],
-   cardsPurchased: [cardSchema],
+   cardsInHand: [cardShortSchema],
+   cardsPlayed: [cardShortSchema],
+   cardsSeen: [cardShortSchema],
+   cardsPurchased: [cardShortSchema],
    valueSteel: Number,
    valueTitan: Number,
    valueGreenery: Number,

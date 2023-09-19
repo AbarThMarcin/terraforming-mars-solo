@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const { cardSchema } = require('./subModels/modelCard')
-const { corporationSchema } = require('./subModels/modelCorporation')
 const { logTypeSchema } = require('./subModels/modelLogType')
+const { cardShortSchema } = require('./subModels/modelCard')
 
 const pointsSchema = mongoose.Schema({
    tr: Number,
@@ -32,20 +31,20 @@ const endedGameSchema = mongoose.Schema({
       default: false,
    },
    corporation: {
-      type: corporationSchema,
+      type: Number,
       required: false,
    },
    cards: {
       played: {
-         type: [cardSchema],
+         type: [cardShortSchema],
          required: true,
       },
       seen: {
-         type: [cardSchema],
+         type: [cardShortSchema],
          required: true,
       },
       purchased: {
-         type: [cardSchema],
+         type: [cardShortSchema],
          required: true,
       },
       inDeck: [Number],

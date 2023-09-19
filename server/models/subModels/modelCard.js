@@ -33,4 +33,19 @@ const cardSchema = mongoose.Schema({
    timePlayed: Number,
 })
 
-module.exports = { cardSchema }
+const cardShortSchema = mongoose.Schema({
+   id: Number,
+   currentCost: Number,
+   vp: Number,
+   units: {
+      microbe: Number,
+      animal: Number,
+      science: Number,
+      fighter: Number,
+   },
+   actionUsed: Boolean,
+   timeAdded: Number,
+   timePlayed: Number,
+})
+
+module.exports = { cardSchema, cardShortSchema }

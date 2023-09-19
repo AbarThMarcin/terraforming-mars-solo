@@ -9,7 +9,7 @@ import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getCards, getNewCardsDrawIds, getPosition, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
+import { getCards, getNewCardsDrawIds, getPosition, getThinerStatePlayer, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import { ANIMATIONS } from '../../../../data/animations'
@@ -20,7 +20,6 @@ import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogIte
 import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
 import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
 import DecreaseCostDraft from './modalsComponents/decreaseCost/DecreaseCostDraft'
-import { CARDS } from '../../../../data/cards'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { updateGameData } from '../../../../api/activeGame'
 
@@ -38,7 +37,7 @@ const ModalDraft = () => {
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [selectedCardsIds, setSelectedCardsIds] = useState([])
    const cardsDraft = useMemo(
-      () => modifiedCards(getCards(CARDS, statePlayer.cardsDrawIds), statePlayer),
+      () => modifiedCards(getCards(statePlayer.cardsDrawIds), statePlayer),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [statePlayer.cardsDrawIds]
    )
@@ -54,23 +53,22 @@ const ModalDraft = () => {
    // Add draft cards to the cardsSeen
    useEffect(() => {
       // Update latest Log Item (PASS) with state of the game AFTER passed
-      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
+      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
 
       // Update active game on server only for generation other than 1
       if (stateGame.generation === 1 || !user) return
 
-      const cardsSeenIds = statePlayer.cardsSeen.map((c) => c.id)
-      if (!cardsSeenIds.includes(cardsDraft[0].id)) {
+      if (!statePlayer.cardsSeen.includes(cardsDraft[0].id)) {
          const newCards = [...statePlayer.cardsSeen, ...cardsDraft]
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
          // Update Server Data
          const updatedData = {
-            statePlayer: { ...statePlayer, cardsSeen: newCards },
+            statePlayer: getThinerStatePlayer(statePlayer),
             stateGame,
             stateModals: modals,
             stateBoard,
             corps: initCorpsIds,
-            logItems,
+            logItems: logItems,
          }
          updateGameData(user.token, updatedData, type).then((res) => {
             if (res.message === 'success') {
@@ -85,7 +83,7 @@ const ModalDraft = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.DRAFT }, null, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.DRAFT }, null, setItemsExpanded)
       // Decrease corporation resources
       if (toBuyMln > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
@@ -123,7 +121,6 @@ const ModalDraft = () => {
             cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
          },
          stateGame,
-         stateBoard
       )
       // Perform forced action for Tharsis or Inventrix in GEN 1
       if (stateGame.generation === 1) {
@@ -138,7 +135,6 @@ const ModalDraft = () => {
                   cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
                },
                stateGame,
-               stateBoard,
                { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.THARSIS_REPUBLIC },
                logIconTharsis,
                setItemsExpanded
@@ -159,38 +155,35 @@ const ModalDraft = () => {
                   cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
                },
                stateGame,
-               stateBoard,
                { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.INVENTRIX },
                logIconInventrix,
                setItemsExpanded
             )
             // Get Random Cards Ids
             let newCardsDrawIds = await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, user?.token)
-            const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
+            const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
             funcSetLogItemsSingleActions(`Drew 3 cards (${newCardsDrawNames[0]}, ${newCardsDrawNames[1]} and ${newCardsDrawNames[2]})`, getResIcon(RESOURCES.CARD), 3, setLogItems)
-            performSubActions(
-               [
-                  {
-                     name: ANIMATIONS.CARD_IN,
-                     type: RESOURCES.CARD,
-                     value: 3,
-                     func: () => {
-                        dispatchPlayer({
-                           type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                           payload: sorted(
-                              [...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)), ...modifiedCards(getCards(CARDS, newCardsDrawIds), statePlayer)],
-                              settings.sortId[0],
-                              requirementsMet
-                           ),
-                        })
-                        dispatchPlayer({
-                           type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                           payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
-                        })
-                     },
+            performSubActions([
+               {
+                  name: ANIMATIONS.CARD_IN,
+                  type: RESOURCES.CARD,
+                  value: 3,
+                  func: () => {
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                        payload: sorted(
+                           [...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)), ...modifiedCards(getCards(newCardsDrawIds), statePlayer)],
+                           settings.sortId[0],
+                           requirementsMet
+                        ),
+                     })
+                     dispatchPlayer({
+                        type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                        payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
+                     })
                   },
-               ]
-            )
+               },
+            ])
          }
       }
    }

@@ -20,7 +20,6 @@ import {
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
 import { EFFECTS } from '../effects/effectIcons'
-import { CARDS } from '../cards'
 import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log/log'
 
 // Icons
@@ -1817,14 +1816,14 @@ export const funcGetImmEffects = (
             value: 2,
             func: async () => {
                newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || (await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token))
-               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-               const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
+               const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
                cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
-               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
          // Call Olympus Conference effect
@@ -1835,19 +1834,14 @@ export const funcGetImmEffects = (
                value: 1,
                func: async () => {
                   newCardsDrawIds = initDrawCardsIds?.slice(2) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds))
-                  cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-                  cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                  cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+                  cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                      payload: cardsInHand,
                   })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-                  funcSetLogItemsSingleActions(
-                     `Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`,
-                     getResIcon(RESOURCES.CARD),
-                     1,
-                     setLogItems
-                  )
+                  funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                },
             })
          }
@@ -2604,14 +2598,14 @@ export const funcGetImmEffects = (
             value: 2,
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token)
-               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-               const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
+               const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
                cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
-               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
@@ -2624,7 +2618,7 @@ export const funcGetImmEffects = (
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
-                     card: getCards(CARDS, [143])[0],
+                     card: getCards([143])[0],
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2870,13 +2864,13 @@ export const funcGetImmEffects = (
             value: 1,
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
-               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
-               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
@@ -3407,8 +3401,8 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: async () => {
                      newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token))
-                     cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-                     cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                     cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+                     cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: cardsInHand,
@@ -3417,12 +3411,7 @@ export const funcGetImmEffects = (
                         type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                         payload: cardsSeen,
                      })
-                     funcSetLogItemsSingleActions(
-                        `Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`,
-                        getResIcon(RESOURCES.CARD),
-                        1,
-                        setLogItems
-                     )
+                     funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                   },
                })
             }
@@ -3485,13 +3474,13 @@ export const funcGetImmEffects = (
             value: 1,
             func: async () => {
                newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token))
-               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
-               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
          // Call Olympus Conference effect
@@ -3528,19 +3517,14 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: async () => {
                      newCardsDrawIds = initDrawCardsIds?.slice(1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds))
-                     cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-                     cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                     cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+                     cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: cardsInHand,
                      })
                      dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-                     funcSetLogItemsSingleActions(
-                        `Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`,
-                        getResIcon(RESOURCES.CARD),
-                        1,
-                        setLogItems
-                     )
+                     funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                   },
                })
             }
@@ -3679,14 +3663,14 @@ export const funcGetImmEffects = (
             value: 2,
             func: async () => {
                newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || (await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token))
-               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-               cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+               cardsInHand = [...cardsInHand.filter((card) => card.id !== actionOrCardId), ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+               cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-               const newCardsDrawNames = getCards(CARDS, newCardsDrawIds).map((c) => c.name)
+               const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
                cardsPlayed = [...cardsPlayed, ...withTimePlayed([modals.modalCard])]
-               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame, stateBoard)
+               funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
          // Call Olympus Conference effect
@@ -3723,19 +3707,14 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: async () => {
                      newCardsDrawIds = initDrawCardsIds?.slice(2) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds))
-                     cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
-                     cardsSeen = [...cardsSeen, ...getCards(CARDS, newCardsDrawIds)]
+                     cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+                     cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                         payload: cardsInHand,
                      })
                      dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
-                     funcSetLogItemsSingleActions(
-                        `Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`,
-                        getResIcon(RESOURCES.CARD),
-                        1,
-                        setLogItems
-                     )
+                     funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                   },
                })
             }

@@ -7,11 +7,10 @@ import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getCards, getPosition, modifiedCards, withTimeAdded } from '../../../../utils/misc'
+import { getCards, getPosition, getThinerStatePlayer, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
-import { CARDS } from '../../../../data/cards'
 import { updateGameData } from '../../../../api/activeGame'
 import { funcSetLogItemsSingleActions } from '../../../../data/log/log'
 
@@ -25,7 +24,7 @@ const ModalBusinessContacts = () => {
    const { sound } = useContext(SoundContext)
    const [selectedCardIds, setSelectedCardIds] = useState([])
    const [page, setPage] = useState(1)
-   const cardsSeen = getCards(CARDS, modals.modalBusCont.cards)
+   const cardsSeen = getCards(modals.modalBusCont.cards)
 
    const btnActionPosition = { bottom: '0', left: '50%', transform: 'translateX(-50%)' }
 
@@ -38,18 +37,17 @@ const ModalBusinessContacts = () => {
       // Update active game on server only if user is logged
       if (!user) return
 
-      const cardsSeenIds = statePlayer.cardsSeen.map((c) => c.id)
-      if (!cardsSeenIds.includes(cardsSeen[0].id)) {
+      if (!statePlayer.cardsSeen.includes(cardsSeen[0].id)) {
          const newCards = [...statePlayer.cardsSeen, ...cardsSeen]
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
          // Update Server Data
          const updatedData = {
-            statePlayer: { ...statePlayer, cardsSeen: newCards },
+            statePlayer: getThinerStatePlayer(statePlayer),
             stateGame,
             stateModals: modals,
             stateBoard,
             corps: initCorpsIds,
-            logItems,
+            logItems: logItems,
          }
          updateGameData(user.token, updatedData, type).then((res) => {
             if (res.message === 'success') {
@@ -72,12 +70,12 @@ const ModalBusinessContacts = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, selectedCardIds)), statePlayer)],
+            payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(selectedCardIds)), statePlayer)],
          })
          if (modals.modalBusCont.selectCount === 1) {
-            funcSetLogItemsSingleActions(`Drew 1 card (${getCards(CARDS, selectedCardIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+            funcSetLogItemsSingleActions(`Drew 1 card (${getCards(selectedCardIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
          } else {
-            const newCardsDrawNames = getCards(CARDS, selectedCardIds).map((c) => c.name)
+            const newCardsDrawNames = getCards(selectedCardIds).map((c) => c.name)
             funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
          }
 

@@ -9,6 +9,7 @@ import { getUsers } from '../../../../api/user'
 import { getEndedGameData } from '../../../../api/endedGame'
 import { getSeason } from '../../../../api/other'
 import FilterSeason from '../stats/filters/FilterSeason'
+import { getEndedGameCardsWithAllData, getLogItemsWithAllData } from '../../../../utils/misc'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
@@ -30,7 +31,15 @@ const Ranking = () => {
    useEffect(() => {
       const fetchData = async () => {
          const initUsers = await getUsers()
-         const initGames = await getEndedGameData()
+         let initGames = await getEndedGameData()
+         initGames = initGames.map((game) => {
+            return {
+               ...game,
+               cards: getEndedGameCardsWithAllData(game.cards),
+               logItems: getLogItemsWithAllData(game.logItems),
+            }
+         })
+
          const initSeason = await getSeason()
          const initData = { users: initUsers, games: initGames, season: initSeason }
          // Set Data

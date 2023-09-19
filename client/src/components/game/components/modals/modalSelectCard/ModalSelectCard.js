@@ -29,7 +29,7 @@ const ModalSelectCard = () => {
 
    // Add card to the cardsSeen
    useEffect(() => {
-      if (!statePlayer.cardsSeen.map((c) => c.id).includes(modals.modalSelectCard.card.id)) {
+      if (!statePlayer.cardsSeen.includes(modals.modalSelectCard.card.id)) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_SEEN,
             payload: [...statePlayer.cardsSeen, modals.modalSelectCard.card],

@@ -6,6 +6,7 @@ import { createEndedGameData } from '../../../../../api/endedGame'
 import { updateUser } from '../../../../../api/user'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../../game'
 import { SettingsContext, SoundContext } from '../../../../../App'
+import { getThinerEndedGameCards } from '../../../../../utils/misc'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
@@ -27,14 +28,9 @@ const ModalMenu = () => {
          // Create forfeited game (endedGame) if type is ranked
          if (type === 'RANKED MATCH') {
             const gameData = {
-               corporation: statePlayer.corporation,
-               cards: {
-                  played: statePlayer.cardsPlayed,
-                  seen: statePlayer.cardsSeen,
-                  purchased: statePlayer.cardsPurchased,
-                  inDeck: statePlayer.cardsDeckIds,
-               },
-               logItems,
+               corporation: statePlayer.corporation?.id,
+               cards: getThinerEndedGameCards(statePlayer),
+               logItems: logItems,
                forfeited: true,
                startTime: res.startTime,
                endTime: new Date().toJSON(),

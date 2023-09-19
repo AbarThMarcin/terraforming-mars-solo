@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext, StateBoardContext } from '../../../../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../../../game'
 import { ACTIONS_GAME } from '../../../../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../utils/misc'
@@ -12,7 +12,6 @@ import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActio
 const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setActionClicked, toBuyMln, toBuySteel, toBuyTitan, toBuyHeat, changeCosts }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getCardActions, performSubActions, actionRequirementsMet, setLogItems, setItemsExpanded } = useContext(StateGameContext)
-   const { stateBoard } = useContext(StateBoardContext)
    const { setModals } = useContext(ModalsContext)
    const isUnmi = item.name === CORP_NAMES.UNMI
    const isAvailable = getAvailability()
@@ -73,7 +72,6 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
          setLogItems,
          statePlayer,
          stateGame,
-         stateBoard,
          { type: LOG_TYPES.CARD_ACTION, text: item.name },
          isUnmi ? getActionIcon(ACTION_ICONS.ACTION_UNMI) : getImmEffectIcon(item.id),
          setItemsExpanded

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext, UserContext, StateBoardContext } from '../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
@@ -21,7 +21,6 @@ const PassContainer = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, setLogItems, ANIMATION_SPEED, setSaveToServerTrigger, setItemsExpanded } =
       useContext(StateGameContext)
-   const { stateBoard } = useContext(StateBoardContext)
    const { settings } = useContext(SettingsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
@@ -44,7 +43,7 @@ const PassContainer = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.PASS }, null, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.PASS }, null, setItemsExpanded)
       // Close confirmation window
       setModals((prev) => ({ ...prev, confirmation: false }))
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
@@ -199,7 +198,7 @@ const PassContainer = () => {
             setModals((prev) => ({ ...prev, panelStateGame: true }))
          }, delay)
       }
-      funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
+      funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame)
 
       // Go to next generation or end the game (with greeneries or without them)
       delay += ANIMATION_SPEED / 1.5
@@ -209,7 +208,7 @@ const PassContainer = () => {
             newPlants += statePlayer.production.plant
             if (newPlants >= statePlayer.valueGreenery) {
                // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, stateBoard, { type: LOG_TYPES.FINAL_CONVERT_PLANTS }, iconLogGreenery, setItemsExpanded)
+               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS }, iconLogGreenery, setItemsExpanded)
                // Show Panel Corp
                setModals((prev) => ({ ...prev, panelCorp: true }))
                setTimeout(() => {

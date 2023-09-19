@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { StatePlayerContext, StateGameContext, ModalsContext, StateBoardContext } from '../../../../game'
+import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import ProdResSnap from './ProdResSnap'
@@ -15,13 +15,12 @@ import { SoundContext } from '../../../../../App'
 const ProdResPanel = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED, setLogItems, setItemsExpanded } = useContext(StateGameContext)
-   const { stateBoard } = useContext(StateBoardContext)
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
    const actionGreenery = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.CONVERT_PLANTS, text: null }, logConvertPlants, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.CONVERT_PLANTS, text: null }, logConvertPlants, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
@@ -44,7 +43,7 @@ const ProdResPanel = () => {
 
    const actionTemperature = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.CONVERT_HEAT, text: null }, logConvertHeat, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.CONVERT_HEAT, text: null }, logConvertHeat, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals, sound)

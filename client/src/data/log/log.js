@@ -1,3 +1,5 @@
+import { getThinerLogStateGame, getThinerLogStatePlayer } from '../../utils/misc'
+
 export const LOG_TYPES = {
    GENERATION: 'generation',
    DRAFT: 'draft',
@@ -11,7 +13,7 @@ export const LOG_TYPES = {
    FINAL_CONVERT_PLANTS: 'final convert plants',
 }
 
-export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, stateBoard, logData, logIcon, setItemsExpanded) => {
+export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logData, logIcon, setItemsExpanded) => {
    setLogItems((logItems) => [
       ...logItems,
       {
@@ -19,15 +21,13 @@ export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, stateBoar
          data: { text: logData.text, icon: logIcon, gen: logData.gen ? logData.gen : undefined },
          details: {
             stateBefore: {
-               statePlayer,
-               stateGame,
-               stateBoard,
+               statePlayer: getThinerLogStatePlayer(statePlayer),
+               stateGame: getThinerLogStateGame(stateGame),
             },
             steps: [],
             stateAfter: {
-               statePlayer,
-               stateGame,
-               stateBoard,
+               statePlayer: getThinerLogStatePlayer(statePlayer),
+               stateGame: getThinerLogStateGame(stateGame),
             },
          },
       },
@@ -55,7 +55,7 @@ export const funcSetLogItemsSingleActions = (singleActionName, singleActionIconN
    ])
 }
 
-export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame, stateBoard) => {
+export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame) => {
    setLogItems((logItems) => [
       ...logItems.slice(0, -1),
       {
@@ -63,9 +63,8 @@ export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame, 
          details: {
             ...logItems[logItems.length - 1].details,
             stateAfter: {
-               statePlayer,
-               stateGame,
-               stateBoard,
+               statePlayer: getThinerLogStatePlayer(statePlayer),
+               stateGame: getThinerLogStateGame(stateGame),
             },
          },
       },

@@ -14,7 +14,6 @@ import { RESOURCES } from '../../../../../data/resources'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
-import { CARDS } from '../../../../../data/cards'
 import { getResIcon } from '../../../../../data/resources'
 
 const Field = ({ field, showCoordinates }) => {
@@ -96,11 +95,11 @@ const Field = ({ field, showCoordinates }) => {
                   case RESOURCES.CARD:
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)],
+                        payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)],
                      })
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                        payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
+                        payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
                      })
                      funcSetLogItemsSingleActions(
                         field.bonus.length === 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`,
@@ -248,7 +247,7 @@ const Field = ({ field, showCoordinates }) => {
             setTimeout(() => {
                // Modify Cards In Hand
                let newCards = modifiedCards(
-                  !field.bonus.includes(RESOURCES.CARD) ? statePlayer.cardsInHand : [...statePlayer.cardsInHand, ...withTimeAdded(getCards(CARDS, newCardsDrawIds))],
+                  !field.bonus.includes(RESOURCES.CARD) ? statePlayer.cardsInHand : [...statePlayer.cardsInHand, ...withTimeAdded(getCards(newCardsDrawIds))],
                   statePlayer,
                   EFFECTS.EFFECT_RESEARCH_OUTPOST
                )

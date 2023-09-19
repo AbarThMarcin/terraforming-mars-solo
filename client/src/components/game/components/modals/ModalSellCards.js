@@ -1,6 +1,6 @@
 /* Used to show window with cards to sell */
 import { useContext, useState } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext } from '../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
@@ -18,7 +18,6 @@ import iconLogSellPatent from '../../../../assets/images/other/iconLogSellPatent
 const ModalSellCards = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, performSubActions, setLogItems, setItemsExpanded } = useContext(StateGameContext)
-   const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
    const [mlnBack, setMlnBack] = useState(0)
@@ -35,7 +34,7 @@ const ModalSellCards = () => {
 
    const onYesFunc = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, stateBoard, { type: LOG_TYPES.SP_ACTION, text: SP.POWER_PLANT }, iconLogSellPatent, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.SP_ACTION, text: SP.POWER_PLANT }, iconLogSellPatent, setItemsExpanded)
 
       let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals

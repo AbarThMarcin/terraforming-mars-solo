@@ -3,7 +3,7 @@ import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ACTIONS_GAME, reducerGame } from '../../stateActions/actionsGame'
 import { reducerPlayer } from '../../stateActions/actionsPlayer'
 import { reducerBoard } from '../../stateActions/actionsBoard'
-import { funcPerformSubActions, getCards, getNewCardsDrawIds, modifiedCards, sorted, updateVP, withTimeAdded } from '../../utils/misc'
+import { funcPerformSubActions, getCards, getNewCardsDrawIds, getThinerStatePlayer, modifiedCards, sorted, updateVP, withTimeAdded } from '../../utils/misc'
 import { funcRequirementsMet, funcActionRequirementsMet, funcOptionRequirementsMet } from '../../data/requirements/requirements'
 import { funcGetImmEffects } from '../../data/immEffects/immEffects'
 import { funcGetCardActions } from '../../data/cardActions/cardActions'
@@ -24,7 +24,6 @@ import { INIT_STATE_GAME } from '../../initStates/initStateGame'
 import { INIT_MODALS } from '../../initStates/initModals'
 import { INIT_BOARD } from '../../initStates/initBoard'
 import { CORPORATIONS } from '../../data/corporations'
-import { CARDS } from '../../data/cards'
 import { updateGameData } from '../../api/activeGame'
 import { EFFECTS } from '../../data/effects/effectIcons'
 import { funcGetEffect } from '../../data/effects/effects'
@@ -103,7 +102,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
       }
 
       // Update Log with state of the game AFTER played action
-      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
+      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
 
       // Update VP
       updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard)
@@ -118,7 +117,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    useEffect(() => {
       if (user && !modals.corps && !modals.endStats) {
          const updatedData = {
-            statePlayer,
+            statePlayer: getThinerStatePlayer(statePlayer),
             stateGame,
             stateModals: modals,
             stateBoard,
@@ -176,7 +175,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                            }
                         }),
                      }
-                     funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
+                     funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame)
                   },
                },
             ]
@@ -203,11 +202,11 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                            }
                         }),
                      }
-                     funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
+                     funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame)
                   },
                },
             ]
-            cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(CARDS, newCardsDrawIds)), statePlayer)]
+            cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
             effects.push({
                name: ANIMATIONS.CARD_IN,
                type: RESOURCES.CARD,
@@ -219,19 +218,14 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                   })
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                     payload: [...statePlayer.cardsSeen, ...getCards(CARDS, newCardsDrawIds)],
+                     payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
                   })
-                  funcSetLogItemsSingleActions(
-                     `Drew 1 card (${getCards(CARDS, newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`,
-                     getResIcon(RESOURCES.CARD),
-                     1,
-                     setLogItems
-                  )
+                  funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
                   newStatePlayer = {
                      ...newStatePlayer,
                      cardsInHand: cardsInHand,
                   }
-                  funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame, stateBoard)
+                  funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame)
                },
             })
          }
@@ -366,7 +360,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                      setANIMATION_SPEED,
                      setSaveToServerTrigger,
                      setSyncError,
-                     durationSeconds
+                     durationSeconds,
                   }}
                >
                   <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>

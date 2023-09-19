@@ -6,7 +6,7 @@ import iconGreenery from '../../../../../assets/images/tiles/tile_greenery.svg'
 import iconCity from '../../../../../assets/images/tiles/tile_city.svg'
 import iconVp from '../../../../../assets/images/vp/vp_any.svg'
 import BtnAction from '../../buttons/BtnAction'
-import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints, updateVP } from '../../../../../utils/misc'
+import { getCityPoints, getGreeneryPoints, getThinerEndedGameCards, getTotalPoints, getTrPoints, getVictoryPoints, updateVP } from '../../../../../utils/misc'
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
@@ -34,14 +34,9 @@ const ModalEndStats = () => {
 
    const gameData = {
       victory: victoryLossText === 'YOU WIN!' ? true : false,
-      corporation: statePlayer.corporation,
-      cards: {
-         played: statePlayer.cardsPlayed,
-         seen: statePlayer.cardsSeen,
-         purchased: statePlayer.cardsPurchased,
-         inDeck: statePlayer.cardsDeckIds,
-      },
-      logItems,
+      corporation: statePlayer.corporation?.id,
+      cards: getThinerEndedGameCards(statePlayer),
+      logItems: logItems,
       points: {
          tr: trPoints,
          greenery: greeneryPoints,
@@ -88,7 +83,7 @@ const ModalEndStats = () => {
       }
 
       if (trigger) {
-         funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame, stateBoard)
+         funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
          updateBackend()
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

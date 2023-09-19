@@ -11,6 +11,7 @@ import { updateUser } from '../../../../api/user'
 import { useEffect } from 'react'
 import ModalQMId from '../../modalQMId/ModalQMId'
 import Message from './Message'
+import { getLogItemsWithAllData, getStatePlayerWithAllData, getThinerEndedGameCards } from '../../../../utils/misc'
 
 // Quick Match Text for Confirmation Window
 const QM_text = 'Do you want to resume previous quick match?'
@@ -139,7 +140,13 @@ const Menu = ({ user, setUser, setData }) => {
 
       let res
       if (user.activeMatches.ranked) {
-         const game = await getActiveGameData(user.token, 'RANKED MATCH')
+         let game = await getActiveGameData(user.token, 'RANKED MATCH')
+         game = {
+            ...game,
+            statePlayer: getStatePlayerWithAllData(game.statePlayer),
+            logItems: getLogItemsWithAllData(game.logItems),
+         }
+
          if (!game?.corps) {
             setLoading(false)
             setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
@@ -158,13 +165,8 @@ const Menu = ({ user, setUser, setData }) => {
             }
             // Create forfeited game (endedGame)
             const newGame = await createEndedGameData(user.token, {
-               corporation: game.statePlayer.corporation,
-               cards: {
-                  played: game.statePlayer.cardsPlayed,
-                  seen: game.statePlayer.cardsSeen,
-                  purchased: game.statePlayer.cardsPurchased,
-                  inDeck: game.statePlayer.cardsDeckIds,
-               },
+               corporation: game.statePlayer.corporation?.id,
+               cards: getThinerEndedGameCards(game.statePlayer),
                logItems: game.logItems,
                forfeited: true,
                startTime: res.startTime,
@@ -218,7 +220,13 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_forfeitAndStartNew() {
       setShowModalConf(false)
       setLoading(true)
-      const gameData = await getActiveGameData(user.token, 'RANKED MATCH')
+      let gameData = await getActiveGameData(user.token, 'RANKED MATCH')
+      gameData = {
+         ...gameData,
+         statePlayer: getStatePlayerWithAllData(gameData.statePlayer),
+         logItems: getLogItemsWithAllData(gameData.logItems),
+      }
+
       if (!gameData?.corps) {
          setLoading(false)
          setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
@@ -233,13 +241,8 @@ const Menu = ({ user, setUser, setData }) => {
          return
       }
       const newGame = await createEndedGameData(user.token, {
-         corporation: gameData.statePlayer.corporation,
-         cards: {
-            played: gameData.statePlayer.cardsPlayed,
-            seen: gameData.statePlayer.cardsSeen,
-            purchased: gameData.statePlayer.cardsPurchased,
-            inDeck: gameData.statePlayer.cardsDeckIds,
-         },
+         corporation: gameData.statePlayer.corporation?.id,
+         cards: getThinerEndedGameCards(gameData.statePlayer),
          logItems: gameData.logItems,
          forfeited: true,
          startTime: res.startTime,

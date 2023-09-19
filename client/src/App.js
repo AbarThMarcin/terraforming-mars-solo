@@ -1,6 +1,6 @@
 import { useState, createContext, useEffect, useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { addNeutralTiles, getCards, range } from './utils/misc'
+import { addNeutralTiles, getCards, getLogItemsWithAllData, getStatePlayerWithAllData, getThinerStatePlayer, range } from './utils/misc'
 import { INIT_STATE_PLAYER } from './initStates/initStatePlayer'
 import { INIT_STATE_GAME } from './initStates/initStateGame'
 import { INIT_MODALS } from './initStates/initModals'
@@ -38,7 +38,6 @@ import {
    btnCardsClick,
    objectPut,
 } from './data/gameSound'
-import { CARDS } from './data/cards'
 // import Music from './components/misc/Music'
 
 export const ModalConfirmationContext = createContext()
@@ -146,18 +145,6 @@ function App() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   function handleCallbackResponse(response) {
-      console.log(response.credential)
-   }
-
-   useEffect(() => {
-      /* global google */
-      google.accounts.id.initialize({
-         client_id: '589313983662-83911c4ecv3a92rdahk4pf4virbumpe9.apps.googleusercontent.com',
-         callback: handleCallbackResponse,
-      })
-   }, [])
-
    async function setData(type, restartMatch = false, matchWithId = null) {
       // Empty Data
       let gameData = {
@@ -203,7 +190,7 @@ function App() {
                user.token,
                {
                   id: gameData.id,
-                  statePlayer: gameData.statePlayer,
+                  statePlayer: getThinerStatePlayer(gameData.statePlayer),
                   stateGame: gameData.stateGame,
                   stateModals: gameData.stateModals,
                   stateBoard: gameData.stateBoard,
@@ -234,6 +221,11 @@ function App() {
             // Game already started
             gameData = await getActiveGameData(user.token, type)
             if (!gameData?.corps) return
+            gameData = {
+               ...gameData,
+               statePlayer: getStatePlayerWithAllData(gameData.statePlayer),
+               logItems: getLogItemsWithAllData(gameData.logItems),
+            }
          }
       }
 
@@ -255,12 +247,12 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [1, 64, 67, 11, 52, 115, 19, 161, 147, 192]
+      // const initCardsIds = [1, 20, 67, 11, 52, 115, 19, 161, 147, 192]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
       // const initCorpsIds = [6, 11]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
-      const initCards = getCards(CARDS, initCardsIds)
+      const initCards = getCards(initCardsIds)
       gameData.stateGame = INIT_STATE_GAME
       gameData.stateModals = INIT_MODALS
       gameData.stateBoard = addNeutralTiles(board)
@@ -280,7 +272,7 @@ function App() {
          // Start already created Match With Id
          const initCardsIds = matchWithId.cards.slice(0, 10)
          const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
-         const initCards = getCards(CARDS, initCardsIds)
+         const initCards = getCards(initCardsIds)
          gameData.id = matchWithId._id
          gameData.statePlayer = {
             ...INIT_STATE_PLAYER,
@@ -302,7 +294,7 @@ function App() {
          const initCorpsIds = await getRandIntNumbers(2, 1, 12)
          // const initCorpsIds = [1, 2]
          const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.slice(0, 10).includes(id))
-         const initCards = getCards(CARDS, initCardsIds.slice(0, 10))
+         const initCards = getCards(initCardsIds.slice(0, 10))
          gameData.statePlayer = {
             ...INIT_STATE_PLAYER,
             cardsSeen: initCards.slice(0, 10),

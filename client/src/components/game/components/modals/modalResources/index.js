@@ -9,7 +9,6 @@ import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { RESOURCES, getResIcon } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
 import { SoundContext } from '../../../../../App'
-import { CARDS } from '../../../../../data/cards'
 import { getCards } from '../../../../../utils/misc'
 import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
 
@@ -49,9 +48,9 @@ const ModalResource = () => {
          })
          funcSetLogItemsSingleActions(
             modals.modalResource.amount === 1
-               ? `Received 1 ${modals.modalResource.resType === null ? resource : modals.modalResource.resType} to ${getCards(CARDS, [modals.modalResource.cardId])[0].name} card`
+               ? `Received 1 ${modals.modalResource.resType === null ? resource : modals.modalResource.resType} to ${getCards([modals.modalResource.cardId])[0].name} card`
                : `Received ${modals.modalResource.amount} ${modals.modalResource.resType === null ? resource : modals.modalResource.resType}s to ${
-                    getCards(CARDS, [modals.modalResource.cardId])[0].name
+                    getCards([modals.modalResource.cardId])[0].name
                  } card`,
             getResIcon(RESOURCES.ANIMAL),
             modals.modalResource.amount,

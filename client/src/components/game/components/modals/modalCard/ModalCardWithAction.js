@@ -1,6 +1,6 @@
 /* Used to view one card for use only */
 import { useState, useContext } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext, UserContext, StateBoardContext } from '../../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext, UserContext } from '../../../../game'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, hasTag, withTimePlayed } from '../../../../../utils/misc'
@@ -18,7 +18,6 @@ import { EFFECTS } from '../../../../../data/effects/effectIcons'
 const ModalCardWithAction = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, requirementsMet, ANIMATION_SPEED, setLogItems, setItemsExpanded } = useContext(StateGameContext)
-   const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
@@ -108,7 +107,6 @@ const ModalCardWithAction = () => {
          setLogItems,
          statePlayer,
          stateGame,
-         stateBoard,
          { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name, gen: stateGame.generation },
          getImmEffectIcon(modals.modalCard.id),
          setItemsExpanded

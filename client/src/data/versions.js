@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.3.3',
+      date: '2023-09-20',
+      updates: [
+         {
+            title: 'Performance fixes',
+            description: 'Log state objects have been converted to smaller ones when sending to and retrieving from the database',
+         },
+      ],
+   },
+   {
       number: '0.3.2',
       date: '2023-05-19',
       updates: [

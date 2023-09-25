@@ -29,8 +29,8 @@ const DecreaseCostSP = ({ toBuyMln, toBuyHeat, changeSPcosts, actionClicked }) =
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (
             <div className="card-decrease-cost">
-               <span>{toBuyHeat}</span>
-               <img src={iconHeat} alt="icon_heat" />
+               <div><span>{toBuyHeat}</span></div>
+               <div><img src={iconHeat} alt="icon_heat" /></div>
                {toBuyHeat > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => changeSPcosts('decrement', actionClicked)}></div>}
                {toBuyHeat < statePlayer.resources.heat && currentCost > 0 && (
                   <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => changeSPcosts('increment', actionClicked)}></div>

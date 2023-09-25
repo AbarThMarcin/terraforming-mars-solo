@@ -622,9 +622,9 @@ export const getEndedGameCardsWithAllData = (cards) => {
    let newCards = JSON.parse(JSON.stringify(cards))
    newCards = {
       ...newCards,
-      played: getCards(newCards.cardsPlayed),
-      seen: getCards(newCards.cardsSeen),
-      purchased: getCards(newCards.cardsPurchased),
+      played: getCards(newCards.played.map((c) => c.id)),
+      seen: getCards(newCards.seen.map((c) => c.id)),
+      purchased: getCards(newCards.purchased.map((c) => c.id)),
    }
 
    return newCards
@@ -656,6 +656,7 @@ export const getThinerLogStatePlayer = (statePlayer) => {
       cardsInHand: newStatePlayer.cardsInHand.map((c) => {
          return { id: c.id, name: c.name }
       }),
+      totalPoints: newStatePlayer.totalPoints,
    }
 
    return newStatePlayer
@@ -717,4 +718,15 @@ export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, typ
    dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DRAW, payload: newCardsDrawIds })
    dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DECK, payload: newCardsDeckIds })
    return newCardsDrawIds
+}
+
+export const getShortName = (name) => {
+   switch (name) {
+      case CORP_NAMES.INTERPLANETARY:
+         return 'INTERPLANETARY CINEM.'
+      case 'ADAPTATION TECHNOLOGY':
+         return 'ADAPTATION TECH.'
+      default:
+         return name
+   }
 }

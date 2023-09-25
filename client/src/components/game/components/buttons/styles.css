@@ -101,6 +101,12 @@
    height: 133%;
    width: auto;
 }
+.btn-cards-in-hand:hover img {
+   filter: brightness(130%)
+}
+.btn-cards-in-hand.empty:hover img {
+   filter: brightness(100%)
+}
 .btn-cards-in-hand span {
    position: absolute;
    left: 50%;
@@ -183,6 +189,9 @@
 .btn-standard-projects span {
    text-align: center;
    width: 100%;
+}
+.btn-standard-projects:hover img {
+   filter: brightness(120%)
 }
 
 /* Select / Selected */

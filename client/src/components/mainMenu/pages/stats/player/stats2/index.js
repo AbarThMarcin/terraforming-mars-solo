@@ -44,19 +44,19 @@ const Stats2 = ({ currPlayer }) => {
       let gamesCounter = 0
       let arr = new Array(14).fill(0)
       currPlayer.games.forEach((game) => {
-         if (game.logItems[0].details !== undefined) {
-            gamesCounter++
-            let currentGen
-            game.logItems.forEach((logItem) => {
-               if (logItem.type === LOG_TYPES.GENERATION) currentGen = parseInt(logItem.data.text)
-               if (logItem.type === LOG_TYPES.PASS) {
-                  arr[currentGen - 1] += logItem.details.stateAfter.statePlayer.totalPoints
-               }
-            })
-         }
+         gamesCounter++
+         let currentGen
+         game.logItems.forEach((logItem) => {
+            if (logItem.type === LOG_TYPES.GENERATION) currentGen = parseInt(logItem.data.text)
+            if (logItem.type === LOG_TYPES.PASS) {
+               arr[currentGen - 1] += logItem.details.stateAfter.statePlayer.totalPoints
+            }
+         })
       })
-      if (gamesCounter) arr.forEach((gen) => (gen = gen / gamesCounter))
-
+      console.log(arr)
+      console.log(gamesCounter)
+      // if (gamesCounter) arr.forEach((gen) => (gen = gen / gamesCounter))
+      if (gamesCounter > 0) arr = arr.map((gen) => (gen = gen / gamesCounter))
       return arr
    }, [currPlayer])
 
@@ -136,7 +136,7 @@ const Stats2 = ({ currPlayer }) => {
             <span style={{ width: 'calc(var(--default-size) * 1.6)' }}>{pointInt}</span>
             <span>.</span>
             <span>{point ? pointDec : '00'}</span>
-            {current && <span>(+{current.toFixed(2)})</span>}
+            {current !== 0 ? <span>({current < 0 ? '' : '+' }{current.toFixed(2)})</span> : ''}
          </div>
       )
    }

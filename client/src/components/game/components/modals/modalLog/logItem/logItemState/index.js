@@ -38,8 +38,8 @@ const LogItemState = ({ type, state }) => {
                <LogItemStateParams state={state} />
             </div>
             <div>
-               <LogItemStateCards state={state} cardsType="CARDS IN HAND" />
                <LogItemStateCards state={state} cardsType="CARDS PLAYED" />
+               <LogItemStateCards state={state} cardsType="CARDS IN HAND" />
             </div>
             <div>
                <LogItemStateActionsEffects state={state} type="ACTIONS" />

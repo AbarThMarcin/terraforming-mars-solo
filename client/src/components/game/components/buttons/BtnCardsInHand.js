@@ -1,13 +1,11 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { StatePlayerContext, ModalsContext, StateGameContext } from '../../../game'
 import { SettingsContext, SoundContext } from '../../../../App'
 import AnimCard from '../animations/AnimCard'
 import iconCardsInHandBtn from '../../../../assets/images/panelCorp/cardsInHandBtn.png'
-import iconCardsInHandBtnBright from '../../../../assets/images/panelCorp/cardsInHandBtnBright.png'
 import { sorted } from '../../../../utils/misc'
 
 const BtnCardsInHand = () => {
-   const [hovered, setHovered] = useState(false)
    const { statePlayer } = useContext(StatePlayerContext)
    const { requirementsMet } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
@@ -33,10 +31,8 @@ const BtnCardsInHand = () => {
 
    return (
       <div
-         className={`btn-cards-in-hand ${statePlayer.cardsInHand.length > 0 ? 'pointer' : ''}`}
+         className={`btn-cards-in-hand ${statePlayer.cardsInHand.length > 0 ? 'pointer' : 'empty'}`}
          onClick={handleClickBtnCardsInHand}
-         onMouseEnter={() => setHovered(true)}
-         onMouseLeave={() => setHovered(false)}
       >
          {/* Animation Cards */}
          {modals.animation && (
@@ -46,11 +42,7 @@ const BtnCardsInHand = () => {
             </>
          )}
          {/* Background */}
-         {hovered && statePlayer.cardsInHand.length ? (
-            <img src={iconCardsInHandBtnBright} alt="icon_cardsInHandBtnBright" />
-         ) : (
-            <img src={iconCardsInHandBtn} alt="icon_cardsInHandBtn" />
-         )}
+         <img src={iconCardsInHandBtn} alt="icon_cardsInHandBtn" />
          {/* Cards Amount */}
          <span>{statePlayer.cardsInHand.length}</span>
       </div>

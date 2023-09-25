@@ -47,7 +47,8 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
                stateGame.globalParameters.temperature < 8 &&
                !modals.draft &&
                !stateGame.phasePlaceTile &&
-               !stateGame.phaseViewGameState && (
+               !stateGame.phaseViewGameState &&
+               !modals.animation && (
                   <BtnConvertPlantsHeat
                      textConfirmation="Do you want to convert 8 heat to increase the temperature?"
                      action={action.func}

@@ -34,6 +34,7 @@
 .modal-log .box .action .log-details .state .state-details > div {
    display: flex;
    letter-spacing: calc(var(--default-size) * 0.04);
+   width: 100%;
 }
 
 /* STATE: Production / Resources */
@@ -119,9 +120,6 @@
    height: calc(var(--default-size) * 0.8);
    vertical-align: middle;
    translate: 0 -10%;
-}
-.modal-log .box .action .log-details .state .state-details > div {
-   width: 100%;
 }
 
 /* STEPS */

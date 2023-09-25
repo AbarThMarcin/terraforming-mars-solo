@@ -1,9 +1,10 @@
-import { useContext, useState, useMemo } from 'react'
+import { useContext, useState, useMemo, useRef } from 'react'
 import { CARDS } from '../../../../../../data/cards'
 import { range } from '../../../../../../utils/misc'
 import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 import { ModalsContext } from '../../index'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const tipTextPlayed =
    'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%. If two or more cards have the same percentage, higher rank receives cards with more played count.'
@@ -12,9 +13,14 @@ const tipTextPurchased =
 
 const Stats1 = ({ currPlayer }) => {
    const { sound } = useContext(SoundContext)
-   const [showTipOnPercPlayed, setShowTipOnPercPlayed] = useState(false)
-   const [showTipOnPercPurchased, setShowTipOnPercPurchased] = useState(false)
    const { setShowModalCard, setModalCard, setShowModalAllCards, setModalCardsIds, setModalCardsTitle } = useContext(ModalsContext)
+   // Tooltips for % Played and % Purchased
+   const [showTipPlayed, setShowTipPlayed] = useState(false)
+   const [showTipPurchased, setShowTipPurchased] = useState(false)
+   const refTipPlayed = useRef()
+   const refTipPurchased = useRef()
+   const [tipTop, setTipTop] = useState(0)
+   const [tipLeft, setTipLeft] = useState(0)
 
    // Arrays of cards
    const games = useMemo(
@@ -73,6 +79,26 @@ const Stats1 = ({ currPlayer }) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [currPlayer]
    )
+
+   const setTipPositionPlayed = (e) => {
+      const height = refTipPlayed.current.getBoundingClientRect().height
+      const width = refTipPlayed.current.getBoundingClientRect().width
+      const top = Math.floor(e.clientY - refTipPlayed.current.getBoundingClientRect().top)
+      const left = Math.floor(e.clientX - refTipPlayed.current.getBoundingClientRect().left)
+      setTipTop(top)
+      setTipLeft(left)
+      if (top > height || left > width) setShowTipPlayed(false)
+   }
+
+   const setTipPositionPurchased = (e) => {
+      const height = refTipPurchased.current.getBoundingClientRect().height
+      const width = refTipPurchased.current.getBoundingClientRect().width
+      const top = Math.floor(e.clientY - refTipPurchased.current.getBoundingClientRect().top)
+      const left = Math.floor(e.clientX - refTipPurchased.current.getBoundingClientRect().left)
+      setTipTop(top)
+      setTipLeft(left)
+      if (top > height || left > width) setShowTipPurchased(false)
+   }
 
    function getMost(cardsType) {
       let most = []
@@ -352,11 +378,34 @@ const Stats1 = ({ currPlayer }) => {
                         <br />
                         CARD(S):
                         {/* Question Mark */}
-                        <div className="question pointer" onClick={() => setShowTipOnPercPlayed(true)} onMouseLeave={() => setShowTipOnPercPlayed(false)}>
+                        <div
+                           className="question"
+                           ref={refTipPlayed}
+                           onMouseOver={(e) => {
+                              setTipPositionPlayed(e)
+                              setShowTipPlayed(true)
+                           }}
+                           onMouseLeave={() => setShowTipPlayed(false)}
+                           onMouseMove={(e) => setTipPositionPlayed(e)}
+                        >
                            <span>?</span>
+                           {/* Tooltip */}
+                           {showTipPlayed && (
+                              <AnimatePresence>
+                                 <motion.div
+                                    key="keyTipPlayed"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0, delay: 0.2 }}
+                                    className="tip"
+                                    style={{ top: tipTop, left: tipLeft }}
+                                 >
+                                    {tipTextPlayed}
+                                 </motion.div>
+                              </AnimatePresence>
+                           )}
                         </div>
-                        {/* Tip */}
-                        {showTipOnPercPlayed && <div className="tip">{tipTextPlayed}</div>}
                      </div>
                   </div>
                   {mostPlayedPerc.length > 0 ? (
@@ -422,11 +471,34 @@ const Stats1 = ({ currPlayer }) => {
                         <br />
                         CARD(S):
                         {/* Question Mark */}
-                        <div className="question pointer" onClick={() => setShowTipOnPercPurchased(true)} onMouseLeave={() => setShowTipOnPercPurchased(false)}>
+                        <div
+                           className="question"
+                           ref={refTipPurchased}
+                           onMouseOver={(e) => {
+                              setTipPositionPurchased(e)
+                              setShowTipPurchased(true)
+                           }}
+                           onMouseLeave={() => setShowTipPurchased(false)}
+                           onMouseMove={(e) => setTipPositionPurchased(e)}
+                        >
                            <span>?</span>
+                           {/* Tooltip */}
+                           {showTipPurchased && (
+                              <AnimatePresence>
+                                 <motion.div
+                                    key="keyTipPurchased"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0, delay: 0.2 }}
+                                    className="tip"
+                                    style={{ top: tipTop, left: tipLeft }}
+                                 >
+                                    {tipTextPurchased}
+                                 </motion.div>
+                              </AnimatePresence>
+                           )}
                         </div>
-                        {/* Tip */}
-                        {showTipOnPercPurchased && <div className="tip">{tipTextPurchased}</div>}
                      </div>
                   </div>
                   {mostPurchasedPerc.length > 0 ? (

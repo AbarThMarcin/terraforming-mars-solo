@@ -19,8 +19,8 @@ const DecreaseCostDraft = ({ toBuyMln, setToBuyMln, toBuyHeat, setToBuyHeat }) =
    return (
       <div className="card-decrease-cost-container draft">
          <div className="card-decrease-cost">
-            <span>{toBuyHeat}</span>
-            <img src={iconHeat} alt="icon_heat" />
+            <div><span>{toBuyHeat}</span></div>
+            <div><img src={iconHeat} alt="icon_heat" /></div>
             {toBuyHeat > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow('decrement')}></div>}
             {toBuyHeat < statePlayer.resources.heat && toBuyMln !== 0 && (
                <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => handleClickArrow('increment')}></div>

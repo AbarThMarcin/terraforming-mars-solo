@@ -2,12 +2,13 @@ import { ACTION_ICONS, getActionIcon } from '../../../../../../../../data/cardAc
 import { CARDS } from '../../../../../../../../data/cards'
 import { CORP_NAMES } from '../../../../../../../../data/corpNames'
 import { getEffectIcon } from '../../../../../../../../data/effects/effectIcons'
+import { getShortName } from '../../../../../../../../utils/misc'
 
 const LogItemStateActionsEffects = ({ state, type }) => {
    const isUnmi = state.statePlayer.corporation.name === CORP_NAMES.UNMI
    const getActions = () => {
       let actions = []
-      if (isUnmi) actions.push([CORP_NAMES.UNMI, getActionIcon(ACTION_ICONS.ACTION_UNMI)])
+      if (isUnmi) actions.push([getShortName(CORP_NAMES.UNMI), getActionIcon(ACTION_ICONS.ACTION_UNMI)])
       const cards = state.statePlayer.cardsPlayed.filter((card) =>
          CARDS.filter((c) => c.iconNames.action !== null)
             .map((c) => c.id)
@@ -15,7 +16,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
       )
       if (cards.length > 0) {
          cards.forEach((card) => {
-            actions.push([card.name, getActionIcon(card.iconNames.action)])
+            actions.push([getShortName(card.name), getActionIcon(card.iconNames.action)])
          })
       }
 
@@ -23,7 +24,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
    }
    const getEffects = () => {
       let effects = []
-      if (!isUnmi) effects.push([state.statePlayer.corporation.name, getEffectIcon(state.statePlayer.corporation.effects[0])])
+      if (!isUnmi) effects.push([getShortName(state.statePlayer.corporation.name), getEffectIcon(state.statePlayer.corporation.effects[0])])
       const cards = state.statePlayer.cardsPlayed.filter((card) =>
          CARDS.filter((c) => c.effect !== null)
             .map((c) => c.id)
@@ -31,7 +32,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
       )
       if (cards.length > 0) {
          cards.forEach((card) => {
-            effects.push([card.name, getEffectIcon(card.effect)])
+            effects.push([getShortName(card.name), getEffectIcon(card.effect)])
          })
       }
 
@@ -46,7 +47,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
             {elements.length > 0 ? (
                elements.map((el, idx) => (
                   <li key={idx}>
-                     - <img src={el[1]} alt=''></img> {el[0]}
+                     <img src={el[1]} alt=''></img> {el[0]}
                   </li>
                ))
             ) : (

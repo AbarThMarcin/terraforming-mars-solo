@@ -28,7 +28,7 @@ const TableAchievementsRow = ({ player, isLegend }) => {
       let streak = 0
       let maxStreak = 0
       results.forEach((result) => {
-         result.points > 100 && result.victory ? streak++ : (streak = 0)
+         result.points >= 100 && result.victory ? streak++ : (streak = 0)
          if (streak > maxStreak) maxStreak = streak
       })
       return maxStreak

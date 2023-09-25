@@ -40,10 +40,6 @@
    margin-bottom: calc(var(--default-size) * 0.3);
 }
 
-.card-decrease-cost span {
-   font-size: calc(var(--default-size) * 1.1);
-}
-
 .card-decrease-cost {
    position: relative;
    width: calc(100% - var(--default-size) * 0.7 * 2);
@@ -53,9 +49,29 @@
    justify-content: center;
    align-items: center;
 }
-.card-decrease-cost img {
-   height: 90%;
-   margin-left: calc(var(--default-size) * 0.3);
+
+.card-decrease-cost div:first-child {
+   font-size: calc(var(--default-size) * 1.1);
+   height: 100%;
+   width: 50%;
+   display: flex;
+   justify-content: right;
+   align-items: center;
+   flex: 1.2;
+}
+
+.card-decrease-cost div:nth-child(2) {
+   font-size: calc(var(--default-size) * 1.1);
+   height: 100%;
+   width: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex: 2;
+}
+
+.card-decrease-cost div:nth-child(2) img {
+   height: 85%;
 }
 
 .card-decrease-cost:not(:last-of-type) {

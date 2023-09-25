@@ -247,9 +247,9 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [1, 20, 67, 11, 52, 115, 19, 161, 147, 192]
+      // const initCardsIds = [152, 6, 38, 31, 156, 115, 73, 202, 71, 192]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      // const initCorpsIds = [6, 11]
+      // const initCorpsIds = [3, 4]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(initCardsIds)

@@ -16,13 +16,14 @@ import iconThorgate from '../../../../assets/images/corps/cards/card_thorgate.pn
 import iconUnmi from '../../../../assets/images/corps/cards/card_unmi.png'
 
 const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
-   const { stateGame } = useContext(StateGameContext)
-   const { modals } = useContext(ModalsContext)
+   const stateGameContextObj = useContext(StateGameContext)
+   const modalsObj = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
    const handleCorpClick = (e) => {
       e.stopPropagation()
-      if (!stateGame.phaseCorporation) return
+      if (!stateGameContextObj) return // If in Main Menu -> Stats
+      if (!stateGameContextObj.stateGame.phaseCorporation) return
       sound.btnGeneralClick.play()
       setSelectedCorp(id)
    }
@@ -32,7 +33,7 @@ const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
          className={`
             corp
             ${selectedCorp === id && selectedCorp !== undefined && 'selected'}
-            ${modals.corps && 'pointer'}
+            ${modalsObj?.modals.corps && 'pointer'}
          `}
          onClick={handleCorpClick}
       >

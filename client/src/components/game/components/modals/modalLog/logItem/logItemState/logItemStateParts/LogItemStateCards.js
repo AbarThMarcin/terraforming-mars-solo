@@ -1,4 +1,29 @@
+import { useContext } from 'react'
+import { SoundContext } from '../../../../../../../../App'
+import { ModalsContext as ModalsContextGame } from '../../../../../..'
+import { ModalsContext as ModalsContextStats } from '../../../../../../../mainMenu/pages/stats'
+import { useLocation } from 'react-router-dom'
+import { getCards } from '../../../../../../../../utils/misc'
+
 const LogItemStateCards = ({ state, cardsType }) => {
+   const location = useLocation()
+   const ModalsContextGameObj = useContext(ModalsContextGame)
+   const ModalsContextStatsObj = useContext(ModalsContextStats)
+   const { sound } = useContext(SoundContext)
+
+   const handleClickCard = (c) => {
+      const card = getCards([c.id])[0]
+      if (card?.id) {
+         sound.btnCardsClick.play()
+         if (location.pathname === '/match') {
+            ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
+         } else {
+            ModalsContextStatsObj.setModalCard(card)
+            ModalsContextStatsObj.setShowModalCard(true)
+         }
+      }
+   }
+
    return (
       <div className="state-other-container">
          <div className="state-other-container-title">
@@ -11,7 +36,7 @@ const LogItemStateCards = ({ state, cardsType }) => {
             {cardsType === 'CARDS IN HAND' ? (
                state.statePlayer.cardsInHand.length > 0 ? (
                   state.statePlayer.cardsInHand.map((card, idx) => (
-                     <li key={idx}>
+                     <li key={idx} className='pointer' onClick={() => handleClickCard(card)}>
                         - {card.name} ({card.id})
                      </li>
                   ))
@@ -20,7 +45,7 @@ const LogItemStateCards = ({ state, cardsType }) => {
                )
             ) : state.statePlayer.cardsPlayed.length > 0 ? (
                state.statePlayer.cardsPlayed.map((card, idx) => (
-                  <li key={idx}>
+                  <li key={idx} className='pointer' onClick={() => handleClickCard(card)}>
                      - {card.name} ({card.id})
                   </li>
                ))

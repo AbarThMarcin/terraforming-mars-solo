@@ -17,6 +17,7 @@ import ModalSeeAllCards from './player/stats1/ModalSeeAllCards'
 import { TABS } from '../../../../App'
 import GamesLog from './games/GamesLog'
 import { getCorporation, getEndedGameCardsWithAllData, getLogItemsWithAllData } from '../../../../utils/misc'
+import Corp from '../../../game/components/corp/Corp'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
@@ -39,6 +40,9 @@ const Stats = ({ user }) => {
    // Modal for card
    const [showModalCard, setShowModalCard] = useState(false)
    const [modalCard, setModalCard] = useState(null)
+   // Modal for corp
+   const [showModalCorp, setShowModalCorp] = useState(false)
+   const [modalCorpId, setModalCorpId] = useState(null)
    // Modal for 'See all cards'
    const [showModalAllCards, setShowModalAllCards] = useState(false)
    const [modalCardsIds, setModalCardsIds] = useState()
@@ -125,6 +129,9 @@ const Stats = ({ user }) => {
                modalCard,
                setModalCard,
                setShowModalCard,
+               modalCorpId,
+               setModalCorpId,
+               setShowModalCorp,
                modalCardsIds,
                setModalCardsIds,
                setShowModalAllCards,
@@ -219,6 +226,25 @@ const Stats = ({ user }) => {
                               onClick={() => setShowModalCard(false)}
                            >
                               <ModalCard />
+                           </motion.div>
+                        )}
+                     </AnimatePresence>
+
+                     {/* Modal Corp */}
+                     <AnimatePresence>
+                        {showModalCorp && (
+                           <motion.div
+                              key="keyModalCorp"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="modal-background"
+                              onClick={() => setShowModalCorp(false)}
+                           >
+                              <div className="modal-corp-container center">
+                                 <Corp corp={getCorporation(modalCorpId)} />
+                              </div>
                            </motion.div>
                         )}
                      </AnimatePresence>

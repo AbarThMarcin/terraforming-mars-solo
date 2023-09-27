@@ -689,6 +689,11 @@ export const getCorporation = (id) => {
    return CORPORATIONS.find((corporation) => corporation.id === id)
 }
 
+export const getCorporationByName = (name) => {
+   if (!name) return null
+   return CORPORATIONS.find((corporation) => corporation.name === name)
+}
+
 export const getThinerCard = (c) => {
    return { id: c.id, currentCost: c.currentCost, vp: c.vp, units: c.units, actionUsed: c.actionUsed, timeAdded: c.timeAdded, timePlayed: c.timePlayed }
 }

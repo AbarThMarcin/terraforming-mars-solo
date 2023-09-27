@@ -249,25 +249,6 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
             )}
          </AnimatePresence>
 
-         {/* Modal Corp */}
-         <AnimatePresence>
-            {modals.corp && (
-               <motion.div
-                  key="keyModalCorp"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="modal-background"
-                  onClick={() => setModals((prev) => ({ ...prev, corp: false }))}
-               >
-                  <div className="modal-corp-container center">
-                     <Corp corp={statePlayer.corporation} />
-                  </div>
-               </motion.div>
-            )}
-         </AnimatePresence>
-
          {/* Modal Card With Action */}
          <AnimatePresence>
             {modals.cardWithAction && (
@@ -284,7 +265,24 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                </motion.div>
             )}
          </AnimatePresence>
-
+         
+         {/* Modal Log */}
+         <AnimatePresence>
+            {modals.log && (
+               <motion.div
+                  key="keyModalLog"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  className="full-size"
+                  onClick={() => setModals((prev) => ({ ...prev, log: false }))}
+               >
+                  <ModalLog logItems={logItems} expanded={expanded} setExpanded={setExpanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
+               </motion.div>
+            )}
+         </AnimatePresence>
+         
          {/* Modal Card View Only */}
          <AnimatePresence>
             {modals.cardViewOnly && (
@@ -298,6 +296,25 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   onClick={() => setModals((prev) => ({ ...prev, cardViewOnly: false }))}
                >
                   <ModalCardViewOnly />
+               </motion.div>
+            )}
+         </AnimatePresence>
+
+         {/* Modal Corp */}
+         <AnimatePresence>
+            {modals.corp && (
+               <motion.div
+                  key="keyModalCorp"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="modal-background"
+                  onClick={() => setModals((prev) => ({ ...prev, corp: false }))}
+               >
+                  <div className="modal-corp-container center">
+                     <Corp corp={statePlayer.corporation} />
+                  </div>
                </motion.div>
             )}
          </AnimatePresence>
@@ -325,23 +342,6 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
                >
                   <ModalEndStats />
-               </motion.div>
-            )}
-         </AnimatePresence>
-
-         {/* Modal Log */}
-         <AnimatePresence>
-            {modals.log && (
-               <motion.div
-                  key="keyModalLog"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.1 }}
-                  className="full-size"
-                  onClick={() => setModals((prev) => ({ ...prev, log: false }))}
-               >
-                  <ModalLog logItems={logItems} expanded={expanded} setExpanded={setExpanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
                </motion.div>
             )}
          </AnimatePresence>

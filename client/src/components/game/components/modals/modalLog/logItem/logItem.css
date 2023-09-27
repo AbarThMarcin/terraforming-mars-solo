@@ -116,6 +116,12 @@
    line-height: calc(var(--default-size) * 0.75);
    list-style: none;
 }
+.modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li {
+   width: fit-content;
+}
+.modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li:hover {
+   filter: brightness(0.85);
+}
 .modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li img {
    height: calc(var(--default-size) * 0.8);
    vertical-align: middle;

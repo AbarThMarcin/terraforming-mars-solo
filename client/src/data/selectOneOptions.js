@@ -518,7 +518,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([157]).name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([157])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
             },
          })
          break

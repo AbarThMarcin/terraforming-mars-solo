@@ -16,7 +16,7 @@ import ModalCard from './player/stats1/ModalCard'
 import ModalSeeAllCards from './player/stats1/ModalSeeAllCards'
 import { TABS } from '../../../../App'
 import GamesLog from './games/GamesLog'
-import { getEndedGameCardsWithAllData, getLogItemsWithAllData } from '../../../../utils/misc'
+import { getCorporation, getEndedGameCardsWithAllData, getLogItemsWithAllData } from '../../../../utils/misc'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
@@ -98,7 +98,8 @@ const Stats = ({ user }) => {
          if (season !== 'lifetime') gamesBySeason = player.games.filter((game) => game.season === season)
          // Filter by corp
          let gamesBySeasonAndCorp = gamesBySeason
-         if (corp !== 'ALL CORPORATIONS') gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => game.corporation?.name === corp)
+         if (corp !== 'ALL CORPORATIONS')
+            gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => getCorporation(game.corporation).name === corp)
          newCurrPlayers.push({
             ...player,
             games: gamesBySeasonAndCorp,

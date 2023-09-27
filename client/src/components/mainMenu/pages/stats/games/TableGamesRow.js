@@ -3,6 +3,7 @@ import BtnGoTo from '../btnGoTo/BtnGoTo'
 import { DataContext, ModalsContext } from '..'
 import { TABS } from '../../../../../App'
 import { TabTypeContext } from '..'
+import { getCorporation } from '../../../../../utils/misc'
 
 const TableGamesRow = ({ id, game, currPlayer, user }) => {
    const { setShowModal, setModalText, setEditMode, setLinkOrComment, setGameId } = useContext(ModalsContext)
@@ -77,7 +78,7 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
       <div className="row">
          <div>{id}</div>
          <div>{game.season === 0 ? 'PRESEASON' : game.season}</div>
-         <div>{game.corporation ? game.corporation.name : 'NO CORP'}</div>
+         <div>{game.corporation ? getCorporation(game.corporation).name : 'NO CORP'}</div>
          <div>{game.startTime ? `${game.startTime.slice(0, 10)}\n${game.startTime.slice(11, 16)}` : ''}</div>
          <div>{game.durationSeconds ? getDuration(game.durationSeconds) : ''}</div>
          <div>{game.endTime ? `${game.endTime.slice(0, 10)}\n${game.endTime.slice(11, 16)}` : ''}</div>

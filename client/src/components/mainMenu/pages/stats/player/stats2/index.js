@@ -46,15 +46,15 @@ const Stats2 = ({ currPlayer }) => {
       currPlayer.games.forEach((game) => {
          gamesCounter++
          let currentGen
-         game.logItems.forEach((logItem) => {
+         game.logItems.forEach((logItem, idx) => {
             if (logItem.type === LOG_TYPES.GENERATION) currentGen = parseInt(logItem.data.text)
             if (logItem.type === LOG_TYPES.PASS) {
                arr[currentGen - 1] += logItem.details.stateAfter.statePlayer.totalPoints
+            } else if (logItem.type === LOG_TYPES.FINAL_CONVERT_PLANTS) {
+               arr[currentGen - 1] += game.logItems[idx].details.stateAfter.statePlayer.totalPoints - game.logItems[idx - 1].details.stateAfter.statePlayer.totalPoints
             }
          })
       })
-      console.log(arr)
-      console.log(gamesCounter)
       // if (gamesCounter) arr.forEach((gen) => (gen = gen / gamesCounter))
       if (gamesCounter > 0) arr = arr.map((gen) => (gen = gen / gamesCounter))
       return arr

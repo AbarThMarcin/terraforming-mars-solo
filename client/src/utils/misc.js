@@ -731,6 +731,10 @@ export const getShortName = (name) => {
          return 'INTERPLANETARY CINEM.'
       case 'ADAPTATION TECHNOLOGY':
          return 'ADAPTATION TECH.'
+      case 'ANTI-GRAVITY TECHNOLOGY':
+         return 'ANTI-GRAV. TECH.'
+      case 'OPTIMAL AEROBRAKING':
+         return 'OPTIMAL AEROBR.'
       default:
          return name
    }

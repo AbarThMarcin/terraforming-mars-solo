@@ -62,10 +62,10 @@ const TableStatisticsRow = ({ player }) => {
          <div>{maxScore}</div>
          <div>{longestStreak}</div>
          <div>
-            <BtnGoTo text="GAMES" action={handleClickBtnGames} />
+            <BtnGoTo text="GAMES INFO" action={handleClickBtnGames} />
          </div>
          <div>
-            <BtnGoTo text="MORE STATS" action={handleClickBtnMoreStats} />
+            <BtnGoTo text="STATISTICS" action={handleClickBtnMoreStats} />
          </div>
          <div>{realRating}</div>
       </div>

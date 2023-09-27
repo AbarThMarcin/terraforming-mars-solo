@@ -104,7 +104,7 @@ const ModalDraft = () => {
          payload: [...statePlayer.cardsPurchased, ...purchasedCards],
       })
       if (selectedCardsIds.length > 0)
-         funcSetLogItemsSingleActions(`Purchased ${selectedCardsIds.length} cards in the draft phase`, getResIcon(RESOURCES.CARD), selectedCardsIds.length, setLogItems)
+         funcSetLogItemsSingleActions(`Purchased ${selectedCardsIds.length} card${selectedCardsIds.length > 1 ? 's' : ''} in the draft phase`, getResIcon(RESOURCES.CARD), selectedCardsIds.length, setLogItems)
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal

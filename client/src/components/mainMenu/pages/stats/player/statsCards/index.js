@@ -11,7 +11,7 @@ const tipTextPlayed =
 const tipTextPurchased =
    'Total purchased divided by total seen. Example: in 10 games card has been seen 5 times and purchased 2 times. % Most Purchased for that card is 40%. If two or more cards have the same percentage, higher rank receives cards with more purchased count.'
 
-const Stats1 = ({ currPlayer }) => {
+const StatsCards = ({ currPlayer }) => {
    const { sound } = useContext(SoundContext)
    const { setShowModalCard, setModalCard, setShowModalAllCards, setModalCardsIds, setModalCardsTitle } = useContext(ModalsContext)
    // Tooltips for % Played and % Purchased
@@ -173,7 +173,7 @@ const Stats1 = ({ currPlayer }) => {
    return (
       <div className="details">
          <div className="player-name">{currPlayer.name}</div>
-         <div className="stats1-box center">
+         <div className="statsCards-box center">
             {/* Most Played Cards */}
             <div className="full-size">
                <div className="content">
@@ -557,4 +557,4 @@ const Stats1 = ({ currPlayer }) => {
    )
 }
 
-export default Stats1
+export default StatsCards

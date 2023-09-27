@@ -97,7 +97,7 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
             </div>
             {itemDetails.styles === 'action' && expanded === null && <div className="arrows">{getArrowIcon()}</div>}
          </div>
-         {itemDetails.styles === 'action' && getDetails()}
+         {itemDetails.styles === 'action' && (itemsExpanded[id] || expanded) && getDetails()}
       </li>
    )
 }

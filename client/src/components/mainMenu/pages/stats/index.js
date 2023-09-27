@@ -12,8 +12,8 @@ import BtnGoBack from '../../BtnGoBack'
 import spinner from '../../../../assets/other/spinner.gif'
 import Modal from './games/Modal'
 import { motion, AnimatePresence } from 'framer-motion'
-import ModalCard from './player/stats1/ModalCard'
-import ModalSeeAllCards from './player/stats1/ModalSeeAllCards'
+import ModalCard from './player/statsCards/ModalCard'
+import ModalSeeAllCards from './player/statsCards/ModalSeeAllCards'
 import { TABS } from '../../../../App'
 import GamesLog from './games/GamesLog'
 import { getCorporation, getEndedGameCardsWithAllData, getLogItemsWithAllData } from '../../../../utils/misc'
@@ -51,7 +51,7 @@ const Stats = ({ user }) => {
    const [season, setSeason] = useState()
    const [corp, setCorp] = useState('ALL CORPORATIONS')
    const [userValue, setUserValue] = useState('')
-
+   
    useEffect(() => {
       const fetchData = async () => {
          const initUsers = await getUsers()
@@ -102,8 +102,7 @@ const Stats = ({ user }) => {
          if (season !== 'lifetime') gamesBySeason = player.games.filter((game) => game.season === season)
          // Filter by corp
          let gamesBySeasonAndCorp = gamesBySeason
-         if (corp !== 'ALL CORPORATIONS')
-            gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => getCorporation(game.corporation).name === corp)
+         if (corp !== 'ALL CORPORATIONS') gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => getCorporation(game.corporation).name === corp)
          newCurrPlayers.push({
             ...player,
             games: gamesBySeasonAndCorp,
@@ -156,7 +155,7 @@ const Stats = ({ user }) => {
                               {(type === TABS.GENERAL_STATISTICS || type === TABS.GENERAL_ACHIEVEMENTS) && (
                                  <General filterPlayers={filterPlayers} season={season} setSeason={setSeason} setCorp={setCorp} userValue={userValue} />
                               )}
-                              {(type === TABS.PLAYER_OVERVIEW || type === TABS.STATS1 || type === TABS.STATS2) && (
+                              {(type === TABS.PLAYER_OVERVIEW || type === TABS.STATS_CARDS || type === TABS.STATS_OTHER) && (
                                  <Player filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} />
                               )}
                               {type === TABS.GAMES && <Games user={user} />}
@@ -166,7 +165,7 @@ const Stats = ({ user }) => {
                                  {type !== TABS.GENERAL_ACHIEVEMENTS && type !== TABS.GAMES_LOG && (
                                     <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} corp={corp} userValue={userValue} data={data} />
                                  )}
-                                 {(type === TABS.STATS1 || type === TABS.STATS2 || type === TABS.GAMES) && (
+                                 {(type === TABS.STATS_CARDS || type === TABS.STATS_OTHER || type === TABS.GAMES) && (
                                     <FilterCorp filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} data={data} />
                                  )}
                                  {(type === TABS.GENERAL_STATISTICS || type === TABS.GENERAL_ACHIEVEMENTS) && (

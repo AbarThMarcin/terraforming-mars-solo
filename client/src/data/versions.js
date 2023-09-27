@@ -4,6 +4,14 @@ export const VERSIONS = [
       date: '2023-09-27',
       updates: [
          {
+            title: 'Log performance fixes',
+            description: '',
+         },
+         {
+            title: 'Minor changes in statistics page',
+            description: '',
+         },
+         {
             title: 'Card/corp preview when clicked in Log',
             description: 'You can now preview a card when clicked in Log items on any card played, in hands, effect or action',
          },

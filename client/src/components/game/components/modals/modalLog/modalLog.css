@@ -168,6 +168,6 @@
    position: relative;
 }
 .modal-log .box .action .log-details .state .state-details {
-   height: 0px;
+   /* height: 0px; */
    overflow: hidden;
 }

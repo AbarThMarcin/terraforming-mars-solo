@@ -63,7 +63,6 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
    }
 
    const getDuration = (seconds) => {
-      console.log(seconds)
       let hrs = Math.floor(seconds / 60 / 60)
       let mins = Math.floor(seconds / 60) % 60
       let secs = seconds % 60

@@ -1,4 +1,4 @@
-.stats2-box {
+.statsOther-box {
    display: flex;
    justify-content: space-evenly;
    /* align-items: center; */
@@ -8,7 +8,7 @@
    padding-top: calc(var(--default-size) * 2.5);
 }
 
-.stats2-box > div {
+.statsOther-box > div {
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
@@ -18,12 +18,12 @@
    padding: calc(var(--default-size) * 0.4);
 }
 
-.stats2-box > div > div:first-child {
+.statsOther-box > div > div:first-child {
    width: 100%;
    text-align: center;
    margin-bottom: calc(var(--default-size) * 0.6);
 }
-.stats2-box > div > div:nth-child(3) {
+.statsOther-box > div > div:nth-child(3) {
    margin-top: calc(var(--default-size) * 0.3);
    display: flex;
    justify-content: center;
@@ -32,41 +32,41 @@
    height: 100%;
 }
 
-.stats2-percentages-line {
+.statsOther-percentages-line {
    width: calc(var(--default-size) * 10);
    line-height: calc(var(--default-size) * 1.1);
    margin-block: calc(var(--default-size) * 0.04);
    height: calc(var(--default-size) * 1.15);
 }
-.stats2-percentages-line.is-zero {
+.statsOther-percentages-line.is-zero {
    color: rgba(255, 255, 255, 0.2);
 }
-.stats2-percentages-line > span {
+.statsOther-percentages-line > span {
    display: inline-block;
 }
-.stats2-percentages-line > span:nth-child(1) {
+.statsOther-percentages-line > span:nth-child(1) {
    width: calc(var(--default-size) * 1.8);
    text-align: right;
 }
-.stats2-percentages-line > span:nth-child(3) {
+.statsOther-percentages-line > span:nth-child(3) {
    width: calc(var(--default-size) * 1.2);
    text-align: right;
 }
-.stats2-percentages-line > span:nth-child(5) {
+.statsOther-percentages-line > span:nth-child(5) {
    width: calc(var(--default-size) * 1.7);
 }
-.stats2-percentages-line > span:nth-child(5) > span {
+.statsOther-percentages-line > span:nth-child(5) > span {
    color: rgba(255, 255, 255, 0.5);
    font-size: smaller;
    vertical-align: middle;
 }
-.stats2-percentages-line.is-zero > span:nth-child(5) > span {
+.statsOther-percentages-line.is-zero > span:nth-child(5) > span {
    color: rgba(255, 255, 255, 0.1);
 }
-.stats2-percentages-line > span:nth-child(6),
-.stats2-percentages-line > span:nth-child(7),
-.stats2-percentages-line > span:nth-child(8),
-.stats2-percentages-line > span:nth-child(9),
-.stats2-percentages-line > span:nth-child(10) {
+.statsOther-percentages-line > span:nth-child(6),
+.statsOther-percentages-line > span:nth-child(7),
+.statsOther-percentages-line > span:nth-child(8),
+.statsOther-percentages-line > span:nth-child(9),
+.statsOther-percentages-line > span:nth-child(10) {
    color: rgba(255, 255, 255, 0.5);
 }

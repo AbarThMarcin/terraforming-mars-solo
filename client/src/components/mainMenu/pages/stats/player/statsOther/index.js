@@ -4,7 +4,7 @@ import { range } from '../../../../../../utils/misc'
 import { pad } from '../../../../../../utils/number'
 import { LOG_TYPES } from '../../../../../../data/log/log'
 
-const Stats2 = ({ currPlayer }) => {
+const StatsOther = ({ currPlayer }) => {
    const [statCardId, setStatCardId] = useState(0)
 
    const percentages = useMemo(() => {
@@ -78,7 +78,7 @@ const Stats2 = ({ currPlayer }) => {
       return (
          <div
             style={{ background: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,255,150,${(0.2 * (played / max) ** 1.6).toFixed(2)}) 50%, rgba(0,0,0,0) 100%)` }}
-            className={`stats2-percentages-line ${isZero ? 'is-zero' : ''}`}
+            className={`statsOther-percentages-line ${isZero ? 'is-zero' : ''}`}
          >
             <span>{gen}</span>
             <span>.</span>
@@ -129,7 +129,7 @@ const Stats2 = ({ currPlayer }) => {
                background: `linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,255,150,${(0.2 * (current / max) ** 1.6).toFixed(2)}) 50%, rgba(0,0,0,0) 100%)`,
                width: 'calc(var(--default-size) * 9.5)',
             }}
-            className="stats2-percentages-line"
+            className="statsOther-percentages-line"
          >
             <span style={{ width: 'calc(var(--default-size) * 2.4)' }}>{gen}</span>
             <span>.</span>
@@ -155,7 +155,7 @@ const Stats2 = ({ currPlayer }) => {
    return (
       <div className="details">
          <div className="player-name">{currPlayer.name}</div>
-         <div className="stats2-box center">
+         <div className="statsOther-box center">
             <div>
                <div>CARD PLAYABILITY PER GENERATION</div>
                <select style={{ marginLeft: '0' }} className="filter filter-season-corp pointer" defaultValue={0} onChange={handleClick}>
@@ -185,4 +185,4 @@ const Stats2 = ({ currPlayer }) => {
    )
 }
 
-export default Stats2
+export default StatsOther

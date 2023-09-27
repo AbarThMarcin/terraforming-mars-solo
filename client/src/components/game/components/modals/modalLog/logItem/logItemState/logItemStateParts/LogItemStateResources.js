@@ -1,6 +1,16 @@
+import { useContext } from 'react'
+import { SoundContext } from '../../../../../../../../App'
 import { RESOURCES, getResIcon } from '../../../../../../../../data/resources'
+import { useLocation } from 'react-router-dom'
+import { ModalsContext as ModalsContextGame } from '../../../../../..'
+import { ModalsContext as ModalsContextStats } from '../../../../../../../mainMenu/pages/stats'
+import { getCards } from '../../../../../../../../utils/misc'
 
 const LogItemStateResources = ({ state }) => {
+   const location = useLocation()
+   const { sound } = useContext(SoundContext)
+   const ModalsContextGameObj = useContext(ModalsContextGame)
+   const ModalsContextStatsObj = useContext(ModalsContextStats)
    const elements = getResources()
 
    function getResources() {
@@ -21,9 +31,21 @@ const LogItemStateResources = ({ state }) => {
             resource = getResIcon(RESOURCES.FIGHTER)
             count = card.units.fighter
          }
-         return [card.name, resource, count]
+         return [card.id, card.name, resource, count]
       })
       return resources
+   }
+
+   const handleClickCard = (cardId) => {
+      sound.btnCardsClick.play()
+      if (cardId) { // If card
+         if (location.pathname === '/match') {
+            ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards([cardId])[0], cardViewOnly: true }))
+         } else {
+            ModalsContextStatsObj.setModalCard(getCards([cardId])[0])
+            ModalsContextStatsObj.setShowModalCard(true)
+         }
+      }
    }
 
    return (
@@ -32,8 +54,8 @@ const LogItemStateResources = ({ state }) => {
          <ul className="state-other-container-elements">
             {elements.length > 0 ? (
                elements.map((el, idx) => (
-                  <li key={idx}>
-                     - {el[0]} ({el[2]} <img src={el[1]} alt=''></img>)
+                  <li key={idx} className='pointer' onClick={() => handleClickCard(el[0])}>
+                     - {el[1]} ({el[3]} <img src={el[2]} alt=''></img>)
                   </li>
                ))
             ) : (

@@ -48,7 +48,7 @@ const Statistics = () => {
                <span>GAMES DETAILS</span>
             </div>
             <div>
-               <span>MORE STATS</span>
+               <span>STATISTICS</span>
             </div>
             <div>
                <span>REAL RATING</span>

@@ -1,5 +1,5 @@
-@import url('./stats1/stats1.css');
-@import url('./stats2/stats2.css');
+@import url('./statsCards/statsCards.css');
+@import url('./statsOther/statsOther.css');
 
 /* Overview */
 .overview {

@@ -102,10 +102,10 @@
    width: auto;
 }
 .btn-cards-in-hand:hover img {
-   filter: brightness(130%)
+   filter: brightness(130%);
 }
 .btn-cards-in-hand.empty:hover img {
-   filter: brightness(100%)
+   filter: brightness(100%);
 }
 .btn-cards-in-hand span {
    position: absolute;
@@ -191,7 +191,7 @@
    width: 100%;
 }
 .btn-standard-projects:hover img {
-   filter: brightness(120%)
+   filter: brightness(120%);
 }
 
 /* Select / Selected */
@@ -367,6 +367,9 @@
 }
 .btn-convert-plants-heat img {
    transform: translateY(13%);
+}
+.btn-convert-plants-heat:hover img {
+   filter: brightness(130%);
 }
 
 /* Show Coordinates button */

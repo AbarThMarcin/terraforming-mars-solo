@@ -1,9 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { ModalsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 
-const BtnConvertPlantsHeat = ({ textConfirmation, action, bg, bgBright }) => {
-   const [hovered, setHovered] = useState(false)
+const BtnConvertPlantsHeat = ({ textConfirmation, action, bg }) => {
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
@@ -24,12 +23,8 @@ const BtnConvertPlantsHeat = ({ textConfirmation, action, bg, bgBright }) => {
    }
 
    return (
-      <div className="btn-convert-plants-heat pointer" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-         {hovered ? (
-            <img src={bgBright} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
-         ) : (
-            <img src={bg} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
-         )}
+      <div className="btn-convert-plants-heat pointer">
+         <img src={bg} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
       </div>
    )
 }

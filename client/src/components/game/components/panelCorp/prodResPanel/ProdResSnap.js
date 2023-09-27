@@ -1,9 +1,7 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
 import actionGreenery from '../../../../../assets/images/panelCorp/actions/action_greenery.svg'
-import actionGreeneryBright from '../../../../../assets/images/panelCorp/actions/action_greeneryBright.svg'
 import actionTemperature from '../../../../../assets/images/panelCorp/actions/action_temperature.svg'
-import actionTemperatureBright from '../../../../../assets/images/panelCorp/actions/action_temperatureBright.svg'
 import BtnConvertPlantsHeat from '../../buttons/BtnConvertPlantsHeat'
 import { RESOURCES } from '../../../../../data/resources'
 
@@ -39,7 +37,6 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
                      textConfirmation={`Do you want to convert ${statePlayer.valueGreenery} plants to a Greenery?`}
                      action={action.func}
                      bg={actionGreenery}
-                     bgBright={actionGreeneryBright}
                   />
                )}
             {action.type === 'temperature' &&
@@ -53,7 +50,6 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
                      textConfirmation="Do you want to convert 8 heat to increase the temperature?"
                      action={action.func}
                      bg={actionTemperature}
-                     bgBright={actionTemperatureBright}
                   />
                )}
          </div>

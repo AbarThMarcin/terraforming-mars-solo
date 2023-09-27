@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.3.4',
+      date: '2023-09-27',
+      updates: [
+         {
+            title: 'Performance fixes',
+            description: 'Time between timer updates increased from 10 to 30 seconds',
+         },
+      ],
+   },
+   {
       number: '0.3.3',
       date: '2023-09-20',
       updates: [

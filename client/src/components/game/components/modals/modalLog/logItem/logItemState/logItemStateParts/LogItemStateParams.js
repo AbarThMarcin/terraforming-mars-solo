@@ -1,8 +1,7 @@
 import res_tr from '../../../../../../../../assets/images/resources/res_tr.svg'
 import vp_any from '../../../../../../../../assets/images/vp/vp_any.svg'
-import tempIconForLog from '../../../../../../../../assets/images/other/tempIconForLog.svg'
-import oxIcon from '../../../../../../../../assets/images/other/oxIcon.svg'
 import tile_ocean from '../../../../../../../../assets/images/tiles/tile_ocean.svg'
+import { LOG_ICONS, getResIconForLog } from '../../../../../../../../data/log/log'
 
 const LogItemStateParams = ({ state }) => {
    const vp = getVp()
@@ -23,11 +22,11 @@ const LogItemStateParams = ({ state }) => {
             <span className="center">{vp}</span>
          </div>
          <div className="state-param">
-            <img src={tempIconForLog} className="center" alt="tempIconForLog" />
+            <img src={getResIconForLog(LOG_ICONS.TEMPERATURE)} className="center" alt="logIconTemp" />
             <span className="center">{state.stateGame.globalParameters.temperature}</span>
          </div>
          <div className="state-param">
-            <img src={oxIcon} className="center" alt="oxIcon" />
+            <img src={getResIconForLog(LOG_ICONS.OXYGEN)} className="center" alt="oxIcon" />
             <span className="center">{state.stateGame.globalParameters.oxygen}</span>
          </div>
          <div className="state-param">

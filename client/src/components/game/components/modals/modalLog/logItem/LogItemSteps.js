@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { getResIconForLog } from '../../../../../../data/log/log'
 
 const LogItemSteps = ({ item }) => {
    const [expanded, setExpanded] = useState(true)
@@ -35,11 +36,11 @@ const LogItemSteps = ({ item }) => {
                         <div className="icons">
                            {step.singleActionIconName &&
                               (typeof step.singleActionIconName === 'string' ? (
-                                 <img src={step.singleActionIconName} className="center" alt="prodBg_icon" />
+                                 <img src={getResIconForLog(step.singleActionIconName)} className="center" alt="prodBg_icon" />
                               ) : (
                                  <>
-                                    <img src={step.singleActionIconName[0]} className="center" alt="prodBg_icon" />
-                                    <img src={step.singleActionIconName[1]} className="center" alt="res_icon" />
+                                    <img src={getResIconForLog(step.singleActionIconName[0])} className="center" alt="prodBg_icon" />
+                                    <img src={getResIconForLog(step.singleActionIconName[1])} className="center" alt="res_icon" />
                                  </>
                               ))}
                            <div className={`value ${step.singleActionValue < 0 ? 'negative' : ''}`}>{step.singleActionValue !== 1 && step.singleActionValue}</div>

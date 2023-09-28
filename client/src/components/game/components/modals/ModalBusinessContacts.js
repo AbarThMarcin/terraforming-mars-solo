@@ -9,7 +9,7 @@ import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
 import { getCards, getPosition, getThinerStatePlayer, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../data/resources'
+import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { updateGameData } from '../../../../api/activeGame'
 import { funcSetLogItemsSingleActions } from '../../../../data/log/log'
@@ -73,10 +73,10 @@ const ModalBusinessContacts = () => {
             payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(selectedCardIds)), statePlayer)],
          })
          if (modals.modalBusCont.selectCount === 1) {
-            funcSetLogItemsSingleActions(`Drew 1 card (${getCards(selectedCardIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+            funcSetLogItemsSingleActions(`Drew 1 card (${getCards(selectedCardIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
          } else {
             const newCardsDrawNames = getCards(selectedCardIds).map((c) => c.name)
-            funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+            funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, RESOURCES.CARD, 2, setLogItems)
          }
 
          endAnimation(setModals)

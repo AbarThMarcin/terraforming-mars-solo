@@ -136,7 +136,14 @@ const StatsOther = ({ currPlayer }) => {
             <span style={{ width: 'calc(var(--default-size) * 1.6)' }}>{pointInt}</span>
             <span>.</span>
             <span>{point ? pointDec : '00'}</span>
-            {current !== 0 ? <span>({current < 0 ? '' : '+' }{current.toFixed(2)})</span> : ''}
+            {current !== 0 ? (
+               <span>
+                  ({current < 0 ? '' : '+'}
+                  {current.toFixed(2)})
+               </span>
+            ) : (
+               ''
+            )}
          </div>
       )
    }

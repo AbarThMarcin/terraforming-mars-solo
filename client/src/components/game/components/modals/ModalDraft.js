@@ -85,11 +85,11 @@ const ModalDraft = () => {
       // Decrease corporation resources
       if (toBuyMln > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
-         funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC for cards in draft phase`, getResIcon(RESOURCES.MLN), -toBuyMln, setLogItems)
+         funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC for cards in draft phase`, RESOURCES.MLN, -toBuyMln, setLogItems)
       }
       if (toBuyHeat > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-         funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat for cards in draft phase`, getResIcon(RESOURCES.HEAT), -toBuyHeat, setLogItems)
+         funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat for cards in draft phase`, RESOURCES.HEAT, -toBuyHeat, setLogItems)
       }
       // Add selected cards to the hand and cards purchased
       const purchasedCards = withTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id)))
@@ -165,7 +165,7 @@ const ModalDraft = () => {
             // Get Random Cards Ids
             let newCardsDrawIds = await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, user?.token)
             const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
-            funcSetLogItemsSingleActions(`Drew 3 cards (${newCardsDrawNames[0]}, ${newCardsDrawNames[1]} and ${newCardsDrawNames[2]})`, getResIcon(RESOURCES.CARD), 3, setLogItems)
+            funcSetLogItemsSingleActions(`Drew 3 cards (${newCardsDrawNames[0]}, ${newCardsDrawNames[1]} and ${newCardsDrawNames[2]})`, RESOURCES.CARD, 3, setLogItems)
             performSubActions([
                {
                   name: ANIMATIONS.CARD_IN,

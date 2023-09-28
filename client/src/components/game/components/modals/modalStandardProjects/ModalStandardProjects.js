@@ -7,7 +7,7 @@ import ModalSPaction from '../modalsComponents/ModalSPaction'
 import DecreaseCostSP from '../modalsComponents/decreaseCost/DecreaseCostSP'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../../data/resources'
+import { RESOURCES } from '../../../../../data/resources'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
 import { getSPeffectsToCall } from '../../../../../data/effects/effects'
 import { SP } from '../../../../../data/StandardProjects'
@@ -125,7 +125,7 @@ const ModalStandardProjects = () => {
          endAnimation(setModals)
          // Decrease heat (Helion only)
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-         if (toBuyHeat) funcSetLogItemsSingleActions(`Paid ${toBuyHeat} MC`, getResIcon(RESOURCES.HEAT), -toBuyHeat, setLogItems)
+         if (toBuyHeat) funcSetLogItemsSingleActions(`Paid ${toBuyHeat} MC`, RESOURCES.HEAT, -toBuyHeat, setLogItems)
          // Decrease corporation resources, perform actions and call effects
          let actions = []
          let spEffects = []
@@ -133,7 +133,7 @@ const ModalStandardProjects = () => {
             case SP.POWER_PLANT:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
-               if (toBuyMln[1]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[1]} MC`, getResIcon(RESOURCES.MLN), -toBuyMln[1], setLogItems)
+               if (toBuyMln[1]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[1]} MC`, RESOURCES.MLN, -toBuyMln[1], setLogItems)
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.POWER_PLANT)
                // Possible effect for SP Power Plant (standard technology)
@@ -143,7 +143,7 @@ const ModalStandardProjects = () => {
             case SP.ASTEROID:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
-               if (toBuyMln[2]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[2]} MC`, getResIcon(RESOURCES.MLN), -toBuyMln[2], setLogItems)
+               if (toBuyMln[2]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[2]} MC`, RESOURCES.MLN, -toBuyMln[2], setLogItems)
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
                // Possible effect for SP Asteroid (standard technology)
@@ -153,7 +153,7 @@ const ModalStandardProjects = () => {
             case SP.AQUIFER:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[3] })
-               if (toBuyMln[3]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[3]} MC`, getResIcon(RESOURCES.MLN), -toBuyMln[3], setLogItems)
+               if (toBuyMln[3]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[3]} MC`, RESOURCES.MLN, -toBuyMln[3], setLogItems)
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.AQUIFER)
                // Possible effects for placing ocean
@@ -166,7 +166,7 @@ const ModalStandardProjects = () => {
             case SP.GREENERY:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[4] })
-               if (toBuyMln[4]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[4]} MC`, getResIcon(RESOURCES.MLN), -toBuyMln[4], setLogItems)
+               if (toBuyMln[4]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[4]} MC`, RESOURCES.MLN, -toBuyMln[4], setLogItems)
                // Proper action
                actions = getImmEffects(IMM_EFFECTS.GREENERY)
                // Possible effects for placing greenery
@@ -179,7 +179,7 @@ const ModalStandardProjects = () => {
             case SP.CITY:
                // Cost
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[5] })
-               if (toBuyMln[5]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[5]} MC`, getResIcon(RESOURCES.MLN), -toBuyMln[5], setLogItems)
+               if (toBuyMln[5]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[5]} MC`, RESOURCES.MLN, -toBuyMln[5], setLogItems)
                // Proper action No 1: 1 mln production
                actions.push({
                   name: ANIMATIONS.PRODUCTION_IN,

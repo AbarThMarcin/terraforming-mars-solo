@@ -8,7 +8,7 @@ import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
 import { getCards, getNewCardsDrawIds, getPosition, getThinerStatePlayer, modifiedCards, withTimeAdded } from '../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../data/resources'
+import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { updateGameData } from '../../../../api/activeGame'
@@ -77,7 +77,7 @@ const ModalMarsUniversity = () => {
       let newCardsInHand = JSON.parse(JSON.stringify(statePlayer.cardsInHand.filter((card) => card.id !== selectedCardId)))
       setTimeout(() => {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
-         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards([selectedCardId])[0].name}) from MARS UNIVERSITY effect`, getResIcon(RESOURCES.CARD), -1, setLogItems)
+         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards([selectedCardId])[0].name}) from MARS UNIVERSITY effect`, RESOURCES.CARD, -1, setLogItems)
          endAnimation(setModals)
       }, ANIMATION_SPEED)
       // Draw a card
@@ -95,7 +95,7 @@ const ModalMarsUniversity = () => {
             type: ACTIONS_PLAYER.SET_CARDS_SEEN,
             payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
          })
-         funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from MARS UNIVERSITY effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+         funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from MARS UNIVERSITY effect`, RESOURCES.CARD, 1, setLogItems)
          let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
          newStatePlayer = {
             ...newStatePlayer,

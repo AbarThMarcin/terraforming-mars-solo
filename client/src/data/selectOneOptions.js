@@ -2,7 +2,7 @@ import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 import { getCards, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../utils/misc'
 import { ANIMATIONS } from './animations'
-import { RESOURCES, getResIcon } from './resources'
+import { RESOURCES } from './resources'
 import microbe from '../assets/images/selectOne-options/option_microbe.svg'
 import plant from '../assets/images/selectOne-options/option_plant.svg'
 import animal2 from '../assets/images/selectOne-options/option_animal2.svg'
@@ -162,7 +162,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} plant`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} plant`, RESOURCES.PLANT, value, setLogItems)
             },
          })
          break
@@ -226,7 +226,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([33])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([33])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -245,7 +245,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: -value,
                   },
                })
-               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([33])[0].name} card`, getResIcon(RESOURCES.SCIENCE), -value, setLogItems)
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([33])[0].name} card`, RESOURCES.SCIENCE, -value, setLogItems)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
@@ -266,7 +266,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([34])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([34])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -285,7 +285,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: -value,
                   },
                })
-               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([34])[0].name} card`, getResIcon(RESOURCES.SCIENCE), -value, setLogItems)
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([34])[0].name} card`, RESOURCES.SCIENCE, -value, setLogItems)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
@@ -298,7 +298,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 })
-               funcSetLogItemsSingleActions('Paid 1 steel', getResIcon(RESOURCES.STEEL), -1, setLogItems)
+               funcSetLogItemsSingleActions('Paid 1 steel', RESOURCES.STEEL, -1, setLogItems)
             },
          })
          subActions.push({
@@ -307,7 +307,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: 7,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 })
-               funcSetLogItemsSingleActions('Received 7 MC', getResIcon(RESOURCES.MLN), 7, setLogItems)
+               funcSetLogItemsSingleActions('Received 7 MC', RESOURCES.MLN, 7, setLogItems)
             },
          })
          break
@@ -318,7 +318,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -1 })
-               funcSetLogItemsSingleActions('Paid 1 plant', getResIcon(RESOURCES.PLANT), -1, setLogItems)
+               funcSetLogItemsSingleActions('Paid 1 plant', RESOURCES.PLANT, -1, setLogItems)
             },
          })
          subActions.push({
@@ -327,7 +327,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: 7,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 7 })
-               funcSetLogItemsSingleActions('Received 7 MC', getResIcon(RESOURCES.MLN), 7, setLogItems)
+               funcSetLogItemsSingleActions('Received 7 MC', RESOURCES.MLN, 7, setLogItems)
             },
          })
          break
@@ -340,7 +340,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} plant from VIRAL ENHANCERS effect`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} plant from VIRAL ENHANCERS effect`, RESOURCES.PLANT, value, setLogItems)
             },
          })
          break
@@ -359,7 +359,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([modals.modalCard.id])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([modals.modalCard.id])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -378,7 +378,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} animal to ${getCards([modals.modalCard.id])[0].name} card`, getResIcon(RESOURCES.ANIMAL), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} animal to ${getCards([modals.modalCard.id])[0].name} card`, RESOURCES.ANIMAL, value, setLogItems)
             },
          })
          break
@@ -391,7 +391,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: value })
-               funcSetLogItemsSingleActions(`Plant production increased by ${value}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.PLANT)], value, setLogItems)
+               funcSetLogItemsSingleActions(`Plant production increased by ${value}`, [RESOURCES.PROD_BG, RESOURCES.PLANT], value, setLogItems)
             },
          })
          break
@@ -403,7 +403,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: value })
-               funcSetLogItemsSingleActions(`Energy production increased by ${value}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], value, setLogItems)
+               funcSetLogItemsSingleActions(`Energy production increased by ${value}`, [RESOURCES.PROD_BG, RESOURCES.ENERGY], value, setLogItems)
             },
          })
          break
@@ -416,7 +416,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} steel`, getResIcon(RESOURCES.STEEL), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} steel`, RESOURCES.STEEL, value, setLogItems)
             },
          })
          break
@@ -428,7 +428,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} MC`, getResIcon(RESOURCES.MLN), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} MC`, RESOURCES.MLN, value, setLogItems)
             },
          })
          break
@@ -441,7 +441,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} plant`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} plant`, RESOURCES.PLANT, value, setLogItems)
             },
          })
          break
@@ -476,7 +476,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} plants`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} plants`, RESOURCES.PLANT, value, setLogItems)
             },
          })
          break
@@ -518,7 +518,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([157])[0].name} card`, getResIcon(RESOURCES.MICROBE), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([157])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -537,7 +537,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: -value,
                   },
                })
-               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([157])[0].name} card`, getResIcon(RESOURCES.SCIENCE), -value, setLogItems)
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([157])[0].name} card`, RESOURCES.SCIENCE, -value, setLogItems)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TR)]
@@ -551,7 +551,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} plant`, getResIcon(RESOURCES.PLANT), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} plant`, RESOURCES.PLANT, value, setLogItems)
             },
          })
          break
@@ -588,7 +588,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      type: ACTIONS_PLAYER.CHANGE_PROD_HEAT,
                      payload: -heatAmount,
                   })
-                  funcSetLogItemsSingleActions(`Heat production decreased by ${heatAmount}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], -heatAmount, setLogItems)
+                  funcSetLogItemsSingleActions(`Heat production decreased by ${heatAmount}`, [RESOURCES.PROD_BG, RESOURCES.HEAT], -heatAmount, setLogItems)
                },
             })
             subActions.push({
@@ -597,7 +597,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                value: heatAmount,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: heatAmount })
-                  funcSetLogItemsSingleActions(`MC production increased by ${heatAmount}`, [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)], heatAmount, setLogItems)
+                  funcSetLogItemsSingleActions(`MC production increased by ${heatAmount}`, [RESOURCES.PROD_BG, RESOURCES.MLN], heatAmount, setLogItems)
                },
             })
          }
@@ -613,7 +613,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      type: ACTIONS_PLAYER.CHANGE_RES_ENERGY,
                      payload: -energyAmount,
                   })
-                  funcSetLogItemsSingleActions(`Paid ${energyAmount} energy`, getResIcon(RESOURCES.ENERGY), -energyAmount, setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${energyAmount} energy`, RESOURCES.ENERGY, -energyAmount, setLogItems)
                },
             })
             subActions.push({
@@ -622,7 +622,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                value: energyAmount,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: energyAmount })
-                  funcSetLogItemsSingleActions(`Received ${energyAmount} energy`, getResIcon(RESOURCES.ENERGY), energyAmount, setLogItems)
+                  funcSetLogItemsSingleActions(`Received ${energyAmount} energy`, RESOURCES.ENERGY, energyAmount, setLogItems)
                },
             })
          }

@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, hasTag, withTimePlayed } from '../../../../../utils/misc'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../../data/resources'
+import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import Card from '../../card/Card'
 import DecreaseCost from '../modalsComponents/decreaseCost/DecreaseCost'
@@ -170,10 +170,10 @@ const ModalCardWithAction = () => {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -toBuySteel })
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -toBuyTitan })
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-         if (toBuyMln) funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC`, getResIcon(RESOURCES.MLN), -toBuyMln, setLogItems)
-         if (toBuySteel) funcSetLogItemsSingleActions(`Paid ${toBuySteel} MC`, getResIcon(RESOURCES.STEEL), -toBuySteel, setLogItems)
-         if (toBuyTitan) funcSetLogItemsSingleActions(`Paid ${toBuyTitan} MC`, getResIcon(RESOURCES.TITAN), -toBuyTitan, setLogItems)
-         if (toBuyHeat) funcSetLogItemsSingleActions(`Paid ${toBuyHeat} MC`, getResIcon(RESOURCES.HEAT), -toBuyHeat, setLogItems)
+         if (toBuyMln) funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC`, RESOURCES.MLN, -toBuyMln, setLogItems)
+         if (toBuySteel) funcSetLogItemsSingleActions(`Paid ${toBuySteel} MC`, RESOURCES.STEEL, -toBuySteel, setLogItems)
+         if (toBuyTitan) funcSetLogItemsSingleActions(`Paid ${toBuyTitan} MC`, RESOURCES.TITAN, -toBuyTitan, setLogItems)
+         if (toBuyHeat) funcSetLogItemsSingleActions(`Paid ${toBuyHeat} MC`, RESOURCES.HEAT, -toBuyHeat, setLogItems)
          // Remove this card from Cards In Hand
          let newCardsInHand = statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id)
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })

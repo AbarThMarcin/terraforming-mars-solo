@@ -51,7 +51,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 4,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 4 })
-                  funcSetLogItemsSingleActions('Received 4 MC from CREDICOR effect', getResIcon(RESOURCES.MLN), 4, setLogItems)
+                  funcSetLogItemsSingleActions('Received 4 MC from CREDICOR effect', RESOURCES.MLN, 4, setLogItems)
                },
             },
          ]
@@ -64,7 +64,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 2,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 })
-                  funcSetLogItemsSingleActions('Received 2 MC from INTERPLANETARY CINEMATICS effect', getResIcon(RESOURCES.MLN), 2, setLogItems)
+                  funcSetLogItemsSingleActions('Received 2 MC from INTERPLANETARY CINEMATICS effect', RESOURCES.MLN, 2, setLogItems)
                },
             },
          ]
@@ -79,7 +79,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
                   funcSetLogItemsSingleActions(
                      'MC production increased by 1 from SATURN SYSTEMS effect',
-                     [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)],
+                     [getResIcon(RESOURCES.PROD_BG), RESOURCES.MLN],
                      1,
                      setLogItems
                   )
@@ -95,7 +95,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 3,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
-                  funcSetLogItemsSingleActions('Received 3 MC from THARSIS REPUBLIC effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+                  funcSetLogItemsSingleActions('Received 3 MC from THARSIS REPUBLIC effect', RESOURCES.MLN, 3, setLogItems)
                },
             },
          ]
@@ -110,7 +110,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
                   funcSetLogItemsSingleActions(
                      'MC production increased by 1 from THARSIS REPUBLIC effect',
-                     [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)],
+                     [getResIcon(RESOURCES.PROD_BG), RESOURCES.MLN],
                      1,
                      setLogItems
                   )
@@ -131,7 +131,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 3,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
-                  funcSetLogItemsSingleActions('Received 3 MC from OPTIMAL AEROBRAKING effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+                  funcSetLogItemsSingleActions('Received 3 MC from OPTIMAL AEROBRAKING effect', RESOURCES.MLN, 3, setLogItems)
                },
             },
             {
@@ -140,7 +140,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 3,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: 3 })
-                  funcSetLogItemsSingleActions('Received 3 heat from OPTIMAL AEROBRAKING effect', getResIcon(RESOURCES.HEAT), 3, setLogItems)
+                  funcSetLogItemsSingleActions('Received 3 heat from OPTIMAL AEROBRAKING effect', RESOURCES.HEAT, 3, setLogItems)
                },
             },
          ]
@@ -153,7 +153,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 2,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 2 })
-                  funcSetLogItemsSingleActions('Received 2 MC from ROVER CONSTRUCTION effect', getResIcon(RESOURCES.MLN), 2, setLogItems)
+                  funcSetLogItemsSingleActions('Received 2 MC from ROVER CONSTRUCTION effect', RESOURCES.MLN, 2, setLogItems)
                },
             },
          ]
@@ -168,7 +168,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 1 })
-               funcSetLogItemsSingleActions('Received 1 plant from VIRAL ENHANCERS effect', getResIcon(RESOURCES.PLANT), 1, setLogItems)
+               funcSetLogItemsSingleActions('Received 1 plant from VIRAL ENHANCERS effect', RESOURCES.PLANT, 1, setLogItems)
             },
          }
          modals.modalCard.tags.forEach((tag) => {
@@ -252,7 +252,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 3,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
-                  funcSetLogItemsSingleActions('Received 3 MC from MEDIA GROUP effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+                  funcSetLogItemsSingleActions('Received 3 MC from MEDIA GROUP effect', RESOURCES.MLN, 3, setLogItems)
                },
             },
          ]
@@ -271,7 +271,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                            type: ACTIONS_PLAYER.ADD_BIO_RES,
                            payload: { cardId: 128, resource: RESOURCES.ANIMAL, amount: 1 },
                         })
-                        funcSetLogItemsSingleActions('Received 1 animal to ECOLOGICAL ZONE card from its effect', getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+                        funcSetLogItemsSingleActions('Received 1 animal to ECOLOGICAL ZONE card from its effect', RESOURCES.ANIMAL, 1, setLogItems)
                      },
                   })
                   break
@@ -295,7 +295,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                            type: ACTIONS_PLAYER.ADD_BIO_RES,
                            payload: { cardId: 131, resource: RESOURCES.MICROBE, amount: 1 },
                         })
-                        funcSetLogItemsSingleActions('Received 1 microbe to DECOMPOSERS card from its effect', getResIcon(RESOURCES.MICROBE), 1, setLogItems)
+                        funcSetLogItemsSingleActions('Received 1 microbe to DECOMPOSERS card from its effect', RESOURCES.MICROBE, 1, setLogItems)
                      },
                   })
                   break
@@ -315,7 +315,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: { cardId: 147, resource: RESOURCES.ANIMAL, amount: 1 },
                   })
-                  funcSetLogItemsSingleActions('Received 1 animal to HERBIVORES card from its effect', getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Received 1 animal to HERBIVORES card from its effect', RESOURCES.ANIMAL, 1, setLogItems)
                },
             },
          ]
@@ -328,7 +328,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 3,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 3 })
-                  funcSetLogItemsSingleActions('Received 3 MC from STANDARD TECHNOLOGY effect', getResIcon(RESOURCES.MLN), 3, setLogItems)
+                  funcSetLogItemsSingleActions('Received 3 MC from STANDARD TECHNOLOGY effect', RESOURCES.MLN, 3, setLogItems)
                },
             },
          ]
@@ -344,7 +344,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                      type: ACTIONS_PLAYER.ADD_BIO_RES,
                      payload: { cardId: 172, resource: RESOURCES.ANIMAL, amount: 1 },
                   })
-                  funcSetLogItemsSingleActions('Received 1 animal to PETS card from its effect', getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Received 1 animal to PETS card from its effect', RESOURCES.ANIMAL, 1, setLogItems)
                },
             },
          ]
@@ -362,7 +362,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
                   funcSetLogItemsSingleActions(
                      'MC production increased by 1 from IMMIGRANT CITY effect',
-                     [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.MLN)],
+                     [getResIcon(RESOURCES.PROD_BG), RESOURCES.MLN],
                      1,
                      setLogItems
                   )

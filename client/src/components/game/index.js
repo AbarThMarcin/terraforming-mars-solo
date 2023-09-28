@@ -9,7 +9,7 @@ import { funcGetImmEffects } from '../../data/immEffects/immEffects'
 import { funcGetCardActions } from '../../data/cardActions/cardActions'
 import { funcGetOptionsActions } from '../../data/selectOneOptions'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RESOURCES, getResIcon } from '../../data/resources'
+import { RESOURCES } from '../../data/resources'
 import { ANIMATIONS } from '../../data/animations'
 import { TAGS } from '../../data/tags'
 import PanelCorp from './components/panelCorp'
@@ -164,7 +164,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                         type: ACTIONS_PLAYER.ADD_BIO_RES,
                         payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 },
                      })
-                     funcSetLogItemsSingleActions('Received 1 science to OLYMPUS CONFERENCE card', getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Received 1 science to OLYMPUS CONFERENCE card', RESOURCES.SCIENCE, 1, setLogItems)
                      newStatePlayer = {
                         ...newStatePlayer,
                         cardsPlayed: newStatePlayer.cardsPlayed.map((card) => {
@@ -191,7 +191,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                         type: ACTIONS_PLAYER.ADD_BIO_RES,
                         payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 },
                      })
-                     funcSetLogItemsSingleActions('Removed 1 science from OLYMPUS CONFERENCE card', getResIcon(RESOURCES.SCIENCE), -1, setLogItems)
+                     funcSetLogItemsSingleActions('Removed 1 science from OLYMPUS CONFERENCE card', RESOURCES.SCIENCE, -1, setLogItems)
                      newStatePlayer = {
                         ...newStatePlayer,
                         cardsPlayed: newStatePlayer.cardsPlayed.map((card) => {
@@ -220,7 +220,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                      type: ACTIONS_PLAYER.SET_CARDS_SEEN,
                      payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
                   })
-                  funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+                  funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from OLYMPUS CONFERENCE effect`, RESOURCES.CARD, 1, setLogItems)
                   newStatePlayer = {
                      ...newStatePlayer,
                      cardsInHand: cardsInHand,
@@ -300,7 +300,6 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
          stateGame,
          dispatchGame,
          stateBoard,
-         modals,
          setModals,
          getImmEffects,
          toBuyResources,

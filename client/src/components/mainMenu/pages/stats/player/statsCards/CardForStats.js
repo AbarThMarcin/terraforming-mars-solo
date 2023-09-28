@@ -7,10 +7,10 @@ import { getVpIcon } from '../../../../../../data/vp'
 import { getImmEffectIcon } from '../../../../../../data/immEffects/immEffectsIcons'
 import icon_mln from '../../../../../../assets/images/resources/res_mln.svg'
 import tempIcon from '../../../../../../assets/images/other/tempIcon.svg'
-import oxIcon from '../../../../../../assets/images/other/oxIcon.svg'
 import oceanIcon from '../../../../../../assets/images/tiles/tile_ocean.svg'
 import greenery from '../../../../../../assets/images/tiles/tile_greenery.svg'
 import cityAnyIcon from '../../../../../../assets/images/other/cityAny.svg'
+import { LOG_ICONS, getResIconForLog } from '../../../../../../data/log/log'
 
 const CardForStats = ({ card, isBig }) => {
    const [info, setInfo] = useState(false)
@@ -132,7 +132,7 @@ const CardForStats = ({ card, isBig }) => {
                               {req.type === REQUIREMENTS.TEMPERATURE ? (
                                  <img className="icon" src={tempIcon} alt="temperature_icon" />
                               ) : (
-                                 <img className="icon" src={oxIcon} alt="oxygen_icon" />
+                                 <img className="icon" src={getResIconForLog(LOG_ICONS.OXYGEN)} alt="oxygen_icon" />
                               )}
                            </>
                         )}
@@ -182,7 +182,7 @@ const CardForStats = ({ card, isBig }) => {
                         {req.type === REQUIREMENTS.ECOLOGICAL_ZONE && (
                            <div className="icon-ox">
                               <img className="greenery center" src={greenery} alt="greenery_tile" />
-                              <img className="ox" src={oxIcon} alt="ox_icon" />
+                              <img className="ox" src={getResIconForLog(LOG_ICONS.OXYGEN)} alt="ox_icon" />
                            </div>
                         )}
                         {/* Rad-Suits */}

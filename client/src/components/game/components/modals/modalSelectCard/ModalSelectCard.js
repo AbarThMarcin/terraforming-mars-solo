@@ -1,7 +1,7 @@
 /* Used to show ONE card with selection */
 import { useContext, useEffect, useState } from 'react'
 import { ANIMATIONS } from '../../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../../data/resources'
+import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { hasTag, modifiedCards, withTimeAdded } from '../../../../../utils/misc'
@@ -61,7 +61,7 @@ const ModalSelectCard = () => {
                         amount: 1,
                      },
                   })
-                  funcSetLogItemsSingleActions('Received 1 science to SEARCH FOR LIFE card', getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Received 1 science to SEARCH FOR LIFE card', RESOURCES.SCIENCE, 1, setLogItems)
                },
             })
          } else {
@@ -76,7 +76,7 @@ const ModalSelectCard = () => {
                         type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                         payload: -toBuyMln,
                      })
-                     funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC`, getResIcon(RESOURCES.MLN), -toBuyMln, setLogItems)
+                     funcSetLogItemsSingleActions(`Paid ${toBuyMln} MC`, RESOURCES.MLN, -toBuyMln, setLogItems)
                   },
                })
             if (toBuyHeat > 0)
@@ -89,7 +89,7 @@ const ModalSelectCard = () => {
                         type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                         payload: -toBuyHeat,
                      })
-                     funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat`, getResIcon(RESOURCES.HEAT), -toBuyHeat, setLogItems)
+                     funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat`, RESOURCES.HEAT, -toBuyHeat, setLogItems)
                   },
                })
             subActions.push({
@@ -105,7 +105,7 @@ const ModalSelectCard = () => {
                      type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
                      payload: [...statePlayer.cardsPurchased, modals.modalSelectCard.card],
                   })
-                  funcSetLogItemsSingleActions(`Drew 1 card (${modals.modalSelectCard.card.name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+                  funcSetLogItemsSingleActions(`Drew 1 card (${modals.modalSelectCard.card.name})`, RESOURCES.CARD, 1, setLogItems)
                },
             })
          }

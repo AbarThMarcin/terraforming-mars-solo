@@ -9,7 +9,7 @@ import Card from '../card/Card'
 import { getPosition } from '../../../../utils/misc'
 import { SP } from '../../../../data/StandardProjects'
 import { ANIMATIONS } from '../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../data/resources'
+import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import BtnSelect from '../buttons/BtnSelect'
 import { LOG_ICONS, LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../data/log/log'
@@ -54,7 +54,7 @@ const ModalSellCards = () => {
                type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
                payload: statePlayer.cardsInHand.filter((c) => !selectedCards.includes(c)),
             })
-            funcSetLogItemsSingleActions(mlnBack === 1 ? 'Sold 1 card' : `Sold ${mlnBack} cards`, getResIcon(RESOURCES.CARD), -mlnBack, setLogItems)
+            funcSetLogItemsSingleActions(mlnBack === 1 ? 'Sold 1 card' : `Sold ${mlnBack} cards`, RESOURCES.CARD, -mlnBack, setLogItems)
          },
       })
       // Add mln addition to the subAction
@@ -64,7 +64,7 @@ const ModalSellCards = () => {
          value: mlnBack,
          func: () => {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: mlnBack })
-            funcSetLogItemsSingleActions(`Received ${mlnBack} MC`, getResIcon(RESOURCES.MLN), mlnBack, setLogItems)
+            funcSetLogItemsSingleActions(`Received ${mlnBack} MC`, RESOURCES.MLN, mlnBack, setLogItems)
          },
       })
       // Perform subActions

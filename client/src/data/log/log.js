@@ -8,8 +8,12 @@ import logIconAsteroid from '../../assets/images/other/logIconConvertHeat.svg'
 import logIconAquifer from '../../assets/images/immEffects/immEffect_127.svg'
 import logIconGreenery from '../../assets/images/other/logIconConvertPlants.svg'
 import logIconCity from '../../assets/images/other/logIconCity.svg'
+import logIconTemperature from '../../assets/images/other/logIconTemperature.svg'
+import logIconOxygen from '../../assets/images/other/logIconOxygen.svg'
 import { ACTION_ICONS, getActionIcon } from '../cardActions/actionIcons'
 import { getImmEffectIcon } from '../immEffects/immEffectsIcons'
+import { RESOURCES, getResIcon } from '../resources'
+import { TILES, assignIconToTileData } from '../board'
 
 export const LOG_TYPES = {
    GENERATION: 'generation',
@@ -30,6 +34,8 @@ export const LOG_ICONS = {
    SELL_PATENT: 'SELL_PATENT',
    CONVERT_PLANTS: 'CONVERT_PLANTS',
    CONVERT_HEAT: 'CONVERT_HEAT',
+   TEMPERATURE: 'LOG_TEMPERATURE',
+   OXYGEN: 'LOG_OXYGEN',
 }
 
 export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logData, logIcon, setItemsExpanded) => {
@@ -129,5 +135,47 @@ export const getIconForLog = (actionType) => {
          return logIconAsteroid
       default:
          return getImmEffectIcon(actionType)
+   }
+}
+
+export const getResIconForLog = (type) => {
+   switch (type) {
+      case RESOURCES.MLN:
+      case RESOURCES.STEEL:
+      case RESOURCES.TITAN:
+      case RESOURCES.PLANT:
+      case RESOURCES.ENERGY:
+      case RESOURCES.HEAT:
+      case RESOURCES.CARD:
+      case RESOURCES.MICROBE:
+      case RESOURCES.ANIMAL:
+      case RESOURCES.SCIENCE:
+      case RESOURCES.FIGHTER:
+      case RESOURCES.TR:
+      case RESOURCES.PROD_BG:
+         return getResIcon(type)
+      case TILES.OCEAN:
+      case TILES.GREENERY:
+      case TILES.GREENERY_NEUTRAL:
+      case TILES.CITY:
+      case TILES.CITY_NEUTRAL:
+      case TILES.SPECIAL_CITY_CAPITAL:
+      case TILES.SPECIAL_NATURAL_PRESERVE:
+      case TILES.SPECIAL_MINING_AREA:
+      case TILES.SPECIAL_MINING_RIGHTS:
+      case TILES.SPECIAL_COMMERCIAL_DISTRICT:
+      case TILES.SPECIAL_NUCLEAR_ZONE:
+      case TILES.SPECIAL_INDUSTRIAL_CENTER:
+      case TILES.SPECIAL_ECOLOGICAL_ZONE:
+      case TILES.SPECIAL_LAVA_FLOWS:
+      case TILES.SPECIAL_MOHOLE_AREA:
+      case TILES.SPECIAL_RESTRICTED_AREA:
+         return assignIconToTileData(type)
+      case LOG_ICONS.TEMPERATURE:
+         return logIconTemperature
+      case LOG_ICONS.OXYGEN:
+         return logIconOxygen
+      default:
+         return
    }
 }

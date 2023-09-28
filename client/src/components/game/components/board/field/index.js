@@ -76,11 +76,11 @@ const Field = ({ field, showCoordinates }) => {
                switch (uniqBonuses[i]) {
                   case RESOURCES.STEEL:
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: countBonus })
-                     funcSetLogItemsSingleActions(`Received ${countBonus} steel from board`, getResIcon(RESOURCES.STEEL), countBonus, setLogItems)
+                     funcSetLogItemsSingleActions(`Received ${countBonus} steel from board`, RESOURCES.STEEL, countBonus, setLogItems)
                      break
                   case RESOURCES.TITAN:
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: countBonus })
-                     funcSetLogItemsSingleActions(`Received ${countBonus} titanium from board`, getResIcon(RESOURCES.TITAN), countBonus, setLogItems)
+                     funcSetLogItemsSingleActions(`Received ${countBonus} titanium from board`, RESOURCES.TITAN, countBonus, setLogItems)
                      break
                   case RESOURCES.PLANT:
                      newPlants += countBonus
@@ -131,7 +131,7 @@ const Field = ({ field, showCoordinates }) => {
          delay += ANIMATION_SPEED
          setTimeout(() => {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: bonusMln })
-            funcSetLogItemsSingleActions(`Received ${bonusMln} MC from board from oceans`, getResIcon(RESOURCES.MLN), bonusMln, setLogItems)
+            funcSetLogItemsSingleActions(`Received ${bonusMln} MC from board from oceans`, RESOURCES.MLN, bonusMln, setLogItems)
             endAnimation(setModals)
          }, delay)
       }
@@ -144,7 +144,7 @@ const Field = ({ field, showCoordinates }) => {
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
-               funcSetLogItemsSingleActions('Steel production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
+               funcSetLogItemsSingleActions('Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1, setLogItems)
             },
          }
 
@@ -154,7 +154,7 @@ const Field = ({ field, showCoordinates }) => {
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
-               funcSetLogItemsSingleActions('Titanium production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.TITAN)], 1, setLogItems)
+               funcSetLogItemsSingleActions('Titanium production increased by 1', [RESOURCES.PROD_BG, RESOURCES.TITAN], 1, setLogItems)
             },
          }
 
@@ -184,7 +184,7 @@ const Field = ({ field, showCoordinates }) => {
             delay += ANIMATION_SPEED
             setTimeout(() => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
-               funcSetLogItemsSingleActions('Steel production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
+               funcSetLogItemsSingleActions('Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1, setLogItems)
                endAnimation(setModals)
             }, delay)
          } else if (field.bonus.includes(RESOURCES.TITAN)) {
@@ -213,7 +213,7 @@ const Field = ({ field, showCoordinates }) => {
             delay += ANIMATION_SPEED
             setTimeout(() => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
-               funcSetLogItemsSingleActions('Titanium production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.TITAN)], 1, setLogItems)
+               funcSetLogItemsSingleActions('Titanium production increased by 1', [RESOURCES.PROD_BG, RESOURCES.TITAN], 1, setLogItems)
                endAnimation(setModals)
             }, delay)
          }
@@ -228,7 +228,7 @@ const Field = ({ field, showCoordinates }) => {
          delay += ANIMATION_SPEED
          setTimeout(() => {
             dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
-            funcSetLogItemsSingleActions('Steel production increased by 1 from MINING GUILD effect', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
+            funcSetLogItemsSingleActions('Steel production increased by 1 from MINING GUILD effect', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1, setLogItems)
             endAnimation(setModals)
          }, delay)
       }

@@ -1,7 +1,7 @@
 import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../stateActions/actionsGame'
 import { ANIMATIONS } from '../animations'
-import { RESOURCES, getResIcon } from '../resources'
+import { RESOURCES } from '../resources'
 import { getCards, getCardsWithPossibleMicrobes, getNewCardsDrawIds, modifiedCards, withTimeAdded } from '../../utils/misc'
 import { getOptions } from '../selectOneOptions'
 import { TILES } from '../board'
@@ -16,7 +16,6 @@ export const funcGetCardActions = (
    stateGame,
    dispatchGame,
    stateBoard,
-   modals,
    setModals,
    getImmEffects,
    toBuyResources,
@@ -43,7 +42,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -56,7 +55,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          subCardActions.push({
@@ -66,7 +65,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-               funcSetLogItemsSingleActions('TR raised by 1', getResIcon(RESOURCES.TR), 1, setLogItems)
+               funcSetLogItemsSingleActions('TR raised by 1', RESOURCES.TR, 1, setLogItems)
             },
          })
          break
@@ -83,7 +82,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -96,7 +95,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          subCardActions.push({
@@ -144,7 +143,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -1 })
-               funcSetLogItemsSingleActions('Paid 1 energy', getResIcon(RESOURCES.ENERGY), -1, setLogItems)
+               funcSetLogItemsSingleActions('Paid 1 energy', RESOURCES.ENERGY, -1, setLogItems)
             },
          })
          value = stateBoard.filter(
@@ -159,7 +158,7 @@ export const funcGetCardActions = (
             value: value,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: value })
-               funcSetLogItemsSingleActions(`Received ${value} MC`, getResIcon(RESOURCES.MLN), value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} MC`, RESOURCES.MLN, value, setLogItems)
             },
          })
          break
@@ -176,7 +175,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[1])
@@ -189,7 +188,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_STEEL,
                      payload: -toBuyResources[1],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[1]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[1], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[1]} heat`, RESOURCES.HEAT, -toBuyResources[1], setLogItems)
                },
             })
          if (toBuyResources[2])
@@ -202,7 +201,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_TITAN,
                      payload: -toBuyResources[2],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[2]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[2], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[2]} heat`, RESOURCES.HEAT, -toBuyResources[2], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -215,7 +214,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          getImmEffects(IMM_EFFECTS.AQUIFER).forEach((immEffect) => subCardActions.push(immEffect))
@@ -228,7 +227,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: -1 })
-               funcSetLogItemsSingleActions('Paid 1 steel', getResIcon(RESOURCES.STEEL), -1, setLogItems)
+               funcSetLogItemsSingleActions('Paid 1 steel', RESOURCES.STEEL, -1, setLogItems)
             },
          })
          subCardActions.push({
@@ -237,7 +236,7 @@ export const funcGetCardActions = (
             value: 5,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 5 })
-               funcSetLogItemsSingleActions('Received 1 MC', getResIcon(RESOURCES.MLN), 1, setLogItems)
+               funcSetLogItemsSingleActions('Received 1 MC', RESOURCES.MLN, 1, setLogItems)
             },
          })
          break
@@ -249,7 +248,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -1 })
-               funcSetLogItemsSingleActions('Paid 1 energy', getResIcon(RESOURCES.ENERGY), -1, setLogItems)
+               funcSetLogItemsSingleActions('Paid 1 energy', RESOURCES.ENERGY, -1, setLogItems)
             },
          })
          subCardActions.push({
@@ -261,7 +260,7 @@ export const funcGetCardActions = (
                cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })
-               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand }, stateGame)
             },
          })
@@ -274,7 +273,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: -1 })
-               funcSetLogItemsSingleActions('Energy production decreased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], -1, setLogItems)
+               funcSetLogItemsSingleActions('Energy production decreased by 1', [RESOURCES.PROD_BG, RESOURCES.ENERGY], -1, setLogItems)
             },
          })
          subCardActions.push({
@@ -284,7 +283,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-               funcSetLogItemsSingleActions('TR raised by 1', getResIcon(RESOURCES.TR), 1, setLogItems)
+               funcSetLogItemsSingleActions('TR raised by 1', RESOURCES.TR, 1, setLogItems)
             },
          })
          break
@@ -303,7 +302,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.ANIMAL, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 animal to ${getCards([cardId])[0].name} card`, getResIcon(RESOURCES.ANIMAL), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 animal to ${getCards([cardId])[0].name} card`, RESOURCES.ANIMAL, 1, setLogItems)
             },
          })
          break
@@ -315,7 +314,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: -1 })
-               funcSetLogItemsSingleActions('Paid 1 titanium', getResIcon(RESOURCES.TITAN), -1, setLogItems)
+               funcSetLogItemsSingleActions('Paid 1 titanium', RESOURCES.TITAN, -1, setLogItems)
             },
          })
          subCardActions.push({
@@ -327,7 +326,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.FIGHTER, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 fighter to ${getCards([cardId])[0].name} card`, getResIcon(RESOURCES.FIGHTER), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 fighter to ${getCards([cardId])[0].name} card`, RESOURCES.FIGHTER, 1, setLogItems)
             },
          })
          break
@@ -365,7 +364,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.MICROBE, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 microbe to ${getCards([cardId])[0].name} card`, getResIcon(RESOURCES.MICROBE), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 microbe to ${getCards([cardId])[0].name} card`, RESOURCES.MICROBE, 1, setLogItems)
             },
          })
          break
@@ -381,7 +380,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -394,7 +393,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          subCardActions.push({
@@ -403,7 +402,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: 1 })
-               funcSetLogItemsSingleActions('Energy production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.ENERGY)], 1, setLogItems)
+               funcSetLogItemsSingleActions('Energy production increased by 1', [RESOURCES.PROD_BG, RESOURCES.ENERGY], 1, setLogItems)
             },
          })
          break
@@ -415,7 +414,7 @@ export const funcGetCardActions = (
             value: 6,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -6 })
-               funcSetLogItemsSingleActions('Paid 6 energy', getResIcon(RESOURCES.ENERGY), -6, setLogItems)
+               funcSetLogItemsSingleActions('Paid 6 energy', RESOURCES.ENERGY, -6, setLogItems)
             },
          })
          subCardActions.push({
@@ -427,7 +426,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.SCIENCE, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 science to ${getCards([cardId])[0].name} card`, getResIcon(RESOURCES.SCIENCE), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 science to ${getCards([cardId])[0].name} card`, RESOURCES.SCIENCE, 1, setLogItems)
             },
          })
          break
@@ -439,7 +438,7 @@ export const funcGetCardActions = (
             value: 4,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 })
-               funcSetLogItemsSingleActions('Paid 4 energy', getResIcon(RESOURCES.ENERGY), -4, setLogItems)
+               funcSetLogItemsSingleActions('Paid 4 energy', RESOURCES.ENERGY, -4, setLogItems)
             },
          })
          subCardActions.push({
@@ -448,7 +447,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 1 })
-               funcSetLogItemsSingleActions('Received 1 steel', getResIcon(RESOURCES.STEEL), 1, setLogItems)
+               funcSetLogItemsSingleActions('Received 1 steel', RESOURCES.STEEL, 1, setLogItems)
             },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
@@ -461,7 +460,7 @@ export const funcGetCardActions = (
             value: 4,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 })
-               funcSetLogItemsSingleActions('Paid 4 energy', getResIcon(RESOURCES.ENERGY), -4, setLogItems)
+               funcSetLogItemsSingleActions('Paid 4 energy', RESOURCES.ENERGY, -4, setLogItems)
             },
          })
          subCardActions.push({
@@ -470,7 +469,7 @@ export const funcGetCardActions = (
             value: 2,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: 2 })
-               funcSetLogItemsSingleActions('Received 2 steel', getResIcon(RESOURCES.STEEL), 2, setLogItems)
+               funcSetLogItemsSingleActions('Received 2 steel', RESOURCES.STEEL, 2, setLogItems)
             },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
@@ -483,7 +482,7 @@ export const funcGetCardActions = (
             value: 4,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -4 })
-               funcSetLogItemsSingleActions('Paid 4 energy', getResIcon(RESOURCES.ENERGY), -4, setLogItems)
+               funcSetLogItemsSingleActions('Paid 4 energy', RESOURCES.ENERGY, -4, setLogItems)
             },
          })
          subCardActions.push({
@@ -492,7 +491,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: 1 })
-               funcSetLogItemsSingleActions('Received 1 titanium', getResIcon(RESOURCES.TITAN), 1, setLogItems)
+               funcSetLogItemsSingleActions('Received 1 titanium', RESOURCES.TITAN, 1, setLogItems)
             },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
@@ -509,7 +508,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -522,7 +521,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          subCardActions.push({
@@ -531,7 +530,7 @@ export const funcGetCardActions = (
             value: 1,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
-               funcSetLogItemsSingleActions('Steel production increased by 1', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.STEEL)], 1, setLogItems)
+               funcSetLogItemsSingleActions('Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1, setLogItems)
             },
          })
          break
@@ -584,7 +583,7 @@ export const funcGetCardActions = (
             value: 8,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 })
-               funcSetLogItemsSingleActions('Paid 8 heat', getResIcon(RESOURCES.HEAT), -8, setLogItems)
+               funcSetLogItemsSingleActions('Paid 8 heat', RESOURCES.HEAT, -8, setLogItems)
             },
          })
          subCardActions.push({
@@ -594,7 +593,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-               funcSetLogItemsSingleActions('TR raised by 1', getResIcon(RESOURCES.TR), 1, setLogItems)
+               funcSetLogItemsSingleActions('TR raised by 1', RESOURCES.TR, 1, setLogItems)
             },
          })
          break
@@ -606,7 +605,7 @@ export const funcGetCardActions = (
             value: 3,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_ENERGY, payload: -3 })
-               funcSetLogItemsSingleActions('Paid 3 energy', getResIcon(RESOURCES.ENERGY), -3, setLogItems)
+               funcSetLogItemsSingleActions('Paid 3 energy', RESOURCES.ENERGY, -3, setLogItems)
             },
          })
          getImmEffects(IMM_EFFECTS.OXYGEN).forEach((immEffect) => subCardActions.push(immEffect))
@@ -642,7 +641,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -655,7 +654,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          subCardActions.push({
@@ -667,7 +666,7 @@ export const funcGetCardActions = (
                cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })
-               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, getResIcon(RESOURCES.CARD), 1, setLogItems)
+               funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand }, stateGame)
             },
          })
@@ -684,7 +683,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_MLN,
                      payload: -toBuyResources[0],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, getResIcon(RESOURCES.MLN), -toBuyResources[0], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[0]} MC`, RESOURCES.MLN, -toBuyResources[0], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -697,7 +696,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_HEAT,
                      payload: -toBuyResources[3],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, getResIcon(RESOURCES.HEAT), -toBuyResources[3], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[3]} heat`, RESOURCES.HEAT, -toBuyResources[3], setLogItems)
                },
             })
          subCardActions.push({
@@ -706,7 +705,7 @@ export const funcGetCardActions = (
             value: 2,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 2 })
-               funcSetLogItemsSingleActions('Heat production increased by 2', [getResIcon(RESOURCES.PROD_BG), getResIcon(RESOURCES.HEAT)], 2, setLogItems)
+               funcSetLogItemsSingleActions('Heat production increased by 2', [RESOURCES.PROD_BG, RESOURCES.HEAT], 2, setLogItems)
             },
          })
          break
@@ -722,7 +721,7 @@ export const funcGetCardActions = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })
                const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
-               funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, getResIcon(RESOURCES.CARD), 2, setLogItems)
+               funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, RESOURCES.CARD, 2, setLogItems)
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand }, stateGame)
             },
          })

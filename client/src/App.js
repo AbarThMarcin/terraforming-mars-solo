@@ -74,6 +74,7 @@ export const APP_MESSAGES = {
 }
 
 function App() {
+   
    // User
    const [user, setUser] = useState(null)
    // Game States

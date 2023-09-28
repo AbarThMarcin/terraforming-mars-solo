@@ -85,24 +85,24 @@ const ModalStandardProjects = () => {
       let logData = {}
       switch (name) {
          case SP.POWER_PLANT:
-            logData = { type: LOG_TYPES.SP_ACTION, text: SP.POWER_PLANT }
+            logData = { type: LOG_TYPES.SP_ACTION, title: SP.POWER_PLANT, titleIcon: SP.POWER_PLANT }
             break
          case SP.ASTEROID:
-            logData = { type: LOG_TYPES.SP_ACTION, text: SP.ASTEROID }
+            logData = { type: LOG_TYPES.SP_ACTION, title: SP.ASTEROID, titleIcon: SP.ASTEROID }
             break
          case SP.AQUIFER:
-            logData = { type: LOG_TYPES.SP_ACTION, text: SP.AQUIFER }
+            logData = { type: LOG_TYPES.SP_ACTION, title: SP.AQUIFER, titleIcon: SP.AQUIFER }
             break
          case SP.GREENERY:
-            logData = { type: LOG_TYPES.SP_ACTION, text: SP.GREENERY }
+            logData = { type: LOG_TYPES.SP_ACTION, title: SP.GREENERY, titleIcon: SP.GREENERY }
             break
          case SP.CITY:
-            logData = { type: LOG_TYPES.SP_ACTION, text: SP.CITY }
+            logData = { type: LOG_TYPES.SP_ACTION, title: SP.CITY, titleIcon: SP.CITY }
             break
          default:
             break
       }
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, logData, logData.text, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, logData, setItemsExpanded)
 
       let animResPaidTypes = []
       if (toBuyMln[btnClickedId] !== 0) animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])

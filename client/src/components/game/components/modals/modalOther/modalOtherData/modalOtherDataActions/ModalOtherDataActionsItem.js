@@ -71,8 +71,7 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
          setLogItems,
          statePlayer,
          stateGame,
-         { type: LOG_TYPES.CARD_ACTION, text: item.name },
-         isUnmi ? ACTION_ICONS.ACTION_UNMI : item.id,
+         { type: LOG_TYPES.CARD_ACTION, title: item.name, titleIcon: isUnmi ? ACTION_ICONS.ACTION_UNMI : item.id },
          setItemsExpanded
       )
       let itemIdOrUnmi = isUnmi ? item.name : item.id

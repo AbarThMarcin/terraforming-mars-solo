@@ -81,7 +81,7 @@ const ModalDraft = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.DRAFT }, null, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.DRAFT }, setItemsExpanded)
       // Decrease corporation resources
       if (toBuyMln > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
@@ -138,8 +138,7 @@ const ModalDraft = () => {
                   cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
                },
                stateGame,
-               { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.THARSIS_REPUBLIC },
-               LOG_ICONS.FORCED_THARSIS,
+               { type: LOG_TYPES.FORCED_ACTION, title: CORP_NAMES.THARSIS_REPUBLIC, titleIcon: LOG_ICONS.FORCED_THARSIS },
                setItemsExpanded
             )
 
@@ -158,8 +157,7 @@ const ModalDraft = () => {
                   cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
                },
                stateGame,
-               { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.INVENTRIX },
-               LOG_ICONS.FORCED_INVENTRIX,
+               { type: LOG_TYPES.FORCED_ACTION, title: CORP_NAMES.INVENTRIX, titleIcon: LOG_ICONS.FORCED_INVENTRIX },
                setItemsExpanded
             )
             // Get Random Cards Ids

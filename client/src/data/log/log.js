@@ -38,12 +38,11 @@ export const LOG_ICONS = {
    OXYGEN: 'LOG_OXYGEN',
 }
 
-export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logData, logIcon, setItemsExpanded) => {
+export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logHeaders, setItemsExpanded) => {
    setLogItems((logItems) => [
       ...logItems,
       {
-         type: logData.type,
-         data: { text: logData.text, icon: logIcon },
+         ...logHeaders,
          details: {
             stateBefore: {
                statePlayer: getThinerLogStatePlayer(statePlayer),
@@ -97,13 +96,7 @@ export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame) 
 }
 
 export const funcCreateLogItemGeneration = (setLogItems, stateGame, setItemsExpanded) => {
-   setLogItems((logItems) => [
-      ...logItems,
-      {
-         type: LOG_TYPES.GENERATION,
-         data: { text: `${stateGame.generation + 1}` },
-      },
-   ])
+   setLogItems((logItems) => [...logItems, { type: LOG_TYPES.GENERATION, title: `${stateGame.generation + 1}` }])
    setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
 }
 

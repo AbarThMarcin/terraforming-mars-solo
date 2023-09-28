@@ -6,7 +6,7 @@ import LogItemState from './logItemState'
 import LogItemSteps from './LogItemSteps'
 
 const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
-   const itemDetails = getMainData()
+   const logItemHeader = getMainData()
 
    function handleClickExpand() {
       if (expanded === true || expanded === false) return
@@ -23,25 +23,25 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
    function getMainData() {
       switch (item.type) {
          case LOG_TYPES.GENERATION:
-            return { text: `GENERATION ${item.data.text}`, styles: 'generation' }
+            return { title: `GENERATION ${item.title}`, style: 'generation' }
          case LOG_TYPES.DRAFT:
-            return { text: 'DRAFT', styles: 'action' }
+            return { title: 'DRAFT', style: 'action' }
          case LOG_TYPES.FORCED_ACTION:
-            return { text: `FORCED ACTION (${item.data.text})`, styles: 'action' }
+            return { title: `FORCED ACTION (${item.title})`, style: 'action' }
          case LOG_TYPES.IMMEDIATE_EFFECT:
-            return { text: item.data.text, styles: 'action' }
+            return { title: item.title, style: 'action' }
          case LOG_TYPES.CARD_ACTION:
-            return { text: `${item.data.text} (ACTION)`, styles: 'action' }
+            return { title: `${item.title} (ACTION)`, style: 'action' }
          case LOG_TYPES.CONVERT_PLANTS:
-            return { text: 'PLANTS CONVERSION', styles: 'action' }
+            return { title: 'PLANTS CONVERSION', style: 'action' }
          case LOG_TYPES.CONVERT_HEAT:
-            return { text: 'HEAT CONVERSION', styles: 'action' }
+            return { title: 'HEAT CONVERSION', style: 'action' }
          case LOG_TYPES.SP_ACTION:
-            return { text: `${item.data.text} (SP ACTION)`, styles: 'action' }
+            return { title: `${item.title} (SP ACTION)`, style: 'action' }
          case LOG_TYPES.PASS:
-            return { text: 'PASSED', styles: 'action' }
+            return { title: 'PASSED', style: 'action' }
          case LOG_TYPES.FINAL_CONVERT_PLANTS:
-            return { text: 'FINAL PLANTS CONVERSION', styles: 'action' }
+            return { title: 'FINAL PLANTS CONVERSION', style: 'action' }
          default:
             break
       }
@@ -77,7 +77,7 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
             {/* STATE BEFORE */}
             {item.details?.stateBefore && <LogItemState type="BEFORE" state={item.details.stateBefore} />}
             {/* STEPS */}
-            {(item.details?.steps || item.details?.stateAfter) && <LogItemSteps item={item} />}
+            {(item.details?.steps || item.details?.stateAfter) && <LogItemSteps steps={item.details.steps} />}
             {/* STATE AFTER */}
             {item.details?.stateAfter && <LogItemState type="AFTER" state={item.details.stateAfter} />}
          </div>
@@ -85,19 +85,26 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
    }
 
    return (
-      <li className={itemDetails.styles}>
-         <div className={`title ${itemDetails.styles === 'action' && expanded === null ? 'pointer' : ''}`} onClick={handleClickExpand}>
-            {item.type !== LOG_TYPES.GENERATION && item.type !== LOG_TYPES.PASS && item.data.icon && (
-               <div className={`icon ${item.data.text === CORP_NAMES.UNMI && 'icon-unmi'}`}>
-                  <img className="full-size" src={getIconForLog(item.data.icon)} alt="icon" />
+      <li className={logItemHeader.style}>
+         <div className={`title ${logItemHeader.style === 'action' && expanded === null ? 'pointer' : ''}`} onClick={handleClickExpand}>
+            {item.type !== LOG_TYPES.GENERATION && item.type !== LOG_TYPES.PASS && item.titleIcon && (
+               <div className={`icon ${item.title === CORP_NAMES.UNMI && 'icon-unmi'}`}>
+                  <img className="full-size" src={getIconForLog(item.titleIcon)} alt="icon" />
                </div>
             )}
-            <div className={`text ${!item.data?.icon ? 'without-icon' : ''}`}>
-               <span>{itemDetails.text}</span>
+            <div className={`text ${!item.titleIcon ? 'without-icon' : ''}`}>
+               <span
+                  style={{
+                     color: item.type === LOG_TYPES.DRAFT || item.type === LOG_TYPES.PASS ? 'RGB(140, 245, 231)' : '#fff',
+                     fontWeight: item.type === LOG_TYPES.DRAFT || item.type === LOG_TYPES.PASS ? '600' : 'initial',
+                  }}
+               >
+                  {logItemHeader.title}
+               </span>
             </div>
-            {itemDetails.styles === 'action' && expanded === null && <div className="arrows">{getArrowIcon()}</div>}
+            {logItemHeader.style === 'action' && expanded === null && <div className="arrows">{getArrowIcon()}</div>}
          </div>
-         {itemDetails.styles === 'action' && (itemsExpanded[id] || expanded) && getDetails()}
+         {logItemHeader.style === 'action' && (itemsExpanded[id] || expanded) && getDetails()}
       </li>
    )
 }

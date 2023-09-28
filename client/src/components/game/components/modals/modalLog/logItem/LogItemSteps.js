@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { getResIconForLog } from '../../../../../../data/log/log'
 
-const LogItemSteps = ({ item }) => {
+const LogItemSteps = ({ steps }) => {
    const [expanded, setExpanded] = useState(true)
    const refDetails = useRef()
 
@@ -28,8 +28,8 @@ const LogItemSteps = ({ item }) => {
          </div>
 
          <div ref={refDetails} className="steps-list">
-            {item.details.steps.length > 0 ? (
-               item.details.steps.map((step, idx) => (
+            {steps.length > 0 ? (
+               steps.map((step, idx) => (
                   <div key={idx} className="step">
                      <div className="step-itemIcon"></div>
                      <div className="step-desc">

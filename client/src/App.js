@@ -263,7 +263,7 @@ function App() {
          cardsDeckIds: leftCardsIds,
          cardsDrawIds: initCardsIds,
       }
-      gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
+      gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: '1' }]
       gameData.durationSeconds = 0
    }
 
@@ -284,7 +284,7 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: '1' }]
          gameData.durationSeconds = matchWithId.durationSeconds
       } else {
          // Create New Match With Id
@@ -305,7 +305,7 @@ function App() {
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = addNeutralTiles(board)
          gameData.corps = initCorpsIds
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, data: { text: '1' }, details: null }]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: '1' }]
          gameData.durationSeconds = 0
          const matchId = await createMatchWithId(user.token, {
             stateBoard: gameData.stateBoard,

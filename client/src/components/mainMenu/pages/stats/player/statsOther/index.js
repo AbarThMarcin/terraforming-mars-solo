@@ -16,14 +16,14 @@ const StatsOther = ({ currPlayer }) => {
             let currentGen
             game.logItems.forEach((logItem) => {
                if (logItem.type === LOG_TYPES.GENERATION) {
-                  currentGen = parseInt(logItem.data.text)
+                  currentGen = parseInt(logItem.title)
                }
                if (logItem.type === LOG_TYPES.IMMEDIATE_EFFECT) {
-                  if (statCardId === 0 || statCardId === CARDS.find((c) => c.name === logItem.data.text).id) {
+                  if (statCardId === 0 || statCardId === CARDS.find((c) => c.name === logItem.title).id) {
                      counterAll++
                   }
                   if (currentGen === gen) {
-                     if (statCardId === 0 || statCardId === CARDS.find((c) => c.name === logItem.data.text).id) {
+                     if (statCardId === 0 || statCardId === CARDS.find((c) => c.name === logItem.title).id) {
                         counter++
                      }
                   }
@@ -47,7 +47,7 @@ const StatsOther = ({ currPlayer }) => {
          gamesCounter++
          let currentGen
          game.logItems.forEach((logItem, idx) => {
-            if (logItem.type === LOG_TYPES.GENERATION) currentGen = parseInt(logItem.data.text)
+            if (logItem.type === LOG_TYPES.GENERATION) currentGen = parseInt(logItem.title)
             if (logItem.type === LOG_TYPES.PASS) {
                arr[currentGen - 1] += logItem.details.stateAfter.statePlayer.totalPoints
             } else if (logItem.type === LOG_TYPES.FINAL_CONVERT_PLANTS) {

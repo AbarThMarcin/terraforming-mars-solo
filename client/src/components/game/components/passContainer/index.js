@@ -42,7 +42,7 @@ const PassContainer = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.PASS }, null, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.PASS }, setItemsExpanded)
       // Close confirmation window
       setModals((prev) => ({ ...prev, confirmation: false }))
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
@@ -121,19 +121,9 @@ const PassContainer = () => {
             setLogItems
          )
          if (statePlayer.production.steel)
-            funcSetLogItemsSingleActions(
-               `Received ${statePlayer.production.steel} steel in the production phase`,
-               RESOURCES.STEEL,
-               statePlayer.production.steel,
-               setLogItems
-            )
+            funcSetLogItemsSingleActions(`Received ${statePlayer.production.steel} steel in the production phase`, RESOURCES.STEEL, statePlayer.production.steel, setLogItems)
          if (statePlayer.production.titan)
-            funcSetLogItemsSingleActions(
-               `Received ${statePlayer.production.titan} titan in the production phase`,
-               RESOURCES.TITAN,
-               statePlayer.production.titan,
-               setLogItems
-            )
+            funcSetLogItemsSingleActions(`Received ${statePlayer.production.titan} titan in the production phase`, RESOURCES.TITAN, statePlayer.production.titan, setLogItems)
          if (statePlayer.production.plant)
             funcSetLogItemsSingleActions(
                `Received ${statePlayer.production.plant} plant${statePlayer.production.plant > 1 ? 's' : ''} in the production phase`,
@@ -207,7 +197,7 @@ const PassContainer = () => {
             newPlants += statePlayer.production.plant
             if (newPlants >= statePlayer.valueGreenery) {
                // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS }, LOG_ICONS.CONVERT_PLANTS, setItemsExpanded)
+               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS, titleIcon: LOG_ICONS.CONVERT_PLANTS }, setItemsExpanded)
                // Show Panel Corp
                setModals((prev) => ({ ...prev, panelCorp: true }))
                setTimeout(() => {

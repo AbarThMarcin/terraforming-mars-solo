@@ -43,7 +43,7 @@ export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logData, 
       ...logItems,
       {
          type: logData.type,
-         data: { text: logData.text, icon: logIcon, gen: logData.gen ? logData.gen : undefined },
+         data: { text: logData.text, icon: logIcon },
          details: {
             stateBefore: {
                statePlayer: getThinerLogStatePlayer(statePlayer),

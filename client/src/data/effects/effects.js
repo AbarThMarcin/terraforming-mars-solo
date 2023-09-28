@@ -1,7 +1,7 @@
 import { ACTIONS_GAME } from '../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ANIMATIONS } from '../animations'
-import { RESOURCES, getResIcon } from '../resources'
+import { RESOURCES } from '../resources'
 import { SP } from '../StandardProjects'
 import { OPTION_ICONS } from '../selectOneOptions'
 import { TAGS } from '../tags'
@@ -79,7 +79,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
                   funcSetLogItemsSingleActions(
                      'MC production increased by 1 from SATURN SYSTEMS effect',
-                     [getResIcon(RESOURCES.PROD_BG), RESOURCES.MLN],
+                     [RESOURCES.PROD_BG, RESOURCES.MLN],
                      1,
                      setLogItems
                   )
@@ -110,7 +110,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
                   funcSetLogItemsSingleActions(
                      'MC production increased by 1 from THARSIS REPUBLIC effect',
-                     [getResIcon(RESOURCES.PROD_BG), RESOURCES.MLN],
+                     [RESOURCES.PROD_BG, RESOURCES.MLN],
                      1,
                      setLogItems
                   )
@@ -362,7 +362,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
                   funcSetLogItemsSingleActions(
                      'MC production increased by 1 from IMMIGRANT CITY effect',
-                     [getResIcon(RESOURCES.PROD_BG), RESOURCES.MLN],
+                     [RESOURCES.PROD_BG, RESOURCES.MLN],
                      1,
                      setLogItems
                   )

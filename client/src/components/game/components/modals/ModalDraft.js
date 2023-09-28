@@ -13,7 +13,7 @@ import { getCards, getNewCardsDrawIds, getPosition, getThinerStatePlayer, modifi
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import { ANIMATIONS } from '../../../../data/animations'
-import { RESOURCES, getResIcon } from '../../../../data/resources'
+import { RESOURCES } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
 import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions, LOG_ICONS } from '../../../../data/log/log'
@@ -104,7 +104,7 @@ const ModalDraft = () => {
       if (selectedCardsIds.length > 0)
          funcSetLogItemsSingleActions(
             `Purchased ${selectedCardsIds.length} card${selectedCardsIds.length > 1 ? 's' : ''} in the draft phase`,
-            getResIcon(RESOURCES.CARD),
+            RESOURCES.CARD,
             selectedCardsIds.length,
             setLogItems
          )

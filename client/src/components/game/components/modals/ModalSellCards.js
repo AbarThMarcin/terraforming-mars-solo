@@ -33,7 +33,7 @@ const ModalSellCards = () => {
 
    const onYesFunc = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.SP_ACTION, text: SP.POWER_PLANT }, LOG_ICONS.SELL_PATENT, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.SP_ACTION, text: SP.SELL_PATENT }, LOG_ICONS.SELL_PATENT, setItemsExpanded)
 
       let subActions = []
       // Dismount confirmation, sellCards and standardProjects modals

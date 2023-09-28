@@ -106,7 +106,7 @@ const ModalCardWithAction = () => {
          setLogItems,
          statePlayer,
          stateGame,
-         { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name, gen: stateGame.generation },
+         { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name },
          modals.modalCard.id,
          setItemsExpanded
       )

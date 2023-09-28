@@ -6,7 +6,7 @@ import Card from '../../card/Card'
 import { ANIMATIONS, endAnimation, setAnimation } from '../../../../../data/animations'
 import ModalResourceData from './ModalResourceData'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
-import { RESOURCES, getResIcon } from '../../../../../data/resources'
+import { RESOURCES } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
 import { SoundContext } from '../../../../../App'
 import { getCards } from '../../../../../utils/misc'
@@ -52,7 +52,7 @@ const ModalResource = () => {
                : `Received ${modals.modalResource.amount} ${modals.modalResource.resType === null ? resource : modals.modalResource.resType}s to ${
                     getCards([modals.modalResource.cardId])[0].name
                  } card`,
-            getResIcon(RESOURCES.ANIMAL),
+            RESOURCES.ANIMAL,
             modals.modalResource.amount,
             setLogItems
          )

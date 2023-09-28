@@ -20,8 +20,7 @@ import {
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
 import { EFFECTS } from '../effects/effectIcons'
-import { LOG_ICONS, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, getResIconForLog } from '../log/log'
-
+import { LOG_ICONS, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log/log'
 
 export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',
@@ -99,7 +98,7 @@ export const funcGetImmEffects = (
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
-                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), null, setLogItems)
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, null, setLogItems)
                },
             })
             // Bonus heat production
@@ -110,12 +109,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions(
-                        'Heat production increased by 1 from temperature bonus',
-                        [RESOURCES.PROD_BG, RESOURCES.HEAT],
-                        1,
-                        setLogItems
-                     )
+                     funcSetLogItemsSingleActions('Heat production increased by 1 from temperature bonus', [RESOURCES.PROD_BG, RESOURCES.HEAT], 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -135,11 +129,11 @@ export const funcGetImmEffects = (
                   sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   if (stateGame.globalParameters.temperature < 6) {
                      dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                      dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   }
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },
@@ -175,16 +169,16 @@ export const funcGetImmEffects = (
                   sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   if (stateGame.globalParameters.temperature < 6) {
                      dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                      dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   }
                   if (stateGame.globalParameters.temperature < 4) {
                      dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                      dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   }
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },
@@ -314,7 +308,7 @@ export const funcGetImmEffects = (
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
-                  funcSetLogItemsSingleActions('Oxygen raised by 1 percent', getResIconForLog(LOG_ICONS.OXYGEN), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Oxygen raised by 1 percent', LOG_ICONS.OXYGEN, 1, setLogItems)
                },
             })
          }
@@ -334,11 +328,11 @@ export const funcGetImmEffects = (
                   sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                  funcSetLogItemsSingleActions('Oxygen raised by 1 percent', getResIconForLog(LOG_ICONS.OXYGEN), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Oxygen raised by 1 percent', LOG_ICONS.OXYGEN, 1, setLogItems)
                   if (stateGame.globalParameters.oxygen < 13) {
                      dispatchGame({ type: ACTIONS_GAME.INCREMENT_OXYGEN })
                      dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                     funcSetLogItemsSingleActions('Oxygen raised by 1 percent', getResIconForLog(LOG_ICONS.OXYGEN), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Oxygen raised by 1 percent', LOG_ICONS.OXYGEN, 1, setLogItems)
                   }
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },
@@ -554,7 +548,7 @@ export const funcGetImmEffects = (
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
-                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), null, setLogItems)
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, null, setLogItems)
                },
             })
             // Bonus heat production
@@ -565,12 +559,7 @@ export const funcGetImmEffects = (
                   value: 1,
                   func: () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_HEAT, payload: 1 })
-                     funcSetLogItemsSingleActions(
-                        'Heat production increased by 1 from temperature bonus',
-                        [RESOURCES.PROD_BG, RESOURCES.HEAT],
-                        1,
-                        setLogItems
-                     )
+                     funcSetLogItemsSingleActions('Heat production increased by 1 from temperature bonus', [RESOURCES.PROD_BG, RESOURCES.HEAT], 1, setLogItems)
                   },
                })
                // Bonus ocean
@@ -1564,11 +1553,11 @@ export const funcGetImmEffects = (
                   sound.raiseParameter.play()
                   dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                   dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                  funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   if (stateGame.globalParameters.temperature < 6) {
                      dispatchGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
                      dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
-                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', getResIconForLog(LOG_ICONS.TEMPERATURE), 1, setLogItems)
+                     funcSetLogItemsSingleActions('Temperature raised by 2 degrees', LOG_ICONS.TEMPERATURE, 1, setLogItems)
                   }
                   dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                },

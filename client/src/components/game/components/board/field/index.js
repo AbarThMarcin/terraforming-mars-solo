@@ -14,7 +14,6 @@ import { RESOURCES } from '../../../../../data/resources'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
 import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
-import { getResIcon } from '../../../../../data/resources'
 
 const Field = ({ field, showCoordinates }) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -41,7 +40,7 @@ const Field = ({ field, showCoordinates }) => {
       })
       funcSetLogItemsSingleActions(
          `${stateGame.phasePlaceTileData} tile has been placed on ${logDescription}`,
-         assignIconToTileData(stateGame.phasePlaceTileData),
+         stateGame.phasePlaceTileData,
          null,
          setLogItems
       )
@@ -87,7 +86,7 @@ const Field = ({ field, showCoordinates }) => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
                      funcSetLogItemsSingleActions(
                         countBonus === 1 ? 'Received 1 plant from board' : `Received ${countBonus} plants from board`,
-                        getResIcon(RESOURCES.PLANT),
+                        RESOURCES.PLANT,
                         countBonus,
                         setLogItems
                      )
@@ -103,7 +102,7 @@ const Field = ({ field, showCoordinates }) => {
                      })
                      funcSetLogItemsSingleActions(
                         field.bonus.length === 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`,
-                        getResIcon(RESOURCES.CARD),
+                        RESOURCES.CARD,
                         field.bonus.length,
                         setLogItems
                      )
@@ -277,7 +276,7 @@ const Field = ({ field, showCoordinates }) => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
                   funcSetLogItemsSingleActions(
                      `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
-                     getResIcon(RESOURCES.PLANT),
+                     RESOURCES.PLANT,
                      -statePlayer.valueGreenery,
                      setLogItems
                   )

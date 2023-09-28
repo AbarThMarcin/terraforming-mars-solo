@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import TotalVP from './TotalVP'
 import { SettingsContext, SoundContext } from '../../../../App'
-import { RESOURCES, getResIcon } from '../../../../data/resources'
+import { RESOURCES } from '../../../../data/resources'
 
 const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -116,42 +116,42 @@ const PassContainer = () => {
          })
          funcSetLogItemsSingleActions(
             `Received ${statePlayer.production.mln + stateGame.tr} MC in the production phase`,
-            getResIcon(RESOURCES.MLN),
+            RESOURCES.MLN,
             statePlayer.production.mln + stateGame.tr,
             setLogItems
          )
          if (statePlayer.production.steel)
             funcSetLogItemsSingleActions(
                `Received ${statePlayer.production.steel} steel in the production phase`,
-               getResIcon(RESOURCES.STEEL),
+               RESOURCES.STEEL,
                statePlayer.production.steel,
                setLogItems
             )
          if (statePlayer.production.titan)
             funcSetLogItemsSingleActions(
                `Received ${statePlayer.production.titan} titan in the production phase`,
-               getResIcon(RESOURCES.TITAN),
+               RESOURCES.TITAN,
                statePlayer.production.titan,
                setLogItems
             )
          if (statePlayer.production.plant)
             funcSetLogItemsSingleActions(
                `Received ${statePlayer.production.plant} plant${statePlayer.production.plant > 1 ? 's' : ''} in the production phase`,
-               getResIcon(RESOURCES.PLANT),
+               RESOURCES.PLANT,
                statePlayer.production.plant,
                setLogItems
             )
          if (statePlayer.production.heat + statePlayer.resources.energy)
             funcSetLogItemsSingleActions(
                `Received ${statePlayer.production.heat + statePlayer.resources.energy} heat in the production phase`,
-               getResIcon(RESOURCES.HEAT),
+               RESOURCES.HEAT,
                statePlayer.production.heat + statePlayer.resources.energy,
                setLogItems
             )
          if (statePlayer.production.energy - statePlayer.resources.energy)
             funcSetLogItemsSingleActions(
                `Received ${statePlayer.production.energy - statePlayer.resources.energy} energy in the production phase`,
-               getResIcon(RESOURCES.ENERGY),
+               RESOURCES.ENERGY,
                statePlayer.production.energy - statePlayer.resources.energy,
                setLogItems
             )
@@ -220,7 +220,7 @@ const PassContainer = () => {
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
                      funcSetLogItemsSingleActions(
                         `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
-                        getResIcon(RESOURCES.PLANT),
+                        RESOURCES.PLANT,
                         -statePlayer.valueGreenery,
                         setLogItems
                      )

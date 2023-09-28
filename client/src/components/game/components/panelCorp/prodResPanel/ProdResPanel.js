@@ -7,9 +7,7 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
 import { getResIcon, RESOURCES } from '../../../../../data/resources'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
-import { LOG_TYPES, funcCreateLogItem } from '../../../../../data/log/log'
-import logConvertPlants from '../../../../../assets/images/other/logConvertPlants.svg'
-import logConvertHeat from '../../../../../assets/images/other/logConvertHeat.svg'
+import { LOG_ICONS, LOG_TYPES, funcCreateLogItem } from '../../../../../data/log/log'
 import { SoundContext } from '../../../../../App'
 
 const ProdResPanel = () => {
@@ -20,7 +18,7 @@ const ProdResPanel = () => {
 
    const actionGreenery = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.CONVERT_PLANTS, text: null }, logConvertPlants, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.CONVERT_PLANTS, text: null }, LOG_ICONS.CONVERT_PLANTS, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
@@ -43,7 +41,7 @@ const ProdResPanel = () => {
 
    const actionTemperature = () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.CONVERT_HEAT, text: null }, logConvertHeat, setItemsExpanded)
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.CONVERT_HEAT, text: null }, LOG_ICONS.CONVERT_HEAT, setItemsExpanded)
       // Cost animation
       startAnimation(setModals)
       setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.HEAT, 8, setModals, sound)

@@ -11,7 +11,6 @@ import Card from '../../card/Card'
 import DecreaseCost from '../modalsComponents/decreaseCost/DecreaseCost'
 import BtnAction from '../../buttons/BtnAction'
 import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../../data/log/log'
-import { getImmEffectIcon } from '../../../../../data/immEffects/immEffectsIcons'
 import { SoundContext } from '../../../../../App'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
 
@@ -108,7 +107,7 @@ const ModalCardWithAction = () => {
          statePlayer,
          stateGame,
          { type: LOG_TYPES.IMMEDIATE_EFFECT, text: modals.modalCard.name, gen: stateGame.generation },
-         getImmEffectIcon(modals.modalCard.id),
+         modals.modalCard.id,
          setItemsExpanded
       )
 

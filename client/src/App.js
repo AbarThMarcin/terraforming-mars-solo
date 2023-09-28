@@ -249,7 +249,7 @@ function App() {
       const initCardsIds = await getRandIntNumbers(10, 1, 208)
       // const initCardsIds = [152, 6, 38, 31, 156, 115, 73, 202, 71, 192]
       const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      // const initCorpsIds = [3, 4]
+      // const initCorpsIds = [5, 10]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(initCardsIds)

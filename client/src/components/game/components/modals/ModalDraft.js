@@ -16,9 +16,7 @@ import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../data/log/log'
-import logIconTharsis from '../../../../assets/images/other/forcedActionTharsis.svg'
-import logIconInventrix from '../../../../assets/images/other/forcedActionInventrix.svg'
+import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions, LOG_ICONS } from '../../../../data/log/log'
 import DecreaseCostDraft from './modalsComponents/decreaseCost/DecreaseCostDraft'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { updateGameData } from '../../../../api/activeGame'
@@ -104,7 +102,12 @@ const ModalDraft = () => {
          payload: [...statePlayer.cardsPurchased, ...purchasedCards],
       })
       if (selectedCardsIds.length > 0)
-         funcSetLogItemsSingleActions(`Purchased ${selectedCardsIds.length} card${selectedCardsIds.length > 1 ? 's' : ''} in the draft phase`, getResIcon(RESOURCES.CARD), selectedCardsIds.length, setLogItems)
+         funcSetLogItemsSingleActions(
+            `Purchased ${selectedCardsIds.length} card${selectedCardsIds.length > 1 ? 's' : ''} in the draft phase`,
+            getResIcon(RESOURCES.CARD),
+            selectedCardsIds.length,
+            setLogItems
+         )
       // Set phase draft = FALSE
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: false })
       // Dismount draft modal
@@ -120,12 +123,12 @@ const ModalDraft = () => {
             cardsInHand: [...statePlayer.cardsInHand, ...purchasedCards],
             cardsPurchased: [...statePlayer.cardsPurchased, ...purchasedCards],
          },
-         stateGame,
+         stateGame
       )
       // Perform forced action for Tharsis or Inventrix in GEN 1
       if (stateGame.generation === 1) {
          if (statePlayer.corporation.name === CORP_NAMES.THARSIS_REPUBLIC) {
-            // Create new Log Item with STATE BEFORE, before tharsis forced action
+            // Create new Log Item with STATE BEFORE, before Tharsis forced action
             funcCreateLogItem(
                setLogItems,
                {
@@ -136,7 +139,7 @@ const ModalDraft = () => {
                },
                stateGame,
                { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.THARSIS_REPUBLIC },
-               logIconTharsis,
+               LOG_ICONS.FORCED_THARSIS,
                setItemsExpanded
             )
 
@@ -145,7 +148,7 @@ const ModalDraft = () => {
             performSubActions(actions)
          }
          if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
-            // Create new Log Item with STATE BEFORE, before tharsis forced action
+            // Create new Log Item with STATE BEFORE, before Inventrix forced action
             funcCreateLogItem(
                setLogItems,
                {
@@ -156,7 +159,7 @@ const ModalDraft = () => {
                },
                stateGame,
                { type: LOG_TYPES.FORCED_ACTION, text: CORP_NAMES.INVENTRIX },
-               logIconInventrix,
+               LOG_ICONS.FORCED_INVENTRIX,
                setItemsExpanded
             )
             // Get Random Cards Ids

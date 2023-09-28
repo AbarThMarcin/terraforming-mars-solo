@@ -1,4 +1,4 @@
-import { LOG_TYPES } from '../../../../../../data/log/log'
+import { LOG_TYPES, getIconForLog } from '../../../../../../data/log/log'
 import { CORP_NAMES } from '../../../../../../data/corpNames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
@@ -75,7 +75,7 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
       return (
          <div className={`log-details ${hiddenStyle()}`}>
             {/* STATE BEFORE */}
-            {item.details?.stateBefore && <LogItemState type="BEFORE" state={item.details.stateBefore}  />}
+            {item.details?.stateBefore && <LogItemState type="BEFORE" state={item.details.stateBefore} />}
             {/* STEPS */}
             {(item.details?.steps || item.details?.stateAfter) && <LogItemSteps item={item} />}
             {/* STATE AFTER */}
@@ -89,7 +89,7 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
          <div className={`title ${itemDetails.styles === 'action' && expanded === null ? 'pointer' : ''}`} onClick={handleClickExpand}>
             {item.type !== LOG_TYPES.GENERATION && item.type !== LOG_TYPES.PASS && item.data.icon && (
                <div className={`icon ${item.data.text === CORP_NAMES.UNMI && 'icon-unmi'}`}>
-                  <img className="full-size" src={item.data.icon} alt="icon" />
+                  <img className="full-size" src={getIconForLog(item.data.icon)} alt="icon" />
                </div>
             )}
             <div className={`text ${!item.data?.icon ? 'without-icon' : ''}`}>

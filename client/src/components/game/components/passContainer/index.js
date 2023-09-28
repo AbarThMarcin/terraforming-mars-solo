@@ -4,7 +4,7 @@ import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
 import { getCorpLogoMini } from '../../../../data/corporations'
-import { LOG_TYPES, funcCreateLogItem, funcCreateLogItemGeneration, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../../../data/log/log'
+import { LOG_ICONS, LOG_TYPES, funcCreateLogItem, funcCreateLogItemGeneration, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../../../data/log/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'
@@ -14,7 +14,6 @@ import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../..
 import TotalVP from './TotalVP'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { RESOURCES, getResIcon } from '../../../../data/resources'
-import iconLogGreenery from '../../../../assets/images/other/logConvertPlants.svg'
 
 const PassContainer = () => {
    const { modals, setModals } = useContext(ModalsContext)
@@ -208,7 +207,7 @@ const PassContainer = () => {
             newPlants += statePlayer.production.plant
             if (newPlants >= statePlayer.valueGreenery) {
                // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS }, iconLogGreenery, setItemsExpanded)
+               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS }, LOG_ICONS.CONVERT_PLANTS, setItemsExpanded)
                // Show Panel Corp
                setModals((prev) => ({ ...prev, panelCorp: true }))
                setTimeout(() => {

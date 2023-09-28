@@ -6,7 +6,6 @@ import { getActionIdsWithCost } from '../../../../../../../utils/misc'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
 import { LOG_TYPES, funcCreateLogItem } from '../../../../../../../data/log/log'
-import { getImmEffectIcon } from '../../../../../../../data/immEffects/immEffectsIcons'
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
 const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setActionClicked, toBuyMln, toBuySteel, toBuyTitan, toBuyHeat, changeCosts }) => {
@@ -73,7 +72,7 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
          statePlayer,
          stateGame,
          { type: LOG_TYPES.CARD_ACTION, text: item.name },
-         isUnmi ? getActionIcon(ACTION_ICONS.ACTION_UNMI) : getImmEffectIcon(item.id),
+         isUnmi ? ACTION_ICONS.ACTION_UNMI : item.id,
          setItemsExpanded
       )
       let itemIdOrUnmi = isUnmi ? item.name : item.id

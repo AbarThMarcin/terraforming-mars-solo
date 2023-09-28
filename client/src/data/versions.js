@@ -1,5 +1,15 @@
 export const VERSIONS = [
    {
+      number: '0.3.5',
+      date: '2023-09-28',
+      updates: [
+         {
+            title: 'Log icons incorrect display fixed',
+            description: "Sometimes you couldn't see few icons in the logs details in statistics. Now all icons are loaded properly",
+         },
+      ],
+   },
+   {
       number: '0.3.4',
       date: '2023-09-27',
       updates: [

@@ -18,7 +18,7 @@ import iconAsteroid from '../../../../../assets/images/other/tempIcon.svg'
 import iconAquifer from '../../../../../assets/images/tiles/tile_ocean.svg'
 import iconGreenery from '../../../../../assets/images/other/SPgreenery.svg'
 import iconCity from '../../../../../assets/images/other/SPcity.svg'
-import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
 import { SoundContext } from '../../../../../App'
 
 const ModalStandardProjects = () => {
@@ -82,31 +82,15 @@ const ModalStandardProjects = () => {
 
    const handleUseSP = (name) => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      let logData = {}
-      switch (name) {
-         case SP.POWER_PLANT:
-            logData = { type: LOG_TYPES.SP_ACTION, title: SP.POWER_PLANT, titleIcon: SP.POWER_PLANT }
-            break
-         case SP.ASTEROID:
-            logData = { type: LOG_TYPES.SP_ACTION, title: SP.ASTEROID, titleIcon: SP.ASTEROID }
-            break
-         case SP.AQUIFER:
-            logData = { type: LOG_TYPES.SP_ACTION, title: SP.AQUIFER, titleIcon: SP.AQUIFER }
-            break
-         case SP.GREENERY:
-            logData = { type: LOG_TYPES.SP_ACTION, title: SP.GREENERY, titleIcon: SP.GREENERY }
-            break
-         case SP.CITY:
-            logData = { type: LOG_TYPES.SP_ACTION, title: SP.CITY, titleIcon: SP.CITY }
-            break
-         default:
-            break
-      }
+      let logData = { type: LOG_TYPES.SP_ACTION, title: name, titleIcon: name }
       funcCreateLogItem(setLogItems, statePlayer, stateGame, logData, setItemsExpanded)
+      // Also save action (string) for log that is being performed
+      let actionString = `SP[${toBuyMln[btnClickedId] ? 'paidMln: ' + toBuyMln[btnClickedId] + '; ' : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat + '; ' : ''}id: ${btnClickedId}]`
+      funcUpdateLogItemAction(setLogItems, actionString)
 
       let animResPaidTypes = []
       if (toBuyMln[btnClickedId] !== 0) animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])
-      if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
+      // if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
       setModals((prev) => ({
          ...prev,
          confirmation: false,

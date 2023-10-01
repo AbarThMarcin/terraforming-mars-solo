@@ -2,10 +2,10 @@ import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../../../game'
 import { ACTIONS_GAME } from '../../../../../../../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
-import { getActionIdsWithCost } from '../../../../../../../utils/misc'
+import { getActionIdsWithCost } from '../../../../../../../utils/cards'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { LOG_TYPES, funcCreateLogItem } from '../../../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcUpdateLogItemAction } from '../../../../../../../data/log/log'
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
 const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setActionClicked, toBuyMln, toBuySteel, toBuyTitan, toBuyHeat, changeCosts }) => {
@@ -74,6 +74,16 @@ const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setAction
          { type: LOG_TYPES.CARD_ACTION, title: item.name, titleIcon: isUnmi ? ACTION_ICONS.ACTION_UNMI : item.id },
          setItemsExpanded
       )
+      // Also save action (string) for log that is being performed
+      let cardIdOrUnmi = isUnmi ? item.name : item.id
+      funcUpdateLogItemAction(setLogItems, `cardAction[id: ${cardIdOrUnmi}]`)
+      if (getActionIdsWithCost().includes(cardIdOrUnmi)) {
+         if (toBuyResources[0]) funcUpdateLogItemAction(setLogItems, `paidMln: ${toBuyResources[0]}`)
+         if (toBuyResources[1]) funcUpdateLogItemAction(setLogItems, `paidSteel: ${toBuyResources[1]}`)
+         if (toBuyResources[2]) funcUpdateLogItemAction(setLogItems, `paidTitan: ${toBuyResources[2]}`)
+         if (toBuyResources[3]) funcUpdateLogItemAction(setLogItems, `paidHeat: ${toBuyResources[3]}`)
+      }
+
       let itemIdOrUnmi = isUnmi ? item.name : item.id
       // Set action_used to true
       dispatchPlayer({

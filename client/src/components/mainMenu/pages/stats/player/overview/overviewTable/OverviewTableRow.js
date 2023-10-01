@@ -1,8 +1,8 @@
-import { getCorporation } from '../../../../../../../utils/misc'
+import { getCorporationById } from '../../../../../../../utils/corporation'
 
 const OverviewTableRow = ({ corp, currPlayer }) => {
    const games = currPlayer.games
-   const gamesPlayed = games.filter((game) => (game.corporation ? getCorporation(game.corporation).name === corp : false))
+   const gamesPlayed = games.filter((game) => (game.corporation ? getCorporationById(game.corporation).name === corp : false))
    const gamesWon = gamesPlayed.filter((game) => game.victory)
    const gamesWonScores = gamesWon.map((game) => game.points.total)
    const gamesPlayedScores = gamesPlayed.map((game) => game.points.total)

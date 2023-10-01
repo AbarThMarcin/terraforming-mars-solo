@@ -2,7 +2,7 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import { updateUser } from '../../../../../api/user'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
-import { sorted } from '../../../../../utils/misc'
+import { getCardsSorted } from '../../../../../utils/cards'
 import { UserContext, StatePlayerContext, StateGameContext } from '../../../../game'
 import { APP_MESSAGES, SettingsContext, SoundContext } from '../../../../../App'
 import spinner from '../../../../../assets/other/spinner.gif'
@@ -78,11 +78,11 @@ const ModalSettings = () => {
       type === 'hand'
          ? dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-              payload: sorted(statePlayer.cardsInHand, newSortId[0], requirementsMet),
+              payload: getCardsSorted(statePlayer.cardsInHand, newSortId[0], requirementsMet),
            })
          : dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-              payload: sorted(statePlayer.cardsPlayed, newSortId[1], requirementsMet),
+              payload: getCardsSorted(statePlayer.cardsPlayed, newSortId[1], requirementsMet),
            })
    }
    function newDigit(arrow, digit, maxIdDigit) {

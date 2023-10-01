@@ -1,6 +1,9 @@
 import { useState, createContext, useEffect, useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { addNeutralTiles, getCards, getLogItemsWithAllData, getStatePlayerWithAllData, getThinerStatePlayer, range } from './utils/misc'
+import { getLogConvertedForGame, getThinerStatePlayer, getStatePlayerWithAllData } from './utils/logReplay'
+import { range } from './utils/array'
+import { getCards } from './utils/cards'
+import { getBoardWithNeutralTiles } from './utils/board'
 import { INIT_STATE_PLAYER } from './initStates/initStatePlayer'
 import { INIT_STATE_GAME } from './initStates/initStateGame'
 import { INIT_MODALS } from './initStates/initModals'
@@ -153,6 +156,7 @@ function App() {
          stateGame: null,
          stateModals: null,
          stateBoard: null,
+         initStateBoard: null,
          corps: null,
          logItems: null,
          durationSeconds: null,
@@ -194,6 +198,7 @@ function App() {
                   stateGame: gameData.stateGame,
                   stateModals: gameData.stateModals,
                   stateBoard: gameData.stateBoard,
+                  initStateBoard: gameData.initStateBoard,
                   corps: gameData.corps,
                   logItems: gameData.logItems,
                   startTime: new Date().toJSON(),
@@ -224,7 +229,7 @@ function App() {
             gameData = {
                ...gameData,
                statePlayer: getStatePlayerWithAllData(gameData.statePlayer),
-               logItems: getLogItemsWithAllData(gameData.logItems),
+               logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard),
             }
          }
       }
@@ -234,7 +239,7 @@ function App() {
       setInitStatePlayer(gameData.statePlayer)
       setInitStateGame(gameData.stateGame)
       setInitStateModals(gameData.stateModals)
-      setInitStateBoard(gameData.stateBoard)
+      setInitStateBoard(gameData.initStateBoard)
       setInitCorpsIds(gameData.corps)
       setInitLogItems(gameData.logItems)
       setInitDurationSeconds(gameData.durationSeconds)
@@ -246,16 +251,17 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      // const initCardsIds = [80, 6, 38, 31, 156, 115, 73, 202, 71, 192]
-      const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      // const initCorpsIds = [1, 10]
+      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      const initCardsIds = [111, 192, 110, 19, 2, 33, 4, 73, 60, 7]
+      // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
+      const initCorpsIds = [5, 10]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(initCardsIds)
       gameData.stateGame = INIT_STATE_GAME
       gameData.stateModals = INIT_MODALS
-      gameData.stateBoard = addNeutralTiles(board)
+      gameData.stateBoard = getBoardWithNeutralTiles(board)
+      gameData.initStateBoard = gameData.stateBoard
       gameData.corps = initCorpsIds
       gameData.statePlayer = {
          ...INIT_STATE_PLAYER,
@@ -263,7 +269,7 @@ function App() {
          cardsDeckIds: leftCardsIds,
          cardsDrawIds: initCardsIds,
       }
-      gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: '1' }]
+      gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: 1 }]
       gameData.durationSeconds = 0
    }
 
@@ -283,8 +289,9 @@ function App() {
          gameData.stateGame = INIT_STATE_GAME
          gameData.stateModals = INIT_MODALS
          gameData.stateBoard = matchWithId.stateBoard
+         gameData.initStateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: '1' }]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: 1 }]
          gameData.durationSeconds = matchWithId.durationSeconds
       } else {
          // Create New Match With Id
@@ -303,9 +310,10 @@ function App() {
          }
          gameData.stateGame = INIT_STATE_GAME
          gameData.stateModals = INIT_MODALS
-         gameData.stateBoard = addNeutralTiles(board)
+         gameData.stateBoard = getBoardWithNeutralTiles(board)
+         gameData.initStateBoard = gameData.stateBoard
          gameData.corps = initCorpsIds
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: '1' }]
+         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: 1 }]
          gameData.durationSeconds = 0
          const matchId = await createMatchWithId(user.token, {
             stateBoard: gameData.stateBoard,

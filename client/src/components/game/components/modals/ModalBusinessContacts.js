@@ -7,17 +7,18 @@ import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getCards, getPosition, getThinerStatePlayer, modifiedCards, withTimeAdded } from '../../../../utils/misc'
+import { getLogConvertedForDB, getThinerStatePlayer } from '../../../../utils/logReplay'
+import { getCards, getPositionInModalCards, getCardsWithDecreasedCost, getCardsWithTimeAdded } from '../../../../utils/cards'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { updateGameData } from '../../../../api/activeGame'
-import { funcSetLogItemsSingleActions } from '../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../data/log/log'
 
 const ModalBusinessContacts = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateBoard } = useContext(StateBoardContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems, durationSeconds } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, user } = useContext(UserContext)
    const { initCorpsIds } = useContext(CorpsContext)
@@ -47,7 +48,8 @@ const ModalBusinessContacts = () => {
             stateModals: modals,
             stateBoard,
             corps: initCorpsIds,
-            logItems: logItems,
+            logItems: getLogConvertedForDB(logItems),
+            durationSeconds,
          }
          updateGameData(user.token, updatedData, type).then((res) => {
             if (res.message === 'success') {
@@ -61,6 +63,9 @@ const ModalBusinessContacts = () => {
    }, [])
 
    const onYesFunc = () => {
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `ids: ${selectedCardIds.join(', ')}`)
+
       // Turn business contacts phase off
       setModals((prev) => ({ ...prev, businessContacts: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: false })
@@ -70,7 +75,7 @@ const ModalBusinessContacts = () => {
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(selectedCardIds)), statePlayer)],
+            payload: [...statePlayer.cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(selectedCardIds)), statePlayer)],
          })
          if (modals.modalBusCont.selectCount === 1) {
             funcSetLogItemsSingleActions(`Drew 1 card (${getCards(selectedCardIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
@@ -101,11 +106,11 @@ const ModalBusinessContacts = () => {
          <div className="modal-select-cards">
             <div className="modal-cards-box full-size" style={{ left: getBoxPosition() }}>
                {/* CARDS */}
-               {modifiedCards(cardsSeen, statePlayer).map((card, idx) => (
+               {getCardsWithDecreasedCost(cardsSeen, statePlayer).map((card, idx) => (
                   <div
                      key={idx}
                      className={`card-container small ${selectedCardIds.includes(card.id) && 'selected'}`}
-                     style={getPosition(modals.modalBusCont.cards.length, idx)}
+                     style={getPositionInModalCards(modals.modalBusCont.cards.length, idx)}
                      onClick={() => {
                         sound.btnCardsClick.play()
                         setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))

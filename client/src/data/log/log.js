@@ -1,4 +1,4 @@
-import { getThinerLogStateGame, getThinerLogStatePlayer } from '../../utils/misc'
+import { getThinerLogStateGame, getThinerLogStatePlayer } from '../../utils/logReplay'
 import { SP } from '../StandardProjects'
 import logIconForcedTharsis from '../../assets/images/other/logIconForcedActionTharsis.svg'
 import logIconForcedInventrix from '../../assets/images/other/logIconForcedActionInventrix.svg'
@@ -38,68 +38,6 @@ export const LOG_ICONS = {
    OXYGEN: 'LOG_OXYGEN',
 }
 
-export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logHeaders, setItemsExpanded) => {
-   setLogItems((logItems) => [
-      ...logItems,
-      {
-         ...logHeaders,
-         details: {
-            stateBefore: {
-               statePlayer: getThinerLogStatePlayer(statePlayer),
-               stateGame: getThinerLogStateGame(stateGame),
-            },
-            steps: [],
-            stateAfter: {
-               statePlayer: getThinerLogStatePlayer(statePlayer),
-               stateGame: getThinerLogStateGame(stateGame),
-            },
-         },
-      },
-   ])
-   setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
-}
-
-export const funcSetLogItemsSingleActions = (singleActionName, singleActionIconName, singleActionValue, setLogItems) => {
-   setLogItems((logItems) => [
-      ...logItems.slice(0, -1),
-      {
-         ...logItems[logItems.length - 1],
-         details: {
-            ...logItems[logItems.length - 1].details,
-            steps: [
-               ...(logItems[logItems.length - 1].details?.steps ? logItems[logItems.length - 1].details.steps : []),
-               {
-                  singleActionName,
-                  singleActionIconName,
-                  singleActionValue,
-               },
-            ],
-         },
-      },
-   ])
-}
-
-export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame) => {
-   setLogItems((logItems) => [
-      ...logItems.slice(0, -1),
-      {
-         ...logItems[logItems.length - 1],
-         details: {
-            ...logItems[logItems.length - 1].details,
-            stateAfter: {
-               statePlayer: getThinerLogStatePlayer(statePlayer),
-               stateGame: getThinerLogStateGame(stateGame),
-            },
-         },
-      },
-   ])
-}
-
-export const funcCreateLogItemGeneration = (setLogItems, stateGame, setItemsExpanded) => {
-   setLogItems((logItems) => [...logItems, { type: LOG_TYPES.GENERATION, title: `${stateGame.generation + 1}` }])
-   setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
-}
-
 export const getIconForLog = (actionType) => {
    switch (actionType) {
       case LOG_ICONS.FORCED_THARSIS:
@@ -108,8 +46,6 @@ export const getIconForLog = (actionType) => {
          return logIconForcedInventrix
       case LOG_ICONS.SELL_PATENT:
          return logIconSellPatents
-      case '1':
-         return
       case ACTION_ICONS.ACTION_UNMI:
          return getActionIcon(actionType)
       case SP.POWER_PLANT:
@@ -171,4 +107,97 @@ export const getResIconForLog = (type) => {
       default:
          return
    }
+}
+
+export const funcCreateLogItem = (setLogItems, statePlayer, stateGame, logHeaders, setItemsExpanded) => {
+   setLogItems((logItems) => [
+      ...logItems,
+      {
+         ...logHeaders,
+         details: {
+            stateBefore: {
+               statePlayer: getThinerLogStatePlayer(statePlayer),
+               stateGame: getThinerLogStateGame(stateGame),
+            },
+            steps: [],
+            stateAfter: {
+               statePlayer: getThinerLogStatePlayer(statePlayer),
+               stateGame: getThinerLogStateGame(stateGame),
+            },
+         },
+      },
+   ])
+   setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
+}
+
+export const funcSetLogItemsSingleActions = (singleActionName, singleActionIconName, singleActionValue, setLogItems) => {
+   setLogItems((logItems) => {
+      const lastLogItem = logItems[logItems.length - 1]
+
+      return [
+         ...logItems.slice(0, -1),
+         {
+            ...lastLogItem,
+            details: {
+               ...lastLogItem.details,
+               steps: [
+                  ...(lastLogItem.details?.steps ? lastLogItem.details.steps : []),
+                  {
+                     singleActionName,
+                     singleActionIconName,
+                     singleActionValue,
+                  },
+               ],
+            },
+         },
+      ]
+   })
+}
+
+export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame) => {
+   setLogItems((logItems) => {
+      if (logItems.length === 1) {
+         return logItems
+      } else {
+         const lastLogItem = logItems[logItems.length - 1]
+         return [
+            ...logItems.slice(0, -1),
+            {
+               ...lastLogItem,
+               details: {
+                  ...lastLogItem.details,
+                  stateAfter: {
+                     statePlayer: getThinerLogStatePlayer(statePlayer),
+                     stateGame: getThinerLogStateGame(stateGame),
+                  },
+               },
+            },
+         ]
+      }
+   })
+}
+
+// Updates action name (a string that contains all neccessary info about what user clicked in the whole game action)
+// of the latest log item
+export const funcUpdateLogItemAction = (setLogItems, newActionPart) => {
+   setLogItems((logItems) => {
+      const lastLogItem = logItems[logItems.length - 1]
+      let newLastLogItemAction = ''
+
+      if (lastLogItem.action) {
+         if (lastLogItem.action.slice(-1) === ']') {
+            newLastLogItemAction = lastLogItem.action.slice(0, -1) + '; ' + newActionPart + ']'
+         } else {
+            newLastLogItemAction = lastLogItem.action + '[' + newActionPart + ']'
+         }
+      } else {
+         newLastLogItemAction = newActionPart
+      }
+      return [...logItems.slice(0, -1), { ...lastLogItem, action: newLastLogItemAction }]
+   })
+}
+
+export const funcCreateLogItemGeneration = (setLogItems, stateGame, setItemsExpanded) => {
+   setLogItems((logItems) => [...logItems, { type: LOG_TYPES.GENERATION, title: `${stateGame.generation + 1}` }])
+   setItemsExpanded((itemsExpanded) => [...itemsExpanded, false])
 }

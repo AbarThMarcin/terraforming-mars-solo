@@ -6,17 +6,18 @@ import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getCards, getNewCardsDrawIds, getPosition, getThinerStatePlayer, modifiedCards, withTimeAdded } from '../../../../utils/misc'
+import { getLogConvertedForDB, getThinerStatePlayer } from '../../../../utils/logReplay'
+import { getPositionInModalCards, getCardsWithDecreasedCost, getCards, getNewCardsDrawIds, getCardsWithTimeAdded } from '../../../../utils/cards'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { updateGameData } from '../../../../api/activeGame'
-import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, funcUpdateLogItemAction } from '../../../../data/log/log'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems, durationSeconds } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
@@ -40,7 +41,8 @@ const ModalMarsUniversity = () => {
          stateModals: modals,
          stateBoard,
          corps: initCorpsIds,
-         logItems: logItems,
+         logItems: getLogConvertedForDB(logItems),
+         durationSeconds,
       }
       updateGameData(user.token, updatedData, type).then((res) => {
          if (res.message === 'success') {
@@ -85,7 +87,7 @@ const ModalMarsUniversity = () => {
          startAnimation(setModals)
          setAnimation(ANIMATIONS.CARD_IN, RESOURCES.CARD, 1, setModals)
       }, ANIMATION_SPEED)
-      newCardsInHand = [...newCardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+      newCardsInHand = [...newCardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
       setTimeout(() => {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
@@ -106,6 +108,7 @@ const ModalMarsUniversity = () => {
          // Continue remaining actions
          startAnimation(setModals)
          performSubActions(stateGame.actionsLeft, true)
+         funcUpdateLogItemAction(setLogItems, `MUtargetId: ${selectedCardId}`)
       }, ANIMATION_SPEED * 2)
    }
 
@@ -119,7 +122,11 @@ const ModalMarsUniversity = () => {
    }
 
    const handleClickBtnSelect = (card) => {
-      selectedCardId === 0 || card.id !== selectedCardId ? setSelectedCardId(card.id) : setSelectedCardId(0)
+      if (selectedCardId === 0 || card.id !== selectedCardId) {
+         setSelectedCardId(card.id)
+      } else {
+         setSelectedCardId(0)
+      }
    }
 
    return (
@@ -133,7 +140,7 @@ const ModalMarsUniversity = () => {
                   <div
                      key={idx}
                      className={`card-container small ${selectedCardId === card.id && 'selected'}`}
-                     style={getPosition(statePlayer.cardsInHand.length, idx)}
+                     style={getPositionInModalCards(statePlayer.cardsInHand.length, idx)}
                      onClick={() => {
                         sound.btnCardsClick.play()
                         setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))

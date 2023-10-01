@@ -5,7 +5,7 @@ import { RESOURCES } from '../resources'
 import { SP } from '../StandardProjects'
 import { OPTION_ICONS } from '../selectOneOptions'
 import { TAGS } from '../tags'
-import { canCardHaveAnimals, canCardHaveMicrobes } from '../../utils/misc'
+import { canCardHaveAnimals, canCardHaveMicrobes } from '../../utils/cards'
 import { EFFECTS } from './effectIcons'
 import { CORP_NAMES } from '../corpNames'
 import { funcSetLogItemsSingleActions } from '../log/log'
@@ -27,10 +27,10 @@ export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) =
          break
       case CORP_NAMES.THORGATE:
          dispatchGame({ type: ACTIONS_GAME.SET_POWERPLANT_COST, payload: 8 })
-         // The 'Power cards cost 3M less' effect is called in the modifiedCards function
+         // The 'Power cards cost 3M less' effect is called in the getCardsWithDecreasedCost function
          break
       case CORP_NAMES.TERACTOR:
-         // This effect is called in the modifiedCards function
+         // This effect is called in the getCardsWithDecreasedCost function
          break
       default:
          break
@@ -77,12 +77,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 1,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
-                  funcSetLogItemsSingleActions(
-                     'MC production increased by 1 from SATURN SYSTEMS effect',
-                     [RESOURCES.PROD_BG, RESOURCES.MLN],
-                     1,
-                     setLogItems
-                  )
+                  funcSetLogItemsSingleActions('MC production increased by 1 from SATURN SYSTEMS effect', [RESOURCES.PROD_BG, RESOURCES.MLN], 1, setLogItems)
                },
             },
          ]
@@ -108,12 +103,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 1,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
-                  funcSetLogItemsSingleActions(
-                     'MC production increased by 1 from THARSIS REPUBLIC effect',
-                     [RESOURCES.PROD_BG, RESOURCES.MLN],
-                     1,
-                     setLogItems
-                  )
+                  funcSetLogItemsSingleActions('MC production increased by 1 from THARSIS REPUBLIC effect', [RESOURCES.PROD_BG, RESOURCES.MLN], 1, setLogItems)
                },
             },
          ]
@@ -360,12 +350,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                value: 1,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
-                  funcSetLogItemsSingleActions(
-                     'MC production increased by 1 from IMMIGRANT CITY effect',
-                     [RESOURCES.PROD_BG, RESOURCES.MLN],
-                     1,
-                     setLogItems
-                  )
+                  funcSetLogItemsSingleActions('MC production increased by 1 from IMMIGRANT CITY effect', [RESOURCES.PROD_BG, RESOURCES.MLN], 1, setLogItems)
                },
             },
          ]

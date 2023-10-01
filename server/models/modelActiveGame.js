@@ -16,6 +16,7 @@ const activeGameSchema = mongoose.Schema({
    stateGame: stateGameSchema,
    stateModals: stateModalsSchema,
    stateBoard: [boardFieldSchema],
+   initStateBoard: [boardFieldSchema],
    corps: [Number],
    logItems: [logTypeSchema],
    type: {

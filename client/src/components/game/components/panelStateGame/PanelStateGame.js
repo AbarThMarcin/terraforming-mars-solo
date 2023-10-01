@@ -1,7 +1,7 @@
 import { memo, useContext } from 'react'
 import { StateGameContext } from '../../../game'
 import panelStateGame from '../../../../assets/images/panelStateGame.svg'
-import { scale } from '../../../../utils/misc'
+import { scale } from '../../../../utils/number'
 
 const PanelStateGame = () => {
    const { stateGame } = useContext(StateGameContext)

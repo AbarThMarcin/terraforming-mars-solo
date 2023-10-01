@@ -9,14 +9,15 @@ import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getCards, getNewCardsDrawIds, getPosition, getThinerStatePlayer, modifiedCards, sorted, withTimeAdded } from '../../../../utils/misc'
+import { getLogConvertedForDB, getThinerStatePlayer } from '../../../../utils/logReplay'
+import { getPositionInModalCards, getCards, getNewCardsDrawIds, getCardsWithDecreasedCost, getCardsSorted, getCardsWithTimeAdded } from '../../../../utils/cards'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions, LOG_ICONS } from '../../../../data/log/log'
+import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions, LOG_ICONS, funcUpdateLogItemAction } from '../../../../data/log/log'
 import DecreaseCostDraft from './modalsComponents/decreaseCost/DecreaseCostDraft'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { updateGameData } from '../../../../api/activeGame'
@@ -26,8 +27,20 @@ const ModalDraft = () => {
    const { stateBoard } = useContext(StateBoardContext)
    const { settings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
-   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, requirementsMet, setSaveToServerTrigger, logItems, setSyncError, setLogItems, setItemsExpanded } =
-      useContext(StateGameContext)
+   const {
+      stateGame,
+      dispatchGame,
+      performSubActions,
+      getImmEffects,
+      getEffect,
+      requirementsMet,
+      setSaveToServerTrigger,
+      logItems,
+      setSyncError,
+      setLogItems,
+      setItemsExpanded,
+      durationSeconds,
+   } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { type, id, user } = useContext(UserContext)
@@ -35,7 +48,7 @@ const ModalDraft = () => {
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [selectedCardsIds, setSelectedCardsIds] = useState([])
    const cardsDraft = useMemo(
-      () => modifiedCards(getCards(statePlayer.cardsDrawIds), statePlayer),
+      () => getCardsWithDecreasedCost(getCards(statePlayer.cardsDrawIds), statePlayer),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [statePlayer.cardsDrawIds]
    )
@@ -66,7 +79,8 @@ const ModalDraft = () => {
             stateModals: modals,
             stateBoard,
             corps: initCorpsIds,
-            logItems: logItems,
+            logItems: getLogConvertedForDB(logItems),
+            durationSeconds,
          }
          updateGameData(user.token, updatedData, type).then((res) => {
             if (res.message === 'success') {
@@ -82,6 +96,20 @@ const ModalDraft = () => {
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
       funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.DRAFT }, setItemsExpanded)
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, 'draft')
+      if (selectedCardsIds.length !== 0)
+         funcUpdateLogItemAction(setLogItems, `${toBuyMln ? 'paidMln: ' + toBuyMln : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat : ''}; ids: ${selectedCardsIds.join(', ')}`)
+      if (stateGame.generation === 1) funcUpdateLogItemAction(setLogItems, `corpId: ${statePlayer.corporation.id}`)
+
+      // let actionString = 'draft'
+      // if (selectedCardsIds.length !== 0) {
+      //    actionString += `[${toBuyMln ? 'paidMln: ' + toBuyMln : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat : ''}; ids: ${selectedCardsIds.join(', ')}`
+      // }
+      // if (stateGame.generation === 1) actionString += `; corpId: ${statePlayer.corporation}`
+      // actionString += ']'
+      // funcUpdateLogItemAction(setLogItems, actionString)
+
       // Decrease corporation resources
       if (toBuyMln > 0) {
          dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln })
@@ -92,10 +120,10 @@ const ModalDraft = () => {
          funcSetLogItemsSingleActions(`Paid ${toBuyHeat} heat for cards in draft phase`, RESOURCES.HEAT, -toBuyHeat, setLogItems)
       }
       // Add selected cards to the hand and cards purchased
-      const purchasedCards = withTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id)))
+      const purchasedCards = getCardsWithTimeAdded(cardsDraft.filter((card) => selectedCardsIds.includes(card.id)))
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: sorted([...statePlayer.cardsInHand, ...purchasedCards], settings.sortId[0], requirementsMet),
+         payload: getCardsSorted([...statePlayer.cardsInHand, ...purchasedCards], settings.sortId[0], requirementsMet),
       })
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
@@ -141,6 +169,8 @@ const ModalDraft = () => {
                { type: LOG_TYPES.FORCED_ACTION, title: CORP_NAMES.THARSIS_REPUBLIC, titleIcon: LOG_ICONS.FORCED_THARSIS },
                setItemsExpanded
             )
+            // Also save action (string) for log that is being performed
+            funcUpdateLogItemAction(setLogItems, 'forcedTharsis')
 
             const actions = [...getImmEffects(IMM_EFFECTS.CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET)]
             dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
@@ -160,6 +190,9 @@ const ModalDraft = () => {
                { type: LOG_TYPES.FORCED_ACTION, title: CORP_NAMES.INVENTRIX, titleIcon: LOG_ICONS.FORCED_INVENTRIX },
                setItemsExpanded
             )
+            // Also save action (string) for log that is being performed
+            funcUpdateLogItemAction(setLogItems, 'forcedInventrix')
+
             // Get Random Cards Ids
             let newCardsDrawIds = await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, user?.token)
             const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
@@ -172,8 +205,8 @@ const ModalDraft = () => {
                   func: () => {
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: sorted(
-                           [...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)), ...modifiedCards(getCards(newCardsDrawIds), statePlayer)],
+                        payload: getCardsSorted(
+                           [...cardsDraft.filter((card) => selectedCardsIds.includes(card.id)), ...getCardsWithDecreasedCost(getCards(newCardsDrawIds), statePlayer)],
                            settings.sortId[0],
                            requirementsMet
                         ),
@@ -217,7 +250,7 @@ const ModalDraft = () => {
             <div
                key={idx}
                className={`card-container small ${selectedCardsIds.includes(card.id) && 'selected'}`}
-               style={getPosition(cardsDraft.length, idx)}
+               style={getPositionInModalCards(cardsDraft.length, idx)}
                onClick={() => {
                   sound.btnCardsClick.play()
                   setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))

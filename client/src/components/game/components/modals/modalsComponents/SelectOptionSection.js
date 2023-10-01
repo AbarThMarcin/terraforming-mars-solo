@@ -3,10 +3,11 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { StateGameContext, ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import SelectOption from './SelectOption'
+import { funcUpdateLogItemAction } from '../../../../../data/log/log'
 
 const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame, dispatchGame, getOptionsActions, performSubActions } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, getOptionsActions, performSubActions, setLogItems } = useContext(StateGameContext)
 
    const btnActionConfirmPosition = {
       bottom: '-5%',
@@ -15,6 +16,9 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    }
 
    const handleClickConfirmBtn = () => {
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `option: ${selectedOption}`)
+
       let subActions = [...getOptionsActions(selectedOption), ...stateGame.actionsLeft]
       setModals((prev) => ({ ...prev, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })

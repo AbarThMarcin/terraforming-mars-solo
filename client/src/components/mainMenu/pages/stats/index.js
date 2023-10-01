@@ -16,7 +16,8 @@ import ModalCard from './player/statsCards/ModalCard'
 import ModalSeeAllCards from './player/statsCards/ModalSeeAllCards'
 import { TABS } from '../../../../App'
 import GamesLog from './games/GamesLog'
-import { getCorporation, getEndedGameCardsWithAllData, getLogItemsWithAllData } from '../../../../utils/misc'
+import { getEndedGameCardsWithAllData, getLogConvertedForGame } from '../../../../utils/logReplay'
+import { getCorporationById } from '../../../../utils/corporation'
 import Corp from '../../../game/components/corp/Corp'
 
 export const TabTypeContext = createContext()
@@ -51,7 +52,7 @@ const Stats = ({ user }) => {
    const [season, setSeason] = useState()
    const [corp, setCorp] = useState('ALL CORPORATIONS')
    const [userValue, setUserValue] = useState('')
-   
+
    useEffect(() => {
       const fetchData = async () => {
          const initUsers = await getUsers()
@@ -60,7 +61,7 @@ const Stats = ({ user }) => {
             return {
                ...game,
                cards: getEndedGameCardsWithAllData(game.cards),
-               logItems: getLogItemsWithAllData(game.logItems),
+               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard),
             }
          })
          const initSeason = await getSeason()
@@ -102,7 +103,7 @@ const Stats = ({ user }) => {
          if (season !== 'lifetime') gamesBySeason = player.games.filter((game) => game.season === season)
          // Filter by corp
          let gamesBySeasonAndCorp = gamesBySeason
-         if (corp !== 'ALL CORPORATIONS') gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => getCorporation(game.corporation).name === corp)
+         if (corp !== 'ALL CORPORATIONS') gamesBySeasonAndCorp = gamesBySeasonAndCorp.filter((game) => getCorporationById(game.corporation).name === corp)
          newCurrPlayers.push({
             ...player,
             games: gamesBySeasonAndCorp,
@@ -242,7 +243,7 @@ const Stats = ({ user }) => {
                               onClick={() => setShowModalCorp(false)}
                            >
                               <div className="modal-corp-container center">
-                                 <Corp corp={getCorporation(modalCorpId)} />
+                                 <Corp corp={getCorporationById(modalCorpId)} />
                               </div>
                            </motion.div>
                         )}

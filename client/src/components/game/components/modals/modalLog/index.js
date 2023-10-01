@@ -7,6 +7,7 @@ const ModalLog = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpa
    const botLogRef = useRef(null)
    const [menuClicked, setMenuClicked] = useState(false)
    const logBox = useRef(null)
+   const [resizeBox, setResizeBox] = useState(false)
 
    useEffect(() => {
       botLogRef.current?.scrollIntoView({ block: 'end' })
@@ -14,7 +15,7 @@ const ModalLog = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpa
 
    useEffect(() => {
       correctScrollBar(logBox)
-   }, [itemsExpanded, expanded])
+   }, [itemsExpanded, expanded, resizeBox])
 
    const correctScrollBar = (logBox) => {
       if (logBox.current.scrollHeight > logBox.current.clientHeight) {
@@ -35,7 +36,7 @@ const ModalLog = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpa
             }}
          >
             {logItems.map((item, idx) => (
-               <LogItem key={idx} id={idx} item={item} expanded={expanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
+               <LogItem key={idx} id={idx} item={item} expanded={expanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} setResizeBox={setResizeBox} />
             ))}
             <div ref={botLogRef} />
          </ul>

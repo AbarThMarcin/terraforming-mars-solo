@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { StatePlayerContext } from '../../../../../game'
-import { getActionCost } from '../../../../../../utils/misc'
+import { getCardActionCost } from '../../../../../../utils/cards'
 import { RESOURCES } from '../../../../../../data/resources'
 import iconMln from '../../../../../../assets/images/resources/res_mln.svg'
 import iconSteel from '../../../../../../assets/images/resources/res_steel.svg'
@@ -9,7 +9,7 @@ import iconHeat from '../../../../../../assets/images/resources/res_heat.svg'
 
 const DecreaseCostAction = ({ toBuyMln, setToBuyMln, toBuySteel, setToBuySteel, toBuyTitan, setToBuyTitan, toBuyHeat, setToBuyHeat, actionClicked }) => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const cost = getActionCost(actionClicked)
+   const cost = getCardActionCost(actionClicked)
 
    const handleClickArrow = (resource, operation) => {
       let resMln = toBuyMln
@@ -40,8 +40,12 @@ const DecreaseCostAction = ({ toBuyMln, setToBuyMln, toBuySteel, setToBuySteel, 
          <div className="card-decrease-cost-header">DECREASE COST</div>
          {statePlayer.resources.steel > 0 && actionClicked === 187 && (
             <div className="card-decrease-cost">
-               <div><span>{toBuySteel}</span></div>
-               <div><img src={iconSteel} alt="icon_steel" /></div>
+               <div>
+                  <span>{toBuySteel}</span>
+               </div>
+               <div>
+                  <img src={iconSteel} alt="icon_steel" />
+               </div>
                {toBuySteel > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow(RESOURCES.STEEL, 'decrement')}></div>}
                {toBuySteel < statePlayer.resources.steel && toBuyMln !== 0 && (
                   <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => handleClickArrow(RESOURCES.STEEL, 'increment')}></div>
@@ -50,8 +54,12 @@ const DecreaseCostAction = ({ toBuyMln, setToBuyMln, toBuySteel, setToBuySteel, 
          )}
          {statePlayer.resources.titan > 0 && actionClicked === 12 && (
             <div className="card-decrease-cost">
-               <div><span>{toBuyTitan}</span></div>
-               <div><img src={iconTitan} alt="icon_titan" /></div>
+               <div>
+                  <span>{toBuyTitan}</span>
+               </div>
+               <div>
+                  <img src={iconTitan} alt="icon_titan" />
+               </div>
                {toBuyTitan > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow(RESOURCES.TITAN, 'decrement')}></div>}
                {toBuyTitan < statePlayer.resources.titan && toBuyMln !== 0 && (
                   <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => handleClickArrow(RESOURCES.TITAN, 'increment')}></div>
@@ -60,8 +68,12 @@ const DecreaseCostAction = ({ toBuyMln, setToBuyMln, toBuySteel, setToBuySteel, 
          )}
          {statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (
             <div className="card-decrease-cost">
-               <div><span>{toBuyHeat}</span></div>
-               <div><img src={iconHeat} alt="icon_heat" /></div>
+               <div>
+                  <span>{toBuyHeat}</span>
+               </div>
+               <div>
+                  <img src={iconHeat} alt="icon_heat" />
+               </div>
                {toBuyHeat > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow(RESOURCES.HEAT, 'decrement')}></div>}
                {toBuyHeat < statePlayer.resources.heat && toBuyMln !== 0 && (
                   <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => handleClickArrow(RESOURCES.HEAT, 'increment')}></div>

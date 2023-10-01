@@ -5,7 +5,7 @@ import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import LogItemState from './logItemState'
 import LogItemSteps from './LogItemSteps'
 
-const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
+const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded, setResizeBox }) => {
    const logItemHeader = getMainData()
 
    function handleClickExpand() {
@@ -43,7 +43,7 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
          case LOG_TYPES.FINAL_CONVERT_PLANTS:
             return { title: 'FINAL PLANTS CONVERSION', style: 'action' }
          default:
-            break
+            return
       }
    }
 
@@ -75,11 +75,11 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded }) => {
       return (
          <div className={`log-details ${hiddenStyle()}`}>
             {/* STATE BEFORE */}
-            {item.details?.stateBefore && <LogItemState type="BEFORE" state={item.details.stateBefore} />}
+            {item.details?.stateBefore && <LogItemState type="BEFORE" state={item.details.stateBefore} setResizeBox={setResizeBox} />}
             {/* STEPS */}
-            {(item.details?.steps || item.details?.stateAfter) && <LogItemSteps steps={item.details.steps} />}
+            {(item.details?.steps || item.details?.stateAfter) && <LogItemSteps steps={item.details.steps} setResizeBox={setResizeBox} />}
             {/* STATE AFTER */}
-            {item.details?.stateAfter && <LogItemState type="AFTER" state={item.details.stateAfter} />}
+            {item.details?.stateAfter && <LogItemState type="AFTER" state={item.details.stateAfter} setResizeBox={setResizeBox} />}
          </div>
       )
    }

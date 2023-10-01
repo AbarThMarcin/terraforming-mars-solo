@@ -3,7 +3,7 @@ import { SoundContext } from '../../../../../../../../App'
 import { ModalsContext as ModalsContextGame } from '../../../../../..'
 import { ModalsContext as ModalsContextStats } from '../../../../../../../mainMenu/pages/stats'
 import { useLocation } from 'react-router-dom'
-import { getCards } from '../../../../../../../../utils/misc'
+import { getCards } from '../../../../../../../../utils/cards'
 
 const LogItemStateCards = ({ state, cardsType }) => {
    const location = useLocation()

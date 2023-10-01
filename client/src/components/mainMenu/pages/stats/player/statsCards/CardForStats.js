@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getCardType, hasTag } from '../../../../../../utils/misc'
+import { hasTag, getCardType } from '../../../../../../utils/cards'
 import { getTagIcon, TAGS } from '../../../../../../data/tags'
 import { REQUIREMENTS } from '../../../../../../data/requirements/requirementsNames'
 import { getResIcon, RESOURCES } from '../../../../../../data/resources'

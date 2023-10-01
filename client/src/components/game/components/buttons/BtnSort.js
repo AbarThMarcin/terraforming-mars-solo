@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { updateUser } from '../../../../api/user'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
-import { sorted } from '../../../../utils/misc'
+import { getCardsSorted } from '../../../../utils/cards'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../game'
 
 const BtnSort = ({ id, text }) => {
@@ -27,11 +27,11 @@ const BtnSort = ({ id, text }) => {
       cardsTypeId === 0
          ? dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-              payload: sorted(statePlayer.cardsInHand, newSortId, requirementsMet),
+              payload: getCardsSorted(statePlayer.cardsInHand, newSortId, requirementsMet),
            })
          : dispatchPlayer({
               type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-              payload: sorted(statePlayer.cardsPlayed, newSortId, requirementsMet),
+              payload: getCardsSorted(statePlayer.cardsPlayed, newSortId, requirementsMet),
            })
       // Change in Backend
       if (user) {

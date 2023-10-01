@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { getActionCost, sorted } from '../../../../../../../utils/misc'
+import { getCardActionCost, getCardsSorted } from '../../../../../../../utils/cards'
 import { ModalsContext, StatePlayerContext } from '../../../../../../game'
 import DecreaseCostAction from '../../../modalsComponents/decreaseCost/DecreaseCostAction'
 import ModalOtherDataActionsItem from './ModalOtherDataActionsItem'
@@ -20,7 +20,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
       let resTitan = 0
       let resHeat = 0
       let diff
-      let cost = getActionCost(cardIdOrUnmi)
+      let cost = getCardActionCost(cardIdOrUnmi)
 
       if (statePlayer.resources.titan > 0 && cardIdOrUnmi === 12) {
          diff = cost - statePlayer.resources.mln
@@ -57,7 +57,7 @@ const ModalOtherDataActions = ({ setCardSnap }) => {
                   changeCosts={changeCosts}
                />
             )}
-            {sorted(modals.modalOther.data, '4a-played').map((item, idx) => (
+            {getCardsSorted(modals.modalOther.data, '4a-played').map((item, idx) => (
                <ModalOtherDataActionsItem
                   key={idx}
                   item={item}

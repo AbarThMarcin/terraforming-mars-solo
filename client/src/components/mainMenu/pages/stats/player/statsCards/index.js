@@ -1,6 +1,6 @@
 import { useContext, useState, useMemo, useRef } from 'react'
 import { CARDS } from '../../../../../../data/cards'
-import { range } from '../../../../../../utils/misc'
+import { range } from '../../../../../../utils/array'
 import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 import { ModalsContext } from '../../index'

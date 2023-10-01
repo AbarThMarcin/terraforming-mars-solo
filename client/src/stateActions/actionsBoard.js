@@ -1,6 +1,6 @@
 import { TILES, setAvailFieldsAny, setAvailFieldsSpecific, setAvailFieldsAdjacent } from '../data/board'
 import { RESOURCES } from '../data/resources'
-import { getNeighbors } from '../utils/misc'
+import { getNeighbors } from '../utils/board'
 
 export const ACTIONS_BOARD = {
    // Set available all fields based on the tile in payload

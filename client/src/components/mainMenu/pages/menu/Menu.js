@@ -11,7 +11,7 @@ import { updateUser } from '../../../../api/user'
 import { useEffect } from 'react'
 import ModalQMId from '../../modalQMId/ModalQMId'
 import Message from './Message'
-import { getLogItemsWithAllData, getStatePlayerWithAllData, getThinerEndedGameCards } from '../../../../utils/misc'
+import { getLogConvertedForGame, getStatePlayerWithAllData, getThinerEndedGameCards } from '../../../../utils/logReplay'
 
 // Quick Match Text for Confirmation Window
 const QM_text = 'Do you want to resume previous quick match?'
@@ -73,6 +73,7 @@ const Menu = ({ user, setUser, setData }) => {
          }
       }
    }
+
    async function QM_resume() {
       setShowModalConf(false)
       setLoading(true)
@@ -85,6 +86,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
       }
    }
+
    async function QM_startNew() {
       setShowModalConf(false)
       setLoading(true)
@@ -115,6 +117,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowModalQMId(true)
       }
    }
+
    async function QMId_resume() {
       setShowModalConf(false)
       setLoading(true)
@@ -127,6 +130,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
       }
    }
+
    async function QMId_startNew() {
       setShowModalConf(false)
       setOverwrite(true)
@@ -144,7 +148,7 @@ const Menu = ({ user, setUser, setData }) => {
          game = {
             ...game,
             statePlayer: getStatePlayerWithAllData(game.statePlayer),
-            logItems: getLogItemsWithAllData(game.logItems),
+            logItems: getLogConvertedForGame(game.logItems, game.initStateBoard),
          }
 
          if (!game?.corps) {
@@ -167,7 +171,8 @@ const Menu = ({ user, setUser, setData }) => {
             const newGame = await createEndedGameData(user.token, {
                corporation: game.statePlayer.corporation?.id,
                cards: getThinerEndedGameCards(game.statePlayer),
-               logItems: game.logItems,
+               initStateBoard: res.initStateBoard,
+               logItems: getLogConvertedForGame(game.logItems, res.initStateBoard),
                forfeited: true,
                startTime: res.startTime,
                endTime: new Date().toJSON(),
@@ -205,6 +210,7 @@ const Menu = ({ user, setUser, setData }) => {
          setConfirmationDetails(RM_new_text, { text: 'YES', func: RM_startNew })
       }
    }
+
    async function RM_resume() {
       setShowModalConf(false)
       setLoading(true)
@@ -217,6 +223,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
       }
    }
+
    async function RM_forfeitAndStartNew() {
       setShowModalConf(false)
       setLoading(true)
@@ -224,7 +231,7 @@ const Menu = ({ user, setUser, setData }) => {
       gameData = {
          ...gameData,
          statePlayer: getStatePlayerWithAllData(gameData.statePlayer),
-         logItems: getLogItemsWithAllData(gameData.logItems),
+         logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard),
       }
 
       if (!gameData?.corps) {
@@ -243,7 +250,8 @@ const Menu = ({ user, setUser, setData }) => {
       const newGame = await createEndedGameData(user.token, {
          corporation: gameData.statePlayer.corporation?.id,
          cards: getThinerEndedGameCards(gameData.statePlayer),
-         logItems: gameData.logItems,
+         initStateBoard: res.initStateBoard,
+         logItems: getLogConvertedForGame(gameData.logItems, res.initStateBoard),
          forfeited: true,
          startTime: res.startTime,
          endTime: new Date().toJSON(),
@@ -264,6 +272,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
       }
    }
+
    async function RM_startNew() {
       setShowModalConf(false)
       setLoading(true)

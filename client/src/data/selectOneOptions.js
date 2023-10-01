@@ -1,6 +1,6 @@
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
-import { getCards, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../utils/misc'
+import { getCards, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../utils/cards'
 import { ANIMATIONS } from './animations'
 import { RESOURCES } from './resources'
 import microbe from '../assets/images/selectOne-options/option_microbe.svg'

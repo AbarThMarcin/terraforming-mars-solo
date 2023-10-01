@@ -1,13 +1,15 @@
-/* Used to choose a card with a resource addition / deduction */
+/* Modal component used to choose between building production; opens ONLY when used Robotic Workforce */
+
 import { useState, useContext } from 'react'
 import { StateGameContext, ModalsContext } from '../../../../game'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import Card from '../../card/Card'
 import ModalProductionData from './ModalProductionData'
 import BtnAction from '../../buttons/BtnAction'
+import { funcUpdateLogItemAction } from '../../../../../data/log/log'
 
 const ModalProduction = () => {
-   const { dispatchGame, performSubActions } = useContext(StateGameContext)
+   const { dispatchGame, performSubActions, setLogItems } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
@@ -18,6 +20,9 @@ const ModalProduction = () => {
    }
 
    const handleClickConfirmBtn = () => {
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `targetId: ${modals.modalProduction.cardIdOrCorpName}`)
+
       // Turn addRemoveRes phase on
       setModals((prev) => ({ ...prev, production: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })

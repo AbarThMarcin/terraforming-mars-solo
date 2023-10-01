@@ -25,7 +25,7 @@
 }
 
 .modal-log .box {
-   width: calc(100% - var(--default-size) * 0.5);
+   width: calc(100% - var(--default-size) * 0.2);
    height: 100%;
    overflow-y: auto;
    overflow-x: hidden;
@@ -101,6 +101,7 @@
    position: relative;
    margin-block: var(--default-size);
    margin-left: calc(var(--default-size) * 0.06);
+   width: calc(100% - var(--default-size));
 }
 .modal-log .box .generation::after {
    content: '';
@@ -108,13 +109,17 @@
    bottom: 0;
    left: 0;
    height: calc(var(--default-size) * 0.12);
-   width: 95%;
+   width: 100%;
    background-color: #bbb;
+}
+.modal-log .box.with-scrollbar .generation,
+.modal-log .box.with-scrollbar .action {
+   width: calc(100% - var(--default-size) * 0.7);
 }
 
 /* Action */
 .modal-log .box .action {
-   width: 95%;
+   width: calc(100% - var(--default-size));
    background: rgb(70, 70, 70);
    background: linear-gradient(90deg, rgba(40, 40, 40, 1) 0%, rgba(40, 40, 40, 0) 100%);
    margin-left: calc(var(--default-size) * 0.06);

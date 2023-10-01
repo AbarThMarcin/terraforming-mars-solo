@@ -2,8 +2,16 @@ const mongoose = require('mongoose')
 
 const logTypeSchema = mongoose.Schema({
    type: String,
-   data: mongoose.Schema.Types.Mixed,
-   details: mongoose.Schema.Types.Mixed,
+   title: String,
+   titleIcon: mongoose.Schema.Types.Mixed,
+   details: {
+      type: mongoose.Schema.Types.Mixed,
+      required: false,
+   },
+   action: {
+      type: String,
+      required: false,
+   },
 })
 
 module.exports = { logTypeSchema }

@@ -1,4 +1,4 @@
-import { range } from '../../../../../../utils/misc'
+import { range } from '../../../../../../utils/array'
 import styled, { keyframes } from 'styled-components'
 
 const StyledBar = styled.div`

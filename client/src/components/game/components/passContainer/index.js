@@ -2,9 +2,17 @@ import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../game'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
-import { getNewCardsDrawIds, modifiedCards } from '../../../../utils/misc'
+import { getCardsWithDecreasedCost, getNewCardsDrawIds } from '../../../../utils/cards'
 import { getCorpLogoMini } from '../../../../data/corporations'
-import { LOG_ICONS, LOG_TYPES, funcCreateLogItem, funcCreateLogItemGeneration, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../../../data/log/log'
+import {
+   LOG_ICONS,
+   LOG_TYPES,
+   funcCreateLogItem,
+   funcCreateLogItemGeneration,
+   funcSetLogItemsSingleActions,
+   funcUpdateLastLogItemAfter,
+   funcUpdateLogItemAction,
+} from '../../../../data/log/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'
@@ -43,6 +51,8 @@ const PassContainer = () => {
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
       funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.PASS }, setItemsExpanded)
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, 'pass')
       // Close confirmation window
       setModals((prev) => ({ ...prev, confirmation: false }))
       // Set actionUsed = false for all cards played and trRaised (for UNMI only) = false
@@ -57,11 +67,11 @@ const PassContainer = () => {
       if (statePlayer.indenturedWorkersEffect) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: modifiedCards(statePlayer.cardsInHand, statePlayer, false),
+            payload: getCardsWithDecreasedCost(statePlayer.cardsInHand, statePlayer, false),
          })
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-            payload: modifiedCards(statePlayer.cardsPlayed, statePlayer, false),
+            payload: getCardsWithDecreasedCost(statePlayer.cardsPlayed, statePlayer, false),
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
          funcSetLogItemsSingleActions('INDENTURED WORKERS effect ended', null, null, setLogItems)

@@ -5,10 +5,11 @@ import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../..
 import BtnAction from '../../buttons/BtnAction'
 import iconProdBg from '../../../../../assets/images/resources/res_prodBg.svg'
 import iconHeat from '../../../../../assets/images/resources/res_heat.svg'
+import { funcUpdateLogItemAction } from '../../../../../data/log/log'
 
 const InsulationSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getOptionsActions, performSubActions } = useContext(StateGameContext)
+   const { dispatchGame, getOptionsActions, performSubActions, setLogItems } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const [heatAmount, setHeatAmount] = useState(0)
 
@@ -19,6 +20,9 @@ const InsulationSection = () => {
    }
 
    const handleClickConfirmBtn = () => {
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `option: ${heatAmount}`)
+
       let subActions = getOptionsActions(OPTION_ICONS.CARD152_OPTION1, 0, heatAmount)
       setModals((prev) => ({ ...prev, selectOne: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })

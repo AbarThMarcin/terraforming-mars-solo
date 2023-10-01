@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { TAGS } from '../../../../../data/tags'
-import { getActionCost, getActionIdsWithCost, hasTag } from '../../../../../utils/misc'
+import { hasTag, getCardActionCost, getActionIdsWithCost } from '../../../../../utils/cards'
 import { StatePlayerContext, StateGameContext } from '../../../../game'
 import OtherSnap from './OtherSnap'
 import iconCardRes from '../../../../../assets/images/resources/res_any.svg'
@@ -50,7 +50,7 @@ const OtherPanel = () => {
          let enoughToBuy = true
          if (actionRequirementsMet(card)) reqsMet = true
          if (getActionIdsWithCost().includes(card.id)) {
-            const cost = getActionCost(card.id)
+            const cost = getCardActionCost(card.id)
             let resources = statePlayer.resources.mln
             if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
             if (card.id === 187) resources += statePlayer.resources.steel * statePlayer.valueSteel

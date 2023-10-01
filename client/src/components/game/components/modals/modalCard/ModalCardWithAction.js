@@ -3,14 +3,14 @@ import { useState, useContext } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, UserContext } from '../../../../game'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
-import { getNewCardsDrawIds, hasTag, withTimePlayed } from '../../../../../utils/misc'
+import { hasTag, getNewCardsDrawIds, getCardsWithTimePlayed } from '../../../../../utils/cards'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import Card from '../../card/Card'
 import DecreaseCost from '../modalsComponents/decreaseCost/DecreaseCost'
 import BtnAction from '../../buttons/BtnAction'
-import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions } from '../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
 import { SoundContext } from '../../../../../App'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
 
@@ -102,13 +102,12 @@ const ModalCardWithAction = () => {
 
    const onYesFunc = async () => {
       // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      funcCreateLogItem(
-         setLogItems,
-         statePlayer,
-         stateGame,
-         { type: LOG_TYPES.IMMEDIATE_EFFECT, title: modals.modalCard.name, titleIcon: modals.modalCard.id },
-         setItemsExpanded
-      )
+      funcCreateLogItem(setLogItems, statePlayer, stateGame, { type: LOG_TYPES.IMMEDIATE_EFFECT, title: modals.modalCard.name, titleIcon: modals.modalCard.id }, setItemsExpanded)
+      // Also save action (string) for log that is being performed
+      let actionString = `immEffect[${toBuyMln ? 'paidMln: ' + toBuyMln + '; ' : ''}${toBuySteel ? 'paidSteel: ' + toBuySteel + '; ' : ''}${
+         toBuyTitan ? 'paidTitan: ' + toBuyTitan + '; ' : ''
+      }${toBuyHeat ? 'paidHeat: ' + toBuyHeat + '; ' : ''}id: ${modals.modalCard.id}]`
+      funcUpdateLogItemAction(setLogItems, actionString)
 
       // ANIMATIONS
       let animResPaidTypes = []
@@ -177,7 +176,7 @@ const ModalCardWithAction = () => {
          let newCardsInHand = statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard.id)
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
          // Add this card to Cards Played
-         let newCardsPlayed = [...statePlayer.cardsPlayed, ...withTimePlayed([modals.modalCard])]
+         let newCardsPlayed = [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([modals.modalCard])]
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCardsPlayed })
          // Set special design effect to false (if applicable)
          if (statePlayer.specialDesignEffect) {

@@ -1,4 +1,6 @@
-/* Used to choose a card with a resource addition / deduction */
+/* Modal component used to choose target card that can contain any resource (animal, microbe, fighter) after playing a card that lets you put any amount of particular resource (for example: IMPORTED HYDROGEN 19) */
+/* So it's not a modal where you choose between plant, microbe or animal (for mentioned example) but to choose target card to place chosen animal or microbe (unless you choose plant, then this modal does not appear) */
+
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
 import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
@@ -9,8 +11,8 @@ import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { RESOURCES } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
 import { SoundContext } from '../../../../../App'
-import { getCards } from '../../../../../utils/misc'
-import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
+import { getCards } from '../../../../../utils/cards'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
 
 const ModalResource = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -26,7 +28,10 @@ const ModalResource = () => {
    }
 
    const handleClickConfirmBtn = () => {
-      // Turn addRemoveRes phase on
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `targetId: ${modals.modalResource.cardId}`)
+
+      // Turn addRemoveRes phase off
       setModals((prev) => ({ ...prev, resource: false }))
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
       // Add Resource

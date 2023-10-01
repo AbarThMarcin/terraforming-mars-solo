@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { getResIconForLog } from '../../../../../../data/log/log'
 
-const LogItemSteps = ({ steps }) => {
+const LogItemSteps = ({ steps, setResizeBox }) => {
    const [expanded, setExpanded] = useState(true)
    const refDetails = useRef()
 
@@ -12,9 +12,11 @@ const LogItemSteps = ({ steps }) => {
       if (expanded) {
          el.style.height = '0px'
          setExpanded(false)
+         setResizeBox(prev => !prev)
       } else {
          el.style.height = el.scrollHeight + 'px'
          setExpanded(true)
+         setResizeBox(prev => !prev)
       }
    }
 

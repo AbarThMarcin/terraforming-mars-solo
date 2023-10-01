@@ -1,16 +1,16 @@
-/* Used to show ONE card with selection */
+/* Used to modal ONLY for Search For Life (5), Inventors' Guild (6) or Business Network (110). Shows a card and user selects it or not (unless its microbe and Search for life, then selection cannot be made - it's automatically selected) */
 import { useContext, useEffect, useState } from 'react'
 import { ANIMATIONS } from '../../../../../data/animations'
 import { RESOURCES } from '../../../../../data/resources'
 import { TAGS } from '../../../../../data/tags'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
-import { hasTag, modifiedCards, withTimeAdded } from '../../../../../utils/misc'
+import { getCardsWithDecreasedCost, getCardsWithTimeAdded, hasTag } from '../../../../../utils/cards'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import BtnSelect from '../../buttons/BtnSelect'
 import Card from '../../card/Card'
 import DecreaseCostSelCard from '../modalsComponents/decreaseCost/DecreaseCostSelCard'
-import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
 
 const ModalSelectCard = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -39,6 +39,9 @@ const ModalSelectCard = () => {
    }, [])
 
    const handleClickConfirmBtn = () => {
+      // Also save action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `selected: ${selected}`)
+
       // Close selectCard modal
       setModals((prev) => ({ ...prev, selectCard: false }))
       // If not selected, do nothing, else do search for life or buy a card
@@ -99,7 +102,7 @@ const ModalSelectCard = () => {
                func: () => {
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                     payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded([modals.modalSelectCard.card]), statePlayer)],
+                     payload: [...statePlayer.cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded([modals.modalSelectCard.card]), statePlayer)],
                   })
                   dispatchPlayer({
                      type: ACTIONS_PLAYER.SET_CARDS_PURCHASED,
@@ -146,7 +149,7 @@ const ModalSelectCard = () => {
    return (
       <div className="card-container big center">
          {/* CARD */}
-         <Card card={modifiedCards([modals.modalSelectCard.card], statePlayer)[0]} isBig={true} />
+         <Card card={getCardsWithDecreasedCost([modals.modalSelectCard.card], statePlayer)[0]} isBig={true} />
          {/* CARD BUTTON */}
          <BtnSelect initBtnText={selected ? 'SELECTED' : 'SELECT'} handleClick={handleClickSelect} sourceCardId={modals.modalSelectCard.cardIdAction} resources={resources} />
          {/* CONFIRM BUTTON */}

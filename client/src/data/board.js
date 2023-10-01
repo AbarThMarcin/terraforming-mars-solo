@@ -1,4 +1,4 @@
-import { getNeighbors } from '../utils/misc'
+import { getNeighbors } from '../utils/board'
 import { RESOURCES } from './resources'
 
 import city from '../assets/images/tiles/tile_city.svg'

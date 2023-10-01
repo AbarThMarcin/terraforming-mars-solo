@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../../game'
 import { getResIcon, RESOURCES } from '../../../../../../data/resources'
-import { getCardsWithPossibleAnimals, getCardsWithPossibleFighters, getCardsWithPossibleMicrobes, getCardsWithPossibleScience } from '../../../../../../utils/misc'
+import { getCardsWithPossibleAnimals, getCardsWithPossibleFighters, getCardsWithPossibleMicrobes, getCardsWithPossibleScience } from '../../../../../../utils/cards'
 
 const ModalOtherDataRes = ({ setCardSnap, selectedCardId, setSelectedCardId }) => {
    const { statePlayer } = useContext(StatePlayerContext)

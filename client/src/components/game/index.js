@@ -3,7 +3,11 @@ import { ACTIONS_PLAYER } from '../../stateActions/actionsPlayer'
 import { ACTIONS_GAME, reducerGame } from '../../stateActions/actionsGame'
 import { reducerPlayer } from '../../stateActions/actionsPlayer'
 import { reducerBoard } from '../../stateActions/actionsBoard'
-import { funcPerformSubActions, getCards, getNewCardsDrawIds, getThinerStatePlayer, modifiedCards, sorted, updateVP, withTimeAdded } from '../../utils/misc'
+import { funcPerformSubActions } from '../../utils/misc'
+import { getLogConvertedForDB, getThinerStatePlayer } from '../../utils/logReplay'
+import { getCards, getNewCardsDrawIds, getCardsSorted, getCardsWithTimeAdded } from '../../utils/cards'
+import { updateVP } from '../../utils/points'
+import { getCardsWithDecreasedCost } from '../../utils/cards'
 import { funcRequirementsMet, funcActionRequirementsMet, funcOptionRequirementsMet } from '../../data/requirements/requirements'
 import { funcGetImmEffects } from '../../data/immEffects/immEffects'
 import { funcGetCardActions } from '../../data/cardActions/cardActions'
@@ -49,7 +53,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    // eslint-disable-next-line react-hooks/exhaustive-deps
    const corps = useMemo(() => getInitCorps(), [initCorpsIds])
    const [logItems, setLogItems] = useState(initLogItems)
-   const [durationSeconds] = useState(initDurationSeconds)
+   const [durationSeconds, setDurationSeconds] = useState(initDurationSeconds)
    const [expanded, setExpanded] = useState(null)
    const [itemsExpanded, setItemsExpanded] = useState([null])
    const [ANIMATION_SPEED, setANIMATION_SPEED] = useState(getAnimationSpeed(settings.speedId))
@@ -59,8 +63,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    const [syncError, setSyncError] = useState('')
 
    useEffect(() => {
-      // If game started by placing 'quick-match' or 'ranked-match' in the url manually
-      // (not by pressing buttons in main menu)
+      // If game started by placing 'match' or 'match' in the url manually, go to main menu
       if (corps.length === 0) navigate('/')
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
@@ -81,21 +84,21 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
       // Sort Cards In Hand and Cards Played
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-         payload: sorted(statePlayer.cardsInHand, settings.sortId[0], requirementsMet),
+         payload: getCardsSorted(statePlayer.cardsInHand, settings.sortId[0], requirementsMet),
       })
       dispatchPlayer({
          type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-         payload: sorted(statePlayer.cardsPlayed, settings.sortId[1], requirementsMet),
+         payload: getCardsSorted(statePlayer.cardsPlayed, settings.sortId[1], requirementsMet),
       })
       // Turn off Indentured Workers effect (if aplicable)
       if (statePlayer.indenturedWorkersEffect && modals.modalCard.id !== 195) {
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: sorted(modifiedCards(statePlayer.cardsInHand, statePlayer, false, false), settings.sortId[0], requirementsMet),
+            payload: getCardsSorted(getCardsWithDecreasedCost(statePlayer.cardsInHand, statePlayer, false, false), settings.sortId[0], requirementsMet),
          })
          dispatchPlayer({
             type: ACTIONS_PLAYER.SET_CARDS_PLAYED,
-            payload: sorted(modifiedCards(statePlayer.cardsPlayed, statePlayer, false, false), settings.sortId[1], requirementsMet),
+            payload: getCardsSorted(getCardsWithDecreasedCost(statePlayer.cardsPlayed, statePlayer, false, false), settings.sortId[1], requirementsMet),
          })
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
          funcSetLogItemsSingleActions('INDENTURED WORKERS effect ended', null, null, setLogItems)
@@ -122,7 +125,8 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
             stateModals: modals,
             stateBoard,
             corps: initCorpsIds,
-            logItems,
+            logItems: getLogConvertedForDB(logItems),
+            durationSeconds,
          }
          updateGameData(user.token, updatedData, type).then((res) => {
             if (res.message === 'success') {
@@ -206,7 +210,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                   },
                },
             ]
-            cardsInHand = [...cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
+            cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
             effects.push({
                name: ANIMATIONS.CARD_IN,
                type: RESOURCES.CARD,
@@ -233,7 +237,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
 
       // Call Mars University
       if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY) && modals.modalCard.effectsToCall.includes(EFFECTS.EFFECT_MARS_UNIVERSITY)) {
-         if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
+         if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0) {
             modals.modalCard.tags.forEach((tag) => {
                if (tag === TAGS.SCIENCE)
                   effects.push({
@@ -253,6 +257,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                      },
                   })
             })
+         }
       }
       performSubActions(effects, true)
    }
@@ -447,7 +452,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
 
                            {/* Match Type & Timer*/}
                            <div className="match-type">
-                              {type} <Timer durationSeconds={durationSeconds} setSyncError={setSyncError} />
+                              {type} <Timer durationSeconds={durationSeconds} setDurationSeconds={setDurationSeconds} setSyncError={setSyncError} />
                            </div>
 
                            {/* Modals */}

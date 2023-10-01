@@ -8,8 +8,9 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { ACTIONS_BOARD } from '../../../../../stateActions/actionsBoard'
 import { TILES, assignIconToTileData } from '../../../../../data/board'
 import { ANIMATIONS, endAnimation, getAnimNameBasedOnBonus, setAnimation, startAnimation } from '../../../../../data/animations'
-import { getCards, getNeighbors, getNewCardsDrawIds, modifiedCards, withTimeAdded } from '../../../../../utils/misc'
-import { funcSetLogItemsSingleActions } from '../../../../../data/log/log'
+import { getCardsWithDecreasedCost, getCards, getNewCardsDrawIds, getCardsWithTimeAdded } from '../../../../../utils/cards'
+import { getNeighbors } from '../../../../../utils/board'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
 import { RESOURCES } from '../../../../../data/resources'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
@@ -32,21 +33,24 @@ const Field = ({ field, showCoordinates }) => {
    const handleClickField = async () => {
       // If clicked on unavailable field, do nothing
       if (!field.available) return
+
+      // Update action (string) for log that is being performed
+      funcUpdateLogItemAction(setLogItems, `coord_${stateGame.phasePlaceTileData}: ${field.x}, ${field.y}`)
+
       // Set field's object to phasePlaceTileData
       sound.objectPut.play()
       dispatchBoard({
          type: ACTIONS_BOARD.SET_OBJECT,
          payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
       })
-      funcSetLogItemsSingleActions(
-         `${stateGame.phasePlaceTileData} tile has been placed on ${logDescription}`,
-         stateGame.phasePlaceTileData,
-         null,
-         setLogItems
-      )
+      funcSetLogItemsSingleActions(`${stateGame.phasePlaceTileData} tile has been placed on ${logDescription}`, stateGame.phasePlaceTileData, null, setLogItems)
+      // Below are only blue cards with any effect, that requires you as imm effect to place a tile
+      // We need to save that info (effect is active) into the log
       if (modals.modalCard?.id === 20 || modals.modalCard?.id === 128 || modals.modalCard?.id === 200) {
          funcSetLogItemsSingleActions(`Effect from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
       }
+      // Below are only blue cards with any action, that requires you as imm effect to place a tile
+      // We need to save that info (action is active) into the log
       if (modals.modalCard?.id === 123 || modals.modalCard?.id === 199) {
          funcSetLogItemsSingleActions(`Action from ${modals.modalCard.name} card is now active`, null, null, setLogItems)
       }
@@ -94,7 +98,7 @@ const Field = ({ field, showCoordinates }) => {
                   case RESOURCES.CARD:
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: [...statePlayer.cardsInHand, ...modifiedCards(withTimeAdded(getCards(newCardsDrawIds)), statePlayer)],
+                        payload: [...statePlayer.cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)],
                      })
                      dispatchPlayer({
                         type: ACTIONS_PLAYER.SET_CARDS_SEEN,
@@ -245,14 +249,14 @@ const Field = ({ field, showCoordinates }) => {
             delay += ANIMATION_SPEED / 2
             setTimeout(() => {
                // Modify Cards In Hand
-               let newCards = modifiedCards(
-                  !field.bonus.includes(RESOURCES.CARD) ? statePlayer.cardsInHand : [...statePlayer.cardsInHand, ...withTimeAdded(getCards(newCardsDrawIds))],
+               let newCards = getCardsWithDecreasedCost(
+                  !field.bonus.includes(RESOURCES.CARD) ? statePlayer.cardsInHand : [...statePlayer.cardsInHand, ...getCardsWithTimeAdded(getCards(newCardsDrawIds))],
                   statePlayer,
                   EFFECTS.EFFECT_RESEARCH_OUTPOST
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                // Modify Cards Played
-               newCards = modifiedCards(statePlayer.cardsPlayed, statePlayer, EFFECTS.EFFECT_RESEARCH_OUTPOST)
+               newCards = getCardsWithDecreasedCost(statePlayer.cardsPlayed, statePlayer, EFFECTS.EFFECT_RESEARCH_OUTPOST)
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: newCards })
                // End animation
                endAnimation(setModals)

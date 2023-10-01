@@ -81,8 +81,8 @@ export const CORPORATIONS = [
    {
       id: 5,
       name: CORP_NAMES.INVENTRIX,
-      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
-      resources: { mln: 45, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 2 },
+      resources: { mln: 45, steel: 0, titan: 0, plant: 0, energy: 3, heat: 0 },
       effects: [EFFECTS.EFFECT_INVENTRIX],
       tags: [TAGS.SCIENCE],
    },

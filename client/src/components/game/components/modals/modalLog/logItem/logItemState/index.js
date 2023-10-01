@@ -7,12 +7,18 @@ import LogItemStateCards from './logItemStateParts/LogItemStateCards'
 import LogItemStateActionsEffects from './logItemStateParts/LogItemStateActionsEffects'
 import LogItemStateResources from './logItemStateParts/LogItemStateResources'
 
-const LogItemState = ({ type, state }) => {
+const LogItemState = ({ type, state, setResizeBox }) => {
    const [expanded, setExpanded] = useState(false)
 
    return (
       <div className="state">
-         <div className="state-title pointer" onClick={() => setExpanded((prev) => !prev)}>
+         <div
+            className="state-title pointer"
+            onClick={() => {
+               setExpanded((prev) => !prev)
+               setResizeBox((prev) => !prev)
+            }}
+         >
             <span>STATE {type}</span>
             <div className="arrows">
                <FontAwesomeIcon icon={expanded ? faAngleDown : faAngleLeft} />

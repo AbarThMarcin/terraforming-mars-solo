@@ -4,7 +4,7 @@ import { SoundContext } from '../../../../../App'
 import { ModalsContext } from '../../../../game'
 import Arrows from '../modalsComponents/arrows/Arrows'
 import Card from '../../card/Card'
-import { getPosition } from '../../../../../utils/misc'
+import { getPositionInModalCards } from '../../../../../utils/cards'
 import SortBtns from '../modalsComponents/SortBtns'
 
 const ModalCards = () => {
@@ -38,7 +38,7 @@ const ModalCards = () => {
                      <div
                         key={idx}
                         className="card-container small"
-                        style={getPosition(modals.modalCards.length, idx)}
+                        style={getPositionInModalCards(modals.modalCards.length, idx)}
                         onClick={() => {
                            sound.btnCardsClick.play()
                            handleClickCard(card)

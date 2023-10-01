@@ -1,7 +1,6 @@
-import { useMemo } from 'react'
-import { useContext } from 'react'
+import { useMemo, useContext } from 'react'
 import { getEffectIcon } from '../../../../../../data/effects/effectIcons'
-import { sorted } from '../../../../../../utils/misc'
+import { getCardsSorted } from '../../../../../../utils/cards'
 import { ModalsContext } from '../../../../../game'
 
 const ModalOtherDataEffects = ({ setCardSnap }) => {
@@ -14,9 +13,9 @@ const ModalOtherDataEffects = ({ setCardSnap }) => {
 
    function getEffects() {
       if (typeof modals.modalOther.data[0] === 'string') {
-         return [modals.modalOther.data[0], ...sorted(modals.modalOther.data.slice(1), '4a-played')]
+         return [modals.modalOther.data[0], ...getCardsSorted(modals.modalOther.data.slice(1), '4a-played')]
       } else {
-         return sorted(modals.modalOther.data.slice(0), '4a-played')
+         return getCardsSorted(modals.modalOther.data.slice(0), '4a-played')
       }
    }
 

@@ -3,7 +3,7 @@ import { StatePlayerContext, ModalsContext, StateGameContext } from '../../../ga
 import { SettingsContext, SoundContext } from '../../../../App'
 import AnimCard from '../animations/AnimCard'
 import iconCardsInHandBtn from '../../../../assets/images/panelCorp/cardsInHandBtn.png'
-import { sorted } from '../../../../utils/misc'
+import { getCardsSorted } from '../../../../utils/cards'
 
 const BtnCardsInHand = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -20,7 +20,7 @@ const BtnCardsInHand = () => {
 
             // This allows sorting right before showing cards after clicking CardsInHand btn.
             // To disable that, comment it out and uncomment line one lower.
-            modalCards: sorted(statePlayer.cardsInHand, settings.sortId[0], requirementsMet),
+            modalCards: getCardsSorted(statePlayer.cardsInHand, settings.sortId[0], requirementsMet),
             // modalCards: statePlayer.cardsInHand,
 
             modalCardsType: 'Cards In Hand',
@@ -30,10 +30,7 @@ const BtnCardsInHand = () => {
    }
 
    return (
-      <div
-         className={`btn-cards-in-hand ${statePlayer.cardsInHand.length > 0 ? 'pointer' : 'empty'}`}
-         onClick={handleClickBtnCardsInHand}
-      >
+      <div className={`btn-cards-in-hand ${statePlayer.cardsInHand.length > 0 ? 'pointer' : 'empty'}`} onClick={handleClickBtnCardsInHand}>
          {/* Animation Cards */}
          {modals.animation && (
             <>

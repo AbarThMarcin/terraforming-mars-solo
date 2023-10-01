@@ -1,4 +1,7 @@
-import { getAllResources, getCards, getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes, getNeighbors, hasTag } from '../../utils/misc'
+import { getAllResourcesInMln } from '../../utils/misc'
+import { getCardsWithPossibleAnimals, getCardsWithPossibleMicrobes } from '../../utils/cards'
+import { getNeighbors } from '../../utils/board'
+import { hasTag } from '../../utils/cards'
 import { ANIMATIONS } from '../animations'
 import { TILES, setAvailFieldsAdjacent, setAvailFieldsAny, setAvailFieldsSpecific } from '../board'
 import { CORP_NAMES } from '../corpNames'
@@ -11,7 +14,7 @@ export const funcRequirementsMet = (card, statePlayer, stateGame, stateBoard, mo
    // If inappropiate state of the game is on, return false
    if (stateGame.phaseDraft || stateGame.phaseViewGameState || modals.sellCards || stateGame.phasePlaceTile) return false
    // If cost is higher than current resources
-   if (getAllResources(card, statePlayer) < card.currentCost) return false
+   if (getAllResourcesInMln(card, statePlayer) < card.currentCost) return false
    // Check other requirements
    let isAvailable = true
    let board = JSON.parse(JSON.stringify(stateBoard))

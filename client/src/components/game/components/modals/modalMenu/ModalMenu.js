@@ -6,12 +6,12 @@ import { createEndedGameData } from '../../../../../api/endedGame'
 import { updateUser } from '../../../../../api/user'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../../game'
 import { SettingsContext, SoundContext } from '../../../../../App'
-import { getThinerEndedGameCards } from '../../../../../utils/misc'
+import { getLogConvertedForGame, getThinerEndedGameCards } from '../../../../../utils/logReplay'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
    const { statePlayer } = useContext(StatePlayerContext)
-   const { logItems } = useContext(StateGameContext)
+   const { logItems, durationSeconds } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { user, setUser, type, id } = useContext(UserContext)
    const { settings } = useContext(SettingsContext)
@@ -30,11 +30,12 @@ const ModalMenu = () => {
             const gameData = {
                corporation: statePlayer.corporation?.id,
                cards: getThinerEndedGameCards(statePlayer),
-               logItems: logItems,
+               initStateBoard: res.initStateBoard,
+               logItems: getLogConvertedForGame(logItems, res.initSTateBoard),
                forfeited: true,
                startTime: res.startTime,
                endTime: new Date().toJSON(),
-               durationSeconds: res.durationSeconds
+               durationSeconds,
             }
             await createEndedGameData(user.token, gameData)
          }

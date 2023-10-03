@@ -16,7 +16,7 @@ import ModalCard from './player/statsCards/ModalCard'
 import ModalSeeAllCards from './player/statsCards/ModalSeeAllCards'
 import { TABS } from '../../../../App'
 import GamesLog from './games/GamesLog'
-import { getEndedGameCardsWithAllData, getLogConvertedForGame } from '../../../../utils/logReplay'
+import { getLogConvertedForGame } from '../../../../utils/dataConversion'
 import { getCorporationById } from '../../../../utils/corporation'
 import Corp from '../../../game/components/corp/Corp'
 
@@ -60,8 +60,8 @@ const Stats = ({ user }) => {
          initGames = initGames.map((game) => {
             return {
                ...game,
-               cards: getEndedGameCardsWithAllData(game.cards),
-               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard),
+               cards: game.cards,
+               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard, [...game.cards.seen.map((c) => c.id), ...game.inDeck]),
             }
          })
          const initSeason = await getSeason()

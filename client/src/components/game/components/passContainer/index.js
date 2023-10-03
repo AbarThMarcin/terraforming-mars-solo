@@ -12,7 +12,7 @@ import {
    funcSetLogItemsSingleActions,
    funcUpdateLastLogItemAfter,
    funcUpdateLogItemAction,
-} from '../../../../data/log/log'
+} from '../../../../data/log'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
 import AnimProdRes from '../animations/AnimProdRes'

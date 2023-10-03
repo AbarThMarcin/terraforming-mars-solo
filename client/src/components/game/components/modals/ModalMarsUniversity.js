@@ -6,14 +6,14 @@ import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getLogConvertedForDB, getThinerStatePlayer } from '../../../../utils/logReplay'
+import { getLogConvertedForDB, getThinerStatePlayerForActive } from '../../../../utils/dataConversion'
 import { getPositionInModalCards, getCardsWithDecreasedCost, getCards, getNewCardsDrawIds, getCardsWithTimeAdded } from '../../../../utils/cards'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { updateGameData } from '../../../../api/activeGame'
-import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, funcUpdateLogItemAction } from '../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, funcUpdateLogItemAction } from '../../../../data/log'
 
 const ModalMarsUniversity = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -36,7 +36,7 @@ const ModalMarsUniversity = () => {
 
       // Update Server Data
       const updatedData = {
-         statePlayer: getThinerStatePlayer(statePlayer),
+         statePlayer: getThinerStatePlayerForActive(statePlayer),
          stateGame,
          stateModals: modals,
          stateBoard,

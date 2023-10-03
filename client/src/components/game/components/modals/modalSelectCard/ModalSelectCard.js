@@ -10,7 +10,7 @@ import BtnAction from '../../buttons/BtnAction'
 import BtnSelect from '../../buttons/BtnSelect'
 import Card from '../../card/Card'
 import DecreaseCostSelCard from '../modalsComponents/decreaseCost/DecreaseCostSelCard'
-import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log'
 
 const ModalSelectCard = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)

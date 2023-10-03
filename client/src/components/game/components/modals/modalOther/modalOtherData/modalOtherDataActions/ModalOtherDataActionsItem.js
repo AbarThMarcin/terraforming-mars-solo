@@ -5,7 +5,7 @@ import { ACTIONS_PLAYER } from '../../../../../../../stateActions/actionsPlayer'
 import { getActionIdsWithCost } from '../../../../../../../utils/cards'
 import BtnAction from '../../../../buttons/BtnAction'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { LOG_TYPES, funcCreateLogItem, funcUpdateLogItemAction } from '../../../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcUpdateLogItemAction } from '../../../../../../../data/log'
 import { ACTION_ICONS, getActionIcon } from '../../../../../../../data/cardActions/actionIcons'
 
 const ModalOtherDataActionsItem = ({ item, setCardSnap, actionClicked, setActionClicked, toBuyMln, toBuySteel, toBuyTitan, toBuyHeat, changeCosts }) => {

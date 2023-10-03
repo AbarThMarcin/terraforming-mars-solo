@@ -8,7 +8,7 @@ import { TAGS } from '../tags'
 import { canCardHaveAnimals, canCardHaveMicrobes } from '../../utils/cards'
 import { EFFECTS } from './effectIcons'
 import { CORP_NAMES } from '../corpNames'
-import { funcSetLogItemsSingleActions } from '../log/log'
+import { funcSetLogItemsSingleActions } from '../log'
 
 // ============================= LIST OF CORPORATION IMMEDIATE EFFECTS =============================
 export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) => {

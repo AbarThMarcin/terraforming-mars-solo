@@ -18,7 +18,7 @@ import iconAsteroid from '../../../../../assets/images/other/tempIcon.svg'
 import iconAquifer from '../../../../../assets/images/tiles/tile_ocean.svg'
 import iconGreenery from '../../../../../assets/images/other/SPgreenery.svg'
 import iconCity from '../../../../../assets/images/other/SPcity.svg'
-import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log'
 import { SoundContext } from '../../../../../App'
 
 const ModalStandardProjects = () => {
@@ -85,7 +85,7 @@ const ModalStandardProjects = () => {
       let logData = { type: LOG_TYPES.SP_ACTION, title: name, titleIcon: name }
       funcCreateLogItem(setLogItems, statePlayer, stateGame, logData, setItemsExpanded)
       // Also save action (string) for log that is being performed
-      let actionString = `SP[${toBuyMln[btnClickedId] ? 'paidMln: ' + toBuyMln[btnClickedId] + '; ' : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat + '; ' : ''}id: ${btnClickedId}]`
+      let actionString = `sp[${toBuyMln[btnClickedId] ? 'paidMln: ' + toBuyMln[btnClickedId] + '; ' : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat + '; ' : ''}id: ${btnClickedId}]`
       funcUpdateLogItemAction(setLogItems, actionString)
 
       let animResPaidTypes = []

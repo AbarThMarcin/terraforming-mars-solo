@@ -11,9 +11,9 @@ const LogItemStateCards = ({ state, cardsType }) => {
    const ModalsContextStatsObj = useContext(ModalsContextStats)
    const { sound } = useContext(SoundContext)
 
-   const handleClickCard = (c) => {
-      const card = getCards([c.id])[0]
-      if (card?.id) {
+   const handleClickCard = (cardId) => {
+      if (cardId) {
+         const card = getCards(cardId)[0]
          sound.btnCardsClick.play()
          if (location.pathname === '/match') {
             ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
@@ -35,9 +35,9 @@ const LogItemStateCards = ({ state, cardsType }) => {
          <ul className="state-other-container-elements">
             {cardsType === 'CARDS IN HAND' ? (
                state.statePlayer.cardsInHand.length > 0 ? (
-                  state.statePlayer.cardsInHand.map((card, idx) => (
-                     <li key={idx} className='pointer' onClick={() => handleClickCard(card)}>
-                        - {card.name} ({card.id})
+                  state.statePlayer.cardsInHand.map((cardId, idx) => (
+                     <li key={idx} className="pointer" onClick={() => handleClickCard(cardId)}>
+                        - {getCards([cardId])[0].name} ({cardId})
                      </li>
                   ))
                ) : (
@@ -45,8 +45,8 @@ const LogItemStateCards = ({ state, cardsType }) => {
                )
             ) : state.statePlayer.cardsPlayed.length > 0 ? (
                state.statePlayer.cardsPlayed.map((card, idx) => (
-                  <li key={idx} className='pointer' onClick={() => handleClickCard(card)}>
-                     - {card.name} ({card.id})
+                  <li key={idx} className="pointer" onClick={() => handleClickCard(card.id)}>
+                     - {getCards([card.id])[0].name} ({card.id})
                   </li>
                ))
             ) : (

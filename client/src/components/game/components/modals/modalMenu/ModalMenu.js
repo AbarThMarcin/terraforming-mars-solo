@@ -6,7 +6,7 @@ import { createEndedGameData } from '../../../../../api/endedGame'
 import { updateUser } from '../../../../../api/user'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../../game'
 import { SettingsContext, SoundContext } from '../../../../../App'
-import { getLogConvertedForGame, getThinerEndedGameCards } from '../../../../../utils/logReplay'
+import { getLogConvertedForDB, getThinerCardsForEndedGame } from '../../../../../utils/dataConversion'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
@@ -29,9 +29,9 @@ const ModalMenu = () => {
          if (type === 'RANKED MATCH') {
             const gameData = {
                corporation: statePlayer.corporation?.id,
-               cards: getThinerEndedGameCards(statePlayer),
+               cards: getThinerCardsForEndedGame(statePlayer),
                initStateBoard: res.initStateBoard,
-               logItems: getLogConvertedForGame(logItems, res.initSTateBoard),
+               logItems: getLogConvertedForDB(logItems),
                forfeited: true,
                startTime: res.startTime,
                endTime: new Date().toJSON(),

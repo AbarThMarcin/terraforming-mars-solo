@@ -15,12 +15,12 @@ import {
    getCardsWithPossibleScience,
    getNewCardsDrawIds,
    getCardsWithTimeAdded,
-   getCardsWithTimePlayed
+   getCardsWithTimePlayed,
 } from '../../utils/cards'
 import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
 import { EFFECTS } from '../effects/effectIcons'
-import { LOG_ICONS, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log/log'
+import { LOG_ICONS, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log'
 
 export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',

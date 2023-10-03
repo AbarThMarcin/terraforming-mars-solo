@@ -4,7 +4,7 @@ import { ACTION_ICONS, getActionIcon } from '../../../../../../../../data/cardAc
 import { CARDS } from '../../../../../../../../data/cards'
 import { CORP_NAMES } from '../../../../../../../../data/corpNames'
 import { getEffectIcon } from '../../../../../../../../data/effects/effectIcons'
-import { getCorporationByName, getCorpShortName } from '../../../../../../../../utils/corporation'
+import { getCorporationById, getShorterName } from '../../../../../../../../utils/corporation'
 import { getCards } from '../../../../../../../../utils/cards'
 import { useLocation } from 'react-router-dom'
 import { ModalsContext as ModalsContextGame } from '../../../../../..'
@@ -15,10 +15,12 @@ const LogItemStateActionsEffects = ({ state, type }) => {
    const ModalsContextGameObj = useContext(ModalsContextGame)
    const ModalsContextStatsObj = useContext(ModalsContextStats)
    const { sound } = useContext(SoundContext)
-   const isUnmi = state.statePlayer.corporation.name === CORP_NAMES.UNMI
+   const corporationObj = state.statePlayer.corporation ? getCorporationById(state.statePlayer.corporation) : null
+   const isUnmi = corporationObj.name === CORP_NAMES.UNMI
+
    const getActions = () => {
       let actions = []
-      if (isUnmi) actions.push([0, getCorpShortName(CORP_NAMES.UNMI), getActionIcon(ACTION_ICONS.ACTION_UNMI)])
+      if (isUnmi) actions.push([0, getShorterName(CORP_NAMES.UNMI), getActionIcon(ACTION_ICONS.ACTION_UNMI)])
       const cards = state.statePlayer.cardsPlayed.filter((card) =>
          CARDS.filter((c) => c.iconNames.action !== null)
             .map((c) => c.id)
@@ -26,14 +28,15 @@ const LogItemStateActionsEffects = ({ state, type }) => {
       )
       if (cards.length > 0) {
          cards.forEach((card) => {
-            actions.push([card.id, getCorpShortName(card.name), getActionIcon(card.iconNames.action)])
+            actions.push([card.id, getShorterName(card.name), getActionIcon(card.iconNames.action)])
          })
       }
       return actions
    }
+
    const getEffects = () => {
       let effects = []
-      if (!isUnmi) effects.push([0, getCorpShortName(state.statePlayer.corporation.name), getEffectIcon(state.statePlayer.corporation.effects[0])])
+      if (!isUnmi) effects.push([0, getShorterName(corporationObj.name), getEffectIcon(corporationObj.effects[0])])
       const cards = state.statePlayer.cardsPlayed.filter((card) =>
          CARDS.filter((c) => c.effect !== null)
             .map((c) => c.id)
@@ -41,7 +44,8 @@ const LogItemStateActionsEffects = ({ state, type }) => {
       )
       if (cards.length > 0) {
          cards.forEach((card) => {
-            effects.push([card.id, getCorpShortName(card.name), getEffectIcon(card.effect)])
+            const c = CARDS.find((wholeCard) => wholeCard.id === c.id)
+            effects.push([card.id, getShorterName(c.name), getEffectIcon(c.effect)])
          })
       }
 
@@ -52,7 +56,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
    const handleClickCard = (cardId) => {
       sound.btnCardsClick.play()
       if (cardId) {
-         // If card
+         // If clicked on card
          if (location.pathname === '/match') {
             ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards([cardId])[0], cardViewOnly: true }))
          } else {
@@ -60,11 +64,11 @@ const LogItemStateActionsEffects = ({ state, type }) => {
             ModalsContextStatsObj.setShowModalCard(true)
          }
       } else {
-         // If corporation
+         // If clicked on corporation
          if (location.pathname === '/match') {
             ModalsContextGameObj.setModals((prev) => ({ ...prev, corp: true }))
          } else {
-            ModalsContextStatsObj.setModalCorpId(getCorporationByName(state.statePlayer.corporation.name).id)
+            ModalsContextStatsObj.setModalCorpId(corporationObj.id)
             ModalsContextStatsObj.setShowModalCorp(true)
          }
       }

@@ -31,10 +31,6 @@ const activeGameSchema = mongoose.Schema({
       type: Date,
       required: true,
    },
-   endTime: {
-      type: Date,
-      required: false,
-   },
    durationSeconds: {
       type: Number,
       default: 0,

@@ -5,7 +5,7 @@ import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../..
 import BtnAction from '../../buttons/BtnAction'
 import iconProdBg from '../../../../../assets/images/resources/res_prodBg.svg'
 import iconHeat from '../../../../../assets/images/resources/res_heat.svg'
-import { funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { funcUpdateLogItemAction } from '../../../../../data/log'
 
 const InsulationSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)

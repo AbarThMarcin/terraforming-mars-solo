@@ -7,13 +7,13 @@ import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getLogConvertedForDB, getThinerStatePlayer } from '../../../../utils/logReplay'
+import { getLogConvertedForDB, getThinerStatePlayerForActive } from '../../../../utils/dataConversion'
 import { getCards, getPositionInModalCards, getCardsWithDecreasedCost, getCardsWithTimeAdded } from '../../../../utils/cards'
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { updateGameData } from '../../../../api/activeGame'
-import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../data/log'
 
 const ModalBusinessContacts = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -43,7 +43,7 @@ const ModalBusinessContacts = () => {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
          // Update Server Data
          const updatedData = {
-            statePlayer: getThinerStatePlayer(statePlayer),
+            statePlayer: getThinerStatePlayerForActive(statePlayer),
             stateGame,
             stateModals: modals,
             stateBoard,
@@ -63,7 +63,7 @@ const ModalBusinessContacts = () => {
    }, [])
 
    const onYesFunc = () => {
-      // Also save action (string) for log that is being performed
+      // Save action (string) for log that is being performed
       funcUpdateLogItemAction(setLogItems, `ids: ${selectedCardIds.join(', ')}`)
 
       // Turn business contacts phase off

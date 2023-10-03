@@ -6,13 +6,13 @@ import iconGreenery from '../../../../../assets/images/tiles/tile_greenery.svg'
 import iconCity from '../../../../../assets/images/tiles/tile_city.svg'
 import iconVp from '../../../../../assets/images/vp/vp_any.svg'
 import BtnAction from '../../buttons/BtnAction'
-import { getLogConvertedForGame, getThinerEndedGameCards } from '../../../../../utils/logReplay'
+import { getLogConvertedForDB, getThinerCardsForEndedGame } from '../../../../../utils/dataConversion'
 import { getCityPoints, getGreeneryPoints, getTotalPoints, getTrPoints, getVictoryPoints, updateVP } from '../../../../../utils/points'
 import { createEndedGameData } from '../../../../../api/endedGame'
 import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
 import { getCorpLogoMini } from '../../../../../data/corporations'
-import { funcUpdateLastLogItemAfter } from '../../../../../data/log/log'
+import { funcUpdateLastLogItemAfter } from '../../../../../data/log'
 
 const ModalEndStats = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -37,7 +37,7 @@ const ModalEndStats = () => {
    const gameData = {
       victory: victoryLossText === 'YOU WIN!' ? true : false,
       corporation: statePlayer.corporation?.id,
-      cards: getThinerEndedGameCards(statePlayer),
+      cards: getThinerCardsForEndedGame(statePlayer),
       logItems,
       points: {
          tr: trPoints,
@@ -93,7 +93,7 @@ const ModalEndStats = () => {
    }, [trigger])
 
    useEffect(() => {
-      if (addRankedGame) createEndedGameData(user.token, { ...gameData, initStateBoard, logItems: getLogConvertedForGame(logItems, initStateBoard), startTime })
+      if (addRankedGame) createEndedGameData(user.token, { ...gameData, initStateBoard, logItems: getLogConvertedForDB(logItems), startTime })
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [addRankedGame])
 

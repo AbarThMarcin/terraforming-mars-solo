@@ -1,40 +1,7 @@
 const mongoose = require('mongoose')
 
-const requirementSchema = mongoose.Schema({
-   type: String,
-   value: Number,
-   other: String,
-})
-
 const cardSchema = mongoose.Schema({
    id: Number,
-   name: String,
-   description: String,
-   info: [String],
-   originalCost: Number,
-   currentCost: Number,
-   requirements: [requirementSchema],
-   vp: Number,
-   tags: [String],
-   effect: String,
-   effectsToCall: [String],
-   units: {
-      microbe: Number,
-      animal: Number,
-      science: Number,
-      fighter: Number,
-   },
-   iconNames: {
-      vp: String,
-      action: String,
-   },
-   actionUsed: Boolean,
-   timeAdded: Number,
-   timePlayed: Number,
-})
-
-const cardShortSchema = mongoose.Schema({
-   id: Number,
    currentCost: Number,
    vp: Number,
    units: {
@@ -43,9 +10,18 @@ const cardShortSchema = mongoose.Schema({
       science: Number,
       fighter: Number,
    },
-   actionUsed: Boolean,
-   timeAdded: Number,
-   timePlayed: Number,
+   actionUsed: {
+      type: Boolean,
+      required: false
+   },
+   timeAdded: {
+      type: Number,
+      required: false
+   },
+   timePlayed: {
+      type: Number,
+      required: false
+   },
 })
 
-module.exports = { cardSchema, cardShortSchema }
+module.exports = { cardSchema }

@@ -4,7 +4,7 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import iconEnergy from '../../../../../assets/images/resources/res_energy.svg'
-import { funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { funcUpdateLogItemAction } from '../../../../../data/log'
 
 const PowerInfrasSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)

@@ -9,7 +9,7 @@ import { getUsers } from '../../../../api/user'
 import { getEndedGameData } from '../../../../api/endedGame'
 import { getSeason } from '../../../../api/other'
 import FilterSeason from '../stats/filters/FilterSeason'
-import { getEndedGameCardsWithAllData, getLogConvertedForGame } from '../../../../utils/logReplay'
+import { getLogConvertedForGame } from '../../../../utils/dataConversion'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
@@ -35,8 +35,8 @@ const Ranking = () => {
          initGames = initGames.map((game) => {
             return {
                ...game,
-               cards: getEndedGameCardsWithAllData(game.cards),
-               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard),
+               cards: game.cards,
+               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard, [...game.cards.seen.map((c) => c.id), ...game.inDeck]),
             }
          })
 

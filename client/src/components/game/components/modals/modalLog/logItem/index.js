@@ -1,4 +1,4 @@
-import { LOG_TYPES, getIconForLog } from '../../../../../../data/log/log'
+import { LOG_TYPES, getIconForLog } from '../../../../../../data/log'
 import { CORP_NAMES } from '../../../../../../data/corpNames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'

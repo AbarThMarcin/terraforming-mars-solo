@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { CARDS } from '../../../../../../data/cards'
 import { range } from '../../../../../../utils/array'
 import { pad } from '../../../../../../utils/number'
-import { LOG_TYPES } from '../../../../../../data/log/log'
+import { LOG_TYPES } from '../../../../../../data/log'
 
 const StatsOther = ({ currPlayer }) => {
    const [statCardId, setStatCardId] = useState(0)

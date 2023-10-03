@@ -11,7 +11,7 @@ import { updateUser } from '../../../../api/user'
 import { useEffect } from 'react'
 import ModalQMId from '../../modalQMId/ModalQMId'
 import Message from './Message'
-import { getLogConvertedForGame, getStatePlayerWithAllData, getThinerEndedGameCards } from '../../../../utils/logReplay'
+import { getLogConvertedForGame, getLogConvertedForDB, getStatePlayerWithAllDataFromActive, getThinerCardsForEndedGame } from '../../../../utils/dataConversion'
 
 // Quick Match Text for Confirmation Window
 const QM_text = 'Do you want to resume previous quick match?'
@@ -147,8 +147,8 @@ const Menu = ({ user, setUser, setData }) => {
          let game = await getActiveGameData(user.token, 'RANKED MATCH')
          game = {
             ...game,
-            statePlayer: getStatePlayerWithAllData(game.statePlayer),
-            logItems: getLogConvertedForGame(game.logItems, game.initStateBoard),
+            statePlayer: getStatePlayerWithAllDataFromActive(game.statePlayer),
+            logItems: getLogConvertedForGame(game.logItems, game.initStateBoard, game.statePlayer.cardsDeckIds),
          }
 
          if (!game?.corps) {
@@ -170,9 +170,9 @@ const Menu = ({ user, setUser, setData }) => {
             // Create forfeited game (endedGame)
             const newGame = await createEndedGameData(user.token, {
                corporation: game.statePlayer.corporation?.id,
-               cards: getThinerEndedGameCards(game.statePlayer),
+               cards: getThinerCardsForEndedGame(game.statePlayer),
                initStateBoard: res.initStateBoard,
-               logItems: getLogConvertedForGame(game.logItems, res.initStateBoard),
+               logItems: getLogConvertedForDB(game.logItems),
                forfeited: true,
                startTime: res.startTime,
                endTime: new Date().toJSON(),
@@ -230,8 +230,8 @@ const Menu = ({ user, setUser, setData }) => {
       let gameData = await getActiveGameData(user.token, 'RANKED MATCH')
       gameData = {
          ...gameData,
-         statePlayer: getStatePlayerWithAllData(gameData.statePlayer),
-         logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard),
+         statePlayer: getStatePlayerWithAllDataFromActive(gameData.statePlayer),
+         logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds),
       }
 
       if (!gameData?.corps) {
@@ -249,9 +249,9 @@ const Menu = ({ user, setUser, setData }) => {
       }
       const newGame = await createEndedGameData(user.token, {
          corporation: gameData.statePlayer.corporation?.id,
-         cards: getThinerEndedGameCards(gameData.statePlayer),
+         cards: getThinerCardsForEndedGame(gameData.statePlayer),
          initStateBoard: res.initStateBoard,
-         logItems: getLogConvertedForGame(gameData.logItems, res.initStateBoard),
+         logItems: getLogConvertedForDB(gameData.logItems),
          forfeited: true,
          startTime: res.startTime,
          endTime: new Date().toJSON(),

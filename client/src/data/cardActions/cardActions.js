@@ -8,7 +8,7 @@ import { getOptions } from '../selectOneOptions'
 import { TILES } from '../board'
 import { IMM_EFFECTS } from '../immEffects/immEffects'
 import { CORP_NAMES } from '../corpNames'
-import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log'
 
 export const funcGetCardActions = (
    cardId,

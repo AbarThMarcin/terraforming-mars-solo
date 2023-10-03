@@ -6,7 +6,7 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import Card from '../../card/Card'
 import ModalProductionData from './ModalProductionData'
 import BtnAction from '../../buttons/BtnAction'
-import { funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { funcUpdateLogItemAction } from '../../../../../data/log'
 
 const ModalProduction = () => {
    const { dispatchGame, performSubActions, setLogItems } = useContext(StateGameContext)

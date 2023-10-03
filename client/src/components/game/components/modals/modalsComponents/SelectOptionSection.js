@@ -3,7 +3,7 @@ import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
 import { StateGameContext, ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import SelectOption from './SelectOption'
-import { funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { funcUpdateLogItemAction } from '../../../../../data/log'
 
 const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
    const { modals, setModals } = useContext(ModalsContext)

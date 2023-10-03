@@ -24,7 +24,7 @@ import card143_option2 from '../assets/images/selectOne-options/card143_option2.
 import card157_option2 from '../assets/images/selectOne-options/card157_option2.svg'
 import card190_option1 from '../assets/images/selectOne-options/card190_option1.svg'
 import { IMM_EFFECTS } from './immEffects/immEffects'
-import { funcSetLogItemsSingleActions } from '../data/log/log'
+import { funcSetLogItemsSingleActions } from './log'
 
 export const OPTION_ICONS = {
    CARD19_OPTION1: 'card19_option1',

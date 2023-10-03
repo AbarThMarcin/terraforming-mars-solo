@@ -1,6 +1,6 @@
 import { useState, createContext, useEffect, useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { getLogConvertedForGame, getThinerStatePlayer, getStatePlayerWithAllData } from './utils/logReplay'
+import { getLogConvertedForGame, getThinerStatePlayerForActive, getStatePlayerWithAllDataFromActive } from './utils/dataConversion'
 import { range } from './utils/array'
 import { getCards } from './utils/cards'
 import { getBoardWithNeutralTiles } from './utils/board'
@@ -8,7 +8,7 @@ import { INIT_STATE_PLAYER } from './initStates/initStatePlayer'
 import { INIT_STATE_GAME } from './initStates/initStateGame'
 import { INIT_MODALS } from './initStates/initModals'
 import { INIT_BOARD } from './initStates/initBoard'
-import { LOG_TYPES } from './data/log/log'
+import { LOG_TYPES } from './data/log'
 import Menu from './components/mainMenu/pages/menu/Menu'
 import Stats from './components/mainMenu/pages/stats'
 import Settings from './components/mainMenu/pages/settings/Settings'
@@ -194,7 +194,7 @@ function App() {
                user.token,
                {
                   id: gameData.id,
-                  statePlayer: getThinerStatePlayer(gameData.statePlayer),
+                  statePlayer: getThinerStatePlayerForActive(gameData.statePlayer),
                   stateGame: gameData.stateGame,
                   stateModals: gameData.stateModals,
                   stateBoard: gameData.stateBoard,
@@ -228,8 +228,8 @@ function App() {
             if (!gameData?.corps) return
             gameData = {
                ...gameData,
-               statePlayer: getStatePlayerWithAllData(gameData.statePlayer),
-               logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard),
+               statePlayer: getStatePlayerWithAllDataFromActive(gameData.statePlayer),
+               logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds),
             }
          }
       }

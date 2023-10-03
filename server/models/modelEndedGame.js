@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { logTypeSchema } = require('./subModels/modelLogType')
-const { cardShortSchema } = require('./subModels/modelCard')
+const { cardSchema } = require('./subModels/modelCard')
 const { boardFieldSchema } = require('./subModels/modelBoardField')
 
 const pointsSchema = mongoose.Schema({
@@ -37,15 +37,15 @@ const endedGameSchema = mongoose.Schema({
    },
    cards: {
       played: {
-         type: [cardShortSchema],
+         type: [cardSchema],
          required: true,
       },
       seen: {
-         type: [cardShortSchema],
+         type: [cardSchema],
          required: true,
       },
       purchased: {
-         type: [cardShortSchema],
+         type: [cardSchema],
          required: true,
       },
       inDeck: [Number],

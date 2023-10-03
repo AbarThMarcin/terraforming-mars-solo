@@ -1,9 +1,11 @@
 import { CORP_NAMES } from '../data/corpNames'
 import { RESOURCES } from '../data/resources'
+import { getCorporationById } from '../utils/corporation'
 
 export const ACTIONS_PLAYER = {
    // Set corporation
    CHANGE_CORPORATION: 'Change corporation',
+   CHANGE_CORPORATION_LOG: 'Change corporation for log',
    // Set Productions
    CHANGE_PROD_MLN: 'Increase production level of milions',
    CHANGE_PROD_STEEL: 'Increase production level of steel',
@@ -22,10 +24,14 @@ export const ACTIONS_PLAYER = {
    SET_CARDS_DECK: 'Set cards ids in deck',
    SET_CARDS_DRAW: 'Set cards ids in latest draw',
    SET_CARDS_IN_HAND: 'Set cards in hand',
-   // TESTING
+   // ================ For Log only ===============
    ADD_CARDS_IN_HAND: 'Add cards in hand',
    REMOVE_CARDS_IN_HAND: 'Remove cards in hand',
-   // -------
+   ADD_CARDS_PLAYED: 'Add cards played',
+   ADD_CARDS_SEEN: 'Add cards seen',
+   ADD_CARDS_PURCHASED: 'Add cards purchased',
+   REMOVE_CARDS_IN_DECK: 'Remove cards in deck',
+   // =============================================
    SET_CARDS_PLAYED: 'Set cards played',
    SET_CARDS_SEEN: 'Set cards seen',
    SET_CARDS_PURCHASED: 'Set cards purchase',
@@ -76,6 +82,28 @@ export const reducerPlayer = (state, action) => {
                   heat: action.payload.resources.heat,
                },
             }
+         }
+      case ACTIONS_PLAYER.CHANGE_CORPORATION_LOG:
+         const corp = getCorporationById(action.payload)
+         return {
+            ...state,
+            corporation: action.payload,
+            production: {
+               mln: corp.production.mln,
+               steel: corp.production.steel,
+               titan: corp.production.titan,
+               plant: corp.production.plant,
+               energy: corp.production.energy,
+               heat: corp.production.heat,
+            },
+            resources: {
+               mln: corp.resources.mln,
+               steel: corp.resources.steel,
+               titan: corp.resources.titan,
+               plant: corp.resources.plant,
+               energy: corp.resources.energy,
+               heat: corp.resources.heat,
+            },
          }
       // SET PRODUCTIONS
       case ACTIONS_PLAYER.CHANGE_PROD_MLN:
@@ -191,24 +219,6 @@ export const reducerPlayer = (state, action) => {
             ...state,
             cardsInHand: action.payload,
          }
-      // Testing
-      case ACTIONS_PLAYER.ADD_CARDS_IN_HAND:
-         return {
-            ...state,
-            cardsInHand: [...state.cardsInHand, ...action.payload],
-         }
-      case ACTIONS_PLAYER.REMOVE_CARDS_IN_HAND:
-         return {
-            ...state,
-            cardsInHand: state.cardsInHand.filter((c) => {
-               if (Array.isArray(action.payload)) {
-                  return !action.payload.contains(c.id)
-               } else {
-                  return c.id !== action.payload
-               }
-            }),
-         }
-      // -------
       case ACTIONS_PLAYER.SET_CARDS_PLAYED:
          return {
             ...state,
@@ -224,6 +234,78 @@ export const reducerPlayer = (state, action) => {
             ...state,
             cardsPurchased: action.payload,
          }
+      // ================================ For Log only ==================================
+      case ACTIONS_PLAYER.ADD_CARDS_IN_HAND:
+         if (Array.isArray(action.payload)) {
+            return {
+               ...state,
+               cardsInHand: [...state.cardsInHand, ...action.payload],
+            }
+         } else {
+            return {
+               ...state,
+               cardsInHand: [...state.cardsInHand, action.payload],
+            }
+         }
+      case ACTIONS_PLAYER.REMOVE_CARDS_IN_HAND:
+         return {
+            ...state,
+            cardsInHand: state.cardsInHand.filter((c) => {
+               if (Array.isArray(action.payload)) {
+                  return !action.payload.contains(c.id)
+               } else {
+                  return c.id !== action.payload
+               }
+            }),
+         }
+      case ACTIONS_PLAYER.ADD_CARDS_PLAYED:
+         if (Array.isArray(action.payload)) {
+            return {
+               ...state,
+               cardsPlayed: [...state.cardsPlayed, ...action.payload],
+            }
+         } else {
+            return {
+               ...state,
+               cardsPlayed: [...state.cardsPlayed, action.payload],
+            }
+         }
+      case ACTIONS_PLAYER.ADD_CARDS_SEEN:
+         if (Array.isArray(action.payload)) {
+            return {
+               ...state,
+               cardsSeen: [...state.cardsSeen, ...action.payload],
+            }
+         } else {
+            return {
+               ...state,
+               cardsSeen: [...state.cardsSeen, action.payload],
+            }
+         }
+      case ACTIONS_PLAYER.ADD_CARDS_PURCHASED:
+         if (Array.isArray(action.payload)) {
+            return {
+               ...state,
+               cardsPurchased: [...state.cardsPurchased, ...action.payload],
+            }
+         } else {
+            return {
+               ...state,
+               cardsPurchased: [...state.cardsPurchased, action.payload],
+            }
+         }
+      case ACTIONS_PLAYER.REMOVE_CARDS_IN_DECK:
+         return {
+            ...state,
+            cardsDeckIds: state.cardsDeckIds.filter((id) => {
+               if (Array.isArray(action.payload)) {
+                  return !action.payload.contains(id)
+               } else {
+                  return id !== action.payload
+               }
+            }),
+         }
+      // ================================================================================
       case ACTIONS_PLAYER.SET_ACTION_USED:
          // If payload.cardId === 'UNMI'
          if (action.payload.cardId === CORP_NAMES.UNMI) {

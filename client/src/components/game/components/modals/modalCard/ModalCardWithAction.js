@@ -10,7 +10,7 @@ import { TAGS } from '../../../../../data/tags'
 import Card from '../../card/Card'
 import DecreaseCost from '../modalsComponents/decreaseCost/DecreaseCost'
 import BtnAction from '../../buttons/BtnAction'
-import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log'
 import { SoundContext } from '../../../../../App'
 import { EFFECTS } from '../../../../../data/effects/effectIcons'
 

@@ -4,7 +4,7 @@ import { ACTIONS_GAME, reducerGame } from '../../stateActions/actionsGame'
 import { reducerPlayer } from '../../stateActions/actionsPlayer'
 import { reducerBoard } from '../../stateActions/actionsBoard'
 import { funcPerformSubActions } from '../../utils/misc'
-import { getLogConvertedForDB, getThinerStatePlayer } from '../../utils/logReplay'
+import { getLogConvertedForDB, getThinerStatePlayerForActive } from '../../utils/dataConversion'
 import { getCards, getNewCardsDrawIds, getCardsSorted, getCardsWithTimeAdded } from '../../utils/cards'
 import { updateVP } from '../../utils/points'
 import { getCardsWithDecreasedCost } from '../../utils/cards'
@@ -33,7 +33,7 @@ import { EFFECTS } from '../../data/effects/effectIcons'
 import { funcGetEffect } from '../../data/effects/effects'
 import { useContext } from 'react'
 import { SettingsContext, SoundContext } from '../../App'
-import { funcUpdateLastLogItemAfter, funcSetLogItemsSingleActions } from '../../data/log/log'
+import { funcUpdateLastLogItemAfter, funcSetLogItemsSingleActions, LOG_TYPES } from '../../data/log'
 import Timer from './Timer'
 
 export const UserContext = createContext()
@@ -105,7 +105,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
       }
 
       // Update Log with state of the game AFTER played action
-      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
+      if (logItems[logItems.length - 1].type !== LOG_TYPES.GENERATION) funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
 
       // Update VP
       updateVP(statePlayer, dispatchPlayer, stateGame, stateBoard)
@@ -120,11 +120,10 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    useEffect(() => {
       if (user && !modals.corps && !modals.endStats) {
          const updatedData = {
-            statePlayer: getThinerStatePlayer(statePlayer),
+            statePlayer: getThinerStatePlayerForActive(statePlayer),
             stateGame,
             stateModals: modals,
             stateBoard,
-            corps: initCorpsIds,
             logItems: getLogConvertedForDB(logItems),
             durationSeconds,
          }

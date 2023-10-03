@@ -1,7 +1,7 @@
 import res_tr from '../../../../../../../../assets/images/resources/res_tr.svg'
 import vp_any from '../../../../../../../../assets/images/vp/vp_any.svg'
 import tile_ocean from '../../../../../../../../assets/images/tiles/tile_ocean.svg'
-import { LOG_ICONS, getResIconForLog } from '../../../../../../../../data/log/log'
+import { LOG_ICONS, getResIconForLog } from '../../../../../../../../data/log'
 
 const LogItemStateParams = ({ state }) => {
    const vp = getVp()

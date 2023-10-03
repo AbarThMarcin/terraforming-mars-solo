@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import { getResIconForLog } from '../../../../../../data/log/log'
+import { getResIconForLog } from '../../../../../../data/log'
 
 const LogItemSteps = ({ steps, setResizeBox }) => {
    const [expanded, setExpanded] = useState(true)
@@ -12,11 +12,11 @@ const LogItemSteps = ({ steps, setResizeBox }) => {
       if (expanded) {
          el.style.height = '0px'
          setExpanded(false)
-         setResizeBox(prev => !prev)
+         setResizeBox((prev) => !prev)
       } else {
          el.style.height = el.scrollHeight + 'px'
          setExpanded(true)
-         setResizeBox(prev => !prev)
+         setResizeBox((prev) => !prev)
       }
    }
 
@@ -54,7 +54,9 @@ const LogItemSteps = ({ steps, setResizeBox }) => {
                   </div>
                ))
             ) : (
-               <div className="step" style={{ paddingLeft: '0.8%', color: '#777' }}>NO STEPS</div>
+               <div className="step" style={{ paddingLeft: '0.8%', color: '#777' }}>
+                  NO STEPS
+               </div>
             )}
          </div>
       </div>

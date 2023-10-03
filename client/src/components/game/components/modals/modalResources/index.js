@@ -12,7 +12,7 @@ import { RESOURCES } from '../../../../../data/resources'
 import BtnAction from '../../buttons/BtnAction'
 import { SoundContext } from '../../../../../App'
 import { getCards } from '../../../../../utils/cards'
-import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log/log'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log'
 
 const ModalResource = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)

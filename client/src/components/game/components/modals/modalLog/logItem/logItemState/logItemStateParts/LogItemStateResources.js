@@ -31,14 +31,15 @@ const LogItemStateResources = ({ state }) => {
             resource = getResIcon(RESOURCES.FIGHTER)
             count = card.units.fighter
          }
-         return [card.id, card.name, resource, count]
+         return [card.id, getCards([card.id])[0].name, resource, count]
       })
       return resources
    }
 
    const handleClickCard = (cardId) => {
       sound.btnCardsClick.play()
-      if (cardId) { // If card
+      if (cardId) {
+         // If card
          if (location.pathname === '/match') {
             ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards([cardId])[0], cardViewOnly: true }))
          } else {
@@ -50,12 +51,16 @@ const LogItemStateResources = ({ state }) => {
 
    return (
       <div className="state-other-container">
-         <div className="state-other-container-title">CARDS WITH RESOURCES{' ('}{elements.length}{')'}</div>
+         <div className="state-other-container-title">
+            CARDS WITH RESOURCES{' ('}
+            {elements.length}
+            {')'}
+         </div>
          <ul className="state-other-container-elements">
             {elements.length > 0 ? (
                elements.map((el, idx) => (
-                  <li key={idx} className='pointer' onClick={() => handleClickCard(el[0])}>
-                     - {el[1]} ({el[3]} <img src={el[2]} alt=''></img>)
+                  <li key={idx} className="pointer" onClick={() => handleClickCard(el[0])}>
+                     - {el[1]} ({el[3]} <img src={el[2]} alt=""></img>)
                   </li>
                ))
             ) : (

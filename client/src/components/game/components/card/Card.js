@@ -11,7 +11,7 @@ import tempIcon from '../../../../assets/images/other/tempIcon.svg'
 import oceanIcon from '../../../../assets/images/tiles/tile_ocean.svg'
 import greenery from '../../../../assets/images/tiles/tile_greenery.svg'
 import cityAnyIcon from '../../../../assets/images/other/cityAny.svg'
-import { LOG_ICONS, getResIconForLog } from '../../../../data/log/log'
+import { LOG_ICONS, getResIconForLog } from '../../../../data/log'
 
 const Card = ({ card, isBig, isSnap }) => {
    const [info, setInfo] = useState(false)

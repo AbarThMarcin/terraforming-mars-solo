@@ -9,7 +9,7 @@ import ModalHeader from './modalsComponents/ModalHeader'
 import BtnChangeCorp from '../buttons/BtnChangeCorp'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
-import { getLogConvertedForDB, getThinerStatePlayer } from '../../../../utils/logReplay'
+import { getLogConvertedForDB, getThinerStatePlayerForActive } from '../../../../utils/dataConversion'
 import { getPositionInModalCards, getCards, getNewCardsDrawIds, getCardsWithDecreasedCost, getCardsSorted, getCardsWithTimeAdded } from '../../../../utils/cards'
 import { IMM_EFFECTS } from '../../../../data/immEffects/immEffects'
 import { EFFECTS } from '../../../../data/effects/effectIcons'
@@ -17,7 +17,7 @@ import { ANIMATIONS } from '../../../../data/animations'
 import { RESOURCES } from '../../../../data/resources'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import BtnSelect from '../buttons/BtnSelect'
-import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions, LOG_ICONS, funcUpdateLogItemAction } from '../../../../data/log/log'
+import { LOG_TYPES, funcUpdateLastLogItemAfter, funcCreateLogItem, funcSetLogItemsSingleActions, LOG_ICONS, funcUpdateLogItemAction } from '../../../../data/log'
 import DecreaseCostDraft from './modalsComponents/decreaseCost/DecreaseCostDraft'
 import { SettingsContext, SoundContext } from '../../../../App'
 import { updateGameData } from '../../../../api/activeGame'
@@ -64,7 +64,7 @@ const ModalDraft = () => {
    // Add draft cards to the cardsSeen
    useEffect(() => {
       // Update latest Log Item (PASS) with state of the game AFTER passed
-      funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
+      if (logItems[logItems.length - 1].type !== LOG_TYPES.GENERATION) funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
 
       // Update active game on server only for generation other than 1
       if (stateGame.generation === 1 || !user) return
@@ -74,7 +74,7 @@ const ModalDraft = () => {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
          // Update Server Data
          const updatedData = {
-            statePlayer: getThinerStatePlayer(statePlayer),
+            statePlayer: getThinerStatePlayerForActive(statePlayer),
             stateGame,
             stateModals: modals,
             stateBoard,
@@ -101,14 +101,6 @@ const ModalDraft = () => {
       if (selectedCardsIds.length !== 0)
          funcUpdateLogItemAction(setLogItems, `${toBuyMln ? 'paidMln: ' + toBuyMln : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat : ''}; ids: ${selectedCardsIds.join(', ')}`)
       if (stateGame.generation === 1) funcUpdateLogItemAction(setLogItems, `corpId: ${statePlayer.corporation.id}`)
-
-      // let actionString = 'draft'
-      // if (selectedCardsIds.length !== 0) {
-      //    actionString += `[${toBuyMln ? 'paidMln: ' + toBuyMln : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat : ''}; ids: ${selectedCardsIds.join(', ')}`
-      // }
-      // if (stateGame.generation === 1) actionString += `; corpId: ${statePlayer.corporation}`
-      // actionString += ']'
-      // funcUpdateLogItemAction(setLogItems, actionString)
 
       // Decrease corporation resources
       if (toBuyMln > 0) {

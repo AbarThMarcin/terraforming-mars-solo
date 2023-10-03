@@ -37,3 +37,13 @@ export const INIT_STATE_GAME = {
    // Actions left
    actionsLeft: [],
 }
+
+export const INIT_STATE_GAME_LOG = {
+   tr: 14,
+   globalParameters: {
+      temperature: -30,
+      oxygen: 6,
+      oceans: 0,
+   }
+}
+

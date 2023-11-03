@@ -1,8 +1,9 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../../../game'
+import { ModalsContext, StateGameContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 
 const BtnConvertPlantsHeat = ({ textConfirmation, action, bg }) => {
+   const { dataForReplay } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
@@ -23,8 +24,15 @@ const BtnConvertPlantsHeat = ({ textConfirmation, action, bg }) => {
    }
 
    return (
-      <div className="btn-convert-plants-heat pointer">
-         <img src={bg} alt="btn-convert-plants-heat" onClick={handleClickCorpAction} />
+      <div className={`btn-convert-plants-heat${!dataForReplay ? ' pointer' : ''}`}>
+         <img
+            src={bg}
+            alt="btn-convert-plants-heat"
+            onClick={() => {
+               if (dataForReplay) return
+               handleClickCorpAction()
+            }}
+         />
       </div>
    )
 }

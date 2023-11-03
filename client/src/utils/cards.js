@@ -1,10 +1,11 @@
-import { getConsecutiveCardsIds } from "../api/matchWithId"
-import { getRandIntNumbers } from "../api/other"
-import { CARDS } from "../data/cards"
-import { CORP_NAMES } from "../data/corpNames"
-import { EFFECTS } from "../data/effects/effectIcons"
-import { TAGS } from "../data/tags"
-import { ACTIONS_PLAYER } from "../stateActions/actionsPlayer"
+import { getConsecutiveCardsIds } from '../api/matchWithId'
+import { getRandIntNumbers } from '../api/other'
+import { MATCH_TYPES } from '../data/app'
+import { CARDS } from '../data/cards'
+import { CORP_NAMES } from '../data/corpNames'
+import { EFFECTS } from '../data/effects/effectIcons'
+import { TAGS } from '../data/tags'
+import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 
 // Checks if a card has given tag
 export const hasTag = (card, type) => {
@@ -264,45 +265,45 @@ export const getCardsSorted = (cards, id, requirementsMet) => {
 }
 
 export const getCardsWithTimeAdded = (cards) => {
-   return cards.map((card, idx) => ({ ...card, timeAdded: Date.now() + idx }))
+   if (Array.isArray(cards)) {
+      return cards.map((card, idx) => ({ ...card, timeAdded: Date.now() + idx }))
+   } else {
+      return [{ ...cards, timeAdded: Date.now() + 0 }]
+   }
 }
 
 export const getCardsWithTimePlayed = (cards) => {
-   return cards.map((card, idx) => ({ ...card, timePlayed: Date.now() + idx }))
+   if (Array.isArray(cards)) {
+      return cards.map((card, idx) => ({ ...card, timePlayed: Date.now() + idx }))
+   } else {
+      return [{ ...cards, timePlayed: Date.now() + 0 }]
+   }
 }
 
 export const getCards = (cardsIds) => {
-   if (!cardsIds) return []
-   let cards = []
-   cardsIds.forEach((cardId) => {
-      if (typeof cardId === 'number') {
-         cards.push(CARDS[cardId - 1])
-      } else {
-         cards.push({
-            ...CARDS[cardId.id - 1],
-            currentCost: cardId.currentCost,
-            vp: cardId.vp,
-            units: cardId.units,
-            actionUsed: cardId.actionUsed,
-            timeAdded: cardId.timeAdded,
-            timePlayed: cardId.timePlayed,
-         })
-      }
-   })
-   return cards
+   if (!cardsIds) return null
+   if (Array.isArray(cardsIds)) {
+      return cardsIds.map(id => CARDS[id - 1])
+   } else {
+      return CARDS[cardsIds - 1]
+   }
 }
 
-export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, type, id, token, additionalDeckIds) => {
+export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, type, id, token, dataForReplay, additionalDeckIds) => {
    let cardsDeckIds
    let newCardsDrawIds
    let newCardsDeckIds
-   if (type === 'QUICK MATCH (ID)') {
-      cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
+   cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
+   if (type === MATCH_TYPES.QUICK_MATCH_ID) {
       const drawCardsIds = await getConsecutiveCardsIds(token, id, 208 - cardsDeckIds.length, count)
       newCardsDrawIds = drawCardsIds
       newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
+   } else if (type === MATCH_TYPES.REPLAY) {
+      const cardsInOrderIds = [...dataForReplay.cards.seen.map(c => c.id), ...dataForReplay.cards.inDeck]
+      const drawCardsIds = cardsInOrderIds.slice(208 - cardsDeckIds.length, 208 - cardsDeckIds.length + count)
+      newCardsDrawIds = drawCardsIds
+      newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
    } else {
-      cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
       const drawIndexes = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
       newCardsDrawIds = cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
       newCardsDeckIds = cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))

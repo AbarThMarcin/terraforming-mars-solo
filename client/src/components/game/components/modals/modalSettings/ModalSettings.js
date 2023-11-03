@@ -4,8 +4,9 @@ import { updateUser } from '../../../../../api/user'
 import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import { getCardsSorted } from '../../../../../utils/cards'
 import { UserContext, StatePlayerContext, StateGameContext } from '../../../../game'
-import { APP_MESSAGES, SettingsContext, SoundContext } from '../../../../../App'
+import { SettingsContext, SoundContext } from '../../../../../App'
 import spinner from '../../../../../assets/other/spinner.gif'
+import { APP_MESSAGES } from '../../../../../data/app'
 
 const ModalSettings = () => {
    const { user, setUser } = useContext(UserContext)

@@ -16,7 +16,7 @@
    transform: translate(-50%, 0%);
 }
 /* Tip Text */
-.modal-confirmation .tip {
+.tip-qmid {
    position: absolute;
    left: 50%;
    bottom: 2%;

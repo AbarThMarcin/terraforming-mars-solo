@@ -1,15 +1,11 @@
 import { useContext, useState } from 'react'
-import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
-import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
+import { StatePlayerContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import iconEnergy from '../../../../../assets/images/resources/res_energy.svg'
-import { funcUpdateLogItemAction } from '../../../../../data/log'
+import { useSubactionSelectOption } from '../../../../../hooks/useSubactionSelectOption'
 
 const PowerInfrasSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getOptionsActions, performSubActions, setLogItems } = useContext(StateGameContext)
-   const { setModals } = useContext(ModalsContext)
    const [energyAmount, setEnergyAmount] = useState(0)
 
    const btnActionConfirmPosition = {
@@ -18,16 +14,7 @@ const PowerInfrasSection = () => {
       transform: 'translate(-50%, 110%)',
    }
 
-   const handleClickConfirmBtn = () => {
-      // Also save action (string) for log that is being performed
-      funcUpdateLogItemAction(setLogItems, `option: ${energyAmount}`)
-
-      let subActions = getOptionsActions(OPTION_ICONS.CARD194_OPTION1, energyAmount, 0)
-      setModals((prev) => ({ ...prev, selectOne: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
-      dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-      performSubActions(subActions)
-   }
+   const { onConfirmPowerInfra } = useSubactionSelectOption({ energyAmount })
 
    return (
       <div className="select-one-section">
@@ -45,7 +32,7 @@ const PowerInfrasSection = () => {
             )}
          </div>
          {/* CONFIRM BUTTON */}
-         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
+         <BtnAction text="CONFIRM" onYesFunc={onConfirmPowerInfra} position={btnActionConfirmPosition} />
       </div>
    )
 }

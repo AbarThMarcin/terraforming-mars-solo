@@ -8,6 +8,7 @@
 @import url('./components/panelStateGame/panelStateGame.css');
 @import url('./components/passContainer/styles.css');
 @import url('./components/panelCorp/styles.css');
+@import url('./components/replayLogList/styles.css');
 
 .game {
    height: var(--app-height);

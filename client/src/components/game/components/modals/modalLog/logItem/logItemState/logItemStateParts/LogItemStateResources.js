@@ -31,7 +31,7 @@ const LogItemStateResources = ({ state }) => {
             resource = getResIcon(RESOURCES.FIGHTER)
             count = card.units.fighter
          }
-         return [card.id, getCards([card.id])[0].name, resource, count]
+         return [card.id, getCards(card.id).name, resource, count]
       })
       return resources
    }
@@ -41,9 +41,9 @@ const LogItemStateResources = ({ state }) => {
       if (cardId) {
          // If card
          if (location.pathname === '/match') {
-            ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards([cardId])[0], cardViewOnly: true }))
+            ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards(cardId), cardViewOnly: true }))
          } else {
-            ModalsContextStatsObj.setModalCard(getCards([cardId])[0])
+            ModalsContextStatsObj.setModalCard(getCards(cardId))
             ModalsContextStatsObj.setShowModalCard(true)
          }
       }
@@ -59,7 +59,7 @@ const LogItemStateResources = ({ state }) => {
          <ul className="state-other-container-elements">
             {elements.length > 0 ? (
                elements.map((el, idx) => (
-                  <li key={idx} className="pointer" onClick={() => handleClickCard(el[0])}>
+                  <li key={idx} className="clickable pointer" onClick={() => handleClickCard(el[0])}>
                      - {el[1]} ({el[3]} <img src={el[2]} alt=""></img>)
                   </li>
                ))

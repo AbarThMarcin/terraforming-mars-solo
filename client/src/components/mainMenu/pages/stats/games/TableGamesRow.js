@@ -1,11 +1,13 @@
 import { useContext } from 'react'
 import BtnGoTo from '../btnGoTo/BtnGoTo'
 import { DataContext, ModalsContext } from '..'
-import { TABS } from '../../../../../App'
 import { TabTypeContext } from '..'
 import { getCorporationById } from '../../../../../utils/corporation'
+import { useNavigate } from 'react-router-dom'
+import { MATCH_TYPES, TABS } from '../../../../../data/app'
 
-const TableGamesRow = ({ id, game, currPlayer, user }) => {
+const TableGamesRow = ({ id, game, currPlayer, user, setDataForGame }) => {
+   let navigate = useNavigate()
    const { setShowModal, setModalText, setEditMode, setLinkOrComment, setGameId } = useContext(ModalsContext)
    const { setType } = useContext(TabTypeContext)
    const { setGame } = useContext(DataContext)
@@ -47,19 +49,24 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
       setType(TABS.GAMES_LOG)
    }
 
-   const btnLogStyles = {
-      width: 'calc(var(--default-size) * 3.4)',
+   async function handleClickReplay() {
+      await setDataForGame({ type: MATCH_TYPES.REPLAY, dataForReplay: game })
+      navigate('/match')
+   }
+
+   const btnStyles = {
+      width: 'calc(100% - var(--default-size) * 0.5)',
       fontSize: 'calc(var(--default-size) * 0.8)',
    }
 
    const btnAddLinkStyles = {
-      width: 'calc(var(--default-size) * 4)',
-      fontSize: 'calc(var(--default-size) * 0.8)',
+      width: 'calc(100% - var(--default-size) * 0.5)',
+      fontSize: 'calc(var(--default-size) * 0.7)',
    }
 
-   const btnAddCommentStyles = {
-      width: 'calc(var(--default-size) * 5.3)',
-      fontSize: 'calc(var(--default-size) * 0.6)',
+   const btnSmallerFontStyles = {
+      width: 'calc(100% - var(--default-size) * 0.5)',
+      fontSize: 'calc(var(--default-size) * 0.5)',
    }
 
    const getDuration = (seconds) => {
@@ -79,9 +86,9 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
          <div>{id}</div>
          <div>{game.season === 0 ? 'PRESEASON' : game.season}</div>
          <div>{game.corporation ? getCorporationById(game.corporation).name : 'NO CORP'}</div>
-         <div>{game.startTime ? `${game.startTime.slice(0, 10)}\n${game.startTime.slice(11, 16)}` : ''}</div>
+         <div>{game.startTime ? `${game.startTime.slice(0, 10)}\n${game.startTime.slice(11, 19)}` : ''}</div>
          <div>{game.durationSeconds ? getDuration(game.durationSeconds) : ''}</div>
-         <div>{game.endTime ? `${game.endTime.slice(0, 10)}\n${game.endTime.slice(11, 16)}` : ''}</div>
+         <div>{game.endTime ? `${game.endTime.slice(0, 10)}\n${game.endTime.slice(11, 19)}` : ''}</div>
          <div>{game.victory ? 'WIN' : 'LOSS'}</div>
          <div>{game.points.tr}</div>
          <div>{game.points.greenery}</div>
@@ -89,9 +96,12 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
          <div>{game.points.vp}</div>
          <div>{game.points.total}</div>
          <div>
-            <BtnGoTo text="LOG" action={handleClickLog} styles={btnLogStyles} />
+            <BtnGoTo text="LOG" action={handleClickLog} styles={btnStyles} />
          </div>
-         <div className={`${game.link && 'pointer'}`} onClick={handleClickLink}>
+         <div>
+            <BtnGoTo text="REPLAY" action={handleClickReplay} styles={btnStyles} />
+         </div>
+         <div className={`${game.link ? 'pointer' : ''}`} onClick={handleClickLink}>
             {currPlayer?._id === user?._id && !game.link ? (
                <BtnGoTo text="ADD LINK" action={handleClickAddLink} styles={btnAddLinkStyles} />
             ) : (
@@ -101,9 +111,9 @@ const TableGamesRow = ({ id, game, currPlayer, user }) => {
                </>
             )}
          </div>
-         <div className={`${game.comment && 'pointer'}`} onClick={handleClickComment}>
+         <div className={`${game.comment ? 'pointer' : ''}`} onClick={handleClickComment}>
             {currPlayer?._id === user?._id && !game.comment ? (
-               <BtnGoTo text="ADD COMMENT" action={handleClickAddComment} styles={btnAddCommentStyles} />
+               <BtnGoTo text="ADD COMMENT" action={handleClickAddComment} styles={btnSmallerFontStyles} />
             ) : (
                <>
                   <span className="too-long">{game.comment}</span>

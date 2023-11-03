@@ -1,6 +1,5 @@
 import { useContext } from 'react'
-import { StateGameContext, ModalsContext } from '../../../game'
-import { SoundContext } from '../../../../App'
+import { ActionsContext, StateGameContext } from '../../../game'
 import { CORP_NAMES } from '../../../../data/corpNames'
 import iconCredicor from '../../../../assets/images/corps/cards/card_credicor.png'
 import iconEcoline from '../../../../assets/images/corps/cards/card_ecoline.png'
@@ -14,28 +13,18 @@ import iconTeractor from '../../../../assets/images/corps/cards/card_teractor.pn
 import iconTharsis from '../../../../assets/images/corps/cards/card_tharsis.png'
 import iconThorgate from '../../../../assets/images/corps/cards/card_thorgate.png'
 import iconUnmi from '../../../../assets/images/corps/cards/card_unmi.png'
+import { useActionDraft } from '../../../../hooks/useActionDraft'
 
-const Corp = ({ corp, selectedCorp, setSelectedCorp, id }) => {
-   const stateGameContextObj = useContext(StateGameContext)
-   const modalsObj = useContext(ModalsContext)
-   const { sound } = useContext(SoundContext)
+const Corp = ({ corp }) => {
+   const stateGameObj = useContext(StateGameContext)
+   const { actions } = useContext(ActionsContext)
 
-   const handleCorpClick = (e) => {
-      e.stopPropagation()
-      if (!stateGameContextObj) return // If in Main Menu -> Stats
-      if (!stateGameContextObj.stateGame.phaseCorporation) return
-      sound.btnGeneralClick.play()
-      setSelectedCorp(id)
-   }
+   const { handleCorpClick } = useActionDraft()
 
    return (
       <div
-         className={`
-            corp
-            ${selectedCorp === id && selectedCorp !== undefined && 'selected'}
-            ${modalsObj?.modals.corps && 'pointer'}
-         `}
-         onClick={handleCorpClick}
+         className={`corp${actions.corpId === corp.id ? ' selected' : ''}${stateGameObj?.stateGame.phaseCorporation ? ' pointer' : ''}`}
+         onClick={(e) => handleCorpClick(corp.id, e)}
       >
          {corp.name === CORP_NAMES.CREDICOR && <img src={iconCredicor} alt="credicor_icon" />}
          {corp.name === CORP_NAMES.ECOLINE && <img src={iconEcoline} alt="ecoline_icon" />}

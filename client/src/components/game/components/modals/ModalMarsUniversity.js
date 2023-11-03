@@ -2,37 +2,35 @@
 import { useContext, useEffect, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, UserContext, StateBoardContext, CorpsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
-import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
 import { getLogConvertedForDB, getThinerStatePlayerForActive } from '../../../../utils/dataConversion'
-import { getPositionInModalCards, getCardsWithDecreasedCost, getCards, getNewCardsDrawIds, getCardsWithTimeAdded } from '../../../../utils/cards'
-import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
-import { RESOURCES } from '../../../../data/resources'
+import { getPositionInModalCards } from '../../../../utils/cards'
 import Arrows from './modalsComponents/arrows/Arrows'
-import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import { updateGameData } from '../../../../api/activeGame'
-import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, funcUpdateLogItemAction } from '../../../../data/log'
+import { MATCH_TYPES } from '../../../../data/app'
+import { useSubactionMarsUniversity } from '../../../../hooks/useSubactionMarsUniversity'
 
 const ModalMarsUniversity = () => {
-   const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems, durationSeconds } = useContext(StateGameContext)
+   const { statePlayer } = useContext(StatePlayerContext)
+   const { stateGame, logItems, setSyncError, durationSeconds } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
-   const { type, id, user } = useContext(UserContext)
+   const { type, user } = useContext(UserContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { sound } = useContext(SoundContext)
-   const [selectedCardId, setSelectedCardId] = useState(0)
    const [page, setPage] = useState(1)
 
    const btnActionPosition = { bottom: '0', left: '42%', transform: 'translateX(-50%)' }
    const btnCancelPosition = { bottom: '0', left: '58%', transform: 'translateX(-50%)' }
 
+   const { handleClickBtnSelect, onYesFunc, onCancelFunc, selectedCardId } = useSubactionMarsUniversity()
+
    // Update Server Data
    useEffect(() => {
       // Update active game on server only if user is logged
-      if (!user) return
+      if (!user || type === MATCH_TYPES.REPLAY) return
 
       // Update Server Data
       const updatedData = {
@@ -67,68 +65,6 @@ const ModalMarsUniversity = () => {
       return `${(1 - page) * 100}%`
    }
 
-   const onYesFunc = async () => {
-      // Turn mars university phase off
-      setModals((prev) => ({ ...prev, marsUniversity: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
-      // Get Random Cards Ids
-      let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, user?.token)
-      // Discard selected card
-      startAnimation(setModals)
-      setAnimation(ANIMATIONS.CARD_OUT, RESOURCES.CARD, 1, setModals)
-      let newCardsInHand = JSON.parse(JSON.stringify(statePlayer.cardsInHand.filter((card) => card.id !== selectedCardId)))
-      setTimeout(() => {
-         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
-         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards([selectedCardId])[0].name}) from MARS UNIVERSITY effect`, RESOURCES.CARD, -1, setLogItems)
-         endAnimation(setModals)
-      }, ANIMATION_SPEED)
-      // Draw a card
-      setTimeout(() => {
-         startAnimation(setModals)
-         setAnimation(ANIMATIONS.CARD_IN, RESOURCES.CARD, 1, setModals)
-      }, ANIMATION_SPEED)
-      newCardsInHand = [...newCardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
-      setTimeout(() => {
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: newCardsInHand,
-         })
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-            payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
-         })
-         funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name}) from MARS UNIVERSITY effect`, RESOURCES.CARD, 1, setLogItems)
-         let newStatePlayer = JSON.parse(JSON.stringify(statePlayer))
-         newStatePlayer = {
-            ...newStatePlayer,
-            cardsInHand: newCardsInHand,
-         }
-         funcUpdateLastLogItemAfter(setLogItems, newStatePlayer, stateGame)
-         endAnimation(setModals)
-         // Continue remaining actions
-         startAnimation(setModals)
-         performSubActions(stateGame.actionsLeft, true)
-         funcUpdateLogItemAction(setLogItems, `MUtargetId: ${selectedCardId}`)
-      }, ANIMATION_SPEED * 2)
-   }
-
-   const onCancelFunc = () => {
-      // Turn mars university phase off
-      setModals((prev) => ({ ...prev, marsUniversity: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY, payload: false })
-      // Continue remaining actions
-      startAnimation(setModals)
-      performSubActions(stateGame.actionsLeft, true)
-   }
-
-   const handleClickBtnSelect = (card) => {
-      if (selectedCardId === 0 || card.id !== selectedCardId) {
-         setSelectedCardId(card.id)
-      } else {
-         setSelectedCardId(0)
-      }
-   }
-
    return (
       <>
          {/* ARROWS */}
@@ -153,7 +89,7 @@ const ModalMarsUniversity = () => {
                         className={`pointer ${card.id === selectedCardId ? 'btn-selected' : 'btn-select'}`}
                         onClick={(e) => {
                            e.stopPropagation()
-                           handleClickBtnSelect(card)
+                           handleClickBtnSelect(card.id)
                         }}
                      >
                         {card.id === selectedCardId ? 'SELECTED' : 'SELECT'}

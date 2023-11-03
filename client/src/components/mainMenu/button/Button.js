@@ -43,7 +43,7 @@ const Button = ({ text, path, disabled, action, tipText, loading }) => {
       setTipTop(top)
       setTipLeft(left)
 
-      if (top > height || left > width) setShowTipText(false)
+      if (top < -3 || top > height || left < -3 || left > width) setShowTipText(false)
    }
 
    return (
@@ -66,7 +66,7 @@ const Button = ({ text, path, disabled, action, tipText, loading }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0, delay: 0.2 }}
-                  className="tip"
+                  className="tip tip-mainmenu"
                   style={{ top: tipTop, left: tipLeft }}
                >
                   {tipText}

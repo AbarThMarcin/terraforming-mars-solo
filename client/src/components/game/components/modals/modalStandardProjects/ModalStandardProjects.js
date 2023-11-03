@@ -1,15 +1,8 @@
 /* Used to view standard projects */
 import { useState, useContext } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
-import { IMM_EFFECTS } from '../../../../../data/immEffects/immEffects'
-import { ACTIONS_PLAYER } from '../../../../../stateActions/actionsPlayer'
 import ModalSPaction from '../modalsComponents/ModalSPaction'
 import DecreaseCostSP from '../modalsComponents/decreaseCost/DecreaseCostSP'
-import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
-import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../../data/animations'
-import { RESOURCES } from '../../../../../data/resources'
-import { EFFECTS } from '../../../../../data/effects/effectIcons'
-import { getSPeffectsToCall } from '../../../../../data/effects/effects'
 import { SP } from '../../../../../data/StandardProjects'
 import BtnClose from '../../buttons/BtnClose'
 import iconSellPatent from '../../../../../assets/images/resources/res_card.png'
@@ -18,14 +11,13 @@ import iconAsteroid from '../../../../../assets/images/other/tempIcon.svg'
 import iconAquifer from '../../../../../assets/images/tiles/tile_ocean.svg'
 import iconGreenery from '../../../../../assets/images/other/SPgreenery.svg'
 import iconCity from '../../../../../assets/images/other/SPcity.svg'
-import { LOG_TYPES, funcCreateLogItem, funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../../data/log'
-import { SoundContext } from '../../../../../App'
+import { CONFIRMATION_TEXT } from '../../../../../data/app'
+import { useActionSP } from '../../../../../hooks/useActionSP'
 
 const ModalStandardProjects = () => {
    const { setModals } = useContext(ModalsContext)
-   const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED, setLogItems, setItemsExpanded } = useContext(StateGameContext)
-   const { sound } = useContext(SoundContext)
+   const { statePlayer } = useContext(StatePlayerContext)
+   const { stateGame } = useContext(StateGameContext)
    const [toBuyHeat, setToBuyHeat] = useState(0)
    const [toBuyMln, setToBuyMln] = useState(initToBuyMln())
    const [btnClickedId, setBtnClickedId] = useState(-1)
@@ -80,113 +72,7 @@ const ModalStandardProjects = () => {
       setToBuyMln(resMln)
    }
 
-   const handleUseSP = (name) => {
-      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-      let logData = { type: LOG_TYPES.SP_ACTION, title: name, titleIcon: name }
-      funcCreateLogItem(setLogItems, statePlayer, stateGame, logData, setItemsExpanded)
-      // Also save action (string) for log that is being performed
-      let actionString = `sp[${toBuyMln[btnClickedId] ? 'paidMln: ' + toBuyMln[btnClickedId] + '; ' : ''}${toBuyHeat ? 'paidHeat: ' + toBuyHeat + '; ' : ''}id: ${btnClickedId}]`
-      funcUpdateLogItemAction(setLogItems, actionString)
-
-      let animResPaidTypes = []
-      if (toBuyMln[btnClickedId] !== 0) animResPaidTypes.push([RESOURCES.MLN, toBuyMln[btnClickedId]])
-      // if (toBuyHeat) animResPaidTypes.push([RESOURCES.HEAT, toBuyHeat])
-      setModals((prev) => ({
-         ...prev,
-         confirmation: false,
-         standardProjects: false,
-         sellCards: false,
-         cardPlayed: false,
-      }))
-      // ------------------------ ANIMATIONS ------------------------
-      startAnimation(setModals)
-      for (let i = 0; i < animResPaidTypes.length; i++) {
-         setTimeout(() => {
-            setAnimation(ANIMATIONS.RESOURCES_OUT, animResPaidTypes[i][0], animResPaidTypes[i][1], setModals, sound)
-         }, i * ANIMATION_SPEED)
-      }
-      setTimeout(() => {
-         endAnimation(setModals)
-         // Decrease heat (Helion only)
-         dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -toBuyHeat })
-         if (toBuyHeat) funcSetLogItemsSingleActions(`Paid ${toBuyHeat} MC`, RESOURCES.HEAT, -toBuyHeat, setLogItems)
-         // Decrease corporation resources, perform actions and call effects
-         let actions = []
-         let spEffects = []
-         switch (name) {
-            case SP.POWER_PLANT:
-               // Cost
-               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[1] })
-               if (toBuyMln[1]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[1]} MC`, RESOURCES.MLN, -toBuyMln[1], setLogItems)
-               // Proper action
-               actions = getImmEffects(IMM_EFFECTS.POWER_PLANT)
-               // Possible effect for SP Power Plant (standard technology)
-               if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_STANDARD_TECHNOLOGY))
-                  actions = [...actions, ...getEffect(EFFECTS.EFFECT_STANDARD_TECHNOLOGY)]
-               break
-            case SP.ASTEROID:
-               // Cost
-               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[2] })
-               if (toBuyMln[2]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[2]} MC`, RESOURCES.MLN, -toBuyMln[2], setLogItems)
-               // Proper action
-               actions = getImmEffects(IMM_EFFECTS.TEMPERATURE)
-               // Possible effect for SP Asteroid (standard technology)
-               if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_STANDARD_TECHNOLOGY))
-                  actions = [...actions, ...getEffect(EFFECTS.EFFECT_STANDARD_TECHNOLOGY)]
-               break
-            case SP.AQUIFER:
-               // Cost
-               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[3] })
-               if (toBuyMln[3]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[3]} MC`, RESOURCES.MLN, -toBuyMln[3], setLogItems)
-               // Proper action
-               actions = getImmEffects(IMM_EFFECTS.AQUIFER)
-               // Possible effects for placing ocean
-               spEffects = getSPeffectsToCall(SP.AQUIFER)
-               spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect) || statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                     actions = [...actions, ...getEffect(spEffect)]
-               })
-               break
-            case SP.GREENERY:
-               // Cost
-               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[4] })
-               if (toBuyMln[4]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[4]} MC`, RESOURCES.MLN, -toBuyMln[4], setLogItems)
-               // Proper action
-               actions = getImmEffects(IMM_EFFECTS.GREENERY)
-               // Possible effects for placing greenery
-               spEffects = getSPeffectsToCall(SP.GREENERY)
-               spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect) || statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                     actions = [...actions, ...getEffect(spEffect)]
-               })
-               break
-            case SP.CITY:
-               // Cost
-               dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: -toBuyMln[5] })
-               if (toBuyMln[5]) funcSetLogItemsSingleActions(`Paid ${toBuyMln[5]} MC`, RESOURCES.MLN, -toBuyMln[5], setLogItems)
-               // Proper action No 1: 1 mln production
-               actions.push({
-                  name: ANIMATIONS.PRODUCTION_IN,
-                  type: RESOURCES.MLN,
-                  value: 1,
-                  func: () => dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 }),
-               })
-               // Proper action No 2:
-               actions = [...actions, ...getImmEffects(IMM_EFFECTS.CITY)]
-               // Possible effects for placing city
-               spEffects = getSPeffectsToCall(SP.CITY)
-               spEffects.forEach((spEffect) => {
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === spEffect) || statePlayer.corporation.effects.some((corpEffect) => corpEffect === spEffect))
-                     actions = [...actions, ...getEffect(spEffect)]
-               })
-               break
-            default:
-               break
-         }
-         dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         performSubActions(actions)
-      }, animResPaidTypes.length * ANIMATION_SPEED)
-   }
+   const { onYesFunc } = useActionSP(btnClickedId, toBuyMln, toBuyHeat)
 
    return (
       <div className="modal-standard-projects-box center" onClick={(e) => e.stopPropagation()}>
@@ -195,17 +81,17 @@ const ModalStandardProjects = () => {
          {/* CLOSE BUTTON */}
          <BtnClose onCloseClick={() => setModals((prev) => ({ ...prev, standardProjects: false }))} />
          {/* ACTIONS */}
-         <ModalSPaction id={0} icon={iconSellPatent} name={SP.SELL_PATENT} cost={toBuyMln[0]} textConfirmation="" handleUseSP={handleUseSP} setBtnClickedId={setBtnClickedId} />
+         <ModalSPaction id={0} icon={iconSellPatent} name={SP.SELL_PATENT} cost={toBuyMln[0]} textConfirmation="" onYesFunc={onYesFunc} setBtnClickedId={setBtnClickedId} />
          <ModalSPaction
             id={1}
             icon={iconPowerPlant}
             name={SP.POWER_PLANT}
             cost={toBuyMln[1]}
-            textConfirmation="Do you want to build a power plant?"
+            textConfirmation={CONFIRMATION_TEXT.SP_POWERPLANT}
             actionClicked={actionClicked}
             setActionClicked={setActionClicked}
             changeSPcosts={changeSPcosts}
-            handleUseSP={handleUseSP}
+            onYesFunc={onYesFunc}
             setBtnClickedId={setBtnClickedId}
          />
          <ModalSPaction
@@ -213,11 +99,11 @@ const ModalStandardProjects = () => {
             icon={iconAsteroid}
             name={SP.ASTEROID}
             cost={toBuyMln[2]}
-            textConfirmation="Do you want to use the asteroid project?"
+            textConfirmation={CONFIRMATION_TEXT.SP_ASTEROID}
             actionClicked={actionClicked}
             setActionClicked={setActionClicked}
             changeSPcosts={changeSPcosts}
-            handleUseSP={handleUseSP}
+            onYesFunc={onYesFunc}
             setBtnClickedId={setBtnClickedId}
          />
          <ModalSPaction
@@ -225,11 +111,11 @@ const ModalStandardProjects = () => {
             icon={iconAquifer}
             name={SP.AQUIFER}
             cost={toBuyMln[3]}
-            textConfirmation="Do you want to build an aquifer?"
+            textConfirmation={CONFIRMATION_TEXT.SP_AQUIFER}
             actionClicked={actionClicked}
             setActionClicked={setActionClicked}
             changeSPcosts={changeSPcosts}
-            handleUseSP={handleUseSP}
+            onYesFunc={onYesFunc}
             setBtnClickedId={setBtnClickedId}
          />
          <ModalSPaction
@@ -237,11 +123,11 @@ const ModalStandardProjects = () => {
             icon={iconGreenery}
             name={SP.GREENERY}
             cost={toBuyMln[4]}
-            textConfirmation="Do you want to build a greenery?"
+            textConfirmation={CONFIRMATION_TEXT.SP_GREENERY}
             actionClicked={actionClicked}
             setActionClicked={setActionClicked}
             changeSPcosts={changeSPcosts}
-            handleUseSP={handleUseSP}
+            onYesFunc={onYesFunc}
             setBtnClickedId={setBtnClickedId}
          />
          <ModalSPaction
@@ -249,11 +135,11 @@ const ModalStandardProjects = () => {
             icon={iconCity}
             name={SP.CITY}
             cost={toBuyMln[5]}
-            textConfirmation="Do you want to build a city?"
+            textConfirmation={CONFIRMATION_TEXT.SP_CITY}
             actionClicked={actionClicked}
             setActionClicked={setActionClicked}
             changeSPcosts={changeSPcosts}
-            handleUseSP={handleUseSP}
+            onYesFunc={onYesFunc}
             setBtnClickedId={setBtnClickedId}
          />
          {actionClicked !== null && statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && (

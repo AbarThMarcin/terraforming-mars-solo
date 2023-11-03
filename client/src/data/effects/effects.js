@@ -170,7 +170,6 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                         type: null,
                         value: null,
                         func: () => {
-                           dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                            setModals((prev) => ({
                               ...prev,
                               modalSelectOne: {
@@ -192,7 +191,6 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                         type: null,
                         value: null,
                         func: () => {
-                           dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                            setModals((prev) => ({
                               ...prev,
                               modalSelectOne: {
@@ -214,7 +212,6 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                         type: null,
                         value: null,
                         func: () => {
-                           dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                            setModals((prev) => ({
                               ...prev,
                               modalSelectOne: {

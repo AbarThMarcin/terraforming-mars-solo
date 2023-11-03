@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import BtnGoBack from '../../BtnGoBack'
 import spinner from '../../../../assets/other/spinner.gif'
 import { updateUser } from '../../../../api/user'
-import { APP_MESSAGES } from '../../../../App'
+import { APP_MESSAGES } from '../../../../data/app'
 
 const disabled = {
    backgroundColor: 'rgb(20, 20, 20)',

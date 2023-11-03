@@ -3,6 +3,8 @@ import { RESOURCES } from '../data/resources'
 import { getNeighbors } from '../utils/board'
 
 export const ACTIONS_BOARD = {
+   // Set whole state
+   SET_STATE: 'Set state',
    // Set available all fields based on the tile in payload
    SET_AVAILABLE: 'Changes available parameter to true based on the tile in payload',
    // Set specific field's object to a given object and make all fields unavailable
@@ -11,6 +13,9 @@ export const ACTIONS_BOARD = {
 
 export const reducerBoard = (state, action) => {
    switch (action.type) {
+      // SET STATE
+      case ACTIONS_BOARD.SET_STATE:
+         return action.payload
       // Set available
       case ACTIONS_BOARD.SET_AVAILABLE:
          let board = JSON.parse(JSON.stringify(state))

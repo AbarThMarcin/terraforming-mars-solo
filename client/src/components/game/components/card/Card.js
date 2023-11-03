@@ -16,6 +16,7 @@ import { LOG_ICONS, getResIconForLog } from '../../../../data/log'
 const Card = ({ card, isBig, isSnap }) => {
    const [info, setInfo] = useState(false)
    const { modals } = useContext(ModalsContext)
+   const { stateGame } = useContext(StateGameContext)
    const { requirementsMet } = useContext(StateGameContext)
    // If card is playable (all requirements met)
    const available = requirementsMet(card)
@@ -54,12 +55,12 @@ const Card = ({ card, isBig, isSnap }) => {
    // (but a card is not clicked because then both modals:
    // cards and cardWithAction are shown [cards = display-none])
    // and we are not in draft phase
-   const disabled = !available && modals.cards && modals.modalCardsType === 'Cards In Hand' && !modals.cardWithAction && !modals.draft
+   const disabled = !available && modals.cards && modals.modalCardsType === 'Cards In Hand' && !modals.cardWithAction && !stateGame.phaseDraft
 
    // Cursor is pointer when over card only when: card is small (draft, sellCard and
    // cardsPlayer/cardsInHand) AND when a card is not clicked because then
    // both modals: cards and cardWithAction are shown [cards = display-none]
-   const pointer = (modals.draft || modals.sellCards || modals.cards || modals.businessContacts || modals.marsUniversity) && !modals.cardWithAction && !modals.cardViewOnly
+   const pointer = (stateGame.phaseDraft || modals.sellCards || modals.cards || modals.businessContacts || modals.marsUniversity) && !modals.cardWithAction && !modals.cardViewOnly
 
    return (
       <>

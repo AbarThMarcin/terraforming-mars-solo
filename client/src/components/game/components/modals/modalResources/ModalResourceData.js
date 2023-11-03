@@ -1,10 +1,11 @@
 import { useContext } from 'react'
 import { StateGameContext, ModalsContext } from '../../../../game'
 import { getResIcon, RESOURCES } from '../../../../../data/resources'
+import { useSubactionResources } from '../../../../../hooks/useSubactionResources'
 
 const ModalResourceData = ({ setCardSnap }) => {
    const { stateGame } = useContext(StateGameContext)
-   const { modals, setModals } = useContext(ModalsContext)
+   const { modals } = useContext(ModalsContext)
 
    function getResource(item) {
       let res
@@ -15,12 +16,7 @@ const ModalResourceData = ({ setCardSnap }) => {
       return modals.modalResource.resType === null ? res : modals.modalResource.resType
    }
 
-   const handleClickResCard = (itemId) => {
-      setModals((prev) => ({
-         ...prev,
-         modalResource: { ...prev.modalResource, cardId: itemId },
-      }))
-   }
+   const { handleClickResCard } = useSubactionResources()
 
    return (
       <div className="modal-other-data center">

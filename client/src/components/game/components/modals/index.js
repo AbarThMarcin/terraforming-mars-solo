@@ -1,19 +1,15 @@
 /* A container of all possible modals */
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../game'
 import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalCards from './modalCards/ModalCards'
 import ModalCardViewOnly from './modalCard/ModalCardViewOnly'
 import ModalCardWithAction from './modalCard/ModalCardWithAction'
-import ModalConfirmation from './modalConfirmation/ModalConfirmation'
 import ModalCorps from './modalCorps/ModalCorps'
 import ModalDraft from './ModalDraft'
 import ModalSellCards from './ModalSellCards'
 import ModalLog from './modalLog'
-import ModalMenu from './modalMenu/ModalMenu'
 import ModalOther from './modalOther'
-import ModalRules from './modalRules/ModalRules'
-import ModalSettings from './modalSettings/ModalSettings'
 import ModalStandardProjects from './modalStandardProjects/ModalStandardProjects'
 import ModalResource from './modalResources'
 import ModalSelectOne from './ModalSelectOptions'
@@ -24,11 +20,14 @@ import ModalBusinessContacts from './ModalBusinessContacts'
 import { motion, AnimatePresence } from 'framer-motion'
 import Corp from '../corp/Corp'
 import ModalEndStats from './modalEndStats/ModalEndStats'
+import { SoundContext } from '../../../../App'
 
 const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpanded }) => {
    const { stateGame, dispatchGame } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
+   const { sound } = useContext(SoundContext)
+   const [showEndStats, setShowEndStats] = useState(true)
 
    return (
       <>
@@ -82,7 +81,7 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
 
          {/* Modal Corps */}
          <AnimatePresence>
-            {modals.corps && (
+            {stateGame.phaseCorporation && (
                <motion.div key="keyModalCorps" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="modal-background">
                   <ModalCorps />
                </motion.div>
@@ -108,7 +107,7 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
 
          {/* Modal Draft */}
          <AnimatePresence>
-            {modals.draft && (
+            {stateGame.phaseDraft && (
                <motion.div
                   key="keyModalDraft"
                   initial={{ opacity: 0 }}
@@ -197,17 +196,8 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   transition={{ duration: 0.5 }}
                   className="btn-view-game-state pointer"
                   onClick={() => {
-                     if (stateGame.phaseViewGameState) {
-                        dispatchGame({
-                           type: ACTIONS_GAME.SET_PHASE_VIEWGAMESTATE,
-                           payload: false,
-                        })
-                     } else {
-                        dispatchGame({
-                           type: ACTIONS_GAME.SET_PHASE_VIEWGAMESTATE,
-                           payload: true,
-                        })
-                     }
+                     sound.btnGeneralClick.play()
+                     dispatchGame({ type: ACTIONS_GAME.SET_PHASE_VIEWGAMESTATE, payload: !stateGame.phaseViewGameState })
                   }}
                >
                   {stateGame.phaseViewGameState ? 'RETURN' : 'VIEW GAME STATE'}
@@ -265,7 +255,37 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                </motion.div>
             )}
          </AnimatePresence>
-         
+
+         {/* Modal End Stats */}
+         {modals.endStats && showEndStats && (
+            <AnimatePresence>
+               <motion.div
+                  key="keyModalEndStats"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className={`modal-background ${modals.confirmation && 'display-none'}`}
+               >
+                  <ModalEndStats />
+               </motion.div>
+            </AnimatePresence>
+         )}
+         {modals.endStats && (
+            <AnimatePresence>
+               <motion.div
+                  key="keyBtnShowPlanet"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="btn-show-planet pointer"
+                  onClick={() => setShowEndStats((prev) => !prev)}
+               >
+                  {showEndStats ? 'SHOW BOARD' : 'SHOW END STATS'}
+               </motion.div>
+            </AnimatePresence>
+         )}
+
          {/* Modal Log */}
          <AnimatePresence>
             {modals.log && (
@@ -282,7 +302,7 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                </motion.div>
             )}
          </AnimatePresence>
-         
+
          {/* Modal Card View Only */}
          <AnimatePresence>
             {modals.cardViewOnly && (
@@ -321,39 +341,6 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
 
          {/* Modal Animation */}
          {modals.animation && <div className="full-size"></div>}
-
-         {/* Modal Menu */}
-         {modals.menu && <ModalMenu />}
-
-         {/* Modal Settings */}
-         {modals.settings && <ModalSettings />}
-
-         {/* Modal Rules */}
-         {modals.rules && <ModalRules />}
-
-         {/* Modal End Stats */}
-         <AnimatePresence>
-            {modals.endStats && (
-               <motion.div
-                  key="keyModalEndStats"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className={`modal-background ${modals.confirmation && 'display-none'}`}
-               >
-                  <ModalEndStats />
-               </motion.div>
-            )}
-         </AnimatePresence>
-
-         {/* Modal Confirmation */}
-         <AnimatePresence>
-            {modals.confirmation && (
-               <motion.div key="keyModalConfirmation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.03 }} className="modal-background">
-                  <ModalConfirmation />
-               </motion.div>
-            )}
-         </AnimatePresence>
       </>
    )
 }

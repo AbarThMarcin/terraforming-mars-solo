@@ -226,7 +226,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([33])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(33).name}`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -245,7 +245,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: -value,
                   },
                })
-               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([33])[0].name} card`, RESOURCES.SCIENCE, -value, setLogItems)
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards(33).name}`, RESOURCES.MICROBE, -value, setLogItems)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.OXYGEN)]
@@ -266,7 +266,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([34])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(34).name}`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -285,7 +285,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: -value,
                   },
                })
-               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([34])[0].name} card`, RESOURCES.SCIENCE, -value, setLogItems)
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards(34).name}`, RESOURCES.MICROBE, -value, setLogItems)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
@@ -359,7 +359,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([modals.modalCard.id])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(modals.modalCard.id).name}`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -378,7 +378,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} animal to ${getCards([modals.modalCard.id])[0].name} card`, RESOURCES.ANIMAL, value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} animal to ${getCards(modals.modalCard.id).name}`, RESOURCES.ANIMAL, value, setLogItems)
             },
          })
          break
@@ -518,7 +518,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: value,
                   },
                })
-               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards([157])[0].name} card`, RESOURCES.MICROBE, value, setLogItems)
+               funcSetLogItemsSingleActions(`Received ${value} microbe to ${getCards(157).name}`, RESOURCES.MICROBE, value, setLogItems)
             },
          })
          break
@@ -537,7 +537,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                      amount: -value,
                   },
                })
-               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards([157])[0].name} card`, RESOURCES.SCIENCE, -value, setLogItems)
+               funcSetLogItemsSingleActions(`Removed ${value} microbes from ${getCards(157).name}`, RESOURCES.SCIENCE, -value, setLogItems)
             },
          })
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TR)]
@@ -622,7 +622,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
                value: energyAmount,
                func: () => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: energyAmount })
-                  funcSetLogItemsSingleActions(`Received ${energyAmount} energy`, RESOURCES.ENERGY, energyAmount, setLogItems)
+                  funcSetLogItemsSingleActions(`Received ${energyAmount} MC`, RESOURCES.MLN, energyAmount, setLogItems)
                },
             })
          }

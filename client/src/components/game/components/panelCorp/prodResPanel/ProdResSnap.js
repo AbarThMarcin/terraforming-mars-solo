@@ -4,6 +4,7 @@ import actionGreenery from '../../../../../assets/images/panelCorp/actions/actio
 import actionTemperature from '../../../../../assets/images/panelCorp/actions/action_temperature.svg'
 import BtnConvertPlantsHeat from '../../buttons/BtnConvertPlantsHeat'
 import { RESOURCES } from '../../../../../data/resources'
+import { CONFIRMATION_TEXT } from '../../../../../data/app'
 
 const ProdResSnap = ({ prod, res, icon, action, resource }) => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -29,9 +30,10 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
             {/* Action Buttons */}
             {action.type === 'greenery' &&
                statePlayer.resources.plant >= statePlayer.valueGreenery &&
-               !modals.draft &&
+               !stateGame.phaseDraft &&
                !stateGame.phasePlaceTile &&
                !stateGame.phaseViewGameState &&
+               !stateGame.phaseCorporation &&
                !modals.animation && (
                   <BtnConvertPlantsHeat
                      textConfirmation={`Do you want to convert ${statePlayer.valueGreenery} plants to a Greenery?`}
@@ -42,12 +44,13 @@ const ProdResSnap = ({ prod, res, icon, action, resource }) => {
             {action.type === 'temperature' &&
                statePlayer.resources.heat >= 8 &&
                stateGame.globalParameters.temperature < 8 &&
-               !modals.draft &&
+               !stateGame.phaseDraft &&
                !stateGame.phasePlaceTile &&
                !stateGame.phaseViewGameState &&
+               !stateGame.phaseCorporation &&
                !modals.animation && (
                   <BtnConvertPlantsHeat
-                     textConfirmation="Do you want to convert 8 heat to increase the temperature?"
+                     textConfirmation={CONFIRMATION_TEXT.CONVERT_HEAT}
                      action={action.func}
                      bg={actionTemperature}
                   />

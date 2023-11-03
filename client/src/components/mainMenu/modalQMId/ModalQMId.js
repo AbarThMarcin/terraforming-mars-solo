@@ -1,9 +1,10 @@
 import { useState, useContext } from 'react'
-import { APP_MESSAGES, SoundContext } from '../../../App'
+import { SoundContext } from '../../../App'
 import { useNavigate } from 'react-router-dom'
 import { deleteActiveGameData } from '../../../api/activeGame'
 import { getMatchWithId } from '../../../api/matchWithId'
 import spinner from '../../../assets/other/spinner.gif'
+import { APP_MESSAGES, MATCH_TYPES } from '../../../data/app'
 
 const btnFunc1Position = {
    top: '45%',
@@ -30,7 +31,7 @@ const spinnerStyle = {
    top: '26%',
 }
 
-const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
+const ModalQMId = ({ setShowModalQMId, overwrite, setDataForGame, user }) => {
    let navigate = useNavigate()
    const [loading, setLoading] = useState(false)
    const [showError, setShowError] = useState('')
@@ -57,7 +58,7 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
       }
       // Delete existing game (if overwriting)
       if (overwrite) {
-         const res = await deleteActiveGameData(user.token, 'QUICK MATCH (ID)')
+         const res = await deleteActiveGameData(user.token, MATCH_TYPES.QUICK_MATCH_ID)
          if (res?.response) {
             setLoading(false)
             setShowError(APP_MESSAGES.SOMETHING_WENT_WRONG)
@@ -65,7 +66,7 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
          }
       }
       // Create new game
-      const data = await setData('QUICK MATCH (ID)', overwrite, matchWithId)
+      const data = await setDataForGame({ type: MATCH_TYPES.QUICK_MATCH_ID, restartMatch: overwrite, matchWithId })
       if (data) {
          setLoading(false)
          setShowModalQMId(false)
@@ -94,7 +95,7 @@ const ModalQMId = ({ setShowModalQMId, overwrite, setData, user }) => {
             {/* Text */}
             <div className="title">START QUICK MATCH WITH ID</div>
             {/* Tip */}
-            <div className="tip">YOU CAN FIND MATCH ID IN THE GAME MENU</div>
+            <div className="tip-qmid">YOU CAN FIND MATCH ID IN THE GAME MENU</div>
             {/* Button 1 */}
             <div
                className="btn-action pointer"

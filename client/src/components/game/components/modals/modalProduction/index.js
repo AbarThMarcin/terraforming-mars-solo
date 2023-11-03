@@ -1,16 +1,11 @@
 /* Modal component used to choose between building production; opens ONLY when used Robotic Workforce */
-
-import { useState, useContext } from 'react'
-import { StateGameContext, ModalsContext } from '../../../../game'
-import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
+import { useState } from 'react'
 import Card from '../../card/Card'
 import ModalProductionData from './ModalProductionData'
 import BtnAction from '../../buttons/BtnAction'
-import { funcUpdateLogItemAction } from '../../../../../data/log'
+import { useSubactionProduction } from '../../../../../hooks/useSubactionProduction'
 
 const ModalProduction = () => {
-   const { dispatchGame, performSubActions, setLogItems } = useContext(StateGameContext)
-   const { modals, setModals } = useContext(ModalsContext)
    const [cardSnap, setCardSnap] = useState(null)
 
    const btnActionConfirmPosition = {
@@ -19,16 +14,7 @@ const ModalProduction = () => {
       transform: 'translate(-50%, 100%) scale(1.2)',
    }
 
-   const handleClickConfirmBtn = () => {
-      // Also save action (string) for log that is being performed
-      funcUpdateLogItemAction(setLogItems, `targetId: ${modals.modalProduction.cardIdOrCorpName}`)
-
-      // Turn addRemoveRes phase on
-      setModals((prev) => ({ ...prev, production: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
-      // Perform subactions
-      performSubActions(modals.modalProduction.immProdEffects)
-   }
+   const { handleClickConfirmBtn } = useSubactionProduction()
 
    return (
       <>

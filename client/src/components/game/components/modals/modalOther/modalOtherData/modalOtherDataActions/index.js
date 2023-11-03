@@ -1,92 +1,36 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { CORP_NAMES } from '../../../../../../../data/corpNames'
-import { getCardActionCost, getCardsSorted } from '../../../../../../../utils/cards'
-import { ModalsContext, StatePlayerContext } from '../../../../../../game'
+import { getCardsSorted } from '../../../../../../../utils/cards'
+import { ActionsContext, ModalsContext, StatePlayerContext } from '../../../../../../game'
 import DecreaseCostAction from '../../../modalsComponents/decreaseCost/DecreaseCostAction'
 import ModalOtherDataActionsItem from './ModalOtherDataActionsItem'
+import { INIT_ACTIONS } from '../../../../../../../initStates/initActions'
 
 const ModalOtherDataActions = ({ setCardSnap }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals } = useContext(ModalsContext)
-   const [actionClicked, setActionClicked] = useState(null)
-   const [toBuyMln, setToBuyMln] = useState(0)
-   const [toBuySteel, setToBuySteel] = useState(0)
-   const [toBuyTitan, setToBuyTitan] = useState(0)
-   const [toBuyHeat, setToBuyHeat] = useState(0)
+   const { actions, setActions } = useContext(ActionsContext)
 
-   const changeCosts = (cardIdOrUnmi) => {
-      let resMln = 0
-      let resSteel = 0
-      let resTitan = 0
-      let resHeat = 0
-      let diff
-      let cost = getCardActionCost(cardIdOrUnmi)
-
-      if (statePlayer.resources.titan > 0 && cardIdOrUnmi === 12) {
-         diff = cost - statePlayer.resources.mln
-         if (diff > 0) resTitan = Math.min(Math.ceil(diff / statePlayer.valueTitan), statePlayer.resources.titan)
-      }
-      if (statePlayer.resources.steel > 0 && cardIdOrUnmi === 187) {
-         diff = cost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan
-         if (diff > 0) resSteel = Math.min(Math.ceil(diff / statePlayer.valueSteel), statePlayer.resources.steel)
-      }
-      diff = cost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan
-      resMln = Math.min(diff, statePlayer.resources.mln)
-      resHeat = Math.max(0, cost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan - resMln)
-      setToBuyMln(resMln)
-      setToBuySteel(resSteel)
-      setToBuyTitan(resTitan)
-      setToBuyHeat(resHeat)
-
-      return [resMln, resSteel, resTitan, resHeat]
-   }
+   useEffect(() => {
+      setActions(INIT_ACTIONS)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [])
 
    return (
       <>
          <div className="modal-other-data center">
             {statePlayer.corporation.name === CORP_NAMES.UNMI && (
-               <ModalOtherDataActionsItem
-                  item={statePlayer.corporation}
-                  setCardSnap={setCardSnap}
-                  actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
-                  toBuyMln={toBuyMln}
-                  toBuySteel={toBuySteel}
-                  toBuyTitan={toBuyTitan}
-                  toBuyHeat={toBuyHeat}
-                  changeCosts={changeCosts}
-               />
+               <ModalOtherDataActionsItem item={statePlayer.corporation} setCardSnap={setCardSnap} />
             )}
             {getCardsSorted(modals.modalOther.data, '4a-played').map((item, idx) => (
-               <ModalOtherDataActionsItem
-                  key={idx}
-                  item={item}
-                  setCardSnap={setCardSnap}
-                  actionClicked={actionClicked}
-                  setActionClicked={setActionClicked}
-                  toBuyMln={toBuyMln}
-                  toBuySteel={toBuySteel}
-                  toBuyTitan={toBuyTitan}
-                  toBuyHeat={toBuyHeat}
-                  changeCosts={changeCosts}
-               />
+               <ModalOtherDataActionsItem key={idx} item={item} setCardSnap={setCardSnap} />
             ))}
          </div>
          {/* CARD DECREASE COST SECTION */}
-         {((statePlayer.resources.titan > 0 && actionClicked === 12) ||
-            (statePlayer.resources.steel > 0 && actionClicked === 187) ||
-            (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && actionClicked)) && (
-            <DecreaseCostAction
-               toBuyMln={toBuyMln}
-               setToBuyMln={setToBuyMln}
-               toBuySteel={toBuySteel}
-               setToBuySteel={setToBuySteel}
-               toBuyTitan={toBuyTitan}
-               setToBuyTitan={setToBuyTitan}
-               toBuyHeat={toBuyHeat}
-               setToBuyHeat={setToBuyHeat}
-               actionClicked={actionClicked}
-            />
+         {((statePlayer.resources.titan > 0 && actions.id === 12) ||
+            (statePlayer.resources.steel > 0 && actions.id === 187) ||
+            (statePlayer.resources.heat > 0 && statePlayer.canPayWithHeat && actions.id)) && (
+            <DecreaseCostAction />
          )}
       </>
    )

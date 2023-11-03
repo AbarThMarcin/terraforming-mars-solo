@@ -49,6 +49,7 @@ body {
    justify-content: center;
    align-items: center;
    background-color: #000;
+   cursor: url('./assets/other/custom-cursor.png') 12 5, auto
 }
 
 .app {
@@ -75,12 +76,13 @@ body {
    height: 100%;
 }
 
-.disabled {
+/* .disabled {
    cursor: default;
-}
+} */
 
 .pointer {
-   cursor: pointer;
+   /* cursor: pointer; */
+   cursor: url('./assets/other/custom-cursor.png') 12 5, pointer
 }
 
 .display-none {
@@ -93,4 +95,28 @@ body {
    left: 0;
    font-size: calc(var(--default-size) * 0.5);
    opacity: 0.4;
+}
+
+.tip {
+   position: absolute;
+   background-color: rgb(0, 61, 61);
+   padding: calc(var(--default-size) * 0.2);
+   color: #fff;
+   border: calc(var(--default-size) * 0.05) solid #fff;
+   font-size: calc(var(--default-size) * 0.7);
+   line-height: calc(var(--default-size) * 0.7);
+   text-align: center;
+   translate: -50% -100%;
+   z-index: 1;
+}
+.tip.left {
+   translate: -100% -100%
+}
+.tip.right {
+   translate: 0 -100%
+}
+
+.tip-replay {
+   position: absolute;
+   width: calc(var(--default-size) * 8);
 }

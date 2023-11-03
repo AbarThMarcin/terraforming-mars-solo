@@ -21,11 +21,8 @@ const LogItemStateActionsEffects = ({ state, type }) => {
    const getActions = () => {
       let actions = []
       if (isUnmi) actions.push([0, getShorterName(CORP_NAMES.UNMI), getActionIcon(ACTION_ICONS.ACTION_UNMI)])
-      const cards = state.statePlayer.cardsPlayed.filter((card) =>
-         CARDS.filter((c) => c.iconNames.action !== null)
-            .map((c) => c.id)
-            .includes(card.id)
-      )
+      const cardsPlayedIds = state.statePlayer.cardsPlayed.map(c => c.id)
+      const cards = CARDS.filter((c) => c.iconNames.action !== null && cardsPlayedIds.includes(c.id))
       if (cards.length > 0) {
          cards.forEach((card) => {
             actions.push([card.id, getShorterName(card.name), getActionIcon(card.iconNames.action)])
@@ -37,15 +34,11 @@ const LogItemStateActionsEffects = ({ state, type }) => {
    const getEffects = () => {
       let effects = []
       if (!isUnmi) effects.push([0, getShorterName(corporationObj.name), getEffectIcon(corporationObj.effects[0])])
-      const cards = state.statePlayer.cardsPlayed.filter((card) =>
-         CARDS.filter((c) => c.effect !== null)
-            .map((c) => c.id)
-            .includes(card.id)
-      )
+      const cardsPlayedIds = state.statePlayer.cardsPlayed.map(c => c.id)
+      const cards = CARDS.filter((c) => c.effect !== null && cardsPlayedIds.includes(c.id))
       if (cards.length > 0) {
          cards.forEach((card) => {
-            const c = CARDS.find((wholeCard) => wholeCard.id === c.id)
-            effects.push([card.id, getShorterName(c.name), getEffectIcon(c.effect)])
+            effects.push([card.id, getShorterName(card.name), getEffectIcon(card.effect)])
          })
       }
 
@@ -58,9 +51,9 @@ const LogItemStateActionsEffects = ({ state, type }) => {
       if (cardId) {
          // If clicked on card
          if (location.pathname === '/match') {
-            ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards([cardId])[0], cardViewOnly: true }))
+            ModalsContextGameObj.setModals((prev) => ({ ...prev, modalCard: getCards(cardId), cardViewOnly: true }))
          } else {
-            ModalsContextStatsObj.setModalCard(getCards([cardId])[0])
+            ModalsContextStatsObj.setModalCard(getCards(cardId))
             ModalsContextStatsObj.setShowModalCard(true)
          }
       } else {
@@ -85,7 +78,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
          <ul className="state-other-container-elements">
             {elements.length > 0 ? (
                elements.map((el, idx) => (
-                  <li key={idx} className="pointer" onClick={() => handleClickCard(el[0])}>
+                  <li key={idx} className="clickable pointer" onClick={() => handleClickCard(el[0])}>
                      <img src={el[2]} alt=""></img> {el[1]}
                   </li>
                ))

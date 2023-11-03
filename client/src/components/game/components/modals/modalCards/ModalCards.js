@@ -31,7 +31,7 @@ const ModalCards = () => {
          {/* CARDS */}
          <div className="modal-cards center" onClick={(e) => e.stopPropagation()}>
             <div className="box full-size" style={{ left: getBoxPosition() }}>
-               {modals.modalCards.length === 0 ? (
+               {modals.modalCards.length === 0 || !modals.modalCards ? (
                   <div className="no-cards-text center">NO CARDS PLAYED</div>
                ) : (
                   modals.modalCards.map((card, idx) => (
@@ -52,7 +52,7 @@ const ModalCards = () => {
          </div>
          {/* HEADER */}
          <div className="modal-cards-header" onClick={(e) => e.stopPropagation()}>
-            {modals.modalCardsType.toUpperCase()}
+            {modals.modalCardsType ? modals.modalCardsType.toUpperCase() : ''}
          </div>
          {/* SORT BUTTONS */}
          <SortBtns />

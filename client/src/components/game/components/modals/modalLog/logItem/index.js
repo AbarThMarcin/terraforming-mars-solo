@@ -84,18 +84,21 @@ const LogItem = ({ id, item, expanded, itemsExpanded, setItemsExpanded, setResiz
       )
    }
 
+   function getIcon() {
+      const iconForLog = getIconForLog(item.titleIcon)
+      return iconForLog ? <img className="full-size" src={iconForLog} alt="icon" /> : <></>
+   }
+
    return (
       <li className={logItemHeader.style}>
          <div className={`title ${logItemHeader.style === 'action' && expanded === null ? 'pointer' : ''}`} onClick={handleClickExpand}>
             {item.type !== LOG_TYPES.GENERATION && item.type !== LOG_TYPES.PASS && item.titleIcon && (
-               <div className={`icon ${item.title === CORP_NAMES.UNMI && 'icon-unmi'}`}>
-                  <img className="full-size" src={getIconForLog(item.titleIcon)} alt="icon" />
-               </div>
+               <div className={`icon ${item.title === CORP_NAMES.UNMI && 'icon-unmi'}`}>{getIcon()}</div>
             )}
             <div className={`text ${!item.titleIcon ? 'without-icon' : ''}`}>
                <span
                   style={{
-                     color: item.type === LOG_TYPES.DRAFT || item.type === LOG_TYPES.PASS ? 'RGB(140, 245, 231)' : '#fff',
+                     color: item.type === LOG_TYPES.DRAFT || item.type === LOG_TYPES.PASS ? 'rgb(140, 245, 231)' : '#fff',
                      fontWeight: item.type === LOG_TYPES.DRAFT || item.type === LOG_TYPES.PASS ? '600' : 'initial',
                   }}
                >

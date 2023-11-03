@@ -50,6 +50,7 @@ const endedGameSchema = mongoose.Schema({
       },
       inDeck: [Number],
    },
+   initCorps: [Number],
    initStateBoard: [boardFieldSchema],
    logItems: [logTypeSchema],
    points: {

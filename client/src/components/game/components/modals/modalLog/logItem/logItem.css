@@ -122,7 +122,7 @@
 .modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li {
    width: fit-content;
 }
-.modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li:hover {
+.modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li.clickable:hover {
    filter: brightness(0.85);
 }
 .modal-log .box .action .log-details .state .state-other-container .state-other-container-elements li img {

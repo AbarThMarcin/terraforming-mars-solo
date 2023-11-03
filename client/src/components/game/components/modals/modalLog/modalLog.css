@@ -25,8 +25,8 @@
 }
 
 .modal-log .box {
-   width: calc(100% - var(--default-size) * 0.2);
-   height: 100%;
+   width: calc(100% - var(--default-size) * 0.187);
+   height: 95%;
    overflow-y: auto;
    overflow-x: hidden;
    list-style: none;
@@ -67,7 +67,7 @@
 }
 .modal-log .log .log-menu .menu-icon {
    line-height: calc(var(--default-size) * 1);
-   cursor: pointer;
+   /* cursor: pointer; */
    margin-left: auto;
    display: block;
 }
@@ -81,7 +81,7 @@
    border: calc(var(--default-size) * 0.1) solid rgba(255, 255, 255, 0.1);
 }
 .modal-log .log .log-menu ul li {
-   cursor: pointer;
+   /* cursor: pointer; */
    padding: calc(var(--default-size) * 0.1);
 }
 .modal-log .log .log-menu ul li.selected {

@@ -1,5 +1,29 @@
 export const VERSIONS = [
    {
+      number: '1.0.1',
+      date: '2023-11-03',
+      updates: [
+         {
+            title: 'Replay mode added for completed ranked games',
+            description: '',
+         },
+         {
+            title: 'Minor fixes',
+            description: '',
+         },
+      ],
+   },
+   {
+      number: '0.3.6',
+      date: '2023-10-09',
+      updates: [
+         {
+            title: 'Tool tips improvement',
+            description: 'Better look of tips texts',
+         },
+      ],
+   },
+   {
       number: '0.3.5',
       date: '2023-09-28',
       updates: [

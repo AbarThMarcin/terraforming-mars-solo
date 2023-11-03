@@ -14,7 +14,7 @@ const getEndedGames = asyncHandler(async (req, res) => {
 })
 
 const createEndedGame = asyncHandler(async (req, res) => {
-   const { victory, forfeited, corporation, cards, initStateBoard, logItems, points, startTime, endTime, durationSeconds } = req.body
+   const { victory, forfeited, corporation, cards, initCorps, initStateBoard, logItems, points, startTime, endTime, durationSeconds } = req.body
 
    const newGame = new EndedGame({
       user: req.user._id,
@@ -23,6 +23,7 @@ const createEndedGame = asyncHandler(async (req, res) => {
       victory,
       corporation,
       cards,
+      initCorps, 
       initStateBoard,
       logItems,
       points,
@@ -52,6 +53,7 @@ const updateEndedGame = asyncHandler(async (req, res) => {
          victory: updatedGame.victory,
          corporation: updatedGame.corporation,
          cards: updatedGame.cards,
+         initCorps: updatedGame.initCorps,
          initStateBoard: updatedGame.initStateBoard,
          logItems: updatedGame.logItems,
          durationSeconds: updatedGame.durationSeconds,

@@ -21,7 +21,7 @@ const CorpLogo = () => {
    const { sound } = useContext(SoundContext)
 
    const getLogo = () => {
-      switch (statePlayer.corporation.name) {
+      switch (statePlayer.corporation?.name) {
          case CORP_NAMES.CREDICOR:
             return logoCredicor
          case CORP_NAMES.ECOLINE:
@@ -59,7 +59,7 @@ const CorpLogo = () => {
             setModals((prev) => ({ ...prev, corp: true }))
          }}
       >
-         <img src={getLogo()} alt={`logo_${statePlayer.corporation.name}`} />
+         {statePlayer.corporation && <img src={getLogo()} alt={`logo_${statePlayer.corporation.name}`} />}
       </div>
    )
 }

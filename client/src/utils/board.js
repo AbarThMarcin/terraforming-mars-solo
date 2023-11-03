@@ -1,4 +1,5 @@
 import { TILES } from "../data/board"
+import { INIT_BOARD } from "../initStates/initBoard"
 import { randomInteger } from "./number"
 
 export function getNeighbors(x, y, board) {
@@ -66,4 +67,14 @@ export const getBoardWithNeutralTiles = ([...initBoard]) => {
    }
 
    return initBoard
+}
+
+export const getField = (x, y, name = "") => {
+   let field
+   if (name === 'PHOBOS SPACE HAVEN' || name === 'GANYMEDE COLONY') {
+      field = INIT_BOARD.find(f => f.x === x && f.y === y && f.name === name)
+   } else {
+      field = INIT_BOARD.find(f => f.x === x && f.y === y && f.name !== "PHOBOS SPACE HAVEN" && f.name !== 'GANYMEDE COLONY')
+   }
+   return field
 }

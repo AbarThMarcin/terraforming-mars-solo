@@ -55,7 +55,8 @@ export const funcGetImmEffects = (
    getImmEffects,
    sound,
    initDrawCardsIds,
-   setLogItems
+   setLogItems,
+   dataForReplay
 ) => {
    let subActions = []
    let dataCards = []
@@ -706,7 +707,6 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -814,7 +814,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_SPACE_STATION
                )
@@ -1432,7 +1432,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_CATAPULT
                )
@@ -1531,7 +1531,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_QUANTUM_EXTRACTOR
                )
@@ -1801,7 +1801,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || (await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token))
+               newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || (await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token, dataForReplay))
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                   ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer),
@@ -1811,7 +1811,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, RESOURCES.CARD, 2, setLogItems)
-               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed([modals.modalCard])]
+               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed(modals.modalCard)]
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
@@ -1822,7 +1822,7 @@ export const funcGetImmEffects = (
                type: RESOURCES.CARD,
                value: 1,
                func: async () => {
-                  newCardsDrawIds = initDrawCardsIds?.slice(2) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds))
+                  newCardsDrawIds = initDrawCardsIds?.slice(2) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay, newCardsDrawIds))
                   cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                   cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                   dispatchPlayer({
@@ -1843,13 +1843,7 @@ export const funcGetImmEffects = (
                         name: ANIMATIONS.USER_INTERACTION,
                         type: null,
                         value: null,
-                        func: () => {
-                           dispatchGame({
-                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
-                              payload: true,
-                           })
-                           setModals((prev) => ({ ...prev, marsUniversity: true }))
-                        },
+                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
                      })
                })
          }
@@ -1932,7 +1926,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_MASS_CONVERTER
                )
@@ -2040,7 +2034,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_EARTH_OFFICE
                )
@@ -2150,8 +2144,7 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: async () => {
-               newCardsDrawIds = await getNewCardsDrawIds(4, statePlayer, dispatchPlayer, type, id, token)
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
+               newCardsDrawIds = await getNewCardsDrawIds(4, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                setModals((prev) => ({
                   ...prev,
                   modalBusCont: { cards: newCardsDrawIds, selectCount: 2 },
@@ -2168,7 +2161,6 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -2586,7 +2578,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token)
+               newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                   ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer),
@@ -2596,7 +2588,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, RESOURCES.CARD, 2, setLogItems)
-               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed([modals.modalCard])]
+               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed(modals.modalCard)]
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
@@ -2606,11 +2598,10 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
-                     card: getCards([143])[0],
+                     card: getCards(143),
                      options: getOptions(actionOrCardId),
                   },
                   selectOne: true,
@@ -2737,7 +2728,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_ANTIGRAVITY_TECHNOLOGY
                )
@@ -2774,7 +2765,6 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -2855,7 +2845,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
+               newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                   ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer),
@@ -2864,7 +2854,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
-               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed([modals.modalCard])]
+               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed(modals.modalCard)]
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
@@ -3020,7 +3010,7 @@ export const funcGetImmEffects = (
                )
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCards })
                newCards = getCardsWithDecreasedCost(
-                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed([cardsInHand.find((card) => card.id === actionOrCardId)])],
+                  [...statePlayer.cardsPlayed, ...getCardsWithTimePlayed(cardsInHand.find((card) => card.id === actionOrCardId))],
                   statePlayer,
                   EFFECTS.EFFECT_SHUTTLES
                )
@@ -3348,7 +3338,6 @@ export const funcGetImmEffects = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -3395,7 +3384,7 @@ export const funcGetImmEffects = (
                   type: RESOURCES.CARD,
                   value: 1,
                   func: async () => {
-                     newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token))
+                     newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay))
                      cardsInHand = [
                         ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                         ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer),
@@ -3422,8 +3411,7 @@ export const funcGetImmEffects = (
             func: async () => {
                newCardsDrawIds =
                   initDrawCardsIds?.slice(1) ||
-                  (await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds.length > 0 ? newCardsDrawIds : undefined))
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: true })
+                  (await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, token, dataForReplay, newCardsDrawIds.length > 0 ? newCardsDrawIds : undefined))
                setModals((prev) => ({
                   ...prev,
                   modalBusCont: { cards: newCardsDrawIds, selectCount: 1 },
@@ -3439,13 +3427,7 @@ export const funcGetImmEffects = (
                      subActions.push({
                         name: ANIMATIONS.USER_INTERACTION,
                         value: null,
-                        func: () => {
-                           dispatchGame({
-                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
-                              payload: true,
-                           })
-                           setModals((prev) => ({ ...prev, marsUniversity: true }))
-                        },
+                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
                      })
                   }
                })
@@ -3471,7 +3453,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token))
+               newCardsDrawIds = initDrawCardsIds?.slice(0, 1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay))
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                   ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer),
@@ -3480,7 +3462,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                funcSetLogItemsSingleActions(`Drew 1 card (${getCards(newCardsDrawIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
-               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed([modals.modalCard])]
+               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed(modals.modalCard)]
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
@@ -3517,7 +3499,7 @@ export const funcGetImmEffects = (
                   type: RESOURCES.CARD,
                   value: 1,
                   func: async () => {
-                     newCardsDrawIds = initDrawCardsIds?.slice(1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds))
+                     newCardsDrawIds = initDrawCardsIds?.slice(1) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay, newCardsDrawIds))
                      cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                      cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                      dispatchPlayer({
@@ -3539,13 +3521,7 @@ export const funcGetImmEffects = (
                         name: ANIMATIONS.USER_INTERACTION,
                         type: null,
                         value: null,
-                        func: () => {
-                           dispatchGame({
-                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
-                              payload: true,
-                           })
-                           setModals((prev) => ({ ...prev, marsUniversity: true }))
-                        },
+                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
                      })
                })
          }
@@ -3663,7 +3639,7 @@ export const funcGetImmEffects = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || (await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token))
+               newCardsDrawIds = initDrawCardsIds?.slice(0, 2) || (await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token, dataForReplay))
                cardsInHand = [
                   ...cardsInHand.filter((card) => card.id !== actionOrCardId),
                   ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer),
@@ -3673,7 +3649,7 @@ export const funcGetImmEffects = (
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: cardsSeen })
                const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
                funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, RESOURCES.CARD, 2, setLogItems)
-               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed([modals.modalCard])]
+               cardsPlayed = [...cardsPlayed, ...getCardsWithTimePlayed(modals.modalCard)]
                funcUpdateLastLogItemAfter(setLogItems, { ...statePlayer, cardsInHand, cardsPlayed }, stateGame)
             },
          })
@@ -3710,7 +3686,7 @@ export const funcGetImmEffects = (
                   type: RESOURCES.CARD,
                   value: 1,
                   func: async () => {
-                     newCardsDrawIds = initDrawCardsIds?.slice(2) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, newCardsDrawIds))
+                     newCardsDrawIds = initDrawCardsIds?.slice(2) || (await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay, newCardsDrawIds))
                      cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                      cardsSeen = [...cardsSeen, ...getCards(newCardsDrawIds)]
                      dispatchPlayer({
@@ -3723,7 +3699,6 @@ export const funcGetImmEffects = (
                })
             }
          }
-
          // Call Mars University
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)) {
             if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
@@ -3733,13 +3708,7 @@ export const funcGetImmEffects = (
                         name: ANIMATIONS.USER_INTERACTION,
                         type: null,
                         value: null,
-                        func: () => {
-                           dispatchGame({
-                              type: ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY,
-                              payload: true,
-                           })
-                           setModals((prev) => ({ ...prev, marsUniversity: true }))
-                        },
+                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
                      })
                })
          }
@@ -3806,3 +3775,31 @@ export const funcGetImmEffects = (
    }
    return subActions
 }
+
+
+// performTileActionsForLog(actionObj, newLogItem)
+// performImmEffectForLog({ immEffectName: IMM_EFFECTS.AQUIFER, newLogItem })
+// getCards(actionObj.id).name
+
+// switch (actionObj.option) {
+//    case OPTION_ICONS.CARD19_OPTION1:
+//       updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: 3 })
+//       addStep(newLogItem, 'Received 3 plants', RESOURCES.PLANT, 3)
+//       break
+//    case OPTION_ICONS.CARD19_OPTION2:
+//       updateStatePlayer({ type: ACTIONS_PLAYER.ADD_BIO_RES, payload: { cardId: actionObj.targetId, resource: RESOURCES.MICROBE, amount: 3 } })
+//       addStep(newLogItem, `Received 3 microbes to ${getCards(actionObj.targetId).name}`, RESOURCES.MICROBE, 3)
+//       break
+//    case OPTION_ICONS.CARD19_OPTION3:
+//       updateStatePlayer({ type: ACTIONS_PLAYER.ADD_BIO_RES, payload: { cardId: actionObj.targetId, resource: RESOURCES.ANIMAL, amount: 2 } })
+//       addStep(newLogItem, `Received 2 animals to ${getCards(actionObj.targetId).name}`, RESOURCES.ANIMAL, 2)
+//       break
+//    default:
+//       break
+// }
+// Pierwsze ID tylko z polozeniem tile:
+// 64
+// Pierwsze ID z decreasecosts effektem + addStep...:
+// 25
+// Pierwsze ID TYLKO Z addStep(newLogItem, `Effect from ${getCards(actionObj.id).name} card is now active`, null, null):
+// 31

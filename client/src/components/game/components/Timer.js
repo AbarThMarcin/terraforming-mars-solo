@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo } from 'react'
-import { ModalsContext, UserContext } from '.'
-import { updateGameData } from '../../api/activeGame'
+import { ModalsContext, UserContext } from '..'
+import { updateGameData } from '../../../api/activeGame'
 
 const UPDATE_SERVER_EVERY_SECONDS = 30
 
@@ -26,6 +26,7 @@ const Timer = ({ durationSeconds, setDurationSeconds, setSyncError }) => {
       }, 1000)
 
       return () => clearInterval(intervalUpdTimer)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
    useEffect(() => {

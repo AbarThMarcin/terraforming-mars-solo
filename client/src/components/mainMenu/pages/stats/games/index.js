@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useRef } from 'react'
 import { PlayersContext } from '..'
 import TableGamesRow from './TableGamesRow'
 
-const Games = ({ user }) => {
+const Games = ({ user, setDataForGame }) => {
    const refTable = useRef()
    const { currPlayers, currPlayerId } = useContext(PlayersContext)
    const currPlayer = useMemo(() => currPlayers.find((player) => player._id === currPlayerId), [currPlayers, currPlayerId])
@@ -36,34 +36,68 @@ const Games = ({ user }) => {
                <span>CORPORATION</span>
             </div>
             <div>
-               <span>START<br />TIME</span>
+               <span>
+                  START
+                  <br />
+                  TIME
+               </span>
             </div>
             <div>
                <span>DURATION</span>
             </div>
             <div>
-               <span>END<br />TIME</span>
+               <span>
+                  END
+                  <br />
+                  TIME
+               </span>
             </div>
             <div>
-               <span>WIN /<br />LOSS</span>
+               <span>
+                  WIN /<br />
+                  LOSS
+               </span>
             </div>
             <div>
-               <span>POINTS<br />TR</span>
+               <span>
+                  POINTS
+                  <br />
+                  TR
+               </span>
             </div>
             <div>
-               <span>POINTS<br />GREENERY</span>
+               <span>
+                  POINTS
+                  <br />
+                  GREENERY
+               </span>
             </div>
             <div>
-               <span>POINTS<br />CITY</span>
+               <span>
+                  POINTS
+                  <br />
+                  CITY
+               </span>
             </div>
             <div>
-               <span>POINTS<br />VP</span>
+               <span>
+                  POINTS
+                  <br />
+                  VP
+               </span>
             </div>
             <div>
-               <span>POINTS<br />TOTAL</span>
+               <span>
+                  POINTS
+                  <br />
+                  TOTAL
+               </span>
             </div>
             <div>
                <span>LOG</span>
+            </div>
+            <div>
+               <span>REPLAY</span>
             </div>
             <div>
                <span>YT LINK</span>
@@ -78,7 +112,9 @@ const Games = ({ user }) => {
                currPlayer.games
                   .slice(0)
                   .reverse()
-                  .map((game, idx, games) => <TableGamesRow key={games.length - idx} id={games.length - idx} game={game} currPlayer={currPlayer} user={user} />)
+                  .map((game, idx, games) => (
+                     <TableGamesRow key={games.length - idx} id={games.length - idx} game={game} currPlayer={currPlayer} user={user} setDataForGame={setDataForGame} />
+                  ))
             ) : (
                <div className="center" style={{ fontSize: 'calc(var(--default-size) * 1.5)' }}>
                   NO GAMES

@@ -186,7 +186,15 @@ export const funcUpdateLogItemAction = (setLogItems, newActionPart) => {
 
       if (lastLogItem.action) {
          if (lastLogItem.action.slice(-1) === ']') {
-            newLastLogItemAction = lastLogItem.action.slice(0, -1) + '; ' + newActionPart + ']'
+            // In case of second MUtargetId, join both ids into one "MUtargetId: id2, id1"
+            // In case of second option (possible only in case of viral enhancers effect against ecological zone), join both options into one "option: option2, option1"
+            if (newActionPart.includes('MUtargetIds') && lastLogItem.action.includes('MUtargetIds')) {
+               newLastLogItemAction = lastLogItem.action.replace('MUtargetIds: ', newActionPart + ', ')
+            } else if (newActionPart.includes('option') && lastLogItem.action.includes('option')) {
+               newLastLogItemAction = lastLogItem.action.replace('option: ', newActionPart + ', ')
+            } else {
+               newLastLogItemAction = lastLogItem.action.slice(0, -1) + '; ' + newActionPart + ']'
+            }
          } else {
             newLastLogItemAction = lastLogItem.action + '[' + newActionPart + ']'
          }

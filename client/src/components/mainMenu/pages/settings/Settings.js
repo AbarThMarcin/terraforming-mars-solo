@@ -2,8 +2,9 @@ import { useContext, useState, useEffect, useRef } from 'react'
 import BtnGoBack from '../../BtnGoBack'
 import spinner from '../../../../assets/other/spinner.gif'
 import { updateUser } from '../../../../api/user'
-import { APP_MESSAGES, SettingsContext } from '../../../../App'
+import { SettingsContext } from '../../../../App'
 import { SoundContext } from '../../../../App'
+import { APP_MESSAGES } from '../../../../data/app'
 
 const Settings = ({ user, setUser }) => {
    const { settings, setSettings } = useContext(SettingsContext)

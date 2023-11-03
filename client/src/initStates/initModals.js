@@ -7,12 +7,10 @@ export const INIT_MODALS = {
    cardWithAction: false,
    cardViewOnly: false,
    cards: false, // Cards In Hand or Cards Played
-   draft: false,
    sellCards: false,
    marsUniversity: false,
    businessContacts: false,
    corp: false,
-   corps: true,
    log: false,
    menu: false,
    settings: false,

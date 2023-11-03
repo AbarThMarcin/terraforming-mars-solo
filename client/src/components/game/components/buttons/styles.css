@@ -287,7 +287,7 @@
    top: 0;
    width: calc(var(--default-size) * 2);
    height: 100%;
-   cursor: default;
+   /* cursor: default; */
    display: flex;
    justify-content: center;
    align-items: center;
@@ -363,7 +363,7 @@
    top: calc(var(--default-size) * -2.2);
    left: 0;
    transform: translateX(-1%);
-   overflow: hidden;
+   /* overflow: hidden; */
 }
 .btn-convert-plants-heat img {
    transform: translateY(13%);
@@ -390,4 +390,50 @@
 }
 .board-btn:hover {
    opacity: 1;
+}
+
+/* Button to show planet in the end stats modal */
+.btn-show-planet {
+   position: absolute;
+   background-color: red;
+   bottom: 7%;
+   left: 50%;
+   translate: -50% 0;
+
+   width: calc(var(--default-size) * 6.5);
+   height: calc(var(--default-size) * 1.6);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc(var(--default-size) * 0.7);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   font-weight: 500;
+   background-color: rgb(58, 58, 58);
+   border: calc(var(--default-size) * 0.1) solid rgb(161, 161, 161);
+   border-radius: calc(var(--default-size) * 0.3);
+}
+.btn-show-planet:hover {
+   background-color: rgb(77, 77, 77);
+   border: calc(var(--default-size) * 0.1) solid rgb(210, 210, 210);
+   border-radius: calc(var(--default-size) * 0.3);
+}
+
+/* Button Do Action in replay */
+.btn-do-action {
+   width: calc(var(--default-size) * 6) !important;
+   height: calc(var(--default-size) * 1.7) !important;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: calc(var(--default-size) * 1.1);
+   letter-spacing: calc(var(--default-size) * 0.1);
+   font-weight: 500;
+   background-color: rgb(0, 90, 62);
+   border: calc(var(--default-size) * 0.1) solid rgb(0, 158, 108);
+   border-radius: calc(var(--default-size) * 0.3);
+   margin: calc(var(--default-size) * 0.3) auto;
+}
+.btn-do-action:hover {
+   background-color: rgb(0, 133, 91);
+   border: calc(var(--default-size) * 0.1) solid rgb(132, 255, 216);
 }

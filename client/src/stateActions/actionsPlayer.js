@@ -1,11 +1,11 @@
 import { CORP_NAMES } from '../data/corpNames'
 import { RESOURCES } from '../data/resources'
-import { getCorporationById } from '../utils/corporation'
 
 export const ACTIONS_PLAYER = {
+   // Set whole state
+   SET_STATE: 'Set state',
    // Set corporation
    CHANGE_CORPORATION: 'Change corporation',
-   CHANGE_CORPORATION_LOG: 'Change corporation for log',
    // Set Productions
    CHANGE_PROD_MLN: 'Increase production level of milions',
    CHANGE_PROD_STEEL: 'Increase production level of steel',
@@ -24,6 +24,9 @@ export const ACTIONS_PLAYER = {
    SET_CARDS_DECK: 'Set cards ids in deck',
    SET_CARDS_DRAW: 'Set cards ids in latest draw',
    SET_CARDS_IN_HAND: 'Set cards in hand',
+   SET_CARDS_PLAYED: 'Set cards played',
+   SET_CARDS_SEEN: 'Set cards seen',
+   SET_CARDS_PURCHASED: 'Set cards purchase',
    // ================ For Log only ===============
    ADD_CARDS_IN_HAND: 'Add cards in hand',
    REMOVE_CARDS_IN_HAND: 'Remove cards in hand',
@@ -32,9 +35,6 @@ export const ACTIONS_PLAYER = {
    ADD_CARDS_PURCHASED: 'Add cards purchased',
    REMOVE_CARDS_IN_DECK: 'Remove cards in deck',
    // =============================================
-   SET_CARDS_PLAYED: 'Set cards played',
-   SET_CARDS_SEEN: 'Set cards seen',
-   SET_CARDS_PURCHASED: 'Set cards purchase',
    SET_ACTION_USED: 'Set actionUsed parameter for aspecific card in played cards',
    ADD_BIO_RES: 'Add specific amount of specific bio resource to a specific card in played cards',
    SET_TRRAISED: 'Set trRaised parameter for UNMI only',
@@ -57,10 +57,18 @@ export const ACTIONS_PLAYER = {
 
 export const reducerPlayer = (state, action) => {
    switch (action.type) {
+      // SET STATE
+      case ACTIONS_PLAYER.SET_STATE:
+         return action.payload
       // CHANGE CORPORATION
       case ACTIONS_PLAYER.CHANGE_CORPORATION:
-         if (Object.keys(action.payload).length === 0) {
-            return {}
+         if (!action.payload) {
+            return {
+               ...state,
+               corporation: null,
+               production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+               resources: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+            }
          } else {
             return {
                ...state,
@@ -82,28 +90,6 @@ export const reducerPlayer = (state, action) => {
                   heat: action.payload.resources.heat,
                },
             }
-         }
-      case ACTIONS_PLAYER.CHANGE_CORPORATION_LOG:
-         const corp = getCorporationById(action.payload)
-         return {
-            ...state,
-            corporation: action.payload,
-            production: {
-               mln: corp.production.mln,
-               steel: corp.production.steel,
-               titan: corp.production.titan,
-               plant: corp.production.plant,
-               energy: corp.production.energy,
-               heat: corp.production.heat,
-            },
-            resources: {
-               mln: corp.resources.mln,
-               steel: corp.resources.steel,
-               titan: corp.resources.titan,
-               plant: corp.resources.plant,
-               energy: corp.resources.energy,
-               heat: corp.resources.heat,
-            },
          }
       // SET PRODUCTIONS
       case ACTIONS_PLAYER.CHANGE_PROD_MLN:
@@ -237,22 +223,16 @@ export const reducerPlayer = (state, action) => {
       // ================================ For Log only ==================================
       case ACTIONS_PLAYER.ADD_CARDS_IN_HAND:
          if (Array.isArray(action.payload)) {
-            return {
-               ...state,
-               cardsInHand: [...state.cardsInHand, ...action.payload],
-            }
+            return { ...state, cardsInHand: [...state.cardsInHand, ...action.payload] }
          } else {
-            return {
-               ...state,
-               cardsInHand: [...state.cardsInHand, action.payload],
-            }
+            return { ...state, cardsInHand: [...state.cardsInHand, [action.payload]] }
          }
       case ACTIONS_PLAYER.REMOVE_CARDS_IN_HAND:
          return {
             ...state,
             cardsInHand: state.cardsInHand.filter((c) => {
                if (Array.isArray(action.payload)) {
-                  return !action.payload.contains(c.id)
+                  return !action.payload.includes(c.id)
                } else {
                   return c.id !== action.payload
                }
@@ -260,46 +240,28 @@ export const reducerPlayer = (state, action) => {
          }
       case ACTIONS_PLAYER.ADD_CARDS_PLAYED:
          if (Array.isArray(action.payload)) {
-            return {
-               ...state,
-               cardsPlayed: [...state.cardsPlayed, ...action.payload],
-            }
+            return { ...state, cardsPlayed: [...state.cardsPlayed, ...action.payload] }
          } else {
-            return {
-               ...state,
-               cardsPlayed: [...state.cardsPlayed, action.payload],
-            }
+            return { ...state, cardsPlayed: [...state.cardsPlayed, [action.payload]] }
          }
       case ACTIONS_PLAYER.ADD_CARDS_SEEN:
          if (Array.isArray(action.payload)) {
-            return {
-               ...state,
-               cardsSeen: [...state.cardsSeen, ...action.payload],
-            }
+            return { ...state, cardsSeen: [...state.cardsSeen, ...action.payload] }
          } else {
-            return {
-               ...state,
-               cardsSeen: [...state.cardsSeen, action.payload],
-            }
+            return { ...state, cardsSeen: [...state.cardsSeen, [action.payload]] }
          }
       case ACTIONS_PLAYER.ADD_CARDS_PURCHASED:
          if (Array.isArray(action.payload)) {
-            return {
-               ...state,
-               cardsPurchased: [...state.cardsPurchased, ...action.payload],
-            }
+            return { ...state, cardsPurchased: [...state.cardsPurchased, ...action.payload] }
          } else {
-            return {
-               ...state,
-               cardsPurchased: [...state.cardsPurchased, action.payload],
-            }
+            return { ...state, cardsPurchased: [...state.cardsPurchased, [action.payload]] }
          }
       case ACTIONS_PLAYER.REMOVE_CARDS_IN_DECK:
          return {
             ...state,
             cardsDeckIds: state.cardsDeckIds.filter((id) => {
                if (Array.isArray(action.payload)) {
-                  return !action.payload.contains(id)
+                  return !action.payload.includes(id)
                } else {
                   return id !== action.payload
                }

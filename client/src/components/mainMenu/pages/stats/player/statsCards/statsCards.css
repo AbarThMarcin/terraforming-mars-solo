@@ -66,17 +66,8 @@
    letter-spacing: calc(var(--default-size) * 0.1);
 }
 /* Tip */
-.details .statsCards-box > * .content .content-title .question .tip {
-   position: absolute;
-   translate: 0 -100%;
-   background-color: rgb(72, 78, 16);
-   padding: calc(var(--default-size) * 0.2);
-   color: #fff;
-   border: calc(var(--default-size) * 0.05) solid #fff;
-   font-size: calc(var(--default-size) * 0.7);
-   line-height: calc(var(--default-size) * 0.7);
+.tip-statscards {
    width: calc(var(--default-size) * 10);
-   z-index: 1;
 }
 .details .statsCards-box > * .content .content-title::after {
    content: '';

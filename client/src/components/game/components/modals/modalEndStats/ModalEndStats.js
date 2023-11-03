@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { StatePlayerContext, StateGameContext, StateBoardContext, UserContext, ModalsContext } from '../../../../game'
+import { StatePlayerContext, StateGameContext, StateBoardContext, UserContext, ModalsContext, CorpsContext } from '../../../../game'
 import iconTr from '../../../../../assets/images/resources/res_tr.svg'
 import iconGreenery from '../../../../../assets/images/tiles/tile_greenery.svg'
 import iconCity from '../../../../../assets/images/tiles/tile_city.svg'
@@ -13,6 +13,8 @@ import { deleteActiveGameData } from '../../../../../api/activeGame'
 import { updateUser } from '../../../../../api/user'
 import { getCorpLogoMini } from '../../../../../data/corporations'
 import { funcUpdateLastLogItemAfter } from '../../../../../data/log'
+import { CONFIRMATION_TEXT, MATCH_TYPES } from '../../../../../data/app'
+import { SoundContext } from '../../../../../App'
 
 const ModalEndStats = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -20,6 +22,8 @@ const ModalEndStats = () => {
    const { setModals } = useContext(ModalsContext)
    const { stateBoard } = useContext(StateBoardContext)
    const { user, setUser, type } = useContext(UserContext)
+   const { initCorpsIds } = useContext(CorpsContext)
+   const { sound } = useContext(SoundContext)
    const victoryLossText =
       stateGame.globalParameters.temperature >= 8 && stateGame.globalParameters.oxygen >= 14 && stateGame.globalParameters.oceans >= 9 ? 'YOU WIN!' : 'YOU LOSE!'
    const trPoints = getTrPoints(stateGame)
@@ -38,6 +42,7 @@ const ModalEndStats = () => {
       victory: victoryLossText === 'YOU WIN!' ? true : false,
       corporation: statePlayer.corporation?.id,
       cards: getThinerCardsForEndedGame(statePlayer),
+      initCorps: initCorpsIds,
       logItems,
       points: {
          tr: trPoints,
@@ -72,20 +77,20 @@ const ModalEndStats = () => {
             // Also update user's profile (activeMatches)
             const userMatches = {
                activeMatches: {
-                  quickMatch: type === 'QUICK MATCH' ? false : user.activeMatches.quickMatch,
-                  quickMatchId: type === 'QUICK MATCH (ID)' ? false : user.activeMatches.quickMatchId,
-                  ranked: type === 'RANKED MATCH' ? false : user.activeMatches.ranked,
+                  quickMatch: type === MATCH_TYPES.QUICK_MATCH ? false : user.activeMatches.quickMatch,
+                  quickMatchId: type === MATCH_TYPES.QUICK_MATCH_ID ? false : user.activeMatches.quickMatchId,
+                  ranked: type === MATCH_TYPES.RANKED_MATCH ? false : user.activeMatches.ranked,
                },
             }
             const { data } = await updateUser(user.token, userMatches)
             localStorage.setItem('user', JSON.stringify(data))
             setUser(data)
             // Create ended game if type = ranked
-            if (type === 'RANKED MATCH') setAddRankedGame(true)
+            if (type === MATCH_TYPES.RANKED_MATCH) setAddRankedGame(true)
          }
       }
 
-      if (trigger) {
+      if (trigger && type !== MATCH_TYPES.REPLAY) {
          funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
          updateBackend()
       }
@@ -136,8 +141,15 @@ const ModalEndStats = () => {
             </div>
             <div>{statePlayer.corporation.name}</div>
          </div>
-         <BtnAction text="LOG" onYesFunc={() => setModals((prev) => ({ ...prev, log: true }))} position={btnActionLogPosition} />
-         <BtnAction text="DONE" textConfirmation="Leave the game and go back to main menu?" onYesFunc={() => navigate('/')} position={btnActionDonePosition} />
+         <BtnAction
+            text="LOG"
+            onYesFunc={() => {
+               sound.btnGeneralClick.play()
+               setModals((prev) => ({ ...prev, log: true }))
+            }}
+            position={btnActionLogPosition}
+         />
+         <BtnAction text="DONE" textConfirmation={CONFIRMATION_TEXT.ENDGAME} onYesFunc={() => navigate('/')} position={btnActionDonePosition} />
       </div>
    )
 }

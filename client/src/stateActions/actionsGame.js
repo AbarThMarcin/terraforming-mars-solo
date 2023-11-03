@@ -1,4 +1,6 @@
 export const ACTIONS_GAME = {
+   // Set whole state
+   SET_STATE: 'Set state',
    // Generation
    INCREMENT_GEN: 'Move to next generation',
    // Phases
@@ -8,10 +10,8 @@ export const ACTIONS_GAME = {
    SET_PHASE_PLACETILE: 'Set phase where user places a tile on board',
    SET_PHASE_PLACETILEDATA: 'Set tile name to be put when place tile phase is on',
    SET_PHASE_ADDREMOVERES: 'Set phase where user selects a card, a resource will be added / removed',
-   SET_PHASE_SELECTONE: 'Set phase where user selects one of available options for card action',
-   SET_PHASE_MARS_UNIVERSITY: 'Select cards to discard phase for Mars University',
-   SET_PHASE_BUSINESS_CONTACTS: 'Select cards to discard phase for Mars University',
    SET_PHASE_AFTER_GEN14: 'Potential greeneries phase after passing in Gen 14',
+   SET_REPLAY_ACTION_ID: 'Action Id in the replay mode',
    // Global Parameters
    INCREMENT_TEMPERATURE: 'Increase temperature by 2 degrees',
    INCREMENT_OXYGEN: 'Increase oxygen by 1 percent',
@@ -26,6 +26,9 @@ export const ACTIONS_GAME = {
 
 export const reducerGame = (state, action) => {
    switch (action.type) {
+      // SET STATE
+      case ACTIONS_GAME.SET_STATE:
+         return action.payload
       // NEXT GENERATION
       case ACTIONS_GAME.INCREMENT_GEN:
          return {
@@ -63,25 +66,15 @@ export const reducerGame = (state, action) => {
             ...state,
             phaseAddRemoveRes: action.payload,
          }
-      case ACTIONS_GAME.SET_PHASE_SELECTONE:
-         return {
-            ...state,
-            phaseSelectOne: action.payload,
-         }
-      case ACTIONS_GAME.SET_PHASE_MARS_UNIVERSITY:
-         return {
-            ...state,
-            phaseMarsUniversity: action.payload,
-         }
-      case ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS:
-         return {
-            ...state,
-            phaseBusinessContacts: action.payload,
-         }
       case ACTIONS_GAME.SET_PHASE_AFTER_GEN14:
          return {
             ...state,
             phaseAfterGen14: action.payload,
+         }
+      case ACTIONS_GAME.SET_REPLAY_ACTION_ID:
+         return {
+            ...state,
+            replayActionId: action.payload,
          }
       // INCREASE GLOBAL PARAMETERS
       case ACTIONS_GAME.INCREMENT_TEMPERATURE:

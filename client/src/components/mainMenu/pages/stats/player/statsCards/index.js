@@ -5,11 +5,7 @@ import CardForStats from './CardForStats'
 import { SoundContext } from '../../../../../../App'
 import { ModalsContext } from '../../index'
 import { motion, AnimatePresence } from 'framer-motion'
-
-const tipTextPlayed =
-   'Total played divided by total seen. Example: in 10 games card has been seen 5 times and played 2 times. % Most Played for that card is 40%. If two or more cards have the same percentage, higher rank receives cards with more played count.'
-const tipTextPurchased =
-   'Total purchased divided by total seen. Example: in 10 games card has been seen 5 times and purchased 2 times. % Most Purchased for that card is 40%. If two or more cards have the same percentage, higher rank receives cards with more purchased count.'
+import { TIP_TEXTS } from '../../../../../../data/app'
 
 const StatsCards = ({ currPlayer }) => {
    const { sound } = useContext(SoundContext)
@@ -87,7 +83,7 @@ const StatsCards = ({ currPlayer }) => {
       const left = Math.floor(e.clientX - refTipPlayed.current.getBoundingClientRect().left)
       setTipTop(top)
       setTipLeft(left)
-      if (top > height || left > width) setShowTipPlayed(false)
+      if (top < -3 || top > height || left < -3 || left > width) setShowTipPlayed(false)
    }
 
    const setTipPositionPurchased = (e) => {
@@ -97,7 +93,7 @@ const StatsCards = ({ currPlayer }) => {
       const left = Math.floor(e.clientX - refTipPurchased.current.getBoundingClientRect().left)
       setTipTop(top)
       setTipLeft(left)
-      if (top > height || left > width) setShowTipPurchased(false)
+      if (top < -3 || top > height || left < -3 || left > width) setShowTipPurchased(false)
    }
 
    function getMost(cardsType) {
@@ -398,10 +394,10 @@ const StatsCards = ({ currPlayer }) => {
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0, delay: 0.2 }}
-                                    className="tip"
+                                    className="tip tip-statscards right"
                                     style={{ top: tipTop, left: tipLeft }}
                                  >
-                                    {tipTextPlayed}
+                                    {TIP_TEXTS.STATS_PLAYED}
                                  </motion.div>
                               </AnimatePresence>
                            )}
@@ -491,10 +487,10 @@ const StatsCards = ({ currPlayer }) => {
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0, delay: 0.2 }}
-                                    className="tip"
+                                    className="tip tip-statscards"
                                     style={{ top: tipTop, left: tipLeft }}
                                  >
-                                    {tipTextPurchased}
+                                    {TIP_TEXTS.STATS_PURCHASED}
                                  </motion.div>
                               </AnimatePresence>
                            )}

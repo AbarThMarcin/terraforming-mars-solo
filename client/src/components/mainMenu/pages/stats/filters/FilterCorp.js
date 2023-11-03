@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react'
 import { CORP_NAMES } from '../../../../../data/corpNames'
 
-const FilterCorp = ({ filterPlayers, season, corp, setCorp, userValue, data }) => {
+const FilterCorp = ({ filterPlayers, season, corp, setCorp, userValue }) => {
    const corps = useMemo(() => ['ALL CORPORATIONS', ...getCorps()], [])
 
    function getCorps() {

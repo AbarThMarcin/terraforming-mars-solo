@@ -65,7 +65,7 @@
    background-color: rgb(55, 82, 73);
    border: calc(var(--default-size) * 0.1) solid rgb(83, 134, 118);
    color: #777;
-   cursor: default;
+   /* cursor: default; */
 }
 
 /* Don't have an account text */

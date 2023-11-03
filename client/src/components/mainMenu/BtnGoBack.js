@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import { TABS } from '../../App'
 import { useContext } from 'react'
 import { SettingsContext, SoundContext } from '../../App'
+import { TABS } from '../../data/app'
 
 const BtnGoBack = ({ type, setType, filterPlayers, season, corp, setCorp, userValue, music, soundCopy }) => {
    const navigate = useNavigate()

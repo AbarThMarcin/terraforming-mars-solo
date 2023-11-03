@@ -1,15 +1,14 @@
 import { useContext } from 'react'
 import { TAGS } from '../../../../../data/tags'
-import { hasTag, getCardActionCost, getActionIdsWithCost } from '../../../../../utils/cards'
-import { StatePlayerContext, StateGameContext } from '../../../../game'
+import { hasTag } from '../../../../../utils/cards'
+import { StateGameContext, StatePlayerContext } from '../../../../game'
 import OtherSnap from './OtherSnap'
 import iconCardRes from '../../../../../assets/images/resources/res_any.svg'
 import iconTags from '../../../../../assets/images/tags/tag_any.svg'
 import iconVP from '../../../../../assets/images/vp/vp_any.svg'
 import iconActions from '../../../../../assets/images/actions/action_any.svg'
 import iconEffects from '../../../../../assets/images/effects/effect_any.svg'
-import { CORP_NAMES } from '../../../../../data/corpNames'
-import { CARDS } from '../../../../../data/cards'
+import { getActions } from '../../../../../utils/misc'
 
 const OtherPanel = () => {
    const { statePlayer } = useContext(StatePlayerContext)
@@ -17,7 +16,7 @@ const OtherPanel = () => {
    const [countCardRes, cardsCardRes] = getCardRes()
    const [countTags, cardsTags] = getTags()
    const [countVp, cardsVp] = getVp()
-   const [countActions, cardsActions] = getActions()
+   const [countActions, cardsActions] = getActions(statePlayer, actionRequirementsMet)
    const [countEffects, cardsEffects] = getEffects()
 
    function getCardRes() {
@@ -28,9 +27,9 @@ const OtherPanel = () => {
 
    function getTags() {
       const cards = statePlayer.cardsPlayed.filter((card) => card.tags.length > 0)
-      let count = statePlayer.corporation.tags.length
+      let count = statePlayer.corporation ? statePlayer.corporation.tags.length : 0
       if (cards.length > 0) count += cards.reduce((total, card) => (hasTag(card, TAGS.EVENT) ? total + 1 : total + card.tags.length), 0)
-      return [count, [...cards, ...statePlayer.corporation.tags]]
+      return statePlayer.corporation ? [count, [...cards, ...statePlayer.corporation.tags]] : [count, []]
    }
 
    function getVp() {
@@ -39,36 +38,10 @@ const OtherPanel = () => {
       return [count, cards]
    }
 
-   function getActions() {
-      const cards = statePlayer.cardsPlayed.filter((card) =>
-         CARDS.filter((c) => c.iconNames.action !== null)
-            .map((c) => c.id)
-            .includes(card.id)
-      )
-      let count = cards.filter((card) => {
-         let reqsMet = false
-         let enoughToBuy = true
-         if (actionRequirementsMet(card)) reqsMet = true
-         if (getActionIdsWithCost().includes(card.id)) {
-            const cost = getCardActionCost(card.id)
-            let resources = statePlayer.resources.mln
-            if (statePlayer.canPayWithHeat) resources += statePlayer.resources.heat
-            if (card.id === 187) resources += statePlayer.resources.steel * statePlayer.valueSteel
-            if (card.id === 12) resources += statePlayer.resources.titan * statePlayer.valueTitan
-            enoughToBuy = resources >= cost
-         }
-         return reqsMet && enoughToBuy
-      }).length
-      if (statePlayer.corporation.name === CORP_NAMES.UNMI) {
-         count = actionRequirementsMet(statePlayer.corporation) ? count + 1 : count
-      }
-      return [count, cards]
-   }
-
    function getEffects() {
       const cards = statePlayer.cardsPlayed.filter((card) => card.effect !== null)
-      const count = cards.length + statePlayer.corporation.effects.slice(0, 1).length
-      return [count, [...statePlayer.corporation.effects.slice(0, 1), ...cards]]
+      const count = statePlayer.corporation ? cards.length + statePlayer.corporation.effects.slice(0, 1).length : 0
+      return statePlayer.corporation ? [count, [...statePlayer.corporation.effects.slice(0, 1), ...cards]] : [count, []]
    }
 
    return (

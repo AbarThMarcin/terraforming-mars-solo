@@ -1,9 +1,10 @@
 import { useContext, useMemo } from 'react'
 import { PlayersContext, TabTypeContext } from '..'
-import { SoundContext, TABS } from '../../../../../App'
+import { SoundContext } from '../../../../../App'
 import Overview from './overview'
 import StatsCards from './statsCards'
 import StatsOther from './statsOther'
+import { TABS } from '../../../../../data/app'
 
 const Player = ({ filterPlayers, season, corp, setCorp, userValue }) => {
    const { type, setType } = useContext(TabTypeContext)

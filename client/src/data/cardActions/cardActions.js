@@ -24,7 +24,8 @@ export const funcGetCardActions = (
    id,
    token,
    sound,
-   setLogItems
+   setLogItems,
+   dataForReplay
 ) => {
    let subCardActions = []
    let dataCards = []
@@ -66,6 +67,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                funcSetLogItemsSingleActions('TR raised by 1', RESOURCES.TR, 1, setLogItems)
             },
          })
@@ -104,7 +106,7 @@ export const funcGetCardActions = (
             type: null,
             value: null,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                setModals((prev) => ({
                   ...prev,
                   modalSelectCard: {
@@ -124,7 +126,7 @@ export const funcGetCardActions = (
             type: null,
             value: null,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                setModals((prev) => ({
                   ...prev,
                   modalSelectCard: {
@@ -189,7 +191,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_STEEL,
                      payload: -toBuyResources[1],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[1]} heat`, RESOURCES.HEAT, -toBuyResources[1], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[1]} steel`, RESOURCES.STEEL, -toBuyResources[1], setLogItems)
                },
             })
          if (toBuyResources[2])
@@ -202,7 +204,7 @@ export const funcGetCardActions = (
                      type: ACTIONS_PLAYER.CHANGE_RES_TITAN,
                      payload: -toBuyResources[2],
                   })
-                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[2]} heat`, RESOURCES.HEAT, -toBuyResources[2], setLogItems)
+                  funcSetLogItemsSingleActions(`Paid ${toBuyResources[2]} titanium`, RESOURCES.TITAN, -toBuyResources[2], setLogItems)
                },
             })
          if (toBuyResources[3])
@@ -237,7 +239,7 @@ export const funcGetCardActions = (
             value: 5,
             func: () => {
                dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: 5 })
-               funcSetLogItemsSingleActions('Received 1 MC', RESOURCES.MLN, 1, setLogItems)
+               funcSetLogItemsSingleActions('Received 5 MC', RESOURCES.MLN, 5, setLogItems)
             },
          })
          break
@@ -257,7 +259,7 @@ export const funcGetCardActions = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })
@@ -284,6 +286,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                funcSetLogItemsSingleActions('TR raised by 1', RESOURCES.TR, 1, setLogItems)
             },
          })
@@ -303,7 +306,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.ANIMAL, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 animal to ${getCards([cardId])[0].name} card`, RESOURCES.ANIMAL, 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 animal to ${getCards(cardId).name}`, RESOURCES.ANIMAL, 1, setLogItems)
             },
          })
          break
@@ -327,7 +330,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.FIGHTER, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 fighter to ${getCards([cardId])[0].name} card`, RESOURCES.FIGHTER, 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 fighter to ${getCards(cardId).name}`, RESOURCES.FIGHTER, 1, setLogItems)
             },
          })
          break
@@ -341,7 +344,6 @@ export const funcGetCardActions = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -365,7 +367,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.MICROBE, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 microbe to ${getCards([cardId])[0].name} card`, RESOURCES.MICROBE, 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 microbe to ${getCards(cardId).name}`, RESOURCES.MICROBE, 1, setLogItems)
             },
          })
          break
@@ -427,7 +429,7 @@ export const funcGetCardActions = (
                   type: ACTIONS_PLAYER.ADD_BIO_RES,
                   payload: { cardId, resource: RESOURCES.SCIENCE, amount: 1 },
                })
-               funcSetLogItemsSingleActions(`Received 1 science to ${getCards([cardId])[0].name} card`, RESOURCES.SCIENCE, 1, setLogItems)
+               funcSetLogItemsSingleActions(`Received 1 science to ${getCards(cardId).name}`, RESOURCES.SCIENCE, 1, setLogItems)
             },
          })
          break
@@ -564,7 +566,6 @@ export const funcGetCardActions = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -594,6 +595,7 @@ export const funcGetCardActions = (
             func: () => {
                sound.getTR.play()
                dispatchGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
+               dispatchPlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
                funcSetLogItemsSingleActions('TR raised by 1', RESOURCES.TR, 1, setLogItems)
             },
          })
@@ -618,7 +620,6 @@ export const funcGetCardActions = (
             type: null,
             value: null,
             func: () => {
-               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: true })
                setModals((prev) => ({
                   ...prev,
                   modalSelectOne: {
@@ -663,7 +664,7 @@ export const funcGetCardActions = (
             type: RESOURCES.CARD,
             value: 1,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token)
+               let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })
@@ -717,7 +718,7 @@ export const funcGetCardActions = (
             type: RESOURCES.CARD,
             value: 2,
             func: async () => {
-               let newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token)
+               let newCardsDrawIds = await getNewCardsDrawIds(2, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
                cardsInHand = [...cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)]
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cardsInHand })
                dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })

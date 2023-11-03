@@ -1,28 +1,38 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../../../game'
-import { SoundContext } from '../../../../App'
+import { ActionsContext, ModalsContext, StateGameContext, UserContext } from '../../../game'
 import mlnIcon from '../../../../assets/images/resources/res_mln.svg'
+import { INIT_ACTIONS } from '../../../../initStates/initActions'
+import { SoundContext } from '../../../../App'
+import { MATCH_TYPES } from '../../../../data/app'
 
 const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position, onMouseDownFunc }) => {
    const { modals, setModals } = useContext(ModalsContext)
+   const { stateGame } = useContext(StateGameContext)
+   const { setActions } = useContext(ActionsContext)
+   const { type } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
 
    const handleClickActionBtn = () => {
       // If Button is disabled
       if (disabled) return
-      sound.btnGeneralClick.play()
+      // If replay mode but not corps NEXT button
+      if (type === MATCH_TYPES.REPLAY && !stateGame.phaseCorporation) return
       // If Button is CANCEL in sellCards phase
       if (text === 'CANCEL' && modals.sellCards) {
+         sound.btnGeneralClick.play()
          setModals((prev) => ({ ...prev, sellCards: false }))
+         setActions(INIT_ACTIONS)
          return
       }
       // If Button is NO in confirmation phase
       if (text === 'NO' && modals.confirmation) {
+         sound.btnGeneralClick.play()
          setModals((prev) => ({ ...prev, confirmation: false }))
          return
       }
       // If Button requires confirmation
       if (textConfirmation) {
+         sound.btnGeneralClick.play()
          setModals((prev) => ({
             ...prev,
             modalConf: {

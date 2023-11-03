@@ -1,11 +1,11 @@
 import { useContext } from 'react'
 import { TILES, setAvailFieldsAdjacent } from '../../../../../data/board'
 import { SP } from '../../../../../data/StandardProjects'
-import { getAllResourcesInMlnForSP } from '../../../../../utils/misc'
+import { getAllResourcesInMlnOnlyHeat } from '../../../../../utils/misc'
 import { StatePlayerContext, StateGameContext, StateBoardContext, ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 
-const ModalSPaction = ({ id, icon, name, cost, textConfirmation, actionClicked, setActionClicked, changeSPcosts, handleUseSP, setBtnClickedId }) => {
+const ModalSPaction = ({ id, icon, name, cost, textConfirmation, actionClicked, setActionClicked, changeSPcosts, onYesFunc, setBtnClickedId }) => {
    const { statePlayer } = useContext(StatePlayerContext)
    const { stateGame } = useContext(StateGameContext)
    const { stateBoard } = useContext(StateBoardContext)
@@ -36,7 +36,7 @@ const ModalSPaction = ({ id, icon, name, cost, textConfirmation, actionClicked, 
          ...prev,
          modalConf: {
             text: textConfirmation,
-            onYes: () => handleUseSP(name),
+            onYes: () => onYesFunc(name),
             onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },
          confirmation: true,
@@ -51,7 +51,7 @@ const ModalSPaction = ({ id, icon, name, cost, textConfirmation, actionClicked, 
       if (actionClicked === name) {
          if (statePlayer.resources.mln < cost) v = false
       } else {
-         if (getAllResourcesInMlnForSP(statePlayer) < cost) v = false
+         if (getAllResourcesInMlnOnlyHeat(statePlayer) < cost) v = false
       }
       // Other requirements
       let availFields = []

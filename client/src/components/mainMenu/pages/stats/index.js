@@ -14,20 +14,20 @@ import Modal from './games/Modal'
 import { motion, AnimatePresence } from 'framer-motion'
 import ModalCard from './player/statsCards/ModalCard'
 import ModalSeeAllCards from './player/statsCards/ModalSeeAllCards'
-import { TABS } from '../../../../App'
 import GamesLog from './games/GamesLog'
-import { getLogConvertedForGame } from '../../../../utils/dataConversion'
+import { getLogAndStatesConvertedForGame } from '../../../../utils/dataConversion'
 import { getCorporationById } from '../../../../utils/corporation'
 import Corp from '../../../game/components/corp/Corp'
+import { TABS } from '../../../../data/app'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
 export const PlayersContext = createContext()
 export const ModalsContext = createContext()
 
-const Stats = ({ user }) => {
+const Stats = ({ user, setDataForGame }) => {
    const [type, setType] = useState(TABS.GENERAL_STATISTICS)
-   const [data, setData] = useState()
+   const [dataForStats, setDataForStats] = useState()
    const [allPlayers, setAllPlayers] = useState()
    const [currPlayers, setCurrPlayers] = useState()
    const [currPlayerId, setCurrPlayerId] = useState()
@@ -58,16 +58,17 @@ const Stats = ({ user }) => {
          const initUsers = await getUsers()
          let initGames = await getEndedGameData()
          initGames = initGames.map((game) => {
+            const { convertedLogItems } = getLogAndStatesConvertedForGame(game.logItems, game.initStateBoard, [...game.cards.seen.map((c) => c.id), ...game.cards.inDeck], game.forfeited)
             return {
                ...game,
                cards: game.cards,
-               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard, [...game.cards.seen.map((c) => c.id), ...game.inDeck]),
+               logItems: convertedLogItems,
             }
          })
          const initSeason = await getSeason()
          const initData = { users: initUsers, games: initGames, season: initSeason }
          // Set Data
-         setData(initData)
+         setDataForStats(initData)
          setAllPlayers(getPlayers(initUsers, initGames, 'lifetime'))
          setCurrPlayers(getPlayers(initUsers, initGames, initSeason))
          // Set Season Filter
@@ -140,7 +141,7 @@ const Stats = ({ user }) => {
             }}
          >
             <TabTypeContext.Provider value={{ type, setType }}>
-               <DataContext.Provider value={{ data, game, setGame }}>
+               <DataContext.Provider value={{ dataForStats, game, setGame }}>
                   <PlayersContext.Provider
                      value={{
                         currPlayers,
@@ -159,15 +160,15 @@ const Stats = ({ user }) => {
                               {(type === TABS.PLAYER_OVERVIEW || type === TABS.STATS_CARDS || type === TABS.STATS_OTHER) && (
                                  <Player filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} />
                               )}
-                              {type === TABS.GAMES && <Games user={user} />}
+                              {type === TABS.GAMES && <Games user={user} setDataForGame={setDataForGame} />}
                               {type === TABS.GAMES_LOG && <GamesLog user={user} />}
                               {/* Filters */}
                               <div className="filters">
                                  {type !== TABS.GENERAL_ACHIEVEMENTS && type !== TABS.GAMES_LOG && (
-                                    <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} corp={corp} userValue={userValue} data={data} />
+                                    <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} corp={corp} userValue={userValue} dataForStats={dataForStats} />
                                  )}
                                  {(type === TABS.STATS_CARDS || type === TABS.STATS_OTHER || type === TABS.GAMES) && (
-                                    <FilterCorp filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} data={data} />
+                                    <FilterCorp filterPlayers={filterPlayers} season={season} corp={corp} setCorp={setCorp} userValue={userValue} />
                                  )}
                                  {(type === TABS.GENERAL_STATISTICS || type === TABS.GENERAL_ACHIEVEMENTS) && (
                                     <FilterUser filterPlayers={filterPlayers} season={season} corp={corp} userValue={userValue} setUserValue={setUserValue} />

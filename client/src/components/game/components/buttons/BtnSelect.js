@@ -1,28 +1,34 @@
-import { useContext, useState } from 'react'
-import { SoundContext } from '../../../../App'
+import { useContext } from 'react'
+import { MATCH_TYPES } from '../../../../data/app'
+import { ActionsContext, StatePlayerContext, UserContext } from '../..'
+import { getAllResourcesInMlnOnlyHeat } from '../../../../utils/misc'
 
-const BtnSelect = ({ initBtnText, handleClick, sourceCardId, resources }) => {
-   const [btnText, setBtnText] = useState(initBtnText)
-   const { sound } = useContext(SoundContext)
+const BtnSelect = ({ handleClick, cardId, sourceCardId }) => {
+   const { statePlayer } = useContext(StatePlayerContext)
+   const { type } = useContext(UserContext)
+   const { actions } = useContext(ActionsContext)
+
+   const isReplay = type === MATCH_TYPES.REPLAY ? true : false
+   const isSelected = actions.ids.includes(cardId)
 
    return (
       <div
-         className={`pointer ${btnText === 'SELECTED' ? 'btn-selected' : 'btn-select'}`}
+         className={`${!isReplay ? 'pointer ' : ''}${isSelected ? 'btn-selected' : 'btn-select'}`}
          onClick={(e) => {
             e.stopPropagation()
+            if (isReplay) return
             // If search for life action, don't allow to select / unselect card
             if (sourceCardId === 5) return
             // If Inventors' Guild or Business Network and resources are less than 3,
             // don't allow to select / unselect card
+            const resources = getAllResourcesInMlnOnlyHeat(statePlayer)
             if (resources !== undefined) {
                if (resources < 3) return
             }
-            sound.btnSelectClick.play()
             handleClick()
-            btnText === 'SELECT' ? setBtnText('SELECTED') : setBtnText('SELECT')
          }}
       >
-         {btnText}
+         {isSelected ? 'SELECTED' : 'SELECT'}
       </div>
    )
 }

@@ -8,14 +8,12 @@ export const INIT_STATE_GAME = {
    phasePlaceTile: false,
    phasePlaceTileData: null,
    phaseAddRemoveRes: false,
-   phaseSelectOne: false,
-   phaseMarsUniversity: false, // For Mars University only
-   phaseBusinessContacts: false, // For Business Contacts and Invention Contest only
    phaseAfterGen14: false,
+   replayActionId: null,
    // Current Global Parameters
    globalParameters: {
       temperature: -30,
-      oxygen: 6,
+      oxygen: 0,
       oceans: 0,
    },
    // TR
@@ -37,13 +35,3 @@ export const INIT_STATE_GAME = {
    // Actions left
    actionsLeft: [],
 }
-
-export const INIT_STATE_GAME_LOG = {
-   tr: 14,
-   globalParameters: {
-      temperature: -30,
-      oxygen: 6,
-      oceans: 0,
-   }
-}
-

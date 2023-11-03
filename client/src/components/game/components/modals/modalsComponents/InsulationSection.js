@@ -1,16 +1,12 @@
 import { useContext, useState } from 'react'
-import { OPTION_ICONS } from '../../../../../data/selectOneOptions'
-import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
-import { StatePlayerContext, StateGameContext, ModalsContext } from '../../../../game'
+import { StatePlayerContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import iconProdBg from '../../../../../assets/images/resources/res_prodBg.svg'
 import iconHeat from '../../../../../assets/images/resources/res_heat.svg'
-import { funcUpdateLogItemAction } from '../../../../../data/log'
+import { useSubactionSelectOption } from '../../../../../hooks/useSubactionSelectOption'
 
 const InsulationSection = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { dispatchGame, getOptionsActions, performSubActions, setLogItems } = useContext(StateGameContext)
-   const { setModals } = useContext(ModalsContext)
    const [heatAmount, setHeatAmount] = useState(0)
 
    const btnActionConfirmPosition = {
@@ -19,16 +15,7 @@ const InsulationSection = () => {
       transform: 'translate(-50%, 110%)',
    }
 
-   const handleClickConfirmBtn = () => {
-      // Also save action (string) for log that is being performed
-      funcUpdateLogItemAction(setLogItems, `option: ${heatAmount}`)
-
-      let subActions = getOptionsActions(OPTION_ICONS.CARD152_OPTION1, 0, heatAmount)
-      setModals((prev) => ({ ...prev, selectOne: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
-      dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-      performSubActions(subActions)
-   }
+   const { onConfirmInsulation } = useSubactionSelectOption({ heatAmount })
 
    return (
       <div className="select-one-section">
@@ -47,7 +34,7 @@ const InsulationSection = () => {
             )}
          </div>
          {/* CONFIRM BUTTON */}
-         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
+         <BtnAction text="CONFIRM" onYesFunc={onConfirmInsulation} position={btnActionConfirmPosition} />
       </div>
    )
 }

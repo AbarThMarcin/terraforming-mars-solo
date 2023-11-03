@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import { TabTypeContext } from '..'
-import { TABS } from '../../../../../App'
 import { SoundContext } from '../../../../../App'
 import Achievements from './achievements'
 import Statistics from './statistics'
+import { TABS } from '../../../../../data/app'
 
 const General = ({ filterPlayers, season, setSeason, setCorp, userValue }) => {
    const { type, setType } = useContext(TabTypeContext)

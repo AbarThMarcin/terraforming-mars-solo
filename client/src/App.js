@@ -1,14 +1,5 @@
 import { useState, createContext, useEffect, useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { getLogConvertedForGame, getThinerStatePlayerForActive, getStatePlayerWithAllDataFromActive } from './utils/dataConversion'
-import { range } from './utils/array'
-import { getCards } from './utils/cards'
-import { getBoardWithNeutralTiles } from './utils/board'
-import { INIT_STATE_PLAYER } from './initStates/initStatePlayer'
-import { INIT_STATE_GAME } from './initStates/initStateGame'
-import { INIT_MODALS } from './initStates/initModals'
-import { INIT_BOARD } from './initStates/initBoard'
-import { LOG_TYPES } from './data/log'
 import Menu from './components/mainMenu/pages/menu/Menu'
 import Stats from './components/mainMenu/pages/stats'
 import Settings from './components/mainMenu/pages/settings/Settings'
@@ -17,14 +8,24 @@ import Register from './components/mainMenu/pages/loginRegister/Register'
 import Account from './components/mainMenu/pages/account/Account'
 import Game from './components/game'
 import MainMenu from './components/mainMenu'
-import { createActiveGameData, getActiveGameData } from './api/activeGame'
-import { getRandIntNumbers } from './api/other'
-import { updateUser } from './api/user'
-import { createMatchWithId } from './api/matchWithId'
 import Ranking from './components/mainMenu/pages/ranking'
 import BtnMusic from './components/misc/BtnMusic'
 import Version from './components/misc/versions'
 import ModalVersions from './components/misc/versions/modalVersions'
+import { getLogAndStatesConvertedForGame, getThinerStatePlayerForActive, getStatePlayerWithAllDataFromActive } from './utils/dataConversion'
+import { range } from './utils/array'
+import { getCards } from './utils/cards'
+import { getBoardWithNeutralTiles } from './utils/board'
+import { INIT_STATE_PLAYER } from './initStates/initStatePlayer'
+import { INIT_STATE_GAME } from './initStates/initStateGame'
+import { INIT_MODALS } from './initStates/initModals'
+import { INIT_BOARD } from './initStates/initBoard'
+import { INIT_LOG_ITEMS } from './initStates/initLogItems'
+import { MATCH_TYPES, INIT_SETTINGS } from './data/app'
+import { createActiveGameData, getActiveGameData } from './api/activeGame'
+import { getRandIntNumbers } from './api/other'
+import { updateUser } from './api/user'
+import { createMatchWithId } from './api/matchWithId'
 import './app.css'
 // Music
 import { Howl } from 'howler'
@@ -41,40 +42,10 @@ import {
    btnCardsClick,
    objectPut,
 } from './data/gameSound'
-// import Music from './components/misc/Music'
 
 export const ModalConfirmationContext = createContext()
 export const SettingsContext = createContext()
 export const SoundContext = createContext()
-
-export const TABS = {
-   GENERAL_STATISTICS: 'General Statistics',
-   GENERAL_ACHIEVEMENTS: 'General Achievements',
-   PLAYER_OVERVIEW: 'Player Overview',
-   STATS_CARDS: 'Player Details',
-   STATS_OTHER: 'Player Cards',
-   GAMES: 'Games',
-   GAMES_LOG: 'Games Log',
-   RANKING_PRIMARY: 'Ranking Primary',
-   RANKING_SECONDARY: 'Ranking Secondary',
-   RANKING_RULES: 'Ranking Rules',
-}
-
-const defaultSettings = {
-   speedId: 2,
-   showTotVP: false,
-   sortId: ['4a', '4a-played'],
-   musicVolume: 0.5,
-   gameVolume: 0.5,
-}
-
-export const APP_MESSAGES = {
-   SUCCESS: 'CHANGES SAVED SUCCESSFULLY!',
-   LOGGED_OUT: 'YOU HAVE LOGGED OUT SUCCESSFULLY!',
-   SOMETHING_WENT_WRONG: 'SOMETHING WENT WRONG. TRY RE-LOGGING IN.',
-   FAILURE: 'FAILED TO SAVE CHANGES. TRY RE-LOGGING IN.',
-   GAME_WITH_ID_NOT_FOUND: 'GAME COULD NOT BE FOUND',
-}
 
 function App() {
    // User
@@ -90,13 +61,14 @@ function App() {
    const [initDurationSeconds, setInitDurationSeconds] = useState()
    // Match Type
    const [type, setType] = useState()
+   const [dataForReplay, setDataForReplaty] = useState(null)
    // Modal Confirmation Details
    const [showModalConf, setShowModalConf] = useState(false)
    // Modal QM With Id Details
    const [showModalQMId, setShowModalQMId] = useState(false)
    const [overwrite, setOverwrite] = useState(false)
    // App Settings
-   const [settings, setSettings] = useState(defaultSettings)
+   const [settings, setSettings] = useState(INIT_SETTINGS)
    // Music && Game Sound
    const [isMusicPlaying, setIsMusicPlaying] = useState(false)
    const music = useMemo(() => new Howl({ src: soundtrack1, loop: true }), [])
@@ -142,13 +114,13 @@ function App() {
          music.volume(user.settings.musicVolume)
          Object.keys(sound).forEach((key) => sound[key].volume(user.settings.gameVolume))
       } else {
-         music.volume(defaultSettings.musicVolume)
-         Object.keys(sound).forEach((key) => sound[key].volume(defaultSettings.gameVolume))
+         music.volume(INIT_SETTINGS.musicVolume)
+         Object.keys(sound).forEach((key) => sound[key].volume(INIT_SETTINGS.gameVolume))
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   async function setData(type, restartMatch = false, matchWithId = null) {
+   async function setDataForGame({ type, restartMatch = false, matchWithId = null, dataForReplay = null }) {
       // Empty Data
       let gameData = {
          id: null,
@@ -160,76 +132,82 @@ function App() {
          corps: null,
          logItems: null,
          durationSeconds: null,
+         dataForReplay: null,
       }
-      let token = user?.token
-      if (!token) {
-         // User not logged in = Quick Match
-         await initNewGame(gameData)
+      if (type === MATCH_TYPES.REPLAY) {
+         initNewGameForReplay(gameData, dataForReplay)
       } else {
-         let matchStarted
-         switch (type) {
-            case 'QUICK MATCH':
-               matchStarted = user.activeMatches.quickMatch
-               break
-            case 'QUICK MATCH (ID)':
-               matchStarted = user.activeMatches.quickMatchId
-               break
-            case 'RANKED MATCH':
-               matchStarted = user.activeMatches.ranked
-               break
-            default:
-               break
-         }
-         if (!matchStarted || restartMatch) {
-            // Game not started
-            if (type === 'QUICK MATCH (ID)') {
-               await initNewGameId(gameData, matchWithId) // Quick Match with ID
-            } else {
-               await initNewGame(gameData) // Quick Match or Ranked Match
-            }
-
-            // Save init game data to the server
-            let newData
-            newData = await createActiveGameData(
-               user.token,
-               {
-                  id: gameData.id,
-                  statePlayer: getThinerStatePlayerForActive(gameData.statePlayer),
-                  stateGame: gameData.stateGame,
-                  stateModals: gameData.stateModals,
-                  stateBoard: gameData.stateBoard,
-                  initStateBoard: gameData.initStateBoard,
-                  corps: gameData.corps,
-                  logItems: gameData.logItems,
-                  startTime: new Date().toJSON(),
-                  durationSeconds: gameData.durationSeconds,
-               },
-               type
-            )
-            if (!newData?.corps) return
-
-            // Update user
-            const res = await updateUser(user.token, {
-               activeMatches: {
-                  quickMatch: type === 'QUICK MATCH' ? true : user.activeMatches.quickMatch,
-                  quickMatchId: type === 'QUICK MATCH (ID)' ? true : user.activeMatches.quickMatchId,
-                  ranked: type === 'RANKED MATCH' ? true : user.activeMatches.ranked,
-               },
-            })
-            if (res.data) {
-               localStorage.setItem('user', JSON.stringify(res.data))
-               setUser(res.data)
-            } else {
-               return
-            }
+         let token = user?.token
+         if (!token) {
+            // User not logged in = Quick Match
+            await initNewGame(gameData)
          } else {
-            // Game already started
-            gameData = await getActiveGameData(user.token, type)
-            if (!gameData?.corps) return
-            gameData = {
-               ...gameData,
-               statePlayer: getStatePlayerWithAllDataFromActive(gameData.statePlayer),
-               logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds),
+            let matchStarted
+            switch (type) {
+               case MATCH_TYPES.QUICK_MATCH:
+                  matchStarted = user.activeMatches.quickMatch
+                  break
+               case MATCH_TYPES.QUICK_MATCH_ID:
+                  matchStarted = user.activeMatches.quickMatchId
+                  break
+               case MATCH_TYPES.RANKED_MATCH:
+                  matchStarted = user.activeMatches.ranked
+                  break
+               default:
+                  break
+            }
+            if (!matchStarted || restartMatch) {
+               // Game not started
+               if (type === MATCH_TYPES.QUICK_MATCH_ID) {
+                  await initNewGameId(gameData, matchWithId) // Quick Match with ID
+               } else {
+                  await initNewGame(gameData) // Quick Match or Ranked Match
+               }
+
+               // Save init game data to the server
+               let newData
+               newData = await createActiveGameData(
+                  user.token,
+                  {
+                     id: gameData.id,
+                     statePlayer: getThinerStatePlayerForActive(gameData.statePlayer),
+                     stateGame: gameData.stateGame,
+                     stateModals: gameData.stateModals,
+                     stateBoard: gameData.stateBoard,
+                     initStateBoard: gameData.initStateBoard,
+                     corps: gameData.corps,
+                     logItems: gameData.logItems,
+                     startTime: new Date().toJSON(),
+                     durationSeconds: gameData.durationSeconds,
+                  },
+                  type
+               )
+               if (!newData?.corps) return
+
+               // Update user
+               const res = await updateUser(user.token, {
+                  activeMatches: {
+                     quickMatch: type === MATCH_TYPES.QUICK_MATCH ? true : user.activeMatches.quickMatch,
+                     quickMatchId: type === MATCH_TYPES.QUICK_MATCH_ID ? true : user.activeMatches.quickMatchId,
+                     ranked: type === MATCH_TYPES.RANKED_MATCH ? true : user.activeMatches.ranked,
+                  },
+               })
+               if (res.data) {
+                  localStorage.setItem('user', JSON.stringify(res.data))
+                  setUser(res.data)
+               } else {
+                  return
+               }
+            } else {
+               // Game already started
+               gameData = await getActiveGameData(user.token, type)
+               if (!gameData?.corps) return
+               const { convertedLogItems } = getLogAndStatesConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds, false)
+               gameData = {
+                  ...gameData,
+                  statePlayer: getStatePlayerWithAllDataFromActive(gameData.statePlayer),
+                  logItems: convertedLogItems,
+               }
             }
          }
       }
@@ -244,6 +222,7 @@ function App() {
       setInitLogItems(gameData.logItems)
       setInitDurationSeconds(gameData.durationSeconds)
       setType(type)
+      setDataForReplaty(dataForReplay)
 
       return 'Ok'
    }
@@ -252,9 +231,9 @@ function App() {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
       // const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      const initCardsIds = [111, 192, 110, 19, 2, 33, 4, 73, 60, 7]
+      const initCardsIds = [12, 20, 195, 131, 5, 6, 7, 8, 73, 90]
       // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      const initCorpsIds = [5, 10]
+      const initCorpsIds = [12, 3]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(initCardsIds)
@@ -269,7 +248,7 @@ function App() {
          cardsDeckIds: leftCardsIds,
          cardsDrawIds: initCardsIds,
       }
-      gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: 1 }]
+      gameData.logItems = INIT_LOG_ITEMS
       gameData.durationSeconds = 0
    }
 
@@ -291,15 +270,15 @@ function App() {
          gameData.stateBoard = matchWithId.stateBoard
          gameData.initStateBoard = matchWithId.stateBoard
          gameData.corps = matchWithId.corps
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: 1 }]
+         gameData.logItems = INIT_LOG_ITEMS
          gameData.durationSeconds = matchWithId.durationSeconds
       } else {
          // Create New Match With Id
          const board = JSON.parse(JSON.stringify(INIT_BOARD))
          const initCardsIds = await getRandIntNumbers(208, 1, 208)
-         // const initCardsIds = [...[90, 111, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], ...(await getRandIntNumbers(188, 1, 188))]
+         // const initCardsIds = [...[90, 111, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 33, 13, 14, 15, 16, 17, 18], ...(await getRandIntNumbers(188, 1, 188))]
          const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-         // const initCorpsIds = [1, 2]
+         // const initCorpsIds = [5, 2]
          const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.slice(0, 10).includes(id))
          const initCards = getCards(initCardsIds.slice(0, 10))
          gameData.statePlayer = {
@@ -313,7 +292,7 @@ function App() {
          gameData.stateBoard = getBoardWithNeutralTiles(board)
          gameData.initStateBoard = gameData.stateBoard
          gameData.corps = initCorpsIds
-         gameData.logItems = [{ type: LOG_TYPES.GENERATION, title: 1 }]
+         gameData.logItems = INIT_LOG_ITEMS
          gameData.durationSeconds = 0
          const matchId = await createMatchWithId(user.token, {
             stateBoard: gameData.stateBoard,
@@ -322,6 +301,25 @@ function App() {
          })
          gameData.id = matchId._id
       }
+   }
+
+   function initNewGameForReplay(gameData, dataForReplay) {
+      const initCardsIds = dataForReplay.cards.seen.slice(0, 10).map((c) => c.id)
+      const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
+      const initCards = getCards(initCardsIds)
+      gameData.statePlayer = {
+         ...INIT_STATE_PLAYER,
+         cardsSeen: initCards,
+         cardsDeckIds: leftCardsIds,
+         cardsDrawIds: initCardsIds,
+      }
+      gameData.stateGame = INIT_STATE_GAME
+      gameData.stateModals = INIT_MODALS
+      gameData.stateBoard = dataForReplay.initStateBoard
+      gameData.initStateBoard = dataForReplay.initStateBoard
+      gameData.corps = dataForReplay.initCorps
+      gameData.logItems = INIT_LOG_ITEMS
+      gameData.durationSeconds = 0
    }
 
    return (
@@ -341,8 +339,8 @@ function App() {
                   <Router>
                      <Routes>
                         <Route path="/" element={<MainMenu />}>
-                           <Route index element={<Menu user={user} setUser={setUser} setData={setData} />} />
-                           <Route path="stats" element={<Stats user={user} />} />
+                           <Route index element={<Menu user={user} setUser={setUser} setDataForGame={setDataForGame} />} />
+                           <Route path="stats" element={<Stats user={user} setDataForGame={setDataForGame} />} />
                            <Route path="settings" element={<Settings user={user} setUser={setUser} />} />
                            <Route path="ranking" element={<Ranking />} />
                            <Route path="login" element={<Login setUser={setUser} />} />
@@ -364,6 +362,7 @@ function App() {
                                  type={type}
                                  user={user}
                                  setUser={setUser}
+                                 dataForReplay={dataForReplay}
                               />
                            }
                         />

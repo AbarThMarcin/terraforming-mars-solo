@@ -1,28 +1,21 @@
 import { useContext } from 'react'
-import { StatePlayerContext } from '../../../../../game'
+import { ActionsContext, StatePlayerContext } from '../../../../../game'
 import iconHeat from '../../../../../../assets/images/resources/res_heat.svg'
+import { useActionDraft } from '../../../../../../hooks/useActionDraft'
 
-const DecreaseCostDraft = ({ toBuyMln, setToBuyMln, toBuyHeat, setToBuyHeat }) => {
+const DecreaseCostDraft = () => {
    const { statePlayer } = useContext(StatePlayerContext)
+   const { actions } = useContext(ActionsContext)
 
-   const handleClickArrow = (operation) => {
-      if (operation === 'increment') {
-         setToBuyMln(--toBuyMln)
-         setToBuyHeat(++toBuyHeat)
-      }
-      if (operation === 'decrement') {
-         setToBuyMln(++toBuyMln)
-         setToBuyHeat(--toBuyHeat)
-      }
-   }
+   const { handleClickArrow } = useActionDraft()
 
    return (
       <div className="card-decrease-cost-container draft">
          <div className="card-decrease-cost">
-            <div><span>{toBuyHeat}</span></div>
+            <div><span>{actions.heat}</span></div>
             <div><img src={iconHeat} alt="icon_heat" /></div>
-            {toBuyHeat > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow('decrement')}></div>}
-            {toBuyHeat < statePlayer.resources.heat && toBuyMln !== 0 && (
+            {actions.heat > 0 && <div className="decrease-arrow pointer decrease-arrow-left" onClick={() => handleClickArrow('decrement')}></div>}
+            {actions.heat < statePlayer.resources.heat && actions.mln !== 0 && (
                <div className="decrease-arrow pointer decrease-arrow-right" onClick={() => handleClickArrow('increment')}></div>
             )}
          </div>

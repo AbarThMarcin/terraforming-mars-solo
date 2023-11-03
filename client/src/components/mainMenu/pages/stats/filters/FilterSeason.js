@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react'
 
-const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, data }) => {
+const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, dataForStats }) => {
    const seasons = useMemo(
       () => getSeasons(),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -8,9 +8,9 @@ const FilterSeason = ({ filterPlayers, season, setSeason, corp, userValue, data 
    )
 
    function getSeasons() {
-      return Array(data.season + 1)
+      return Array(dataForStats.season + 1)
          .fill()
-         .map((_, idx) => data.season - idx)
+         .map((_, idx) => dataForStats.season - idx)
    }
 
    function handleClick(e) {

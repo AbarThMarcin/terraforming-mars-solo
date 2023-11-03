@@ -8,10 +8,8 @@ const stateGameSchema = mongoose.Schema({
    phasePlaceTile: Boolean,
    phasePlaceTileData: String,
    phaseAddRemoveRes: Boolean,
-   phaseSelectOne: Boolean,
-   phaseMarsUniversity: Boolean,
-   phaseBusinessContacts: Boolean,
    phaseAfterGen14: Boolean,
+   replayActionId: Number,
    globalParameters: {
       temperature: Number,
       oxygen: Number,

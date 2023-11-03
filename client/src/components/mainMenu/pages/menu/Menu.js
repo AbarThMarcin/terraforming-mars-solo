@@ -6,12 +6,13 @@ import ModalConfirmation from '../../ModalConfirmation'
 import { deleteActiveGameData, getActiveGameData } from '../../../../api/activeGame'
 import { createEndedGameData } from '../../../../api/endedGame'
 import { useContext } from 'react'
-import { APP_MESSAGES, ModalConfirmationContext } from '../../../../App'
+import { ModalConfirmationContext } from '../../../../App'
 import { updateUser } from '../../../../api/user'
 import { useEffect } from 'react'
 import ModalQMId from '../../modalQMId/ModalQMId'
 import Message from './Message'
-import { getLogConvertedForGame, getLogConvertedForDB, getStatePlayerWithAllDataFromActive, getThinerCardsForEndedGame } from '../../../../utils/dataConversion'
+import { getLogAndStatesConvertedForGame, getLogConvertedForDB, getStatePlayerWithAllDataFromActive, getThinerCardsForEndedGame } from '../../../../utils/dataConversion'
+import { APP_MESSAGES, MATCH_TYPES, TIP_TEXTS } from '../../../../data/app'
 
 // Quick Match Text for Confirmation Window
 const QM_text = 'Do you want to resume previous quick match?'
@@ -22,11 +23,7 @@ const RM_new_text = 'You are about to create a new ranked match. You have 24 hou
 const RM_new_text_with_expired = `Your active ranked match has been expired, and therefore treated as forfeited. You are about to create a new ranked match. You have 24 hours to finish it. Are you sure you want to continue?`
 const RM_resume_text = 'Do you want to resume previous ranked match or forfeit and start a new one?'
 
-const tipText_QMId = 'Log in to play match with id'
-const tipText_RM = 'Log in to play ranked match'
-const tipText_account = 'Log in to manage your account'
-
-const Menu = ({ user, setUser, setData }) => {
+const Menu = ({ user, setUser, setDataForGame }) => {
    let navigate = useNavigate()
    const { showModalConf, setShowModalConf, showModalQMId, setShowModalQMId, overwrite, setOverwrite } = useContext(ModalConfirmationContext)
    const [loading, setLoading] = useState(false)
@@ -63,7 +60,7 @@ const Menu = ({ user, setUser, setData }) => {
          setConfirmationDetails(QM_text, { text: 'RESUME', func: QM_resume }, { text: 'START NEW', func: QM_startNew })
       } else {
          setLoading(true)
-         const data = await setData('QUICK MATCH')
+         const data = await setDataForGame({ type: MATCH_TYPES.QUICK_MATCH })
          setLoading(false)
          if (data) {
             navigate('/match')
@@ -77,7 +74,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function QM_resume() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('QUICK MATCH')
+      const data = await setDataForGame({ type: MATCH_TYPES.QUICK_MATCH })
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -90,14 +87,14 @@ const Menu = ({ user, setUser, setData }) => {
    async function QM_startNew() {
       setShowModalConf(false)
       setLoading(true)
-      let data = await deleteActiveGameData(user.token, 'QUICK MATCH')
+      let data = await deleteActiveGameData(user.token, MATCH_TYPES.QUICK_MATCH)
       if (!data?.corps) {
          setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
          setShowMsgType('error')
          setLoading(false)
          return
       }
-      data = await setData('QUICK MATCH', true)
+      data = await setDataForGame({ type: MATCH_TYPES.QUICK_MATCH, restartMatch: true })
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -121,7 +118,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function QMId_resume() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('QUICK MATCH (ID)')
+      const data = await setDataForGame({ type: MATCH_TYPES.QUICK_MATCH_ID })
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -144,11 +141,12 @@ const Menu = ({ user, setUser, setData }) => {
 
       let res
       if (user.activeMatches.ranked) {
-         let game = await getActiveGameData(user.token, 'RANKED MATCH')
+         let game = await getActiveGameData(user.token, MATCH_TYPES.RANKED_MATCH)
+         const { convertedLogItems } = getLogAndStatesConvertedForGame(game.logItems, game.initStateBoard, game.statePlayer.cardsDeckIds, false)
          game = {
             ...game,
             statePlayer: getStatePlayerWithAllDataFromActive(game.statePlayer),
-            logItems: getLogConvertedForGame(game.logItems, game.initStateBoard, game.statePlayer.cardsDeckIds),
+            logItems: convertedLogItems,
          }
 
          if (!game?.corps) {
@@ -160,7 +158,7 @@ const Menu = ({ user, setUser, setData }) => {
          // if ((Date.now() - game.createdAt_ms) / (1000 * 7) > 3) {
          if ((Date.now() - game.createdAt_ms) / (1000 * 60 * 60 * 24) > 3) {
             // Delete Expired Ranked Game from Active Games
-            res = await deleteActiveGameData(user.token, 'RANKED MATCH')
+            res = await deleteActiveGameData(user.token, MATCH_TYPES.RANKED_MATCH)
             if (!res?.corps) {
                setLoading(false)
                setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
@@ -171,6 +169,7 @@ const Menu = ({ user, setUser, setData }) => {
             const newGame = await createEndedGameData(user.token, {
                corporation: game.statePlayer.corporation?.id,
                cards: getThinerCardsForEndedGame(game.statePlayer),
+               initCorps: res.corps,
                initStateBoard: res.initStateBoard,
                logItems: getLogConvertedForDB(game.logItems),
                forfeited: true,
@@ -214,7 +213,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_resume() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('RANKED MATCH')
+      const data = await setDataForGame({ type: MATCH_TYPES.RANKED_MATCH })
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -227,11 +226,12 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_forfeitAndStartNew() {
       setShowModalConf(false)
       setLoading(true)
-      let gameData = await getActiveGameData(user.token, 'RANKED MATCH')
+      let gameData = await getActiveGameData(user.token, MATCH_TYPES.RANKED_MATCH)
+      const { convertedLogItems } = getLogAndStatesConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds, false)
       gameData = {
          ...gameData,
          statePlayer: getStatePlayerWithAllDataFromActive(gameData.statePlayer),
-         logItems: getLogConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds),
+         logItems: convertedLogItems,
       }
 
       if (!gameData?.corps) {
@@ -240,7 +240,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
          return
       }
-      const res = await deleteActiveGameData(user.token, 'RANKED MATCH')
+      const res = await deleteActiveGameData(user.token, MATCH_TYPES.RANKED_MATCH)
       if (!res?.corps) {
          setLoading(false)
          setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
@@ -250,6 +250,7 @@ const Menu = ({ user, setUser, setData }) => {
       const newGame = await createEndedGameData(user.token, {
          corporation: gameData.statePlayer.corporation?.id,
          cards: getThinerCardsForEndedGame(gameData.statePlayer),
+         initCorps: res.corps,
          initStateBoard: res.initStateBoard,
          logItems: getLogConvertedForDB(gameData.logItems),
          forfeited: true,
@@ -263,7 +264,7 @@ const Menu = ({ user, setUser, setData }) => {
          setShowMsgType('error')
          return
       }
-      const data = await setData('RANKED MATCH', true)
+      const data = await setDataForGame({ type: MATCH_TYPES.RANKED_MATCH, restartMatch: true })
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -276,7 +277,7 @@ const Menu = ({ user, setUser, setData }) => {
    async function RM_startNew() {
       setShowModalConf(false)
       setLoading(true)
-      const data = await setData('RANKED MATCH')
+      const data = await setDataForGame({ type: MATCH_TYPES.RANKED_MATCH })
       setLoading(false)
       if (data) {
          navigate('/match')
@@ -307,9 +308,9 @@ const Menu = ({ user, setUser, setData }) => {
             {/* Quick Match */}
             <Button text="QUICK MATCH" action={handleClickQuickMatch} disabled={loading} />
             {/* Quick Match With Id*/}
-            <Button text="MATCH WITH ID" action={handleClickMatchWithId} disabled={user == null || loading} loading={loading} tipText={tipText_QMId} />
+            <Button text="MATCH WITH ID" action={handleClickMatchWithId} disabled={user == null || loading} loading={loading} tipText={TIP_TEXTS.MENU_QM_ID} />
             {/* Ranked */}
-            <Button text="RANKED MATCH" action={handleClickRankedMatch} disabled={user == null || loading} loading={loading} tipText={tipText_RM} />
+            <Button text="RANKED MATCH" action={handleClickRankedMatch} disabled={user == null || loading} loading={loading} tipText={TIP_TEXTS.MENU_RANKED} />
             {/* Ranking */}
             <Button text="RANKING" path="ranking" disabled={loading} />
             {/* Statistics */}
@@ -317,14 +318,14 @@ const Menu = ({ user, setUser, setData }) => {
             {/* Settings */}
             <Button text="SETTINGS" path="settings" disabled={loading} />
             {/* Account */}
-            <Button text="ACCOUNT" path="account" disabled={user == null || loading} loading={loading} tipText={tipText_account} />
+            <Button text="ACCOUNT" path="account" disabled={user == null || loading} loading={loading} tipText={TIP_TEXTS.MENU_ACCOUNT} />
             {/* Login */}
             {user ? <Button text="LOGOUT" path="/" action={logout} disabled={loading} /> : <Button text="LOGIN" path="login" disabled={loading} />}
          </div>
          {/* Confirmation Modal */}
          {showModalConf && <ModalConfirmation text={text} btn1={btn1} btn2={btn2} cancel={cancel} />}
          {/* Modal for Match With Id */}
-         {showModalQMId && <ModalQMId setShowModalQMId={setShowModalQMId} overwrite={overwrite} setData={setData} user={user} />}
+         {showModalQMId && <ModalQMId setShowModalQMId={setShowModalQMId} overwrite={overwrite} setDataForGame={setDataForGame} user={user} />}
       </>
    )
 }

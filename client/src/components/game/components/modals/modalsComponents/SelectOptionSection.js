@@ -1,13 +1,11 @@
 import { useContext } from 'react'
-import { ACTIONS_GAME } from '../../../../../stateActions/actionsGame'
-import { StateGameContext, ModalsContext } from '../../../../game'
+import { ModalsContext } from '../../../../game'
 import BtnAction from '../../buttons/BtnAction'
 import SelectOption from './SelectOption'
-import { funcUpdateLogItemAction } from '../../../../../data/log'
+import { useSubactionSelectOption } from '../../../../../hooks/useSubactionSelectOption'
 
 const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
-   const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame, dispatchGame, getOptionsActions, performSubActions, setLogItems } = useContext(StateGameContext)
+   const { modals } = useContext(ModalsContext)
 
    const btnActionConfirmPosition = {
       bottom: '-5%',
@@ -15,16 +13,7 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
       transform: 'translate(-50%, 110%)',
    }
 
-   const handleClickConfirmBtn = () => {
-      // Also save action (string) for log that is being performed
-      funcUpdateLogItemAction(setLogItems, `option: ${selectedOption}`)
-
-      let subActions = [...getOptionsActions(selectedOption), ...stateGame.actionsLeft]
-      setModals((prev) => ({ ...prev, selectOne: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_SELECTONE, payload: false })
-      dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-      performSubActions(subActions)
-   }
+   const { onConfirmSelectOption } = useSubactionSelectOption({ selectedOption })
 
    return (
       <div className="select-one-section">
@@ -35,7 +24,7 @@ const SelectOptionSection = ({ selectedOption, setSelectedOption }) => {
             <SelectOption key={idx} idx={idx} option={option} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
          ))}
          {/* CONFIRM BUTTON */}
-         <BtnAction text="CONFIRM" onYesFunc={handleClickConfirmBtn} position={btnActionConfirmPosition} />
+         <BtnAction text="CONFIRM" onYesFunc={onConfirmSelectOption} position={btnActionConfirmPosition} />
       </div>
    )
 }

@@ -3,27 +3,24 @@ import { useContext, useEffect, useState } from 'react'
 import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext, UserContext, CorpsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
-import { ACTIONS_GAME } from '../../../../stateActions/actionsGame'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
 import Card from '../card/Card'
 import { getLogConvertedForDB, getThinerStatePlayerForActive } from '../../../../utils/dataConversion'
-import { getCards, getPositionInModalCards, getCardsWithDecreasedCost, getCardsWithTimeAdded } from '../../../../utils/cards'
-import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../../../../data/animations'
-import { RESOURCES } from '../../../../data/resources'
+import { getCards, getPositionInModalCards, getCardsWithDecreasedCost } from '../../../../utils/cards'
 import Arrows from './modalsComponents/arrows/Arrows'
 import { updateGameData } from '../../../../api/activeGame'
-import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../../../../data/log'
+import { MATCH_TYPES } from '../../../../data/app'
+import { useSubactionBusinessContacts } from '../../../../hooks/useSubactionBusinessContacts'
 
 const ModalBusinessContacts = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateBoard } = useContext(StateBoardContext)
-   const { stateGame, dispatchGame, performSubActions, logItems, ANIMATION_SPEED, setSyncError, setLogItems, durationSeconds } = useContext(StateGameContext)
+   const { stateGame, logItems, setSyncError, durationSeconds } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, user } = useContext(UserContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { sound } = useContext(SoundContext)
-   const [selectedCardIds, setSelectedCardIds] = useState([])
    const [page, setPage] = useState(1)
    const cardsSeen = getCards(modals.modalBusCont.cards)
 
@@ -33,10 +30,12 @@ const ModalBusinessContacts = () => {
       return `${(1 - page) * 100}%`
    }
 
+   const { onYesFunc, handleClickBtnSelect, selectedCardIds } = useSubactionBusinessContacts()
+
    // Add cards to the cardsSeen
    useEffect(() => {
       // Update active game on server only if user is logged
-      if (!user) return
+      if (!user || type === MATCH_TYPES.REPLAY) return
 
       if (!statePlayer.cardsSeen.includes(cardsSeen[0].id)) {
          const newCards = [...statePlayer.cardsSeen, ...cardsSeen]
@@ -62,43 +61,6 @@ const ModalBusinessContacts = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   const onYesFunc = () => {
-      // Save action (string) for log that is being performed
-      funcUpdateLogItemAction(setLogItems, `ids: ${selectedCardIds.join(', ')}`)
-
-      // Turn business contacts phase off
-      setModals((prev) => ({ ...prev, businessContacts: false }))
-      dispatchGame({ type: ACTIONS_GAME.SET_PHASE_BUSINESS_CONTACTS, payload: false })
-      // Draw card(s)
-      startAnimation(setModals)
-      setAnimation(ANIMATIONS.CARD_IN, RESOURCES.CARD, modals.modalBusCont.selectCount, setModals)
-      setTimeout(() => {
-         dispatchPlayer({
-            type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-            payload: [...statePlayer.cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(selectedCardIds)), statePlayer)],
-         })
-         if (modals.modalBusCont.selectCount === 1) {
-            funcSetLogItemsSingleActions(`Drew 1 card (${getCards(selectedCardIds)[0].name})`, RESOURCES.CARD, 1, setLogItems)
-         } else {
-            const newCardsDrawNames = getCards(selectedCardIds).map((c) => c.name)
-            funcSetLogItemsSingleActions(`Drew 2 cards (${newCardsDrawNames[0]} and ${newCardsDrawNames[1]})`, RESOURCES.CARD, 2, setLogItems)
-         }
-
-         endAnimation(setModals)
-         // Continue remaining actions
-         startAnimation(setModals)
-         performSubActions(stateGame.actionsLeft)
-      }, ANIMATION_SPEED)
-   }
-
-   const handleClickBtnSelect = (card) => {
-      if (!selectedCardIds.includes(card.id)) {
-         setSelectedCardIds([...selectedCardIds, card.id])
-      } else {
-         setSelectedCardIds(selectedCardIds.filter((cardId) => cardId !== card.id))
-      }
-   }
-
    return (
       <>
          {/* ARROWS */}
@@ -123,7 +85,7 @@ const ModalBusinessContacts = () => {
                         className={`pointer ${selectedCardIds.includes(card.id) ? 'btn-selected' : 'btn-select'}`}
                         onClick={(e) => {
                            e.stopPropagation()
-                           handleClickBtnSelect(card)
+                           handleClickBtnSelect(card.id)
                         }}
                      >
                         {selectedCardIds.includes(card.id) ? 'SELECTED' : 'SELECT'}

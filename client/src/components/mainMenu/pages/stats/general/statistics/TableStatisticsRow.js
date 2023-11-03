@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import { TABS } from '../../../../../../App'
 import BtnGoTo from '../../btnGoTo/BtnGoTo'
 import { PlayersContext, TabTypeContext } from '../../index'
+import { TABS } from '../../../../../../data/app'
 
 const TableStatisticsRow = ({ player }) => {
    const { setCurrPlayerId } = useContext(PlayersContext)

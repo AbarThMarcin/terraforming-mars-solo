@@ -8,7 +8,7 @@ const ModalCardViewOnly = () => {
 
    return (
       <div className="card-container big center" onClick={(e) => e.stopPropagation()}>
-         <Card card={modals.modalCard} isBig={true} />
+         {modals.modalCard ? <Card card={modals.modalCard} isBig={true} /> : <></>}
       </div>
    )
 }

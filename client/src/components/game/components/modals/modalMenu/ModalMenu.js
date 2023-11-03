@@ -7,6 +7,7 @@ import { updateUser } from '../../../../../api/user'
 import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from '../../../../game'
 import { SettingsContext, SoundContext } from '../../../../../App'
 import { getLogConvertedForDB, getThinerCardsForEndedGame } from '../../../../../utils/dataConversion'
+import { MATCH_TYPES } from '../../../../../data/app'
 
 const ModalMenu = () => {
    const navigate = useNavigate()
@@ -26,10 +27,11 @@ const ModalMenu = () => {
 
          if (res?.response) return
          // Create forfeited game (endedGame) if type is ranked
-         if (type === 'RANKED MATCH') {
+         if (type === MATCH_TYPES.RANKED_MATCH) {
             const gameData = {
                corporation: statePlayer.corporation?.id,
                cards: getThinerCardsForEndedGame(statePlayer),
+               initCorps: res.corps,
                initStateBoard: res.initStateBoard,
                logItems: getLogConvertedForDB(logItems),
                forfeited: true,
@@ -42,9 +44,9 @@ const ModalMenu = () => {
          // Update user by changing activeMatches
          const { data } = await updateUser(user.token, {
             activeMatches: {
-               quickMatch: type === 'QUICK MATCH' ? false : user.activeMatches.quickMatch,
-               quickMatchId: type === 'QUICK MATCH (ID)' ? false : user.activeMatches.quickMatchId,
-               ranked: type === 'RANKED MATCH' ? false : user.activeMatches.ranked,
+               quickMatch: type === MATCH_TYPES.QUICK_MATCH ? false : user.activeMatches.quickMatch,
+               quickMatchId: type === MATCH_TYPES.QUICK_MATCH_ID ? false : user.activeMatches.quickMatchId,
+               ranked: type === MATCH_TYPES.RANKED_MATCH ? false : user.activeMatches.ranked,
             },
          })
          localStorage.setItem('user', JSON.stringify(data))
@@ -103,7 +105,7 @@ const ModalMenu = () => {
                   >
                      RULES
                   </li>
-                  {user && (
+                  {user && type !== MATCH_TYPES.REPLAY && !modals.endStats && (
                      <li
                         className="pointer"
                         onClick={() => {
@@ -125,7 +127,7 @@ const ModalMenu = () => {
                   </li>
                </ul>
                {/* Game Id */}
-               {type === 'QUICK MATCH (ID)' && (
+               {type === MATCH_TYPES.QUICK_MATCH_ID && (
                   <div className="game-id">
                      <span>MATCH ID: </span>
                      <span className="id">{id}</span>

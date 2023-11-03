@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { SoundContext, TABS } from '../../../../App'
+import { SoundContext } from '../../../../App'
 import BtnGoBack from '../../BtnGoBack'
 import RankingPrimary from './RankingPrimary'
 import RankingRules from './RankingRules'
@@ -9,7 +9,8 @@ import { getUsers } from '../../../../api/user'
 import { getEndedGameData } from '../../../../api/endedGame'
 import { getSeason } from '../../../../api/other'
 import FilterSeason from '../stats/filters/FilterSeason'
-import { getLogConvertedForGame } from '../../../../utils/dataConversion'
+import { getLogAndStatesConvertedForGame } from '../../../../utils/dataConversion'
+import { TABS } from '../../../../data/app'
 
 export const TabTypeContext = createContext()
 export const DataContext = createContext()
@@ -19,7 +20,7 @@ const GAMES_COUNT_PRIMARY_SEASON = 50
 
 const Ranking = () => {
    const [type, setType] = useState(TABS.RANKING_PRIMARY)
-   const [data, setData] = useState()
+   const [dataForStats, setDataForStats] = useState()
    const [allPlayers, setAllPlayers] = useState()
    const [currPlayers, setCurrPlayers] = useState()
    // Filters
@@ -33,17 +34,18 @@ const Ranking = () => {
          const initUsers = await getUsers()
          let initGames = await getEndedGameData()
          initGames = initGames.map((game) => {
+            const { convertedLogItems } = getLogAndStatesConvertedForGame(game.logItems, game.initStateBoard, [...game.cards.seen.map((c) => c.id), ...game.cards.inDeck], game.forfeited)
             return {
                ...game,
                cards: game.cards,
-               logItems: getLogConvertedForGame(game.logItems, game.initStateBoard, [...game.cards.seen.map((c) => c.id), ...game.inDeck]),
+               logItems: convertedLogItems,
             }
          })
 
          const initSeason = await getSeason()
          const initData = { users: initUsers, games: initGames, season: initSeason }
          // Set Data
-         setData(initData)
+         setDataForStats(initData)
          setAllPlayers(getPlayers(initUsers, initGames, 'lifetime'))
          setCurrPlayers(getPlayers(initUsers, initGames, initSeason))
          // Set Season Filter
@@ -96,7 +98,7 @@ const Ranking = () => {
    return (
       <TabTypeContext.Provider value={{ type, setType }}>
          <PlayersContext.Provider value={{ currPlayers, setCurrPlayers }}>
-            <DataContext.Provider value={{ data }}>
+            <DataContext.Provider value={{ dataForStats }}>
                <div className="tabs-container green-border center">
                   {currPlayers ? (
                      <>
@@ -125,7 +127,7 @@ const Ranking = () => {
                         <div className="filters" style={{ transform: 'translateX(-30%)' }}>
                            {type !== TABS.RANKING_RULES && (
                               <>
-                                 <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} data={data} />
+                                 <FilterSeason filterPlayers={filterPlayers} season={season} setSeason={setSeason} dataForStats={dataForStats} />
                                  <input type="text" className="filter filter-user" onChange={(e) => setUserValue(e.target.value)} placeholder="SEARCH PLAYER" />
                               </>
                            )}

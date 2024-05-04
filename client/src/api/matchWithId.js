@@ -55,7 +55,7 @@ export const getConsecutiveCardsIds = async (token, gameId, idx, count) => {
 }
 
 export const createMatchWithId = async (token, gameData) => {
-   const URI = 'http://localhost:5000/api/games/with-id/create'
+   const URI = '/api/games/with-id/create'
    const body = { gameData }
    const config = {
       headers: {
@@ -74,7 +74,7 @@ export const createMatchWithId = async (token, gameData) => {
 }
 
 export const deleteMatchWithId = async (token, type) => {
-   const URI = 'http://localhost:5000/api/games/with-id/delete'
+   const URI = '/api/games/with-id/delete'
    const body = { type }
    const config = {
       headers: {

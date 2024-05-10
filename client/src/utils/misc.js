@@ -18,7 +18,20 @@ export function getAllResourcesInMlnOnlyHeat(statePlayer) {
    return resources
 }
 
-export function funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, stateGame, dispatchGame, setTrigger, sound, noTrigger = false, dataForReplay, setCurrentLogItem) {
+export function funcPerformSubActions(
+   subActions,
+   ANIMATION_SPEED,
+   setModals,
+   stateGame,
+   dispatchGame,
+   setTrigger,
+   sound,
+   noTrigger = false,
+   dataForReplay,
+   setCurrentLogItem,
+   type
+) {
+   console.log(dataForReplay)
    // Remove undefined subactions
    subActions = subActions.filter((subAction) => subAction.name !== undefined)
 
@@ -36,7 +49,7 @@ export function funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, st
    if (iLast === -1) {
       endAnimation(setModals)
       if (!noTrigger) {
-         setTrigger((prevValue) => !prevValue)
+         setTrigger((v) => !v)
       } else {
          turnReplayActionOff(stateGame, dispatchGame, dataForReplay, setCurrentLogItem)
       }

@@ -148,8 +148,9 @@ const ModalEndStats = () => {
                setModals((prev) => ({ ...prev, log: true }))
             }}
             position={btnActionLogPosition}
+            allowDespiteReplay={true}
          />
-         <BtnAction text="DONE" textConfirmation={CONFIRMATION_TEXT.ENDGAME} onYesFunc={() => navigate('/')} position={btnActionDonePosition} />
+         <BtnAction text="DONE" textConfirmation={CONFIRMATION_TEXT.ENDGAME} onYesFunc={() => navigate('/')} position={btnActionDonePosition} allowDespiteReplay={true} />
       </div>
    )
 }

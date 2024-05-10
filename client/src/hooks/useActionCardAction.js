@@ -40,22 +40,31 @@ export const useActionCardAction = () => {
       if (!isAvailable) return
       sound.btnGeneralClick.play()
       let itemIdOrUnmi = item.name === CORP_NAMES.UNMI ? item.name : item.id
-      // Change all resources to buy
-      const costs = changeCosts(itemIdOrUnmi)
       // Set which action card id has been clicked
       setActions((prev) => ({ ...prev, id: itemIdOrUnmi }))
-      // Actions with resources to pay - first click
+      let costs
+      // If first click, initialize costs and return. Otherwise assign to costs the current values of costs
       if (
          (itemIdOrUnmi === 12 && statePlayer.resources.titan > 0) || // Water Import From Europa
          (itemIdOrUnmi === 187 && statePlayer.resources.steel > 0) || // Aquifer Pumping
          (getActionIdsWithCost().includes(itemIdOrUnmi) && statePlayer.canPayWithHeat && statePlayer.resources.heat > 0)
       ) {
          if (actions.id === null || actions.id !== itemIdOrUnmi) {
+            // Set actions to init costs.
+            // We don't need to assign result of changeCosts to anything. we need to assign ti a viarbale only in replay mode, using
+            // second argument of changeCosts function that does not allow to setActions. It will only return initial costs.
+            changeCosts(itemIdOrUnmi)
+            // And do not go to the confirmation popup
             return
          }
       }
       // Other actions
       if (!getActionIdsWithCost().includes(itemIdOrUnmi)) setActions((prev) => ({ ...prev, id: null }))
+      if (actions.steel || actions.titan || actions.heat) {
+         costs = [actions.mln, actions.steel, actions.titan, actions.heat]
+      } else {
+         costs = changeCosts(itemIdOrUnmi, false)
+      }
       setModals((prev) => ({
          ...prev,
          modalConf: {
@@ -69,7 +78,7 @@ export const useActionCardAction = () => {
          confirmation: true,
       }))
    }
-   
+
    const changeCosts = (itemIdOrUnmi, setCosts = true) => {
       let resMln = 0
       let resSteel = 0
@@ -129,6 +138,8 @@ export const useActionCardAction = () => {
 
       // Set action_used to true
       dispatchPlayer({ type: ACTIONS_PLAYER.SET_ACTION_USED, payload: { cardId: itemIdOrUnmi, actionUsed: true } })
+
+      // Perform proper action
       let subActions
       subActions = getCardActions(itemIdOrUnmi, [costs[0], costs[1], costs[2], costs[3]])
       setModals((prev) => ({ ...prev, confirmation: false, other: false, cardPlayed: false }))

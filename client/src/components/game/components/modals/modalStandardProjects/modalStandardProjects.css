@@ -43,6 +43,9 @@
    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 100%);
    position: relative;
 }
+.sp-action.selected-sp {
+   outline: #a6fffb solid calc(var(--default-size) * 0.15);
+}
 
 .sp-action:hover {
    outline: #fff solid calc(var(--default-size) * 0.15);

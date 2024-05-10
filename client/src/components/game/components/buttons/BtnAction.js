@@ -1,13 +1,12 @@
 import { useContext } from 'react'
-import { ActionsContext, ModalsContext, StateGameContext, UserContext } from '../../../game'
+import { ActionsContext, ModalsContext, UserContext } from '../../../game'
 import mlnIcon from '../../../../assets/images/resources/res_mln.svg'
 import { INIT_ACTIONS } from '../../../../initStates/initActions'
 import { SoundContext } from '../../../../App'
 import { MATCH_TYPES } from '../../../../data/app'
 
-const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position, onMouseDownFunc }) => {
+const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position, onMouseDownFunc, allowDespiteReplay = false }) => {
    const { modals, setModals } = useContext(ModalsContext)
-   const { stateGame } = useContext(StateGameContext)
    const { setActions } = useContext(ActionsContext)
    const { type } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
@@ -16,7 +15,7 @@ const BtnAction = ({ text, mln, textConfirmation, onYesFunc, disabled, position,
       // If Button is disabled
       if (disabled) return
       // If replay mode but not corps NEXT button
-      if (type === MATCH_TYPES.REPLAY && !stateGame.phaseCorporation) return
+      if (type === MATCH_TYPES.REPLAY && !allowDespiteReplay) return
       // If Button is CANCEL in sellCards phase
       if (text === 'CANCEL' && modals.sellCards) {
          sound.btnGeneralClick.play()

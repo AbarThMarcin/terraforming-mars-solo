@@ -36,8 +36,30 @@ export const getRandIntNumbers = async (n, min, max, replacement = false) => {
 
    try {
       const res = await axios.post(URI, body, config)
-      return res.data.result.random.data
+      if (res.data.error) {
+         console.warn("Random.org service offline. Using built-in JS random class...")
+         return getRandomIntegers(min, max, n)
+      } else {
+         return res.data.result.random.data
+      }
    } catch (error) {
       console.log(error.response && error.response.data.message ? error.response.data.message : error.message)
    }
+}
+
+function getRandomIntegers(min, max, count) {
+   if (max - min + 1 < count) {
+       throw new Error("Count exceeds range of possible unique integers.");
+   }
+
+   let result = [];
+   let available = Array.from({length: max - min + 1}, (_, i) => i + min);
+
+   for (let i = 0; i < count; i++) {
+       const randomIndex = Math.floor(Math.random() * available.length);
+       result.push(available[randomIndex]);
+       available.splice(randomIndex, 1);
+   }
+
+   return result;
 }

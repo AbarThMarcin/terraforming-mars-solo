@@ -6,7 +6,7 @@ import passContBg from '../../../../assets/images/other/passContBg.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import TotalVP from './TotalVP'
 import { SettingsContext, SoundContext } from '../../../../App'
-import { MATCH_TYPES } from '../../../../data/app'
+import { CONFIRMATION_TEXT, MATCH_TYPES } from '../../../../data/app'
 import { useActionPass } from '../../../../hooks/useActionPass'
 
 const PassContainer = () => {
@@ -25,7 +25,7 @@ const PassContainer = () => {
       setModals((prev) => ({
          ...prev,
          modalConf: {
-            text: `Do you want to pass?If you do so, you won't be able to play until the next generation.`,
+            text: CONFIRMATION_TEXT.PASS,
             onYes: onYesFunc,
             onNo: () => setModals((prev) => ({ ...prev, confirmation: false })),
          },

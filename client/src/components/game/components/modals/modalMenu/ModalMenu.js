@@ -19,6 +19,7 @@ const ModalMenu = () => {
    const { music, sound } = useContext(SoundContext)
 
    const onYes = async (withForfeit) => {
+      sound.btnGeneralClick.play()
       // If Logged and pressed Forfeit
       if (user && withForfeit) {
          // Delete Game from active games

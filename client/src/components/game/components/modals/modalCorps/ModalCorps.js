@@ -36,7 +36,7 @@ const ModalCorps = () => {
                      <>
                         <Corp corp={corps[0]} />
                         <Corp corp={corps[1]} />
-                        <BtnAction text="NEXT" onYesFunc={handleClickNext} disabled={actions.corpId === null} position={btnActionNextPosition} />
+                        <BtnAction text="NEXT" onYesFunc={handleClickNext} disabled={actions.corpId === null} position={btnActionNextPosition} allowDespiteReplay={true} />
                      </>
                   )}
                </motion.div>

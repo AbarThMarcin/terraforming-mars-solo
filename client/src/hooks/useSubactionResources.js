@@ -57,7 +57,7 @@ export const useSubactionResources = () => {
                : `Received ${modals.modalResource.amount} ${modals.modalResource.resType === null ? resource : modals.modalResource.resType}s to ${
                     getCards(modals.modalResource.cardId).name
                  }`,
-            RESOURCES.ANIMAL,
+            modals.modalResource.resType,
             modals.modalResource.amount,
             setLogItems
          )

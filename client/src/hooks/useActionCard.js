@@ -42,19 +42,20 @@ export const useActionCard = () => {
       setActions((prev) => ({ ...prev, mln: resMln, steel: resSteel, titan: resTitan, heat: resHeat, disabled }))
    }
 
-   function getInitResources() {
+   function getInitResources(cardJustPlayed) {
       let resTitan
       let resSteel
       let resHeat
       let resMln
       let dis
+      let cardPlayed = cardJustPlayed ? cardJustPlayed : modals.modalCard
 
       // Calculate init titan
-      if (statePlayer.resources.titan > 0 && hasTag(modals.modalCard, TAGS.SPACE)) {
-         const diff = modals.modalCard.currentCost - statePlayer.resources.mln
+      if (statePlayer.resources.titan > 0 && hasTag(cardPlayed, TAGS.SPACE)) {
+         const diff = cardPlayed.currentCost - statePlayer.resources.mln
 
          if (diff > 0) {
-            if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
+            if (statePlayer.resources.steel > 0 && hasTag(cardPlayed, TAGS.BUILDING)) {
                if (statePlayer.valueTitan - statePlayer.valueSteel === 1 || statePlayer.resources.steel > 1) {
                   resTitan = Math.min(Math.floor(diff / statePlayer.valueTitan), statePlayer.resources.titan)
                } else {
@@ -70,8 +71,8 @@ export const useActionCard = () => {
          resTitan = 0
       }
       // Calculate init steel
-      if (statePlayer.resources.steel > 0 && hasTag(modals.modalCard, TAGS.BUILDING)) {
-         const diff = modals.modalCard.currentCost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan
+      if (statePlayer.resources.steel > 0 && hasTag(cardPlayed, TAGS.BUILDING)) {
+         const diff = cardPlayed.currentCost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan
 
          if (diff > 0) {
             if (statePlayer.canPayWithHeat && statePlayer.resources.heat > 0) {
@@ -91,7 +92,7 @@ export const useActionCard = () => {
       }
       // Calculate init heat
       if (statePlayer.canPayWithHeat && statePlayer.resources.heat > 0) {
-         const diff = modals.modalCard.currentCost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan - resSteel * statePlayer.valueSteel
+         const diff = cardPlayed.currentCost - statePlayer.resources.mln - resTitan * statePlayer.valueTitan - resSteel * statePlayer.valueSteel
          if (diff > 0) {
             resHeat = Math.min(diff, statePlayer.resources.heat)
          } else {
@@ -101,22 +102,25 @@ export const useActionCard = () => {
          resHeat = 0
       }
       // Calculate init mln
-      const diff = Math.max(0, modals.modalCard.currentCost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan - resHeat)
+      const diff = Math.max(0, cardPlayed.currentCost - resSteel * statePlayer.valueSteel - resTitan * statePlayer.valueTitan - resHeat)
       resMln = diff
       // Determine disability
-      dis = getDisabled(resMln, resSteel, resTitan, resHeat)
+      dis = getDisabled(resMln, resSteel, resTitan, resHeat, cardPlayed)
 
       setActions((prev) => ({ ...prev, mln: resMln, steel: resSteel, titan: resTitan, heat: resHeat, disabled: dis }))
+      
+      return { resMln, resSteel, resTitan, resHeat }
    }
-   function getDisabled(resMln, resSteel, resTitan, resHeat) {
+
+   function getDisabled(resMln, resSteel, resTitan, resHeat, cardPlayed) {
       // When viewing Game State, disable button
       if (stateGame.phaseViewGameState) return true
       if (stateGame.phasePlaceTile) return true
       // When resources to use the card are not enough, disable button
-      if (Math.min(resMln, statePlayer.resources.mln) + resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan + resHeat < modals.modalCard.currentCost)
+      if (Math.min(resMln, statePlayer.resources.mln) + resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan + resHeat < cardPlayed.currentCost)
          return true
       // When requirements are not met, disable button
-      if (!requirementsMet(modals.modalCard)) return true
+      if (!requirementsMet(cardPlayed)) return true
 
       return false
    }

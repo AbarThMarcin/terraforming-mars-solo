@@ -1,11 +1,12 @@
 import { useContext } from 'react'
 import { ModalsContext, StateGameContext } from '../components/game'
-import { funcUpdateLogItemAction } from '../data/log'
+import { funcSetLogItemsSingleActions, funcUpdateLogItemAction } from '../data/log'
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { CORP_NAMES } from '../data/corpNames'
 import { IMM_EFFECTS } from '../data/immEffects/immEffects'
 import { ANIMATIONS } from '../data/animations'
 import { SoundContext } from '../App'
+import { getCards } from '../utils/cards'
 
 export const useSubactionProduction = () => {
    const { dispatchGame, performSubActions, setLogItems, getImmEffects } = useContext(StateGameContext)
@@ -50,6 +51,8 @@ export const useSubactionProduction = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: false })
       // Perform subactions
       performSubActions(modals.modalProduction.immProdEffects)
+      const v = modals.modalProduction.cardIdOrCorpName
+      funcSetLogItemsSingleActions(`Copy of ${v === CORP_NAMES.MINING_GUILD ? CORP_NAMES.MINING_GUILD : getCards(v).name}:`, null, null, setLogItems)
    }
 
    return { handleClickProdCard, handleClickConfirmBtn }

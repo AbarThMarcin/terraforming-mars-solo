@@ -154,6 +154,7 @@ export const funcSetLogItemsSingleActions = (singleActionName, singleActionIconN
    })
 }
 
+
 export const funcUpdateLastLogItemAfter = (setLogItems, statePlayer, stateGame) => {
    setLogItems((logItems) => {
       if (logItems.length === 1) {

@@ -30,8 +30,9 @@ const ModalConfirmation = () => {
             }}
             disabled={loading}
             position={btnActionYesPosition}
+            allowDespiteReplay={true}
          />
-         <BtnAction text="NO" position={btnActionNoPosition} />
+         <BtnAction text="NO" position={btnActionNoPosition} allowDespiteReplay={true} />
       </div>
    )
 }

@@ -93,6 +93,7 @@ export const useSubactionSelectCard = () => {
                         payload: -actions.mln,
                      })
                      funcSetLogItemsSingleActions(`Paid ${actions.mln} MC`, RESOURCES.MLN, -actions.mln, setLogItems)
+                     funcUpdateLogItemAction(setLogItems, `paidMln: ${actions.mln}`)
                   },
                })
             if (actions.Heat > 0)
@@ -106,6 +107,7 @@ export const useSubactionSelectCard = () => {
                         payload: -actions.Heat,
                      })
                      funcSetLogItemsSingleActions(`Paid ${actions.Heat} heat`, RESOURCES.HEAT, -actions.Heat, setLogItems)
+                     funcUpdateLogItemAction(setLogItems, `paidHeat: ${actions.heat}`)
                   },
                })
             subActions.push({

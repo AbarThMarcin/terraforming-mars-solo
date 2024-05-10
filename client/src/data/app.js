@@ -64,6 +64,7 @@ export const CONFIRMATION_TEXT = {
    SP_GREENERY: 'Do you want to build a greenery?',
    SP_CITY: 'Do you want to build a city?',
    CONVERT_HEAT: 'Do you want to convert 8 heat to increase the temperature?',
+   PASS: "Do you want to pass? If you do so, you won't be able to play until the next generation."
 }
 
 export const COMMUNICATION = {

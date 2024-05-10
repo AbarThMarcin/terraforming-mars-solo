@@ -1,4 +1,4 @@
-import { SP } from '../data/StandardProjects'
+import { SP, getNameOfSP } from '../data/StandardProjects'
 import { TILES } from '../data/board'
 import { CARDS } from '../data/cards'
 import { CORP_NAMES } from '../data/corpNames'
@@ -353,12 +353,11 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
                   addStep(newLogItem, `Paid ${actionObj.paidHeat} heat`, RESOURCES.HEAT, -actionObj.paidHeat)
                }
                // Perform immediate effect
-               if (actionObj.id !== 5) {
-                  performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.POWER_PLANT, newLogItem })
-               } else {
+               if (actionObj.id === 5) {
                   updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: 1 })
-                  performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.CITY, newLogItem })
+                  addStep(newLogItem, 'MC production increased by 1', RESOURCES.MLN, 1)
                }
+               performImmEffectForLog({ actionObj, immEffectName: getNameOfSP(actionObj.id), newLogItem })
                // Perform effects
                let spEffectsToCall = []
                switch (actionObj.id) {
@@ -380,10 +379,12 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             } else if (actionObj.convertHeat) {
                // ================================================= CONVERT HEAT ==========================================
                updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_HEAT, payload: -8 })
+               addStep(newLogItem, 'Paid 8 heat', RESOURCES.HEAT, -8)
                performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.TEMPERATURE, newLogItem })
             } else if (actionObj.convertGreenery) {
                // =============================================== CONVERT GREENERY ========================================
                updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
+               addStep(newLogItem, `Paid ${statePlayer.valueGreenery} plants`, RESOURCES.PLANT, -statePlayer.valueGreenery)
                performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.GREENERY, newLogItem })
                // Only herbivores effect possible
                if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) performEffectForLog(EFFECTS.EFFECT_HERBIVORES, newLogItem, actionObj)
@@ -435,8 +436,8 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             } else if (actionObj.finalPlantConversion) {
                // ==================================================== Final Plants Conversion ===============================================
                for (let i = 0; i < actionObj[`coord${TILES.GREENERY}`].length; i += 2) {
-                  const x = actionObj[`coord${TILES.GREENERY}`][i];
-                  const y = actionObj[`coord${TILES.GREENERY}`][i + 1];
+                  const x = actionObj[`coord${TILES.GREENERY}`][i]
+                  const y = actionObj[`coord${TILES.GREENERY}`][i + 1]
                   updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
                   addStep(newLogItem, `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`, RESOURCES.PLANT, -statePlayer.valueGreenery)
                   performTileActionsForLog(actionObj, newLogItem, x, y)
@@ -450,8 +451,8 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             }
             // Turn off Indentured Workers effect (if aplicable)
             if (statePlayer.indenturedWorkersEffect && actionObj.immEffect && actionObj.id !== 195) {
-               updateStatePlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: getCardsWithDecreasedCost(statePlayer.cardsInHand, statePlayer, false) })
-               updateStatePlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: getCardsWithDecreasedCost(statePlayer.cardsPlayed, statePlayer, false) })
+               updateStatePlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: getCardsWithDecreasedCost(statePlayer.cardsInHand, statePlayer, null, true) })
+               updateStatePlayer({ type: ACTIONS_PLAYER.SET_CARDS_PLAYED, payload: getCardsWithDecreasedCost(statePlayer.cardsPlayed, statePlayer, null, true) })
                updateStatePlayer({ type: ACTIONS_PLAYER.SET_INDENTURED_WORKERS, payload: false })
                addStep(newLogItem, 'INDENTURED WORKERS effect ended', null, null)
             }
@@ -509,93 +510,119 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
    function performTileActionsForLog(actionObj, newLogItem, x, y) {
       for (const key in actionObj) {
          if (key.slice(0, 5) === 'coord') {
-            // Update stateBoard
             const tile = key.slice(5)
-            const field = x ? getField(x, y) : getField(actionObj[`coord${tile}`][0], actionObj[`coord${tile}`][1])
-            const logDescription = field.name ? field.name : `THARSIS at coordinates x: ${field.x}, y: ${field.y}`
-            updateStateBoard({ type: ACTIONS_BOARD.SET_OBJECT, payload: { x: field.x, y: field.y, name: field.name, obj: tile } })
-            addStep(newLogItem, `${tile} tile has been placed on ${logDescription}`, tile, null)
-            // Below are only blue cards with any effect, that requires you as imm effect to place a tile
-            // We need to save that info (effect is active) into the log
-            if (actionObj.id === 20 || actionObj.id === 128 || actionObj.id === 200) {
-               addStep(newLogItem, `Effect from ${getCards(actionObj.id).name} card is now active`, null, null)
-            }
-            // Below are only blue cards with any action, that requires you as imm effect to place a tile
-            // We need to save that info (action is active) into the log
-            if (actionObj.immEffect && (actionObj.id === 123 || actionObj.id === 199)) {
-               addStep(newLogItem, `Action from ${getCards(actionObj.id).name} card is now active`, null, null)
-            }
-            // Field bonus
-            let uniqBonuses = [...new Set(field.bonus)]
-            if (uniqBonuses.length > 0) {
-               for (let i = 0; i < uniqBonuses.length; i++) {
-                  const countBonus = field.bonus.reduce((total, value) => (value === uniqBonuses[i] ? total + 1 : total), 0)
-                  switch (uniqBonuses[i]) {
-                     case RESOURCES.STEEL:
-                        updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: countBonus })
-                        addStep(newLogItem, `Received ${countBonus} steel from board`, RESOURCES.STEEL, countBonus)
-                        break
-                     case RESOURCES.TITAN:
-                        updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: countBonus })
-                        addStep(newLogItem, `Received ${countBonus} titanium from board`, RESOURCES.TITAN, countBonus)
-                        break
-                     case RESOURCES.PLANT:
-                        updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
-                        addStep(newLogItem, countBonus === 1 ? 'Received 1 plant from board' : `Received ${countBonus} plants from board`, RESOURCES.PLANT, countBonus)
-                        break
-                     case RESOURCES.CARD:
-                        updateCardsState_ReceivedCards(countBonus, statePlayer, updateStatePlayer, nextCards)
-                        if (countBonus === 1) {
-                           const newCard = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 1].name
-                           addStep(newLogItem, `Drew 1 card (${newCard}) from board`, RESOURCES.CARD, 1)
-                        } else {
-                           const newCard1 = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 2].name
-                           const newCard2 = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 1].name
-                           addStep(newLogItem, `Drew 2 cards (${newCard1} and ${newCard2}) from board`, RESOURCES.CARD, 2)
-                        }
-                        break
-                     default:
-                        break
+
+            // Update stateBoard
+            let field
+            let stateBoardFieldObj
+            if (x) {
+               field = getField(x, y)
+            } else {
+               const tileCoordinates = actionObj[`coord${tile}`]
+               for (let i = 0; i < tileCoordinates.length - 1; i += 2) {
+                  const objX = tileCoordinates[i]
+                  const objY = tileCoordinates[i + 1]
+                  stateBoardFieldObj = stateBoard.find((f) => f.x === objX && f.y === objY).object
+                  if (stateBoardFieldObj) {
+                     continue
+                  } else {
+                     field = getField(objX, objY)
+                     break
                   }
                }
             }
-            // Receive mln for ocean bonus
-            let bonusMln = 0
-            const oceanNeighbors = getNeighbors(field.x, field.y, stateBoard).filter((nb) => nb.object === TILES.OCEAN)
-            if (oceanNeighbors.length) {
-               bonusMln = oceanNeighbors.length * 2
-               updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: bonusMln })
-               addStep(newLogItem, `Received ${bonusMln} MC from board from oceans`, RESOURCES.MLN, bonusMln)
-            }
-            // Receive steel / titan prod if stateGame.phasePlaceTileData is mining rights or mining area
-            if (tile === TILES.SPECIAL_MINING_RIGHTS || tile === TILES.SPECIAL_MINING_AREA) {
-               let actionSteel = () => {
+
+            if (stateBoardFieldObj) {
+               continue
+            } else {
+               const logDescription = field.name ? field.name : `THARSIS at coordinates x: ${field.x}, y: ${field.y}`
+               updateStateBoard({ type: ACTIONS_BOARD.SET_OBJECT, payload: { x: field.x, y: field.y, name: field.name, obj: tile } })
+               addStep(newLogItem, `${tile} tile has been placed on ${logDescription}`, tile, null)
+               // Below are only blue cards with any effect, that requires you as imm effect to place a tile
+               // We need to save that info (effect is active) into the log
+               if (actionObj.id === 20 || actionObj.id === 128 || actionObj.id === 200) {
+                  addStep(newLogItem, `Effect from ${getCards(actionObj.id).name} card is now active`, null, null)
+               }
+               // Below are only blue cards with any action, that requires you as imm effect to place a tile
+               // We need to save that info (action is active) into the log
+               if (actionObj.immEffect && (actionObj.id === 123 || actionObj.id === 199)) {
+                  addStep(newLogItem, `Action from ${getCards(actionObj.id).name} card is now active`, null, null)
+               }
+               // Field bonus
+               let uniqBonuses = [...new Set(field.bonus)]
+               if (uniqBonuses.length > 0) {
+                  for (let i = 0; i < uniqBonuses.length; i++) {
+                     const countBonus = field.bonus.reduce((total, value) => (value === uniqBonuses[i] ? total + 1 : total), 0)
+                     switch (uniqBonuses[i]) {
+                        case RESOURCES.STEEL:
+                           updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_STEEL, payload: countBonus })
+                           addStep(newLogItem, `Received ${countBonus} steel from board`, RESOURCES.STEEL, countBonus)
+                           break
+                        case RESOURCES.TITAN:
+                           updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_TITAN, payload: countBonus })
+                           addStep(newLogItem, `Received ${countBonus} titanium from board`, RESOURCES.TITAN, countBonus)
+                           break
+                        case RESOURCES.PLANT:
+                           updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
+                           addStep(newLogItem, countBonus === 1 ? 'Received 1 plant from board' : `Received ${countBonus} plants from board`, RESOURCES.PLANT, countBonus)
+                           break
+                        case RESOURCES.CARD:
+                           updateCardsState_ReceivedCards(countBonus, statePlayer, updateStatePlayer, nextCards)
+                           if (countBonus === 1) {
+                              const newCard = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 1].name
+                              addStep(newLogItem, `Drew 1 card (${newCard}) from board`, RESOURCES.CARD, 1)
+                           } else {
+                              const newCard1 = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 2].name
+                              const newCard2 = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 1].name
+                              addStep(newLogItem, `Drew 2 cards (${newCard1} and ${newCard2}) from board`, RESOURCES.CARD, 2)
+                           }
+                           break
+                        default:
+                           break
+                     }
+                  }
+               }
+               // Receive mln for ocean bonus
+               let bonusMln = 0
+               const oceanNeighbors = getNeighbors(field.x, field.y, stateBoard).filter((nb) => nb.object === TILES.OCEAN)
+               if (oceanNeighbors.length) {
+                  bonusMln = oceanNeighbors.length * 2
+                  updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_RES_MLN, payload: bonusMln })
+                  addStep(newLogItem, `Received ${bonusMln} MC from board from oceans`, RESOURCES.MLN, bonusMln)
+               }
+               // Receive steel / titan prod if stateGame.phasePlaceTileData is mining rights or mining area
+               if (tile === TILES.SPECIAL_MINING_RIGHTS || tile === TILES.SPECIAL_MINING_AREA) {
+                  let actionSteel = () => {
+                     updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
+                     return RESOURCES.STEEL
+                  }
+                  let actionTitan = () => {
+                     updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
+                     return RESOURCES.TITAN
+                  }
+                  if (field.bonus.includes(RESOURCES.STEEL)) {
+                     actionSteel()
+                     addStep(newLogItem, 'Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1)
+                     tile === TILES.SPECIAL_MINING_RIGHTS ? (stateModal.modalProduction.miningRights = actionSteel) : (stateModal.modalProduction.miningArea = actionSteel)
+                  } else if (field.bonus.includes(RESOURCES.TITAN)) {
+                     actionTitan()
+                     addStep(newLogItem, 'Titanium production increased by 1', [RESOURCES.PROD_BG, RESOURCES.TITAN], 1)
+                     tile === TILES.SPECIAL_MINING_RIGHTS ? (stateModal.modalProduction.miningRights = actionTitan) : (stateModal.modalProduction.miningArea = actionTitan)
+                  }
+               }
+               // Receive steel prod if Mining Guild and field has steel/titan bonus
+               if ((field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) && statePlayer.corporation.name === CORP_NAMES.MINING_GUILD) {
                   updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
-                  addStep(newLogItem, 'Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1)
+                  addStep(newLogItem, 'Steel production increased by 1 from MINING GUILD effect', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1)
                }
-               let actionTitan = () => {
-                  updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_TITAN, payload: 1 })
-                  addStep(newLogItem, 'Titanium production increased by 1', [RESOURCES.PROD_BG, RESOURCES.TITAN], 1)
-               }
-               if (field.bonus.includes(RESOURCES.STEEL)) {
-                  actionSteel()
-                  tile === TILES.SPECIAL_MINING_RIGHTS ? (stateModal.modalProduction.miningRights = actionSteel) : (stateModal.modalProduction.miningArea = actionSteel)
-               } else if (field.bonus.includes(RESOURCES.TITAN)) {
-                  actionTitan()
-                  tile === TILES.SPECIAL_MINING_RIGHTS ? (stateModal.modalProduction.miningRights = actionTitan) : (stateModal.modalProduction.miningArea = actionTitan)
-               }
+
+               break
             }
-            // Receive steel prod if Mining Guild and field has steel/titan bonus
-            if ((field.bonus.includes(RESOURCES.STEEL) || field.bonus.includes(RESOURCES.TITAN)) && statePlayer.corporation.name === CORP_NAMES.MINING_GUILD) {
-               updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
-               addStep(newLogItem, 'Steel production increased by 1 from MINING GUILD effect', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1)
-            }
-            break
          }
       }
    }
 
-   function performImmEffectForLog({ actionObj, immEffectName, newLogItem, roboticWorkforce = false }) {
+   function performImmEffectForLog({ actionObj, immEffectName, newLogItem, roboticWorkforce = false, posX, posY }) {
       const actionOrCardId = immEffectName ? immEffectName : actionObj.id
       let value
       let card1
@@ -605,6 +632,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // cards with ONLY this action: Solar Power, Wave Power, Power Plant, Power Supply Consortium,
          // Windmills, Heat Trappers, Energy Tapping
          case IMM_EFFECTS.POWER_PLANT:
+         case SP.POWER_PLANT:
          case 113:
          case 139:
          case 141:
@@ -617,6 +645,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             break
          // =================== INCREASE TEMPERATURE BY 2 DEGREES ===================
          case IMM_EFFECTS.TEMPERATURE:
+         case SP.ASTEROID:
             value = stateGame.globalParameters.temperature
             if (value < 8) {
                updateStateGame({ type: ACTIONS_GAME.INCREMENT_TEMPERATURE })
@@ -636,13 +665,14 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // cards with ONLY this action: Artificial Lake, Subterranean Reservoir, Ice Cap Melting, Flooding,
          // Permafrost Extraction
          case IMM_EFFECTS.AQUIFER:
+         case SP.AQUIFER:
          case 116:
          case 127:
          case 181:
          case 188:
          case 191:
             if (stateGame.globalParameters.oceans < 9) {
-               performTileActionsForLog(actionObj, newLogItem)
+               performTileActionsForLog(actionObj, newLogItem, posX, posY)
                // Increase oceans meter
                updateStateGame({ type: ACTIONS_GAME.INCREMENT_OCEANS })
                updateStateGame({ type: ACTIONS_GAME.CHANGE_TR, payload: 1 })
@@ -657,6 +687,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // ======================= Greenery tiles + oxygen as an action =================
          // PLACE GREENERY TILE, Plantation, Mangrove
          case IMM_EFFECTS.GREENERY:
+         case SP.GREENERY:
          case 193:
          case 59:
             performTileActionsForLog(actionObj, newLogItem)
@@ -667,6 +698,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // Industrial Center, Restricted Area
          case IMM_EFFECTS.GREENERY_WO_OX:
          case IMM_EFFECTS.CITY:
+         case SP.CITY:
          case 64:
          case 67:
          case 81:
@@ -705,7 +737,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             break
          // ========================== Mining Guild immediate effect ====================
          // cards with ONLY this action: Mine, Great Escarpment Consortium
-         case IMM_EFFECTS.MINING_GUILD:
+         case CORP_NAMES.MINING_GUILD:
          case 56:
          case 61:
             updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_STEEL, payload: 1 })
@@ -1014,7 +1046,10 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          case 53:
          case 78:
             performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.AQUIFER, newLogItem })
-            if (stateGame.globalParameters.oceans <= 8) performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.AQUIFER, newLogItem })
+            performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.AQUIFER, newLogItem })
+            // if (stateGame.globalParameters.oceans <= 8) {
+            //    performImmEffectForLog({ actionObj, immEffectName: IMM_EFFECTS.AQUIFER, newLogItem, posX: actionObj[`coord${TILES.OCEAN}`][2], posY: actionObj[`coord${TILES.OCEAN}`][3] })
+            // }
             break
          // Kelp Farming
          case 55:
@@ -1133,14 +1168,24 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             break
          // Robotic Workforce
          case 86:
+            let res
             switch (actionObj.targetId) {
                case 64: // Mining Area
-                  stateModal.modalProduction.miningRights()
+                  addStep(newLogItem, `Copy of ${getCards(64).name}:`, null, null)
+                  res = stateModal.modalProduction.miningArea()
+                  res = RESOURCES.STEEL
+                     ? addStep(newLogItem, 'Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1)
+                     : addStep(newLogItem, 'Titanium production increased by 1', [RESOURCES.PROD_BG, RESOURCES.TITAN], 1)
                   break
                case 67: // Mining Rights
-                  stateModal.modalProduction.miningArea()
+                  addStep(newLogItem, `Copy of ${getCards(67).name}:`, null, null)
+                  res = stateModal.modalProduction.miningRights()
+                  res = RESOURCES.STEEL
+                     ? addStep(newLogItem, 'Steel production increased by 1', [RESOURCES.PROD_BG, RESOURCES.STEEL], 1)
+                     : addStep(newLogItem, 'Titanium production increased by 1', [RESOURCES.PROD_BG, RESOURCES.TITAN], 1)
                   break
                default:
+                  addStep(newLogItem, `Copy of ${actionObj.targetId === CORP_NAMES.MINING_GUILD ? CORP_NAMES.MINING_GUILD : getCards(actionObj.targetId).name}:`, null, null)
                   performImmEffectForLog({ actionObj, immEffectName: actionObj.targetId, newLogItem, roboticWorkforce: true })
                   break
             }
@@ -1175,15 +1220,17 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             addStep(newLogItem, `Drew 2 cards (${card1} and ${card2})`, RESOURCES.CARD, 2)
             // If Olympus Conference effect is played
             if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE)) {
-               if (statePlayer.cardsPlayed.find((c) => c.id === 185).units.science === 0) {
-                  updateStatePlayer({ type: ACTIONS_PLAYER.ADD_BIO_RES, payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 } })
-                  addStep(newLogItem, 'Received 1 science to OLYMPUS CONFERENCE card', RESOURCES.SCIENCE, 1)
-               } else {
-                  updateStatePlayer({ type: ACTIONS_PLAYER.ADD_BIO_RES, payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 } })
-                  addStep(newLogItem, 'Removed 1 science from OLYMPUS CONFERENCE card', RESOURCES.SCIENCE, -1)
-                  updateCardsState_ReceivedCards(1, statePlayer, updateStatePlayer, nextCards)
-                  const newCard = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 1].name
-                  addStep(newLogItem, `Drew 1 card (${newCard}) from OLYMPUS CONFERENCE effect`, RESOURCES.CARD, 1)
+               for (let i = 0; i < 2; i++) {
+                  if (statePlayer.cardsPlayed.find((c) => c.id === 185).units.science === 0) {
+                     updateStatePlayer({ type: ACTIONS_PLAYER.ADD_BIO_RES, payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: 1 } })
+                     addStep(newLogItem, 'Received 1 science to OLYMPUS CONFERENCE card', RESOURCES.SCIENCE, 1)
+                  } else {
+                     updateStatePlayer({ type: ACTIONS_PLAYER.ADD_BIO_RES, payload: { cardId: 185, resource: RESOURCES.SCIENCE, amount: -1 } })
+                     addStep(newLogItem, 'Removed 1 science from OLYMPUS CONFERENCE card', RESOURCES.SCIENCE, -1)
+                     updateCardsState_ReceivedCards(1, statePlayer, updateStatePlayer, nextCards)
+                     const newCard = statePlayer.cardsInHand[statePlayer.cardsInHand.length - 1].name
+                     addStep(newLogItem, `Drew 1 card (${newCard}) from OLYMPUS CONFERENCE effect`, RESOURCES.CARD, 1)
+                  }
                }
             }
             // Call Mars University

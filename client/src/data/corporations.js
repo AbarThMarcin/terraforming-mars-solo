@@ -66,7 +66,7 @@ export const CORPORATIONS = [
       id: 3,
       name: CORP_NAMES.HELION,
       production: { mln: 0, steel: 0, titan: 0, plant: 0, energy: 0, heat: 3 },
-      resources: { mln: 42, steel: 0, titan: 0, plant: 0, energy: 0, heat: 0 },
+      resources: { mln: 42, steel: 0, titan: 0, plant: 8, energy: 0, heat: 0 },
       effects: [EFFECTS.EFFECT_HELION],
       tags: [TAGS.SPACE],
    },

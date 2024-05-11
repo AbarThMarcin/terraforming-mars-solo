@@ -13,7 +13,7 @@ const Field = ({ field, showCoordinates }) => {
       transform: field.name === 'GANYMEDE COLONY' || field.name === 'PHOBOS SPACE HAVEN' ? 'translate(-50%, -50%)' : 'translate(0, 0)',
    }
 
-   const { handleClickField } = useSubactionTile(field)
+   const { handleClickField } = useSubactionTile()
 
    return (
       <div
@@ -23,7 +23,7 @@ const Field = ({ field, showCoordinates }) => {
             ${stateGame.phasePlaceTile && field.available && 'pointer'}
          `}
          style={styles}
-         onClick={handleClickField}
+         onClick={() => handleClickField(field, stateGame.phasePlaceTileData)}
       >
          {/* Border */}
          <FieldLine field={field} lineNo={1} />

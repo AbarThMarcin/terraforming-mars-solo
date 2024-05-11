@@ -14,7 +14,7 @@ import { CORP_NAMES } from '../data/corpNames'
 import { EFFECTS } from '../data/effects/effectIcons'
 import { IMM_EFFECTS } from '../data/immEffects/immEffects'
 
-export const useSubactionTile = (field) => {
+export const useSubactionTile = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, ANIMATION_SPEED, setLogItems, dataForReplay } = useContext(StateGameContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
@@ -22,22 +22,27 @@ export const useSubactionTile = (field) => {
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
 
-   const logDescription = field.name ? field.name : `THARSIS at coordinates x: ${field.x}, y: ${field.y}`
+   const getLogDescription = (field) => {
+      return field.name ? field.name : `THARSIS at coordinates x: ${field.x}, y: ${field.y}`
+   }
 
-   const handleClickField = async () => {
+   const handleClickField = async (field, tile, actions) => {
       // If clicked on unavailable field, do nothing
       if (!field.available) return
 
+      const tileName = tile ? tile : stateGame.phasePlaceTileData
+      const actionsLeft = actions ? actions : stateGame.actionsLeft
+
       // Update action (string) for log that is being performed
-      funcUpdateLogItemAction(setLogItems, `coord${stateGame.phasePlaceTileData}: ${field.x}, ${field.y}`)
+      funcUpdateLogItemAction(setLogItems, `coord${tileName}: ${field.x}, ${field.y}`)
 
       // Set field's object to phasePlaceTileData
       sound.objectPut.play()
       dispatchBoard({
          type: ACTIONS_BOARD.SET_OBJECT,
-         payload: { x: field.x, y: field.y, name: field.name, obj: stateGame.phasePlaceTileData },
+         payload: { x: field.x, y: field.y, name: field.name, obj: tileName },
       })
-      funcSetLogItemsSingleActions(`${stateGame.phasePlaceTileData} tile has been placed on ${logDescription}`, stateGame.phasePlaceTileData, null, setLogItems)
+      funcSetLogItemsSingleActions(`${tileName} tile has been placed on ${getLogDescription(field)}`, tileName, null, setLogItems)
       // Below are only blue cards with any effect, that requires you as imm effect to place a tile
       // We need to save that info (effect is active) into the log
       if (modals.modalCard?.id === 20 || modals.modalCard?.id === 128 || modals.modalCard?.id === 200) {
@@ -133,8 +138,8 @@ export const useSubactionTile = (field) => {
          }, delay)
       }
 
-      // Receive steel / titan prod if stateGame.phasePlaceTileData is mining rights or mining area
-      if (stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS || stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_AREA) {
+      // Receive steel / titan prod if tileName is mining rights or mining area
+      if (tileName === TILES.SPECIAL_MINING_RIGHTS || tileName === TILES.SPECIAL_MINING_AREA) {
          let actionSteel = {
             name: ANIMATIONS.PRODUCTION_IN,
             type: RESOURCES.STEEL,
@@ -157,7 +162,7 @@ export const useSubactionTile = (field) => {
 
          if (field.bonus.includes(RESOURCES.STEEL)) {
             // Add this action to modals.modalProduction.miningRights / miningArea
-            stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS
+            tileName === TILES.SPECIAL_MINING_RIGHTS
                ? setModals((prev) => ({
                     ...prev,
                     modalProduction: {
@@ -186,7 +191,7 @@ export const useSubactionTile = (field) => {
             }, delay)
          } else if (field.bonus.includes(RESOURCES.TITAN)) {
             // Add this action to modals.modalProduction.miningRights / miningArea
-            stateGame.phasePlaceTileData === TILES.SPECIAL_MINING_RIGHTS
+            tileName === TILES.SPECIAL_MINING_RIGHTS
                ? setModals((prev) => ({
                     ...prev,
                     modalProduction: {
@@ -263,7 +268,7 @@ export const useSubactionTile = (field) => {
          if (!stateGame.phaseAfterGen14) {
             // Continue performing actions/effects
             startAnimation(setModals)
-            performSubActions(stateGame.actionsLeft)
+            performSubActions(actionsLeft, false, handleClickField)
          } else {
             // If there are still enough plants to convert
             if (newPlants >= statePlayer.valueGreenery) {
@@ -285,21 +290,21 @@ export const useSubactionTile = (field) => {
                // dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
 
                // Proper action + potential Herbivores
-               let actions = [...stateGame.actionsLeft, ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)]
+               let actions = [...actionsLeft, ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)]
                if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
                setTimeout(() => {
-                  performSubActions(actions)
+                  performSubActions(actions, false, handleClickField)
                }, ANIMATION_SPEED)
             } else {
                performSubActions([
-                  ...stateGame.actionsLeft,
+                  ...actionsLeft,
                   {
                      name: ANIMATIONS.USER_INTERACTION,
                      type: null,
                      value: null,
                      func: () => setModals((prev) => ({ ...prev, endStats: true })),
                   },
-               ])
+               ], false, handleClickField)
             }
          }
       }, delay)

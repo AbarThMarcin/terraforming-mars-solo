@@ -9,6 +9,7 @@ import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 import { getCardsWithTimePlayed, getNewCardsDrawIds, hasTag } from '../utils/cards'
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { TAGS } from '../data/tags'
+import { useSubactionTile } from './useSubactionTile'
 
 export const useActionCard = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -18,6 +19,8 @@ export const useActionCard = () => {
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const { actions, setActions } = useContext(ActionsContext)
+
+   const { handleClickField } = useSubactionTile()
 
    const handleClickArrow = (resource, operation) => {
       sound.btnGeneralClick.play()
@@ -217,7 +220,7 @@ export const useActionCard = () => {
 
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
 
-         performSubActions(subActions)
+         performSubActions(subActions, false, handleClickField)
          // =======================================================
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }

@@ -22,7 +22,6 @@ import { getConfirmationTextOfSP, getNameOfSP } from '../../../../data/StandardP
 import { useSubactionSellPatents } from '../../../../hooks/useSubactionSellPatents'
 import { useActionHeatGreenery } from '../../../../hooks/useActionHeatGreenery'
 import { useActionPass } from '../../../../hooks/useActionPass'
-import { useSubactionTile } from '../../../../hooks/useSubactionTile'
 
 const SPEED_MODIFIER = 0.7 // Smaller number, the faster animation
 
@@ -76,7 +75,6 @@ const REAL_USER_ACTIONS = {
    MODALS_OFF: 'MODALS_OFF',
    CONFIRMATION_ON: 'CONFIRMATION_ON',
    CONFIRMATION_CLICK_YES: 'CONFIRMATION_CLICK_YES',
-   CLICK_ON_TILE: 'CLICK_ON_TILE',
 }
 
 const ReplayLogList = () => {
@@ -100,7 +98,6 @@ const ReplayLogList = () => {
    const actionsConvertHeatGreenery = useActionHeatGreenery()
    const actionsSellPatents = useSubactionSellPatents()
    const actionsPass = useActionPass()
-   // const actionsTile = useSubactionTile()
 
    useEffect(() => {
       if (!nextAction) return

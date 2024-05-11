@@ -8,12 +8,15 @@ import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 import { SoundContext } from '../App'
 import { RESOURCES } from '../data/resources'
+import { useSubactionTile } from './useSubactionTile'
 
 export const useActionHeatGreenery = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED, setLogItems, setItemsExpanded } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
+
+   const { handleClickField } = useSubactionTile()
 
    const onYesFuncGreenery = () => {
       sound.btnGeneralClick.play()
@@ -37,8 +40,7 @@ export const useActionHeatGreenery = () => {
          // Possible effect for placing greenery (herbivores only)
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: actions })
-         console.log(actions)
-         performSubActions(actions)
+         performSubActions(actions, false, handleClickField)
       }, ANIMATION_SPEED)
    }
 

@@ -337,8 +337,23 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    function getOptionsActions(option, energyAmount, heatAmount) {
       return funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispatchGame, getImmEffects, modals, setModals, energyAmount, heatAmount, setLogItems)
    }
-   function performSubActions(subActions, noTrigger) {
-      return funcPerformSubActions(subActions, ANIMATION_SPEED, setModals, stateGame, dispatchGame, setTrigger, sound, noTrigger, dataForReplay, setCurrentLogItem, type)
+   function performSubActions(subActions, noTrigger, handleClickField) {
+      return funcPerformSubActions(
+         subActions,
+         ANIMATION_SPEED,
+         setModals,
+         stateGame,
+         stateBoard,
+         dispatchGame,
+         setTrigger,
+         sound,
+         noTrigger,
+         dataForReplay,
+         currentLogItem,
+         setCurrentLogItem,
+         type,
+         handleClickField
+      )
    }
    function requirementsMet(card) {
       return funcRequirementsMet(card, statePlayer, stateGame, stateBoard, modals, getImmEffects)

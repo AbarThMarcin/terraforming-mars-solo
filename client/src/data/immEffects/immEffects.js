@@ -228,10 +228,7 @@ export const funcGetImmEffects = (
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-                  dispatchGame({
-                     type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                     payload: TILES.OCEAN,
-                  })
+                  dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: TILES.OCEAN })
                   dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.OCEAN })
                },
             })
@@ -271,10 +268,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-               dispatchGame({
-                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                  payload: TILES.GREENERY,
-               })
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: TILES.GREENERY })
                dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.GREENERY })
             },
          })
@@ -289,10 +283,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-               dispatchGame({
-                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                  payload: TILES.GREENERY,
-               })
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: TILES.GREENERY })
                dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.GREENERY })
             },
          })
@@ -352,10 +343,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-               dispatchGame({
-                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                  payload: TILES.CITY,
-               })
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: TILES.CITY })
                dispatchBoard({ type: ACTIONS_BOARD.SET_AVAILABLE, payload: TILES.CITY })
             },
          })
@@ -508,10 +496,7 @@ export const funcGetImmEffects = (
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
-               dispatchGame({
-                  type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA,
-                  payload: TILES.SPECIAL_CITY_CAPITAL,
-               })
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: TILES.SPECIAL_CITY_CAPITAL })
                dispatchBoard({
                   type: ACTIONS_BOARD.SET_AVAILABLE,
                   payload: TILES.SPECIAL_CITY_CAPITAL,

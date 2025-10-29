@@ -45,7 +45,8 @@ const LogItemSteps = ({ steps, setResizeBox }) => {
                                     <img src={getResIconForLog(step.singleActionIconName[1])} className="center" alt="res_icon" />
                                  </>
                               ))}
-                           <div className={`value ${step.singleActionValue < 0 ? 'negative' : ''}`}>{step.singleActionValue !== 1 && step.singleActionValue}</div>
+                           {/*<div className={`value ${step.singleActionValue < 0 ? 'negative' : ''}`}>{step.singleActionValue !== 1 && step.singleActionValue}</div>*/}
+                           <div className={`value ${step.singleActionValue < 0 ? 'negative' : ''}`}>{step.singleActionValue}</div>
                         </div>
                         <div style={{ color: step.singleActionIconName ? '' : 'rgb(170, 170, 255)', marginLeft: step.singleActionIconName ? '0' : '-10%' }}>
                            {step.singleActionName}

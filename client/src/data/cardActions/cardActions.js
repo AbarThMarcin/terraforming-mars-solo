@@ -9,6 +9,7 @@ import { TILES } from '../board'
 import { IMM_EFFECTS } from '../immEffects/immEffects'
 import { CORP_NAMES } from '../corpNames'
 import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log'
+import { REPLAY_USERINTERACTIONS } from '../replay'
 
 export const funcGetCardActions = (
    cardId,
@@ -103,7 +104,7 @@ export const funcGetCardActions = (
             })
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTCARD,
             value: null,
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
@@ -123,7 +124,7 @@ export const funcGetCardActions = (
       case 110:
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTCARD,
             value: null,
             func: async () => {
                let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
@@ -341,7 +342,7 @@ export const funcGetCardActions = (
       case 157:
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -542,7 +543,7 @@ export const funcGetCardActions = (
          dataCards = getCardsWithPossibleMicrobes(statePlayer)
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -563,7 +564,7 @@ export const funcGetCardActions = (
       case 134:
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -617,7 +618,7 @@ export const funcGetCardActions = (
       case 194:
          subCardActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({

@@ -1303,7 +1303,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // Power Grid
          case 102:
             value =
-               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.POWER) ? total + 1 : total), 1) +
+               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.POWER) ? total + 1 : total), 10) +
                statePlayer.corporation.tags.reduce((total, tag) => (tag === TAGS.POWER ? total + 1 : total), 0)
             updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_ENERGY, payload: value })
             addStep(newLogItem, `Energy production increased by ${value}`, [RESOURCES.PROD_BG, RESOURCES.ENERGY], value)
@@ -1447,7 +1447,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
             break
          // Worms
          case 130:
-            value = Math.floor(statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.MICROBE) && !hasTag(card, TAGS.EVENT) ? total + 1 : total), 1) / 2)
+            value = Math.floor(statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.MICROBE) && !hasTag(card, TAGS.EVENT) ? total + 1 : total), 0) / 2)
             if (value > 0) {
                updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_PLANT, payload: value })
                addStep(newLogItem, `Plant production increased by ${value}`, [RESOURCES.PROD_BG, RESOURCES.PLANT], value)
@@ -1466,7 +1466,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // Cartel
          case 137:
             value =
-               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.EARTH) && !hasTag(card, TAGS.EVENT) ? total + 1 : total), 1) +
+               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.EARTH) && !hasTag(card, TAGS.EVENT) ? total + 1 : total), 0) +
                statePlayer.corporation.tags.reduce((total, tag) => (tag === TAGS.EARTH ? total + 1 : total), 0)
             updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: value })
             addStep(newLogItem, `MC production increased by ${value}`, [RESOURCES.PROD_BG, RESOURCES.MLN], value)
@@ -1709,7 +1709,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // Satellites
          case 175:
             value =
-               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.SPACE) && !hasTag(card, TAGS.EVENT) ? total + 1 : total), 1) +
+               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.SPACE) && !hasTag(card, TAGS.EVENT) ? total + 1 : total), 0) +
                statePlayer.corporation.tags.reduce((total, tag) => (tag === TAGS.SPACE ? total + 1 : total), 0)
             updateStatePlayer({ type: ACTIONS_PLAYER.CHANGE_PROD_MLN, payload: value })
             addStep(newLogItem, `MC production increased by ${value}`, [RESOURCES.PROD_BG, RESOURCES.MLN], value)
@@ -1851,7 +1851,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // Terraforming Ganymede
          case 197:
             value =
-               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.JOVIAN) ? total + 1 : total), 1) +
+               statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.JOVIAN) ? total + 1 : total), 0) +
                statePlayer.corporation.tags.reduce((total, tag) => (tag === TAGS.JOVIAN ? total + 1 : total), 0)
             updateStateGame({ type: ACTIONS_GAME.CHANGE_TR, payload: value })
             updateStatePlayer({ type: ACTIONS_PLAYER.SET_TRRAISED, payload: true })
@@ -1924,7 +1924,7 @@ export const getLogAndStatesConvertedForGame = (logItems, initStateBoard, cardsI
          // Medical Lab
          case 207:
             value = Math.floor(
-               (statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.BUILDING) ? total + 1 : total), 1) +
+               (statePlayer.cardsPlayed.reduce((total, card) => (hasTag(card, TAGS.BUILDING) ? total + 1 : total), 0) +
                   statePlayer.corporation.tags.reduce((total, tag) => (tag === TAGS.BUILDING ? total + 1 : total), 0)) /
                   2
             )

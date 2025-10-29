@@ -16,6 +16,7 @@ import { SoundContext } from '../../../../App'
 import { updateGameData } from '../../../../api/activeGame'
 import { COMMUNICATION, CONFIRMATION_TEXT, MATCH_TYPES } from '../../../../data/app'
 import { useActionDraft } from '../../../../hooks/useActionDraft'
+import { INIT_ACTIONS } from '../../../../initStates/initActions'
 
 const ModalDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -25,7 +26,7 @@ const ModalDraft = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { type, user } = useContext(UserContext)
-   const { actions } = useContext(ActionsContext)
+   const { actions, setActions } = useContext(ActionsContext)
    const cardsDraft = useMemo(
       () => (statePlayer.corporation ? getCardsWithDecreasedCost(getCards(statePlayer.cardsDrawIds), statePlayer) : []),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,6 +40,8 @@ const ModalDraft = () => {
 
    // Add draft cards to the cardsSeen
    useEffect(() => {
+      setActions(INIT_ACTIONS)
+
       // Update latest Log Item (PASS) with state of the game AFTER passed
       if (logItems[logItems.length - 1].type !== LOG_TYPES.GENERATION) funcUpdateLastLogItemAfter(setLogItems, statePlayer, stateGame)
 
@@ -86,6 +89,7 @@ const ModalDraft = () => {
                className={`card-container small ${actions.ids.includes(card.id) && 'selected'}`}
                style={getPositionInModalCards(cardsDraft.length, idx)}
                onClick={() => {
+                  if (stateGame.replayActionId) return
                   sound.btnCardsClick.play()
                   setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
                }}

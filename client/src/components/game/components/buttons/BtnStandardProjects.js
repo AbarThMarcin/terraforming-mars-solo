@@ -1,9 +1,10 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../../../game'
+import { ModalsContext, StateGameContext } from '../../../game'
 import btnSPbg from '../../../../assets/images/other/btnSPbg.svg'
 import { SoundContext } from '../../../../App'
 
 const BtnStandardProjects = () => {
+   const { stateGame } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
@@ -11,8 +12,10 @@ const BtnStandardProjects = () => {
       <div
          className="btn-standard-projects pointer"
          onClick={() => {
-            sound.btnSPorOtherSnap.play()
-            setModals((prev) => ({ ...prev, standardProjects: true }))
+            if (!stateGame.replayActionId) {
+               sound.btnSPorOtherSnap.play()
+               setModals((prev) => ({ ...prev, standardProjects: true }))
+            }
          }}
       >
          <img className="full-size" src={btnSPbg} alt="SP_btn_background" />

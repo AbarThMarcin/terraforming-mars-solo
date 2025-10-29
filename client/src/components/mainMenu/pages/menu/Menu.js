@@ -223,6 +223,19 @@ const Menu = ({ user, setUser, setDataForGame }) => {
       }
    }
 
+   async function RM_startNew() {
+      setShowModalConf(false)
+      setLoading(true)
+      const data = await setDataForGame({ type: MATCH_TYPES.RANKED_MATCH })
+      setLoading(false)
+      if (data) {
+         navigate('/match')
+      } else {
+         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
+         setShowMsgType('error')
+      }
+   }
+
    async function RM_forfeitAndStartNew() {
       setShowModalConf(false)
       setLoading(true)
@@ -265,19 +278,6 @@ const Menu = ({ user, setUser, setDataForGame }) => {
          return
       }
       const data = await setDataForGame({ type: MATCH_TYPES.RANKED_MATCH, restartMatch: true })
-      setLoading(false)
-      if (data) {
-         navigate('/match')
-      } else {
-         setShowMsg(APP_MESSAGES.SOMETHING_WENT_WRONG)
-         setShowMsgType('error')
-      }
-   }
-
-   async function RM_startNew() {
-      setShowModalConf(false)
-      setLoading(true)
-      const data = await setDataForGame({ type: MATCH_TYPES.RANKED_MATCH })
       setLoading(false)
       if (data) {
          navigate('/match')

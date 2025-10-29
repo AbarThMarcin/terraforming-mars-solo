@@ -22,8 +22,9 @@ import { getConfirmationTextOfSP, getNameOfSP } from '../../../../data/StandardP
 import { useSubactionSellPatents } from '../../../../hooks/useSubactionSellPatents'
 import { useActionHeatGreenery } from '../../../../hooks/useActionHeatGreenery'
 import { useActionPass } from '../../../../hooks/useActionPass'
+import { replayData } from '../../../../data/replay'
 
-const SPEED_MODIFIER = 0.7 // Smaller number, the faster animation
+export const SPEED_MODIFIER = 0.7 // Smaller number, the faster animation
 
 const REAL_USER_ACTIONS = {
    // ======================================================== Draft
@@ -71,6 +72,7 @@ const REAL_USER_ACTIONS = {
    SP_CONFIRM: 'SP_CONFIRM',
    // ========================================================= Pass
    PASS: 'PASS',
+   FINAL_PLANTS_CONVERSION: 'FINAL_PLANTS_CONVERSION',
    // ========================================================= Misc
    MODALS_OFF: 'MODALS_OFF',
    CONFIRMATION_ON: 'CONFIRMATION_ON',
@@ -248,6 +250,12 @@ const ReplayLogList = () => {
             actionsPass.onYesFunc()
             break
          // ========================================================================================================================================
+         // ================================================================================================================ Final Plants Conversion
+         // ========================================================================================================================================
+         case REAL_USER_ACTIONS.FINAL_PLANTS_CONVERSION:
+            actionsPass.processFinalPlantsConversion()
+            break
+         // ========================================================================================================================================
          // =================================================================================================================================== Misc
          // ========================================================================================================================================
          case REAL_USER_ACTIONS.MODALS_OFF:
@@ -265,11 +273,17 @@ const ReplayLogList = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [nextAction])
 
-   const handleClickNextActionBtn = () => {
+   const handleClickNextActionBtn = async () => {
       if (stateGame.replayActionId) return
       sound.btnGeneralClick.play()
+
       const actionString = dataForReplay.logItems[currentLogItem].action
       const actionObj = parseActionStringToObject(actionString)
+
+      replayData.usedCoordinates.splice(0, replayData.usedCoordinates.length)
+      replayData.plants = statePlayer.resources.plant
+      replayData.cardsInDeck = statePlayer.cardsDeckIds
+
       let delay = ANIMATION_SPEED * SPEED_MODIFIER
       let textConfirmation
 
@@ -310,7 +324,7 @@ const ReplayLogList = () => {
                }
             }
          }
-         textConfirmation = stateGame.generation === 1 ? CONFIRMATION_TEXT.DRAFT_GEN1 : actionObj.ids.length === 0 ? CONFIRMATION_TEXT.DRAFT_NOCARDS : CONFIRMATION_TEXT.DRAFT_CARDS
+         textConfirmation = stateGame.generation === 1 ? CONFIRMATION_TEXT.DRAFT_GEN1 : actionObj.ids?.length > 0 ? CONFIRMATION_TEXT.DRAFT_CARDS : CONFIRMATION_TEXT.DRAFT_NOCARDS
          setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.CONFIRMATION_ON, payload: textConfirmation }), delay)
          delay += ANIMATION_SPEED * SPEED_MODIFIER * 0.8
          setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.DRAFT_CONFIRM }), delay)
@@ -328,6 +342,23 @@ const ReplayLogList = () => {
          // ============================================================================================================================= Imm effect
          // ========================================================================================================================================
       } else if (actionObj.immEffect) {
+         let cardsInOrderIds
+         let nextCards
+         switch (actionObj.id) {
+            case 111:
+               cardsInOrderIds = [...dataForReplay.cards.seen.map(c => c.id), ...dataForReplay.cards.inDeck]
+               nextCards = cardsInOrderIds.slice(208 - replayData.cardsInDeck.length, 208 - replayData.cardsInDeck.length + 4)
+               replayData.modalBusCont = { cards: nextCards, selectCount: 2 }
+               break
+            case 192:
+               cardsInOrderIds = [...dataForReplay.cards.seen.map(c => c.id), ...dataForReplay.cards.inDeck]
+               nextCards = cardsInOrderIds.slice(208 - replayData.cardsInDeck.length, 208 - replayData.cardsInDeck.length + 3)
+               replayData.modalBusCont = { cards: nextCards, selectCount: 1 }
+               break
+            default:
+               break
+         }
+
          setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.IMMEFFECT_CARDSINHAND }), delay)
          delay += ANIMATION_SPEED * SPEED_MODIFIER
          setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.IMMEFFECT_SHOWCARD, payload: actionObj.id }), delay)
@@ -570,6 +601,11 @@ const ReplayLogList = () => {
          setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.CONFIRMATION_ON, payload: CONFIRMATION_TEXT.PASS }), delay)
          delay += ANIMATION_SPEED * SPEED_MODIFIER * 0.7
          setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.PASS }), delay)
+         // ========================================================================================================================================
+         // ================================================================================================================= Final Plant Conversion
+         // ========================================================================================================================================
+      } else if (actionObj.finalPlantConversion) {
+         setTimeout(() => setNextAction({ name: REAL_USER_ACTIONS.FINAL_PLANTS_CONVERSION }), delay)
       }
    }
 
@@ -577,8 +613,19 @@ const ReplayLogList = () => {
       if (stateGame.replayActionId) return
       if (logItem?.type === LOG_TYPES.GENERATION) return
       if (idx === currentLogItem) return
-
       sound.btnGeneralClick.play()
+
+      // Turn Phase After Gen 14 on if this pass is in gen14. The reason for putting it also here
+      // (because turning phase after gen14 is already in the processFinalPlantsConversion function)
+      // is because in the Replay Mode, eventhough its turned on, there is no break between placing
+      // greeneries, so the 'phase after gen14' will be turned on after the whole Final Plants Conversion
+      // process is ended. So, this phase will be turned on when - in Replay Mode - clicked "NEXT ACTION"
+      // on the last Pass action OR when clicked directly on the Final Plants Conversion action in the actions list.
+      if (logItem?.type === LOG_TYPES.FINAL_CONVERT_PLANTS) {
+         replayData.phaseAfterGen14 = true
+      } else {
+         replayData.phaseAfterGen14 = false
+      }
 
       const cardsInOrderIds = [...dataForReplay.cards.seen.map((c) => c.id), ...dataForReplay.cards.inDeck]
       const { convertedLogItems, newStatePlayer, newStateGame, newStateBoard, newStateModal } = getLogAndStatesConvertedForGame(

@@ -1,6 +1,6 @@
 /* Used to show window with cards to sell */
 import { useContext, useState } from 'react'
-import { StatePlayerContext, ModalsContext, ActionsContext } from '../../../game'
+import { StatePlayerContext, ModalsContext, ActionsContext, StateGameContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
@@ -13,6 +13,7 @@ import { CONFIRMATION_TEXT } from '../../../../data/app'
 import { useSubactionSellPatents } from '../../../../hooks/useSubactionSellPatents'
 
 const ModalSellCards = () => {
+   const { stateGame } = useContext(StateGameContext)
    const { statePlayer } = useContext(StatePlayerContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
@@ -42,6 +43,7 @@ const ModalSellCards = () => {
                      className={`card-container small ${actions.ids.includes(card.id) && 'selected'}`}
                      style={getPositionInModalCards(statePlayer.cardsInHand.length, idx)}
                      onClick={() => {
+                        if (stateGame.replayActionId) return
                         sound.btnCardsClick.play()
                         setModals({ ...modals, modalCard: card, cardViewOnly: true })
                      }}

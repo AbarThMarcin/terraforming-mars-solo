@@ -1,6 +1,6 @@
 // Modal for viewing and selecting cards when Mars University has been played
 import { useContext, useEffect, useState } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext, UserContext, StateBoardContext, CorpsContext } from '../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext, UserContext, StateBoardContext, CorpsContext, ActionsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import ModalHeader from './modalsComponents/ModalHeader'
 import BtnAction from '../buttons/BtnAction'
@@ -20,12 +20,13 @@ const ModalMarsUniversity = () => {
    const { type, user } = useContext(UserContext)
    const { initCorpsIds } = useContext(CorpsContext)
    const { sound } = useContext(SoundContext)
+   const { actions } = useContext(ActionsContext)
    const [page, setPage] = useState(1)
 
    const btnActionPosition = { bottom: '0', left: '42%', transform: 'translateX(-50%)' }
    const btnCancelPosition = { bottom: '0', left: '58%', transform: 'translateX(-50%)' }
 
-   const { handleClickBtnSelect, onYesFunc, onCancelFunc, selectedCardId } = useSubactionMarsUniversity()
+   const { handleClickBtnSelect, onYesFunc, onCancelFunc } = useSubactionMarsUniversity()
 
    // Update Server Data
    useEffect(() => {
@@ -75,9 +76,10 @@ const ModalMarsUniversity = () => {
                {statePlayer.cardsInHand.map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container small ${selectedCardId === card.id && 'selected'}`}
+                     className={`card-container small ${actions.ids[0] === card.id && 'selected'}`}
                      style={getPositionInModalCards(statePlayer.cardsInHand.length, idx)}
                      onClick={() => {
+                        if (stateGame.replayActionId) return
                         sound.btnCardsClick.play()
                         setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
                      }}
@@ -86,13 +88,13 @@ const ModalMarsUniversity = () => {
                      <Card card={card} />
                      {/* SELECT BUTTON */}
                      <div
-                        className={`pointer ${card.id === selectedCardId ? 'btn-selected' : 'btn-select'}`}
+                        className={`pointer ${card.id === actions.ids[0] ? 'btn-selected' : 'btn-select'}`}
                         onClick={(e) => {
                            e.stopPropagation()
-                           handleClickBtnSelect(card.id)
+                           if (!stateGame.replayActionId) handleClickBtnSelect(card.id)
                         }}
                      >
-                        {card.id === selectedCardId ? 'SELECTED' : 'SELECT'}
+                        {card.id === actions.ids[0] ? 'SELECTED' : 'SELECT'}
                      </div>
                   </div>
                ))}
@@ -100,7 +102,7 @@ const ModalMarsUniversity = () => {
             {/* HEADER */}
             <ModalHeader text="SELECT CARD TO DISCARD" />
             {/* ACTION BUTTON */}
-            <BtnAction text="DISCARD" onYesFunc={onYesFunc} disabled={selectedCardId === 0} position={btnActionPosition} />
+            <BtnAction text="DISCARD" onYesFunc={onYesFunc} disabled={actions.ids.length === 0} position={btnActionPosition} />
             {/* CANCEL BUTTON */}
             <BtnAction text="CANCEL" onYesFunc={onCancelFunc} position={btnCancelPosition} />
          </div>

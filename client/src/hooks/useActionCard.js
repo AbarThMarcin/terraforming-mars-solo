@@ -10,17 +10,33 @@ import { getCardsWithTimePlayed, getNewCardsDrawIds, hasTag } from '../utils/car
 import { ACTIONS_GAME } from '../stateActions/actionsGame'
 import { TAGS } from '../data/tags'
 import { useSubactionTile } from './useSubactionTile'
+import { useSubactionBusinessContacts } from './useSubactionBusinessContacts'
+import { replayData } from '../data/replay'
+import { useSubactionMarsUniversity } from './useSubactionMarsUniversity'
 
 export const useActionCard = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, ANIMATION_SPEED, requirementsMet, setLogItems, setItemsExpanded, dataForReplay } =
-      useContext(StateGameContext)
+   const {
+      stateGame,
+      dispatchGame,
+      getImmEffects,
+      getEffect,
+      performSubActions,
+      ANIMATION_SPEED,
+      requirementsMet,
+      setLogItems,
+      setItemsExpanded,
+      dataForReplay,
+      setSubactionsForMU,
+   } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const { actions, setActions } = useContext(ActionsContext)
 
    const { handleClickField } = useSubactionTile()
+   const subactionsBusinessContacts = useSubactionBusinessContacts()
+   const subactionsMarsUniversity = useSubactionMarsUniversity()
 
    const handleClickArrow = (resource, operation) => {
       sound.btnGeneralClick.play()
@@ -111,7 +127,7 @@ export const useActionCard = () => {
       dis = getDisabled(resMln, resSteel, resTitan, resHeat, cardPlayed)
 
       setActions((prev) => ({ ...prev, mln: resMln, steel: resSteel, titan: resTitan, heat: resHeat, disabled: dis }))
-      
+
       return { resMln, resSteel, resTitan, resHeat }
    }
 
@@ -120,8 +136,7 @@ export const useActionCard = () => {
       if (stateGame.phaseViewGameState) return true
       if (stateGame.phasePlaceTile) return true
       // When resources to use the card are not enough, disable button
-      if (Math.min(resMln, statePlayer.resources.mln) + resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan + resHeat < cardPlayed.currentCost)
-         return true
+      if (Math.min(resMln, statePlayer.resources.mln) + resSteel * statePlayer.valueSteel + resTitan * statePlayer.valueTitan + resHeat < cardPlayed.currentCost) return true
       // When requirements are not met, disable button
       if (!requirementsMet(cardPlayed)) return true
 
@@ -166,6 +181,7 @@ export const useActionCard = () => {
             case 192:
                if (statePlayer.cardsPlayed.find((card) => card.id === 185).units.science > 0) {
                   initDrawCardsIds = await getNewCardsDrawIds(4, statePlayer, dispatchPlayer, type, id, user?.token, dataForReplay)
+                  replayData.modalBusCont = { cards: initDrawCardsIds.slice(1), selectCount: 1 }
                }
                break
             case 196:
@@ -219,8 +235,14 @@ export const useActionCard = () => {
          // ===========================================================
 
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-
-         performSubActions(subActions, false, handleClickField)
+         setSubactionsForMU((prev) => ({
+            ...prev,
+            handleClickField,
+            businessContactsOnYesFunc: subactionsBusinessContacts.onYesFunc,
+            marsUniversityOnYesFunc: subactionsMarsUniversity.onYesFunc,
+            marsUniversityOnCancelFunc: subactionsMarsUniversity.onCancelFunc,
+         }))
+         performSubActions(subActions, false, handleClickField, subactionsBusinessContacts.onYesFunc, subactionsMarsUniversity.onYesFunc, subactionsMarsUniversity.onCancelFunc)
          // =======================================================
       }, animResPaidTypes.length * ANIMATION_SPEED)
    }

@@ -1,13 +1,14 @@
 /* Used to view cards in hand or cards played */
 import { useState, useContext } from 'react'
 import { SoundContext } from '../../../../../App'
-import { ModalsContext } from '../../../../game'
+import { ModalsContext, StateGameContext } from '../../../../game'
 import Arrows from '../modalsComponents/arrows/Arrows'
 import Card from '../../card/Card'
 import { getPositionInModalCards } from '../../../../../utils/cards'
 import SortBtns from '../modalsComponents/SortBtns'
 
 const ModalCards = () => {
+   const { stateGame } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
    const [page, setPage] = useState(1)
@@ -40,6 +41,7 @@ const ModalCards = () => {
                         className="card-container small"
                         style={getPositionInModalCards(modals.modalCards.length, idx)}
                         onClick={() => {
+                           if (stateGame.replayActionId) return
                            sound.btnCardsClick.play()
                            handleClickCard(card)
                         }}

@@ -230,7 +230,7 @@
 	<path class="st23" d="M582.4,169c-15.9,0.2-17.3,4.7-31.4,4.9c-3.9,0-14.2-2.1-35.2-6.3c-9.1,30,5.3,55.7,33,56.2h0.2
 		C576.1,223.3,590.5,198.4,582.4,169L582.4,169L582.4,169z"/>
 	
-		<radialGradient id="SVGID_00000118357894195715375310000014092476245833012359_" cx="548.73" cy="80.21" r="81.41" gradientTransform="matrix(1 0 0 -1 0 255)" gradientUnits="userSpaceOnUse">
+   <radialGradient id="SVGID_00000118357894195715375310000014092476245833012359_" cx="548.73" cy="80.21" r="81.41" gradientTransform="matrix(1 0 0 -1 0 382)" gradientUnits="userSpaceOnUse">
 		<stop  offset="0" style="stop-color:#FFFFFF;stop-opacity:0.7"/>
 		<stop  offset="0.13" style="stop-color:#F8FAFD;stop-opacity:0.68"/>
 		<stop  offset="0.28" style="stop-color:#E4E9F7;stop-opacity:0.62"/>
@@ -240,6 +240,6 @@
 		<stop  offset="0.98" style="stop-color:#2C4F9E;stop-opacity:3.000000e-02"/>
 		<stop  offset="1" style="stop-color:#2B4B9B;stop-opacity:0"/>
 	</radialGradient>
-	<circle style="fill:url(#SVGID_00000118357894195715375310000014092476245833012359_);" cx="548.7" cy="177.3" r="81.3"/>
+   <circle style="fill:url(#SVGID_00000118357894195715375310000014092476245833012359_);" cx="548.7" cy="177.3" r="81.3"/>
 </g>
 </svg>

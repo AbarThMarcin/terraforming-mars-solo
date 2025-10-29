@@ -1,23 +1,48 @@
-import { useContext } from "react"
-import { ModalsContext, StateGameContext, StatePlayerContext, UserContext } from "../components/game"
-import { SoundContext } from "../App"
-import { LOG_ICONS, LOG_TYPES, funcCreateLogItem, funcCreateLogItemGeneration, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, funcUpdateLogItemAction } from "../data/log"
-import { ACTIONS_PLAYER } from "../stateActions/actionsPlayer"
-import { getCardsWithDecreasedCost, getNewCardsDrawIds } from "../utils/cards"
-import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from "../data/animations"
-import { RESOURCES } from "../data/resources"
-import { IMM_EFFECTS } from "../data/immEffects/immEffects"
-import { EFFECTS } from "../data/effects/effectIcons"
-import { ACTIONS_GAME } from "../stateActions/actionsGame"
+import { useContext } from 'react'
+import { ModalsContext, StateGameContext, StatePlayerContext, UserContext } from '../components/game'
+import { SoundContext } from '../App'
+import {
+   LOG_ICONS,
+   LOG_TYPES,
+   funcCreateLogItem,
+   funcCreateLogItemGeneration,
+   funcSetLogItemsSingleActions,
+   funcUpdateLastLogItemAfter,
+   funcUpdateLogItemAction,
+} from '../data/log'
+import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
+import { getCardsWithDecreasedCost, getNewCardsDrawIds } from '../utils/cards'
+import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from '../data/animations'
+import { RESOURCES } from '../data/resources'
+import { IMM_EFFECTS } from '../data/immEffects/immEffects'
+import { EFFECTS } from '../data/effects/effectIcons'
+import { ACTIONS_GAME } from '../stateActions/actionsGame'
+import { turnReplayActionOff } from '../utils/misc'
+import { MATCH_TYPES } from '../data/app'
+import { useSubactionTile } from './useSubactionTile'
+import { replayData } from '../data/replay'
 
 export const useActionPass = () => {
    const { setModals } = useContext(ModalsContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, getImmEffects, getEffect, performSubActions, setLogItems, ANIMATION_SPEED, setSaveToServerTrigger, setItemsExpanded, dataForReplay } =
-      useContext(StateGameContext)
+   const {
+      stateGame,
+      dispatchGame,
+      getImmEffects,
+      getEffect,
+      performSubActions,
+      setLogItems,
+      setCurrentLogItem,
+      ANIMATION_SPEED,
+      setSaveToServerTrigger,
+      setItemsExpanded,
+      dataForReplay,
+   } = useContext(StateGameContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const newStatePlayer = getNewStatePlayer()
+
+   const { handleClickField } = useSubactionTile()
 
    function getNewStatePlayer() {
       return {
@@ -183,47 +208,41 @@ export const useActionPass = () => {
       // Go to next generation or end the game (with greeneries or without them)
       delay += ANIMATION_SPEED / 1.5
       setTimeout(() => {
-         // If passed in last generation
-         if (stateGame.generation === 14) {
-            newPlants += statePlayer.production.plant
-            if (newPlants >= statePlayer.valueGreenery) {
-               // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
-               funcCreateLogItem(setLogItems, newStatePlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS, titleIcon: LOG_ICONS.CONVERT_PLANTS }, setItemsExpanded)
-               funcUpdateLogItemAction(setLogItems, 'finalPlantConversion')
-               // Show Panel Corp
-               setModals((prev) => ({ ...prev, panelCorp: true }))
-               setTimeout(() => {
-                  // Turn Phase After Gen 14 on
-                  dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
-                  // Decrease plants
-                  startAnimation(setModals)
-                  setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
-                  setTimeout(() => {
-                     dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
-                     funcSetLogItemsSingleActions(
-                        `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
-                        RESOURCES.PLANT,
-                        -statePlayer.valueGreenery,
-                        setLogItems
-                     )
-                     endAnimation(setModals)
-                  }, ANIMATION_SPEED)
-                  // Proper action
-                  let actions = getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)
-                  // Potential Herbivores
-                  if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
-                  setTimeout(() => {
-                     performSubActions(actions)
-                  }, ANIMATION_SPEED)
-               }, ANIMATION_SPEED / 1.5 / 2)
-            } else {
-               setModals((prev) => ({ ...prev, endStats: true }))
-               // Update Server Data
-               setSaveToServerTrigger((prev) => !prev)
+         if (type === MATCH_TYPES.REPLAY) {
+            // Show Panel Corp and Panel State Game
+            setModals((prev) => ({ ...prev, panelCorp: true, panelStateGame: true }))
+            // Turn off the ReplayAction phase and move to the next action
+            turnReplayActionOff(stateGame, dispatchGame, dataForReplay, setCurrentLogItem)
+
+            // Turn Phase After Gen 14 on if this pass is in gen14. The reason for putting it also here
+            // (because turning phase after gen14 is already in the processFinalPlantsConversion function)
+            // is because in the Replay Mode, eventhough its turned on, there is no break between placing
+            // greeneries, so the phase after gen14 will be turned on after the whole Final Plants Conversion
+            // process is ended. So, this phase will be turned on when - in Replay Mode - clicked "NEXT ACTION"
+            // on the last Pass action OR when clicked directly on the Final Plants Conversion action in the actions list.
+            if (stateGame.generation === 14) {
+               dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
+               replayData.phaseAfterGen14 = true
+               if(!dataForReplay.logItems.some(l => l.type === LOG_TYPES.FINAL_CONVERT_PLANTS)) {
+                  setModals((prev) => ({ ...prev, endStats: true }))
+               }
             }
          } else {
-            getCardsAndShowDraft()
+            // If passed in last generation
+            if (stateGame.generation === 14) {
+               newPlants += statePlayer.production.plant
+               if (newPlants >= statePlayer.valueGreenery) {
+                  processFinalPlantsConversion()
+               } else {
+                  setModals((prev) => ({ ...prev, endStats: true }))
+                  // Update Server Data
+                  setSaveToServerTrigger((prev) => !prev)
+               }
+            } else {
+               getCardsAndShowDraft()
+            }
          }
+         endAnimation(setModals)
       }, delay)
 
       async function getCardsAndShowDraft() {
@@ -234,8 +253,40 @@ export const useActionPass = () => {
          dispatchGame({ type: ACTIONS_GAME.SET_PHASE_DRAFT, payload: true })
          // Update log (new generation)
          funcCreateLogItemGeneration(setLogItems, stateGame, setItemsExpanded)
+         // In Replay mode, turn off the ReplayAction phase and move to the next action
+         turnReplayActionOff(stateGame, dispatchGame, dataForReplay, setCurrentLogItem)
       }
    }
 
-   return { onYesFunc }
+   const processFinalPlantsConversion = () => {
+      // Before doing anything, save StatePlayer, StateGame and StateBoard to the log
+      const stPlayer = type === MATCH_TYPES.REPLAY ? statePlayer : newStatePlayer
+      funcCreateLogItem(setLogItems, stPlayer, stateGame, { type: LOG_TYPES.FINAL_CONVERT_PLANTS, titleIcon: LOG_ICONS.CONVERT_PLANTS }, setItemsExpanded)
+      funcUpdateLogItemAction(setLogItems, 'finalPlantConversion')
+      // Show Panel Corp
+      setModals((prev) => ({ ...prev, panelCorp: true }))
+      setTimeout(() => {
+         // Turn Phase After Gen 14 on
+         dispatchGame({ type: ACTIONS_GAME.SET_PHASE_AFTER_GEN14, payload: true })
+         replayData.phaseAfterGen14 = true
+         // Decrease plants
+         startAnimation(setModals)
+         setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
+         setTimeout(() => {
+            dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
+            replayData.plants = replayData.plants - statePlayer.valueGreenery
+            funcSetLogItemsSingleActions(`Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`, RESOURCES.PLANT, -statePlayer.valueGreenery, setLogItems)
+            endAnimation(setModals)
+         }, ANIMATION_SPEED)
+         // Proper action
+         let actions = getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)
+         // Potential Herbivores
+         if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
+         setTimeout(() => {
+            performSubActions(actions, false, handleClickField)
+         }, ANIMATION_SPEED)
+      }, ANIMATION_SPEED / 1.5 / 2)
+   }
+
+   return { onYesFunc, processFinalPlantsConversion }
 }

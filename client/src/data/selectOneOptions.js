@@ -25,6 +25,7 @@ import card157_option2 from '../assets/images/selectOne-options/card157_option2.
 import card190_option1 from '../assets/images/selectOne-options/card190_option1.svg'
 import { IMM_EFFECTS } from './immEffects/immEffects'
 import { funcSetLogItemsSingleActions } from './log'
+import { REPLAY_USERINTERACTIONS } from './replay'
 
 export const OPTION_ICONS = {
    CARD19_OPTION1: 'card19_option1',
@@ -171,7 +172,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
          dataCards = getCardsWithPossibleMicrobes(statePlayer)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -193,7 +194,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
          dataCards = getCardsWithPossibleAnimals(statePlayer)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -450,7 +451,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
          dataCards = getCardsWithPossibleMicrobes(statePlayer)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -485,7 +486,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
          dataCards = getCardsWithPossibleAnimals(statePlayer)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -560,7 +561,7 @@ export function funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispa
          dataCards = getCardsWithPossibleAnimals(statePlayer)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })

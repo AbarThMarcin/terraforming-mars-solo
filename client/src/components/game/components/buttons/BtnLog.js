@@ -1,8 +1,9 @@
 import { useContext } from 'react'
-import { ModalsContext } from '../../../game'
+import { ModalsContext, StateGameContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 
 const BtnLog = () => {
+   const { stateGame } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const { sound } = useContext(SoundContext)
 
@@ -10,8 +11,10 @@ const BtnLog = () => {
       <div
          className="btn-cards-played-log pointer"
          onClick={() => {
-            sound.btnGeneralClick.play()
-            setModals((prev) => ({ ...prev, log: true }))
+            if (!stateGame.replayActionId) {
+               sound.btnGeneralClick.play()
+               setModals((prev) => ({ ...prev, log: true }))
+            }
          }}
       >
          LOG

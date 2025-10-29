@@ -4,6 +4,7 @@ import { MATCH_TYPES } from '../data/app'
 import { CARDS } from '../data/cards'
 import { CORP_NAMES } from '../data/corpNames'
 import { EFFECTS } from '../data/effects/effectIcons'
+import { replayData } from '../data/replay'
 import { TAGS } from '../data/tags'
 import { ACTIONS_PLAYER } from '../stateActions/actionsPlayer'
 
@@ -292,24 +293,31 @@ export const getCards = (cardsIds) => {
 export const getNewCardsDrawIds = async (count, statePlayer, dispatchPlayer, type, id, token, dataForReplay, additionalDeckIds) => {
    let cardsDeckIds
    let newCardsDrawIds
-   let newCardsDeckIds
-   cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
+   //let newCardsDeckIds
+   if (type === MATCH_TYPES.REPLAY) {
+      cardsDeckIds = additionalDeckIds ? replayData.cardsInDeck.filter((id) => !additionalDeckIds.includes(id)) : replayData.cardsInDeck
+   } else {
+      cardsDeckIds = additionalDeckIds ? statePlayer.cardsDeckIds.filter((id) => !additionalDeckIds.includes(id)) : statePlayer.cardsDeckIds
+   }
    if (type === MATCH_TYPES.QUICK_MATCH_ID) {
       const drawCardsIds = await getConsecutiveCardsIds(token, id, 208 - cardsDeckIds.length, count)
       newCardsDrawIds = drawCardsIds
-      newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
+      //newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
    } else if (type === MATCH_TYPES.REPLAY) {
       const cardsInOrderIds = [...dataForReplay.cards.seen.map(c => c.id), ...dataForReplay.cards.inDeck]
       const drawCardsIds = cardsInOrderIds.slice(208 - cardsDeckIds.length, 208 - cardsDeckIds.length + count)
       newCardsDrawIds = drawCardsIds
-      newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
+      //newCardsDeckIds = cardsDeckIds.filter((cardId) => !drawCardsIds.includes(cardId))
    } else {
       const drawIndexes = await getRandIntNumbers(count, 0, cardsDeckIds.length - 1)
       newCardsDrawIds = cardsDeckIds.filter((_, idx) => drawIndexes.includes(idx))
-      newCardsDeckIds = cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))
+      //newCardsDeckIds = cardsDeckIds.filter((_, idx) => !drawIndexes.includes(idx))
    }
 
    dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DRAW, payload: newCardsDrawIds })
-   dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DECK, payload: newCardsDeckIds })
+   //dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_DECK, payload: newCardsDeckIds })
+   dispatchPlayer({ type: ACTIONS_PLAYER.REMOVE_CARDS_IN_DECK, payload: newCardsDrawIds })
+   if (type === MATCH_TYPES.REPLAY) replayData.cardsInDeck = replayData.cardsInDeck.filter(id => !newCardsDrawIds.includes(id))
+
    return newCardsDrawIds
 }

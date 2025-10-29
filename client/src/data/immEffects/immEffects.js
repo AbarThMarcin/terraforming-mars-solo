@@ -21,6 +21,7 @@ import { TAGS } from '../tags'
 import { CORP_NAMES } from '../corpNames'
 import { EFFECTS } from '../effects/effectIcons'
 import { LOG_ICONS, funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter } from '../log'
+import { REPLAY_USERINTERACTIONS, replayData } from '../replay'
 
 export const IMM_EFFECTS = {
    POWER_PLANT: 'Increase energy production 1 step',
@@ -224,7 +225,7 @@ export const funcGetImmEffects = (
          if (stateGame.globalParameters.oceans < 9) {
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
-               type: null,
+               type: REPLAY_USERINTERACTIONS.PLACETILE,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -264,7 +265,7 @@ export const funcGetImmEffects = (
       case 193:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -279,7 +280,7 @@ export const funcGetImmEffects = (
       case IMM_EFFECTS.GREENERY_WO_OX:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -290,7 +291,7 @@ export const funcGetImmEffects = (
          break
       // ================================= INCREASE OXYGEN BY 1% ===========================
       case IMM_EFFECTS.OXYGEN:
-         if (stateGame.globalParameters.oxygen < 14 && !stateGame.phaseAfterGen14) {
+         if (stateGame.globalParameters.oxygen < 14 && !stateGame.phaseAfterGen14 && !replayData.phaseAfterGen14) {
             subActions.push({
                name: ANIMATIONS.SHORT_ANIMATION,
                type: null,
@@ -311,7 +312,7 @@ export const funcGetImmEffects = (
          break
       // ================================= INCREASE OXYGEN BY 2% ===========================
       case IMM_EFFECTS.OXYGEN2:
-         if (stateGame.globalParameters.oxygen < 14 && !stateGame.phaseAfterGen14) {
+         if (stateGame.globalParameters.oxygen < 14 && !stateGame.phaseAfterGen14 && !replayData.phaseAfterGen14) {
             subActions.push({
                name: ANIMATIONS.SHORT_ANIMATION,
                type: null,
@@ -331,7 +332,13 @@ export const funcGetImmEffects = (
             })
          }
          // Bonus temperature
-         if (stateGame.globalParameters.oxygen >= 6 && stateGame.globalParameters.oxygen <= 7 && stateGame.globalParameters.temperature < 8 && !stateGame.phaseAfterGen14) {
+         if (
+            stateGame.globalParameters.oxygen >= 6 &&
+            stateGame.globalParameters.oxygen <= 7 &&
+            stateGame.globalParameters.temperature < 8 &&
+            !stateGame.phaseAfterGen14 &&
+            !replayData.phaseAfterGen14
+         ) {
             subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.TEMPERATURE)]
          }
          break
@@ -339,7 +346,7 @@ export const funcGetImmEffects = (
       case IMM_EFFECTS.CITY:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -492,7 +499,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -611,7 +618,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -648,7 +655,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -689,7 +696,7 @@ export const funcGetImmEffects = (
          subActions = getImmEffects(IMM_EFFECTS.AQUIFER)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -707,7 +714,7 @@ export const funcGetImmEffects = (
       case 20:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -735,7 +742,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -832,7 +839,7 @@ export const funcGetImmEffects = (
          if (dataCards.length > 0)
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
-               type: null,
+               type: REPLAY_USERINTERACTIONS.RESOURCES,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -872,7 +879,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -948,7 +955,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1096,7 +1103,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1254,7 +1261,7 @@ export const funcGetImmEffects = (
       case 59:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1321,7 +1328,7 @@ export const funcGetImmEffects = (
       case 64:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1362,7 +1369,7 @@ export const funcGetImmEffects = (
       case 67:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1571,7 +1578,7 @@ export const funcGetImmEffects = (
       case 81:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1632,7 +1639,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -1699,7 +1706,7 @@ export const funcGetImmEffects = (
          }
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PRODUCTION,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -1821,16 +1828,18 @@ export const funcGetImmEffects = (
          }
          // Call Mars University
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)) {
-            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
-               modals.modalCard.tags.forEach((tag) => {
-                  if (tag === TAGS.SCIENCE)
-                     subActions.push({
-                        name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
-                        value: null,
-                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
-                     })
-               })
+            modals.modalCard.tags.forEach((tag) => {
+               if (tag === TAGS.SCIENCE) {
+                  subActions.push({
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: REPLAY_USERINTERACTIONS.MARSUNIVERSITY,
+                     value: null,
+                     func: () => {
+                        setModals((prev) => ({ ...prev, marsUniversity: true }))
+                     },
+                  })
+               }
+            })
          }
          break
       // Gene Repair
@@ -1940,7 +1949,7 @@ export const funcGetImmEffects = (
       case 97:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2085,7 +2094,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2126,7 +2135,7 @@ export const funcGetImmEffects = (
       case 111:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.BUSINESSCONTACTS,
             value: null,
             func: async () => {
                newCardsDrawIds = await getNewCardsDrawIds(4, statePlayer, dispatchPlayer, type, id, token, dataForReplay)
@@ -2143,7 +2152,7 @@ export const funcGetImmEffects = (
       case 124:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -2162,7 +2171,7 @@ export const funcGetImmEffects = (
          if (stateGame.globalParameters.oceans < 9) {
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
-               type: null,
+               type: REPLAY_USERINTERACTIONS.SELECTONE,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2268,7 +2277,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2308,7 +2317,7 @@ export const funcGetImmEffects = (
       case 123:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2369,7 +2378,7 @@ export const funcGetImmEffects = (
       case 128:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2512,7 +2521,7 @@ export const funcGetImmEffects = (
       case 140:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2532,7 +2541,7 @@ export const funcGetImmEffects = (
       case 142:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -2580,7 +2589,7 @@ export const funcGetImmEffects = (
          subActions = [...subActions, ...getImmEffects(IMM_EFFECTS.AQUIFER)]
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -2682,7 +2691,7 @@ export const funcGetImmEffects = (
          dataCards = dataCards.filter((card) => card.units.microbe > 0 || card.units.animal > 0 || card.units.science > 0 || card.units.fighter > 0)
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.RESOURCES,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -2747,7 +2756,7 @@ export const funcGetImmEffects = (
       case 152:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -2882,7 +2891,7 @@ export const funcGetImmEffects = (
          if (dataCards.length > 0)
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
-               type: null,
+               type: REPLAY_USERINTERACTIONS.RESOURCES,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -2902,7 +2911,7 @@ export const funcGetImmEffects = (
          if (newDataCards.length > 0)
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
-               type: null,
+               type: REPLAY_USERINTERACTIONS.RESOURCES,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -3070,7 +3079,7 @@ export const funcGetImmEffects = (
          if (dataCards.length > 0)
             subActions.push({
                name: ANIMATIONS.USER_INTERACTION,
-               type: null,
+               type: REPLAY_USERINTERACTIONS.RESOURCES,
                value: null,
                func: () => {
                   dispatchGame({ type: ACTIONS_GAME.SET_PHASE_ADDREMOVERES, payload: true })
@@ -3138,7 +3147,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -3320,7 +3329,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.SELECTONE,
             value: null,
             func: () => {
                setModals((prev) => ({
@@ -3391,7 +3400,7 @@ export const funcGetImmEffects = (
          // Proper Action
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.BUSINESSCONTACTS,
             value: null,
             func: async () => {
                newCardsDrawIds =
@@ -3406,17 +3415,18 @@ export const funcGetImmEffects = (
          })
          // Call Mars University
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)) {
-            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0) {
-               modals.modalCard.tags.forEach((tag) => {
-                  if (tag === TAGS.SCIENCE) {
-                     subActions.push({
-                        name: ANIMATIONS.USER_INTERACTION,
-                        value: null,
-                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
-                     })
-                  }
-               })
-            }
+            modals.modalCard.tags.forEach((tag) => {
+               if (tag === TAGS.SCIENCE) {
+                  subActions.push({
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: REPLAY_USERINTERACTIONS.MARSUNIVERSITY,
+                     value: null,
+                     func: () => {
+                        setModals((prev) => ({ ...prev, marsUniversity: true }))
+                     },
+                  })
+               }
+            })
          }
          break
       // Indentured Workers
@@ -3499,16 +3509,15 @@ export const funcGetImmEffects = (
          }
          // Call Mars University
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)) {
-            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
-               modals.modalCard.tags.forEach((tag) => {
-                  if (tag === TAGS.SCIENCE)
-                     subActions.push({
-                        name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
-                        value: null,
-                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
-                     })
-               })
+            modals.modalCard.tags.forEach((tag) => {
+               if (tag === TAGS.SCIENCE)
+                  subActions.push({
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: REPLAY_USERINTERACTIONS.MARSUNIVERSITY,
+                     value: null,
+                     func: () => setModals((prev) => ({ ...prev, marsUniversity: true })),
+                  })
+            })
          }
          break
       // Terraforming Ganymede
@@ -3544,7 +3553,7 @@ export const funcGetImmEffects = (
       case 199:
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -3581,7 +3590,7 @@ export const funcGetImmEffects = (
          })
          subActions.push({
             name: ANIMATIONS.USER_INTERACTION,
-            type: null,
+            type: REPLAY_USERINTERACTIONS.PLACETILE,
             value: null,
             func: () => {
                dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: true })
@@ -3686,16 +3695,15 @@ export const funcGetImmEffects = (
          }
          // Call Mars University
          if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY)) {
-            if (cardsInHand.filter((card) => card.id !== modals.modalCard.id).length > 0)
-               modals.modalCard.tags.forEach((tag) => {
-                  if (tag === TAGS.SCIENCE)
-                     subActions.push({
-                        name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
-                        value: null,
-                        func: () => setModals((prev) => ({ ...prev, marsUniversity: true }))
-                     })
-               })
+            modals.modalCard.tags.forEach((tag) => {
+               if (tag === TAGS.SCIENCE)
+                  subActions.push({
+                     name: ANIMATIONS.USER_INTERACTION,
+                     type: REPLAY_USERINTERACTIONS.MARSUNIVERSITY,
+                     value: null,
+                     func: () => setModals((prev) => ({ ...prev, marsUniversity: true })),
+                  })
+            })
          }
          break
       // Rad-Chem Factory
@@ -3760,7 +3768,6 @@ export const funcGetImmEffects = (
    }
    return subActions
 }
-
 
 // performTileActionsForLog(actionObj, newLogItem)
 // performImmEffectForLog({ immEffectName: IMM_EFFECTS.AQUIFER, newLogItem })

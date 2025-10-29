@@ -7,13 +7,14 @@ import { getEffectIcon } from '../../../../../../../../data/effects/effectIcons'
 import { getCorporationById, getShorterName } from '../../../../../../../../utils/corporation'
 import { getCards } from '../../../../../../../../utils/cards'
 import { useLocation } from 'react-router-dom'
-import { ModalsContext as ModalsContextGame } from '../../../../../..'
+import { ModalsContext as ModalsContextGame, StateGameContext } from '../../../../../..'
 import { ModalsContext as ModalsContextStats } from '../../../../../../../mainMenu/pages/stats'
 
 const LogItemStateActionsEffects = ({ state, type }) => {
    const location = useLocation()
    const ModalsContextGameObj = useContext(ModalsContextGame)
    const ModalsContextStatsObj = useContext(ModalsContextStats)
+   const { stateGame } = useContext(StateGameContext)
    const { sound } = useContext(SoundContext)
    const corporationObj = state.statePlayer.corporation ? getCorporationById(state.statePlayer.corporation) : null
    const isUnmi = corporationObj.name === CORP_NAMES.UNMI
@@ -47,6 +48,7 @@ const LogItemStateActionsEffects = ({ state, type }) => {
    const elements = type === 'ACTIONS' ? getActions() : getEffects()
 
    const handleClickCard = (cardId) => {
+      if (stateGame.replayActionId) return
       sound.btnCardsClick.play()
       if (cardId) {
          // If clicked on card

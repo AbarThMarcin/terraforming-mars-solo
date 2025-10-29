@@ -8,13 +8,14 @@ import { StatePlayerContext, StateGameContext, ModalsContext, UserContext } from
 const BtnSort = ({ id, text }) => {
    const { user, setUser } = useContext(UserContext)
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { requirementsMet } = useContext(StateGameContext)
+   const { stateGame, requirementsMet } = useContext(StateGameContext)
    const { modals } = useContext(ModalsContext)
    const { settings, setSettings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
    const cardsTypeId = modals.modalCardsType === 'Cards In Hand' ? 0 : 1
 
    const handleClickSortBtn = (e) => {
+      if (stateGame.replayActionId) return
       e.stopPropagation()
       sound.btnGeneralClick.play()
       // Change in Frontend

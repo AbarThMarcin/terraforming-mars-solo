@@ -44,6 +44,7 @@ import { INIT_LOG_ITEMS } from '../../initStates/initLogItems'
 import { MATCH_TYPES } from '../../data/app'
 import { INIT_ACTIONS } from '../../initStates/initActions'
 import { SPEED } from '../../data/app'
+import { REPLAY_USERINTERACTIONS, replayData, resetReplayData } from '../../data/replay'
 
 export const UserContext = createContext()
 export const StatePlayerContext = createContext()
@@ -73,10 +74,12 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    const [syncError, setSyncError] = useState('')
    const [currentLogItem, setCurrentLogItem] = useState(1)
    const [actions, setActions] = useState(INIT_ACTIONS)
+   const [subactionsForMU, setSubactionsForMU] = useState(null)
 
    useEffect(() => {
       // If game started by placing 'match' or 'match' in the url manually, go to main menu
       if (corps.length === 0) navigate('/')
+      resetReplayData()
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
@@ -89,21 +92,15 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_SPECIAL_DESIGN_EFFECT, payload: false })
          funcSetLogItemsSingleActions('SPECIAL DESIGN effect ended', null, null, setLogItems)
       }
-      // Call effect of Olympus Conference, THEN Mars University
+      // Call effect of Olympus Conference, THEN Mars University (for all normal science cards. Below cards are the only ones with science,
+      // for which either Olympus Conference effect and/or Mars University effect need/s to be earlier than the proper action)
       if (modals.cardPlayed) {
          if (modals.modalCard.id !== 90 && modals.modalCard.id !== 192 && modals.modalCard.id !== 196 && modals.modalCard.id !== 204) {
             callScienceEffects()
+         } else {
+            console.log('turnReplayActionOff from game -> useEffect')
+            turnReplayActionOff(stateGame, dispatchGame, dataForReplay, setCurrentLogItem)
          }
-      }
-      // Go to next move in replay mode when science effects are not called
-      let scienceEffectsCalled =
-         (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_OLYMPUS_CONFERENCE) &&
-            modals.modalCard?.effectsToCall.includes(EFFECTS.EFFECT_OLYMPUS_CONFERENCE)) ||
-         (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_MARS_UNIVERSITY) &&
-            modals.modalCard?.effectsToCall.includes(EFFECTS.EFFECT_MARS_UNIVERSITY) &&
-            statePlayer.cardsInHand.filter((card) => card.id !== modals.modalCard?.id).length > 0)
-      if (!scienceEffectsCalled) {
-         turnReplayActionOff(stateGame, dispatchGame, dataForReplay, setCurrentLogItem)
       }
       // Sort Cards In Hand and Cards Played
       dispatchPlayer({
@@ -266,14 +263,15 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                if (tag === TAGS.SCIENCE)
                   effects.push({
                      name: ANIMATIONS.USER_INTERACTION,
-                     type: null,
+                     type: REPLAY_USERINTERACTIONS.MARSUNIVERSITY,
                      value: null,
                      func: () => setModals((prev) => ({ ...prev, modalCards: cardsInHand, marsUniversity: true })),
                   })
             })
          }
       }
-      if (effects.length > 0) performSubActions(effects, true)
+      console.log('performSubActions with TRUE (noTrigger) from game -> useEffect')
+      if (effects.length > 0) performSubActions(effects, true, subactionsForMU.handleClickField, subactionsForMU.businessContactsOnYesFunc, subactionsForMU.marsUniversityOnYesFunc, subactionsForMU.marsUniversityOnCancelFunc)
    }
 
    function getAnimationSpeed(id) {
@@ -337,13 +335,12 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
    function getOptionsActions(option, energyAmount, heatAmount) {
       return funcGetOptionsActions(option, statePlayer, dispatchPlayer, dispatchGame, getImmEffects, modals, setModals, energyAmount, heatAmount, setLogItems)
    }
-   function performSubActions(subActions, noTrigger, handleClickField) {
+   function performSubActions(subActions, noTrigger, handleClickField, businessContactsOnYesFunc, marsUniversityOnYesFunc, marsUniversityOnCancelFunc) {
       return funcPerformSubActions(
          subActions,
          ANIMATION_SPEED,
          setModals,
          stateGame,
-         stateBoard,
          dispatchGame,
          setTrigger,
          sound,
@@ -352,7 +349,11 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
          currentLogItem,
          setCurrentLogItem,
          type,
-         handleClickField
+         setActions,
+         handleClickField,
+         businessContactsOnYesFunc,
+         marsUniversityOnYesFunc,
+         marsUniversityOnCancelFunc
       )
    }
    function requirementsMet(card) {
@@ -400,6 +401,7 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                         dataForReplay,
                         currentLogItem,
                         setCurrentLogItem,
+                        setSubactionsForMU
                      }}
                   >
                      <StateBoardContext.Provider value={{ stateBoard, dispatchBoard }}>
@@ -407,18 +409,23 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                            <ModalsContext.Provider value={{ modals, setModals }}>
                               {/* Standard Projects Button */}
                               <AnimatePresence>
-                                 {!stateGame.phaseCorporation && !stateGame.phaseDraft && !stateGame.phaseViewGameState && !stateGame.phaseAfterGen14 && !modals.endStats && (
-                                    <motion.div
-                                       key="keyBtnStandardProjects"
-                                       initial={{ opacity: 0 }}
-                                       animate={{ opacity: 1 }}
-                                       exit={{ opacity: 0 }}
-                                       transition={{ duration: 0.5 }}
-                                       className="btn-standard-projects-container"
-                                    >
-                                       <BtnStandardProjects />
-                                    </motion.div>
-                                 )}
+                                 {!stateGame.phaseCorporation &&
+                                    !stateGame.phaseDraft &&
+                                    !stateGame.phaseViewGameState &&
+                                    !stateGame.phaseAfterGen14 &&
+                                    !replayData.phaseAfterGen14 &&
+                                    !modals.endStats && (
+                                       <motion.div
+                                          key="keyBtnStandardProjects"
+                                          initial={{ opacity: 0 }}
+                                          animate={{ opacity: 1 }}
+                                          exit={{ opacity: 0 }}
+                                          transition={{ duration: 0.5 }}
+                                          className="btn-standard-projects-container"
+                                       >
+                                          <BtnStandardProjects />
+                                       </motion.div>
+                                    )}
                               </AnimatePresence>
 
                               {/* Standard Projects Button */}
@@ -428,11 +435,14 @@ function Game({ id, initStatePlayer, initStateGame, initStateModals, initStateBo
                               {stateGame.phaseViewGameState && <div className="view-game-state-header">VIEWING GAME STATE</div>}
 
                               {/* You can convert plants to greeneries Header */}
-                              {stateGame.phaseAfterGen14 && !modals.endStats && <div className="view-game-state-header">YOU CAN CONVERT PLANTS TO GREENERIES</div>}
+                              {((type !== MATCH_TYPES.REPLAY && stateGame.phaseAfterGen14 && !modals.endStats) ||
+                                 (type === MATCH_TYPES.REPLAY && stateGame.replayActionId && replayData.phaseAfterGen14 && !modals.endStats)) && (
+                                 <div className="view-game-state-header">YOU CAN CONVERT PLANTS TO GREENERIES</div>
+                              )}
 
                               {/* Panel State Game */}
                               <AnimatePresence>
-                                 {modals.panelStateGame && !stateGame.phaseCorporation && !stateGame.phaseAfterGen14 && !modals.endStats && (
+                                 {modals.panelStateGame && !stateGame.phaseCorporation && !stateGame.phaseAfterGen14 && !replayData.phaseAfterGen14 && !modals.endStats && (
                                     <motion.div
                                        key="keyPanelStateGame"
                                        initial={{ opacity: 0 }}

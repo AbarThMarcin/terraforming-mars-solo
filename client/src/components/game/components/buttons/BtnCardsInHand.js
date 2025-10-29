@@ -7,13 +7,13 @@ import { getCardsSorted } from '../../../../utils/cards'
 
 const BtnCardsInHand = () => {
    const { statePlayer } = useContext(StatePlayerContext)
-   const { requirementsMet } = useContext(StateGameContext)
+   const { stateGame, requirementsMet } = useContext(StateGameContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { settings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
 
    const handleClickBtnCardsInHand = () => {
-      if (statePlayer.cardsInHand.length > 0) {
+      if (statePlayer.cardsInHand.length > 0 && !stateGame.replayActionId) {
          sound.btnCardsClick.play()
          setModals((prev) => ({
             ...prev,

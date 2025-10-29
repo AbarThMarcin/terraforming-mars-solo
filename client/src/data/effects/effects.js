@@ -9,6 +9,7 @@ import { canCardHaveAnimals, canCardHaveMicrobes } from '../../utils/cards'
 import { EFFECTS } from './effectIcons'
 import { CORP_NAMES } from '../corpNames'
 import { funcSetLogItemsSingleActions } from '../log'
+import { REPLAY_USERINTERACTIONS } from '../replay'
 
 // ============================= LIST OF CORPORATION IMMEDIATE EFFECTS =============================
 export const performImmediateCorpEffect = (corp, dispatchPlayer, dispatchGame) => {
@@ -167,7 +168,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   if (canCardHaveAnimals(modals.modalCard.id)) {
                      effect.push({
                         name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
+                        type: REPLAY_USERINTERACTIONS.SELECTONE,
                         value: null,
                         func: () => {
                            setModals((prev) => ({
@@ -188,7 +189,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   if (canCardHaveMicrobes(modals.modalCard.id)) {
                      effect.push({
                         name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
+                        type: REPLAY_USERINTERACTIONS.SELECTONE,
                         value: null,
                         func: () => {
                            setModals((prev) => ({
@@ -209,7 +210,7 @@ export const funcGetEffect = (effectName, statePlayer, dispatchPlayer, dispatchG
                   if (canCardHaveAnimals(modals.modalCard.id)) {
                      effect.push({
                         name: ANIMATIONS.USER_INTERACTION,
-                        type: null,
+                        type: REPLAY_USERINTERACTIONS.SELECTONE,
                         value: null,
                         func: () => {
                            setModals((prev) => ({

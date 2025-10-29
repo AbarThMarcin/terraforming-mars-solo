@@ -1,5 +1,5 @@
-import { useContext, useState } from "react"
-import { ModalsContext, StateGameContext, StatePlayerContext, UserContext } from "../components/game"
+import { useContext } from "react"
+import { ActionsContext, ModalsContext, StateGameContext, StatePlayerContext, UserContext } from "../components/game"
 import { ANIMATIONS, endAnimation, setAnimation, startAnimation } from "../data/animations"
 import { funcSetLogItemsSingleActions, funcUpdateLastLogItemAfter, funcUpdateLogItemAction } from "../data/log"
 import { getCards, getCardsWithDecreasedCost, getCardsWithTimeAdded, getNewCardsDrawIds } from "../utils/cards"
@@ -7,16 +7,19 @@ import { RESOURCES } from "../data/resources"
 import { ACTIONS_PLAYER } from "../stateActions/actionsPlayer"
 import { SoundContext } from "../App"
 
-export const useSubactionMarsUniversity = () => {
+export const useSubactionMarsUniversity = (furtherActions) => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
    const { stateGame, performSubActions, ANIMATION_SPEED, setLogItems, dataForReplay } = useContext(StateGameContext)
    const { setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
-   const [selectedCardId, setSelectedCardId] = useState(0)
+   const { actions, setActions } = useContext(ActionsContext)
 
    const onYesFunc = async () => {
       sound.btnGeneralClick.play()
+
+      const actionsLeft = furtherActions ? furtherActions : stateGame.actionsLeft
+
       // Turn mars university phase off
       setModals((prev) => ({ ...prev, marsUniversity: false }))
       // Get Random Cards Ids
@@ -24,10 +27,10 @@ export const useSubactionMarsUniversity = () => {
       let newCardsDrawIds = await getNewCardsDrawIds(1, statePlayer, dispatchPlayer, type, id, user?.token, dataForReplay)
       // Discard selected card
       setAnimation(ANIMATIONS.CARD_OUT, RESOURCES.CARD, 1, setModals)
-      let newCardsInHand = JSON.parse(JSON.stringify(statePlayer.cardsInHand.filter((card) => card.id !== selectedCardId)))
+      let newCardsInHand = JSON.parse(JSON.stringify(statePlayer.cardsInHand.filter((card) => card.id !== actions.ids[0])))
       setTimeout(() => {
          dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: newCardsInHand })
-         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards(selectedCardId).name}) from MARS UNIVERSITY effect`, RESOURCES.CARD, -1, setLogItems)
+         funcSetLogItemsSingleActions(`Discarded 1 card (${getCards(actions.ids[0]).name}) from MARS UNIVERSITY effect`, RESOURCES.CARD, -1, setLogItems)
          endAnimation(setModals)
       }, ANIMATION_SPEED)
       // Draw a card
@@ -55,28 +58,32 @@ export const useSubactionMarsUniversity = () => {
          endAnimation(setModals)
          // Continue remaining actions
          startAnimation(setModals)
-         performSubActions(stateGame.actionsLeft, true)
-         funcUpdateLogItemAction(setLogItems, `MUtargetIds: ${selectedCardId}`)
+         console.log('performSubActions with TRUE (noTrigger) from useSubactionMarsUniversity')
+         performSubActions(actionsLeft, true)
+         funcUpdateLogItemAction(setLogItems, `MUtargetIds: ${actions.ids[0]}`)
       }, ANIMATION_SPEED * 2)
    }
 
-   const onCancelFunc = () => {
+   const onCancelFunc = (furtherActions) => {
       sound.btnGeneralClick.play()
+
+      const actionsLeft = furtherActions ? furtherActions : stateGame.actionsLeft
+
       // Turn mars university phase off
       setModals((prev) => ({ ...prev, marsUniversity: false }))
       // Continue remaining actions
       startAnimation(setModals)
-      performSubActions(stateGame.actionsLeft, true)
+      performSubActions(actionsLeft, true)
    }
 
    const handleClickBtnSelect = (cardId) => {
       sound.btnSelectClick.play()
-      if (selectedCardId === 0 || cardId !== selectedCardId) {
-         setSelectedCardId(cardId)
+      if (actions.ids.length === 0 || actions.ids[0] !== cardId) {
+         setActions((prev) => ({ ...prev, ids: [cardId] }))
       } else {
-         setSelectedCardId(0)
+         setActions((prev) => ({ ...prev, ids: [] }))
       }
    }
 
-   return { handleClickBtnSelect, onYesFunc, onCancelFunc, selectedCardId }
+   return { handleClickBtnSelect, onYesFunc, onCancelFunc }
 }

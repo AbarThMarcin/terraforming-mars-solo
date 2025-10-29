@@ -98,7 +98,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className={`modal-background ${(modals.confirmation || modals.sellCards) && 'display-none'}`}
-                  onClick={() => setModals((prev) => ({ ...prev, standardProjects: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, standardProjects: false }))
+                  }}
                >
                   <ModalStandardProjects />
                </motion.div>
@@ -196,8 +198,10 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   transition={{ duration: 0.5 }}
                   className="btn-view-game-state pointer"
                   onClick={() => {
-                     sound.btnGeneralClick.play()
-                     dispatchGame({ type: ACTIONS_GAME.SET_PHASE_VIEWGAMESTATE, payload: !stateGame.phaseViewGameState })
+                     if (!stateGame.replayActionId) {
+                        sound.btnGeneralClick.play()
+                        dispatchGame({ type: ACTIONS_GAME.SET_PHASE_VIEWGAMESTATE, payload: !stateGame.phaseViewGameState })
+                     }
                   }}
                >
                   {stateGame.phaseViewGameState ? 'RETURN' : 'VIEW GAME STATE'}
@@ -215,7 +219,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className={`modal-background ${(modals.cardWithAction || modals.cardViewOnly) && 'display-none'}`}
-                  onClick={() => setModals((prev) => ({ ...prev, cards: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, cards: false }))
+                  }}
                >
                   <ModalCards />
                </motion.div>
@@ -232,7 +238,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
-                  onClick={() => setModals((prev) => ({ ...prev, other: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, other: false }))
+                  }}
                >
                   <ModalOther />
                </motion.div>
@@ -249,7 +257,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.001 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
-                  onClick={() => setModals((prev) => ({ ...prev, cardWithAction: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, cardWithAction: false }))
+                  }}
                >
                   <ModalCardWithAction />
                </motion.div>
@@ -257,12 +267,12 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
          </AnimatePresence>
 
          {/* Modal End Stats */}
-         {modals.endStats && showEndStats && (
+         {modals.endStats && (
             <AnimatePresence>
                <motion.div
                   key="keyModalEndStats"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  animate={{ opacity: showEndStats ? 1 : 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
@@ -296,7 +306,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.1 }}
                   className="full-size"
-                  onClick={() => setModals((prev) => ({ ...prev, log: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, log: false }))
+                  }}
                >
                   <ModalLog logItems={logItems} expanded={expanded} setExpanded={setExpanded} itemsExpanded={itemsExpanded} setItemsExpanded={setItemsExpanded} />
                </motion.div>
@@ -313,7 +325,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.001 }}
                   className={`modal-background ${modals.confirmation && 'display-none'}`}
-                  onClick={() => setModals((prev) => ({ ...prev, cardViewOnly: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, cardViewOnly: false }))
+                  }}
                >
                   <ModalCardViewOnly />
                </motion.div>
@@ -330,7 +344,9 @@ const Modals = ({ logItems, expanded, setExpanded, itemsExpanded, setItemsExpand
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                   className="modal-background"
-                  onClick={() => setModals((prev) => ({ ...prev, corp: false }))}
+                  onClick={() => {
+                     if (!stateGame.replayActionId) setModals((prev) => ({ ...prev, corp: false }))
+                  }}
                >
                   <div className="modal-corp-container center">
                      <Corp corp={statePlayer.corporation} />

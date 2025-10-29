@@ -6,24 +6,26 @@ import { getCardsSorted } from '../../../../utils/cards'
 const BtnCardsPlayed = () => {
    const { setModals } = useContext(ModalsContext)
    const { statePlayer } = useContext(StatePlayerContext)
-   const { requirementsMet } = useContext(StateGameContext)
+   const { stateGame, requirementsMet } = useContext(StateGameContext)
    const { settings } = useContext(SettingsContext)
    const { sound } = useContext(SoundContext)
 
    const handleClickBtnCardsPlayed = () => {
-      sound.btnCardsClick.play()
-      setModals((prev) => ({
-         ...prev,
+      if (!stateGame.replayActionId) {
+         sound.btnCardsClick.play()
+         setModals((prev) => ({
+            ...prev,
 
-         // This allows sorting right before showing cards after clicking CardsPlayed btn.
-         // To disable that, comment it out and uncomment line one lower.
-         modalCards: getCardsSorted(statePlayer.cardsPlayed, settings.sortId[1], requirementsMet),
-         // modalCards: statePlayer.cardsPlayed,
+            // This allows sorting right before showing cards after clicking CardsPlayed btn.
+            // To disable that, comment it out and uncomment line one lower.
+            modalCards: getCardsSorted(statePlayer.cardsPlayed, settings.sortId[1], requirementsMet),
+            // modalCards: statePlayer.cardsPlayed,
 
-         modalCardsType: 'Cards Played',
+            modalCardsType: 'Cards Played',
 
-         cards: true,
-      }))
+            cards: true,
+         }))
+      }
    }
 
    return (

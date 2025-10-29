@@ -1,6 +1,6 @@
 // Modal for viewing and selecting cards when Business Contacts OR Invention Contest has been played
 import { useContext, useEffect, useState } from 'react'
-import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext, UserContext, CorpsContext } from '../../../game'
+import { StateGameContext, StatePlayerContext, ModalsContext, StateBoardContext, UserContext, CorpsContext, ActionsContext } from '../../../game'
 import { SoundContext } from '../../../../App'
 import { ACTIONS_PLAYER } from '../../../../stateActions/actionsPlayer'
 import ModalHeader from './modalsComponents/ModalHeader'
@@ -12,6 +12,7 @@ import Arrows from './modalsComponents/arrows/Arrows'
 import { updateGameData } from '../../../../api/activeGame'
 import { MATCH_TYPES } from '../../../../data/app'
 import { useSubactionBusinessContacts } from '../../../../hooks/useSubactionBusinessContacts'
+import { replayData } from '../../../../data/replay'
 
 const ModalBusinessContacts = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -20,9 +21,11 @@ const ModalBusinessContacts = () => {
    const { modals, setModals } = useContext(ModalsContext)
    const { type, user } = useContext(UserContext)
    const { initCorpsIds } = useContext(CorpsContext)
+   const { actions } = useContext(ActionsContext)
    const { sound } = useContext(SoundContext)
    const [page, setPage] = useState(1)
-   const cardsSeen = getCards(modals.modalBusCont.cards)
+   const cardsSeen = getCards(type === MATCH_TYPES.REPLAY ? replayData.modalBusCont.cards : modals.modalBusCont.cards)
+   const selectCount = type === MATCH_TYPES.REPLAY ? replayData.modalBusCont.selectCount : modals.modalBusCont.selectCount
 
    const btnActionPosition = { bottom: '0', left: '50%', transform: 'translateX(-50%)' }
 
@@ -30,34 +33,33 @@ const ModalBusinessContacts = () => {
       return `${(1 - page) * 100}%`
    }
 
-   const { onYesFunc, handleClickBtnSelect, selectedCardIds } = useSubactionBusinessContacts()
+   const { onYesFunc, handleClickBtnSelect } = useSubactionBusinessContacts()
 
    // Add cards to the cardsSeen
    useEffect(() => {
-      // Update active game on server only if user is logged
-      if (!user || type === MATCH_TYPES.REPLAY) return
-
       if (!statePlayer.cardsSeen.includes(cardsSeen[0].id)) {
-         const newCards = [...statePlayer.cardsSeen, ...cardsSeen]
-         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: newCards })
-         // Update Server Data
-         const updatedData = {
-            statePlayer: getThinerStatePlayerForActive(statePlayer),
-            stateGame,
-            stateModals: modals,
-            stateBoard,
-            corps: initCorpsIds,
-            logItems: getLogConvertedForDB(logItems),
-            durationSeconds,
-         }
-         updateGameData(user.token, updatedData, type).then((res) => {
-            if (res.message === 'success') {
-               setSyncError('')
-            } else {
-               setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
-            }
-         })
+         dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...cardsSeen] })
       }
+
+      // Update active game on server only if user is logged and its not replay
+      if (!user || type === MATCH_TYPES.REPLAY) return
+      // Update Server Data
+      const updatedData = {
+         statePlayer: getThinerStatePlayerForActive(statePlayer),
+         stateGame,
+         stateModals: modals,
+         stateBoard,
+         corps: initCorpsIds,
+         logItems: getLogConvertedForDB(logItems),
+         durationSeconds,
+      }
+      updateGameData(user.token, updatedData, type).then((res) => {
+         if (res.message === 'success') {
+            setSyncError('')
+         } else {
+            setSyncError('THERE ARE SOME ISSUES WITH UPDATING GAME ON SERVER')
+         }
+      })
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
@@ -71,9 +73,10 @@ const ModalBusinessContacts = () => {
                {getCardsWithDecreasedCost(cardsSeen, statePlayer).map((card, idx) => (
                   <div
                      key={idx}
-                     className={`card-container small ${selectedCardIds.includes(card.id) && 'selected'}`}
-                     style={getPositionInModalCards(modals.modalBusCont.cards.length, idx)}
+                     className={`card-container small ${actions.ids.includes(card.id) && 'selected'}`}
+                     style={getPositionInModalCards(cardsSeen.length, idx)}
                      onClick={() => {
+                        if (stateGame.replayActionId) return
                         sound.btnCardsClick.play()
                         setModals((prev) => ({ ...prev, modalCard: card, cardViewOnly: true }))
                      }}
@@ -82,13 +85,13 @@ const ModalBusinessContacts = () => {
                      <Card card={card} />
                      {/* SELECT BUTTON */}
                      <div
-                        className={`pointer ${selectedCardIds.includes(card.id) ? 'btn-selected' : 'btn-select'}`}
+                        className={`pointer ${actions.ids.includes(card.id) ? 'btn-selected' : 'btn-select'}`}
                         onClick={(e) => {
                            e.stopPropagation()
-                           handleClickBtnSelect(card.id)
+                           if (!stateGame.replayActionId) handleClickBtnSelect(card.id)
                         }}
                      >
-                        {selectedCardIds.includes(card.id) ? 'SELECTED' : 'SELECT'}
+                        {actions.ids.includes(card.id) ? 'SELECTED' : 'SELECT'}
                      </div>
                   </div>
                ))}
@@ -96,7 +99,7 @@ const ModalBusinessContacts = () => {
             {/* HEADER */}
             <ModalHeader text="SELECT CARD" />
             {/* ACTION BUTTON */}
-            <BtnAction text="DONE" onYesFunc={onYesFunc} disabled={selectedCardIds.length !== modals.modalBusCont.selectCount} position={btnActionPosition} />
+            <BtnAction text="DONE" onYesFunc={onYesFunc} disabled={actions.ids.length !== selectCount} position={btnActionPosition} />
          </div>
       </>
    )

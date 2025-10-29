@@ -13,6 +13,8 @@ import { getCards, getCardsSorted, getCardsWithDecreasedCost, getCardsWithTimeAd
 import { performImmediateCorpEffect } from '../data/effects/effects'
 import { INIT_ACTIONS } from '../initStates/initActions'
 import { turnReplayActionOff } from '../utils/misc'
+import { useSubactionTile } from './useSubactionTile'
+import { MATCH_TYPES } from '../data/app'
 
 export const useActionDraft = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
@@ -36,6 +38,8 @@ export const useActionDraft = () => {
    const { type, id, user } = useContext(UserContext)
    const { sound } = useContext(SoundContext)
    const { actions, setActions } = useContext(ActionsContext)
+
+   const { handleClickField } = useSubactionTile()
 
    const handleClickBtnSelect = (cardId) => {
       sound.btnSelectClick.play()
@@ -158,7 +162,7 @@ export const useActionDraft = () => {
 
          const subActions = [...getImmEffects(IMM_EFFECTS.CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY), ...getEffect(EFFECTS.EFFECT_THARSIS_CITY_ONPLANET)]
          dispatchGame({ type: ACTIONS_GAME.SET_ACTIONSLEFT, payload: subActions })
-         performSubActions(subActions)
+         performSubActions(subActions, false, handleClickField)
       }
       if (statePlayer.corporation.name === CORP_NAMES.INVENTRIX) {
          // Create new Log Item with STATE BEFORE, before Inventrix forced action
@@ -182,27 +186,29 @@ export const useActionDraft = () => {
          let newCardsDrawIds = await getNewCardsDrawIds(3, statePlayer, dispatchPlayer, type, id, user?.token, dataForReplay)
          const newCardsDrawNames = getCards(newCardsDrawIds).map((c) => c.name)
          funcSetLogItemsSingleActions(`Drew 3 cards (${newCardsDrawNames[0]}, ${newCardsDrawNames[1]} and ${newCardsDrawNames[2]})`, RESOURCES.CARD, 3, setLogItems)
+         const cards = type === MATCH_TYPES.REPLAY ? getCardsSorted(
+            [
+               ...getCardsWithTimeAdded(statePlayer.cardsInHand, statePlayer),
+               ...getCardsWithTimeAdded(getCards(newCardsDrawIds), statePlayer),
+            ],
+            settings.sortId[0],
+            requirementsMet
+         ) : getCardsSorted(
+            [
+               ...getCardsWithTimeAdded(getCards(statePlayer.cardsDrawIds), statePlayer).filter((card) => actions.ids.includes(card.id)),
+               ...getCardsWithTimeAdded(getCards(newCardsDrawIds), statePlayer),
+            ],
+            settings.sortId[0],
+            requirementsMet
+         )
          performSubActions([
             {
                name: ANIMATIONS.CARD_IN,
                type: RESOURCES.CARD,
                value: 3,
                func: () => {
-                  dispatchPlayer({
-                     type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                     payload: getCardsSorted(
-                        [
-                           ...getCardsWithTimeAdded(getCardsWithDecreasedCost(getCards(statePlayer.cardsDrawIds), statePlayer).filter((card) => actions.ids.includes(card.id))),
-                           ...getCardsWithTimeAdded(getCardsWithDecreasedCost(getCards(newCardsDrawIds), statePlayer)),
-                        ],
-                        settings.sortId[0],
-                        requirementsMet
-                     ),
-                  })
-                  dispatchPlayer({
-                     type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                     payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
-                  })
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_IN_HAND, payload: cards })
+                  dispatchPlayer({ type: ACTIONS_PLAYER.SET_CARDS_SEEN, payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)] })
                },
             },
          ])

@@ -1,10 +1,11 @@
 import { useContext } from 'react'
 import { MATCH_TYPES } from '../../../../data/app'
-import { ActionsContext, StatePlayerContext, UserContext } from '../..'
+import { ActionsContext, ModalsContext, StatePlayerContext, UserContext } from '../..'
 import { getAllResourcesInMlnOnlyHeat } from '../../../../utils/misc'
 
 const BtnSelect = ({ handleClick, cardId, sourceCardId }) => {
    const { statePlayer } = useContext(StatePlayerContext)
+   const { modals } = useContext(ModalsContext)
    const { type } = useContext(UserContext)
    const { actions } = useContext(ActionsContext)
 
@@ -23,7 +24,7 @@ const BtnSelect = ({ handleClick, cardId, sourceCardId }) => {
             // don't allow to select / unselect card
             const resources = getAllResourcesInMlnOnlyHeat(statePlayer)
             if (resources !== undefined) {
-               if (resources < 3) return
+               if (resources < 3 && !modals.sellCards) return
             }
             handleClick()
          }}

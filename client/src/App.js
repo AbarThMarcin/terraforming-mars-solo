@@ -202,10 +202,11 @@ function App() {
                // Game already started
                gameData = await getActiveGameData(user.token, type)
                if (!gameData?.corps) return
-               const { convertedLogItems } = getLogAndStatesConvertedForGame(gameData.logItems, gameData.initStateBoard, gameData.statePlayer.cardsDeckIds, false)
+               const { convertedLogItems } = getLogAndStatesConvertedForGame(gameData.logItems, gameData.stateBoard, gameData.statePlayer.cardsDeckIds, false)
                gameData = {
                   ...gameData,
                   statePlayer: getStatePlayerWithAllDataFromActive(gameData.statePlayer),
+                  initStateBoard: gameData.stateBoard,
                   logItems: convertedLogItems,
                }
             }
@@ -230,10 +231,10 @@ function App() {
    async function initNewGame(gameData) {
       const board = JSON.parse(JSON.stringify(INIT_BOARD))
 
-      const initCardsIds = await getRandIntNumbers(10, 1, 208)
-      /// const initCardsIds = [23, 163, 49, 133, 187, 111, 80, 147, 78, 97]
-      const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-      /// const initCorpsIds = [10, 3]
+      // const initCardsIds = await getRandIntNumbers(10, 1, 208)
+      const initCardsIds = [111, 33, 49, 133, 187, 110, 73, 192, 90, 185]
+      // const initCorpsIds = await getRandIntNumbers(2, 1, 12)
+      const initCorpsIds = [4, 3]
 
       const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.includes(id))
       const initCards = getCards(initCardsIds)
@@ -278,7 +279,7 @@ function App() {
          const initCardsIds = await getRandIntNumbers(208, 1, 208)
          // const initCardsIds = [...[90, 111, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 33, 13, 14, 15, 16, 17, 18], ...(await getRandIntNumbers(188, 1, 188))]
          const initCorpsIds = await getRandIntNumbers(2, 1, 12)
-         // const initCorpsIds = [5, 2]
+         // const initCorpsIds = [4, 2]
          const leftCardsIds = range(1, 208).filter((id) => !initCardsIds.slice(0, 10).includes(id))
          const initCards = getCards(initCardsIds.slice(0, 10))
          gameData.statePlayer = {

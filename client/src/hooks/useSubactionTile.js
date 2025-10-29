@@ -13,10 +13,13 @@ import { getNeighbors } from '../utils/board'
 import { CORP_NAMES } from '../data/corpNames'
 import { EFFECTS } from '../data/effects/effectIcons'
 import { IMM_EFFECTS } from '../data/immEffects/immEffects'
+import { MATCH_TYPES } from '../data/app'
+import { turnReplayActionOff } from '../utils/misc'
+import { REPLAY_USERINTERACTIONS, replayData } from '../data/replay'
 
 export const useSubactionTile = () => {
    const { statePlayer, dispatchPlayer } = useContext(StatePlayerContext)
-   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, ANIMATION_SPEED, setLogItems, dataForReplay } = useContext(StateGameContext)
+   const { stateGame, dispatchGame, performSubActions, getImmEffects, getEffect, ANIMATION_SPEED, setLogItems, dataForReplay, setCurrentLogItem } = useContext(StateGameContext)
    const { stateBoard, dispatchBoard } = useContext(StateBoardContext)
    const { modals, setModals } = useContext(ModalsContext)
    const { type, id, user } = useContext(UserContext)
@@ -63,7 +66,7 @@ export const useSubactionTile = () => {
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILE, payload: false })
       dispatchGame({ type: ACTIONS_GAME.SET_PHASE_PLACETILEDATA, payload: null })
       // Receive tile bonus
-      let newPlants = statePlayer.resources.plant
+      let newPlants = type === MATCH_TYPES.REPLAY ? replayData.plants : statePlayer.resources.plant
       let uniqBonuses = [...new Set(field.bonus)]
       if (uniqBonuses.length > 0) {
          // Start Animation
@@ -86,6 +89,7 @@ export const useSubactionTile = () => {
                      break
                   case RESOURCES.PLANT:
                      newPlants += countBonus
+                     replayData.plants += countBonus
                      dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: countBonus })
                      funcSetLogItemsSingleActions(
                         countBonus === 1 ? 'Received 1 plant from board' : `Received ${countBonus} plants from board`,
@@ -95,14 +99,25 @@ export const useSubactionTile = () => {
                      )
                      break
                   case RESOURCES.CARD:
-                     dispatchPlayer({
-                        type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
-                        payload: [...statePlayer.cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)],
-                     })
-                     dispatchPlayer({
-                        type: ACTIONS_PLAYER.SET_CARDS_SEEN,
-                        payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
-                     })
+                     if (type === MATCH_TYPES.REPLAY) {
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.ADD_CARDS_IN_HAND,
+                           payload: [...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)],
+                        })
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.ADD_CARDS_SEEN,
+                           payload: [...getCards(newCardsDrawIds)],
+                        })
+                     } else {
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.SET_CARDS_IN_HAND,
+                           payload: [...statePlayer.cardsInHand, ...getCardsWithDecreasedCost(getCardsWithTimeAdded(getCards(newCardsDrawIds)), statePlayer)],
+                        })
+                        dispatchPlayer({
+                           type: ACTIONS_PLAYER.SET_CARDS_SEEN,
+                           payload: [...statePlayer.cardsSeen, ...getCards(newCardsDrawIds)],
+                        })
+                     }
                      funcSetLogItemsSingleActions(
                         field.bonus.length === 1 ? 'Drew 1 card from board' : `Drew ${field.bonus.length} cards from board`,
                         RESOURCES.CARD,
@@ -262,10 +277,9 @@ export const useSubactionTile = () => {
             }, delay)
          }
       }
-
       setTimeout(() => {
          // If NOT Phase After Gen14 is on
-         if (!stateGame.phaseAfterGen14) {
+         if (!stateGame.phaseAfterGen14 && !replayData.phaseAfterGen14) {
             // Continue performing actions/effects
             startAnimation(setModals)
             performSubActions(actionsLeft, false, handleClickField)
@@ -277,6 +291,7 @@ export const useSubactionTile = () => {
                setAnimation(ANIMATIONS.RESOURCES_OUT, RESOURCES.PLANT, statePlayer.valueGreenery, setModals, sound)
                setTimeout(() => {
                   dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
+                  replayData.plants = replayData.plants - statePlayer.valueGreenery
                   funcSetLogItemsSingleActions(
                      `Paid ${statePlayer.valueGreenery} plants in the final plant conversion phase`,
                      RESOURCES.PLANT,
@@ -286,9 +301,6 @@ export const useSubactionTile = () => {
                   endAnimation(setModals)
                }, ANIMATION_SPEED)
 
-               // // Decrease plants
-               // dispatchPlayer({ type: ACTIONS_PLAYER.CHANGE_RES_PLANT, payload: -statePlayer.valueGreenery })
-
                // Proper action + potential Herbivores
                let actions = [...actionsLeft, ...getImmEffects(IMM_EFFECTS.GREENERY_WO_OX)]
                if (statePlayer.cardsPlayed.some((card) => card.effect === EFFECTS.EFFECT_HERBIVORES)) actions = [...actions, ...getEffect(EFFECTS.EFFECT_HERBIVORES)]
@@ -296,15 +308,25 @@ export const useSubactionTile = () => {
                   performSubActions(actions, false, handleClickField)
                }, ANIMATION_SPEED)
             } else {
-               performSubActions([
-                  ...actionsLeft,
-                  {
-                     name: ANIMATIONS.USER_INTERACTION,
-                     type: null,
-                     value: null,
-                     func: () => setModals((prev) => ({ ...prev, endStats: true })),
-                  },
-               ], false, handleClickField)
+               performSubActions(
+                  [
+                     ...actionsLeft,
+                     {
+                        name: ANIMATIONS.USER_INTERACTION,
+                        type: REPLAY_USERINTERACTIONS.PLACETILE,
+                        value: null,
+                        func: () => {
+                           setModals((prev) => ({ ...prev, endStats: true }))
+                           // Turn off the ReplayAction phase and move to the next action
+                           if (type === MATCH_TYPES.REPLAY) {
+                              turnReplayActionOff(stateGame, dispatchGame, dataForReplay, setCurrentLogItem)
+                           }
+                        },
+                     },
+                  ],
+                  false,
+                  handleClickField
+               )
             }
          }
       }, delay)

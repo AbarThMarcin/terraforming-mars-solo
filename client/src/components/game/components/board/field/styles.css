@@ -42,7 +42,7 @@
    position: absolute;
    width: calc(var(--field-width) / 1.7320508075);
    height: calc(var(--field-width) * var(--field-border-weight));
-   background-color: rgba(75, 51, 0, 0.4);
+   background-color: rgba(75, 51, 0, 0.2);
    border-radius: calc(var(--default-size) * 0.2);
 }
 
@@ -129,11 +129,11 @@
 }
 
 .field-blue-color {
-   background-color: rgba(50, 51, 158, 0.7);
+   background-color: rgba(50, 51, 158, 0.5);
 }
 
 .field-green-color {
-   background-color: rgba(21, 78, 15, 0.7);
+   background-color: rgba(21, 78, 15, 1);
 }
 
 .field-transparent-border {
